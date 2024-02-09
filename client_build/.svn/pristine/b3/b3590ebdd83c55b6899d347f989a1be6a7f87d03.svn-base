@@ -1,0 +1,997 @@
+<?xml version="1.0"?>
+<!-- 
+	This build including official build,release build and develop build.
+	In the begining, GUI.version only including an initial line: "1.1.r1.b0".
+
+	Official build: used when check in some changes and create a new build; 
+		When make an official build, GUI.version will be modified and build number increase by one.
+    Release build: used to tag a specified revision(parameter) as a new release;
+		When make a release build, GUI.version will be modified and revision number increase one and build number reset to '0'.
+    Develop build: used make a build for developing purpose;
+		When make a develop build, GUI.version will not be modified.
+	Default target is develop build.
+-->
+
+<project name="client_build" basedir="." default="client-dev-build">
+  
+	<!-- ===================================== -->
+	<!-- initial part for all                  -->
+	<!-- ===================================== -->
+	  <!--  all properties are in client_build.properties --> 
+	  <property file="build.properties" /> 
+	  <condition property="isWindows"> <os family="windows" /> </condition>  
+	  <condition property="isUnix"> <os family="unix" /> </condition>  
+      <property name="define.symbol" value="-D" />
+
+	<!-- ==================================================== -->
+    <!-- Import the macrodef data from the common_export.xml -->
+    <!-- ==================================================== -->
+	
+	<!-- load the ant xmltask  -->
+	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+	  <classpath>
+	    <pathelement location="/opt/xmltask-v1.15.1.jar"/>
+	  </classpath>
+	</taskdef>
+	
+	<!-- Import the macrodef data from the common_export.xml -->
+	<import file="common_tasks.xml" />
+    
+	<!-- conditionally load the ant contrib task  --> 
+    <condition property="antlib.path" value=". " else="/usr/share/java/ant-contrib-1.0.jar">
+		<os family="windows" />
+	</condition>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+	 <classpath>
+		<pathelement location="${antlib.path}"/>
+	 </classpath>
+	</taskdef>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[validation sector] ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->	
+    <!-- client_build parall directories  check  -->
+    <!-- ==================================================== -->
+	<target name="checkDirectory">
+		<echo message="passinParam=${passinParam} " level="info"/>
+		<available filepath="${passinParam}" file="${tibcoTemplate.dest}" property="dir-tibcogi"/>
+		<fail unless="dir-tibcogi" message="${tibcoTemplate.dest} is not checked out!" />
+		<available filepath="${passinParam}" file="${model.dest}" property="dir-model" />
+		<fail unless="dir-model" message="${model.dest} is not checked out!" />
+		<available filepath="${passinParam}" file="${mediaroom.dest}" property="dir-mediaroom" />
+		<fail unless="dir-mediaroom" message="${mediaroom.dest} is not checked out!" />
+		<available filepath="${passinParam}" file="${3rdpartylib.dest}" property="dir-3rdpartylib" />
+		<fail unless="dir-3rdpartylib" message="${3rdpartylib.dest} is not checked out!" />
+		<!-- add Single Viewer client and giIPVSCommon to top level -->
+		<available filepath="${passinParam}" file="${viewer.dest}" property="dir-viewer" />
+		<fail unless="dir-viewer" message="${viewer.dest} is not checked out!" />
+		<available filepath="${passinParam}" file="${giipvscommon.dest}" property="dir-giipvscommon" />
+		<fail unless="dir-giipvscommon" message="${giipvscommon.dest} is not checked out!" />
+
+		<condition property="allDirectorySet">
+		  <and>
+			<equals arg1="${dir-tibcogi}" arg2="true"/>
+			<equals arg1="${dir-model}" arg2="true"/>
+			<equals arg1="${dir-mediaroom}" arg2="true"/>
+			<equals arg1="${dir-3rdpartylib}" arg2="true"/>
+			<equals arg1="${dir-viewer}" arg2="true"/>
+			<equals arg1="${dir-giipvscommon}" arg2="true"/>
+		  </and>
+		</condition>
+	  </target>
+
+	<!-- ==================================================== -->	
+    <!-- check two tgz files   -->
+    <!-- ==================================================== -->
+	<target name="checkTgzFiles">
+		<common_checkFile file.name="${passinParam}/${3rdpartylib.dest}/${pkg_3party_tibcogi_binaries.file}" echo.message="${pkg_3party_tibcogi_binaries.file} is not checked out!" />
+		
+		<!-- comment out  jre
+		<common_checkFile file.name="${passinParam}/${3rdpartylib.dest}/${pkg_3party_jre_binaries.file}" echo.message="${pkg_3party_jre_binaries.file} is not checked out!" />
+		-->
+	</target>
+
+	<!-- ==================================================== -->	
+    <!-- check file player.version exist   -->
+    <!-- ==================================================== -->
+	<target name="checkPlayerVersionFile">
+		<common_checkFile file.name="${svn.player.version.file}" echo.message="${svn.player.version.file} is not checked out!" />
+	</target>
+
+	<!-- ==================================================== -->	
+    <!-- check player directory exist   -->
+    <!-- ==================================================== -->
+	<target name="checkPlayerDirectoy">
+		<common_checkFile file.name="${player.dest}" echo.message="${player.dest} is not created!" />
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- call common_getSvnInfo once and set it to a property -->
+	<!-- ==================================================== -->
+	<!-- ${svn.statusRevision} is set in common_getSvnInfo -->
+	<target name="getSvnInfo" depends="checkDirTemp" unless="${svn.statusRevision}">
+		<common_getSvnInfo svn.properties="${client.temp}/svn.properties" />
+		<echo message="called common_getSvnInfo target, svn.statusRevision=${svn.statusRevision} " level="info"/>
+	</target>
+
+	<!-- ==================================================== -->	
+    <!-- check nullsoft directory exist   -->
+    <!-- ==================================================== -->
+	<target name="checkNullsoftRootDirectory">
+		<available file="${nullsoft.root}" property="dir-nullsoftroot"/>
+		<fail unless="dir-nullsoftroot" message="${nullsoft.root} is not checked out!" />
+	</target>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[Checkout sector] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->
+	<!-- svn checkout and prepare date for build		      -->
+	<!-- ==================================================== -->
+	<target name="Checkout" depends="checkDirTemp" description="svn checkout ">
+		<sequential>
+			<common_export svn.url="${svn.3rdpartylib.url}" svn.revision="${svn.revision}" svn.destpath="../${3rdpartylib.dest}" />
+			<common_export svn.url="${svn.tibcoGI.url}" svn.revision="${svn.revision}" svn.destpath="../${tibcoTemplate.dest}" />
+			<common_export svn.url="${svn.model.url}" svn.revision="${svn.revision}" svn.destpath="../${model.dest}" />
+			<common_export svn.url="${svn.mediaroom.url}" svn.revision="${svn.revision}" svn.destpath="../${mediaroom.dest}" />
+			<common_export svn.url="${svn.viewer.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${viewer.dest}" />
+			<common_export svn.url="${svn.giipvscommon.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${giipvscommon.dest}" />
+		</sequential> 
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- checkout player with version property in player.version to nullSoftRoot -->
+	<!-- ==================================================== -->
+	<target name="checkoutPlayer" depends="checkPlayerVersionFile" description="checkout the player by revision in player.version">
+		<sequential>
+				<loadproperties srcFile="player.version"/>
+				<echo message="checkout ${svn.player.url}/${svn.player.tag}${player.version} to directory ${nullsoft.root}/${player.dest} ..." level="info"/>
+				<common_export svn.url="${svn.player.url}/${svn.player.tag}${player.version}" svn.revision="HEAD" svn.destpath="${nullsoft.root}/${player.dest}" />
+		</sequential> 
+	</target>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [initial sector] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<!-- ==================================================== -->
+	<!-- check nullsoft.root directory for nollsoft(shared by dve and official build) -->
+	<!-- ==================================================== -->
+	<target name="createNullSoftRoot" description="create nullSoftRoot for dev and official build">
+		<sequential>
+			<echo  level="info"	/>
+			<common_checkDirExist dirFile.list="${nullsoft.root}" />
+		</sequential> 
+	</target>
+
+	<!-- ============================ -->
+	<!-- unzip tibcoGI 		          -->
+	<!-- ============================ -->
+	<target name="unzipGI" depends="checkTgzFiles" description="unzip GI">
+		<sequential>
+			<echo message="untar pkg_3party_tibcogi_binaries.tgz and pkg_3party_jre_binaries.tgz ..." level="info"/>
+			<parallel threadCount='4' threadsPerProcessor='2' failonany="true">
+				<!-- untar .tgz file to client_build/temp -->
+				<untar src="${officialOrDev}/${3rdpartylib.dest}/pkg_3party_tibcogi_binaries.tgz" compression="gzip" dest="${client.temp}"/>
+				<!-- untar .tgz file to client_build/temp -->
+				<!--untar src="${officialOrDev}/${3rdpartylib.dest}/pkg_3party_jre_binaries.tgz" compression="gzip" dest="${client.temp}"/-->
+			</parallel>
+		</sequential> 
+	</target>
+	
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [develop build sector]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->
+	<!-- make a develop build with revision number as build number  CHANGE create version.xml to 'dist'-->
+	<!-- ==================================================== -->
+	<target name="client-dev-build" depends="getSvnInfo" description="do a developer build and create barco_collabclient_setup.exe">
+		<sequential>
+			<echo  level="info"	/>
+			<property name="developerBuild" value="true"/>
+			<!--call buildAndCopyJars with ".."; using parent level modules--> 
+			<antcall target="buildAndCopyJars">
+				<param name="passinParam" value=".."/>
+			</antcall>
+			
+			<echo message="make a client build ..."	level="info"/>
+			<loadproperties srcFile="clientUI.version"/>
+			<!--svn.statusRevision get from common_getSvnInfo -->
+			<property name="developerVersion" value="${major.number}.r${release.number}.b${svn.statusRevision}"/>
+			<tstamp>
+				<format property="devBuildDate"  pattern="EEE, MMM dd yyyy HH:mm:ss z" />
+			</tstamp>
+			<echo message=">>>developerVersion=${developerVersion} ..." level="info"	/>
+			<!--create version.xml for projects; add ${nullsoft.root}/${Viewer_versionXMLDest.path} to the following list-->
+			<common_versionXMLbuilder software.version="${developerVersion}" software.date="${devBuildDate}" dest.list="${nullsoft.root}/${IPVSClient_versionXMLDest.path},${nullsoft.root}/${ADMIN_versionXMLDest.path},${nullsoft.root}/${Common_versionXMLDest.path},${nullsoft.root}/${Viewer_versionXMLDest.path}" />
+
+			<echo message=" call createAndBuildClientSetup ..." level="info"/>
+
+			<!-- build installed client by creating nullsoft installer exe with version and build type-->
+			<antcall target="createAndBuildClientSetup">
+				<param name="productVersion" value="${developerVersion}"/>
+				<param name="officialBuild" value="0"/>
+			 </antcall>
+				
+			 <!-- build web client by copying 'dist' to clients/web -->
+    		 <antcall target="copyClients">
+				<param name="developerBuild" value="true"/>
+			 </antcall>
+		</sequential> 
+	</target>
+
+
+	<!-- ==================================================== -->
+	<!-- check temp directory for client-dev-build	  -->
+	<!-- ==================================================== -->
+	<target name="checkDirTemp" description="make dir BUILD for client-official-build">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="make/check dir ${client.temp}..." level="info"/>
+			<common_checkDirExist dirFile.list="${client.temp}" />
+		</sequential> 
+	</target>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [official build sector]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->
+	<!-- make an official build and commite build version	  CHANGE create version.xml to 'dist'-->
+	<!-- ==================================================== -->
+	<target name="client-official-build" depends="getSvnInfo" description="build and create barco_collabclient_setup.exe">
+		<fail unless="dms.official.build" message="please pass in parameter 'dms.official.build'" />
+		<fail unless="dms.official.build.path" message="please pass in parameter 'dms.official.build.path'"  />
+		<!--fail unless="dms.official.build.version" message="please pass in parameter 'dms.official.build.version'"  /-->
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="make an official build ..."	/>
+			<property name="officialBuild" value="true"/>
+			<!--<antcall target="buildclean" />-->
+			<!--check out code to /client_build/BUILD for an official build -->
+			<if>
+				 <equals arg1="${dms.official.build}" arg2="true"/>
+			  <then>
+				<property name="BUILD.path" value="${dms.official.build.path}"/>
+				<echo message="BUILD already checked out by DMS " />
+				<!--call buildAndCopyJars with "BUILD",using child level modules-->
+				<antcall target="buildAndCopyJars">
+					<param name="passinParam" value="${dms.official.build.path}"/>
+				</antcall>
+			  </then>
+			  <else> 
+				<fail message=" dms.official.build property not set to true " />
+			  </else>
+			</if>
+
+			<loadproperties srcFile="clientUI.version"/>
+                        <!-- For now, not updating the clientUI.version. DMS build
+                        will update and keep this in sync
+			<math result="increasBuildNumber" operand1="${build.number}" operation="+" operand2="1" datatype="int"/>
+			<property name="officialVersion" value="${major.number}.r${release.number}.b${increasBuildNumber}"/>
+			<tstamp>
+				<format property="officialBuildDate"  pattern="EEE, MMM dd yyyy HH:mm:ss z" />
+			</tstamp>
+  		    <propertyfile file="clientUI.version">
+				<entry  key="build.number" value="${increasBuildNumber}"/>
+				<entry  key="build.date" value="${officialBuildDate}" />
+				<entry  key="version" value="${officialVersion}"/>
+		    </propertyfile>
+			<common_svncommit svn.file="clientUI.version" svn.message="Auto update ClientUI version. SVN_REVISION:${svn.statusRevision} BUILD_VERSION:${officialVersion}" />
+
+                        End of clientUI version update -->
+
+			<tstamp>
+				<format property="officialBuildDate"  pattern="EEE, MMM dd yyyy HH:mm:ss z" />
+			</tstamp>
+            <property name="officialVersion" value="${version}" />
+
+			<!--create version.xml for IPVS_ClientUI,AdminUI,Viewer -->
+			<common_versionXMLbuilder software.version="${officialVersion}" software.date="${officialBuildDate}" dest.list="${nullsoft.root}/${IPVSClient_versionXMLDest.path},${nullsoft.root}/${ADMIN_versionXMLDest.path},${nullsoft.root}/${Common_versionXMLDest.path},${nullsoft.root}/${Viewer_versionXMLDest.path}" />
+
+			<!-- build installed client by creating nullsoft installer EXE with version and build type-->
+			<antcall target="createAndBuildClientSetup">
+				<param name="productVersion" value="${officialVersion}"/>
+				<param name="officialBuild" value="1"/>
+			 </antcall>
+			 
+			<!-- build web client by copying 'dist' to clients/web -->
+			 <antcall target="copyClients">
+				<param name="developerBuild" value="false"/>
+			 </antcall>
+		</sequential> 
+	</target>
+
+
+	<!-- ==================================================== -->
+	<!-- checkout for official build	  -->
+	<!-- ==================================================== -->
+	<target name="checkoutForOfficialBuild" depends="checkDirBUILD" description="make dir BUILD for client-official-build">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="checkout data for to BUILD ..." level="info"	/>
+			<sequential>
+				<common_export svn.url="${svn.3rdpartylib.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${3rdpartylib.dest}" />
+				<common_export svn.url="${svn.tibcoGI.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${tibcoTemplate.dest}" />
+				<common_export svn.url="${svn.model.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${model.dest}" />
+				<common_export svn.url="${svn.mediaroom.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${mediaroom.dest}" />
+				<common_export svn.url="${svn.viewer.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${viewer.dest}" />
+				<common_export svn.url="${svn.giipvscommon.url}" svn.revision="${svn.revision}" svn.destpath="BUILD/${giipvscommon.dest}" />
+			</sequential> 
+		</sequential> 
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- check BUILD directory for client-official-build	  -->
+	<!-- ==================================================== -->
+	<target name="checkDirBUILD" depends="checkClient_BuildDir" description="make dir BUILD for client-official-build">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="make/check dir BUILD..."	level="info"/>
+			<common_checkDirExist dirFile.list="BUILD" />
+		</sequential> 
+	</target>
+
+
+	<!-- ==================================================== -->	
+    <!-- check client_build directory exist   -->
+    <!-- ==================================================== -->
+	<target name="checkClient_BuildDir">
+		<common_checkFile file.name="../${client.build}" echo.message="${client.build} is not checked out!" />
+	</target>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [release tag sector]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->
+	<!-- make release: tag a revision as a release 			  -->
+	<!-- ==================================================== -->
+	<target name="client-release-tag" depends="checkDirTemp,getSvnInfo" description="build and create barco_collabclient_setup.exe">
+		<sequential>
+			<echo message="make a release build ..." level="info"/>
+			<echo  level="info"	/>
+			<input message="Please input tag revision number:" addproperty="inputRevision" />
+			<echo message="Input revision:${inputRevision}"	level="info"/>
+	
+			<echo message="svn copy from ${svn.client_build.url}/trunk To ${svn.client_build.url}/tags ..."	level="info"/>
+			<!-- svn copy specified revision from trunk/branches to tags -->
+			<common_svncopy svn.srcURL="${svn.client_build.url}/${svn.srctype}" svn.destURL="${svn.client_build.url}/tags/rev_${svn.statusRevision}" svn.revision="${inputRevision}" svn.message="tag Rev_${inputRevision}" />
+			<sleep seconds="20"/>
+
+
+			<!-- change clentUI.version, release number add '1' and build number reset to '0'-->
+			<echo message="checkout revision ${svn.inputRevision} from ${svn.client_build.url}/branches/rev_${inputRevision}/clientUI.version ..." level="info"	/>
+			<!-- svn export clientUI.version -->
+			<exec executable="svn" failonerror="true">
+				  <arg value="export" />
+				  <arg value="${svn.client_build.url}/tags/rev_${svn.statusRevision}/clientUI.version" />
+			</exec>
+
+			<!-- load clientUI.version -->
+			<loadproperties srcFile="clientUI.version"/>
+			<var name="releaseNumber" value="${release.number}"/>
+
+			<echo message="Before tagging a release, version=${major.number}.r${releaseNumber}.b${build.number} ..." level="info"/>
+			<!-- revision number add '1' and build number reset to '0'-->
+			<math result="increaseRelease" operand1="${releaseNumber}" operation="+" operand2="1" datatype="int"/>
+  		    <propertyfile file="clientUI.version">
+			  <entry  key="release.number" value="${increaseRelease}"/>
+			  <entry  key="build.number" type="int" value="0"/>
+			  <entry  key="build.date" type="date" value="now" pattern="EEE, MMM dd yyyy HH:mm:ss z" />
+			  <entry  key="version" value="${major.number}.r${increaseRelease}.b0"/>
+		    </propertyfile>
+
+			<echo message="After tagging a release, version=${major.number}.r${increaseRelease}.b0 ..." level="info"/>
+			<!-- svn delete the old clientUI.version -->
+			<exec executable="svn" failonerror="true">
+				  <arg value="delete" />
+				  <arg value="${svn.client_build.url}/tags/rev_${svn.statusRevision}/clientUI.version" />
+				  <arg value="-m" />
+				  <arg value="delete clientUI.version for tag" />
+			</exec>
+
+			<echo message="svn import clientUI.version  ${svn.client_build.url}/tags/rev_${svn.statusRevision}/clientUI.version" level="info"/>
+			<!-- svn import the new tagged clientUI.version -->
+			<exec executable="svn" failonerror="true" >
+				  <arg value="import" />
+				  <arg value="clientUI.version" />
+				  <arg value="${svn.client_build.url}/tags/rev_${svn.statusRevision}/clientUI.version" />
+				  <arg value="-m" />
+				  <arg value="tag a new release ${major.number}.r${increaseRelease}.b0" />
+			</exec>
+		
+		</sequential> 
+	</target>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [prepare sector]  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ==================================================== -->
+	<!-- top level dir structure:				  -->
+	<!-- 3rdpartylib;						 	  -->
+	<!-- client_build;						 	  -->
+	<!-- mediaroom;						 		  -->
+	<!-- model;						 			  -->
+	<!-- pkg_3party_images;						  -->
+	<!-- tibcotest						 		  -->
+
+	<!-- client_build structure:				  -->
+	<!-- BUILD;(for official build)			 	  -->
+	<!-- nullsoftRoot(player,jre6,tibcotest)	  -->
+	<!-- ==================================================== -->
+
+	<!-- ==================================================== -->
+	<!-- build and copy mediaroom.jar and objectxml.jar		  -->
+	<!-- ==================================================== -->
+	<target name="buildAndCopyJars" depends="checkDirectory,checkTgzFiles,checkPlayerVersionFile" description="build and copy Jars ">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="unzip IPVPlayerCtrl.zip,copy 3partylib jars,build mediaroom.jar and objectxml.jar ..." level="info"	/>
+			<!-- unzip GI to 'temp'; copy JSX from 'temp' to 'tibcotest' -->
+			<antcall target="copyGI">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- call tibco build make, create 'dist' for deploy -->
+			<antcall target="tibcoMake">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- prepare to create mediaroom.jar and objectxml.jar -->
+			<antcall target="copy3partyJavaLibs">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- build and copy objecxml.jar to dist -->
+			<antcall target="copyObjectXMLJar">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- build and copy mediaroom.jar to dist -->
+			<antcall target="copyMediaroomJar">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- signjars to 'dist' -->
+			<antcall target="signjars">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- copy 'dist' to nullsoft -->
+			<antcall target="copyTibcoDistToNullsoft">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- unzip player to nullsoft -->
+			<antcall target="unzipPlayer">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- call single viewer client build make, create 'VIEWER_CLIENT' for deploy -->
+			<antcall target="singleViewerMake">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+			<!-- copy 'VIEWER_CLIENT' to nullsoft -->
+			<antcall target="copyViewerClientToNullsoft">
+				<param name="officialOrDev" value="${passinParam}"/>
+			</antcall>
+		</sequential> 
+	</target>
+	
+	<!-- ========================== -->
+	<!-- copy unzipped GI		    -->
+	<!-- ========================== -->
+	<target name="copyGI" depends="unzipGI,createNullSoftRoot" description="copy unzipped GI and JRE">
+		<sequential>
+			<echo message="COPY UNZIPPED GI AND JRE FROM ${3rdpartylib.dest}/${pkg_3party_tibcogi_binaries.path}" level="info"/>
+			<!-- copy only tibcotest from  /home/onair/htdocs/public/tibcotest to sibiling directory tibcotest -->
+			<echo message="DO NOT OVERWRITE jsx3.gui.window.html" level="info"/>
+		    <copy todir="${officialOrDev}/${tibcoTemplate.dest}">
+				<fileset dir="${client.temp}/${pkg_3party_tibcogi_binaries.path}" excludes="jsx3.gui.window.html"/>
+			</copy>
+
+			<!--COMMENT jre TEMPARAILY copy jre to current nullsoftroot/jre6 for all builds(dev/official) 
+			<echo message="COPY ${client.temp}/${pkg_3party_jre_binaries.path TO ${nullsoft.root}/${jre.dest} ..." level="info"/>
+		    <copy todir="${nullsoft.root}/${jre.dest}">
+				<fileset dir="${client.temp}/${pkg_3party_jre_binaries.path}"/>
+			</copy>-->
+			<copy file="${officialOrDev}/${3rdpartylib.dest}/${pkg_3party_jre_installer.file}" todir="${nullsoft.root}/" overwrite="true"/>
+		</sequential> 
+	</target>
+
+	<!-- ======================================================================= -->
+	<!-- call tibco GI build-make and make 'dist' ready to distribute		     -->
+	<!-- ${officialOrDev}/${tibcoTemplate.dest}/dist is created					 -->
+	<!-- ======================================================================= -->
+	<target name="tibcoMake" >
+		<ant dir="${officialOrDev}/${tibcoTemplate.dest}" antfile="build.xml" target="make"/>
+	</target>
+
+	<!-- ======================================================================== -->
+	<!-- copy pkg_3party_images javalibs & javalibs-1.4 to mediaroom/3rdpartylib  NO CHANGE-->
+	<!-- ======================================================================== -->
+    <target name="copy3partyJavaLibs"  description="copy 3rdpartylib and model to destination directories">
+		<echo message="COPY FROM ${officialOrDev}/${3rdpartylib.dest}/javalibs TO ${mediaroom.dest}/${3rdpartylib.dest} ..." level="info"/>
+                <property name="mediaroom.jars" value="commons-beanutils.jar,commons-collections-3.2.jar,commons-lang-2.3.jar,commons-logging-1.1.jar,commons-logging-adapters-1.1.jar
+				,commons-logging-api-1.1.jar,dom4j.jar,jaxen.jar,log4j-1.2.15.jar,plugin.jar,saxpath.jar,smack.jar,smackx.jar,su-smack-latest.jar,jcip-annotations-1.0.jar,xpp3.jar" />
+				<property name="ivpsclient.jars" value="rt-1.4.jar,smack-1.4.jar,smackx-1.4.jar,su-smack-1.2.jar,xpp3.jar" />
+		<!-- copy 3rd party java libs to mediaroom/3rdpartylib/	  -->
+		<copy todir="${officialOrDev}/${mediaroom.dest}/3rdpartylib" overwrite="true">
+			<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs" includes="${mediaroom.jars}"/>
+			<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs-1.4" includes="${ipvsclient.jars}"/>
+		</copy>
+		<echo message="COPY FROM ${officialOrDev}/${3rdpartylib.dest}/javalibs TO ${officialOrDev}/${tibco.common}/${mediaroom.dest} ..." level="info"/>
+		<!--ALSO copy 3rd party java libs to IPVS-Common/mediaroom	  -->
+		<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}/" overwrite="true">
+			<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs" includes="${mediaroom.jars}"/>
+		</copy> 
+		<echo message="COPY FROM ${officialOrDev}/${3rdpartylib.dest}/javalibs-1.4 TO ${officialOrDev}/${tibco.common}/${mediaroom.dest} ..." level="info"/>
+		<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs-1.4">
+				    <include name="smack-1.4.jar"/>
+					<include name="smackx-1.4.jar"/>
+					<include name="su-smack-1.2.jar"/>
+					<include name="xpp3.jar"/>
+				</fileset>
+		</copy>
+	</target>
+
+   	<!-- ==================================================== -->
+	<!-- build objectxml.jar under IPVS-Common/model/       NO CHANGE  -->
+	<!-- ==================================================== -->
+    <target name="buildObjectXMLJar"  description="build objectxml.jar">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message=" 1).build objectxml.jar in ${officialOrDev}/${model.dest} ..." level="info"/>
+			<ant dir="${officialOrDev}/${model.dest}" antfile="build.xml" target="build"/>
+		</sequential>
+	</target>
+
+	<!-- ======================================================= -->
+	<!-- copy objectxml.jar to nullsoftRoot/tibcotest/../IPVS-Common/mediaroom/		CHANGE to 'dist'	 -->
+	<!-- ======================================================= -->
+    <target name="copyObjectXMLJar" depends="buildObjectXMLJar" description="copy objectxml.jar">
+			<echo  level="info"	/>
+			<echo message=" 2).copy objectxml.jar to ${officialOrDev}/${tibcoTemplate.dest}/${tibco.common}/${mediaroom.dest} ..." level="info"/>
+			<!-- copy objectxml.jar to IPVS-Common/mediaroom/			 -->
+			<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${model.dest}" includes="*.jar"/>
+			</copy>
+			<echo message=" 3).copy model to ${officialOrDev}/${tibco.common}/${model.dest} ..." level="info"/>
+			<!-- copy model to IPVS-Common/model -->
+			<copy todir="${officialOrDev}/${tibco.common}/${model.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${model.dest}" excludes="build,objectxml.jar,svn">
+					<include name="objectXml/**"/>
+					<exclude name="migration/templates"/>
+					<include name="migration/*/client/**"/>
+				</fileset>
+			</copy>
+	</target>
+
+	<!-- ==================================================== -->
+	<!-- build mediaroom.jar to IPVS-Common/mediaroom/		NO CHANGE  -->
+	<!-- ==================================================== -->
+    <target name="buildMediaroomJar"  description="build mediaroom.jar">
+			<echo  level="info"	/>
+			<echo message=" 1).build mediaroom.jar and ipvsclient.jar ..." level="info"/>
+			<ant dir="${officialOrDev}/${mediaroom.dest}" antfile="build.xml" target="buildall" inheritAll="false" inheritRefs="false"/>
+	</target>
+
+	<!-- ================================================================================ -->
+	<!-- copy applet.html,applet_14.html and applet_16.html to IPVS-Common/mediaroom/	 CHANGE to 'dist' -->
+	<!-- ================================================================================ -->
+    <target name="copyAppletHtml" description="copy applet.html from IPVS-Common/mediaroom/src to ${officialOrDev}/../IPVS-Common/mediaroom">
+			<echo  level="info"	/>
+			<echo message="COPY ${officialOrDev}/${work.dir}/${mediaroom.dest}/src/applet.html TO ${officialOrDev}/${tibco.common}/${mediaroom.dest}" level="info"/>
+			<copy file="${officialOrDev}/${mediaroom.dest}/src/applet.html" todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true"/>
+			<copy file="${officialOrDev}/${mediaroom.dest}/src/applet_14.html" todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true"/>
+			<copy file="${officialOrDev}/${mediaroom.dest}/src/applet_16.html" todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true"/>
+			<copy file="${officialOrDev}/${mediaroom.dest}/src/IPVSdiagnostics.html" todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true"/>
+	</target>
+
+	<!-- ================================================================= -->
+	<!-- copy mediaroom.jar & ipvsclient.jar to IPVS-Common/mediaroom/	 CHANGE to 'dist'  -->
+	<!-- ================================================================= -->
+    <target name="copyMediaroomJar" depends="buildMediaroomJar,copyAppletHtml" description="copy mediaroom.jar">
+			<echo  level="info"	/>
+			<echo message=" 1).clean ${officialOrDev}/${tibco.common}/${mediaroom.dest}" level="info"/>
+			<delete>
+				<fileset dir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" includes="rt*.jar"/>
+			</delete>
+			<echo message=" 2).COPY mediaroom.jar FROM ../${mediaroom.dest}/dist TO ${officialOrDev}/${tibco.common}/${mediaroom.dest}" level="info"/>
+			<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${mediaroom.dest}/dist" excludes="rt-1.4.jar"/>
+			</copy>
+			<echo message=" 3).COPY JARS FROM ${officialOrDev}/${3rdpartylib.dest}/javalibs TO ${tibco.common}/${mediaroom.dest}" level="info"/>
+			<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs" includes="*.jar"/>
+			</copy>
+			<echo message=" 4).COPY JARS FROM ${officialOrDev}/${3rdpartylib.dest}/javalibs-1.4 TO ${officialOrDev}/${tibco.common}/${mediaroom.dest}" level="info"/>
+			<copy todir="${officialOrDev}/${tibco.common}/${mediaroom.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${3rdpartylib.dest}/javalibs-1.4">
+				    <include name="smack-1.4.jar"/>
+					<include name="smackx-1.4.jar"/>
+					<include name="su-smack-1.2.jar"/>
+					<include name="xpp3.jar"/>
+				</fileset>
+			</copy>
+	</target>
+
+	<!-- ==================== -->
+	<!-- Signing jars   TBD: CHANGE to 'dist' instead of ${nullsoft.root}      -->
+	<!-- ==================== -->
+    <target name="signjars"  description="Signing jars">
+		<!-- conditionally load the ant contrib task  --> 
+		<property name="target.path" value="${officialOrDev}/${tibco.common}/${mediaroom.dest}"/>
+		<condition property="isWindows">
+			<os name="windows" /> 
+		</condition> 
+		
+		<if>
+				<equals arg1="${isWindows}" arg2="true"/>
+		  <then>
+				<!-- Windows Signing jars  -->	
+				<echo message="  signing jars to  ${target.path} for Windows (${isWindows}), Java home path is ${env.JAVA_HOME}..." level="info"/>
+				<exec dir="." executable="./jarSign/jarsignerdos.bat" failonerror="true" output="${client.temp}/jarsign_log.txt">
+					<arg value="${target.path}"/>
+					<arg value="${env.JAVA_HOME}"/>
+				</exec>
+				<echo message=" after signing jars to  ${target.path} for Windows (${isWindows}) ..." level="info"/>
+		  </then>
+		  <else> 
+				<!-- Linux Signing jars  -->
+				<echo message=" signing jars to ${target.path} for Linux ..." level="info"/>
+				<exec dir="." executable="chmod" failonerror="true" output="${client.temp}/jarsignperm_log.txt">
+					<arg value="777"/>
+					<arg value="./jarSign/jarsigner.sh"/>
+				</exec>
+				<exec dir="." executable="./jarSign/jarsigner.sh" os="Linux" failonerror="true" output="${client.temp}/jarsign_log.txt" >
+					<arg value="${target.path}"/>
+				</exec>
+		  </else>
+		</if>
+	</target>
+
+	<!-- copy ${officialOrDev}/dist code to nullsoftRoot -->
+	<target name="copyTibcoDistToNullsoft"  description="copy tibco 'dist' to nullsoftRoot">
+		<sequential>
+			<echo message="Creating ${nullsoft.root}/${tibcoTemplate.dest}" level="info"/>
+			<common_checkDirExist dirFile.list="${nullsoft.root}/${tibcoTemplate.dest}" />
+			<echo message="COPY tibco dist to  ${nullsoft.root}/${tibcoTemplate.dest}" level="info"/>
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}" overwrite="true">
+				<fileset dir="${officialOrDev}/${tibcoTemplate.dest}/dist"/>	
+			</copy>
+		</sequential> 
+	</target>
+
+	
+	<!-- selective copy ${officialOrDev}/Viewer/VIEWER_CLIENT to ${nullsoft.root}/${tibcoTemplate.dest} for nullsoft installer -->
+	<target name="copyViewerClientToNullsoft"  description="copy Viewer_Client to nullsoftRoot after copying tibcotest">
+		<sequential>
+			<echo message="Copying VIEWER_CLIENT to  ${nullsoft.root}/${tibcoTemplate.dest}" level="info"/>
+			<common_checkDirExist dirFile.list="${nullsoft.root}/${tibcoTemplate.dest},${nullsoft.root}/${tibcoTemplate.dest}/player" />
+			<echo message="COPY VIEWER_CLIENT/addins/giIPVSCommon to  ${nullsoft.root}/${tibcoTemplate.dest}/addins" level="info"/>
+			<!-- copy VIEWER_CLIENT/addins/giIPVSCommon to ${nullsoft.root}/${tibcoTemplate.dest}/addins -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}/addins" overwrite="true">	
+				<fileset dir="${officialOrDev}/Viewer/VIEWER_CLIENT/addins" excludes="build,log,svn" >
+					<include name="giIPVSCommon/**"/>
+				</fileset>
+			</copy>
+			<!-- copy tibcotest/IPVS-Common/model and mediaroom to nullsoft/tibcotest/addins -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}/addins" overwrite="true">	
+				<fileset dir="${officialOrDev}/${tibcoTemplate.dest}/dist/JSXAPPS/IPVS-Common" excludes="build,log,svn">
+					<include name="mediaroom/**"/>
+					<include name="model/**"/>
+				</fileset>
+			</copy>
+			<!-- copy VIEWER_CLIENT/JSXAPPS/IPVS_Viewer to ${nullsoft.root}/${tibcoTemplate.dest}/JSXAPPS -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}/JSXAPPS" overwrite="true">	
+				<fileset dir="${officialOrDev}/Viewer/VIEWER_CLIENT/JSXAPPS" excludes="build,log,svn" >
+					<include name="IPVS_Viewer/**"/>
+				</fileset>
+			</copy>
+			<!-- copy  ${nullsoft.root}/${tibcoTemplate.dest}/player -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}/player" overwrite="true">	
+				<fileset dir="${nullsoft.root}/player" >
+					<exclude name="*.dll"/>
+					<include name="IPVPlayerCtrl.cab"/>
+				</fileset>
+			</copy>
+			<!-- copy IPVSViewer-Index.hta, .htm to ${nullsoft.root}/${tibcoTemplate.dest} -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}" overwrite="true">	
+				<fileset dir="${officialOrDev}/Viewer/VIEWER_CLIENT" >
+					<include name="IPVSViewer-Index.ht?"/>
+				</fileset>
+			</copy>
+			<!-- copy *.jar to ${nullsoft.root}/${tibcoTemplate.dest} -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}" overwrite="true">	
+				<!-- copy *.jar from ${tibcoTemplate.dest}/dist for timing reason -->
+				<fileset dir="${officialOrDev}/${tibcoTemplate.dest}/dist/JSXAPPS/IPVS-Common/mediaroom" >
+					<include name="*.jar"/>
+				</fileset>
+			</copy>
+			<!-- fix bug $42200, copy MOTW/jsx3.app.Monitor to ${nullsoft.root}/${tibcoTemplate.dest}/JSX/html/ -->
+			<copy todir="${nullsoft.root}/${tibcoTemplate.dest}/JSX/html" overwrite="true">	
+				<fileset dir="${officialOrDev}/Viewer/MOTW" >
+					<include name="jsx3.app.Monitor.html"/>
+				</fileset>
+			</copy>
+			<echo message="Copy VIEWER/MOTW/jsx3.app.Monitor.html to  ${nullsoft.root}/${tibcoTemplate.dest}/JSX/html" level="info"/>
+		</sequential> 
+	</target>
+
+
+	<!-- ======================================================= -->
+	<!-- unzip IPVPlayerCtrl.zip and IPVPlayerCtrl.cab			NO CHANGE -->
+	<!-- ======================================================= -->
+    <target name="unzipPlayer" depends="checkoutPlayer" description="unzip player to local">
+			<sequential>
+				<echo  level="info"	/>
+				<echo message=" unzip IPVPlayerCtrl.zip to ${nullsoft.root}/${player.dest}..." level="info"/>
+				<unzip src="${nullsoft.root}/${player.dest}/IPVPlayerCtrl.zip" dest="${nullsoft.root}/${player.dest}">
+					<patternset>
+						<include name="**/*.cab"/>
+					</patternset>
+				</unzip>
+				
+				<echo  level="info"	/>
+				<echo message=" wait for a few seconds to check if  ${nullsoft.root}/${player.dest}/IPVPlayerCtrl.cab exist " level="info"/>
+				<waitfor maxwait="2" maxwaitunit="minute" checkevery="200">
+					<available file="${nullsoft.root}/${player.dest}/IPVPlayerCtrl.cab" property="isPlayerCabAvail"/>
+				</waitfor>
+				<!-- extract IPVPlayerCtrl.cab if it is exist-->
+				<if>
+				<equals arg1="@{isPlayerCabAvail}" arg2="false" />
+					 
+				 <then>
+				   <echo message="ERROR: The ${nullsoft.root}/${player.dest}/IPVPlayerCtrl.cab doesn't exist, unzip IPVPlayerCtrl.cab failed!" level="info" />
+				 </then>
+
+				 <else>
+				   <echo  level="info"	/>
+					<echo message=" unzip IPVPlayerCtrl.cab to ${nullsoft.root}/${player.dest}..." level="info"/>
+					<!-- extract IPVPlayerCtrl.cab differently for Windows and Linux -->
+					<if>
+					 <equals arg1="${isWindows}" arg2="true" />
+					 <then>
+					   <echo message="The current OS is Windows" level="info"/>
+						<exec dir="${nullsoft.root}/${player.dest}" executable="expand.exe"  failonerror="true" output="${client.temp}/unzipIPVPlayerCtrlCab_log.txt">
+						  <arg value="-F:*"/>
+						  <arg value="IPVPlayerCtrl.cab"/>
+						  <arg value="."/>
+						</exec>
+					 </then>
+					 <else>
+					   <echo message="The current OS is Linux" level="info"/>
+						<exec dir="${nullsoft.root}/${player.dest}" executable="cabextract" failonerror="true" output="${client.temp}/unzipIPVPlayerCtrlCab_log.txt">
+						  <arg value="IPVPlayerCtrl.cab"/>
+						</exec> 
+					 </else>
+					</if>
+				 </else>
+				</if>
+
+				<echo  level="info"	/>
+				<echo message=" wait for a few seconds to check if  ${nullsoft.root}/${player.dest}/MultiMonitorsCtrl.cab exist " level="info"/>
+				<waitfor maxwait="2" maxwaitunit="minute" checkevery="200">
+					<available file="${nullsoft.root}/${player.dest}/MultiMonitorsCtrl.cab" property="isMultiMonitorsCabAvail"/>
+				</waitfor>
+				<!-- extract IPVPlayerCtrl.cab if it is exist-->
+				<if>
+				<equals arg1="@{isMultiMonitorsCabAvail}" arg2="false" />
+					 
+				 <then>
+				   <echo message="ERROR: The ${nullsoft.root}/${player.dest}/MultiMonitorsCtrl.cab doesn't exist, unzip MultiMonitorsCtrl.cab failed!" level="info" />
+				 </then>
+
+				 <else>
+				   <echo  level="info"	/>
+					<echo message=" unzip MultiMonitorsCtrl.cab to ${nullsoft.root}/${player.dest}..." level="info"/>
+					<!-- extract MultiMonitorsCtrl.cab differently for Windows and Linux -->
+					<if>
+					 <equals arg1="${isWindows}" arg2="true" />
+					 <then>
+					   <echo message="The current OS is Windows" level="info"/>
+						<exec dir="${nullsoft.root}/${player.dest}" executable="expand.exe"  failonerror="true" output="${client.temp}/unzipMultiMonitorsCtrlCab_log.txt">
+						  <arg value="-F:*"/>
+						  <arg value="MultiMonitorsCtrl.cab"/>
+						  <arg value="."/>
+						</exec>
+					 </then>
+					 <else>
+					   <echo message="The current OS is Linux" level="info"/>
+						<exec dir="${nullsoft.root}/${player.dest}" executable="cabextract" failonerror="true" output="${client.temp}/unzipMultiMonitorsCtrlCab_log.txt">
+						  <arg value="MultiMonitorsCtrl.cab"/>
+						</exec> 
+					 </else>
+					</if>
+				 </else>
+				</if>
+				<!-- delete IPVPlayer.zip, IPVPlayerCtrl.cab and MultiMonitorsCtrl.cab after extract them
+				 <delete file="${nullsoft.root}/${player.dest}/IPVPlayerCtrl.cab"/>
+				 <delete file="${nullsoft.root}/${player.dest}/MultiMonitorsCtrl.cab"/>
+				 <delete file="${nullsoft.root}/${player.dest}/IPVPlayerCtrl.zip"/>
+				 <delete file="${nullsoft.root}/${player.dest}/README.txt"/>
+				 <delete file="${nullsoft.root}/${player.dest}/IPVPlayerCtrl.inf"/>
+				 <delete file="${nullsoft.root}/${player.dest}/MultiMonitorsCtrl.inf"/>-->
+				  <delete>
+				    <fileset dir="${nullsoft.root}/${player.dest}" >
+					  <exclude name="*.dll"/>
+					  <exclude name="*.cab"/>
+					</fileset>
+				  </delete>
+			</sequential>
+	</target>
+
+	<!-- ======================================================================= -->
+	<!-- call tibco GI build-make and make 'dist' ready to distribute		     -->
+	<!-- ${officialOrDev}/${tibcoTemplate.dest}/dist is created					 -->
+	<!-- ======================================================================= -->
+	<target name="singleViewerMake" >
+		<ant dir="${officialOrDev}/${viewer.dest}" antfile="build.xml" target="buildMake"/>
+	</target>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [nullsoft install sector] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- ======================================================= -->
+	<!-- start nullSoft to build setup EXE				 NO CHANGE-->
+	<!-- ======================================================= -->
+    <target name="createAndBuildClientSetup" description="start NullSoft to create install ">
+		<sequential>
+			<!--add ipvs installer-->
+			<echo  level="info"	/>
+			<echo message=" start null soft to create BarcoCollabClient-setup.EXE ..." level="info"/>
+			<echo message="productVersion=${productVersion}::officialBuild=${officialBuild}::nullSoft.ipvs.installer=${nullSoft.ipvs.installer}"	level="info"/>
+			<exec dir="." executable="makensis"  failonerror="true" output="${client.temp}/IPVSNullsfotInstall_log.txt">
+			  <arg value="${define.symbol}PRODUCT_VERSION=${productVersion}"/>
+			  <arg value="${define.symbol}RELEASE_BUILD=${officialBuild}"/>
+			  <arg value="${nullSoft.ipvs.installer}"/>
+			</exec>
+			
+			<!--comment this code Aug.14th <echo  level="info"	/>
+			<echo message=" begin to create private key for installer  ..." level="info"/>
+			<antcall target="signSetUp"/>-->
+		</sequential>
+	</target>
+
+	<!-- ======================================================= -->
+	<!-- create a pair of private key for nullSoft installer-->
+	<!-- ======================================================= -->
+    <target name="signSetUp" description="sign the installer with IPVS certificate ">
+		<if>
+			 <equals arg1="${isWindows}" arg2="true" />
+			 <then>
+			   <echo message="The current OS is Windows" level="info"/>
+				<sequential>
+					<echo message="sign and checktrust... " level="info"/>
+					<exec dir="." executable="IPVSign.bat"  output="${client.temp}/signcode_log.txt"/>			
+				</sequential>
+			 </then>
+		</if>
+	</target>
+
+	<!-- ======================================================= -->
+	<!-- unregister current and register new IPVPlayer.dll -->
+	<!-- ======================================================= -->
+    <target name="registerPlayer"  description="unregister current player and register a new one">
+			<echo message="..." level="info"/>
+			<sequential>
+				<echo>+-----------------------------------------------------------+</echo>
+				<echo message=" unregister player..." level="info"/>
+				<echo>+-----------------------------------------------------------+</echo>
+				<exec dir="${player}" executable="regsvr32.exe"  output="${client.temp}/unregister_log.txt">
+				  <arg value="/u"/>
+				  <arg value="IPVPlayerCtrl.dll"/>
+				</exec>
+				<echo>+-----------------------------------------------------------+</echo>
+				<echo message=" register a new player..." level="info"/>
+				<echo>+-----------------------------------------------------------+</echo>
+				<exec dir="${player}" executable="regsvr32.exe" failonerror="true" output="${client.temp}/register_log.txt">
+				  <arg value="IPVPlayerCtrl.dll"/>
+				</exec>
+				<echo>+ ======================================================== +</echo>
+				<echo message="install successful." level="info"	/>
+				<echo>+ ======================================================== +</echo>		
+			</sequential>
+	</target>
+
+	<!-- ======================================================= -->
+	<!-- clean all temp files back status to fresh checkout -->
+	<!-- ======================================================= -->
+    <target name="clean" description="clean up all obsolete directories">
+		<sequential>
+			<echo  level="info"	/>
+			<echo message="Delete directory ${nullsoft.root} ... " level="info"	/>
+			<common_clean pathname="${nullsoft.root}" />
+			<echo message="Delete directory ${client.temp} ... " level="info"	/>
+			<common_clean pathname="${client.temp}" />
+			<echo message="Delete directory ${client} ... " level="info"	/>
+			<common_clean pathname="${client}" />
+			<echo message="Delete directory ${officialOrDev}/${tibco.common}/${mediaroom.dest} ... " level="info"	/>
+			<common_clean pathname="${officialOrDev}/${tibco.common}/${mediaroom.dest}" />
+			<echo message="Delete directory ${officialOrDev}/${singleViewerSrc} ... " level="info"	/>
+			<common_clean pathname="${officialOrDev}/${singleViewerSrc}" />
+		</sequential>
+	</target>
+
+	<!-- ======================================================= -->
+	<!-- clean other modules' clean -->
+	<!-- ======================================================= -->
+    <target name="buildclean" description="clean up all obsolete directories">
+		<!-- for a developer build only -->
+		<!-- official build clean will simply remove the BUILD directory -->
+		<echo  level="info"/>
+		<antcall target="clean"/>
+		<if>
+			<equals arg1="${officialBuild}" arg2="true" />
+			<then>
+			   <echo message="remove the client_build/BUILD" level="info" />
+			   <antcall target="officialBuildClean"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${developerBuild}" arg2="true" />
+			<then>
+			  <echo message=" a developer mediaroom build clean" level="info"/>
+			  <ant dir="${officialOrDev}/${mediaroom.dest}" antfile="build.xml" target="clean" inheritAll="false" inheritRefs="false"/>
+			  <!-- may add other modules clean if have -->
+			  <echo message=" a developer tibco build clean" level="info"/>
+			  <ant dir="${officialOrDev}/${tibcoTemplate.dest}" antfile="build.xml" target="clean" inheritAll="false" inheritRefs="false"/>
+			</then>
+		</if>	
+	</target>
+
+	<!-- ==================================================== -->	
+    <!-- clean official build   -->
+    <!-- ==================================================== -->
+	<target name="officialBuildClean">
+		<!-- call standard clean and then delete BUILD -->
+		<echo message="Delete directory BUILD... "	level="info"/>
+		<common_clean pathname="BUILD" />
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Dangerous to call, this will delete all parallel working area  -->
+	<!-- ============================================================== -->
+    <target name="cleanCheckout" description="clean up all obsolete directories">
+		<sequential>
+			<echo level="info"/>
+			<echo message="Delete directory ${work.dir}/${3rdpartylib.dest}... " level="info"/>
+			<common_clean pathname="${work.dir}/${3rdpartylib.dest}" />
+			<echo message="Delete directory ${work.dir}/${model.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${model.dest}" />
+			<echo message="Delete directory ${work.dir}/${mediaroom.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${mediaroom.dest}" />
+			<echo message="Delete directory ${work.dir}/${player.dest}... " level="info"	/>
+			<common_clean pathname="${player.dest}" />
+			<echo message="Delete directory ${work.dir}/${jre.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${jre.dest}" />
+			<echo message="Delete directory ${work.dir}/${tibcoTemplate.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${tibcoTemplate.dest}" />
+			<echo message="Delete directory ${work.dir}/${viewer.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${viewer.dest}" />
+			<echo message="Delete directory ${work.dir}/${giipvscommon.dest}... "	level="info"/>
+			<common_clean pathname="${work.dir}/${giipvscommon.dest}" />
+		</sequential>
+	</target>
+
+
+	<!-- ================================================================== -->
+	<!-- copy IPVSClientUI & IPVSAdminUI to ${remoteClientUI.dir}/webClient  CHANGE copy from 'dist'-->
+	<!-- ================================================================== -->
+	<target name="copyClients"  description="start IPVSClient from server side">
+		<sequential>		
+			<echo message="COPY GI from  ${nullsoft.root}/${tibcoTemplate.dest} to ${client.webDir}" level="info"/>
+			<copy todir="${client.webDir}" overwrite="true" >
+				<fileset dir="${nullsoft.root}/${tibcoTemplate.dest}">
+					<include name="JSXAPPS/IPVS_AdminUI/**"/>
+					<include name="JSXAPPS/IPVS_ClientUI/**"/>
+					<include name="JSXAPPS/IPVS-Common/**"/>
+					<include name="JSX/**"/>
+					<include name="addins/**"/>
+					<include name="*.htm*"/>
+					<include name="logger.xml"/>
+					<include name="ipvs.ico"/>
+				</fileset>
+			</copy>
+			<if>
+			  <equals arg1="${developerBuild}" arg2="true"/>
+			  <then>
+					<!-- copy developer build  -->	
+					<copy todir="${client.installDir}" overwrite="true" >
+						<fileset dir=".">
+							<include name="BarcoCollabClientSetup*.exe"/>
+						</fileset>
+					</copy>
+			  </then>
+			</if>
+			<if>
+			  <equals arg1="${developerBuild}" arg2="false"/>
+			  <then>
+					<!-- copy release build  -->	
+					<copy todir="${client.installDir}" overwrite="true" >
+						<fileset dir=".">
+							<include name="BarcoCollabClientSetup*.exe"/>
+						</fileset>
+					</copy>				
+			  </then>
+			</if>	
+			
+		</sequential> 
+	</target>
+</project>

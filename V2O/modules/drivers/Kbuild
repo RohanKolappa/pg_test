@@ -1,0 +1,25 @@
+
+# Uncomment below option to add debug symbols to the driver
+#ccflags-y += -g
+
+obj-m    := fpga_module.o
+fpga_module-objs := fpga.o \
+			v4_fpga.o \
+			plx9056pciif.o \
+			v2_fpga.o \
+			ddcedid.o \
+			ad9887vif.o \
+			ad9888vif.o \
+			led_control.o \
+			lut_table.o \
+			id18125fifo.o \
+			fpga_interrupt.o \
+			ad9852dds.o \
+			kbm_control.o \
+			flow_control.o \
+			fpga_control.o \
+			log_control.o \
+                        slice_size.o
+
+xxx := \
+

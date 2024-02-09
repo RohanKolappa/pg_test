@@ -1,0 +1,101 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="blkReportUI" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxborder="border-left: solid 1px #777777"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="35,30,*,26" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#aaaaaa"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxheight="100%" jsxname="blkHeader" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="1px solid #777777; 1px solid #777777; 1px solid #888888; 0px solid #777777"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="label" jsxtext="Reports" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkReportMenu" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxbgcolor="#d4d4d4" jsxpadding="5 0 0 0" jsxborder="1px solid #efefef; 1px solid #777777; 0px solid #777777; 0px solid #777777"></strings>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="80" jsxheight="22" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxrelativeposition="0" jsxleft="10" jsxenabled="1" jsxtop="4"></variants>
+          <strings jsxname="btnAddReport" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnNewUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnNewUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnNewDsbl.png" jsxdisplay="" jsxmargin="0 20 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnNewOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnNewDown.png" jsxtip="Create a new report"></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="110" jsxtop="4" jsxwidth="80" jsxheight="22" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxname="blkDeleteReport" jsxdisplay=""></strings>
+          <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="80" jsxheight="22" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="1" jsxenabled="0"></variants>
+            <strings jsxname="btnDeleteReport" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnDeleteUp1.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnDeleteUp1.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnDeleteDsbl1.png" jsxdisplay="" jsxmargin="0 20 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnDeleteOver1.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnDeleteDown1.png" jsxtip="Delete report"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="0" jsxheight="0" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="block" jsxdisplay="none" jsxbgcolor="#e8e8f5"></strings>
+          <object type="jsx3.gui.Menu">
+            <variants jsxxmlasync="1" jsxenabled="1"></variants>
+            <strings jsxname="menuReportList" jsxtip="menu" jsxtext="Report menu" jsxdisplay="none"></strings>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkReportList" jsxwidth="100%" jsxheight="100%" jsxborder="border-right: solid 1px #777777"></strings>
+        <dynamics jsxbgcolor="Matrix Background"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="0" jsxjsxxmlasync="1" jsxheaderheight="25" jsxrowheight="25" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+          <strings jsxname="mtxReportList" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending" jsxmenu="menuReportList" jsxbgcolor="#cccccc" jsxbodyborder="1px solid #777777; 1px solid #777777; 1px solid #777777; 0px solid #777777;"></strings>
+          <dynamics jsxselectionbg="Matrix Selection BG" jsxheaderborder="Matrix Box Header Border"></dynamics>
+          <events jsxexecute="" jsxselect="cmpUserValue_OnSelect();"></events>
+          <xslparameters jsx_rowbg1="#e5e5e5" jsx_rowbg2="#eeeeee"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="200"></variants>
+            <strings jsxname="jsxtext" jsxtext="Report Name" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxtext"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="180"></variants>
+            <strings jsxname="jsxtype" jsxtext="Type" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxtype"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="91"></variants>
+            <strings jsxname="jsxdescription" jsxtext="Description" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxdescription"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="80" jsxsort="0"></variants>
+            <strings jsxname="jsxformat" jsxtext="Format" jsxpadding="4 2 2 2" jsxcellpadding="3" jsxpath="jsxformat" jsxdisplay=""></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="205"></variants>
+            <strings jsxname="jsxexportSchedule" jsxtext="Export Schedule" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxexportSchedule" jsxsortdatatype="number"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11" jsxwidth="205"></variants>
+            <strings jsxname="jsxexportURL" jsxtext="Export URL" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxexportURL" jsxsortdatatype="number"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="11"></variants>
+            <strings jsxname="jsxtarget" jsxtext="Target" jsxpadding="4 2 2 2" jsxwidth="*" jsxcellpadding="6 6 4 6" jsxpath="jsxtarget" jsxsortdatatype="text"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxfontsize="BaseText" jsxcellcolor="Matrix Text Color" jsxcellborder="Matrix Row Border" jsxcellbgcolor="Matrix Row BG"></dynamics>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkReportFooter" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="2 0 0 0" jsxborder="0px solid #777777; 1px solid #777777; 1px solid #777777; 0px solid #777777"></strings>
+        <dynamics jsxbgcolor="Pagination BG"></dynamics>
+        <include src="components/pagination.xml" async="false"></include>
+      </object>
+    </object>
+  </object>
+</serialization>

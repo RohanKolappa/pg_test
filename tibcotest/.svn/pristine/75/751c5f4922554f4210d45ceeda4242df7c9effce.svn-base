@@ -1,0 +1,81 @@
+<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="restoreBlock" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutRows" jsxrows="35,*" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #777777"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxheight="35"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="border-bottom: 1px solid #9898a5"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="label" jsxtext="Restore Database" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxstyleoverride="overflow-x:hidden;" jsxclassname="dialogBody" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999" jsxbgcolor="#e5e5e5"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxheight="300" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkRestoreFromBackup" jsxwidth="100%" jsxdisplay=""></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="220" jsxleft="6" jsxtop="19" jsxfontsize="11"></variants>
+            <strings jsxname="label" jsxtext="Restore from Factory Default:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="240" jsxtop="19"></variants>
+            <strings jsxname="radioRestoreFactory" jsxtext="" jsxgroupname="DbRestore" jsxmargin="0 4 0 0" jsxvalue="Factory" jsxdisplay=""></strings>
+            <events jsxselect=""></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="220" jsxleft="6" jsxtop="49"></variants>
+            <strings jsxname="label" jsxtext="Restore from System Backup:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="240" jsxtop="49"></variants>
+            <strings jsxname="radioRestoreSystem" jsxtext="" jsxgroupname="DbRestore" jsxmargin="0 4 0 0" jsxvalue="LastBackup" jsxdisplay=""></strings>
+            <events jsxselect=""></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="79" jsxwidth="220"></variants>
+            <strings jsxname="label" jsxtext="Restore from Manual Backup:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="240" jsxtop="79"></variants>
+            <strings jsxname="radioRestoreManual" jsxtext="" jsxgroupname="DbRestore" jsxmargin="0 4 0 0" jsxvalue="Manual" jsxdisplay=""></strings>
+            <events jsxselect=""></events>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxwidth="240" jsxrelativeposition="0" jsxleft="270" jsxtop="79" jsxenabled="0"></variants>
+            <strings jsxname="txtImportFilePath" jsxmargin="0 4 0 0" jsxvalue="" jsxdisplay=""></strings>
+            <dynamics jsxborder="Form Text Box Border"></dynamics>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="520" jsxtop="79" jsxwidth="60"></variants>
+            <strings jsxname="btnBrowse" jsxtext="Browse" jsxclassname="btnOk" jsxmargin="0 4 0 0"></strings>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="20" jsxenabled="1" jsxwidth="110" jsxrelativeposition="0" jsxleft="240" jsxtop="119"></variants>
+            <strings jsxname="btnRestoreDB" jsxtext="Restore Now" jsxmargin="2 4 0 0" jsxclassname="btnBlueGlass"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="240" jsxtop="118"></variants>
+            <strings jsxname="blkStatus" jsxdisplay="none" jsxbgcolor="#e5e5e5"></strings>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="24" jsxheight="24"></variants>
+              <strings jsxname="image" jsxsrc="../../addins/ipvsCommon/images/icons/spinner24.gif"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="25" jsxfontsize="11"></variants>
+              <strings jsxname="label" jsxtext="Restore in Progress..." jsxpadding="6 5 0 6" jsxcolor="#333333"></strings>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

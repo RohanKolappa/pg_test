@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><Config>1. Tags, Filters : Location=Sunnyvale2. StreamFilter : srcrelay, destrelay3. RoomPolicy : allow sunnyvale users to use all sunnyvale sources and destinations4. AssetPolicy : add sunnyvale users to list of users5. Devices : tx1, sundms, rx1, mypc(set IP)6. User : roomuser7. Login to devices and let them connect8. AddProfile : disable 444 (V2D), RTP10. AddTags on the default directory11. Add rtp_tx : set the streamURL</Config><rtp>v=0\no=- 304132194 304132205 IN IP4 10.1.5.151\ns=Media Presentation\ne=NONE\nb=AS:8016\nt=0 0\na=control:rtsp://10.1.5.151:554/mpeg4/1/media.amp\na=range:npt=now-\na=mpeg4-iod: 'data:application/mpeg4-iod;base64,AoEAAE8BAQ/1AQOAkwABQHRkYXRhOmFwcGxpY2F0aW9uL21wZWc0LW9kLWF1O2Jhc2U2NCxBVGdCR3dVZkF4Y0F5U1FBWlFRTklCRUVrK0FBZWhJQUFIb1NBQVlCQkFFWkFwOERGUUJsQlFRTlFCVUFDN2dBQUQ2QUFBQStnQVlCQXc9PQQNAQUABAAAAAAAAAAAAAYJAQAAAAAAAAAAA0IAAkA+ZGF0YTphcHBsaWNhdGlvbi9tcGVnNC1iaWZzLWF1O2Jhc2U2NCx3QkFTZ1RBcUJYSmhCSWhRUlFVL0FBPT0EEgINAAACAAAAAAAAAAAFAwAAQAYJAQAAAAAAAAAA'\na=isma-compliance:1,1.0,1\nm=video 4510 RTP/AVP 96\nc=IN IP4 224.1.151.1/5\nb=AS:8000\na=framerate:30.0\na=control:trackID=1\na=rtpmap:96 MP4V-ES/90000\na=fmtp:96 profile-level-id=245; config=000001B0F5000001B5891300000100000001200086C40FA28A021E0A21\na=mpeg4-esid:201\nm=audio 4512 RTP/AVP 97\nc=IN IP4 224.1.151.1/5\nb=AS:16\na=control:trackID=2\na=rtpmap:97 mpeg4-generic/8000/1\na=fmtp:97 streamtype=5; profile-level-id=15; mode=AAC-hbr; config=1588; sizeLength=13; indexLength=3; indexDeltaLength=3; profile=1; bitrate=16000\na=mpeg4-esid:101\n</rtp>
+<api>
+<!-- Common Error Response --><iq id="RequestToken4" to="managementserver@localhost/managementserver" from="managementserver@localhost/managementserver" type="error">  <query xmlns="com.ipvs.session">    <X sessionId="collaborationID" />  </query>  <error code="400" type="MODIFY">    <bad-request xmlns="urn:ietf:params:xml:ns:xmpp-stanzas" />    <ipvserror code="2018">      <description>Session 'collaborationID' not found</description>    </ipvserror>  </error></iq><!-- Get Session List --><iq from="superuser-default@localhost/Exodus" id="s1" to="sundms@localhost/sundms" type="set">  <query xmlns="com.ipvs.session">    <GetRequest>      <Object type="SessionList" />    </GetRequest>  </query></iq><!--  Request -->
+<iq from="operator@localhost/Exodus" id="GetRequestRequest.RequestToken3" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <GetRequest>
+      <Object type="SessionList" />
+      <Where xpath="//MediaRoom" />
+    </GetRequest>
+  </query>
+</iq><!--  Success Response --><iq id="GetRequestRequest.RequestToken3" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><GetResponse><Object type="SessionList"/><ResponseXML><Session id="collaborationID"/></ResponseXML></GetResponse></query></iq><!-- (Common) Error Response --><!-- Join, Pause, Resume, Catchup, SkipBack, SkipFwd, PauseRecord, ResumeRecord -->    <ipvserror code="2018">      <description>Session 'collaborationID' not found</description>    </ipvserror><!-- Join -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="JoinRequest.RequestToken4" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <Join sessionId="collaborationID" />
+  </query>
+</iq>
+<!--  Success Response -->
+<!-- (Common) Error Response --><!-- Pause, Resume, PauseRecord, ResumeRecord -->    <ipvserror code="2033">      <description>'Pause/Resume' Action Not Valid For Current State</description>    </ipvserror>
+<!-- Pause -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="PauseRequest.RequestToken5" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <Pause sessionId="collaborationID" />
+  </query>
+</iq>
+
+<!--  Success Response --><iq id="PauseRequest.RequestToken5" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161702244" Offset="342482" TimeScale="0"/> </Timeline></query></iq>
+<!-- Resume -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="ResumeRequest.RequestToken6" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <Resume sessionId="collaborationID" />
+  </query>
+</iq>
+<!--  Success Response --><iq id="ResumeRequest.RequestToken6" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161743049" Offset="342482" TimeScale="1"/> </Timeline></query></iq>
+
+<!-- (Common) Error Response --><!-- SkipBack, SkipFwd  -->    <ipvserror code="2045">      <description>Invalid Offset=123</description>    </ipvserror><!-- SkipBack -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="SkipBackRequest.RequestToken7" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <SkipBack sessionId="collaborationID" skipOffset="1000" />
+  </query>
+</iq>
+
+<!--  Success Response --><iq id="SkipBackRequest.RequestToken7" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161773136" Offset="371569" TimeScale="1"/> </Timeline></query></iq> 
+<!-- SkipFwd -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="SkipFwdRequest.RequestToken8" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <SkipFwd sessionId="collaborationID" skipOffset="1000" />
+  </query>
+</iq>
+<!--  Success Response --><iq id="SkipFwdRequest.RequestToken8" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="1000" parentTimelineId=""/>	 <Last WC="1251161825021" Offset="424454" TimeScale="1"/> </Timeline></query></iq>
+
+<!-- Catchup -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="CatchupRequest.RequestToken9" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <Catchup sessionId="collaborationID" />
+  </query>
+</iq>
+<!--  Success Response --><iq id="CatchupRequest.RequestToken9" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161853411" Offset="493649" TimeScale="1"/> </Timeline></query></iq>
+
+<!-- PauseRecord -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="PauseRecordRequest.RequestToken10" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <PauseRecord sessionId="collaborationID" connGroupId="" connId="" WC="" />
+  </query>
+</iq>
+
+<!--  Success Response --><iq id="PauseRecordRequest.RequestToken10" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161881117" Offset="521355" TimeScale="0"/> </Timeline></query></iq>
+<!-- ResumeRecord -->
+<!--  Request --><iq from="operator@localhost/Exodus" id="ResumeRecordRequest.RequestToken11" to="managementserver@localhost/managementserver" type="set">
+  <query xmlns="com.ipvs.session">
+    <ResumeRecord sessionId="collaborationID" connGroupId="" connId="" WC="" />
+  </query>
+</iq>
+<!--  Success Response --><iq id="ResumeRecordRequest.RequestToken11" to="operator@localhost/Exodus" from="managementserver@localhost/managementserver" type="result"><query xmlns="com.ipvs.session"><Timeline sessionId="collaborationID" connGroupId="" connId="" id="">	 <Start WC="1251161359762" Offset="0" parentTimelineId=""/>	 <Last WC="1251161904819" Offset="545057" TimeScale="1"/> </Timeline></query></iq>
+</api>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,IE=11,IE=EmulateIE11">
+  <title>Barco MODELNUMBER DEVICEDESC Setup</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+  <script src="/js/libs/jquery-1.9.1.js"></script>
+  <script src="/js/libs/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
+  <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-nd.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-setup.css" type="text/css">
+</head>
+
+<body>
+
+<!-- =========================================================================== 
+Header 
+============================================================================ -->
+
+<!-- <div class="navbar navbar-fixed-top">  -->
+<div>
+  <div id="barcodotcom">
+    <div id="barcodotcomleft"><a href="/"><img src="/img/barco.com.gif" alt="barco.com"></a></div>
+    <div id="barcodotcomright"> </div>
+  </div>
+  <div class="topnav">
+    <p class="righttop" style="font-family:Verdana, Geneva, sans-serif;font-size:14px;">
+      DEVICEDESC Setup SOFTWAREVERSION
+    </p>
+  </div>
+</div>
+
+
+<!-- =========================================================================== 
+Body Container
+============================================================================ -->
+<input type="hidden" id="factoryinfo" value="ISFACTORYDEFAULT">
+
+<div id="loginpagecontainer" class="container" style="margin-top:20px; display:none">
+  <!-- Wizard Form _________________________________________________________ -->
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+	  <form class="form-horizontal" action='' method="POST">
+
+		<div class="row-fluid" style="height:400px;padding-top:100px"><br>
+              <fieldset>
+			  	<div style="text-align:center; margin-bottom:50px">
+					<p class="lead">Management Server Setup</p>
+				</div>
+				<div style="width: 370px;text-align: center;margin: auto; padding-right:80px">
+                <div id="loginUsername" class="control-group">
+                  <label class="control-label">User Name</label>
+                  <div class="controls">
+                    <input type="text" value="admin" class="input-xlarge" disabled>
+                  </div>
+                </div>
+                <div id="loginPassword" class="control-group">
+                  <label class="control-label">Password</label>
+                  <div class="controls">
+                    <input type="password" tabindex="1" class="input-xlarge">
+					<p class="error-msg" style="float:left; margin-left:-20px"></p>
+                  </div>
+                </div>
+
+				<a id="btn_login" href="#" class="btn disabled" tabindex="2" data-toggle="tab" style="width:80px;margin: 20px 0px 0px 95px">Login</a>
+				</div>
+              </fieldset>
+        </div>
+	  </form>
+    </div><!-- end well -->
+  </div><!-- end row-fluid -->
+</div>
+  
+<div id="landingpagecontainer" class="container" style="margin-top:20px; display:none">
+  <!-- Wizard Form _________________________________________________________ -->
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+      <form class="form-horizontal" action='' method="POST">
+        <div id="myTabContent" class="tab-content">
+          <div class="outer-pane tab-pane" id="general">
+            <div class="row-fluid" style="height:550px;">
+				<div style="text-align: center ">
+					<p class="lead" style="font-size: 34px ; margin: 150px 0 30px 0">Welcome</p>
+					<p class="lead">Management Server Setup</p>
+					<a id="btn_start" href="#" class="btn" data-toggle="tab" style="width:80px;">Start</a>
+				</div>
+				
+            </div>
+          </div>
+        </div>
+      </form>
+    </div><!-- end well -->
+  </div><!-- end row-fluid -->
+</div>
+
+<div id="bootstrapcontainer" class="container" style="margin-top:20px; display:none">
+  <!--  
+  Wizard breadcrumb
+  -->
+  <div class="row-fluid">
+    <div class="wizard">
+      <ul class="nav">
+        <li id="wiz1"><span class="badge">1</span><span class="hidden-phone">Name the Device</span></li>
+        <li id="wiz2"><span class="badge">2</span><span class="hidden-phone">Change Password</span></li>
+        <li id="wiz3"><span class="badge">3</span><span class="hidden-phone">Network Settings</span></li>
+        <li id="wiz4"><span class="badge">4</span><span class="hidden-phone">Other Options&nbsp;&nbsp;</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end Wizard breadcrumb -->
+  <!-- Wizard Form _________________________________________________________ -->
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+      <form class="form-horizontal" action='' method="POST">
+        <!-- Main Tab Container ____________________________________________ -->
+        <div id="myTabContent" class="tab-content">
+          <!-- Tab 1 General Setup _________________________________________ -->
+          <div class="tab-pane" id="general">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Name the Device</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middel Row -->
+            <div class="row-fluid" style="height:280px"><br>
+              <fieldset>
+                <input type="hidden" name="cli_dns_client" value="">
+                <div id="devicename" class="control-group">
+                  <label class="control-label">Device Name</label>
+                  <div class="controls">
+                    <input type="text" value="HOSTNAME" name="dns_client_hostname" placeholder=""
+                           tabindex="1" class="input-xlarge" data-toggle="popover"
+                           title="Device Name"
+                           data-content="The device name must be all lower case alpha-numeric characters and no spaces or special characters. Example:  display2b">
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+                <div id="devicetype" class="control-group">
+                  <label class="control-label">Device Type</label>
+                  <div class="controls">
+                    <input type="text" value="MODELNUMBER" name="readonly_version_hardware"
+                           placeholder="" class="input-xlarge" disabled>
+                  </div>
+                </div>
+                <div id="serial" class="control-group">
+                  <label class="control-label" for="password">Serial Number</label>
+                  <div class="controls">
+                    <input type="text" value="SERIAL"
+                           name="readonly_version_serialnumber" placeholder=""
+                           class="input-xlarge" disabled>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 1 -->
+          <!-- Tab 2 Password ______________________________________________ -->
+          <div class="tab-pane" id="password">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Change Admin Password</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:280px;"><br>
+              <fieldset>
+                <input type="hidden" name="cli_admin" value="">
+                <div id="adminusername" class="control-group">
+                  <label class="control-label">Admin Login Name</label>
+                  <div class="controls">
+                    <input type="text" value="admin" name="readonly_admin_username"
+                           placeholder="" class="input-xlarge" disabled>
+                  </div>
+                </div>
+                <div id="passwordinput" class="control-group">
+                  <label class="control-label">Password</label>
+                  <div class="controls">
+                    <input type="password" name="admin_password" placeholder=""
+                           tabindex="1" class="input-xlarge" data-toggle="popover"
+                           title="Password" value="ADMINPASSWORD"
+                           data-content="The password length must be between 8 to 14 characters, contain at least 1 uppercase letter and number, and no special characters.">						   
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+                <div id="passwordconfirm" class="control-group">
+                  <label class="control-label">Retype Password</label>
+                  <div class="controls">
+                    <input type="password" name="readonly_admin_passwordconfirm" value="ADMINPASSWORD"
+                           placeholder="" tabindex="2" class="input-xlarge">
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 2 -->
+          <!-- Tab 3 Network Setup _________________________________________ -->
+          <div class="tab-pane" id="network">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Network Settings</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:280px;">
+              <div class="span12">
+                <div class="span6">
+                  <fieldset>
+                    <input type="hidden" name="cli_if_list" value="">
+                    <input type="hidden" name="if_list_index" value="1">
+                    <input type="hidden" name="cli_route_entry" value="">
+                    <input type="hidden" name="route_entry_index" value="1">
+                    <input type="hidden" name="route_entry_mask" value="0.0.0.0">
+                    <input type="hidden" name="route_entry_dst" value="0.0.0.0">
+                    <div class="area">
+                      <div id="dhcp" class="control-group">
+                        <label class="control-label">Use DHCP</label>
+                        <div class="controls">
+                          <input type="checkbox" value="on" DHCPCHECKED
+                                 name="if_list_checkbox_usedhcp"
+                                 tabindex="4" class="input-xlarge">
+                        </div>
+                      </div>
+                      <div id="ipaddress" class="control-group">
+                        <label class="control-label">IP Address</label>
+                        <div class="controls">
+                          <input type="text" value="IPADDRESS" name="if_list_ipaddress"
+                                 placeholder="" tabindex="5" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                      <div id="netmask" class="control-group">
+                        <label class="control-label">Netmask</label>
+                        <div class="controls">
+                          <input type="text" value="NETMASK" name="if_list_netmask"
+                                 placeholder="" tabindex="6" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                      <div id="gateway" class="control-group">
+                        <label class="control-label">Gateway</label>
+                        <div class="controls">
+                          <input type="text" value="GATEWAY" name="route_entry_gw"
+                                 placeholder="" tabindex="7" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div> <!-- end span6 -->
+              </div>  <!-- end span12 -->
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 3 -->
+          <!-- Tab Pane 4: Other Options -->
+          <div class="tab-pane" id="other">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Other Setup Options</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:280px;">
+              <div class="span18">
+                <fieldset>
+				  <div class="control-group">
+					<p class="muted"></p>
+				  </div>
+                  <div id="xmpp_server" class="control-group" style="margin-bottom:-2px">
+                    <div class="controls">
+                      <label class="control-label" style="text-align: left; width:250px; padding-top: 3px;">
+                        Allow media devices to auto register
+                      </label>
+                      <input type="checkbox" name="xmpp_server_checkbox_enablediscovery"
+                             value="on" tabindex="1" DISCOVERYCHECKED>
+					</div>
+                  </div>
+                  <p class="muted" style="margin:2px 0px 7px 190px; font-size: 10px; width:500px; line-height:16px;">This allows supported devices to connect to the Management Server and register automatically. 
+				  Optionally, you can manually registered devices within the Management Server's Administration interface.</p>
+                  				  
+				  <div id="accounts" class="control-group" style="margin-bottom:2px">
+                    <div class="controls">
+                      <label class="control-label" style="text-align: left; width:250px; padding-top: 3px;">
+                        Users can create their own account
+                      </label>
+                      <input type="checkbox" name="xmpp_server_checkbox_enableuserregistry"
+                             value="on" tabindex="2" MULTIACCOUNTSCHECKED>
+                    </div>
+                  </div><!-- End accounts -->
+				  <p class="muted" style="margin:2px 0px 7px 190px; font-size: 10px; width:500px; line-height:16px;">This option lets users create their own account from the login screen.  
+				  Optionally, user accounts can be created manually or linked to a corporate authentication service such as LDAP or ActiveDirectory from the Administration interface.</p>
+				  
+				  <input type="hidden" name="cli_ntp_client" value="">
+                  <div id="ntpclient" class="control-group" style="margin: 10px 0px 10px;">
+					<div class="controls">
+						<label class="control-label" style="text-align:left;">NTP Server</label>
+						<div class="controls">
+						  <input type="text" value="NTPCLIENTIP" style="margin-left:-35px" name="ntp_client_ipaddress"
+								 placeholder="" tabindex="3" class="input-xlarge">
+						</div>
+					<p class="error-msg hidden" style="margin-left:-14px; float:left"></p>
+					</div>
+				  </div>
+				  <input type="hidden" name="cli_ntp_server" value="">
+				  <div id="ntp" class="control-group" style="margin-left:145px">
+					<div class="controls">
+					<input type="checkbox" name="ntp_server_checkbox_enable" style="float:left; margin-right:11px"
+						value="on" tabindex="4" NTPSERVERCHECKED>
+					<label style="text-align: left;">Enable NTP</label>
+					</div>
+				  </div>
+                  <p class="error-msg hidden"></p>
+                <fieldset>
+              </div><!-- End span18 -->
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End for Tab Pane 4>
+        </div>
+        <!-- End Main Tabs Container -->
+        <!-- Pagination Buttons ____________________________________________ -->
+		  <div class="row-fluid">
+			<hr >
+			<div class="control-group">
+				<div class="controls">
+				  <a id="btn_previous" href="#" tabindex="11" class="btn" data-toggle="tab" style="width:80px;">Previous</a>
+				  <a id="btn_next" href="#" tabindex="10" class="btn" data-toggle="tab" style="width:80px;margin-left:40px">Next</a>
+				</div>
+			</div>
+          </div>
+        <!-- End Pagination -->
+		</div><!-- end well -->
+	  </form>	
+	</div><!-- end row-fluid -->
+  </div>
+<!--end body container-->
+</div>
+<!-- =========================================================================== 
+Footer
+============================================================================ -->
+<div class="barco-footer2">
+	<div class="barco-footer-text2">
+		<ul class="lefttop">
+			<li><a title="Copyright Barco" style="color:#f5f5f5" href="http://www.barco.com/en/AboutBarco/DisclaimerCopyright.aspx">Copyright &copy; Barco</a></li>
+		</ul>
+		<div class="barco-footer-logo2">
+			<img src="/img/Barco_logo_60.png" alt="Barco logo - Visibly Yours" width="60" height="60" border="0">
+		</div>
+	</div>	
+ </div>
+ 
+<!-- ===========================================================================
+Modals
+============================================================================ -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <div id="floatingCirclesG" style="float:left">
+      <div class="f_circleG" id="frotateG_01"></div>
+      <div class="f_circleG" id="frotateG_02"></div>
+      <div class="f_circleG" id="frotateG_03"></div>
+      <div class="f_circleG" id="frotateG_04"></div>
+      <div class="f_circleG" id="frotateG_05"></div>
+      <div class="f_circleG" id="frotateG_06"></div>
+      <div class="f_circleG" id="frotateG_07"></div>
+      <div class="f_circleG" id="frotateG_08"></div>
+    </div>
+    <h3 style="float:left">Setting up your device, one moment...</h3>
+  </div>
+</div>
+
+<script src="/js/libs/bootstrap.js"></script>
+<script src="/js/languages/barco-sc-setup-wizard-en.js"></script>
+<script src="/js/barco-sc-setup-wizard.js"></script>
+<script>
+  $(document).ready(barco_sc_init);
+</script>
+
+</body>
+</html>

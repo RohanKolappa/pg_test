@@ -1,0 +1,1203 @@
+<?xml version="1.0"?>
+
+ 
+
+<!--
+    Build Requirements:
+
+        * Ant 1.6 or 1.7 (including optional tasks)
+        * JDK 1.5 or higher
+        * jUnit in your Ant or Java classpath
+-->
+
+<project name="IpvsComponent XMPP Server" default="ipvscomponent" basedir="..">
+
+    <description>
+        IpvsComponent build script.
+    </description>
+
+    <!-- ======================================================================================= -->
+    <!-- GLOBAL TASKDEFs                                                                         -->
+    <!-- ======================================================================================= -->
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${basedir}/build/lib/ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+        <classpath>
+            <pathelement location="${basedir}/build/lib/xmltask.jar"/>
+        </classpath>
+    </taskdef>
+    <taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task">
+        <classpath>
+            <pathelement location="${basedir}/build/lib/pack200task.jar"/>
+        </classpath>
+    </taskdef>
+    <taskdef name="unpack200" classname="com.sun.tools.apache.ant.pack200.Unpack200Task">
+        <classpath>
+            <pathelement location="${basedir}/build/lib/pack200task.jar"/>
+        </classpath>
+    </taskdef>
+
+
+    <!-- ======================================================================================= -->
+    <!-- GLOBAL PROPERTIES                                                                       -->
+    <!-- ======================================================================================= -->
+
+    <property name="version.major" value="3"/>
+    <property name="version.minor" value="5"/>
+    <property name="version.revision" value="1"/>
+    <property name="version.extra" value=""/>    <!-- For 'beta' or 'alpha' -->
+    <property name="dist.prefix" value="ipvscomponent"/>
+
+    <property file="${basedir}/build/build.properties"/>
+	<available  property="mediaserver_present"  file="../../mediaserver/system/_db_server.rc"/>
+	<!-- DB_SERVER=sedna_native/sedna_xmldb/exist_xmldb -->
+	<if>
+		<equals arg1="${mediaserver_present}" arg2="true"/>
+		<then>
+				<property name="_db_server_file" value="../../mediaserver/system/_db_server.rc"/>
+		</then>
+		<else>
+				<property name="_db_server_file" value="${basedir}/build/_debug_db_server.rc"/>
+		</else>
+	</if>
+	<property file="${_db_server_file}"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+	<!-- needs to add other src-->
+	<property name="src.java.dir.util" value="${src.dir}/util"/>
+	<property name="src.java.dir.dbtask" value="${src.dir}/dbtask"/>
+	<property name="src.java.dir.dbmigration" value="${src.dir}/dbmigration"/>
+	<property name="src.java.dir.db" value="${src.dir}/db"/>
+	<property name="src.java.dir.bulkupload" value="${src.dir}/bulkupload"/>
+	<property name="src.java.dir.pubsub" value="${src.dir}/pubsub"/>
+	<property name="src.java.dir.ipvs" value="${src.dir}/ipvs"/>
+	<property name="src.java.dir.whack" value="${src.dir}/whack"/>
+	<property name="src.java.dir.testxmls" value="${src.dir}/testXmls"/>
+	<!-- added by pravin -->
+    <property name="src.i18n.dir" value="${src.dir}/i18n"/>
+    <property name="web.dir" value="${src.dir}/web"/>
+    <property name="lib.build.dir" value="${basedir}/build/lib"/>
+    <property name="lib.merge.dir" value="${lib.build.dir}/merge"/>
+	<property name="lib.dist.dir" value="${lib.build.dir}/dist"/>
+ 
+    <property name="lib.dist.exist.dir" value="${lib.build.dir}/exist"/>
+	<property name="lib.dist.sedna.dir" value="${lib.build.dir}/sedna"/>
+    <property name="lib.web.dir" value="${web.dir}/WEB-INF/lib"/>
+    <property name="i18n.basename" value="ipvscomponent_i18n"/>
+    <property name="i18n.default.locale" value="en"/>
+
+    <property name="work.dir" value="${basedir}/work"/>
+    <property name="temp.build.dir" value="${work.dir}/tempbuild"/>
+    <property name="target.i18n.dir" value="${temp.build.dir}/i18n"/>
+
+    <property name="target.dir" value="${basedir}/target"/>
+    <property name="target.existDBHome.lib" value="${target.dir}/usr/local/exist/lib"/>
+    <property name="target.ipvscomponentHome" value="${target.dir}/home/onair/ipvscomponent"/>
+	<property name="target.exist.lib.dir" value="${target.ipvscomponentHome}/xmldblib/exist"/>
+	<property name="target.sedna.lib.dir" value="${target.ipvscomponentHome}/xmldblib/sedna"/>
+
+    <property name="compile.dir" value="${work.dir}/classes"/>
+    <property name="jar.name" value="ipvscomponent.jar"/>
+	<property name="jar.starter.name" value="ipvsstarter_ipvscomponent.jar"/>    
+	<property name="jar.starter.name.sedna_native" value="ipvsstarter_sedna_native.jar"/>
+    <property name="jar.starter.name.sedna_xmldb" value="ipvsstarter_sedna_xmldb.jar"/>
+    <property name="jar.starter.name.exist_xmldb" value="ipvsstarter_exist_xmldb.jar"/>
+    <property name="jar.starter.name.ipvsdbtask" value="ipvsstarter_ipvsdbtask.jar"/>
+    <property name="jar.starter.name.dbmigration" value="ipvsstarter_dbmigration.jar"/>
+    <property name="jar.starter.name.bulkupload" value="ipvsstarter_bulkupload.jar"/>
+    <property name="jar.starter.name.existdbtest" value="ipvsstarter_existdbtest.jar"/>
+    <property name="jar.starter.name.sednaxmldbtest" value="ipvsstarter_sednaxmldbtest.jar"/>    
+    <property name="jar.starter.name.sednanativedbtest" value="ipvsstarter_sednanativedbtest.jar"/>    
+	
+    <property name="jar.dest.dir" value="${work.dir}/lib"/>
+    <property name="resources.dir" value="${src.dir}/resources"/>
+	<property name="pack200.enabled" value="true"/>
+
+    <property name="overlay.dir"   value="${basedir}/custom"/>
+    <property name="overlay.src.dir"   value="${overlay.dir}/source"/>
+    <property name="overlay.web.dir"   value="${overlay.dir}/webapp"/>
+    <property name="overlay.properties.file"   value="overlay.properties"/>
+    <property name="overlay.compile.dir" value="${work.dir}/overlay/classes"/>    
+
+    <property name="javadoc.src.dir" value="${src.dir}/javadoc"/>
+    <property name="javadoc.dest.dir" value="${work.dir}/javadoc"/>
+    <property name="jspc.jsp.src.dir" value="${work.dir}/jspc/jsp"/>
+    <property name="jspc.dest.dir" value="${work.dir}/jspc"/>
+    <property name="jspc.java.dest.dir" value="${work.dir}/jspc/java"/>
+    <property name="jspc.classes.dest.dir" value="${work.dir}/jspc/classes"/>
+    <property name="jspc.jar.name" value="admin-jsp.jar"/>
+ 
+    <property name="plugin.src.dir" value="${src.dir}/plugins"/>
+    <property name="plugin.dev.dir" value=""/>
+    <!-- Set by a developer as alt plugin location -->
+    <property name="plugin.dev.dest.dir" value="${work.dir}/plugins-dev"/>
+    <property name="plugin.dest.dir" value="${work.dir}/plugins"/>
+    <property name="nonrelease.plugin.dir" value="${basedir}/plugins-tmp"/>
+    <property name="webapp.dest.dir" value="${work.dir}/webapp"/>
+
+    <property name="release.dest.dir" value="${target.dir}/release"/>
+    <property name="package.dest.dir" value="${release.dest.dir}"/>
+    <property name="overwrite" value="false"/>
+    <property name="deploy.jar.dir" value="${jar.dest.dir}"/>
+    <property name="anttools.src.dir" value="${src.dir}/tools"/>
+    <property name="anttools.target.dir" value="${work.dir}/tools"/>
+    <property name="copy.dbscripts" value="true"/>
+    <property name="overwrite" value="true"/>
+ 
+    <property name="license.file.path" value="${docs.dir}/dist"/>
+
+	<property name="build.dir" value="${basedir}/build/lib/dist" />
+     <!-- For auto-running and debugging -->
+    <property name="debug" value="false"/>
+
+    <!-- ======================================================================================= -->
+    <!-- PATHs / PATTERNSETs / FILTERSETs                                                        -->
+    <!-- ======================================================================================= -->
+
+    <path id="javadoc.dependencies">
+        <fileset dir="${lib.build.dir}" includes="*.jar" excludes="junit.jar"/>
+        <fileset dir="${lib.merge.dir}" includes="*.jar" />
+    	<!-- changed by pravin -->
+        <fileset dir="${lib.dist.dir}"
+                 includes="*.jar"/>
+        <fileset dir="${lib.dist.sedna.dir}"
+                 includes="**/*.jar"/>
+        <!-- fileset dir="${lib.dist.dir}"
+                 includes="servlet.jar, mail.jar, activation.jar, jdic.jar, bouncycastle.jar" / -->
+    </path>
+
+    <path id="compile.dependencies">
+        <path refid="javadoc.dependencies"/>
+    </path>
+
+    <path id="jspc.dependencies">
+        <path refid="compile.dependencies"/>
+        <fileset dir="${lib.web.dir}" includes="*.jar"/>
+    </path>
+ 
+    <path id="plugin.dependencies">
+        <path refid="javadoc.dependencies"/>
+        <fileset dir="${jar.dest.dir}" includes="ipvscomponent.jar"/>
+    </path>
+
+    <patternset id="compile.sources">
+        <include name="**/*.java"/>
+    </patternset>
+ 
+
+    <patternset id="web.sources">
+        <include name="**/*.jsp"/>
+        <include name="**/*.jar"/>
+        <include name="**/*.tld"/>
+        <include name="**/*.jspf"/>
+        <include name="**/*.html"/>
+        <include name="**/*.css"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.png"/>
+        <include name="**/favicon.ico"/>
+        <include name="**/*.js"/>
+    </patternset>
+
+    <!-- ======================================================================================= -->
+    <!-- TARGETs                                                                                 -->
+    <!-- ======================================================================================= -->
+
+    <!-- init ================================================================================== -->
+    <target name="init">
+
+        <!-- Check for min build requirements -->
+
+        <condition property="ant.not.ok" value="true">
+            <not>
+                <or>
+                    <contains string="${ant.version}" substring="1.6"/>
+                    <contains string="${ant.version}" substring="1.7"/>                    
+                    <contains string="${ant.version}" substring="1.8"/>
+                    <contains string="${ant.version}" substring="1.8"/>
+                </or>
+            </not>
+        </condition>
+        <condition property="java.not.ok" value="true">
+            <not>
+                <or>
+                    <contains string="${ant.java.version}" substring="1.5"/>
+                    <contains string="${ant.java.version}" substring="1.6"/>
+                    <contains string="${ant.java.version}" substring="1.7"/>
+                </or>
+            </not>
+        </condition>
+        <fail if="ant.not.ok" message="Must use Ant 1.6.x or 1.7.x to build IpvsComponent"/>
+        <fail if="java.not.ok" message="Must use JDK 1.5.x or higher to build IpvsComponent"/>
+
+        <tstamp/>
+        <tstamp>
+            <format property="builddate" pattern="MM/dd/yyyy"/>
+        </tstamp>
+ 
+        <mkdir dir="${work.dir}"/>
+        <mkdir dir="${overlay.compile.dir}"/>
+
+        <!-- Setup the full version property correctly -->
+        <if>
+            <equals arg1="${version.extra}" arg2=""/>
+            <then>
+                <property name="version"
+                          value="${version.major}.${version.minor}.${version.revision}"/>
+                <property name="version.filename"
+                          value="${version.major}_${version.minor}_${version.revision}"/>
+            </then>
+            <else>
+                <property name="version"
+                          value="${version.major}.${version.minor}.${version.revision}.${version.extra}"/>
+                <property name="version.filename"
+                          value="${version.major}_${version.minor}_${version.revision}_${version.extra}"/>
+            </else>
+        </if>
+    </target>
+
+    <!-- compile =============================================================================== -->
+    <target name="compile" depends="init" description="Compiles IpvsComponent app code">
+        <mkdir dir="${compile.dir}"/>
+        <javac
+                destdir="${compile.dir}"
+                includeAntRuntime="no"
+                debug="on"
+                source="1.5"
+                target="1.5"
+                >
+            <src path="${src.java.dir.util}"/>
+            <src path="${src.java.dir.dbtask}"/>
+            <src path="${src.java.dir.dbmigration}"/>
+            <src path="${src.java.dir.db}"/>
+            <src path="${src.java.dir.bulkupload}"/>
+            <src path="${src.java.dir.pubsub}"/>
+            <src path="${src.java.dir.ipvs}"/>
+            <src path="${src.java.dir.whack}"/>
+        	<!-- added by pravin -->
+            <patternset refid="compile.sources"/>
+            <classpath>
+                <path refid="compile.dependencies"/>
+            </classpath>
+        </javac>
+
+        <available file="${overlay.src.dir}" type="dir" property="overlay.source.found"/>
+        <if>
+            <equals arg1="${overlay.source.found}" arg2="true"/>
+            <then>
+
+                <mkdir dir="${overlay.compile.dir}"/>
+                <javac
+                        destdir="${overlay.compile.dir}"
+                        includeAntRuntime="no"
+                        debug="on"
+                        source="1.5"
+                        target="1.5"
+                        >
+                    <src path="${overlay.src.dir}"/>
+                    <patternset refid="compile.sources"/>
+                    <classpath>
+                        <path refid="compile.dependencies"/>
+                        <path location="${compile.dir}"/>
+                    </classpath>
+                </javac>
+
+            </then>
+            <else><echo level="info">Nothing to compile from custom here </echo></else>
+        </if>
+
+    </target>
+
+    <!-- i18n ================================================================================== -->
+    <!-- Note, this is a "private" target - no need to call it externally -->
+    <target name="-i18n">
+        <!-- Auto generates a default base i18n file -->
+        <mkdir dir="${target.i18n.dir}"/>
+        <copy file="${src.i18n.dir}/${i18n.basename}_${i18n.default.locale}.properties"
+              tofile="${target.i18n.dir}/${i18n.basename}.properties"/>
+    </target>
+
+    <target name="plugins-dev">
+        <!-- Setup IpvsComponent -->
+        <ant antfile="${basedir}/build/build.xml" dir="${basedir}" target="ipvscomponent"
+             inheritAll="false" inheritRefs="false"/>
+
+        <copy file="${java.home}/../lib/tools.jar" todir="${jar.dest.dir}"></copy>
+        <copy file="${ant.home}/lib/ant.jar" todir="${jar.dest.dir}"></copy>
+
+    </target>
+
+    <!-- ipvscomponent =================================================================================== -->
+    <target name="ipvscomponent" depends="compile, jspc, -i18n"
+            description="Compiles and generates runnable target/ipvscomponent folder">
+        <mkdir dir="${jar.dest.dir}"/>
+        <mkdir dir="${target.ipvscomponentHome}/lib"/>
+        <mkdir dir="${target.existDBHome.lib}"/>
+    	<mkdir dir="${target.sedna.lib.dir}"/>
+    	<mkdir dir="${target.exist.lib.dir}"/>
+    	<mkdir dir="${lib.dist.exist.dir}"/>
+        <!-- Make main IpvsComponent jar -->
+        <jar jarfile="${jar.dest.dir}/${jar.name}" index="true" duplicate="preserve">
+            <fileset dir="${compile.dir}" includes="**/*.class"
+                     excludes="com/ipvsserv/starter/*.class">
+                <!-- don't include files that have an overlay counterpart -->
+                 <present present="srconly" targetdir="${overlay.compile.dir}"/>
+            </fileset>
+            <!-- now include overlay files -->
+            <fileset dir="${overlay.compile.dir}" includes="**/*.class"/>                      
+            <fileset dir="${src.i18n.dir}" includes="*.properties"/>
+            <fileset dir="${target.i18n.dir}" includes="*.properties"/>
+            <fileset dir="${resources.dir}/jar" includes="**"/>
+            <zipgroupfileset dir="${lib.merge.dir}" includes="*.jar" />
+            <manifest>
+                <attribute name="Built-By" value="IP Video Systems Inc (www.ipvideosystems.com)"/>
+            </manifest>
+        </jar>
+		
+        <!-- Copy application dependent files -->
+        <copy todir="${jar.dest.dir}">
+            <fileset dir="${lib.dist.dir}" includes="*.*"/>
+        </copy>
+    	<copy todir="${target.ipvscomponentHome}/lib">
+    	    <fileset dir="${jar.dest.dir}" includes="*.*"/>
+    	</copy>    	
+    	<!-- copy xml db folder for test -->
+    	<!-- <copy todir="${target.existDBHome.lib}">
+            <fileset dir="${lib.dist.exist.dir}" includes="**/*.*" excludes="endorsed/*.*"/>
+        </copy> -->
+    	<copy todir="${target.exist.lib.dir}">
+            <fileset dir="${lib.dist.exist.dir}" includes="**/*.*" excludes="**/usr/**"/>
+        </copy>
+        <copy todir="${target.sedna.lib.dir}">
+            <fileset dir="${lib.dist.sedna.dir}" includes="**/*.*"/>
+        </copy>      
+    	
+    	<!-- ipvs shared lib build-classpath -->
+    	<path id="build-classpath" >
+    	   <fileset dir="${target.ipvscomponentHome}/lib">
+    	      <include name="*.jar"/>
+    	   </fileset>
+    	</path>
+       	<manifestclasspath property="lib.list" jarfile="${target.ipvscomponentHome}/lib/${jar.file}" maxParentLevels="5">
+        	   <classpath refid="build-classpath" />
+        </manifestclasspath>	
+    	
+    	
+    	<!-- sedna_native lib build-classpath -->
+    	<path id="sedna_xmldb-build-classpath">
+    	   <fileset dir="${target.sedna.lib.dir}">
+    	      <include name="**/*.jar"/>
+    	   </fileset>
+    	</path>
+       	<manifestclasspath property="sedna_xmldb.lib.list" jarfile="${target.ipvscomponentHome}/lib/${jar.file}" maxParentLevels="5">
+        	   <classpath refid="sedna_xmldb-build-classpath" />
+        </manifestclasspath>
+    	
+    	<!-- exist lib build-classpath -->
+    	<!-- <path id="exist_xmldb-build-classpath" >
+    	   <fileset dir="${target.existDBHome.lib}">
+	  	      <include name="**/*.jar"/>
+    	   </fileset>
+    	</path>-->
+    	<path id="exist_xmldb-build-classpath" >
+    	   <fileset dir="${target.exist.lib.dir}/dist">
+	  	      <include name="**/*.jar"/>
+    	   </fileset>
+    	</path>
+       	<manifestclasspath property="exist_xmldb.lib.list" jarfile="${target.ipvscomponentHome}/lib/${jar.file}" maxParentLevels="5">
+        	   <classpath refid="exist_xmldb-build-classpath" />
+        </manifestclasspath>	
+      		
+        <!-- Make ipvsstarter_sednaxmldb  jar -->
+        <jar jarfile="${jar.dest.dir}/${jar.starter.name.sedna_xmldb}">
+            <fileset dir="${compile.dir}">
+                <include name="com/ipvsserv/starter/*.class"/>
+            </fileset>
+            <manifest>
+                <attribute name="Main-Class"
+                           value="com.ipvsserv.starter.ServerStarter"/>
+                <attribute name="Built-By" value="IP Video Software Inc (www.ipvideosytems.com)"/>
+				<attribute name="Class-Path" value=". ${lib.list} ${sedna_xmldb.lib.list}"/>
+            </manifest>
+        </jar>    	
+   	
+    	<!-- Make ipvsstarter_existdbtest  jar -->
+        <jar jarfile="${jar.dest.dir}/${jar.starter.name.exist_xmldb}">
+            <fileset dir="${compile.dir}">
+                <include name="com/ipvsserv/starter/*.class"/>
+            </fileset>
+            <manifest>
+                <attribute name="Main-Class"
+                           value="com.ipvsserv.starter.ServerStarter"/>
+                <attribute name="Built-By" value="IP Video Software Inc (www.ipvideosytems.com)"/>
+				<attribute name="Class-Path" value=". ${lib.list} ${exist_xmldb.lib.list}"/>
+            </manifest>
+        </jar>
+
+
+      	<!-- DB_SERVER=sedna_native/sedna_xmldb/exist_xmldb -->
+		<if>
+			<equals arg1="${DB_SERVER}" arg2="exist_xmldb"/>
+			<then>	
+				<echo level="info">${DB_SERVER} ${DB_SERVER_TAR}  ${mediaserver_present} ${_db_server_file}</echo>
+		        <copy file="${jar.dest.dir}/${jar.starter.name.exist_xmldb}" tofile="${jar.dest.dir}/${jar.starter.name}"/>    	
+			</then>
+			 <else>
+				<echo level="info">${DB_SERVER} ${DB_SERVER_TAR}  ${mediaserver_present} ${_db_server_file}</echo>
+		        <copy file="${jar.dest.dir}/${jar.starter.name.sedna_xmldb}" tofile="${jar.dest.dir}/${jar.starter.name}"/>    	
+			 </else>
+		</if>      	
+    	 
+        <copy file="${jar.dest.dir}/${jar.starter.name}" tofile="${jar.dest.dir}/${jar.starter.name.ipvsdbtask}"/>    	
+    	<copy file="${jar.dest.dir}/${jar.starter.name}" tofile="${jar.dest.dir}/${jar.starter.name.dbmigration}"/>    	
+    	<copy file="${jar.dest.dir}/${jar.starter.name}" tofile="${jar.dest.dir}/${jar.starter.name.bulkupload}"/>    	
+    	<copy file="${jar.dest.dir}/${jar.starter.name.exist_xmldb}" tofile="${jar.dest.dir}/${jar.starter.name.existdbtest}"/>    	
+    	<copy file="${jar.dest.dir}/${jar.starter.name.sedna_xmldb}" tofile="${jar.dest.dir}/${jar.starter.name.sednaxmldbtest}"/>    	
+    	<copy file="${jar.dest.dir}/${jar.starter.name.sedna_xmldb}" tofile="${jar.dest.dir}/${jar.starter.name.sednanativedbtest}"/>    	
+
+ 
+        <!-- copy in tag library support -->
+        <copy todir="${jar.dest.dir}">
+            <fileset dir="${lib.build.dir}" includes="commons-el.jar"/>
+        </copy>
+
+        <!-- copy in jasper runtime jar -->
+        <copy todir="${jar.dest.dir}">
+            <fileset dir="${lib.build.dir}" includes="jasper-runtime.jar"/>
+            <fileset dir="${lib.build.dir}" includes="jasper-compiler.jar"/>
+        </copy>
+
+        <!-- update/create target/ipvscomponent directory -->
+        <antcall target="ipvscomponentHome"/>
+    	
+    	<!-- ant antfile="${basedir}/../mediaroomplugin/build/build.xml" inheritAll="false" target="build">
+    	</ant -->	
+    	<!-- 
+		<available file="${basedir}/../mediaroomplugin/build/build.xml"  property="mediaroomplugin.found"/>
+		<if>
+            <equals arg1="${mediaroomplugin.found}" arg2="true"/>
+            <then>	
+            	<echo level="info">build mediaroomplugin project '${basedir}/../mediaroomplugin' </echo>
+            	<ant antfile="${basedir}/../mediaroomplugin/build/build.xml" inheritAll="false" target="build">
+            	</ant>	
+            </then>
+             <else><echo level="info">mediaroomplugin project not found ${basedir}/../mediaroomplugin</echo></else>
+        </if>    	
+    	-->	
+    	
+    </target>
+
+    <!-- run =================================================================================== -->
+    <target name="run" description="Starts IpvsComponent inline to the build process.">
+        <available file="${target.ipvscomponentHome}" type="dir" property="ipvscomponent.found"/>
+        <fail unless="ipvscomponent.found"
+              message="Can't find ipvscomponent, run 'ant ipvscomponent' or specify with -Dtarget.ipvscomponentHome."/>
+
+        <condition property="run.debug"
+                   value="-Xdebug -Xint -server -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000">
+            <isset property="debug"/>
+        </condition>
+
+        <property name="run.spawn" value="false"/>
+
+        <java jar="${target.ipvscomponentHome}/lib/ipvscomponentstartup.jar" fork="true" spawn="${run.spawn}"
+              dir="${target.ipvscomponentHome}/bin">
+            <jvmarg line="${run.debug}"/>
+        </java>
+    </target>
+
+    <!-- javadoc =============================================================================== -->
+    <target name="javadoc" depends="init" description="Produces IpvsComponent Javadocs">
+        <mkdir dir="${javadoc.dest.dir}"/>
+        <antcall target="-javadoc-impl"/>
+    </target>
+
+    <target name="-javadoc-impl" unless="no.javadoc">
+        <!-- Run javadoc over all source code -->
+        <javadoc
+                packagenames="*.*"
+                destdir="${javadoc.dest.dir}"
+                windowtitle="IpvsComponent ${version} Javadoc"
+                overview="${src.java.dir.ipvs}/overview.html"
+                failonerror="yes"
+                >
+            <sourcepath>
+                <path location="${src.java.dir.ipvs}"/>
+                <path location="${src.java.dir.whack}"/>
+            </sourcepath>
+            <doctitle>
+                <![CDATA[<font face="arial,helvetica,sans-serif">IpvsComponent ${version} Javadoc</font>]]></doctitle>
+            <header><![CDATA[<b>IpvsComponent ${version} Javadoc</b>]]></header>
+            <bottom><![CDATA[<i>Copyright &copy; 2003-2009 IP Video Systems Inc.</i>]]></bottom>
+            <classpath>
+                <path refid="javadoc.dependencies"/>
+            </classpath>
+            <link offline="true" href="http://java.sun.com/j2se/1.5.0/docs/api/"
+                  packagelistLoc="${javadoc.src.dir}/jdk15"/>
+        </javadoc>
+    </target>
+
+    <!-- jspc ================================================================================== -->
+    <target name="jspc" depends="compile" description="Compiles all JSP pages in the admin console">
+        <mkdir dir="${jspc.dest.dir}"/>
+        <mkdir dir="${jspc.java.dest.dir}"/>
+        <mkdir dir="${jspc.classes.dest.dir}"/>
+        <mkdir dir="${webapp.dest.dir}"/>
+
+        <antcall target="-jspc-impl"/>
+    </target>
+    
+    <target name="-jspc-impl" unless="no.jspc">
+
+        <!-- we're forced to create a temp dir to properly overwrite sources from overlay directory -->
+        <mkdir dir="${jspc.jsp.src.dir}"/>
+
+        <copy todir="${jspc.jsp.src.dir}">
+            <fileset dir="${web.dir}"/>
+        </copy>
+        <!-- copy overlay -->
+
+        <available file="${overlay.web.dir}" type="dir" property="overlay.webdir.found"/>
+        <if>
+            <equals arg1="${overlay.webdir.found}" arg2="true"/>
+            <then>
+                <copy todir="${jspc.jsp.src.dir}" overwrite="true">
+                    <fileset dir="${overlay.web.dir}"/>
+                </copy>
+            </then>
+        </if>
+
+
+        <java classname="org.apache.jasper.JspC" fork="true">
+            <classpath>
+                <pathelement location="${java.home}/../lib/tools.jar"/>
+                <pathelement path="${compile.dir}"/>
+                <path refid="jspc.dependencies"/>
+            </classpath>
+            <arg line="-uriroot '${jspc.jsp.src.dir}'"/>
+            <arg line="-d '${jspc.java.dest.dir}'"/>
+            <arg line="-p com.ipvsserv.admin"/>
+            <arg line="-webinc '${jspc.dest.dir}/web.partial.xml'"/>
+        </java>
+
+        <!-- Compile java source -->
+        <javac
+                destdir="${jspc.classes.dest.dir}"
+                includeAntRuntime="no"
+                debug="on"
+                source="1.5"
+                target="1.5"
+                includes="com/ipvsserv/admin/**/*.java"
+                >
+            <src path="${jspc.java.dest.dir}"/>
+            <classpath>
+                <pathelement path="${compile.dir}"/>
+                <path refid="jspc.dependencies"/>
+            </classpath>
+        </javac>
+
+        <!-- Update the web.xml to include the servlet and servlet mapping defs from jspc -->
+        <loadfile property="servlet-xml" srcFile="${jspc.dest.dir}/web.partial.xml" failonerror="false" />
+        <copy file="${web.dir}/WEB-INF/web.xml"
+              toFile="${webapp.dest.dir}/WEB-INF/web.xml"
+              overwrite="true">
+            <filterset begintoken="&lt;!--@@" endtoken="@@--&gt;">
+                <filter token="JSPC-SERVLETS" value="${servlet-xml}"/>
+            </filterset>
+        </copy>
+
+        <!-- Copy over Sitemesh files. -->
+    	<!--
+        <copy file="${web.dir}/WEB-INF/decorators.xml"
+              toFile="${webapp.dest.dir}/WEB-INF/decorators.xml"
+              overwrite="true">
+        </copy>
+        <copy file="${web.dir}/WEB-INF/sitemesh.xml"
+              toFile="${webapp.dest.dir}/WEB-INF/sitemesh.xml"
+              overwrite="true">
+        </copy>
+        <copy file="${web.dir}/WEB-INF/dwr.xml"
+              toFile="${webapp.dest.dir}/WEB-INF/dwr.xml"
+              overwrite="true">
+        </copy>
+		-->
+        <!-- Create a jar of compiled servlets -->
+        <jar jarfile="${jspc.dest.dir}/${jspc.jar.name}">
+            <fileset dir="${jspc.classes.dest.dir}" includes="**/*.class"/>
+        </jar>
+
+    </target>
+  
+    <!-- ipvscomponentHome ========================================================================== -->
+    <target name="ipvscomponentHome" unless="ipvscomponentHome.no.update">
+        <!-- Set this to true to enable a pre-setup ipvscomponentHome directory -->
+        <property name="ipvscomponentHome.preconfigured" value="false"/>
+        <property name="ipvscomponentHome.no.plugins" value="false"/>
+
+        <mkdir dir="${target.ipvscomponentHome}"/>
+        <mkdir dir="${target.ipvscomponentHome}/testXmls"/>
+    	
+
+        <!-- Copy conf dir -->
+        <copy todir="${target.ipvscomponentHome}">
+            <fileset dir="${src.dir}" includes="conf/**/*.*"></fileset>
+        </copy>
+
+        <!-- Copy database scripts -->
+        <if>
+            <equals arg1="${copy.dbscripts}" arg2="true"/>
+            <then>
+                <copy todir="${target.ipvscomponentHome}/resources">
+                    <fileset dir="${src.dir}" includes="database/**/*.sql"></fileset>
+                </copy>
+            </then>
+        </if>
+
+        <!-- Copy security resources -->
+        <copy todir="${target.ipvscomponentHome}/resources">
+            <fileset dir="${src.dir}">
+                <include name="security/*"/>
+                <include name="security/*.*"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy native authentication files -->
+        <copy todir="${target.ipvscomponentHome}/resources">
+            <fileset dir="${src.dir}/resources">
+                <include name="nativeAuth/**"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy lib dir -->
+        <copy todir="${target.ipvscomponentHome}/lib">
+            <fileset dir="${jar.dest.dir}" includes="*.*"></fileset>
+        </copy>
+
+        <!-- Copy test xmls -->
+        <copy todir="${target.ipvscomponentHome}/testXmls">
+            <fileset dir="${src.java.dir.testxmls}" includes="*.*"></fileset>
+        </copy>
+    	
+        <!-- Overwrite config with build/ipvscomponentHome dir, if requested -->
+        <if>
+            <equals arg1="${ipvscomponentHome.preconfigured}" arg2="true"/>
+            <then>
+                <!-- Copy pre-configured ipvscomponentHome dir -->
+                <copy todir="${target.ipvscomponentHome}">
+                    <fileset dir="${basedir}/build/ipvscomponentHome" includes="**/*.*"/>
+                </copy>
+            </then>
+        </if>
+
+        <!-- Copy admin Plugin -->
+        <antcall target="adminPlugin">
+            <param name="plugin.dest.dir" value="${target.ipvscomponentHome}/plugins"/>
+        </antcall>
+
+        <!-- Copy compiled plugins if we need to -->
+        <if>
+            <and>
+                <equals arg1="${ipvscomponentHome.no.plugins}" arg2="false"/>
+                <available file="${plugin.dest.dir}" />
+            </and>
+            <then>
+                <copy todir="${target.ipvscomponentHome}/plugins" failonerror="false">
+                    <fileset dir="${plugin.dest.dir}"/>
+                </copy>
+            </then>
+        </if>
+
+        <!-- Copy bin dir -->
+        <copy todir="${target.ipvscomponentHome}">
+            <fileset dir="${src.dir}" includes="bin/**/*"/>
+        </copy>
+    	
+        <fixcrlf srcdir="${target.ipvscomponentHome}/bin" eol="lf" eof="remove" includes="*.sh,extra/*"/>
+      	<!-- set DB_SERVER for ipvscomponent.sh -->
+		<copy file="${_db_server_file}" tofile="${target.ipvscomponentHome}/bin/_db_server.rc"/> 
+		<copy file="${target.ipvscomponentHome}/conf/ipvscomponent/${DB_SERVER}.xml" tofile="${target.ipvscomponentHome}/conf/ipvscomponent/ipvscomponent.xml"/>    	
+
+        <!-- Create a logs dir in the binary release -->
+        <mkdir dir="${target.ipvscomponentHome}/logs"/>
+
+      	<!-- DB_SERVER=sedna_native/sedna_xmldb/exist_xmldb -->
+		<if>
+			<equals arg1="${DB_SERVER}" arg2="exist_xmldb"/>
+			<then>	
+				<echo level="info">remove sedna lib ${target.sedna.lib.dir} </echo>
+			 	<delete dir="${target.sedna.lib.dir}"/>
+			</then>
+			 <else>
+				<echo level="info">remove exist lib</echo>
+			 	<delete dir="${target.dir}/usr"/>
+			 	<delete dir="${target.exist.lib.dir}"/>
+			 </else>
+		</if>  
+    </target>
+
+    <!-- adminPlugin =========================================================================== -->
+    <target name="adminPlugin">
+        <!-- Copy admin plugin source (if any) -->
+        <copy todir="${plugin.dest.dir}">
+            <fileset dir="${src.dir}/plugins" includes="admin/*.*"/>
+        </copy>
+
+        <!-- Copy admin plugin resources -->
+        <copy todir="${plugin.dest.dir}/admin/webapp">
+            <!-- All web resources minus jsp's and jspf's - those are precompiled -->
+            <fileset dir="${web.dir}">
+                <patternset refid="web.sources"/>
+                <exclude name="**/*.jsp"/>
+                <exclude name="**/*.jspf"/>
+            </fileset>
+        </copy>
+        <!-- Copy other admin WEB-INF stuff -->
+        <copy todir="${plugin.dest.dir}/admin/webapp">
+            <fileset dir="${webapp.dest.dir}"/>
+        </copy>
+
+        <!-- Copy in pre-compiled JSP jar -->
+        <copy todir="${plugin.dest.dir}/admin/webapp/WEB-INF/lib" overwrite="${overwrite}">
+            <fileset dir="${jspc.dest.dir}" includes="${jspc.jar.name}"/>
+        </copy>
+
+    </target>
+  
+  
+    <!-- plugins =============================================================================== -->
+    <target name="plugins" description="Builds all plugins">
+        <tstamp>
+            <format property="buildJavaDate" pattern="MMM dd, yyyy"/>
+        </tstamp>
+        <!-- Call jar task, can't do this is as a 'depends' call of this target because
+             of the way class loading works for jspc calls.
+        -->
+        <antcall target="ipvscomponent">
+            <param name="ipvscomponentHome.no.update" value="true"/>
+        </antcall>
+
+        <mkdir dir="${plugin.dest.dir}"/>
+
+        <!-- Get a list of subdirs of the main plugins dir. This tells us which plugins to make. -->
+        <subdirinfo dir="${plugin.src.dir}" property="dirlist" ifexists="plugin.xml"
+                    except="admin"/>
+
+        <antcall target="-plugins-impl-dev"/>
+        <antcall target="-plugins-impl"/>
+
+        <!-- Update/create target/ipvscomponent directory -->
+        <antcall target="ipvscomponentHome"/>
+
+    </target>
+    <target name="-plugins-impl" if="dirlist">
+
+        <!-- For each plugin in the main src dir, call the 'buildplugin' macro -->
+        <for list="${dirlist}" param="plugin" trim="true">
+            <sequential>
+                <buildplugin plugin="@{plugin}" pluginsrc="${plugin.src.dir}"/>
+            </sequential>
+        </for>
+
+    </target>
+    <target name="-plugins-impl-dev" if="plugin.dev.dir">
+
+        <!-- Get a list of plugins in the optional dev dir -->
+        <subdirinfo dir="${plugin.dev.dir}" property="dirlist2" ifexists="plugin.xml"/>
+
+        <antcall target="-plugin-impl-dev-build"/>
+
+    </target>
+    <target name="-plugin-impl-dev-build" if="dirlist2">
+
+        <!-- For each list of plugins in the dev dir call the 'buildplugin' macro -->
+        <for list="${dirlist2}" param="plugin" trim="true">
+            <sequential>
+                <buildplugin plugin="@{plugin}" pluginsrc="${plugin.dev.dir}"/>
+            </sequential>
+        </for>
+
+    </target>
+    <target name="plugin" description="build one plugin">
+        <mkdir dir="${plugin.dest.dir}"/>
+
+        <delete dir="${plugin.dev.dest.dir}/${plugin}"/>
+        <delete file="${plugin.dev.dest.dir}/${plugin}.jar"/>
+        <delete file="${plugin.dest.dir}/${plugin}.jar"/>
+        <buildplugin plugin="${plugin}" pluginsrc="${plugin.src.dir}"/>
+
+        <!-- Update/create target/ipvscomponent directory -->
+        <antcall target="ipvscomponentHome"/>
+    </target>
+	
+   
+    <!-- buildplugin (MACRO) =================================================================== -->
+    <macrodef name="buildplugin">
+        <attribute name="plugin"/>
+        <attribute name="pluginsrc"/>
+        <attribute name="pluginlib" default="${plugin.dev.dest.dir}/@{plugin}/work/lib" />
+        <sequential>
+
+            <!-- For each plugin, copile code, make a jar and copy resources. -->
+            <mkdir dir="${plugin.dev.dest.dir}"/>
+            <mkdir dir="${plugin.dev.dest.dir}/@{plugin}"/>
+            <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target"/>
+
+            <!-- Compile plugin source code -->
+            <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target/classes"/>
+            <javac
+                    destdir="${plugin.dev.dest.dir}/@{plugin}/target/classes"
+                    includeAntRuntime="no"
+                    debug="on"
+                    source="1.5"
+                    target="1.5"
+                    >
+                <src path="@{pluginsrc}/@{plugin}/src/java"/>
+                <classpath>
+                    <path refid="plugin.dependencies"/>
+                    <!-- Jars used by the plugin to compile with -->
+                    <fileset dir="@{pluginsrc}/@{plugin}" includes="lib/*.jar"/>
+                </classpath>
+            </javac>
+
+            <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target/lib" />
+
+            <!-- Searchs source of a plugin and makes a <plugin>-lib.jar that contains compiled versions of all
+                 non-distributable source -->
+            <mkdir dir="@{pluginlib}/source" />
+            <mkdir dir="@{pluginlib}/classes" />
+
+            <!-- copy the source we want to compile -->
+            <copy todir="@{pluginlib}/source">
+                <fileset dir="@{pluginsrc}/@{plugin}/src/java" includes="**/*.java" >
+                    <not>
+                        <srcinc />
+                    </not>
+                </fileset>
+                <filterset>
+                    <filter token="DATE" value="${buildJavaDate}"/>
+                </filterset>
+            </copy>
+
+            <if>
+                <not><uptodate>
+                    <srcfiles dir="@{pluginlib}/source" includes="**/*.java"/>
+                    <mapper type="merge" to="@{pluginlib}/@{plugin}-lib.jar"/>
+                </uptodate></not>
+                <then>
+                    <javac
+                        destdir="@{pluginlib}/classes"
+                        includeAntRuntime="no"
+                        debug="on"
+                        source="1.5"
+                        includes="**/*.java"
+                    >
+                        <src path="@{pluginlib}/source"/>
+                        <classpath>
+                            <pathelement location="${plugin.dev.dest.dir}/@{plugin}/target/classes"/>
+                            <path>
+                                <path refid="plugin.dependencies"/>
+                                <!-- Jars used by the plugin to compile with -->
+                                <fileset dir="@{pluginsrc}/@{plugin}" includes="lib/*.jar"/>
+                            </path>
+                        </classpath>
+                    </javac>
+
+                    
+                    <jar jarfile="${plugin.dev.dest.dir}/@{plugin}/target/lib/@{plugin}-lib.jar">
+                        <fileset dir="@{pluginlib}/classes" />
+                    </jar>
+                </then>
+            </if>
+
+            <!-- Make the jar -->
+            <jar jarfile="${plugin.dev.dest.dir}/@{plugin}/target/lib/plugin-@{plugin}.jar">
+                <fileset dir="${plugin.dev.dest.dir}/@{plugin}/target/classes" >
+                    <present present="srconly" targetdir="@{pluginlib}/classes"/>
+                </fileset>
+            </jar>
+
+            <!-- Clean-up our source files for the "srcinc" files -->
+            <delete dir="@{pluginlib}/classes" />
+            <delete dir="@{pluginlib}/source" />
+
+            <available file="@{pluginsrc}/@{plugin}/src/include" type="dir"
+                       property="@{plugin}.include.exists"/>
+            <if>
+                <equals arg1="${@{plugin}.include.exists}" arg2="true"/>
+                <then>
+                    <jar jarfile="${plugin.dev.dest.dir}/@{plugin}/target/lib/plugin-@{plugin}.jar"
+                         update="true">
+                        <fileset dir="@{pluginsrc}/@{plugin}/src/include" includes="**/*.*"/>
+                    </jar>
+                </then>
+            </if>
+
+            <!-- Copy anything in the plugin's lib dir to the target lib dir -->
+            <if>
+                <available file="@{pluginsrc}/@{plugin}/lib" />
+                <then>
+                    <copy todir="${plugin.dev.dest.dir}/@{plugin}/target/lib" failonerror="false"
+                          overwrite="${overwrite}">
+                        <fileset dir="@{pluginsrc}/@{plugin}/lib" includes="**/*.*"/>
+                    </copy>
+                </then>
+            </if>
+
+            <!-- Copy web.xml to web-custom.xml -->
+            <if>
+                <available file="@{pluginsrc}/@{plugin}/src/web/WEB-INF" />
+                <then>
+                    <copy todir="${plugin.dev.dest.dir}/@{plugin}/target/web/WEB-INF" failonerror="false"
+                          overwrite="${overwrite}">
+                        <fileset dir="@{pluginsrc}/@{plugin}/src/web/WEB-INF" includes="web.xml"/>
+                        <mapper type="glob" from="web.xml" to="web-custom.xml"/>
+                    </copy>
+                </then>
+            </if>
+
+            <!-- Copy the plugin.xml and documentation to the target dir, code below assumes it's there -->
+            <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/jar"/>
+            <copy todir="${plugin.dev.dest.dir}/@{plugin}/jar" failonerror="false"
+                  overwrite="${overwrite}">
+                <fileset dir="@{pluginsrc}/@{plugin}" includes="*.xml, *.html, *.gif, *.png, *.ico"/>
+            </copy>
+
+            <!-- Copy the database and i18n file to the target dir, if they exist. -->
+            <!--<copy todir="${plugin.dev.dest.dir}/@{plugin}/target/database" failonerror="false">-->
+            <!--<fileset dir="@{pluginsrc}/@{plugin}/src/database"/>-->
+            <!--</copy>-->
+
+            <!-- JSPC any JSP pages. Do this conditionally as there might not be a web dir. -->
+            <available property="plugin.@{plugin}.webdocs.available"
+                       type="dir" file="@{pluginsrc}/@{plugin}/src/web"/>
+            <if>
+                <equals arg1="${plugin.@{plugin}.webdocs.available}" arg2="true"/>
+                <then>
+
+                    <!-- Continue with JSPC tasks... -->
+
+                    <!-- Create output dir -->
+                    <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target/jspc/java"/>
+                    <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target/jspc/classes"/>
+
+                    <!-- Copy jsp's from plugin and web.xml from ipvscomponent to a temp dir. We'll
+                         not fail on an error since the web dir might not exist.
+                    -->
+                    <copy todir="${plugin.dev.dest.dir}/@{plugin}/target/web"
+                          overwrite="${overwrite}">
+                        <fileset dir="@{pluginsrc}/@{plugin}/src/web">
+                            <exclude name="WEB-INF/web.xml"/>
+                        </fileset>
+                        <fileset dir="${web.dir}">
+                            <include name="WEB-INF/**/*.*"/>
+                            <exclude name="WEB-INF/web.xml"/>
+                            <exclude name="WEB-INF/classes/ipvscomponent_init.xml"/>
+                            <exclude name="WEB-INF/tmp/**/*.*"/>
+                            <exclude name="WEB-INF/work/**/*.*"/>
+                        </fileset>
+                    </copy>
+
+                    <!-- Declare the jspc task with our plugin's classpath -->
+                    <taskdef classname="org.apache.jasper.JspC" name="jasper2" loaderref="jasperB">
+                        <classpath>
+                            <pathelement location="${java.home}/../lib/tools.jar"/>
+                            <pathelement
+                                    location="${plugin.dev.dest.dir}/@{plugin}/target/lib/plugin-@{plugin}.jar"/>
+                            <path refid="jspc.dependencies"/>
+                            <fileset dir="${plugin.dev.dest.dir}/@{plugin}/target" includes="lib/*.jar"/>
+                            <pathelement path="${compile.dir}"/>
+                        </classpath>
+                    </taskdef>
+
+                    <!-- JSP to Java -->
+                    <jasper2
+                            validateXml="false"
+                            uriroot="${plugin.dev.dest.dir}/@{plugin}/target/web"
+                            outputDir="${plugin.dev.dest.dir}/@{plugin}/target/jspc/java"
+                            package="com.ipvsserv.plugin.@{plugin}"
+                            webXml="${plugin.dev.dest.dir}/@{plugin}/target/jspc/web.xml"
+                            />
+
+                    <!-- Use xmltask to merge the generated web.xml file and a developer one (if any) -->
+                    <available property="plugin.@{plugin}.webxml.available"
+                               type="file" file="@{pluginsrc}/@{plugin}/src/web/WEB-INF/web.xml"/>
+
+                    <mkdir dir="${plugin.dev.dest.dir}/@{plugin}/target/web/WEB-INF"/>
+
+                    <if>
+                        <equals arg1="${plugin.@{plugin}.webxml.available}" arg2="true"/>
+                        <then>
+
+                            <!-- Copy the servlet and servlet-mapping elements from the original web.xml to a temp buffer.
+                                 Note: The original web.xml can only contain one servlet and servlet-mapping -->
+                            <xmltask source="@{pluginsrc}/@{plugin}/src/web/WEB-INF/web.xml">
+                                <copy path="//web-app/servlet[last()]" buffer="foobar"/>
+                                <copy path="//web-app/servlet-mapping[last()]" buffer="foobar2"/>
+                            </xmltask>
+                            <!-- Add the copied servlet and servlet-mapping elements to the generated web.xml -->
+                            <xmltask source="${plugin.dev.dest.dir}/@{plugin}/target/jspc/web.xml"
+                                     dest="${plugin.dev.dest.dir}/@{plugin}/target/web/WEB-INF/web.xml">
+                                <insert path="/web-app/servlet[last()]" buffer="foobar"
+                                        position="after"/>
+                                <insert path="/web-app/servlet-mapping[last()]" buffer="foobar2"
+                                        position="after"/>
+                            </xmltask>
+
+                        </then>
+                        <else>
+                            <copy todir="${plugin.dev.dest.dir}/@{plugin}/target/web/WEB-INF"
+                                  file="${plugin.dev.dest.dir}/@{plugin}/target/jspc/web.xml"
+                                  overwrite="${overwrite}"/>
+                        </else>
+                    </if>
+
+                    <!-- Compile java classes -->
+                    <javac
+                            destdir="${plugin.dev.dest.dir}/@{plugin}/target/jspc/classes"
+                            includeAntRuntime="no"
+                            debug="on"
+                            source="1.5"
+                            target="1.5"
+                            >
+                        <src path="${plugin.dev.dest.dir}/@{plugin}/target/jspc/java"/>
+                        <classpath>
+                            <path refid="jspc.dependencies"/>
+                            <pathelement path="${compile.dir}"/>
+                            <fileset dir="${plugin.dev.dest.dir}/@{plugin}/target" includes="lib/*.jar"/>
+                        </classpath>
+                    </javac>
+
+                    <!-- Make a jar of compiled jsp classes -->
+                    <jar jarfile="${plugin.dev.dest.dir}/@{plugin}/target/lib/plugin-@{plugin}-jspc.jar">
+                        <fileset dir="${plugin.dev.dest.dir}/@{plugin}/target/jspc/classes"
+                                 includes="**/*.class"/>
+                    </jar>
+
+                </then>
+            </if>
+
+            <!-- Some JAR files don't work well through Pack200. When that's the case, they should
+                 be manually added to this list.
+            -->
+            <property name="pack200.excludes"
+                      value="gnujaxp.jar,mail.jar,activation.jar,bouncycastle.jar,tangosol.jar"/>
+
+			<if>
+				<equals arg1="${pack200.enabled}" arg2="true" />
+				<then>	
+					<for param="jar">
+						<path>
+							<fileset dir="${plugin.dev.dest.dir}/@{plugin}/target/lib" includes="*.jar"
+									 excludes="${pack200.excludes}"/>
+						</path>
+						<sequential>
+							<delete file="@{jar}.pack"/>
+							<pack200 src="@{jar}"
+									 destfile="@{jar}.pack"
+									 gzipoutput="false"
+									/>
+						</sequential>
+					</for>
+					
+		            <copy todir="${plugin.dev.dest.dir}/@{plugin}/jar" overwrite="true">
+		                <fileset dir="${plugin.dev.dest.dir}/@{plugin}/target">
+				            <include name="lib/*.pack"/>
+							<include name="web/WEB-INF/web.xml"/>
+		                    <include name="web/WEB-INF/web-custom.xml"/>
+				        </fileset>
+					</copy>
+					
+					<!-- Excluded pack files need to be copied over as well -->
+					<copy todir="${plugin.dev.dest.dir}/@{plugin}/jar/lib" overwrite="true">
+						<fileset dir="${plugin.dev.dest.dir}/@{plugin}/target/lib"
+								 includes="${pack200.excludes}"/>
+					</copy>					
+				</then>
+				<else>
+					<copy todir="${plugin.dev.dest.dir}/@{plugin}/jar" overwrite="true">
+						<fileset dir="${plugin.dev.dest.dir}/@{plugin}/target">
+							<include name="lib/*.jar"/>
+							<include name="web/WEB-INF/web.xml"/>
+							<include name="web/WEB-INF/web-custom.xml"/>
+						</fileset>
+					</copy>
+				</else>				
+			</if>
+			
+            <!-- Copy everything else to IpvsComponent's plugin dir -->
+            <copy todir="${plugin.dev.dest.dir}/@{plugin}/jar" overwrite="true">
+                <fileset dir="@{pluginsrc}/@{plugin}">
+                    <include name="classes/**/*.*"/>
+                </fileset>
+                <fileset dir="@{pluginsrc}/@{plugin}/src">
+                    <include name="database/**/*.sql"/>
+                    <include name="i18n/*.properties"/>
+                    <include name="web/**/*.*"/>
+                    <exclude name="web/WEB-INF/web.xml"/>
+                    <exclude name="web/**/*.jsp"/>
+                    <exclude name="web/**/*.jspf"/>
+                    <exclude name="java/**/*.java"/>
+                </fileset>
+            </copy>
+
+            <!-- Jar the plugin -->
+            <jar jarfile="${plugin.dest.dir}/@{plugin}.jar">
+                <fileset dir="${plugin.dev.dest.dir}/@{plugin}/jar"/>
+            </jar>
+
+            <!-- Delete the exploded plugin -->
+            <delete dir="${plugin.dev.dest.dir}/@{plugin}/jar"/>
+
+        </sequential>
+    </macrodef>
+
+    <!-- anttasks ============================================================================== -->
+    <target name="anttasks" depends="init">
+
+        <mkdir dir="${anttools.target.dir}"/>
+        <mkdir dir="${anttools.target.dir}/classes"/>
+
+        <javac
+                destdir="${anttools.target.dir}/classes"
+                includeAntRuntime="no"
+                debug="on"
+                source="1.4"
+                >
+            <src path="${anttools.src.dir}"/>
+            <patternset refid="compile.sources"/>
+            <classpath>
+                <path refid="compile.dependencies"/>
+            </classpath>
+        </javac>
+
+        <jar jarfile="${anttools.target.dir}/ant-subdirtask.jar">
+            <fileset dir="${anttools.target.dir}/classes" includes="**/*.class"/>
+        </jar>
+    </target>
+
+    <!-- clean ================================================================================= -->
+    <target name="clean" description="Cleans up all build-generated output">
+        <delete dir="${work.dir}"/>
+        <delete dir="${target.dir}"/>
+    </target>
+
+    <!-- clean-jspc ============================================================================ -->
+    <!-- Cleans all JSPC output -->
+    <target name="clean-jspc">
+        <delete dir="${jspc.dest.dir}"/>
+    </target>
+
+    <!-- clean-plugins ========================================================================= -->
+    <!-- Cleans all generated plugins -->
+    <target name="clean-plugins">
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${plugin.dest.dir}" excludes="admin/**/*.*"/>
+        </delete>
+        <!--<delete dir="${plugin.dest.dir}"/> -->
+        <delete dir="${plugin.dev.dest.dir}"/>
+    </target>
+
+</project>

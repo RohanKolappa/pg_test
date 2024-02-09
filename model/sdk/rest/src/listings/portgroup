@@ -1,0 +1,767 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Resource",
+    "resourcePath": "/PortGroup",
+    "apis": [
+        {
+            "path": "/PortGroup",
+            "operations": [
+                
+				{
+					  "method": "GET",
+					  "summary": "Get PortGroup (available in EDP 1.1)",
+					  "notes": "Get the list of PortGroup from EDP",
+					  "responseClass": "PortGroupResponse",
+					  "nickname": "getPortGroup",
+					  "produces": [
+						"application/vnd.barco.nimbus.PortGroup+json",
+						"application/vnd.barco.nimbus.PortGroup+xml"
+					  ],
+					  "parameters": [
+					  
+						{
+						  "name": "MSIP",
+						  "description": "MS IP",
+						  "required": true,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "path"
+						},
+						{
+						  "name": "startFrom",
+						  "description": "startFrom",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "integer",
+						  "paramType": "query"
+						},
+						{
+						  "name": "countToFetch",
+						  "description": "count to fetch",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "integer",
+						  "paramType": "query"
+						},
+						{
+							"name": "sortOrder",
+							"description": "sort in order ascending/descending",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"ascending",
+									"descending"
+								]
+							},
+
+							"paramType": "query"
+						},
+						{
+						  "name": "sortBy",
+						  "description": "sort by title/state",
+						  "required": false,
+						  "allowMultiple": true,
+						  "dataType": "string",
+						  "allowableValues": {
+							"valueType": "LIST",
+							"values": [
+							  "title",
+							  "state"
+							]
+						  },
+						  "paramType": "query"
+						},						
+						{
+						  "name": "selectFormat",
+						  "description": "select format",
+						  "required": false,
+						  "allowMultiple": true,
+						  "dataType": "string",
+						  "allowableValues": {
+							"valueType": "LIST",
+							"values": [
+							  "BASIC",
+							  "EXTENDED"
+							]
+						  },
+						  "paramType": "query"
+						},
+					    {
+						  "name": "whereNID",
+						  "description": "Filter based on NID",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "query"
+						},				
+						{
+						  "name": "whereTextSubStr",
+						  "description": "Filter based on TextSubStr",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "query"
+						},
+						{
+						  "name": "whereTagExpr",
+						  "description": "Filter based on TagExpr",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "query"
+						},
+						{
+						  "name": "type",
+						  "description": "Filter based on type",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "query"
+						},
+						{
+						  "name": "subscriptionID",
+						  "description": "Filter based on subscriptionID",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "query"
+						}			   
+					  ],
+					  "responseMessages": [
+						 {
+						  "code": 200,
+						  "message": "Success"
+						},
+						{
+						  "code": 401,
+						  "message": "Unauthorized"
+						},
+						{
+						  "code": 500,
+						  "message": "Internal Server Error"
+						}
+					  ],
+					  "deprecated": "false"
+				},
+				{
+                    "method": "POST",
+                    "summary": "Add PortGroup (available in EDP 1.1)",
+                    "notes": "Used to group 2 or more ports together in a group for wall recording purposes. Each window in canvas can have a source associated with it",
+                    "responseClass": "PortGroupResponse",
+                    "nickname": "addPortGroup",
+                    "produces": [
+                        "application/vnd.barco.nimbus.PortGroup+json",
+                        "application/vnd.barco.nimbus.PortGroup+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.PortGroup+json",
+                        "application/vnd.barco.nimbus.PortGroup+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a PortGroup to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "PortGroup",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+						  "method": "DELETE",
+						  "summary": "Delete PortGroup (available in EDP 1.1)",
+						  "notes": "Delete a PortGroup",
+						  "responseClass": "PortGroupResponse",
+						  "nickname": "deletePortGroup",
+						  "produces": [
+							"application/json",
+							"application/xml"
+						  ],
+						  "parameters": [
+						 
+						  {
+							  "name": "MSIP",
+							  "description": "MS IP",
+							  "required": true,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "path"
+							},
+							{
+							  "name": "NID",
+							  "description": "PortGroup nid",
+							  "required": false,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "query"
+							},
+						   {
+							  "name": "title",
+							  "description": "PortGroup title",
+							  "required": false,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "query"
+							}  			
+						  ],
+						  "responseMessages": [
+							 {
+							  "code": 200,
+							  "message": "Success"
+							},
+							{
+							  "code": 401,
+							  "message": "Unauthorized"
+							},
+							{
+							  "code": 500,
+							  "message": "Internal Server Error"
+							}
+						  ],
+						  "deprecated": "false"
+				},
+				{
+					"method": "POST",
+					"summary": "SetPortGroup (available in EDP 1.1)",
+					"notes": "This API is used to update the existing PortGroup",
+					"responseClass": "PortGroupResponse",
+					"nickname": "setPortGroup",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.PortGroup+json",
+						"application/vnd.barco.nimbus.PortGroup+xml"
+					],
+
+					"consumes": 
+					[
+                        "application/vnd.barco.nimbus.PortGroup+json",
+                        "application/vnd.barco.nimbus.PortGroup+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "NID",
+							"description": "user nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "title",
+							"description": "title",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "body",
+							"description": "Set Port Group",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetPortGroupReq",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				}				
+            ]
+        }
+    ],
+    "models":
+	{
+        "PortGroup": {
+            "id": "PortGroup",
+            "description": "A PortGroup body",
+            "required": [
+                "AddPortGroup"
+            ],
+            "properties": {
+                "AddPortGroup": {
+                    "$ref": "PortGroupbody"
+                }
+            }
+        },
+      "PortGroupResponse": {
+      "id": "PortGroupResponse",
+      "description": "A PortGroup response body",
+      
+      "properties": {
+        "PortGroup": {
+          "$ref": "PortGroupbody"
+         }
+        }
+       },
+        "PortGroupbody": {
+            "id": "PortGroupbody",
+            "description": "A PortGroupbody body",
+            "required": [
+                "PVR",
+                "Groups",
+                "@type",
+                "Canvas",
+                "@title",
+                "@description"
+            ],
+            "properties": {
+                "PVR": {
+                    "$ref": "PVR"
+                },
+                "Groups": {
+                    "$ref": "Groups"
+                },
+                "@type": {
+                    "type": "SrcPortGroup"
+                },
+                "Canvas": {
+                    "$ref": "Canvas"
+                },
+                "@title": {
+                    "type": "string"
+                },
+                "@description": {
+                    "type": "string"
+                }
+            }
+        },
+		"SetPortGroupReq": {
+            "id": "SetPortGroupReq",
+            "description": "A SetPortGroupReq body",
+            "required": [
+                "SetPortGroup"
+            ],
+            "properties": {
+                "SetPortGroup": {
+                    "$ref": "SetPortGroup"
+                }
+            }
+        },
+		"SetPortGroup": {
+            "id": "SetPortGroup",
+            "description": "A SetPortGroup body",
+            "required": [
+                "PVR",
+				"Groups",
+				"@type",
+				"Canvas",
+				"@title",
+				"@description"
+
+            ],
+            "properties": {
+                "PVR": {
+                    "$ref": "PVR"
+                },
+				"Groups": {
+                    "$ref": "Groups"
+                },
+				"@type": {
+                    "type": "string"
+                },
+				"Canvas": {
+                    "$ref": "Canvas"
+                },
+				"@title": {
+                    "type": "string"
+                },
+				"@description": {
+                    "type": "string"
+                }
+            }
+        },
+		"GetPortGroupReq": {
+            "id": "PortGroup",
+            "description": "A PortGroup body",
+            "required": [
+                "GetPortGroup"
+            ],
+            "properties": {
+                "GetPortGroup": {
+                    "$ref": "GetPortGroup"
+                }
+            }
+        },
+        "GetPortGroup": {
+            "id": "GetPortGroup",
+            "description": "A GetPortGroup body",
+            "required": [
+                "@sortBy",
+				"@type",
+				"@whereNID",
+				"@sortOrder",
+				"@startFrom",
+				"@whereTagExpr",
+				"@subscriptionID",
+				"@countToFetch",
+				"@whereTextSubStr",
+				"@selectFormat"
+            ],
+            "properties": {
+                "@sortBy": {
+                    "$ref": "PVR"
+                },
+                "@type": {
+                    "$ref": "Groups"
+                },
+                "@whereNID": {
+                    "type": "SrcPortGroup"
+                },
+                "@sortOrder": {
+                    "$ref": "ascending"
+                },
+                "@startFrom": {
+                    "type": "string"
+                },
+                "@whereTagExpr": {
+                    "type": "string"
+                },
+				"@subscriptionID": {
+                    "type": "string"
+                },
+				"@countToFetch": {
+                    "type": "string"
+                },
+				"@whereTextSubStr": {
+                    "type": "string"
+                },
+				"@selectFormat": {
+                    "type": "basic/extended"
+                }
+            }
+        },
+		 "PVR": {
+            "id": "PVR",
+            "description": "A PVR body",
+            "required": [
+                "@trimLength",
+                "@enable"
+            ],
+            "properties": {
+                "@trimLength": {
+                    "$ref": "string"
+                },
+                "@enable": {
+                    "$ref": "string"
+                }
+            }
+        },
+        "Groups": {
+            "id": "Groups",
+            "description": "A Groups body",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag": {
+                    "$ref": "Tag"
+                }
+            }
+        },
+        "Tag": {
+            "id": "Tag",
+            "description": "A Tag body",
+            "required": [
+                "@Name",
+                "@Value"
+            ],
+            "properties": {
+                "@Name": {
+                    "type": "string"
+                },
+                "@Value": {
+                    "type": "string"
+                }
+            }
+        },
+        "Canvas": {
+            "id": "Canvas",
+            "description": "A Canvas body",
+            "required": [
+                "Layout",
+                "@hres",
+                "@vres",
+                "@id",
+                "Window"
+            ],
+            "properties": {
+                "Layout": {
+                    "$ref": "Layout"
+                },
+                "@hres": {
+                    "type": "1280"
+                },
+                "@vres": {
+                    "type": "1024"
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "Window": {                    
+					"type": "array",
+					"items":{
+					"$ref":"Window"}
+                }
+            }
+        },
+        "Layout": {
+            "id": "Layout",
+            "description": "A Layout body",
+            "required": [
+                "@nRow",
+                "@border",
+                "@header",
+                "@type",
+                "@hpad",
+                "@borderStyle",
+                "@nStrip",
+                "@colWidth",
+                "@active",
+                "@headerStyle",
+                "@stripPos",
+                "@rowHeight",
+                "@nCol",
+                "@id",
+                "@vpad"
+            ],
+            "properties": {
+                "@nRow": {
+                    "type": "string"
+                },
+                "@border": {
+                    "type": "hide"
+                },
+                "@header": {
+                    "type": "hide"
+                },
+                "@type": {
+                    "type": "string"
+                },
+                "@hpad": {
+                    "type": "string"
+                },
+                "@borderStyle": {
+                    "type": "[8px]"
+                },
+                "@nStrip": {
+                    "type": "string"
+                },
+                "@colWidth": {
+                    "type": "string"
+                },
+                "@active": {
+                    "type": "string"
+                },
+                "@headerStyle": {
+                    "type": "basic"
+                },
+                "@stripPos": {
+                    "type": "string"
+                },
+                "@rowHeight": {
+                    "type": "string"
+                },
+                "@nCol": {
+                    "type": "string"
+                },
+                "@id": {
+                    "type": "LayoutId1"
+                },
+                "@vpad": {
+                    "type": "string"
+                }
+            }
+        },
+        "Window": {
+            "id": "Window",
+            "description": "A Window body",
+            "required": [
+                "@content",
+                "@id",
+                "Properties",
+                "SrcPort"
+            ],
+            "properties": {
+                "@content": {
+                    "type": "string"
+                },
+                "@id": {
+                    "type": "string"
+                },
+                "Properties": {
+                    "$ref": "Properties"
+                },
+                "SrcPort": {
+                    "$ref": "SrcPort"
+                }
+            }
+        },
+        "Properties": {
+            "id": "Properties",
+            "description": "A Properties body",
+            "required": [
+                "@scrollHPos",
+                "@scale",
+                "@border",
+                "@hres",
+                "@maximize",
+                "@zIndex",
+                "@aspect",
+                "@scrollVPos",
+                "@transparency",
+                "@remoteKbmCtrl",
+                "@vpos",
+                "@layoutId",
+				"@hres",
+                "@vres",
+                "@layoutPos",
+                "@visibility",
+                "@hpos",
+                "@fps",
+                "@mute",
+                "@volume"
+            ],
+            "properties": {
+                "@scrollHPos": {
+                    "type": "string"
+                },
+                "@scale": {
+                    "type": "fitWindow"
+                },
+                "@border": {
+                    "type": "string"
+                },
+                "@hres": {
+                    "type": "string"
+                },
+                "@maximize": {
+                    "type": "string"
+                },
+                "@zIndex": {
+                    "type": "boolean"
+                },
+                "@aspect": {
+                    "type": "string"
+                },
+                "@scrollVPos": {
+                    "type": "string"
+                },
+                "@transparency": {
+                    "type": "string"
+                },
+                "@remoteKbmCtrl": {
+                    "type": "boolean"
+                },
+                "@vpos": {
+                    "type": "string"
+                },
+                "@layoutId": {
+                    "type": "LayoutId1"
+                },
+                "@vres": {
+                    "type": "string"
+                },
+                "@layoutPos": {
+                    "type": "string"
+                },
+                "@visibility": {
+                    "type": "boolean"
+                },
+                "@hpos": {
+                    "type": "string"
+                },
+                "@fps": {
+                    "type": "string"
+                },
+                "@mute": {
+                    "type": "boolean"
+                },
+                "@volume": {
+                    "type": "string"
+                }
+            }
+        },
+        "SrcPort": {
+            "id": "SrcPort",
+            "description": "A SrcPort body",
+            "required": [
+                "@portNID",
+                "@portTitle",
+				"@enableMaster"
+            ],
+            "properties": {
+                "@portNID": {
+                    "type": "string"
+                },
+                "@portTitle": {
+                    "type": "string"
+                },
+				 "@enableMaster": {
+                    "type": "boolean"
+                }
+            }
+        }
+       
+    }
+}

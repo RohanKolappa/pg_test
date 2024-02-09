@@ -1,0 +1,23 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+<validation validationID="ConnectionParameterConfig" methodName="validateConnectionParameterConfig" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData/V2DMediaStreamProfile/V2DBasicProfile/V2DEncoderConnectionParameterConfig" />
+  
+ <!-- CustomValidation and validation: must explicitly set enable="true",  for now default enable=false -->
+  <validation enable="true" validationID="duplcateTitleAdd" methodName="validateDuplicateTitle_add" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData//Title" caseSensitive="false"  allowSpaces="true" />  
+  <validation enable="true" validationID="duplcateTitleReplace" methodName="validateDuplicateTitle_replace" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData//Title" caseSensitive="false"  allowSpaces="true"  />  
+  
+  
+  <validation validationID="KMIdleTime" methodName="validateKMIdleTime" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DBasicProfile/V2DEncoderConnectionParameterKbmConfig/KMIdleTime" />
+  <validation validationID="VideoLookupTable" methodName="validateVideoLookupTable" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DCodecVideoLookupTable/V2DCodecVideoLookupEntryConfig" />
+  <validation validationID="VideoandIOParameters" methodName="validateVideoandIOParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DEncoderVideoConfig" />
+  <validation validationID="VideoandIOSerialConfig" methodName="validateVideoandIOSerialConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DEncoderSerialConfig" />
+  <validation validationID="SplashParameters" methodName="validateSplashParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DEncoderSplashParametersConfig" />
+  <validation validationID="RxVideoandIOParameters" methodName="validateRxVideoandIOParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DDecoderVideoConfig" />
+  <validation validationID="RxVideoandIOSerialConfig" methodName="validateVideoandIOSerialConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DDecoderSerialConfig" />
+  <validation validationID="RxSplashParameters" methodName="validateSplashParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2DMediaStreamProfile/V2DAdvancedProfile/V2DDecoderSplashParametersConfig" />
+</CustomValidation>

@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>Barco Device Interface</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.1</revnumber>
+				<date>Dec 19 2012</date>
+				<revremark>Device Interface API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+		<glossentry>
+			<glossterm>Device Interface</glossterm>
+			<glossdef>
+				<para>
+					This represents the external interface to a device.
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Device Interface API</glossterm>
+			<glossdef>
+				<para>
+					The API accepted by the device on its external interface
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Service</glossterm>
+			<glossdef>
+				<para>
+					The device provides the following services : DeviceAdminAgent, Media, Layout, MediaStoreAgent
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Handler</glossterm>
+			<glossdef>
+				<para>
+					The code that handles a specific API message for a given service
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Agent</glossterm>
+			<glossdef>
+				<para>
+					The Handler invokes methods on the Agent for the accepted by the device on its external interface
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Engine</glossterm>
+			<glossdef>
+				<para>
+					The Agent invokes methods on the Engine that implement the services on the device
+				</para>
+			</glossdef>
+		</glossentry>
+	</glossary>
+
+	<preface>
+		<title>Introduction</title>
+		<para>
+			This document contains the description of the generic device interface API.
+		</para>
+	</preface>
+
+	<chapter>
+		<title>Service Overview</title>
+		<para>
+			A service is a software/firmware/hardware capability of a device that is made available to a user
+			The scope of this document is limited to 4 types of services within namely device administration, media, layout and media storage services
+			DeviceAdmin - Device management including configuration,
+			monitoring, diagnostics
+			Media - Sending and receiving media streams
+			Layout - Rendering media in specific layouts
+			MediaStore - Managing the storage of recordings and file systems
+		</para>
+		<section>
+			<title>Version</title>
+			<para>
+				<simplelist>
+					<member>Document Version = 0.0.1</member>
+					<member>Service Version = x.x.x</member>
+					<member>Software Version = 4.0.x.x</member>
+				</simplelist>
+			</para>
+		</section>
+		<section>
+			<title>Device Overview</title>
+			<para>
+				The Device is capable of providing services
+				These services are available thru an API
+				The API is handled by code modules called "handlers" which are organized on the same lines as the service
+				The handlers invoke methods on "agents" which are organized on the same lines as the service
+				The agents
+				have direct access to the software/firmware services which are called Engines
+				In general the handler for a service will invoke methods on agents for the same service
+				However there may be cases where the handlers can invoke methods on agents that are in a different service
+				The message used to access
+				a service is called an AgentMessage
+				This chapter provides an overview of the AgentMessage used to invoke the API
+			</para>
+		</section>
+	</chapter>
+	<chapter>
+		<title>Agent Message Overview</title>
+		<para>
+			The messages have been described here are as extensions of standard "XMPP Message" packets.
+			However the AgentMessage itself can be sent over HTTP or any other messaging bus
+		</para>
+		<simplelist>
+			<member>All agent message payloads will use the namespace "com.ipvs.session"</member>
+		</simplelist>
+		<section>
+			<title>Generic Agent Message API</title>
+			<para>
+				The messaging between the agentts is realized as a set of XML messages over an XMPP message bus.
+				These messages constitute the Barco Device API.
+				Handlers will need to implement the relevant sub-set of this API based on their intended MediaRoom Role.
+			</para>
+			<example>
+				<title>Message</title>
+				<programlisting>
+          <![CDATA[
+  <message id="12rLk-221" to="tx1@localhost/tx1" from="managementserver@localhost/managementserver">
+    <x xmlns='com.ipvs.session'>
+      <AgentMessage from='xpi@localhost/xpi' to='xpi@localhost/xpi' type='Request/Response/Event' logLevel='5'>
+	     		<!-- Message Data goes here --> 
+     </AgentMessage>
+    <x>
+  </message>
+        
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Generic Agent Message Data For Request Type Agent Messages</title>
+			<example>
+				<title>Request</title>
+				<programlisting>
+          <![CDATA[       
+  <Request>
+    <header>
+    	<servicename>Media</servicename>
+		<requestname>StartStreamRequest</requestname>
+		<userJID>none</userJID>
+		<requestNID>none</requestNID>
+		<clientdata>none</clientdata>
+    </header>
+    <data>
+       <!-- Request data goes here --> 
+       <StartStreamRequestData>
+               <!-- StartStreamRequestData payload goes here -->
+       </StartStreamRequestData>
+    </data>
+  </Request>
+]]>
+        </programlisting>
+			</example>
+			<para>
+				servicename - The service being requested i.e. DeviceAdmin, Media, Layout, MediaStore
+				requestname - The request within the service
+				userJID - The original user making the request(could be different than the fromJID
+				requestNID - unique ID for the request
+				clientdata - data provided by the
+				requestor which needs to be returned in the response as is
+			</para>
+		</section>
+		<section>
+			<title>Generic Agent Message Data For Response Type Agent Messages</title>
+			<example>
+				<title>Response</title>
+				<programlisting>
+          <![CDATA[
+  <Response>
+    <header>
+    	<servicename>Media</servicename>
+		<requestname>StartStreamRequest</requestname>
+		<userJID>none</userJID>
+		<requestNID>none</requestNID>
+		<clientdata>none</clientdata>
+    </header>
+    <data>
+       <!-- Request data goes here --> 
+       <StartStreamResponseData>
+               <!-- StartStreamResponseData payload goes here -->
+       </StartStreamResponseData>
+    </data>
+  </Request>
+]]>
+        </programlisting>
+			</example>
+			<para>
+				The servicename, requestname, userJID, requestNID, clientdata are same as those passed in the request
+				The ResponseData may be replaced by an error element in case there is an error
+			</para>
+			<example>
+				<title>Response</title>
+				<programlisting>
+          <![CDATA[
+  <Response>
+    <header>
+    	<servicename>Media</servicename>
+		<requestname>StartStreamRequest</requestname>
+		<userJID>none</userJID>
+		<requestNID>none</requestNID>
+		<clientdata>none</clientdata>
+    </header>
+    <data>
+    	<error code="2033">
+    		<description>Pause Action Not Valid For Current State</description>
+    	</error>
+    </data>
+  </Request>
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Generic Agent Message Data For Event Type Agent Messages</title>
+			<para>
+				An notification can be an info event or an error event. This is indicated by the state element in the payload
+			</para>
+			<example>
+				<title>Event</title>
+				<programlisting>
+          <![CDATA[
+  <Event>
+      <header>
+    		<servicename>Media</servicename>
+            <eventname>StreamStatusUpdate</eventname>
+            <eventAgentJID>srcrelay1@localhost/srcrelay1</eventAgentJID>
+            <eventWallclock>1288358866404</eventWallclock>
+            <eventLevel>INFO</eventLevel>
+        </header>
+			<data>
+			  <StreamStatusUpdateData>
+			    	  <!-- StreamStatusUpdate data payload goes here --> 
+			  </StreamStatusUpdateData>
+			</data>
+  </Event>
+]]>
+        </programlisting>
+			</example>
+			<para>
+				servicename - The service within which this event is being generated i.e. DeviceAdmin, Media, Layout, MediaStore
+				eventname - The request within the service
+				eventAgentJID - The original user making the request(could be different than the fromJID)
+				eventWallclock - wallclock at which this eveny
+				was generated
+				eventLevel - ERROR/INFO
+			</para>
+		</section>
+	</chapter>
+	<chapter>
+		<title>Generic Agent API Overview</title>
+		<para>
+			The following set of operations will be typically performed by the devices hosting the agents outside of the agent API
+		</para>
+		<section>
+			<title>Startup Operations</title>
+			<section>
+				<title>XMPP Login</title>
+				<para>
+					First the Client does a standard XMPP Login.
+					The credentials needed for this need to be provided to the Client
+					by the Administrator by some out-of-band means.
+				</para>
+				<para>
+					<simplelist>
+						<member>- Username@DomainName.com (Who)</member>
+						<member>- Password</member>
+						<member>- XMPPResourceID (From Where)</member>
+					</simplelist>
+				</para>
+			</section>
+			<section>
+				<title>DeviceLogin</title>
+				<para>
+					After the base XMPP login the device has to discover the contactJID for the Central Server
+					The Device then does a "DeviceLogin" which registers the Device with the Server.
+					<simplelist>
+						<member>
+							- The registration process includes publishing its userJID as the contactJID for the XMPPResource
+						</member>
+						<member>
+							- Device version number and licensing is also checked at this time
+						</member>
+						<member>
+							- The Device version number can be obtained from the Version section of the API document corresponding to the client implementation
+						</member>
+					</simplelist>
+				</para>
+				<para> This will change the status to not ready indicating that it has logged in but cannot participate in a session as a source or destination. </para>
+
+
+				<example>
+					<title>DevciceLoginRequest extended from AgentRequest</title>
+					<programlisting>
+            <![CDATA[
+  <DeviceLoginRequestData>
+            <AssetTemplateTitle>dcpc1</AssetTemplateTitle>
+            <AssetPrivateData></AssetPrivateData>
+            <AssetPrivateKeyData></AssetPrivateKeyData>
+            <ServiceVersion>2.25</ServiceVersion>
+            <PortList>
+               <Port type='SrcPort/DstPort/NetworkPort/RelayPort/StorePort' id='1/2' state='Ready'>
+                  <NetworkStatus/>
+                  <DisplayConfig/>
+                  <DisplayStatus/>
+                  <DirList>
+                     <Dir uuid='' storeRevision=''/>
+                  </DirList>
+               </Port>
+            </PortList>             
+            <Ready>true</Ready>
+  </DeviceLoginRequestData>
+]]>
+          </programlisting>
+				</example>
+				<para>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>AssetTemplateTitle - used if the device is to be dynamically created using a template
+								</parameter>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>AssetPrivateData - data that is private to the device used to cache information to be retrieved on reboot
+								</parameter>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>AssetPrivateKeyData - the private key for the device which is used for authentication
+								</parameter>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>ServiceVersion - The service version of the software on the device (note this is different from software version)
+								</parameter>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>Ready - Flag indicating if all the resources are to be marked ready
+								</parameter>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>PortList - Sends the list of ports device owns</parameter>
+								<itemizedlist>
+									<listitem>
+										<para>
+											<parameter>Port: type - type of the port. SrcPort/DstPort/StorePort/RelayPort/NetworkPort
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: id - Id of the port
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: state - flag indicates mark the port state as Ready/NotReady
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: NetworkStatus - Flag includes the status of network (ipaddress/nat etc etc). Applicalbe for NetworkPort
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: DisplayConfig - Flag icludes the display configuration information. Applicalbe for DstPort
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: DisplayStatus - Flag icludes the display status information. Applicalbe for DstPort
+											 <optional></optional>
+											</parameter>
+										</para>
+									</listitem>
+									<listitem>
+										<para>
+											<parameter>Port: DirList - List of the direcotries owned by StorePort
+											</parameter>
+											<itemizedlist>
+												<listitem>
+													<para>
+														<parameter>Dir: UUID - Unique id to associate DB and Store entry</parameter>
+													</para>
+												</listitem>
+												<listitem>
+													<para>
+														<parameter>Dir: storeRevision - indicates store at this revision. used in directory sync</parameter>
+													</para>
+												</listitem>
+											</itemizedlist>
+										</para>
+									</listitem>
+								</itemizedlist>
+							</para>
+						</listitem>
+					</itemizedlist>
+				</para>
+
+				<para>
+					If all is well, the response will contain the Device's
+					private data(preferences) that has been configured/stored on
+					the server.
+					<simplelist>
+						<member>
+							- The current date/time is also returned
+						</member>
+					</simplelist>
+				</para>
+				<example>
+					<title>Service Login Response extended from AgentResponse</title>
+					<programlisting>
+              <![CDATA[
+  <DeviceLoginResponseData>
+    <AssetResource NID="default.assetresourcelist.arl_a3f6cdf7-be03-416d-8e0f-1a964edb60b0" Persistence="Temporary" Rev="1" Ver="1.7" parentNID="default.assetresourcelist" serviceVer="2.25">^M
+    <Contact>
+        <OwnerUserJID/>
+        <Presence>unavailable</Presence>
+    </Contact>
+    <State>
+        <StateFlag>Offline</StateFlag>
+        <StateMsg/>
+    </State>
+    <TemplateAssetResourceNID/>
+    <Info>
+        <Groups>
+            <Tag Name="Department" Value="Engineering"/>
+        </Groups>
+        <Title>dcpc1</Title>
+        <Description/>
+        <Type>IPVSClient-Device</Type>
+        <AssetPrivateKey>
+            <KeyScheme/>
+            <KeyData/>
+        </AssetPrivateKey>
+        <AssetPrivateData/>
+        <FeatureList>
+            <Feature Name=""/>
+        </FeatureList>
+    </Info>
+    </AssetResource>
+    <PortResourceNIDList>
+      <resourceNID type="MediaStreamDstPortResource">default.mediastreamdstportresourcelist.msdprl_4ddb1a8f-650b-46f6-ac35-4c46d3dc0177</resourceNID>
+    </PortResourceNIDList>
+    <deviceNID>default.devicelist.dl_236f39ca-2935-4365-a624-95637cbcf4f9</deviceNID>
+    <appServerAgentJID>srcrelay1@localhost/srcrelay1</appServerAgentJID>
+  </DeviceLoginResponseData>
+]]>
+            </programlisting>
+				</example>
+				<example>
+					<title>Service Login Response error extended from AgentResponse</title>
+					<programlisting>
+              <![CDATA[
+    	<error code="1200">
+    		<description>Service Version Mismatch serverVersion="2.30.4"</description>
+    	</error>
+]]>
+            </programlisting>
+				</example>
+			</section>
+		</section>
+	</chapter>
+</book>

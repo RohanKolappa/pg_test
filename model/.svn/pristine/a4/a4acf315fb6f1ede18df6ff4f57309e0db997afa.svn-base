@@ -1,0 +1,345 @@
+<SessionAPI>
+
+  <SessionConfig id="" name="">
+    <Groups>
+      <Tag Name="" Value=""/>
+    </Groups>
+
+    <Settings>
+      <PVR enable="true" trimlength=""/>
+      <Record autoStart="true" mediaGroupId=""/>
+      <Playback syncEntityId=""/>
+    </Settings>
+    
+    <SrcPort id='' portTitle=''/>
+    <DstPort id='' name='' portNID='' portTitle=''/>
+    <SrcFile id='' name='' fileNID='' fileTitle='' grpFileId='' dateCreated=''/>
+
+    <View id='' name='' connGroupId='' srcEntityId='' dstEntityId='' profileId=''/>
+
+    <View id='' name='' connGroupId='' srcEntityId='' profileId=''>
+      <DstPort id='' name='' portNID='' portTitle=''/>
+    </View>
+
+    <View id='' name='' connGroupId='' profileId=''>
+      <SrcPort id='' name ='' portNID='' portTitle=''/>
+      <DstPort id='' name='' portNID='' portTitle=''/>
+    </View>
+
+    <Playback id='' name='' connGroupId=''>
+      <SrcFile id='' name='' fileNID='' fileTitle='' grpFileId='' dateCreated=''/>
+      <DstPort id='' name='' portNID='' portTitle=''/>
+    </Playback>
+
+    <Record id='' name='' connGroupId='' srcEntityId='' profileId=''>
+      <DstFile id='' name='' fileNID='' fileTitle='' grpFileId='' dirNID='' dirTitle='' portNID='' portTitle=''/>
+    </Record>
+
+    <ConnGrp id='' name=''>
+      <SrcPort id='' name ='' portNID='' portTitle=''/>
+      <View id='' name='' srcEntityId='' profileId=''>
+        <DstPort id='' name='' portNID='' portTitle=''/>
+      </View>
+      <View id='' name='' srcEntityId='' profileId=''>
+        <DstPort id='' name='' portNID='' portTitle=''/>
+      </View>
+      <Record id='' name='' srcEntityId='' profileId=''>
+        <DstFile id='' name='' fileNID='' fileTitle='' grpFileId='' dirNID='' dirTitle='' portNID='' portTitle=''/>
+      </Record>
+    </ConnGrp>
+  </SessionConfig>
+
+
+
+  <Session id='' name=''>
+    <SrcPort id='' name ='' portNID='' portTitle='' pvrEnable='' pvrTrimLength=''/>
+    <View id='' name='' srcEntityId=''>
+      <DstPort id='' name='' portNID='' portTitle=''/>
+    </View>
+    <View id='' name='' srcEntityId=''>
+      <DstPort id='' name='' portNID='' portTitle=''/>
+    </View>
+    <Record id='' name='' srcEntityId='' autoStart=''>
+      <DstFile id='' name='' fileNID='' fileTitle='' grpFileId='' dirNID='' dirTitle='' portNID='' portTitle=''/>
+    </Record>
+  </Session>
+
+  <Session id='' name=''>
+    <SrcPort id='' name ='' portNID='' portTitle='' pvrEnable='' pvrTrimLength=''/>
+    <DstPort id='' name='' portNID='' portTitle=''/>
+    <DstPort id='' name='' portNID='' portTitle=''/>
+    <DstFile id='' name='' fileNID='' fileTitle='' grpFileId='' dirNID='' dirTitle='' portNID='' portTitle=''/>
+    <View id='' name='' srcEntityId='' dstEntityId=''/>
+    <View id='' name='' srcEntityId='' dstEntityId=''/>
+    <Record id='' name='' srcEntityId='' dstEntityId='' autoStart=''/>
+  </Session>
+
+  <Session id='' name=''>
+    <Entity type='SrcPort' id='' name ='' portNID='' portTitle='' pvrEnable='' pvrTrimLength=''/>
+    <Entity type='DstPort' id='' name='' portNID='' portTitle=''/>
+    <Entity type='DstPort' id='' name='' portNID='' portTitle=''/>
+    <Entity type='DstFile' id='' name='' fileNID='' fileTitle='' grpFileId='' dirNID='' dirTitle='' portNID='' portTitle=''/>
+    <Connection type='View' id='' name='' srcEntityId='' dstEntityId=''/>
+    <Connection type='View' id='' name='' srcEntityId='' dstEntityId=''/>
+    <Connection type='Record' id='' name='' srcEntityId='' dstEntityId='' autoStart=''/>
+  </Session>
+
+  <Session id='' name=''>
+    <GrpFile type='SyncPly' id='' fileNID='' fileTitle='' dateCreated='' recSessionConfigId='' recSessionId=''/>
+    <DstPort id='' name ='' portNID='' portTitle=''/>
+    <Playback id='' name='' dstEntityId=''>
+      <SrcFile id='' name='' fileTitle='' grpFileId='' portNID='' portTitle=''/>
+    </Playback>
+    <Playback id='' name='' dstEntityId=''>
+      <SrcFile id='' name='' fileTitle='' grpFileId='' portNID='' portTitle=''/>
+    </Playback>
+    <Playback id='' name='' dstEntityId=''>
+      <SrcFile id='' name='' fileTitle='' grpFileId='' portNID='' portTitle=''/>
+    </Playback>
+  </Session>
+
+
+  <ConnGroup sessionId='' id=''/>
+  
+  <Connection sessionId='' id='' type='View/Record/Playback' srcEntityId='' dstEntityId='' profileId='' authId=''>
+    <Relay order='' entityId='' profileId='' state=''/>
+    <Relay order='' entityId='' profileId='' state=''>
+      <PVR type='' entityId='' state=''/>
+    </Relay>
+    <Relay order='' entityId='' profileId='' state=''/>
+  </Connection>
+    
+  <ConnSeg sessionId='' connGroupId='' connId='' srcEntityId='' profileId=''>
+    <RelayPort id='' resourceNID='' profileId=''/>
+  </ConnSeg>
+
+  <ConnSeg sessionId='' connGroupId='' connId='' relayEntityId='' profileId=''>
+    <PVRFile id='' bufferLength='' dir='xxx/yyy' name='' pvrPortResourceNID=''/>
+  </ConnSeg>
+
+  <ConnSeg sessionId='' connGroupId='' connId='' dstEntityId='' profileId=''>
+    <RelayPort id='' resourceNID='' profileId=''/>
+  </ConnSeg>
+
+  <Profile sessionId='' id='' profileNID=''>
+    <ProfileInfo/>
+  </Profile>
+
+  <View sessionId='' connGroupId='' connId=''>
+    <SrcPort id='' resourceNID=''>
+      <RelayPort id='' order='' resourceNID='' profileId=''/>
+      <RelayPort id='' order='' resourceNID='' profileId=''>
+        <PVRFile id='' bufferLength='' dir='xxx/yyy' name='' pvrPortResourceNID=''/>
+      </RelayPort>
+    </SrcPort>
+    <RelayPort id='' order='' resourceNID='' profileId=''/>
+    <RelayPort id='' order='' resourceNID='' profileId=''/>
+    <DstPort id='' resourceNID=''>
+      <RelayPort id='' order='' resourceNID='' profileId=''/>
+    </DstPort>
+    <Profile id='' profileNID=''>
+      <ProfileInfo/>
+    </Profile>
+  </View>
+
+  <PVRRecord id='' srcEntityId='' dstEntityId='' profileId=''/>
+  <PVRSrcPort id='' resourceNID='' pvrFileId=''/>
+
+  <View sessionId='' connGroupId='' connId='' profileId=''>
+    <Port type='' id='' resourceNID=''/>
+    <Port type='' id='' resourceNID=''/>
+  </View>
+  
+  <View sessionId='' connGroupId='' connId='' profileId=''>
+    <SrcPort id='' resourceNID=''/>
+    <DstPort id='' resourceNID=''/>
+  </View>
+
+  <View sessionId='' connGroupId='' connId='' profileId=''>
+    <SrcPort id='' resourceNID=''>
+      <PVR id='' profileId=''/>
+    </SrcPort>
+    <DstPort id='' resourceNID=''/>
+  </View>
+
+  <View sessionId='' connGroupId='' connId='' profileId=''>
+    <SrcPort id='' resourceNID=''>
+      <PVR id='' profileId='' bufferLength=''>
+        <PVRFile id='' resourceNID='' dir='xxx/yyy' name=''/>
+      </PVR>
+    </SrcPort>
+    <DstPort id='' resourceNID=''/>
+  </View>
+  
+  <View sessionId='' connGroupId='' connId='' profileId=''>
+    <SrcPort id='' resourceNID=''>
+      <PVR id='' profileId='' bufferLength=''>
+        <PVRFile id='' resourceNID='' dir='xxx/yyy' name=''/>
+        <PVRDstStorePort id='' resourceNID=''/>
+        <PVRSrcStorePort id='' resourceNID=''/>
+      </PVR>
+    </SrcPort>
+    <DstPort id='' resourceNID=''/>
+  </View>
+
+  <View sessionId='' connGroupId='' connId='' srcId='sessionId:srcId' profileId=''>
+    <DstPort id='' resourceXquery=''/>
+  </View>
+
+  <View sessionId='' connGroupId='' connId='' dstId='sessionId:dstId' profileId=''>
+    <SrcPort id='' userNID=''/>
+  </View>
+
+  <Playback sessionId='' connGroupId='' connId=''>
+    <SrcFile id='' resourceNID=''/>
+    <DstPort id='' resourceNID=''/>
+  </Playback>
+
+  <Playback sessionId='' connGroupId='' connId=''>
+    <SrcFile id='' name='' dir='xxx/yyy' date=''/>
+    <DstPort id='' resourceNID=''/>
+  </Playback>
+
+  <Playback sessionId='' connGroupId='' connId=''>
+    <SrcFile id='' resourceNID='' mediaGroupId='' name='' dir='xxx/yyy' date=''>
+      <SrcStorePort id='' resourceNID=''/>
+    </SrcFile>   
+    <DstPort id='' resourceNID=''/>
+  </Playback>
+
+  <Playback sessionId='' connGroupId=''>
+    <GroupFile id='' resourceNID=''/>
+    <DstPort id='' resourceNID=''/>
+  </Playback>
+  
+  <Playback sessionId='' connGroupId='' connId=''>
+    <GroupFile id='' resourceNID=''>
+      <SrcFile id='' resourceNID=''/>
+    </GroupFile>
+    <DstPort id='' resourceNID=''/>
+  </Playback>
+  
+  <Record sessionId='' connGroupId='' connId='' profileId=''>
+    <SrcPort id='' resourceNID=''/>
+    <DstFile id='' resourceNID='' mediaGroupId='' dir='xxx/yyy' name=''>
+      <DstStorePort id='' resourceNID=''/>
+    </DstFile>
+  </Record>
+  
+  <Chat sessionId='' connGroupId='' connId=''>
+    <User id='' userJID=''/>
+  </Chat>
+  
+  <Invite sessionId='' id='' jid='' userNID='' resourceNID=''/>
+  <Kick sessionId='' id='' jid='' userNID='' resourceNID=''/>
+  <Join sessionId='' inviteId=''/>
+  <Leave sessionId='' kickId=''/>
+  
+  <Create sessionId='' sessionConfigNID='' mode='RECORD/PLAYBACK'/>
+  <Destroy sessionId='' connGroupId='' connId=''/>
+  <Publish sessionId='' tagName='' tagValue=''/>
+  
+  <SwitchSrc sessionId='' connId='' newSrcEntityId=''/>
+  <SwitchDst sessionId='' connId='' newDstEntityId=''/>
+  <SwitchProfile sessionId='' connId='' newProfileId=''/>
+  
+  <Start sessionId='' connGroupId='' connId='' WC=''/>
+  <Stop sessionId='' connGroupId='' connId='' WC=''/>             
+  <Pause sessionId='' connGroupId='' connId='' WC=''/>             
+  <Resume sessionId='' connGroupId='' connId='' WC=''/>
+  <Catchup sessionId='' connGroupId='' connId='' WC=''/>             
+  <SkipFwd sessionId='' connGroupId='' connId='' WC='' skipOffset=''/>             
+  <SkipBack sessionId='' connGroupId='' connId='' WC='' skipOffset=''/>
+  
+  <PauseAt sessionId='' connGroupId='' connId='' WC='' TC='' Offset=''/>
+  <ResumeFrom sessionId='' connGroupId='' connId='' WC='' TC='' Offset=''/>
+
+  <PauseRecord sessionId='' connGroupId='' connId='' WC=''/>             
+  <ResumeRecord sessionId='' connGroupId='' connId='' WC=''/>
+  
+  <NewBookmark sessionId='' connGroupId='' connId=''/>
+  <AddBookmark fileEntityId=''>
+    <Bookmark id=''/>
+  </AddBookmark>
+  
+  <Auth id='' state='REQUEST' sessionId='' connGroupId='' connId='' authEntityId=''/>
+  <Auth id='' state='CANCEL'/>
+  <Auth id='' state='ALLOW/DENY/REVOKE'/>
+  
+  <Presence jid='' value=''/>
+  <ConnState sessionId='' connGroupId='' connId='' value='' code='' msg=''/>
+  <TimeLine sessionId='' connGroupId='' connId='' startWC='' startOffset='' lastWC='' lastOffset='' currTimeScale=''/>
+  
+  <GetSessionObjectList>
+    <Src>
+      <Object type='PORT/FILE'/>
+      <Where/>
+      <SortBy/>
+      <Select/>
+    </Src>
+    <SrcList>
+      <Src/>
+    </SrcList>
+    <SrcRoute>
+      <Object type='ROUTE'/>
+      <Where/>
+      <SortBy/>
+      <Select/>
+    </SrcRoute>
+    <DstRoute>
+      <Object type='ROUTE'/>
+      <Where/>
+      <SortBy/>
+      <Select/>
+    </DstRoute>
+    <Dst>
+      <Object type='PORT/FILE'/>
+      <Where/>
+      <SortBy/>
+      <Select/>
+    </Dst>
+    <DstList>
+      <Dst/>
+    </DstList>
+    <Profile>
+      <Object type='PROFILE'/>
+      <Where/>
+      <SortBy/>
+      <Select/>
+    </Profile>
+  </GetSessionObjectList>
+  
+     
+  <GetPortStatus>
+    <Port type='SRC/DST/IO/RELAY/STORE'/>
+  </GetPortStatus>
+  <GetMediaStatus>
+    <Media type='DIR/FILE'/>
+  </GetMediaStatus>
+  <GetUserStatus>
+    <User jid=''/>
+  </GetUserStatus>
+  <GetAssetStatus>
+    <Asset NID=''/>
+  </GetAssetStatus>
+  <GetDeviceStatus>
+    <DeviceElement type='SYSTEM/SERVICES/PORTS'/>
+  </GetDeviceStatus>
+
+
+  <Object type='USER/ASSET/PROFILE/PORT/DIR/FILE/BOOKMARK/SESSIONCONFIG'/>
+  <GetObject>
+    <Object type=''/>
+    <Where/>
+    <SortBy/>
+    <Select/>
+  </GetObject>
+  <SetObject>
+    <Object type=''/>
+    <Where/>
+  </SetObject>
+  <DeleteObject>
+    <Object type=''/>
+    <Where/>
+  </DeleteObject>
+</SessionAPI>

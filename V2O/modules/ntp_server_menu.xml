@@ -1,0 +1,34 @@
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>NTPServer</Title>
+   <Description>NTP Server Configuration</Description>
+   <Access>ntp_server</Access>
+   <ConfigFile>ntpserverconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>EnableServer</Label>
+        <Help>Enable NTP Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>ipaddress</Name>
+        <Type>string</Type>
+        <Label>NTP Server</Label>
+        <Help>IP Address or Name  of NTP Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

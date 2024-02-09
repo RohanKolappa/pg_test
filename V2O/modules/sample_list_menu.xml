@@ -1,0 +1,93 @@
+<Menu>
+
+   <Type>list</Type>
+   <Title>SampleList</Title>
+   <Description>Sample List Config</Description>
+   <Access>sample_list</Access>
+   <SkipDocs>true</SkipDocs>
+   <ConfigFile>samplelistconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+   <VerticalOffset>0</VerticalOffset>
+   <CliCommandName>undefined</CliCommandName>
+
+   <Items>
+
+      <Item>
+        <Name>name</Name>
+        <Type>string</Type>
+        <Label>Name</Label>
+        <Help>Name</Help>
+        <FieldLength>16</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable</Label>
+        <Help>Enable Interface</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+
+      <Item>
+        <Name>video_port</Name>
+        <Type>integerorany</Type>
+        <Label>Video Port</Label>
+        <Help>Callback Port</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Any</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>2000</Min>
+           <Max>6000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>audio_port</Name>
+        <Type>integer</Type>
+        <Label>Audio Port</Label>
+        <Help>Audio Callback Port</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>6600</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1000</Min>
+           <Max>7000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>options</Name>
+        <Type>string</Type>
+        <Label>Option</Label>
+        <Help>Some Option</Help>
+        <FieldLength>9</FieldLength>
+        <DefaultValue>This</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"First", "Second", "Third", "Fourth", "Last", "F/L" </Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>register_0</Name>
+        <Type>string</Type>
+        <Label>register 0</Label>
+        <Help>register</Help>
+        <FieldLength>11</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>hexadecimal</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

@@ -1,0 +1,398 @@
+<Menu>
+	<Type>list</Type>
+	<Title>LUTList</Title>
+	<Description>List of Video LUTs</Description>
+	<Access>lut_list</Access>
+	<ConfigFile>lutlistconf</ConfigFile>
+	<BoardAccess>true</BoardAccess>
+	<VerticalOffset>0</VerticalOffset>
+
+	<Items>
+		<Item> 
+			<Name>name</Name> 
+			<Type>string</Type> 
+			<Label>Name</Label>
+			<Help>Name</Help>
+			<FieldLength>32</FieldLength>
+			<DefaultValue>Default Entry</DefaultValue>
+			<Validation>
+				<Type>regexp</Type> 
+				<Value>anynonempty</Value> 
+			</Validation> 
+		</Item> 
+
+		<Item> 
+			<Name>alutreg</Name> 
+			<Type>integer</Type> 
+			<Label>LUT ID</Label> 
+			<Help>Lookup Table ID</Help> 
+			<FieldLength>4</FieldLength> 
+			<DefaultValue>1</DefaultValue> 
+			<Validation> 
+				<Type>range</Type> 
+				<Min>1</Min>
+				<Max>169</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>stereo</Name>
+			<Type>string</Type>
+			<Label>Stereo?</Label>
+			<Help>Stereo</Help>
+			<FieldLength>4</FieldLength>
+			<Align>follow</Align>
+			<DefaultValue>No</DefaultValue>
+			<Validation>
+			   <Type>enumeration</Type>
+			   <Values>"Yes", "No", "Both"</Values>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>orig_hres</Name>
+			<Type>integer</Type>
+			<Label>Horiz. Resolution</Label>
+			<Help>Horizontal Resolution</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>1280</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>256</Min>
+			   <Max>8192</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>orig_vres</Name>
+			<Type>integer</Type>
+			<Label>Vert. Resolution</Label>
+			<Help>Vertical Resolution</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>1024</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>256</Min>
+			   <Max>4096</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>refresh</Name>
+			<Type>float</Type>
+			<Label>Refresh Rate</Label>
+			<Help>Refresh Rate</Help>
+			<FieldLength>13</FieldLength>
+			<DefaultValue>60.0</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>1.0</Min>
+			   <Max>500.0</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>pcr</Name>
+			<Type>float</Type>
+			<Label>Pixel Clock Rate</Label>
+			<Help>Pixel Clock Rate</Help>
+			<FieldLength>12</FieldLength>
+			<DefaultValue>100.0</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>20.0</Min>
+			   <Max>330.0</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>hfp</Name>
+			<Type>integer</Type>
+			<Label>Horiz. Front Porch</Label>
+			<Help>Horizontal Front Porch</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>vfp</Name>
+			<Type>integer</Type>
+			<Label>Vert. Front Porch</Label>
+			<Help>Vertical Front Porch</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>hbp</Name>
+			<Type>integer</Type>
+			<Label>Horiz. Back Porch</Label>
+			<Help>Horizontal Back Porch</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>vbp</Name>
+			<Type>integer</Type>
+			<Label>Vert. Back Porch</Label>
+			<Help>Vertical Back Porch</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>hsync</Name>
+			<Type>integer</Type>
+			<Label>Horiz. Sync</Label>
+			<Help>Horizontal Sync</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>vsync</Name>
+			<Type>integer</Type>
+			<Label>Vert. Sync</Label>
+			<Help>Vertical Sync</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>40</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>1000</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>phase</Name>
+			<Type>integer</Type>
+			<Label>Sampling Phase</Label>
+			<Help>Sampling Phase</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>0</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>-16</Min>
+			   <Max>15</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>vmargin</Name>
+			<Type>integer</Type>
+			<Label>Vert. Margin</Label>
+			<Help>Vertical Margin</Help>
+			<FieldLength>2</FieldLength>
+			<DefaultValue>0</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>3</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>hshift</Name>
+			<Type>integer</Type>
+			<Label>Horiz. Position</Label>
+			<Help>Horizontal Position</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>0</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>-135</Min>
+			   <Max>375</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>vshift</Name>
+			<Type>integer</Type>
+			<Label>Vert. Position</Label>
+			<Help>Vertical Position</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>0</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>-25</Min>
+			   <Max>50</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>cnoise</Name>
+			<Type>integer</Type>
+			<Label>Coarse Noise</Label>
+			<Help>Coarse Noise</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>10</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>1</Min>
+			   <Max>256</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>fnoise</Name>
+			<Type>integer</Type>
+			<Label>Fine Noise</Label>
+			<Help>Fine Noise</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>16</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>1</Min>
+			   <Max>2048</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>cspace</Name>
+			<Type>string</Type>
+			<Label>Color Space</Label>
+			<Help>Color Space</Help>
+			<FieldLength>6</FieldLength>
+			<DefaultValue>RGB</DefaultValue>
+			<Validation>
+			   <Type>enumeration</Type>
+			   <Values>"RGB", "YPrPb"</Values>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>cpmp</Name>
+			<Type>string</Type>
+			<Label>Charge Pump Curr</Label>
+			<Help>Charge Pump Current</Help>
+			<FieldLength>5</FieldLength>
+			<DefaultValue>Auto</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>enumeration</Type>
+			   <Values>"Auto", "50", "100", "150", "250", "350", "500", "750", "1500"</Values>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>rgain</Name>
+			<Type>integer</Type>
+			<Label>Red Gain</Label>
+			<Help>Red Gain</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>128</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>255</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>roffset</Name>
+			<Type>integer</Type>
+			<Label>Red Offset</Label>
+			<Help>Red Offset</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>64</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>127</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>ggain</Name>
+			<Type>integer</Type>
+			<Label>Green Gain</Label>
+			<Help>Green Gain</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>128</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>255</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>goffset</Name>
+			<Type>integer</Type>
+			<Label>Green Offset</Label>
+			<Help>Green Offset</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>64</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>127</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>bgain</Name>
+			<Type>integer</Type>
+			<Label>Blue Gain</Label>
+			<Help>Blue Gain</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>128</DefaultValue>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>255</Max>
+			</Validation>
+		  </Item>
+
+		  <Item>
+			<Name>boffset</Name>
+			<Type>integer</Type>
+			<Label>Blue Offset</Label>
+			<Help>Blue Offset</Help>
+			<FieldLength>4</FieldLength>
+			<DefaultValue>64</DefaultValue>
+			<Align>follow</Align>
+			<Validation>
+			   <Type>range</Type>
+			   <Min>0</Min>
+			   <Max>127</Max>
+			</Validation>
+		  </Item>
+	</Items>
+</Menu>

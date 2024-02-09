@@ -1,0 +1,59 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.path
+###
+### Description:	Provides functions to compute relative paths between
+###			various directories.
+###
+### Requires:
+###
+### Variables:
+###
+### Functions:
+###	(*) mod-path-connect(dir1,dir2,dir3)
+###		Descr:	Computes the path to follow from dir1 to go to dir3
+###			passing by dir2.
+###		Requ:	dir1 and dir3 must be - possible indirect - children
+###			of dir2.
+###		Return:	A relative path.
+
+###############################################################################
+
+mod-path-priv-empty	:=
+
+mod-path-priv-equals	=	$(word $(words $(sort $(1) $(2))),YES $(mod-path-priv-empty))
+mod-path-dnto		=	$(patsubst $(1)/%,%,$(2))
+mod-path-upto		=	$(strip \
+					$(if $(call mod-path-priv-equals,$(1),$(2)), \
+					$(mod-path-priv-empty), \
+					../$(call mod-path-upto,$(patsubst %/,%,$(dir $(1))),$(2))))
+mod-path-connect	=	$(join \
+					$(call mod-path-upto,$(1),$(2)), \
+					$(call mod-path-dnto,$(2),$(3)))
+
+###############################################################################
+

@@ -1,0 +1,5 @@
+for $portresource in collection('ipvs.default.mediastreamsrcportresourcelist')/*[.//AssetResourceNID = '_ASSETRESOURCENID_' and .//DeviceElementID='_PORTID_'] |
+                      collection('ipvs.default.mediastreamioportresourcelist')/*[.//AssetResourceNID = '_ASSETRESOURCENID_'  and .//DeviceElementID='_PORTID_']
+     let $updateContact := update replace $portresource//Contact with <Contact><OwnerUserJID>_OWNERJID_</OwnerUserJID> <Presence>_PRESENCE_</Presence> </Contact>
+     let $stateUpdated := update replace $portresource//StateFlag with <StateFlag>_STATE_</StateFlag>
+return $portresource

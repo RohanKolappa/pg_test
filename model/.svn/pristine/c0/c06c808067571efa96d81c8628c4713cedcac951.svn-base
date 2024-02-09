@@ -1,0 +1,1 @@
+c:\docbook\fop\fop.bat -xsl C:\docbook\xsl\fo\docbook.xsl -xml  API-BARCO-Rest-XML.xml -pdf  API-BARCO-Rest-XML.pdf

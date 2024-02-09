@@ -1,0 +1,137 @@
+<Device nodeid="PARENT.Device_%" parse="1">
+	<Type />
+	<NetworkElements nodeid="PARENT.NetworkElements" parse="1">
+		<EthernetPort>
+			<IPConfig nodeid="PARENT.IPConfig">
+				<usedhcp />
+				<dnsname />
+				<ipaddress>10.1.5.138</ipaddress>
+				<netmask>255.255.255.0</netmask>
+				<gateway>10.1.5.244</gateway>
+			</IPConfig>
+		</EthernetPort>
+		<RouteTable nodeid="PARENT.RouteTable" parse="1">
+			<RouteEntry nodeid="PARENT.RouteEntry">
+				<routeid>1</routeid>
+				<destination>172.16.0.0</destination>
+				<netmask>255.255.0.0</netmask>
+				<gateway>192.168.1.254</gateway>
+			</RouteEntry>
+			<RouteEntry nodeid="PARENT.RouteEntry">
+				<routeid>2</routeid>
+				<destination>10.0.0.0</destination>
+				<netmask>255.255.0.0</netmask>
+				<gateway>192.168.1.254</gateway>
+			</RouteEntry>
+		</RouteTable>
+
+	</NetworkElements>
+
+	<AVCodecElements nodeid="PARENT.AVCodecElements" parse="1">
+		<V2DEncoder nodeid="PARENT.V2DEncoder" parse="1">
+			<V2DEncoderVideoConfig
+				nodeid="PARENT.V2DEncoderVideoConfig">
+				<noiseelimination coarsenoise="1" finenoise="2" />
+				<position horizontalposition="0" verticalposition="10" />
+				<samplingphase>-16</samplingphase>
+				<gain redgain="128" greengain="128" bluegain="128" />
+				<offset redoffset="128" greenoffset="128"
+					blueoffset="128" />
+				<pumpCurr />
+				<lutpumpcurr>Auto</lutpumpcurr>
+				<updatecurrentlut />
+			</V2DEncoderVideoConfig>
+			<V2DCodecSerialConfig
+				nodeid="PARENT.V2DCodecSerialConfig">
+				<serialport>0</serialport>
+				<baudrate>9600</baudrate>
+				<databits>8</databits>
+				<parity>None</parity>
+				<stopbits>1</stopbits>
+				<flowcontrol>None</flowcontrol>
+				<maximumwaittime>0</maximumwaittime>
+			</V2DCodecSerialConfig>
+
+
+			<V2DEncoderVideoLookupTable
+				nodeid="PARENT.V2DEncoderVideoLookupTable" parse="1">
+				<V2DEncoderVideoLookupEntryConfig
+					nodeid="PARENT.V2DEncoderVideoLookupEntryConfig">
+					<lutid>1</lutid>
+					<name>ONYX2 1024x768 96.0 Hz, Stereo</name>
+					<resolution horizontalresolution="1024"
+						verticalresolution="768" />
+					<verticalmargin>0</verticalmargin>
+					<refreshrate>96.0000</refreshrate>
+					<pixelclockrate>99.1642</pixelclockrate>
+					<stereo>TRUE</stereo>
+					<frontporch horizontalfrontporch="16"
+						verticalfrontporch="3" />
+					<backporch horizontalbackporch="112"
+						verticalbackporch="30" />
+					<sync horizontalsync="128" verticalsync="6" />
+					<phase>0</phase>
+					<position horizontalposition="" verticalposition="" />
+					<noiseelimination coarsenoise="10" finenoise="16" />
+					<colorspace>RGB</colorspace>
+					<chargepumpcurr>Auto</chargepumpcurr>
+					<gain redgain="128" greengain="128" bluegain="128" />
+					<offset redoffset="128" greenoffset="128"
+						blueoffset="128" />
+				</V2DEncoderVideoLookupEntryConfig>
+
+			</V2DEncoderVideoLookupTable>
+			<V2DCodecSplashParametersConfig
+				nodeid="PARENT.V2DCodecSplashParametersConfig">
+				<splashscreen>"Blue Screen"</splashscreen>
+				<splashbandwidth>1m</splashbandwidth>
+				<enablesplash>Yes</enablesplash>
+				<resolution horizontalresolution="1024"
+					verticalresolution="768" />
+				<refreshrate>96.0000</refreshrate>
+				<pixelclockrate>99.1642</pixelclockrate>
+				<stereo>Yes</stereo>
+				<frontporch horizontalfrontporch="16"
+					verticalfrontporch="3" />
+				<backporch horizontalbackporch="112"
+					verticalbackporch="30" />
+				<sync horizontalsync="128" verticalsync="6" />
+			</V2DCodecSplashParametersConfig>
+
+			<V2DEncoderAuthorizationTable
+				nodeid="PARENT.V2DEncoderAuthorizationTable">
+				<V2DEncoderAuthorizationEntryConfig
+					nodeid="PARENT.V2DEncoderAuthorizationEntryConfig">
+					<authorizationid>1</authorizationid>
+					<network>192.168.1.0</network>
+					<netmask>255.255.255.0</netmask>
+					<enablerule>Yes</enablerule>
+					<maxbandwidth>10m</maxbandwidth>
+					<compression lowcompression="1" highcompression="6" />
+					<burstratio>1.00</burstratio>
+					<burstduration>50</burstduration>
+					<unicast>Yes</unicast>
+					<unicastpreemptible>Yes</unicastpreemptible>
+					<multicastinit>Yes</multicastinit>
+					<multicastjoin>Yes</multicastjoin>
+				</V2DEncoderAuthorizationEntryConfig>
+				<V2DEncoderAuthorizationEntryConfig
+					nodeid="PARENT.V2DEncoderAuthorizationEntryConfig">
+					<authorizationid>1</authorizationid>
+					<network>192.168.2.0</network>
+					<netmask>255.255.255.0</netmask>
+					<enablerule>Yes</enablerule>
+					<maxbandwidth>10m</maxbandwidth>
+					<compression lowcompression="1" highcompression="6" />
+					<burstratio>1.00</burstratio>
+					<burstduration>50</burstduration>
+					<unicast>Yes</unicast>
+					<unicastpreemptible>Yes</unicastpreemptible>
+					<multicastinit>Yes</multicastinit>
+					<multicastjoin>Yes</multicastjoin>
+				</V2DEncoderAuthorizationEntryConfig>
+			</V2DEncoderAuthorizationTable>
+		</V2DEncoder>
+	</AVCodecElements>
+</Device>
+

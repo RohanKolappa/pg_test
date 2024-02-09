@@ -1,0 +1,46 @@
+<Menu>
+
+    <Type>config</Type>
+    <Title>MulticastParameters</Title>
+    <Description>Multicast Parameters</Description>
+    <Access>multicast_parm</Access>
+    <ConfigFile>multicastconf</ConfigFile>
+
+    <Items>
+        <Item>
+            <Name>multicast_from</Name>
+            <Type>string</Type>
+            <Label>Multicast Address Start</Label>
+            <Help>Starting Multicast Address on which Video/Audio is served</Help>
+            <FieldLength>32</FieldLength>
+            <DefaultValue>226.1.1.1</DefaultValue>
+            <Validation>
+                <Type>multicast</Type>
+            </Validation>
+        </Item>
+        <Item>
+            <Name>multicast_to</Name>
+            <Type>string</Type>
+            <Label>Multicast Address End</Label>
+            <Help>Ending Multicast Address on which Video/Audio is served</Help>
+            <FieldLength>32</FieldLength>
+            <DefaultValue>226.1.1.50</DefaultValue>
+            <Validation>
+                <Type>multicast</Type>
+            </Validation>
+        </Item>
+        <Item>
+            <Name>multicast_ttl</Name>
+            <Type>integer</Type>
+            <Label>Multicast TTL</Label>
+            <Help>Multicast TTL value</Help>
+            <FieldLength>8</FieldLength>
+            <DefaultValue>1</DefaultValue>
+            <Validation>
+                <Type>range</Type>
+                <Min>1</Min>
+                <Max>255</Max>
+            </Validation>
+        </Item>
+    </Items>
+</Menu>

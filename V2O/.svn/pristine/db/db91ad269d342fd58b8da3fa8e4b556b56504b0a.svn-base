@@ -1,0 +1,50 @@
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>DNSClient</Title>
+   <Description>DNS Client</Description>
+   <Access>dns_client</Access>
+   <ConfigFile>netconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>hostname</Name>
+        <Type>string</Type>
+        <Label>Host Name</Label>
+        <Help>Host Name for this device</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>hostname</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>localdomain</Name>
+        <Type>string</Type>
+        <Label>Local Domain Name</Label>
+        <Help>Domain for this host</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>domainname</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>dnsservip</Name>
+        <Type>string</Type>
+        <Label>DNS Server IP Address</Label>
+        <Help>DNS Server Hostname/IP</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

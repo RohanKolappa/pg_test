@@ -1,0 +1,107 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="blkProfileRTPRAWStreamType" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkProfileRTPRAWStreamType" jsxmargin="0 4 0 0" jsxdisplay="none"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="26,*,40" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #d4d4d4"></strings>
+      <dynamics jsxbgcolor="P4BG"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="@Solid Shadow" jsxbg="Header BG"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="5" jsxtop="6"></variants>
+          <strings jsxname="lblRTPRAWStreamProfile" jsxtext="RTP Profile Settings" jsxdisplay="" jsxcolor="#fff;" jsxfontweight="bold"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody1" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxfontsize="SmallText"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxzindex="99"></variants>
+          <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="20 20 20 20"></strings>
+          <dynamics jsxbgcolor="P4"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+            <strings jsxname="label"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="365" jsxtop="15" jsxwidth="120"></variants>
+          <strings jsxname="lblRTPRAWAllowSkipFwd" jsxtext="Allow SkipForward:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="490" jsxtop="15" jsxdefaultchecked="0"></variants>
+          <strings jsxname="chkRTPRAW_AllowSkipFwd" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="200" jsxtop="15" jsxwidth="120"></variants>
+          <strings jsxname="lblRTPRAWAllowSkipBack" jsxtext="Allow SkipBack:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="325" jsxtop="15" jsxdefaultchecked="0"></variants>
+          <strings jsxname="chkRTPRAW_AllowSkipBack" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="15" jsxwidth="120"></variants>
+          <strings jsxname="lblRTPRAWAllowPause" jsxtext="Allow Pause:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="139" jsxtop="15" jsxdefaultchecked="0"></variants>
+          <strings jsxname="chkRTPRAW_AllowPause" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="365" jsxtop="35" jsxwidth="120"></variants>
+          <strings jsxname="lblRTPRAWAVOption" jsxtext="AV Option:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxwidth="75" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="490" jsxtop="35"></variants>
+          <strings jsxname="selRTPRAWAVOption" jsxxmlurl="xml/selections/V2DStreamConfigAVOption.xml" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="35" jsxwidth="120"></variants>
+          <strings jsxname="lblRTPRAWIsMulticast" jsxtext="Use Multicast:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="139" jsxtop="35" jsxdefaultchecked="0"></variants>
+          <strings jsxname="chkRTPRAW_IsMulticast" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="59" jsxwidth="120"></variants>
+          <strings jsxname="lblRAWSDPURL" jsxtext="SDP URL:" jsxdisplay="none" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="139" jsxtop="59" jsxwidth="180"></variants>
+          <strings jsxname="txtRTPRAW_SDPURL" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalue="000"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+        <dynamics jsxborder="@Inset Top"></dynamics>
+      </object>
+    </object>
+  </object>
+</serialization>

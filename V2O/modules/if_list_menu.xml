@@ -1,0 +1,106 @@
+
+
+<Menu>
+
+   <Type>list</Type>
+   <Title>IFList</Title>
+   <Description>List of Network Interfaces</Description>
+   <Access>if_list</Access>
+   <ConfigFile>iflistconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>port</Name>
+        <Type>string</Type>
+        <Label>LAN</Label>
+        <Help>Interface Identifier</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+		   <Values>"1","2","3"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+		<Align>follow</Align>
+        <Label>Enable</Label>
+        <Help>Enable Interface</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>primary</Name>
+        <Type>boolean</Type>
+        <Label>Primary</Label>
+        <Help>Primary Interface</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>multicast</Name>
+        <Type>boolean</Type>
+		<Align>follow</Align>
+        <Label>Multicast</Label>
+        <Help>Enable Multicast</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+
+      <Item>
+        <Name>usedhcp</Name>
+        <Type>boolean</Type>
+        <Label>DHCP</Label>
+        <Help>Use DHCP</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+ 
+       <Item>
+        <Name>mtu</Name>
+        <Type>integer</Type>
+        <Label>MTU Size</Label>
+        <Help>mtu size</Help>
+        <FieldLength>6</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>1500</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>100</Min>
+           <Max>9000</Max>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>ipaddress</Name>
+        <Type>string</Type>
+        <Label>IP Address</Label>
+        <Help>IP Address of the interface</Help>
+        <FieldLength>15</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>netmask</Name>
+        <Type>string</Type>
+        <Label>Netmask</Label>
+        <Help>Netmask of the interface</Help>
+        <FieldLength>15</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>netmask</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

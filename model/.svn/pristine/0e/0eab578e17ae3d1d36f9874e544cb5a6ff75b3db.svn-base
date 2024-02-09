@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomValidation methodName="validateTagName" defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="false">
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//ANY-Tx-Device/ResourcePointers</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/ANY-Tx-Device/AssetResourceNID" action="delete"/>	
+	<foreignKeyNID xpath="//ResponseXML/ANY-Tx-Device/ResourcePointers/MediaStreamSrcPortResourceNID/NIDValue" action="delete"/>	
+  </validation>
+</CustomValidation>

@@ -1,0 +1,198 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="backupBlock" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutRows" jsxrows="35,*" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #777777"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxheight="35"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="border-bottom: 1px solid #9898a5"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="label" jsxtext="Backup Database" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxstyleoverride="overflow-x:hidden;" jsxclassname="dialogBody" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxheight="200" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkManualBackup" jsxwidth="100%" jsxdisplay=""></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30" jsxrelativeposition="0" jsxleft="8" jsxtop="12"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="98%" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="11" jsxtop="6" jsxfontsize="13"></variants>
+              <strings jsxname="label" jsxtext="Create a Manual Backup" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxleft="20" jsxtop="55"></variants>
+            <strings jsxname="lblHelpText" jsxtext="Create a backup of the system database and save it on the management server or to your pc." jsxtextalign="right" jsxclassname="formLabel" jsxmargin="0 20 0 20" jsxdisplay="" jsxcolor=""></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30" jsxrelativeposition="0" jsxleft="0" jsxtop="78"></variants>
+            <strings jsxname="blkDbBackupServer" jsxwidth="100%" jsxclassname="formRow" jsxmargin="0 0 0 0" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="7" jsxwidth="220"></variants>
+              <strings jsxname="label" jsxtext="Create manual backup:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="240" jsxtop="7"></variants>
+              <strings jsxname="radioBackupServer" jsxtext="Backup to Server" jsxgroupname="group1" jsxmargin="2 4 0 0" jsxvalue="Server" jsxdisplay=""></strings>
+              <events jsxselect=""></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30" jsxrelativeposition="0" jsxleft="0" jsxtop="112"></variants>
+            <strings jsxname="blkDbBackupServer" jsxwidth="100%" jsxclassname="formRow" jsxmargin="0 0 0 0" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="28%" jsxtextalign="right" jsxdisplay="" jsxpadding="10 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="240" jsxtop="0"></variants>
+              <strings jsxname="radioBackupPC" jsxtext="Backup to PC" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxvalue="PC" jsxdisplay=""></strings>
+              <events jsxselect=""></events>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxwidth="180" jsxrelativeposition="0" jsxleft="349" jsxtop="0" jsxenabled="1"></variants>
+              <strings jsxname="txtExportFileName" jsxmargin="0 4 0 0" jsxvalue="" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="539" jsxtop="0"></variants>
+              <strings jsxname="label" jsxtext="(Enter file name for this backup)" jsxdisplay=""></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="240" jsxtop="136"></variants>
+            <strings jsxname="label" jsxtext="The backup will be saved in &lt;u&gt;C:\IPVS Backup&lt;/u&gt; on your system." jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxheight="30" jsxrelativeposition="0" jsxleft="-1" jsxtop="166"></variants>
+            <strings jsxname="blkDbBackupServerBtn" jsxwidth="100%" jsxclassname="formRow" jsxmargin="0 0 20 0" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="100" jsxrelativeposition="0" jsxleft="240"></variants>
+              <strings jsxname="btnBackupDB" jsxtext="Run Backup" jsxmargin="4 4 0 0" jsxclassname="btnBlueGlass" jsxtip=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="240" jsxtop="0"></variants>
+              <strings jsxname="blkStatus" jsxdisplay="none" jsxbgcolor="#e5e5e5"></strings>
+              <object type="jsx3.gui.Image">
+                <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="24" jsxheight="24"></variants>
+                <strings jsxname="image" jsxsrc="../../addins/ipvsCommon/images/icons/spinner24.gif"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="25" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Running backup..." jsxpadding="6 5 0 6" jsxcolor="#333333"></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxrelativeposition="0" jsxheight="360" jsxleft="0" jsxtop="200"></variants>
+          <strings jsxname="blkScheduleBackup" jsxwidth="100%" jsxdisplay=""></strings>
+          <object type="jsx3.gui.CDF">
+            <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxheight="100%" jsxname="cdfDlgScheduleBackup" jsxwidth="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxloadtype="1"></variants>
+              <strings jsxname="blkSchedule" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxbgcolor="#e5e5e5;"></strings>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtDirtyBitblkScheduleBackup" jsxmargin="0 4 0 0" jsxcdfattribute="DirtyBitblkScheduleBackup" jsxdisplay="none"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30" jsxrelativeposition="0" jsxleft="8" jsxtop="0"></variants>
+                <strings jsxname="blkFormSectionTitle" jsxwidth="98%" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle" jsxdisplay=""></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="13" jsxleft="11" jsxtop="6"></variants>
+                  <strings jsxname="label" jsxtext="Schedule Backups" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxleft="20" jsxtop="45"></variants>
+                <strings jsxname="lblHelpText" jsxtext="Schedule an automatic recurring backup of the system database.  The backup will be saved directly on the management server.  The system retains only one backup at a time." jsxtextalign="left" jsxclassname="formLabel" jsxdisplay="" jsxwidth="90%"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="9" jsxtop="87" jsxwidth="220"></variants>
+                <strings jsxname="label" jsxtext="Enable Daily Backup:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.CheckBox">
+                <variants jsxheight="18" jsxdefaultchecked="0" jsxchecked="0" jsxrelativeposition="0" jsxleft="239" jsxtop="87"></variants>
+                <strings jsxname="chkEnableBkp" jsxtext="" jsxmargin="0 4 0 0" jsxcdfattribute="jsxDailyBackup" jsxdisplay=""></strings>
+                <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="118" jsxwidth="220"></variants>
+                <strings jsxname="label" jsxtext="Run backup at:" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18" jsxrelativeposition="0" jsxleft="240" jsxtop="117"></variants>
+                <strings jsxname="txtDbBackupTime" jsxmargin="0 4 0 0" jsxcdfattribute="jsxBackupTime" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="9" jsxwidth="60" jsxleft="362" jsxtop="120"></variants>
+                <strings jsxname="label" jsxtext="Hr" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="9" jsxwidth="570" jsxleft="240" jsxtop="140"></variants>
+                <strings jsxname="label" jsxtext="If more than once a day, then enter as a comma separated list.  Values are in 24hr format.  &lt;br&gt;For example: To run a backup at 9am, 6pm, and midnight - you would enter:  9, 18, 0&#xA;&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt;  Time entered will be relative to the time zone of the Management server." jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Select">
+                <variants jsxwidth="60" jsxheight="18" jsxxmlasync="1" _isfocusing="true" jsxrelativeposition="0" jsxleft="239" jsxtop="175"></variants>
+                <strings jsxname="selDbBackupTime" jsxxmlurl="xml/selections/BackupAt.xml" jsxmargin="0 4 0 0" jsxvalue="1" jsxdisplay="none"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="190" jsxwidth="220"></variants>
+                <strings jsxname="label" jsxtext="Upload Backup to FTP Site:&lt;br&gt;(&lt;i&gt;Optional&lt;/i&gt;)" jsxtextalign="right" jsxclassname="formLabel" jsxbgcolor="" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.CheckBox">
+                <variants jsxdefaultchecked="0" jsxheight="18" jsxchecked="0" jsxrelativeposition="0" jsxleft="239" jsxtop="190"></variants>
+                <strings jsxname="chkEnableFtp" jsxtext="" jsxmargin="0 4 0 0" jsxcdfattribute="jsxEnableExport" jsxdisplay=""></strings>
+                <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18" jsxenabled="1" jsxwidth="300" jsxrelativeposition="0" jsxleft="266" jsxtop="190"></variants>
+                <strings jsxname="txtExportFtpURL" jsxmargin="0 0 0 0" jsxcdfattribute="jsxExportURL" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="240" jsxtop="213" jsxfontsize="10" jsxwidth="410"></variants>
+                <strings jsxname="label" jsxtext="EXAMPLE: &amp;nbsp;ftp://username:password@ftpserver.address.com" jsxdisplay="" jsxfontweight="normal" jsxcolor="#555555" jsxtextalign="left"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="240" jsxwidth="220"></variants>
+                <strings jsxname="label" jsxtext="Use for auto-recovery:&lt;br&gt;(Instead of Factory Defaults)" jsxtextalign="right" jsxclassname="formLabel" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.CheckBox">
+                <variants jsxheight="18" jsxleft="240" jsxdefaultchecked="0" jsxchecked="0" jsxrelativeposition="0" jsxtop="240"></variants>
+                <strings jsxname="chkAutoRecoveryFrom" jsxtext="" jsxmargin="0 4 0 0" jsxcdfattribute="jsxRecoveryMode" jsxdisplay=""></strings>
+                <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+              </object>
+              <object type="jsx3.gui.Button">
+                <variants jsxindex="0" jsxheight="22" jsxwidth="100" jsxrelativeposition="0" jsxleft="240" jsxtop="280"></variants>
+                <strings jsxname="btnSetBackupSchedule" jsxtext="Set Schedule" jsxmargin="0 0 0 20" jsxclassname="btnBlueGlass" jsxpadding="3 0 0 0" jsxdisabledbgcolor="" jsxdisplay="" jsxtip=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="240" jsxtop="280"></variants>
+                <strings jsxname="blkStatus" jsxdisplay="none" jsxbgcolor="#e5e5e5" jsxmargin="0 0 0 20"></strings>
+                <object type="jsx3.gui.Image">
+                  <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="24" jsxheight="24"></variants>
+                  <strings jsxname="image" jsxsrc="../../addins/ipvsCommon/images/icons/spinner24.gif"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="25" jsxfontsize="11"></variants>
+                  <strings jsxname="label" jsxtext="Setting backup schedule..." jsxpadding="6 5 0 6" jsxcolor=""></strings>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

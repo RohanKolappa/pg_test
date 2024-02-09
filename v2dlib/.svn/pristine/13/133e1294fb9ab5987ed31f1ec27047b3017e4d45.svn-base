@@ -1,0 +1,584 @@
+
+V2D Library API
+===============
+Rahul Kale <rahul.kale@barco.com>
+:Author Initials: RKAL
+$Id: V2DLibAPI.txt 76930 2014-02-20 18:11:06Z rkale $
+
+
+Introduction
+------------ 
+
+The V2D library implements the functionality for handling IP Video
+System's proprietary video codec called V2D codec. This library is
+used by other modules such as Streaming Server and Windows Media
+Player to handle V2D codec encoding, decoding, streaming and parsing.
+
+The library exposes APIs that implements the following features:
+
+- Encoding of RGB frames into a V2D codec bitstream.
+
+- Decoding of encoded video frames into RGB or YUV frames.
+
+- V2D network protocol for sending video/audio to decoders
+
+- V2D network protocol for receiving video/audio from encoders
+
+- Parsing video bitstream into individual frames.
+
+- Processing V2D video bitstream to create another compliant bitstream
+for the purpose of reducing bandwidth or framerate.
+
+This document describes the APIs that the library exposes for
+applications that need to incorporate any or all of the above
+features. The library is implemented using C as well as
+C\+\+. Currently, its networking and frame parsing functionalities are
+exposed using C API while its encoding and decoding functionalities
+are exposed using C++.
+
+
+V2D Protocol Overview
+---------------------
+ 
+The V2D network protocol follows a client-server model. The video
+encoder acts likes a server to which video decoders (e.g. media
+players) connect as clients over TCP and establish a control
+channel. Video encoding and streaming parameters are requested by the
+client over this channel.
+
+Encoded video and audio is typically sent by the server over UDP. The
+UDP ports over which the data would be sent is negotiated over the TCP
+control channel during initial handshake. For a multicast connection,
+the multicast address is communicated to the client over the
+control connection.
+
+Subsequently, the control channel is used by the server to
+periodically send updated video and audio parameters to the
+client. The client sends a periodic heartbeat to the server over this
+channel. The control channel is to also used by the client to send
+keyboard and mouse data to the server and send/receive serial data
+from the server since this data needs reliable communication.
+
+A typical media player application would perform the following steps
+to playback V2D media:
+
+. Connect to a V2D encoder on the network using the V2D protocol and
+receive video/audio data.
+
+. Separate video and audio data into independent bitstreams.
+
+. Parse video bitstream into encoded video frame buffers.
+
+. Decode video frame buffers into image pixel frames.
+
+. Render the image frames onto display hardware.
+
+. Parse audio bitstreams into encoded audio samples.
+
+. Decode audio samples into pcm samples
+
+. Playback the pcm samples onto audio hardware.
+
+A  media encoder would perform the following steps to serve media
+using the V2D codec:
+
+. Instantiate a network service running the V2D protocol waiting for
+inbound client connections.
+
+. On client connection, use the V2D network protocol to negotiate
+codec parameters and the UDP port numbers to send video and audio data on.
+
+. Grab image frames from a video source.
+
+. Grab audio samples from an audio source.
+
+. Encode the image frames using V2D codec.
+
+. Encode audio into a compliant bitstream.
+
+. Chunk encoded video and audio bitstreams into packets and add RTP
+headers.
+
+. Send the RTP packets to the client on the negotiated UDP ports.
+
+
+This library provides implementation for the core functions of
+networking (V2D protocol), encoding/decoding, and framing. The
+rendering of video frames and playback of audio samples is not
+provided by the library since it is typically handled by the media
+player framework using this library. 
+
+V2D audio bitstream consists of uncompressed PCM samples and decoding
+involves a simple byte swap operation. No implementation is currently
+provided for this decoding step.
+
+V2D Receiver Protocol
+---------------------
+
+Creating Client Session
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The client networking functionality is accessible by including header
+file +v2d.h+
+
+All the client side V2D protocol functions take a handle to the client
+session object as the first parameter. A client application has to
+first create the session object by calling +Rx_Create()+. This returns
+the handle as a pointer to a typedef +V2DRx_t+.
+
+
+--------
+    V2DRx_t *Rx_Create(char *destination, int serverport, int bandwidth,
+                        int multicast, int videoport, int audioport,
+                        int avoption, int audiotype, int bsrdreqd);
+--------
+
++destination+:: The IP address of the server to connect to.
+
++serverport+:: The TCP port number to be used for the connection.
+
++bandwidth+:: Requested bandwidth in bits per second.
+
++multicast+:: If requesting a multicast connection, set to 1, else set
+to 0.
+
++videoport+:: The UDP port to receive video data on. If set to 0,
+an unused port will be determined and used internally.
+
++audioport+:: The UDP port to receive audio data on. If set to 0, an
+unused port will be determined and used internally.
+
++avoption+:: Request video, audio or both (AVOPTION_VIDEO,
+AVOPTION_AUDIO, AVOPTION_AUDIO_VIDEO).
+
++audiotype+:: Deprecated. Always set to AUDIOTYPE_DEFAULT (0)
+
++bsrdreqd+:: Depracated. Always set to 0.
+
+
+After the session is created, the client application needs to first call function
++Rx_OpenMediaConnection()+ which creates an internal socket.
+
+--------
+    int Rx_OpenMediaConnection(V2DRx_t * rxSession);
+--------
+
+
+Processing Client Session
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating a session does not initiate anything within the library.  The
+internal state machine of the V2D protocol is pushed along using a
+call to +Rx_Go()+.  All calls into the library are non-blocking. A
+call to +Rx_Go()+ does not block. It checks if there is any data
+to receive on its internal sockets, read the data if needed, and
+return. After calling +Rx_Go()+, the application needs to check the state of
+the session and process video, audio or control data as needed.
+
+--------
+    int Rx_Go(V2DRx_t * rxSession);
+--------
+
+In general, a client application will call +Rx_Go()+ in a tight
+loop. After each call, it would check for any data that may have
+arrived, process the data, and call +Rx_Go()+ again. If no data is
+detected, it should sleep briefly (for one millisecond) before
+repeating the loop.
+
+After calling +Rx_Go()+, the application can check the state of the
+client session by reading the structure's member variable,
++m_nRxState+.  The values are hash defined. Interesting values are:
+
++CLIENT_STATE_IDLE+:: Client is currently not connected to the
+server. If initial connection fails, or client gets disconnected for
+any reason, it will go back to this state and keeps retrying
+connection periodically.
+
++CLIENT_STATE_DISABLED+:: Client is disabled. Server may send a
+request to client to not keep trying to reconnect. Client gets into
+this state instead of IDLE and stops retrying connections.
+
++CLIENT_STATE_CONNECTED+ :: Client successfully setup a TCP
+connection, but is still negotiating.
+
++CLIENT_STATE_READY+:: Client is fully ready and reached steady
+state. It is listening for video/audio on its UDP ports.
+
+
+Updating Time
+~~~~~~~~~~~~~
+
+The library needs to compute the current time of day for internal
+bookkeeping. Since +gettimeofday()+ is an expensive system call, the
+library expects the client application to set the time of day before
+each call to +Rx_Go()+. This improves performance, especially for
+applications that may be handling multiple clients simultaneously.
+
+The application can invoke the following function supplying the current
+time in milliseconds since epoch.
+
+--------
+   v2dLibSetTime(unsigned long long nCurrentTime);
+--------
+
+Receiving Data
+~~~~~~~~~~~~~~
+
+After any call to +Rx_Go()+, the application can determine whether data is
+available on any of the control, video or audio channels by testing
+the +V2DRx_t+ structure's data member +m_nFlag+ for the following bits:
+
++I_CTL+:: Control data is available on the TCP channel. This would
+typically be the server capabilities message (SCAP) which carry video
+encoding parameters. Data can be read from the structure's data member
++m_CtlRcv+. The data is packed in a tight binary format and can be
+interpreted by invoking special convenience routines.  The data length
+can be determined by invoking macro +GET_PROTOCOL_PACKET_LENGTH()+;
+
++I_VIDEO+:: Video data is available and can be read from data member
++m_VideoRcv+. The length of available data is +m_nVideoLen+.
+ 
++I_AUDIO+:: Audio data is available and can be read from data member
++m_AudioRcv+. The length of available data is +m_nAudioLen+.
+
++I_SER+:: Serial data is available on the TCP control channel and can be
+read from data member +m_CtlRcv+. The data length can be determined by
+invoking macro +GET_PROTOCOL_PACKET_LENGTH()+;
+
+If any of the above bits are set in +m_nFlag+, the application must
+clear the bit so that the next call to +Rx_Go()+ can fetch new
+data. For example:
+
+--------
+    rxSession->m_nFlag &= ~I_VIDEO;
+--------
+
+Parsing Video Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+One unique feature of the V2D protocol is the seamless handling of
+change in video resolution. As the PC connected to the encoder changes
+its resolution (e.g. switches from 1024 x 768 to 1280 x 1024) the
+encoder changes the bitstream to accommodate the change and signals
+the new video parameters in an out of band manner on the TCP control
+channel via the server capabilities (SCAP) message.
+
+The V2D codec bitstream does not carry all the information necessary
+for decoding video. The SCAP messages from the server needs to be
+continually parsed and the video parameters need to extracted
+to properly initialize the video frame parser and decoder.
+
+A convenience C++ class called +CScapProcessor+ is provided by the
+library to detect changes in video parameters and retrieve them as
+necessary. The class is defined in header file +ScapProcessor.hh+
+and can be simply created by the application:
+
+-------
+    CScapProcessor * scapProcessor = new CScapProcessor();
+-------
+
+To class object can be forwarded any packet received on the control channel
+by calling its Process() method.
+
+------
+    bool CScapProcessor::Process(char *payload);
+------
+
+This method returns true if an SCAP message is found in the payload.
+
+The class can detect significant changes in video parameters and can
+be queried using its +ResolutionChangeDetected()+ method
+
+--------
+    bool CScapProcessor::ResolutionChangeDetected();
+--------
+
+This method returns true if a resolution change is detected. 
+
+If the video resolution changes, the application is expected to
+recreate its parser and decoder data structures. The relevant
+parameters can be retrieved from the class as explained in subsequent
+sections.
+
+Handling Keyboard and Mouse 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the application needs to control the remote screen using keyboard
+and mouse, it needs to arrange for grabbing keyboard/mouse events from
+the system. The exact mechanism is operating system dependent and the
+application framework needs to implement the necessary mechanism. This
+is an optional feature that a media player may choose to ignore.
+
+To send mouse data to the V2D server the following function should be
+used:
+
+--------
+    Rx_SendMouseEvent(V2DRx_t * rxSession, unsigned short xPos, 
+                       unsigned short yPos, unsigned char buttonmask);
+--------
+
++xPos+:: The X position of the mouse.
+
++yPos+:: The Y position of the mouse.
+
++buttonmask+:: The mask that reflects the mouse button state.
+ 
+
+To send keyboard data to the V2D server the following function should be
+used:
+
+--------
+    void Rx_SendKeyboardEvent(V2DRx_t * rxSession, unsigned long key, int down);
+--------
+
++key+:: The key code relecting the key pressed
+
++down+:: The direction of the key pressed. For key pressed event, set
+to 1. For key release event set to 0.
+
+The above two functions only populate an internal buffer with a
+correctly formed protocol packet. To actually send the packet to the
+server, the client application needs to set the +O_CTL+ flag in data
+member +m_nFlag+ and then invoke +Rx_GO()+. For example:
+
+--------
+    Rx_SendMouseEvent(rxSession, xPos, yPos, buttonmsk);
+    rxSession->m_nFlag |= O_CTL;
+    Rx_Go(rxSession);
+--------
+
+Releasing Client Resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the application is done with the session, the allocated resources can be freed
+with a call to +Rx_Destroy()+.
+
+ void Rx_Destroy(V2DRx_t * rxSession);
+
+Any open sockets will be closed and allocated internal memory will be freed.
+
+Video Parsing and Decoding
+--------------------------
+
+Parsing Video Into Frames
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before the video bitstream can be decoded, it needs to be parsed into
+individual frames since the decoder accepts one frame of data at a
+time. The library implements a module called Slice Reduction Module
+which can be used to parse the bitstream into individual frames.
+
+The incoming video packets are typically RTP packets with 12 bytes of
+header and 1024 bytes of data. The data bytes are fed to the Slice
+Reduction Module for each arriving packet. The module can be queried
+for a complete frame at any time. If a frame is ready, it can be
+picked up and sent for decoding. If the client application does not
+query and pick up a frame, the Slice Reduction Module has the ability
+to fold multiple frames into one and will always output a clean
+encoded frame whenever the application chooses to pick up a frame. In
+this way, even if the CPU resources are running low on the client's
+PC, the player can always display a clean, albeit reduced framerate
+video.
+
+The functionality provided by Slice Reduction Module is accessible by
+including header file +srd.h+
+
+The Slice Reduction Module exposes its functionality using a handle
+which is a typedefed data structure called +sliceRedData_t+. All
+functions use a pointer to this structure as the first parameter. The
+application needs to allocate this structure and then initialize it
+using +initSRD()+. 
+
+--------
+    sliceRedData_t * srd = (sliceRedData_t *) malloc(sizeof(sliceRedData_t));
+    initSRD(srd);
+--------
+
+
+After the +sliceRedData_t+ handle is created and initialized, it needs
+to be further primed with certain video parameters that are available
+in the out of band SCAP message. This is necessary for proper
+operation of the Slice Reduction Module. The +CScapProcessor+ class can
+be used to retrieve these parameters and set appropriately in the
+structure as shown below.
+
+--------
+    srd->sliceSize = scapProcessor->GetSliceSize();
+    srd->MaxSliceNo = scapProcessor->GetMaxSliceNumber();
+    setStereoVideo(srd, scapProcessor->GetStereoMode());
+    setStereoPolicy(srd, SP_MONO);
+    setCompMode(srd, scapProcessor->GetVideoCompMode());
+    setMotionCompMode(srd, scapProcessor->GetVideoMotionCompMode());
+--------
+
+If the SCAP processing signals a resolution change, the client
+application is expected to discard the current +sliceRedData_t+ handle
+and create a new one to use for further processing.
+
+Video data is sent to the parser using +findFramesinPacket()+. This call assumes
+that the video data is of size 1024.
+
+--------
+    int findFramesinPacket(sliceRedData_t *srd, unsigned char* pData);
+--------
+
++pData+:: Pointer to video data.
+
+Since the SRD module may potentially parse multiple packets before it
+can potentially deliver a frame, the client application may need to
+keep track of frame timestamps that are parsed by the module. For
+every RTP payload packet that is parsed by the SRD module, the client
+can set the RTP timestamp in the module by using
++SRDSetPacketTimestamp()+. The client needs to independently parse the
+RTP header and extract the timestamp from the RTP header. This
+function has to be called before the call to +findFramesinPacket()+.
+
+--------
+    void SRDSetPacketTimestamp(sliceRedData_t *srd, uint32_t timeStamp);
+--------
+
++pData+:: Timestamp to track. Typically should be the timestamp in the
+RTP header of the packet received.
+
+To pick up parsed frames from the module, the caller first needs to check
+if a frame is available. For this the client invokes +get_hoFrame()+.
+
+--------
+    int get_hoFrame(sliceRedData_t *srd);
+--------
+
+The function return -1 if no frame is available, otherwise it returns 0.
+
+If a frame is available, the size of the frame can be determined using
++getHoFrameSize()+.
+
+--------
+    int getHoFrameSize(sliceRedData_t *srd);
+--------
+
+The function returns size in bytes of the encoded video frame.
+
+The encoded video frame can be copied into an application defined buffer
+using +copyHoFrameToBuffer()+.
+
+--------
+    int copyHoFrameToBuffer(sliceRedData_t *srd, 
+                            unsigned char *outBuffer, 
+                            const unsigned int outBufferLen);
+--------
+
++outBuffer+:: The buffer to copy data into.  
+
++outBufferLen+:: The space available in the provided buffer. If this
+is of insufficient length, the frame will be truncated to fit into the
+provided buffer.
+
+
+If +SRDSetPacketTimestamp()+ has been used to provide timestamps to
+the SRD module, then the timestamp corresponding to the frame just
+recovered can be retrieved by using
++SRDGetFrameTimeStamp()+. This function should be called right
+after a call to +copyHoFrameToBuffer()+. It is meaningless to call
+this function unless +SRDSetPacketTimestamp()+ has been used to hint
+SRD module with packet timestamps.
+
+--------
+    uint32_t SRDGetFrameTimeStamp(sliceRedData_t *srd);
+--------
+
+
+
+When done with the Slice Reduction Module, the resources can be freed by calling
++destroySRD()+ and then de-allocating the structure.
+
+--------
+    destroySRD(m_srd);
+    free(m_srd);
+--------
+
+
+
+Decoding Video Frames
+~~~~~~~~~~~~~~~~~~~~~
+
+The library provides a C++ class +CVideoFrameDecoder+ that provides an
+interface for decoding video frames. An instance of the class is
+created using a factory method +CreateObj()+ which creates and returns
+an appropriate decoder object that is capable of decoding the video
+with given parameters.
+
+------
+    static CVideoFrameDecoder* CreateObj(v2dDecConfiguration * decoderConfig);
+------
+
+An application first initializes a structure +v2dDecConfiguration+
+with video codec parameters along with the desired output image
+format. Then it uses the above factory method to create an instance of
+the +CVideoFrameDecoder+ class.  Most of the needed parameters can be
+retrieved directly from the SCAP message received on the control
+channel.
+
+------
+    v2dDecConfiguration decConfig;
+    decConfig.m_nWidth = m_scapProcessor->GetWidth();
+    decConfig.m_nHeight = m_scapProcessor->GetHeight();
+    decConfig.m_nSliceSize = m_scapProcessor->GetSliceSize();
+    decConfig.m_eEncodeFormat = m_scapProcessor->GetEncodeFormat();
+    decConfig.m_eDecodeFormat = eBGRX32;
+
+    CVideoFrameDecoder * m_pFrameDecoder = 
+                CVideoFrameDecoder::CreateObj(&decConfig);
+------
+
+The desired output image pixel format can be specified using an enum that
+is defined as:
+
+------
+    enum ePixelFormat {eYUV422, eRGB24, eBGR24, eBGRX32};
+------
+
++eYUV422+:: YUV422 in planer format
+
++eRGB24+:: 24 bit RGB format stored as Red, Green and Blue.
+
++eBGR24+:: 32 bit RGB format stored as Blue, Green, and Red.
+
++eBGRX32+:: 32 bit RGB format stored as Blue, Green, Red and ignored.
+
+
+Once the frame decoder object has been created, a video frame can be
+decoded using the method +Decode()+.
+
+------
+    int CVideoFrameDecoder::Decode(
+        unsigned char* a_pEncFrame, const size_t a_nEncLen, 
+        unsigned char* a_pDecFrame, const size_t a_nDecLen);
+------
+
++a_pEncFrame+:: Input character buffer contained the encoded frame.
+
++a_pEncLen+:: Length of the input encoded frame buffer.
+
++a_pDecFrame+:: Output buffer into which the frame would be decoded in
+the desired format.
+
++a_pDecFrame+:: The size of the output buffer.
+
+The application can determine the required size of the output buffer
+using +GetDecocdeBufLen()+.
+
+Since an encoded video frame may contain only partial information, a
+decode operation may not update all the pixels in the supplied video
+frame buffer. It is expected that the client application keeps using
+the same output buffer for all calls to +Decode()+. That way the output
+buffer will always maintain a complete video frame.
+
+------
+    size_t CVideoFrameDecoder::GetDecodeBufLen();
+------
+
+
+
+
+

@@ -1,0 +1,90 @@
+
+/var/log/messages  {
+	rotate 1
+	size=1000k
+	postrotate
+        /etc/scripts/ftp_logs.sh /var/log/messages.1 
+	/usr/bin/killall -HUP rsyslogd
+	touch /var/log/messages
+	chmod 644 /var/log/messages*
+	endscript
+}
+
+/var/log/osgi/mrapp.log  {
+	rotate 1
+	size=1500k
+        copytruncate
+}
+
+/var/log/deviceapp/nohup.out {
+	rotate 1
+	size=100k
+        copytruncate
+}
+
+/var/log/mscomponent/nohup.out {
+	rotate 1
+	size=100k
+        copytruncate
+}
+
+/var/log/mediajs/nohup.out {
+	rotate 1
+	size=100k
+    copytruncate
+}
+ /var/log/mediajs/messages {
+ 	rotate 1
+	size=100k
+    copytruncate
+ }
+/var/log/openfire/nohup.out {
+	rotate 1
+	size=100k
+        copytruncate
+}
+
+/var/log/ipvscomponent/ipvscomponent.log {
+	rotate 1
+	size=10k
+        copytruncate
+}
+
+/var/log/wtmp {
+        rotate 1
+        size=10k
+        create 0664 root root
+}
+
+/var/log/named/bind.log{
+	rotate 1
+	size=100k
+        copytruncate
+}
+
+/var/status/replication {
+	rotate 1
+	size=10k
+        copytruncate
+}
+
+/data/reports/auditreport/audit.log {
+	rotate 5
+	weekly
+        copytruncate
+}
+/var/log/apachelogs/access_log {
+	rotate 1
+	size=100k
+        copytruncate
+}
+/var/log/apachelogs/error_log {
+	rotate 1
+	size=100k
+        copytruncate
+}
+/var/log/apachelogs/ssl_error_log {
+	rotate 1
+	size=100k
+        copytruncate
+}

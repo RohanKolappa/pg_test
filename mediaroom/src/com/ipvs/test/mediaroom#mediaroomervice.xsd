@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ipvs.com/xsd/mediaroom#mediaroomervice"
+	xmlns="http://www.ipvs.com/mediaroom#mediaroomervice"
+	xmlns:mrservice="http://www.ipvs.org/mediaroom#mrservice">
+  <xsd:import namespace="http://www.ipvs.com/mediaroom#mrservice"
+              schemaLocation="mediaroom#mrservice.xsd">  	
+
+<xs:element name="GetClientAgentListRequest">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="header" type="mrservice:MRHeader"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="ClientAgentInfoType">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="agentNID" type="mrservice:MRNID"/>
+			<xs:element name="agentName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="GetClientAgentListResult">
+	<xs:complexType>
+		<xs:element name="clientAgentInfo" type="xs:ClientAgentInfoType" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="GetDestNIDRequest">
+	<xs:complexType>
+		<xs:element name="sourceNID" type="xs:MediaRoomNodeID"/>
+		<xs:element name="clientAgentNID" type="xs:MediaRoomNodeID"/>
+	</xs:complexType>
+</xs:element>
+<xs:element name="GetDestNIDResponse">
+	<xs:complexType>
+		<xs:element name="destNID" type="xs:MediaRoomNodeID"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="MediaRoomConfigResourceFilter">
+  <xs:complexType>
+  	<xs:element name="NID" type="xs:MediaRoomNodeID"/>
+  	<xs:element name="ownerJID" type="xs:MediaRoomserviceJID"/>
+  	<xs:element name="group" type="xs:string"/>
+  	<xs:element name="ownerGroup" type="xs:string"/>  
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="AddMediaSourceConfigRequest">
+  <xs:complexType>
+  	<xs:extension base="AddMediaSourceRequest">
+    	<xs:sequence>
+      		<xs:element name="roomConfigNID" type="xs:MediaRoomNodeID"/>
+			<xs:element name="filter" type="xs:MediaRoomConfigResourceFilter"/>
+    	</xs:sequence>
+    </xs:extension>
+  </xs:complexType>
+</xs:element>

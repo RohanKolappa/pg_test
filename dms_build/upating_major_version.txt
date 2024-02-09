@@ -1,0 +1,121 @@
+
+This process documents how to branch off DMS trunk build so that the
+trunk moves on to the next major release.
+
+Here we document trunk on 3.16 moving to 3.18 as an example.
+
+Make sure that the last release build is tagged (and uploaded to TWiki)
+
+Before doing anything else, shutdown CruiseControl
+
+Change directory to dms_build and ensure it is upto date (svn update)
+
+Determine the SVN tag name for the last release build.  In our case
+this turns out to be say MS3_16_21.
+
+Use SvnBranch make target to do the branching. It will need the tag
+name determined above:
+
+make SvnBranch BRANCHFROM=MS3_16_21
+
+This should create branch ms3_16 for all top level modules
+
+In another new work area checkout the new branch by first checking out
+dms_build and then running "make CheckOut"
+
+CD to the checked out branch's dms_build Edit server.version and bump
+up the release number to match the iteration number in TP. Reset the
+build number to 0 3.16.r21.b9 -> 3.16.r22.b0
+
+Commit the change using something like the following log message:
+
+Manual Update: Get ready for next release 3.18.r6.b0
+Trunk branched off for 3.16 Release. 
+Trunk moves on to 3.18 Branch moved on to match next iteration 3.16.r22.b0
+
+
+CD to the checked out branch's client_build Edit clientUI.version and
+modify it to match the version in dms_build. Commit it adding the log
+message as above.
+
+On the trunk, cd to dms_build and edit server version to bump up the
+major and minor number to the next release.  Fix the release number to
+match the iteration on the trunk.  For example, in our case, it
+changes to 3.16.r22.b0 -> 3.18.r6.b1
+
+Commit the change using something like the following log message:
+
+Manual Update: Get ready for next release 3.18.r6.b0 
+Trunk branched off for 3.16 Release. Trunk moves on to 3.18
+
+CD to the trunk's client_build. Edit clientUI.version and modify it to
+match the trunk version in dms_build Commit it adding the log message
+as above.
+
+
+CruiseControl
+*************
+
+Checkout CruiseControl sources (svn module cruise) and cd to the
+directory.
+
+Edit file config.xml and towards the end of the file add three new
+lines for the new branch which will now be trunk.
+
+For this example,
+
+  <include.projects file="DMS-3.18-project.xml"/>
+  <include.projects file="DMS-3.18-Release-project.xml"/>
+  <include.projects file="DMS-3.18-Test-project.xml"/>
+
+Now run convenience script branch_off_project.sh that creates new
+project files and modifies existing ones so that the current version
+now builds from the svn branch and the next version builds from the
+trunk.
+
+The script needs the current DMS version name that is going to bumped
+up.
+
+In our example this would be:
+
+./branch_off_project.sh 3.16
+
+Add the new files to svn and commit these and the modified ones.  with
+a log message like:
+
+Branching off DMS 3.16. Trunk moves to 3.18
+
+In our case the new files would be:
+
+DMS-3.18-Test-project.xml
+DMS-3.18-Release-project.xml
+DMS-3.18-project.xml
+
+The modified ones one would be:
+
+DMS-3.16-Test-project.xml
+DMS-3.16-Release-project.xml
+DMS-3.16-project.xml
+config.xml
+
+Now go the cruise control run time area and svn update the directory.
+CruiseControl was presumably stopped earlier. Before we start it up,
+we need to do the following:
+
+First clean up the project directories that now need to be freshly
+checked out since the trunk code has moved to branches.
+
+cd projects/
+
+rm -rf DMS-3.16/*
+rm -rf DMS-3.16-Release/*
+rm -rf DMS-3.16-Test/*
+
+Now we can start the cruise control:
+
+./startcc.sh
+
+Finally, stop the ScrubArtifacts.sh process and edit the file to add
+the three new projects to the PROJECTS variable.
+
+

@@ -1,0 +1,85 @@
+          API Documentation for Multi Monitors Activex Control
+
+CLSID is : "2182DB6C-70D2-48E8-AE6C-6DE4816B1DF2".
+
+
+Introduction
+
+    This documents the programming interface to Multi Monitors Ctrl ActiveX control.
+
+
+It exposes 8 Methods:
+
+1. Method:
+    FullScreen(); (It is used to display IE in fullscreen mode.)
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+2. Method:
+    GetMonitorCount([out, retval] long *a_plMonitorCount); (It is used to get the Monitor                                          count.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     Positive Integer.
+
+3. Method:
+    GetMonitorLeft([in] long a_lMonID, [out, retval] long *a_plMonitorLeft); (It is used to get                               the left co-ordinate of a particular monitor.)
+   
+           Parameters:
+    	     Positive Integer.(Monitor index. It should start from "0")
+    
+           Returns:
+ 	     Positive Integer.
+
+4. Method:
+    GetMonitorTop([in] long a_lMonID, [out, retval] long *a_plMonitorTop); (It is used to get                               the top co-ordinate of a particular monitor.)
+   
+           Parameters:
+    	     Positive Integer.(Monitor index. It should start from "0")
+    
+           Returns:
+ 	     Positive Integer.
+
+5. Method:
+    GetMonitorRight([in] long a_lMonID, [out, retval] long *a_plMonitorRight); (It is used to                                get the right co-ordinate of a particular monitor.)
+   
+           Parameters:
+    	     Positive Integer.(Monitor index. It should start from "0")
+    
+           Returns:
+ 	     Positive Integer.
+
+6. Method:
+    GetMonitorBottom([in] long a_lMonID, [out, retval] long *a_plMonitorBottom); (It is used                                   to get  the bottom co-ordinate of a particular monitor.)
+   
+           Parameters:
+    	     Positive Integer.(Monitor index. It should start from "0")
+    
+           Returns:
+ 	     Positive Integer.
+
+Error Handling mechanism:
+    It has 2 methods, GetError() and GetErrorMsg() that can return a error 
+    code and error message to UI.
+
+   a)GetError([out, retval] long *a_plError); (It is used to get the error code.)
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     Positive Integer.(Error Code).
+
+   b)GetErrorMsg([out, retval] BSTR *a_pbstrErrorMsg); (It is used to get the error                             description.)
+
+          Parameters:
+    	     None.
+    
+           Returns:
+ 	     String.(Error description in string format.).

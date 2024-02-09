@@ -1,0 +1,84 @@
+/*------------------------------------------
+	Alerts and Messages 
+------------------------------------------*/
+.sessionMessagePanelPopup {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 4294967295 !important;
+  right: 0;
+  padding: 7px;
+  border: 1px solid transparent;
+  margin-left: auto;
+  margin-right: auto;
+  transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+overflow: hidden;
+}
+
+.sessionMessagePanelPopup span {
+	display:inline-block;
+	margin:0;
+	padding:0;
+  	font-size: 1.0em;
+}
+.sessionMessagePanelPopup span:first-child {
+	margin-right: 20px;
+  	font-size: 1.1em;
+	font-weight:700;
+}
+
+.messagePanel-success {
+background-color: #3cbc7b;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQtJREFUeNpi+P//PwMZOBWITUFscjTbAPEZIN4GxHyMYFOIB7JAvBiIeaD8Q6QYwAXE84BYBUlsASkGdAKxMxL/JBDnIhsQB8SPgXg/Fs3RQFyIxH8BxLFA/B4WMOZAfAqIj8NCFwkbQeXOQDFIjSZMHuQCCWjACEJN/wLEKUB8B4jFgHgpkhwINAPxRhgHZAAoYPTQnPwKakgLmtxGqAEMyAb4A+laLP7+CcTsSPzrQJwExL/RDWCAGuCPJwbeQwPtBboEzABWaBxrYtH8DxRd0GhjwGUACKAHJgxMASUYXE5DT0jmQDwZiJmgfFCaKMWbvLBklgRofK8FYh5CmQuXRBMQKxGTOwECDAAhKTt2v7vmTAAAAABJRU5ErkJggg==);
+background-repeat: no-repeat;
+background-position:7px 10px;
+color: #fff;
+padding-left: 35px;
+padding-right: 35px;
+text-align:left;
+white-space:normal;
+}
+
+.messagePanel-info {
+background-color: #4091cb;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQhJREFUeNpi/P//PwMakAfiICA2AmJ1qNhNID4HxOuA+CGyYkY0A6KBOAuI2Rmwg59APA2Il6IbwArEvUBsxUAcOAbExUD8mwkqkIdH8wsgXg61HQZAanNADJABKkAcjse2aVDXnUUTjwRiJRYg4Q81CBdIgNpogSYO0uPPgsfpJ4H4KRDfAGJXHJZYggSlcBjwFog7gHgPEBvjUCOGz+mgqPwHxC54vMjEBA1lbGArlLbDY8kLkAHHsUj8g4YByBUGQLwLVzgxQZPnPzSJH1AxMSAuxyIPs2QjLCWWAXEYmoL9QHwZiJ2BWBuLAaDE1UtxUqZaZsKWnU2BWA0qdguIT2PLzgABBgCwyEpBGuOMRgAAAABJRU5ErkJggg==);
+background-repeat: no-repeat;
+background-position:7px 10px;
+color: #fff;
+padding-left: 35px;
+padding-right: 35px;
+text-align:left;
+white-space:normal;
+}
+
+.messagePanel-warning {
+background-color: #f39c11;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAOdJREFUeNpi/P//PwMOwAbEW4CYGYj9gfgLVlUgA3Dg5P8IkI9LHS7NzEB8A8mAh0DMRooBIVCNW4B4JpSdQIoBZ4D4J5KtV6GYGV0tE5ZgcQViYyD+DsS/oGLvgFgLiP3QFWMzoIIBN6ggZIAZEDvhMQBDHt2AagbCoAJXOtD6jwo+IMkdRpMzxhYLi/5jAl0gVoEahgxWoxsgB8R/sBjwFoifYBEHqVVHNmDyf+zAAIh5cBgyB2aAKBB/w2EAJ9SCk1jkQAlNmgUa8pw4QnwdEN+ERh+23FrNCMooQIYcA3ngBUCAAQBI7ASOnEseuQAAAABJRU5ErkJggg==);
+background-repeat: no-repeat;
+background-position:7px 10px;
+color: #fff;
+padding-left: 35px;
+padding-right: 35px;
+text-align:left;
+white-space:normal;
+}
+
+.messagePanel-error {
+background-color: #cc3333;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNqMUwEOhDAIg+W+uvCmZV+6NzlHggbZipKgi9KuKcBjDLKo9u6Ux7NOCWbWmX/Lat92udSxHiaPhFvaRsm2rsxH2cgUJxWBNQqbBxHglRAAq8LGzkREQgisB0/wlaQ7ZQvBG8kDTMDAI7l9+RcVILdhizlMonw08Sa5CGrSKkpa3H8v4LbZAW82oUmM4AaWrFxLIm5JJFmmpS5OIsU+gz25604BBgC14adc7EKEigAAAABJRU5ErkJggg==);
+background-repeat: no-repeat;
+background-position:7px 10px;
+color: #fff;
+padding-left: 35px;
+padding-right: 35px;
+text-align:left;
+white-space:normal;	
+}
+
+.sessionMessagePanelDismiss {
+width: 16px;
+height: 16px;
+position: absolute;
+top: 10px; right: 10px;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATpJREFUeNpi/P//PwMakAZiDyDWAWIlqNg9IL4CxDuA+CmyYkY0AwKAOBaI2Riwg19AvBiIN6AbwALENUBszEAcOAvELUD8hwkqkEiCZgao2ngQA2SAAhD7IEneAeIsNL9+BuJSID6KJOYHxLIgA1yhBoHAH6jTHgNxJdQQkOY6IL4BxF1A/BqqFqTHDRQGM6AhDwPXgLgWGmCCQMwPxA+gcnlQC2HgMcgUcTT/aQFxIzQm3iNpzkbTDAJCTDgCSRGIpZD4vEBsiEUdMxOSn2DgKxA3INnMBg2HciB+iab2NRM0ThmQArEBGmAgkAnE9VBD3kINeY+k/jzIgJ1A/A8qAEpQ5kiavYBYD8kQHWigMkD17IalxHS0tHAPKR8giykgRfkmIJ5NcVKmWmbClp310LLzJWzZGSDAAPpvWtDYujbDAAAAAElFTkSuQmCC);
+}

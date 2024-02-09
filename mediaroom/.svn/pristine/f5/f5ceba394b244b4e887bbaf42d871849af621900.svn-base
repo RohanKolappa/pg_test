@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>Player</title>
+<script type="text/javascript" src="sessionapi.js"></script>
+
+<script language="JavaScript">
+
+		function html5Play(mediaURL) {
+			v = document.getElementById('HTML5VideoPlayer');
+			v.src=mediaURL;
+			v.load();
+			v.play();
+		}
+		
+		function html5Stop() {
+			v = document.getElementById('HTML5VideoPlayer');
+			v.pause();
+		}
+		
+		<!-- Functions handling user interaction -->
+		function handleStart() {
+			var controlURL = document.forms['f1'].elements['controlURL'].value;
+			html5Play(controlURL);
+		}
+		
+		function handleStop() {
+			html5Stop();
+		}
+
+</script>
+
+</head>
+<body>
+<table border="1" align="center">
+<tr><td>
+<video id='HTML5VideoPlayer' width='640' height='480' src=''></video>
+</td></tr>
+<tr><td>
+<form id="f1" name="f1">
+  Resource: <input name="Resource" id="resource" type="text" size="5" value="udprx">
+  URL: <input name="URL" id="controlURL" type="text" size="50" value="c:\\miyer\downloads\video\sample.mp4">
+  
+  <input value="Start" type="button" onclick='JavaScript:handleStart()'>
+  <input value="Stop" type="button" onclick='JavaScript:handleStop()'  disabled='true'>
+</form>
+</td></tr>
+</table>
+</body>
+</html>
+
+  
+              

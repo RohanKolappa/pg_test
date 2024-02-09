@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+<xs:element name = "assetAdminRoleList" type = "AssetAdminRoleList" />
+<xs:element name = "assetAdminPolicyList" type = "AssetAdminPolicyList" />
+<xs:element name = "mediaStoreAdminRoleList" type = "MediaStoreAdminRoleList" />
+<xs:element name = "mediaStoreAdminPolicyList" type = "MediaStoreAdminPolicyList" />
+<xs:element name = "assetAdminPolicy" type = "AssetAdminPolicy" />
+<xs:element name = "assetAdminRole" type = "AssetAdminRole" />
+<xs:element name = "mediaStoreAdminPolicy" type = "MediaStoreAdminPolicy" />
+<xs:element name = "mediaStoreAdminRole" type = "MediaStoreAdminRole" />
+<xs:element name = "roomGroup" type = "RoomGroup" />
+<xs:element name = "streamProfileGroup" type = "StreamProfileGroup" />
+<xs:element name = "userGroup" type = "UserGroup" />
+<xs:element name = "assetGroup" type = "AssetGroup" />
+<xs:element name = "assetGroupList" type = "AssetGroupList" />
+<xs:element name = "resourceGroup" type = "ResourceGroup" />
+<xs:element name = "streamPolicyList" type = "StreamPolicyList" />
+<xs:element name = "resourceGroupList" type = "ResourceGroupList" />
+<xs:element name = "streamProfileGroupList" type = "StreamProfileGroupList" />
+<xs:element name = "roomGroupList" type = "RoomGroupList" />
+<xs:element name = "userGroupList" type = "UserGroupList" />
+<xs:element name = "streamPolicy" type = "StreamPolicy" />
+<xs:element name = "roomPolicyList" type = "RoomPolicyList" />
+<xs:element name = "roomPolicy" type = "RoomPolicy" />
+<xs:element name = "message" type = "PolicyAdminMessage" />
+<xs:element name = "assetAdminPolicyMessage" type = "AssetAdminPolicyMessage" />
+<xs:element name = "assetAdminRoleMessage" type = "AssetAdminRoleMessage" />
+<xs:element name = "mediaStoreAdminPolicyMessage" type = "MediaStoreAdminPolicyMessage" />
+<xs:element name = "mediaStoreAdminRoleMessage" type = "MediaStoreAdminRoleMessage" />
+<xs:element name = "streamPolicyMessage" type = "StreamPolicyMessage" />
+<xs:element name = "roomPolicyMessage" type = "RoomPolicyMessage" />
+<xs:element name = "getSourceGroupsRequestMessage" type = "GetSourceGroupsRequestMessage" />
+<xs:element name = "getProfileGroupsMessage" type = "GetProfileGroupsMessage" />
+<xs:element name = "getMatchingStreamPolicyMessage" type = "GetMatchingStreamPolicyMessage" />
+<xs:element name = "getAssetGroupsRequestMessage" type = "GetAssetGroupsRequestMessage" />
+<xs:element name = "getAssetActionsRequest" type = "GetAssetActionsRequest" />
+<xs:element name = "getMatchingAssetAdminPolicyRequest" type = "GetMatchingAssetAdminPolicyRequest" />
+<xs:element name = "getMediaStoreGroupsRequestMessage" type = "GetMediaStoreGroupsRequestMessage" />
+<xs:element name = "getMatchingMediaStoreAdminPolicyRequest" type = "GetMatchingMediaStoreAdminPolicyRequest" />
+
+
+<xs:complexType name="GetSourceGroupsRequestMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetSourceGroupsData" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="GetAssetGroupsRequestMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetAssetGroupsData" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="GetMatchingAssetAdminPolicyRequest">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetMatchingAssetAdminPolicyData" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetProfileGroupsMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetProfileGroupsData" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="GetMatchingStreamPolicyMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetMatchingStreamPolicyData" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetSourceGroupsData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "destinationGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetAssetGroupsData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "assetAction" type = "xs:int" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="GetAssetActionsRequest">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="GetAssetActionsData" />   
+</xs:sequence>
+</xs:complexType>
+
+
+
+<xs:complexType name="GetMatchingAssetAdminPolicyData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "assetAction" type = "xs:int" />   
+<xs:element name = "assetGroups" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="GetAssetActionsData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "assetGroup" type = "xs:string" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetProfileGroupsData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "destinationGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />
+<xs:element name = "roomGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "sourceGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetMatchingStreamPolicyData">
+<xs:sequence>
+<xs:element name = "userGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "destinationGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />
+<xs:element name = "roomGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "sourceGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />   
+<xs:element name = "profileGroupNames" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="AssetAdminPolicyMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="AssetAdminPolicy" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="MediaStoreAdminPolicyMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="MediaStoreAdminPolicy" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="AssetAdminRoleMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="AssetAdminRole" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MediaStoreAdminRoleMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="MediaStoreAdminRole" />   
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="StreamPolicyMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="StreamPolicy" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RoomPolicyMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "data" type ="RoomPolicy" />   
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="PolicyAdminMessage">
+<xs:sequence>
+<xs:element name = "header" type ="MessageBase" />   
+<xs:element name = "roomPolicy" type ="RoomPolicy" />   
+<xs:element name = "streamPolicy" type ="StreamPolicy" />   
+<xs:element name = "userGroup" type ="UserGroup" />   
+<xs:element name = "resourceGroup" type ="ResourceGroup" />   
+<xs:element name = "roomGroup" type ="RoomGroup" />   
+<xs:element name = "streamProfileGroup" type ="StreamProfileGroup" />
+<xs:element name = "assetAdminPolicy" type ="AssetAdminPolicy" />
+<xs:element name = "mediaStoreAdminPolicy" type ="MediaStoreAdminPolicy" />
+<xs:element name = "assetGroup" type ="AssetGroup" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "MessageBase">
+<xs:sequence>
+<xs:element name = "servicename" type = "xs:string" />
+<xs:element name = "requestname" type = "xs:string" />
+<xs:element name = "loglevel" type = "xs:int" />
+<xs:element name = "clientdata" type = "xs:string" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "RoomPolicyList">
+<xs:sequence> 
+<xs:element name="roomPolicy" type="RoomPolicy"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "StreamProfileGroupList">
+<xs:sequence> 
+<xs:element name="streamProfileGroup" type="StreamProfileGroup"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "RoomPolicy">
+<xs:sequence>
+<xs:element name = "name" type = "xs:string" />
+<xs:element name = "streamPolicyNID" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "streamPolicyName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "userGroupName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "roomGroupName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "affiliation" type = "xs:int" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "order" type = "xs:int" />
+<xs:element name = "allow" type = "xs:boolean" />
+<xs:element name = "nodeID" type = "xs:string" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "StreamPolicyList">
+<xs:sequence> 
+<xs:element name="streamPolicy" type="StreamPolicy"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "ResourceGroupList">
+<xs:sequence> 
+<xs:element name="resourceGroup" type="ResourceGroup"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "UserGroupList">
+<xs:sequence> 
+<xs:element name="userGroup" type="UserGroup"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "RoomGroupList">
+<xs:sequence> 
+<xs:element name="roomGroup" type="RoomGroup"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "AssetGroupList">
+<xs:sequence> 
+<xs:element name="assetGroup" type="AssetGroup"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "AssetAdminPolicyList">
+<xs:sequence> 
+<xs:element name="assetAdminPolicy" type="AssetAdminPolicy"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "MediaStoreAdminPolicyList">
+<xs:sequence> 
+<xs:element name="mediaStoreAdminPolicy" type="MediaStoreAdminPolicy"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "AssetAdminRoleList">
+<xs:sequence> 
+<xs:element name="assetAdminRole" type="AssetAdminRole"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "MediaStoreAdminRoleList">
+<xs:sequence> 
+<xs:element name="mediaStoreAdminRole" type="MediaStoreAdminRole"  minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name = "StreamPolicy" >
+<xs:sequence>
+<xs:element name = "name" type = "xs:string" />
+<xs:element name = "profileFilter" type = "ProfileFilter"></xs:element>
+<xs:element name = "sourceFilter" type = "SourceFilter"></xs:element>
+<xs:element name = "destinationFilter" type = "DestinationFilter"></xs:element>
+<xs:element name = "nodeID" type = "xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name = "ProfileFilter">
+<xs:sequence>
+<xs:element name = "streamProfileGroupName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded" />
+</xs:sequence>
+
+</xs:complexType>
+<xs:complexType name = "DestinationFilter">
+  <xs:complexContent>
+    <xs:extension base="ResourceFilter">
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+<xs:complexType name = "SourceFilter">
+  <xs:complexContent>
+    <xs:extension base="ResourceFilter">
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="AssetFilter">
+	<xs:sequence>
+	    <xs:element name = "assetFilterItems" type ="AssetFilterItems" minOccurs = "1" maxOccurs = "unbounded" />   
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="AssetFilterItems">
+	<xs:sequence>
+		<xs:element name = "assetGroupName" type ="xs:string" />
+		<xs:element name = "userGroupName" type ="xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="ResourceFilter">
+	<xs:sequence>
+	    <xs:element name = "resourceFilterItems" type ="ResourceFilterItems" minOccurs = "1" maxOccurs = "unbounded" />   
+		<xs:element name = "xpathScript" type ="xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<xs:complexType name="ResourceFilterItems">
+	<xs:sequence>
+		<xs:element name = "resourceGroupName" type ="xs:string" />
+		<xs:element name = "userGroupName" type ="xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ResourceGroup">
+	<xs:sequence>
+		<xs:element name = "name" type ="xs:string" />
+		<xs:element name = "nodeID" type = "xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UserGroup">
+	<xs:sequence>
+		<xs:element name = "name" type ="xs:string" />
+  	    <xs:element name = "nodeID" type = "xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="AssetGroup">
+	<xs:sequence>
+		<xs:element name = "name" type ="xs:string" />
+  	    <xs:element name = "nodeID" type = "xs:string" />
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="StreamProfileGroup">
+	<xs:sequence>
+		<xs:element name = "name" type ="xs:string" />
+		<xs:element name = "nodeID" type = "xs:string" />		
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RoomGroup">
+	<xs:sequence>
+		<xs:element name = "name" type ="xs:string" />
+		<xs:element name = "nodeID" type = "xs:string" />		
+	</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "AssetAdminPolicy">
+<xs:sequence>
+<xs:element name = "name" type = "xs:string" />
+<xs:element name = "nodeID" type = "xs:string" />
+<xs:element name = "userGroupName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "role" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "roleNodeID" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "assetFilter" type = "AssetFilter" />
+<xs:element name = "order" type = "xs:int" />
+<xs:element name = "allow" type = "xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "MediaStoreAdminPolicy">
+<xs:sequence>
+<xs:element name = "name" type = "xs:string" />
+<xs:element name = "nodeID" type = "xs:string" />
+<xs:element name = "userGroupName" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "role" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "roleNodeID" type = "xs:string" minOccurs = "1" maxOccurs = "unbounded"/>
+<xs:element name = "mediaStoreAdminFilter" type = "MediaStoreAdminFilter" />
+<xs:element name = "order" type = "xs:int" />
+<xs:element name = "allow" type = "xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name = "MediaStoreAdminFilter">
+  <xs:complexContent>
+    <xs:extension base="ResourceFilter">
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+
+
+<xs:complexType name="MediaStoreAdminRole">
+	<xs:sequence>
+		<xs:element name = "nodeID" type ="xs:string" />
+		<xs:element name = "role" type ="xs:string"/>
+		<xs:element name = "mediaStoreAdminAction" type ="xs:int" minOccurs = "1" maxOccurs = "unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="AssetAdminRole">
+	<xs:sequence>
+		<xs:element name = "nodeID" type ="xs:string" />
+		<xs:element name = "role" type ="xs:string"/>
+		<xs:element name = "assetAction" type ="xs:int" minOccurs = "1" maxOccurs = "unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="GetMediaStoreGroupsData">
+
+<xs:sequence>
+
+<xs:element name="userGroupNames" type="xs:string" maxOccurs="unbounded" minOccurs="1"></xs:element>
+
+<xs:element name="mediaStoreAdminAction" type="xs:int"></xs:element>
+
+</xs:sequence>
+
+</xs:complexType>
+
+
+<xs:complexType name="GetMediaStoreGroupsRequestMessage">
+
+<xs:sequence>
+
+<xs:element name="header" type="MessageBase"></xs:element>
+
+<xs:element name="data" type="GetMediaStoreGroupsData"></xs:element>
+
+</xs:sequence>
+
+</xs:complexType>
+
+
+<xs:complexType name="GetMatchingMediaStoreAdminPolicyData">
+
+<xs:sequence>
+
+<xs:element name="userGroupNames" type="xs:string" maxOccurs="unbounded" minOccurs="1"></xs:element>
+
+<xs:element name="mediaStoreAdminAction" type="xs:int"></xs:element>
+
+<xs:element name="mediaStoreGroups" type="xs:string" maxOccurs="unbounded" minOccurs="1"></xs:element>
+
+</xs:sequence>
+
+</xs:complexType>
+
+
+<xs:complexType name="GetMatchingMediaStoreAdminPolicyRequest">
+
+<xs:sequence>
+
+<xs:element name="header" type="MessageBase"></xs:element>
+
+<xs:element name="data" type="GetMatchingMediaStoreAdminPolicyData"></xs:element>
+
+</xs:sequence>
+
+</xs:complexType>
+
+</xs:schema>

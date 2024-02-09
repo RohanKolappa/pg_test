@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE log4c SYSTEM "">
+
+<log4c version="1.2.1">
+
+	<config>
+		<bufsize>0</bufsize>
+		<debug level="0"/>
+		<nocleanup>0</nocleanup>
+	</config>
+
+	<!-- root category ========================================= -->
+	<category name="root" priority="notice"/>
+
+	<!-- default appenders ===================================== -->
+	<appender name="stdout" type="stream" layout="basic"/>
+	<appender name="stderr" type="stream" layout="dated"/>
+	<appender name="syslog" type="syslog" layout="basic"/>
+	<appender name="ipvs_syslog" type="ipvs_syslog" layout="basic"/>
+
+	<!-- default layouts ======================================= -->
+	<category name="root" priority="notice"/>
+	<layout name="basic" type="basic"/>
+	<layout name="dated" type="dated"/>
+
+	<!-- standard IPVS categories -->
+	<category name="ipvs.v2o" priority="info" appender="ipvs_syslog"/>
+
+	<!-- Example for increasing priority to debug level for a catagory -->
+	<category name="ipvs.v2o.this.that" priority="debug" appender="ipvs_syslog" additivity="false"/>
+
+</log4c>

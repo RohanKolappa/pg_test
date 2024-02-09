@@ -1,0 +1,1864 @@
+<GetMediaRoomList>
+        <GetMediaRoomListRequestData>
+            <name></name>
+            <mediaSourceXPath></mediaSourceXPath>
+            <streamXPath></streamXPath>
+            <sourceXPath></sourceXPath>
+        </GetMediaRoomListRequestData>
+    <GetMediaRoomListResponseData>
+
+      <RoomDBGetResponse>
+
+        <ResponseID>myTest1</ResponseID>
+
+        <ResponseXML>
+
+          <MediaRoom xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NID="1c407263-c16a-4997-a992-5124b5179a47" NIDScheme="AUTO" Parse="true" xsi:noNamespaceSchemaLocation="mediaroom.mediaroomservice.datamodel.xsd">
+
+            <systemtracklist>
+
+              <StreamTrack NID="1c407263-c16a-4997-a992-5124b5179a47.StreamTrack">
+
+                <mediasourcelist>
+
+                  <MediaSource NID="1ec5065b-272a-4062-9ae1-d06f49d1417a" id="src1" presence="AVAILABLE" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <startOffset>0.0</startOffset>
+
+                      <!-- set to trackStartWallClock if this is a live source in User Room, carried forward when creating relay -->
+
+                      <startTimecode>1242410526153</startTimecode>
+
+                      <!-- set by the relay when creating upstream connections to media  -->
+
+                      <userRoomMediaSourceNID />
+
+                      <!-- read from db and cached -->
+
+                      <sourceType>ENCODER</sourceType>
+
+                      <sourcePortNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourcePortNID>
+
+                      <deviceElementID>0</deviceElementID>
+
+                      <sourceAgentJID>tx1@10.1.5.190/tx1</sourceAgentJID>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                      <streamProfile />
+
+                      <!-- set based on whether it is Stream/PVR/Recording -->
+
+                      <trackNID>1c407263-c16a-4997-a992-5124b5179a47.StreamTrack</trackNID>
+
+                      <!-- set in the PVR/Record Track mediaSource when a pvr/recording is setup based on a streamTrack mediaSource -->
+
+                      <streamTrackMediaSourceNID />
+
+                      <!-- updated in the streamTrack mediasource when a pvr is setup for LIVE mediaSource OR set at creationTime for Playback mediaSource-->
+
+                      <pvrEnabled>true</pvrEnabled>
+
+                      <lookbackSourceNID>default.mediastreamfileresourcelist.msfrl_bba2429c-00e6-43ba-bf84-0be76d65f4d6</lookbackSourceNID>
+
+                      <lookbackSourceAgentJID>srcrelay1@10.1.5.190/srcrelay1</lookbackSourceAgentJID>
+
+                      <lookbackSourceFileUUID>4a5baf0f-f337-4676-a096-3fd0959edca1</lookbackSourceFileUUID>
+
+                    </data>
+
+                  </MediaSource>
+
+                </mediasourcelist>
+
+                <mediadestlist>
+
+                  <MediaDest NID="18c1ed27-acae-4032-92b5-90ee04d72a75" id="strmd1" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <destNID />
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <!-- read from db and cached -->
+
+                      <destAgentJID />
+
+                    </data>
+
+                  </MediaDest>
+
+                </mediadestlist>
+
+                <streamlist>
+
+                  <Stream NID="2c3052aa-2f4b-4bbc-8c73-bbcb0914a106" id="strmc1" presence="AVAILABLE">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <mediaSourceNID>1ec5065b-272a-4062-9ae1-d06f49d1417a</mediaSourceNID>
+
+                      <mediaDestNID>18c1ed27-acae-4032-92b5-90ee04d72a75</mediaDestNID>
+
+                      <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                      <profileXML>
+
+                        <V2DMediaStreamProfile parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                          <Groups>
+
+                            <Tag Name="Network" Value="LAN" />
+
+                          </Groups>
+
+                          <Title>LAN</Title>
+
+                          <Description>LAN</Description>
+
+                          <StreamType>V2D</StreamType>
+
+                          <Priority>1</Priority>
+
+                          <StreamActionInfo>
+
+                            <AllowPause>true</AllowPause>
+
+                            <AllowSkipback>true</AllowSkipback>
+
+                            <AllowSkipfwd>true</AllowSkipfwd>
+
+                          </StreamActionInfo>
+
+                          <Info>
+
+                            <V2DStreamConfig>
+
+                              <IsMulticast>false</IsMulticast>
+
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                              <SRDTranscodeBandwidth />
+
+                              <AVOption>Video</AVOption>
+
+                            </V2DStreamConfig>
+
+                            <V2DEncoderAudioConfig>
+
+                              <SampleRate />
+
+                              <SampleSize />
+
+                              <MonoStereo />
+
+                              <AudioEncodeEnable />
+
+                            </V2DEncoderAudioConfig>
+
+                            <V2DEncoderConnectionParameterConfig>
+
+                              <BurstRatio>1.00</BurstRatio>
+
+                              <BurstDuration>4</BurstDuration>
+
+                              <Compression>
+
+                                <High>6</High>
+
+                                <Low>4</Low>
+
+                              </Compression>
+
+                              <Bandwidth>10000</Bandwidth>
+
+                              <Refresh>
+
+                                <Min>1</Min>
+
+                                <Max>10</Max>
+
+                              </Refresh>
+
+                              <Slice>
+
+                                <Min>1</Min>
+
+                                <Max>13</Max>
+
+                              </Slice>
+
+                              <BlockThreshold>4</BlockThreshold>
+
+                              <Enable444>false</Enable444>
+
+                              <FrameRateDivider>1</FrameRateDivider>
+
+                            </V2DEncoderConnectionParameterConfig>
+
+                            <V2DEncoderConnectionParameterKbmConfig>
+
+                              <AllowKMSwitch>true</AllowKMSwitch>
+
+                              <KMIdleTime>0</KMIdleTime>
+
+                              <EnableKbm>false</EnableKbm>
+
+                            </V2DEncoderConnectionParameterKbmConfig>
+
+                          </Info>
+
+                        </V2DMediaStreamProfile>
+
+                      </profileXML>
+
+                      <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                      <!-- read from mediadest and cached -->
+
+                      <destNID />
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <destAgentJID>srcuser1@10.1.5.190/srcpc1</destAgentJID>
+
+                      <!-- read from db for unmanaged ports -->
+
+                      <callbackPort />
+
+                      <!-- read from mediasource and cached -->
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <!-- set by the appserver -->
+
+                      <xAuthAgentJID />
+
+                      <streamGroups NID="">
+
+                        <Tag Name="track" Parse="true" Value="1c407263-c16a-4997-a992-5124b5179a47.StreamTrack" />
+
+                      </streamGroups>
+
+                      <streamOwnerUserJID>srcuser1@10.1.5.190/srcpc1</streamOwnerUserJID>
+
+                      <streamURLType />
+
+                      <sourceAgentJID>srcrelay1@10.1.5.190/srcrelay1</sourceAgentJID>
+
+                      <startWallClock>0</startWallClock>
+
+                      <trackStateAtStart>STARTED_CURRENT</trackStateAtStart>
+
+                      <trackOffsetAtStart>0</trackOffsetAtStart>
+
+                      <!-- read from db and cached -->
+
+                      <deviceElementID />
+
+                      <destType>OUTPUT_STREAM</destType>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                    </data>
+
+                    <!-- set by appserver in response to events -->
+
+                    <Status>
+
+                      <state>0</state>
+
+                      <relayRoomNID />
+
+                      <relayStreamNID />
+
+                    </Status>
+
+                  </Stream>
+
+                </streamlist>
+
+                <data>
+
+                  <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                  <description />
+
+                  <syncdata>1ec5065b-272a-4062-9ae1-d06f49d1417a</syncdata>
+
+                  <startWallClock>1242410526153</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410526153</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>true</pvrEnabled>
+
+                </data>
+
+              </StreamTrack>
+
+              <RecordTrack NID="1c407263-c16a-4997-a992-5124b5179a47.RecordTrack">
+
+                <data>
+
+                  <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                  <description />
+
+                  <syncdata />
+
+                  <startWallClock>1242410526153</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410526153</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>false</pvrEnabled>
+
+                </data>
+
+                <mediasourcelist>
+
+                  <MediaSource NID="15972718-dfdb-4e4c-b9b6-22829561c8f1" id="" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <startOffset>0</startOffset>
+
+                      <!-- set to trackStartWallClock if this is a live source in User Room, carried forward when creating relay -->
+
+                      <startTimecode>0</startTimecode>
+
+                      <!-- set by the relay when creating upstream connections to media  -->
+
+                      <userRoomMediaSourceNID />
+
+                      <!-- read from db and cached -->
+
+                      <sourceType>ENCODER</sourceType>
+
+                      <sourcePortNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourcePortNID>
+
+                      <deviceElementID>0</deviceElementID>
+
+                      <sourceAgentJID>tx1@10.1.5.190/tx1</sourceAgentJID>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                      <streamProfile />
+
+                      <!-- set based on whether it is Stream/PVR/Recording -->
+
+                      <trackNID>1c407263-c16a-4997-a992-5124b5179a47.RecordTrack</trackNID>
+
+                      <!-- set in the PVR/Record Track mediaSource when a pvr/recording is setup based on a streamTrack mediaSource -->
+
+                      <streamTrackMediaSourceNID>1ec5065b-272a-4062-9ae1-d06f49d1417a</streamTrackMediaSourceNID>
+
+                      <!-- updated in the streamTrack mediasource when a pvr is setup for LIVE mediaSource OR set at creationTime for Playback mediaSource-->
+
+                      <pvrEnabled />
+
+                      <lookbackSourceNID />
+
+                      <lookbackSourceAgentJID />
+
+                      <lookbackSourceFileUUID />
+
+                    </data>
+
+                  </MediaSource>
+
+                </mediasourcelist>
+
+                <mediadestlist>
+
+                  <MediaDest NID="3a1fb857-286e-4f2b-b2d3-00d4ba24aeb0" id="recordd1" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_e2350ac2-5c65-4975-91ef-00b7663f888c</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <!-- read from db and cached -->
+
+                      <destAgentJID />
+
+                    </data>
+
+                  </MediaDest>
+
+                </mediadestlist>
+
+                <streamlist>
+
+                  <Stream NID="b2f5b0a0-e536-49bc-8ce5-499449b009aa" id="recordc1">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <mediaSourceNID>15972718-dfdb-4e4c-b9b6-22829561c8f1</mediaSourceNID>
+
+                      <mediaDestNID>3a1fb857-286e-4f2b-b2d3-00d4ba24aeb0</mediaDestNID>
+
+                      <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                      <profileXML>
+
+                        <V2DMediaStreamProfile parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                          <Groups>
+
+                            <Tag Name="Network" Value="LAN" />
+
+                          </Groups>
+
+                          <Title>LAN</Title>
+
+                          <Description>LAN</Description>
+
+                          <StreamType>V2D</StreamType>
+
+                          <Priority>1</Priority>
+
+                          <StreamActionInfo>
+
+                            <AllowPause>true</AllowPause>
+
+                            <AllowSkipback>true</AllowSkipback>
+
+                            <AllowSkipfwd>true</AllowSkipfwd>
+
+                          </StreamActionInfo>
+
+                          <Info>
+
+                            <V2DStreamConfig>
+
+                              <IsMulticast>false</IsMulticast>
+
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                              <SRDTranscodeBandwidth />
+
+                              <AVOption>Video</AVOption>
+
+                            </V2DStreamConfig>
+
+                            <V2DEncoderAudioConfig>
+
+                              <SampleRate />
+
+                              <SampleSize />
+
+                              <MonoStereo />
+
+                              <AudioEncodeEnable />
+
+                            </V2DEncoderAudioConfig>
+
+                            <V2DEncoderConnectionParameterConfig>
+
+                              <BurstRatio>1.00</BurstRatio>
+
+                              <BurstDuration>4</BurstDuration>
+
+                              <Compression>
+
+                                <High>6</High>
+
+                                <Low>4</Low>
+
+                              </Compression>
+
+                              <Bandwidth>10000</Bandwidth>
+
+                              <Refresh>
+
+                                <Min>1</Min>
+
+                                <Max>10</Max>
+
+                              </Refresh>
+
+                              <Slice>
+
+                                <Min>1</Min>
+
+                                <Max>13</Max>
+
+                              </Slice>
+
+                              <BlockThreshold>4</BlockThreshold>
+
+                              <Enable444>false</Enable444>
+
+                              <FrameRateDivider>1</FrameRateDivider>
+
+                            </V2DEncoderConnectionParameterConfig>
+
+                            <V2DEncoderConnectionParameterKbmConfig>
+
+                              <AllowKMSwitch>true</AllowKMSwitch>
+
+                              <KMIdleTime>0</KMIdleTime>
+
+                              <EnableKbm>false</EnableKbm>
+
+                            </V2DEncoderConnectionParameterKbmConfig>
+
+                          </Info>
+
+                        </V2DMediaStreamProfile>
+
+                      </profileXML>
+
+                      <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                      <!-- read from mediadest and cached -->
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_e2350ac2-5c65-4975-91ef-00b7663f888c</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <destAgentJID>srcrelay1@10.1.5.190/srcrelay1</destAgentJID>
+
+                      <!-- read from db for unmanaged ports -->
+
+                      <callbackPort />
+
+                      <!-- read from mediasource and cached -->
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <!-- set by the appserver -->
+
+                      <xAuthAgentJID />
+
+                      <streamGroups NID="">
+
+                        <Tag Name="track" Parse="true" Value="1c407263-c16a-4997-a992-5124b5179a47.RecordTrack" />
+
+                      </streamGroups>
+
+                      <streamOwnerUserJID>srcuser1@10.1.5.190/srcpc1</streamOwnerUserJID>
+
+                      <streamURLType />
+
+                      <sourceAgentJID>srcrelay1@10.1.5.190/srcrelay1</sourceAgentJID>
+
+                      <startWallClock>0</startWallClock>
+
+                      <trackStateAtStart>STARTED_CURRENT</trackStateAtStart>
+
+                      <trackOffsetAtStart>0</trackOffsetAtStart>
+
+                      <!-- read from db and cached -->
+
+                      <deviceElementID>DefaultRxPort</deviceElementID>
+
+                      <destType>RECORD</destType>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                    </data>
+
+                    <!-- set by appserver in response to events -->
+
+                    <Status>
+
+                      <state>0</state>
+
+                      <relayRoomNID />
+
+                      <relayStreamNID />
+
+                    </Status>
+
+                  </Stream>
+
+                </streamlist>
+
+              </RecordTrack>
+
+              <PVRTrack NID="1c407263-c16a-4997-a992-5124b5179a47.PVRTrack">
+
+                <data>
+
+                  <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                  <description />
+
+                  <syncdata />
+
+                  <startWallClock>1242410526153</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410526153</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>false</pvrEnabled>
+
+                </data>
+
+                <mediasourcelist>
+
+                  <MediaSource NID="b2e35fdc-46a0-4027-89fc-f6c63f8085f6" id="" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <startOffset>0</startOffset>
+
+                      <!-- set to trackStartWallClock if this is a live source in User Room, carried forward when creating relay -->
+
+                      <startTimecode>0</startTimecode>
+
+                      <!-- set by the relay when creating upstream connections to media  -->
+
+                      <userRoomMediaSourceNID />
+
+                      <!-- read from db and cached -->
+
+                      <sourceType>ENCODER</sourceType>
+
+                      <sourcePortNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourcePortNID>
+
+                      <deviceElementID>0</deviceElementID>
+
+                      <sourceAgentJID>tx1@10.1.5.190/tx1</sourceAgentJID>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                      <streamProfile />
+
+                      <!-- set based on whether it is Stream/PVR/Recording -->
+
+                      <trackNID>1c407263-c16a-4997-a992-5124b5179a47.PVRTrack</trackNID>
+
+                      <!-- set in the PVR/Record Track mediaSource when a pvr/recording is setup based on a streamTrack mediaSource -->
+
+                      <streamTrackMediaSourceNID>1ec5065b-272a-4062-9ae1-d06f49d1417a</streamTrackMediaSourceNID>
+
+                      <!-- updated in the streamTrack mediasource when a pvr is setup for LIVE mediaSource OR set at creationTime for Playback mediaSource-->
+
+                      <pvrEnabled />
+
+                      <lookbackSourceNID />
+
+                      <lookbackSourceAgentJID />
+
+                      <lookbackSourceFileUUID />
+
+                    </data>
+
+                  </MediaSource>
+
+                </mediasourcelist>
+
+                <mediadestlist>
+
+                  <MediaDest NID="4c16cd60-13c0-44b7-a16d-7cdba6e52f64" id="pvrd1" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_bba2429c-00e6-43ba-bf84-0be76d65f4d6</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <!-- read from db and cached -->
+
+                      <destAgentJID />
+
+                    </data>
+
+                  </MediaDest>
+
+                </mediadestlist>
+
+                <streamlist>
+
+                  <Stream NID="c008de74-52bb-4953-8cfc-c1f2cd00e4b9" id="pvrc1">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>1c407263-c16a-4997-a992-5124b5179a47</roomNID>
+
+                      <mediaSourceNID>b2e35fdc-46a0-4027-89fc-f6c63f8085f6</mediaSourceNID>
+
+                      <mediaDestNID>4c16cd60-13c0-44b7-a16d-7cdba6e52f64</mediaDestNID>
+
+                      <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                      <profileXML>
+
+                        <V2DMediaStreamProfile parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                          <Groups>
+
+                            <Tag Name="Network" Value="LAN" />
+
+                          </Groups>
+
+                          <Title>LAN</Title>
+
+                          <Description>LAN</Description>
+
+                          <StreamType>V2D</StreamType>
+
+                          <Priority>1</Priority>
+
+                          <StreamActionInfo>
+
+                            <AllowPause>true</AllowPause>
+
+                            <AllowSkipback>true</AllowSkipback>
+
+                            <AllowSkipfwd>true</AllowSkipfwd>
+
+                          </StreamActionInfo>
+
+                          <Info>
+
+                            <V2DStreamConfig>
+
+                              <IsMulticast>false</IsMulticast>
+
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                              <SRDTranscodeBandwidth />
+
+                              <AVOption>Video</AVOption>
+
+                            </V2DStreamConfig>
+
+                            <V2DEncoderAudioConfig>
+
+                              <SampleRate />
+
+                              <SampleSize />
+
+                              <MonoStereo />
+
+                              <AudioEncodeEnable />
+
+                            </V2DEncoderAudioConfig>
+
+                            <V2DEncoderConnectionParameterConfig>
+
+                              <BurstRatio>1.00</BurstRatio>
+
+                              <BurstDuration>4</BurstDuration>
+
+                              <Compression>
+
+                                <High>6</High>
+
+                                <Low>4</Low>
+
+                              </Compression>
+
+                              <Bandwidth>10000</Bandwidth>
+
+                              <Refresh>
+
+                                <Min>1</Min>
+
+                                <Max>10</Max>
+
+                              </Refresh>
+
+                              <Slice>
+
+                                <Min>1</Min>
+
+                                <Max>13</Max>
+
+                              </Slice>
+
+                              <BlockThreshold>4</BlockThreshold>
+
+                              <Enable444>false</Enable444>
+
+                              <FrameRateDivider>1</FrameRateDivider>
+
+                            </V2DEncoderConnectionParameterConfig>
+
+                            <V2DEncoderConnectionParameterKbmConfig>
+
+                              <AllowKMSwitch>true</AllowKMSwitch>
+
+                              <KMIdleTime>0</KMIdleTime>
+
+                              <EnableKbm>false</EnableKbm>
+
+                            </V2DEncoderConnectionParameterKbmConfig>
+
+                          </Info>
+
+                        </V2DMediaStreamProfile>
+
+                      </profileXML>
+
+                      <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                      <!-- read from mediadest and cached -->
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_bba2429c-00e6-43ba-bf84-0be76d65f4d6</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                      <destAgentJID>srcrelay1@10.1.5.190/srcrelay1</destAgentJID>
+
+                      <!-- read from db for unmanaged ports -->
+
+                      <callbackPort />
+
+                      <!-- read from mediasource and cached -->
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <!-- set by the appserver -->
+
+                      <xAuthAgentJID />
+
+                      <streamGroups NID="">
+
+                        <Tag Name="track" Parse="true" Value="1c407263-c16a-4997-a992-5124b5179a47.PVRTrack" />
+
+                      </streamGroups>
+
+                      <streamOwnerUserJID>srcuser1@10.1.5.190/srcpc1</streamOwnerUserJID>
+
+                      <streamURLType />
+
+                      <sourceAgentJID>srcrelay1@10.1.5.190/srcrelay1</sourceAgentJID>
+
+                      <startWallClock>0</startWallClock>
+
+                      <trackStateAtStart>STARTED_CURRENT</trackStateAtStart>
+
+                      <trackOffsetAtStart>0</trackOffsetAtStart>
+
+                      <!-- read from db and cached -->
+
+                      <deviceElementID>DefaultRxPort</deviceElementID>
+
+                      <destType>PVR</destType>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                    </data>
+
+                    <!-- set by appserver in response to events -->
+
+                    <Status>
+
+                      <state>0</state>
+
+                      <relayRoomNID />
+
+                      <relayStreamNID />
+
+                    </Status>
+
+                  </Stream>
+
+                </streamlist>
+
+              </PVRTrack>
+
+            </systemtracklist>
+
+            <data>
+
+              <roomType>Collaboration</roomType>
+
+              <creationWallClock>1242410526153</creationWallClock>
+
+              <roomOwnerJID>srcuser1@10.1.5.190/srcpc1</roomOwnerJID>
+
+              <Info>
+
+                <Title />
+
+                <Description />
+
+                <Groups NID="">
+
+                  <Tag Name="" Parse="true" Value="" />
+
+                </Groups>
+
+              </Info>
+
+              <CollaborationData>
+
+                <collaborationID>collaborationID</collaborationID>
+
+                <Info>
+
+                  <Title />
+
+                  <Description />
+
+                  <Groups NID="">
+
+                    <Tag Name="" Parse="true" Value="" />
+
+                  </Groups>
+
+                </Info>
+
+                <syncSourceEntityID>src1</syncSourceEntityID>
+
+                <EntityList>
+
+                  <Entity id="src1" role="MediaSource">
+
+                    <MediaSourceRoleData>
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <startOffset>0.0</startOffset>
+
+                    </MediaSourceRoleData>
+
+                  </Entity>
+
+                  <Entity id="strmd1" role="MediaDestination">
+
+                    <MediaDestinationRoleData>
+
+                      <destNID />
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                    </MediaDestinationRoleData>
+
+                  </Entity>
+
+                  <Entity id="pvrd1" role="MediaDestination">
+
+                    <MediaDestinationRoleData>
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_bba2429c-00e6-43ba-bf84-0be76d65f4d6</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                    </MediaDestinationRoleData>
+
+                  </Entity>
+
+                  <Entity id="recordd1" role="MediaDestination">
+
+                    <MediaDestinationRoleData>
+
+                      <destNID>default.mediastreamfileresourcelist.msfrl_e2350ac2-5c65-4975-91ef-00b7663f888c</destNID>
+
+                      <destIP>192.168.1.1</destIP>
+
+                      <destUDPStartPort>2100</destUDPStartPort>
+
+                    </MediaDestinationRoleData>
+
+                  </Entity>
+
+                </EntityList>
+
+                <ConnectionList>
+
+                  <Connection id="strmc1" streamNID="a6cb37e0-41e2-47d5-a8a9-8e1621eeadc7" exceptionCode="">
+
+                    <sourceEntityID>src1</sourceEntityID>
+
+                    <destinationEntityID>strmd1</destinationEntityID>
+
+                    <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                    <profileXML>
+
+                      <V2DMediaStreamProfile NID="default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534" parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                        <Groups>
+
+                          <Tag Name="Network" Value="LAN" />
+
+                        </Groups>
+
+                        <Title>LAN</Title>
+
+                        <Description>LAN</Description>
+
+                        <StreamType>V2D</StreamType>
+
+                        <Priority>1</Priority>
+
+                        <StreamActionInfo>
+
+                          <AllowPause>true</AllowPause>
+
+                          <AllowSkipback>true</AllowSkipback>
+
+                          <AllowSkipfwd>true</AllowSkipfwd>
+
+                        </StreamActionInfo>
+
+                        <Info>
+
+                          <V2DStreamConfig>
+
+                            <IsMulticast>false</IsMulticast>
+
+                            <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                            <SRDTranscodeBandwidth />
+
+                            <AVOption>Video</AVOption>
+
+                          </V2DStreamConfig>
+
+                          <V2DEncoderAudioConfig>
+
+                            <SampleRate />
+
+                            <SampleSize />
+
+                            <MonoStereo />
+
+                            <AudioEncodeEnable />
+
+                          </V2DEncoderAudioConfig>
+
+                          <V2DEncoderConnectionParameterConfig>
+
+                            <BurstRatio>1.00</BurstRatio>
+
+                            <BurstDuration>4</BurstDuration>
+
+                            <Compression>
+
+                              <High>6</High>
+
+                              <Low>4</Low>
+
+                            </Compression>
+
+                            <Bandwidth>10000</Bandwidth>
+
+                            <Refresh>
+
+                              <Min>1</Min>
+
+                              <Max>10</Max>
+
+                            </Refresh>
+
+                            <Slice>
+
+                              <Min>1</Min>
+
+                              <Max>13</Max>
+
+                            </Slice>
+
+                            <BlockThreshold>4</BlockThreshold>
+
+                            <Enable444>false</Enable444>
+
+                            <FrameRateDivider>1</FrameRateDivider>
+
+                          </V2DEncoderConnectionParameterConfig>
+
+                          <V2DEncoderConnectionParameterKbmConfig>
+
+                            <AllowKMSwitch>true</AllowKMSwitch>
+
+                            <KMIdleTime>0</KMIdleTime>
+
+                            <EnableKbm>false</EnableKbm>
+
+                          </V2DEncoderConnectionParameterKbmConfig>
+
+                        </Info>
+
+                      </V2DMediaStreamProfile>
+
+                    </profileXML>
+
+                    <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                    <description>description</description>
+
+                  </Connection>
+
+                  <Connection id="pvrc1" streamNID="c008de74-52bb-4953-8cfc-c1f2cd00e4b9" exceptionCode="">
+
+                    <sourceEntityID>src1</sourceEntityID>
+
+                    <destinationEntityID>pvrd1</destinationEntityID>
+
+                    <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                    <profileXML>
+
+                      <V2DMediaStreamProfile NID="default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534" parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                        <Groups>
+
+                          <Tag Name="Network" Value="LAN" />
+
+                        </Groups>
+
+                        <Title>LAN</Title>
+
+                        <Description>LAN</Description>
+
+                        <StreamType>V2D</StreamType>
+
+                        <Priority>1</Priority>
+
+                        <StreamActionInfo>
+
+                          <AllowPause>true</AllowPause>
+
+                          <AllowSkipback>true</AllowSkipback>
+
+                          <AllowSkipfwd>true</AllowSkipfwd>
+
+                        </StreamActionInfo>
+
+                        <Info>
+
+                          <V2DStreamConfig>
+
+                            <IsMulticast>false</IsMulticast>
+
+                            <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                            <SRDTranscodeBandwidth />
+
+                            <AVOption>Video</AVOption>
+
+                          </V2DStreamConfig>
+
+                          <V2DEncoderAudioConfig>
+
+                            <SampleRate />
+
+                            <SampleSize />
+
+                            <MonoStereo />
+
+                            <AudioEncodeEnable />
+
+                          </V2DEncoderAudioConfig>
+
+                          <V2DEncoderConnectionParameterConfig>
+
+                            <BurstRatio>1.00</BurstRatio>
+
+                            <BurstDuration>4</BurstDuration>
+
+                            <Compression>
+
+                              <High>6</High>
+
+                              <Low>4</Low>
+
+                            </Compression>
+
+                            <Bandwidth>10000</Bandwidth>
+
+                            <Refresh>
+
+                              <Min>1</Min>
+
+                              <Max>10</Max>
+
+                            </Refresh>
+
+                            <Slice>
+
+                              <Min>1</Min>
+
+                              <Max>13</Max>
+
+                            </Slice>
+
+                            <BlockThreshold>4</BlockThreshold>
+
+                            <Enable444>false</Enable444>
+
+                            <FrameRateDivider>1</FrameRateDivider>
+
+                          </V2DEncoderConnectionParameterConfig>
+
+                          <V2DEncoderConnectionParameterKbmConfig>
+
+                            <AllowKMSwitch>true</AllowKMSwitch>
+
+                            <KMIdleTime>0</KMIdleTime>
+
+                            <EnableKbm>false</EnableKbm>
+
+                          </V2DEncoderConnectionParameterKbmConfig>
+
+                        </Info>
+
+                      </V2DMediaStreamProfile>
+
+                    </profileXML>
+
+                    <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                    <description>description</description>
+
+                  </Connection>
+
+                  <Connection id="recordc1" streamNID="b2f5b0a0-e536-49bc-8ce5-499449b009aa" exceptionCode="">
+
+                    <sourceEntityID>src1</sourceEntityID>
+
+                    <destinationEntityID>recordd1</destinationEntityID>
+
+                    <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                    <profileXML>
+
+                      <V2DMediaStreamProfile NID="default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534" parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                        <Groups>
+
+                          <Tag Name="Network" Value="LAN" />
+
+                        </Groups>
+
+                        <Title>LAN</Title>
+
+                        <Description>LAN</Description>
+
+                        <StreamType>V2D</StreamType>
+
+                        <Priority>1</Priority>
+
+                        <StreamActionInfo>
+
+                          <AllowPause>true</AllowPause>
+
+                          <AllowSkipback>true</AllowSkipback>
+
+                          <AllowSkipfwd>true</AllowSkipfwd>
+
+                        </StreamActionInfo>
+
+                        <Info>
+
+                          <V2DStreamConfig>
+
+                            <IsMulticast>false</IsMulticast>
+
+                            <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                            <SRDTranscodeBandwidth />
+
+                            <AVOption>Video</AVOption>
+
+                          </V2DStreamConfig>
+
+                          <V2DEncoderAudioConfig>
+
+                            <SampleRate />
+
+                            <SampleSize />
+
+                            <MonoStereo />
+
+                            <AudioEncodeEnable />
+
+                          </V2DEncoderAudioConfig>
+
+                          <V2DEncoderConnectionParameterConfig>
+
+                            <BurstRatio>1.00</BurstRatio>
+
+                            <BurstDuration>4</BurstDuration>
+
+                            <Compression>
+
+                              <High>6</High>
+
+                              <Low>4</Low>
+
+                            </Compression>
+
+                            <Bandwidth>10000</Bandwidth>
+
+                            <Refresh>
+
+                              <Min>1</Min>
+
+                              <Max>10</Max>
+
+                            </Refresh>
+
+                            <Slice>
+
+                              <Min>1</Min>
+
+                              <Max>13</Max>
+
+                            </Slice>
+
+                            <BlockThreshold>4</BlockThreshold>
+
+                            <Enable444>false</Enable444>
+
+                            <FrameRateDivider>1</FrameRateDivider>
+
+                          </V2DEncoderConnectionParameterConfig>
+
+                          <V2DEncoderConnectionParameterKbmConfig>
+
+                            <AllowKMSwitch>true</AllowKMSwitch>
+
+                            <KMIdleTime>0</KMIdleTime>
+
+                            <EnableKbm>false</EnableKbm>
+
+                          </V2DEncoderConnectionParameterKbmConfig>
+
+                        </Info>
+
+                      </V2DMediaStreamProfile>
+
+                    </profileXML>
+
+                    <relayNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</relayNID>
+
+                    <description>description</description>
+
+                  </Connection>
+
+                </ConnectionList>
+
+                <action>Start</action>
+
+              </CollaborationData>
+
+            </data>
+
+          </MediaRoom>
+
+          <MediaRoom xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NID="8c7c78ae-7617-44d9-877f-f5c6ce89029d" NIDScheme="AUTO" Parse="true" xsi:noNamespaceSchemaLocation="mediaroom.mediaroomservice.datamodel.xsd">
+
+            <systemtracklist>
+
+              <StreamTrack NID="8c7c78ae-7617-44d9-877f-f5c6ce89029d.StreamTrack">
+
+                <data>
+
+                  <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                  <description />
+
+                  <syncdata />
+
+                  <startWallClock>1242410529701</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410529701</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>false</pvrEnabled>
+
+                </data>
+
+                <mediasourcelist>
+
+                  <MediaSource NID="cb6d92ec-b6ee-4861-bb2b-b711c2fe2fcf" id="" presence="AVAILABLE" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <startOffset>0</startOffset>
+
+                      <!-- set to trackStartWallClock if this is a live source in User Room, carried forward when creating relay -->
+
+                      <startTimecode>1242410529701</startTimecode>
+
+                      <!-- set by the relay when creating upstream connections to media  -->
+
+                      <userRoomMediaSourceNID>1ec5065b-272a-4062-9ae1-d06f49d1417a</userRoomMediaSourceNID>
+
+                      <!-- read from db and cached -->
+
+                      <sourceType>ENCODER</sourceType>
+
+                      <sourcePortNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourcePortNID>
+
+                      <deviceElementID>0</deviceElementID>
+
+                      <sourceAgentJID>tx1@10.1.5.190/tx1</sourceAgentJID>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                      <streamProfile />
+
+                      <!-- set based on whether it is Stream/PVR/Recording -->
+
+                      <trackNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d.StreamTrack</trackNID>
+
+                      <!-- set in the PVR/Record Track mediaSource when a pvr/recording is setup based on a streamTrack mediaSource -->
+
+                      <streamTrackMediaSourceNID />
+
+                      <!-- updated in the streamTrack mediasource when a pvr is setup for LIVE mediaSource OR set at creationTime for Playback mediaSource-->
+
+                      <pvrEnabled />
+
+                      <lookbackSourceNID />
+
+                      <lookbackSourceAgentJID />
+
+                      <lookbackSourceFileUUID />
+
+                    </data>
+
+                  </MediaSource>
+
+                </mediasourcelist>
+
+                <mediadestlist>
+
+                  <MediaDest NID="2df505fc-a854-427f-af2a-8d8296aefdb3" id="" presence="" title="">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                      <destNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</destNID>
+
+                      <destIP />
+
+                      <destUDPStartPort />
+
+                      <!-- read from db and cached -->
+
+                      <destAgentJID />
+
+                    </data>
+
+                  </MediaDest>
+
+                </mediadestlist>
+
+                <streamlist>
+
+                  <Stream NID="3a6088e8-398e-490a-9078-08789c57bbc7" id="" presence="AVAILABLE">
+
+                    <data>
+
+                      <!-- passed by request -->
+
+                      <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                      <mediaSourceNID>cb6d92ec-b6ee-4861-bb2b-b711c2fe2fcf</mediaSourceNID>
+
+                      <mediaDestNID>2df505fc-a854-427f-af2a-8d8296aefdb3</mediaDestNID>
+
+                      <profileNID>default.mediastreamprofilelist.mspl_e8ffdcb6-cb29-4e5c-99b2-3e100d3db534</profileNID>
+
+                      <profileXML>
+
+                        <profileXML>
+
+                          <V2DMediaStreamProfile parentNID="default.mediastreamprofilelist" Ver="1.3" Rev="1">
+
+                            <Groups>
+
+                              <Tag Name="Network" Value="LAN" />
+
+                            </Groups>
+
+                            <Title>LAN</Title>
+
+                            <Description>LAN</Description>
+
+                            <StreamType>V2D</StreamType>
+
+                            <Priority>1</Priority>
+
+                            <StreamActionInfo>
+
+                              <AllowPause>true</AllowPause>
+
+                              <AllowSkipback>true</AllowSkipback>
+
+                              <AllowSkipfwd>true</AllowSkipfwd>
+
+                            </StreamActionInfo>
+
+                            <Info>
+
+                              <V2DStreamConfig>
+
+                                <IsMulticast>false</IsMulticast>
+
+                                <EnableSRDTranscode>true</EnableSRDTranscode>
+
+                                <SRDTranscodeBandwidth />
+
+                                <AVOption>Video</AVOption>
+
+                              </V2DStreamConfig>
+
+                              <V2DEncoderAudioConfig>
+
+                                <SampleRate />
+
+                                <SampleSize />
+
+                                <MonoStereo />
+
+                                <AudioEncodeEnable />
+
+                              </V2DEncoderAudioConfig>
+
+                              <V2DEncoderConnectionParameterConfig>
+
+                                <BurstRatio>1.00</BurstRatio>
+
+                                <BurstDuration>4</BurstDuration>
+
+                                <Compression>
+
+                                  <High>6</High>
+
+                                  <Low>4</Low>
+
+                                </Compression>
+
+                                <Bandwidth>10000</Bandwidth>
+
+                                <Refresh>
+
+                                  <Min>1</Min>
+
+                                  <Max>10</Max>
+
+                                </Refresh>
+
+                                <Slice>
+
+                                  <Min>1</Min>
+
+                                  <Max>13</Max>
+
+                                </Slice>
+
+                                <BlockThreshold>4</BlockThreshold>
+
+                                <Enable444>false</Enable444>
+
+                                <FrameRateDivider>1</FrameRateDivider>
+
+                              </V2DEncoderConnectionParameterConfig>
+
+                              <V2DEncoderConnectionParameterKbmConfig>
+
+                                <AllowKMSwitch>true</AllowKMSwitch>
+
+                                <KMIdleTime>0</KMIdleTime>
+
+                                <EnableKbm>false</EnableKbm>
+
+                              </V2DEncoderConnectionParameterKbmConfig>
+
+                            </Info>
+
+                          </V2DMediaStreamProfile>
+
+                        </profileXML>
+
+                      </profileXML>
+
+                      <relayNID />
+
+                      <!-- read from mediadest and cached -->
+
+                      <destNID>default.mediastreamrelayportresourcelist.msrprl_1b543840-e955-4cb2-9f77-179f6cb79fa1</destNID>
+
+                      <destIP />
+
+                      <destUDPStartPort />
+
+                      <destAgentJID>srcrelay1@10.1.5.190/srcrelay1</destAgentJID>
+
+                      <!-- read from db for unmanaged ports -->
+
+                      <callbackPort />
+
+                      <!-- read from mediasource and cached -->
+
+                      <sourceNID>default.mediastreamsrcportresourcelist.mssprl_d0ea1a4b-5fa0-4499-83ae-c918d45bf8cb</sourceNID>
+
+                      <!-- set by the appserver -->
+
+                      <xAuthAgentJID />
+
+                      <streamGroups NID="">
+
+                        <Tag Name="track" Parse="true" Value="8c7c78ae-7617-44d9-877f-f5c6ce89029d.StreamTrack" />
+
+                      </streamGroups>
+
+                      <streamOwnerUserJID>srcrelay1@10.1.5.190/srcrelay1</streamOwnerUserJID>
+
+                      <streamURLType />
+
+                      <sourceAgentJID>tx1@10.1.5.190/tx1</sourceAgentJID>
+
+                      <startWallClock>0</startWallClock>
+
+                      <trackStateAtStart>STARTED_CURRENT</trackStateAtStart>
+
+                      <trackOffsetAtStart>0</trackOffsetAtStart>
+
+                      <!-- read from db and cached -->
+
+                      <deviceElementID />
+
+                      <destType>OUTPUT_STREAM</destType>
+
+                      <streamType>V2D</streamType>
+
+                      <streamURL />
+
+                    </data>
+
+                    <!-- set by appserver in response to events -->
+
+                    <Status>
+
+                      <state>1</state>
+
+                      <relayRoomNID />
+
+                      <relayStreamNID />
+
+                    </Status>
+
+                  </Stream>
+
+                </streamlist>
+
+              </StreamTrack>
+
+              <RecordTrack NID="8c7c78ae-7617-44d9-877f-f5c6ce89029d.RecordTrack">
+
+                <data>
+
+                  <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                  <description />
+
+                  <syncdata />
+
+                  <startWallClock>1242410529701</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410529701</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>false</pvrEnabled>
+
+                </data>
+
+                <mediasourcelist />
+
+                <mediadestlist />
+
+                <streamlist />
+
+              </RecordTrack>
+
+              <PVRTrack NID="8c7c78ae-7617-44d9-877f-f5c6ce89029d.PVRTrack">
+
+                <data>
+
+                  <roomNID>8c7c78ae-7617-44d9-877f-f5c6ce89029d</roomNID>
+
+                  <description />
+
+                  <syncdata />
+
+                  <startWallClock>1242410529701</startWallClock>
+
+                  <lastAction>Start</lastAction>
+
+                  <lastActionWallClock>1242410529701</lastActionWallClock>
+
+                  <lastTrackOffset>0</lastTrackOffset>
+
+                  <trackState>STARTED_CURRENT</trackState>
+
+                  <pvrEnabled>false</pvrEnabled>
+
+                </data>
+
+                <mediasourcelist />
+
+                <mediadestlist />
+
+                <streamlist />
+
+              </PVRTrack>
+
+            </systemtracklist>
+
+            <data>
+
+              <roomType>Connection</roomType>
+
+              <creationWallClock>1242410529701</creationWallClock>
+
+              <roomOwnerJID>srcrelay1@10.1.5.190/srcrelay1</roomOwnerJID>
+
+              <Info>
+
+                <Title />
+
+                <Description />
+
+                <Groups>
+
+                  <Tag Name="" Value="" />
+
+                </Groups>
+
+              </Info>
+
+              <CollaborationData />
+
+            </data>
+
+          </MediaRoom>
+
+        </ResponseXML>
+
+        <GetListObjectResponseData>
+
+          <ObjectCount>2</ObjectCount>
+
+          <ObjectLastWhereEndCount>2</ObjectLastWhereEndCount>
+
+        </GetListObjectResponseData>
+
+      </RoomDBGetResponse>
+
+    </GetMediaRoomListResponseData>
+
+        
+</GetMediaRoomList>
+        

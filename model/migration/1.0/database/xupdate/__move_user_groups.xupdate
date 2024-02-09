@@ -1,0 +1,8 @@
+<xupdate:modifications version="1.0"
+       xmlns:xupdate="http://www.xmldb.org/xupdate">
+   <xupdate:variable name="state" select="//User[Username='ahhrelay01']/Email"/>
+   <xupdate:remove select="/User/ModifiedDate"/>
+   <xupdate:insert-after select="/User/Groups">
+         <xupdate:value-of select="$state"/>
+   </xupdate:insert-after>  
+</xupdate:modifications>

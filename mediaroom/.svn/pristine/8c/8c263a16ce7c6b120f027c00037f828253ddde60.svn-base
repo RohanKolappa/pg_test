@@ -1,0 +1,59 @@
+
+let $dstTitle := '_DSTTITLE_'
+
+let $authScheme := '_AUTHSCHEME_'
+
+let $destinationDoc := for $portDoc in  collection('ipvs.default.mediastreamdstportresourcelist')/*[.//Info/Title = $dstTitle] | 
+    									collection('ipvs.default.mediastreamioportresourcelist')/* [.//Info/Title = $dstTitle]
+    					return $portDoc
+    											
+let $destDoc := if($authScheme='EXPIRY') then
+                    let $dstResourceNID :=  data($destinationDoc//AssetResourceNID)
+                    
+                    let $dstAssetDoc := doc(concat('/db/ipvs.default.', 
+                              						substring-before( substring-after( $dstResourceNID, 'default.') , '.'  ) , '/',
+                              						substring-after( substring-after( $dstResourceNID, 'default.'),'.')))/*[@NID=$dstResourceNID]
+                           		
+                                
+                    let $dstTemplateNID :=  data($dstAssetDoc//TemplateAssetResourceNID)
+                    
+                    
+                    let $returnDoc := if($dstTemplateNID != '') then 
+                                        let $retdoc :=  for $portDoc in  collection('ipvs.default.mediastreamdstportresourcelist')/*[.//AssetResourceNID = $dstTemplateNID] | 
+                        								          	collection('ipvs.default.mediastreamioportresourcelist')/* [.//AssetResourceNID = $dstTemplateNID]
+                        				               	return $portDoc
+                                        return $retdoc
+                                     else $destinationDoc
+                      return $returnDoc
+                else $destinationDoc
+                
+                    
+let $serviceResourceDoc := for $serviceResource in collection('/db/ipvs.default.serviceresourcelist')/*[(@parentNID='default.serviceresourcelist')]                	                       
+                          			return $serviceResource    
+
+
+let $resourceNID :=  data($serviceResourceDoc//HA/*[@state='active']/@MSAssetResourceNID)
+				                     
+let $assetNID := if($resourceNID != '') then 
+                          $resourceNID
+                    else  data($serviceResourceDoc//AssetResourceNID)
+                 	
+let $assetDoc :=  if($assetNID !='') then		   
+              			doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $assetNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $assetNID, 'default.'),'.')))/*[@NID=$assetNID]
+       			else ''
+       			
+let $deviceDoc := if($assetDoc != '')  then 
+						for $device in collection('/db/ipvs.default.devicelist')/*
+								[.//AssetResourceNID = $assetNID]						   						 
+						return $device
+				 else ''
+												
+return <MSResourceInfo> <Source>{$assetDoc}</Source><Destination> {$destDoc}</Destination>
+                         <Device><XMPPAgentServiceConfig><Enable>true</Enable></XMPPAgentServiceConfig>
+								{$deviceDoc//DNSClientConfig}{$deviceDoc//NATZoneTableConfig}  {$deviceDoc//EthernetPortTableStatus}
+						 </Device>
+       </MSResourceInfo>												
+       														
+       			

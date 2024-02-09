@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+
+<data jsxid="jsxroot">
+
+  <record jsxid="jsxexecute" jsxtext="Execute"
+          jsxtip="Fires after the user double-clicks a record or presses the Enter key with focus in a record of this button panel.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strRECORDID" type="String"
+            jsxtext="the CDF jsxid of the selected record. When more than one record is executed, this variable is set to just one of the executed records. Use &lt;code&gt;strRECORDIDS&lt;/code&gt; when this button panel is multi-select."/>
+    <record jsxid="strRECORDIDS" type="Array&lt;String&gt;" jsxtext="the CDF jsxids of the selected records."/>
+  </record>
+
+  <record jsxid="jsxselect" jsxtext="Select"
+          jsxtip="Fires after the user selects a record of this button panel.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strRECORDID" type="String"
+            jsxtext="the CDF jsxid of the selected record, &lt;code&gt;null&lt;/code&gt; if a deselection event."/>
+    <record jsxid="strRECORDIDS" type="Array&lt;String&gt;" jsxtext="the CDF jsxids of the selected records."/>
+  </record>
+
+  <record jsxid="jsxchange" jsxtext="Change"
+          jsxtip="Fires after the user changes the selected records of this button panel.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+  </record>
+
+  <record jsxid="jsxspy" jsxtext="Spyglass"
+          jsxtip="Fires after the user hovers the mouse over this button panel and before the spyglass displays. The event script must evaluate to the HTML content to display in the spyglass. Canceling this event prevents the spyglass from displaying."
+          vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strRECORDID" type="String" jsxtext="the CDF jsxid of the spied record."/>
+    <record jsxid="objCOLUMN" type="jsx3.gui.Matrix.Column" jsxtext="the column that receives the spy action."/>
+  </record>
+
+  <record jsxid="jsxmenu" jsxtext="Menu"
+          jsxtip="Fires after the user right-clicks this button panel and before the bound context menu displays. Canceling this event prevents the menu from displaying."
+          vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strRECORDID" type="String" jsxtext="the CDF jsxid of the selected record."/>
+    <record jsxid="objCOLUMN" type="jsx3.gui.Matrix.Column" jsxtext="the column that receives the menu action."/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="the menu to display."
+            jsxreturntext="use this field to override the default menu with an instance of &lt;code&gt;jsx3.gui.Menu&lt;/code&gt;."/>
+  </record>
+
+  <record jsxid="jsxbeforeappend" jsxtext="Before Append"
+          jsxtip="Fires when the user adds a new CDF record using the auto record interface and before the change is committed. Any modifications made to properties on &lt;code&gt;objRECORD&lt;/code&gt; are persisted. Canceling this event prevents committing the new CDF record."
+          vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="objRECORD" type="Object&lt;String,String&gt;"
+            jsxtext="the JavaScript object that becomes the CDF record."/>
+  </record>
+
+  <record jsxid="jsxafterappend" jsxtext="After Append"
+          jsxtip="Fires after the user adds a new CDF record to the model and view using the auto record interface.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="objRECORDNODE" type="jx3.xml.Entity"
+            jsxtext="the CDF record that is appended."/>
+  </record>
+
+  <record jsxid="jsxscroll" jsxtext="Scroll"
+      jsxtip="Fires after the user scrolls the data area of this button panel.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strDIRECTION" type="String" jsxtext="the direction of the scrolling, 'horizontal' or 'vertical'."/>
+    <record jsxid="intPOSITION" type="int" jsxtext="the position of the scrollbar in implied pixels."/>
+  </record>
+
+  <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+          jsxtip="Fires after this button panel is removed from the DOM.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objPARENT" type="jsx3.app.Model"
+            jsxtext="the parent of this button panel before it is removed from the DOM."/>
+  </record>
+
+</data>

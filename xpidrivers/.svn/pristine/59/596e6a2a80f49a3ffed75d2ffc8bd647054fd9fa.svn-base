@@ -1,0 +1,31 @@
+Mac.o: Mac.cpp include/Mac.h \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/ostream \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/basic_definitions \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/system_configuration.h \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/iosfwd \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/char_traits \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/exception \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/memory \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/new \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/cstddef \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/cstdlib \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/iterator_base \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/utility \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/cstdio \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/streambuf \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/locale \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/string \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/func_exception \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/vector \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/iterator \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/algorithm \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/functional \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/type_traits \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/ios \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/ostream_helpers \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/cctype \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/iostream \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/istream \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/istream_helpers \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/fstream \
+  /home/emount/Projects/Linux/Labrinth_Firmware/../mb-linux-labx/uClinux-dist/include/c++/string_iostream

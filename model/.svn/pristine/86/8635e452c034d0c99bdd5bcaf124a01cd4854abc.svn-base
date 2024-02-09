@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.policyadminservice.datamodel.Rule.xsd" />
+  
+  <xs:element name="NetworkAddressRuleList" type="NetworkAddressRuleListType" />
+  <xs:complexType name="NetworkAddressRuleListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NetworkAddressRule" type="NetworkAddressRuleType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="NetworkAddressRule" type="NetworkAddressRuleType" />
+  <xs:complexType name="NetworkAddressRuleType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="RuleType">
+        <xs:sequence>
+          <xs:element name="LocalNetworkResourceFilterSet" type="LocalNetworkResourceFilterSetType" />
+          <xs:element name="RemoteNetworkResourceFilterSet" type="RemoteNetworkResourceFilterSetType" />
+          <xs:element name="RuleKeyTagFilterSet" type="NetworkAddressRuleKeyTagFilterSetType" />
+          <xs:element name="NetworkAddressScheme" type="NetworkAddressSchemeType" />
+          <xs:element name="OutboundNATTable" type="OutboundNATTableType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.2" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LocalNetworkResourceFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="LocalNetworkResourceFilter" type="NetworkResourceFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RemoteNetworkResourceFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RemoteNetworkResourceFilter" type="NetworkResourceFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name ="NetworkAddressSchemeType">
+    <xs:choice>
+      <xs:element name="UseDNSName" type="xs:boolean" />
+      <xs:sequence>
+        <xs:element name="UseLANIP" type="xs:boolean" />
+        <xs:element name="EthernetPortEntryID" type="xs:string" />
+      </xs:sequence>
+      <xs:sequence>
+        <xs:element name="UseNATZoneIP" type="xs:boolean" />
+        <xs:element name="NATZoneEntryName" type="xs:string" />
+      </xs:sequence>      
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name ="OutboundNATTableType">
+    <xs:sequence>
+      <xs:element name="NATTable" type="NATTableType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NATTableType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="NATEntry" type="NATEntryType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NATEntryType">
+    <xs:sequence>
+      <xs:element name="Network" type="xs:string" />
+      <xs:element name="TranslatedNetwork" type="xs:string" />
+      <xs:element name="Netmask" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkResourceFilterType">
+    <xs:sequence>
+      <xs:element name="MediaStreamResourceFilterNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkAddressRuleKeyTagFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RuleKeyTagFilter" type="NetworkAddressRuleKeyTagFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkAddressRuleKeyTagFilterType">
+    <xs:sequence>
+      <xs:element name="RuleKeyLHTagName" type="NetworkAddressRuleKeyTagSpecType" />
+      <xs:element name="MatchOp" type="MatchOpEnumType" />
+      <xs:element name="RuleKeyRHTagName" type="NetworkAddressRuleKeyTagSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkAddressRuleKeyTagSpecType">
+    <xs:sequence>
+      <xs:element name="RuleKey" type="NetworkAddressRuleKeyEnumType" />
+      <xs:element name="TagName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="NetworkAddressRuleKeyEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NETWORKADDRESS_RULE_LOCAL_NETWORKRESOURCE" />
+      <xs:enumeration value="NETWORKADDRESS_RULE_REMOTE_NETWORKRESOURCE" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

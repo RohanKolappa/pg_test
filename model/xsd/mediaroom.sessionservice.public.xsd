@@ -1,0 +1,2136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+  <!-- Moved from private sessionservice xsd -->
+   <!--  Add Device Request -->
+  
+  <xs:complexType name='AddDeviceRequestType'>
+  	<xs:complexContent mixed='false'>
+  		<xs:extension base='DeviceDataType'>
+  		   <xs:sequence/>
+  		   <xs:attribute name='applyTagsToPorts' type='xs:boolean' />
+  		</xs:extension>  		  			  		  	
+  	</xs:complexContent>
+  </xs:complexType>
+  
+  <!--  Add Device Response -->
+  
+  <xs:complexType name='AddDeviceResponseType'>
+  	<xs:sequence>  	  	  		  							
+		<xs:element name='Device' type='DeviceBaseResponseType' />					  			   	
+  	</xs:sequence>	     	   
+  </xs:complexType>
+  
+   <!--  Set Device Info Request -->
+   
+  <xs:complexType name='SetDeviceInfoRequestType'>
+  	<xs:sequence>
+		<xs:element name='Groups' type="TagList" />
+		<xs:element name='DevicePrivateData' type='xs:string' />
+	</xs:sequence>
+	<xs:attributeGroup ref="SetAttributeGroupType" />
+	<xs:attribute name='description' type='xs:string' />
+	<xs:attribute name='password' type='xs:string' />
+	<xs:attribute name='applyTagsToPorts' type='xs:boolean' />	  		
+  </xs:complexType>
+  
+  <!--  Set Device Info Response -->
+  
+  <xs:complexType name='SetDeviceInfoResponseType'>
+  	<xs:sequence>  	  	  		  							
+		<xs:element name='Device' type='DeviceBaseResponseType' />					  			   	
+  	</xs:sequence>	     	   
+  </xs:complexType>
+  
+  <!--  Get Device Request -->
+  
+  <xs:complexType name="GetDeviceRequestType">
+  	<xs:complexContent mixed="false">
+  		<xs:extension base="GetObjectBaseType">						        					
+			<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />			
+			<xs:attribute name="whereTitle" type="xs:string" />					
+			<xs:attribute name="whereType" type="xs:string" />
+		</xs:extension>
+	</xs:complexContent>													
+  </xs:complexType>
+	
+	<!--  Get Device Response -->
+	
+	<xs:complexType name="GetDeviceResponseType">		
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>							
+					<xs:element name='Device' type='DeviceBaseResponseType' maxOccurs="unbounded" />						
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name='DeviceBaseResponseType'>
+		<xs:complexContent mixed="false">
+			<xs:extension base='DeviceDataType'>
+				<xs:sequence>
+				    <xs:element name='TemplateNID' type='xs:string' />
+					<xs:element name="PortList" >
+						<xs:complexType>
+						    <xs:sequence>
+						       <xs:element name='Port' type='ServiceClientPortType'/>
+						    </xs:sequence>						    
+						</xs:complexType>						 
+					</xs:element>
+					<xs:element name="Status">
+						<xs:complexType>
+							<xs:attribute name="device" type="xs:string" />
+							<xs:attribute name="systemElements" type="xs:string" />
+							<xs:attribute name="serviceElements" type="xs:string" />
+							<xs:attribute name="networkElements" type="xs:string" />
+							<xs:attribute name="hardDisk" type="xs:string" />
+							<xs:attribute name="NAS" type="xs:string" />							 
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="DeviceConfig" type='ServiceClientDeviceType'/>
+					<xs:element name="DeviceStatus" type='DeviceStatusType'/>
+					<xs:element name="DeviceList">
+						<xs:complexType>
+						    <xs:sequence>
+						       <xs:element name='Device' type='DeviceBaseResponseType' maxOccurs="unbounded"/>
+						    </xs:sequence>						    
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name='NID' type='xs:string' />
+				<xs:attribute name='presence' type='xs:string' />
+				<xs:attribute name='state' type='xs:string' />
+			</xs:extension>
+		</xs:complexContent>			  						  			
+	</xs:complexType>
+	<!-- Delete Device -->
+	<xs:complexType name='DeleteDeviceRequestType'>
+		<xs:sequence />
+		<xs:attribute name="byNID" />
+		<xs:attribute name="byTitle" />
+	</xs:complexType>
+  
+  <!--  Delete device Response -->
+	<xs:complexType name='DeleteDeviceResponseType'>
+		<xs:sequence>
+			<xs:element name='Device' type='DeviceBaseResponseType' maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+  
+  
+
+	<xs:complexType name='StatusElementType'>
+		<xs:sequence>
+			<xs:element ref='Parameter' />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name='DeviceStatusType'>
+    <xs:sequence>
+      <xs:element name='System' minOccurs="0">
+        <xs:complexType>
+        	<xs:sequence>
+        		<xs:element name='SoftwareImage' minOccurs="0" type="StatusElementType"/>
+      			<xs:element name='Memory' minOccurs="0"  type="StatusElementType"/>
+      			<xs:element name='SystemHW' minOccurs="0"  type="StatusElementType"/>
+      			<xs:element name='SystemClock' minOccurs="0"  type="StatusElementType"/>
+        	</xs:sequence>          
+        </xs:complexType>
+      </xs:element>
+	<xs:element name='Services'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='HTTPServer' type="StatusElementType" minOccurs="0" />
+				<xs:element name='SSHServer' type="StatusElementType" minOccurs="0" />
+				<xs:element name='TelnetServer' type="StatusElementType" minOccurs="0" />
+				<xs:element name='TFTPServer' type="StatusElementType" minOccurs="0" />
+				<xs:element name='XMPPServer' type="StatusElementType" />
+				<xs:element name='XMPPAgent' minOccurs="0" type="StatusElementType" />
+				<xs:element name='StreamingServer' minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='Instance' minOccurs="0" maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name='DHCPServer' minOccurs="0" type="StatusElementType" />
+				<xs:element name='NTPServer' minOccurs="0" type="StatusElementType" />
+			</xs:sequence>
+		</xs:complexType>
+      </xs:element>
+	<xs:element name='Network'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='EthernetPortList'>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='EthernetPort' minOccurs="0" maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name='NATTable'>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='NAT' minOccurs="0" maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name='RouteTable'>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='RouteTable' minOccurs='0' maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name='Storage'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='HardDiskList'>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='HardDisk' minOccurs="0" maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name='NASList'>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='NAS' minOccurs="0" maxOccurs="unbounded" type="StatusElementType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>      
+       <xs:element name='AVCodec'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name='Port' minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='DisplayStatus' minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:choice>
+                       <xs:sequence>
+					        <xs:element name="Display" type="DisplayType" />
+					        <xs:element name="Canvas" type="CanvasType" />
+   					   </xs:sequence>   					   
+					   <xs:sequence>
+					        <xs:element ref="Parameter"/>
+					    </xs:sequence>					 
+                      </xs:choice>
+                      <xs:attribute name='type' type='xs:string'/>                     
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>           
+          </xs:sequence>
+          <xs:attribute name='id' type="xs:string" />          
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>  
+	
+	<!-- SetPortInfo Request -->
+	<xs:complexType name="SetPortInfoRequestType">
+		<xs:sequence>
+			<xs:element name="Groups" minOccurs="0" type="TagList" />
+		</xs:sequence>
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="description" type="xs:string" />
+		<xs:attributeGroup ref="SetAttributeGroupType" />
+	</xs:complexType>
+	
+	<!-- SetPortInfo Response -->
+	<xs:complexType name="SetPortInfoResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="SetPortBaseResponseType" />
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- SetPortStreamURL Request -->
+	<xs:complexType name="SetPortStreamURLRequestType">				
+		<xs:attribute name="streamURL" type="xs:string" />	
+		<xs:attributeGroup ref="SetAttributeGroupType" />	
+	</xs:complexType>
+	
+	<!-- SetPortStreamURL Response -->
+	<xs:complexType name="SetPortStreamURLResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="SetPortBaseResponseType" />
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<!-- SetPortObserverInfo Request -->
+	<xs:complexType name="SetPortObserverInfoRequestType">				
+		<xs:sequence>
+			<xs:element name="Observer">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UserNID" type="xs:string" />
+						<xs:element name="ResourceNID" type="xs:string" />
+					</xs:sequence>
+					<xs:attribute name="xAuth" type="xs:boolean" />
+					<xs:attribute name="monitor" type="xs:boolean" />
+				</xs:complexType>
+			</xs:element>				
+		</xs:sequence>		
+		<xs:attributeGroup ref="SetAttributeGroupType" />
+	</xs:complexType>
+	
+	<!-- SetPortObserverInfo Response -->
+	<xs:complexType name="SetPortObserverInfoResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="SetPortBaseResponseType" />
+		</xs:complexContent>
+	</xs:complexType>
+		
+	<!-- SetPortPVRInfo Request -->
+	<xs:complexType name="SetPortPVRInfoRequestType">
+	     <xs:sequence/>
+		<xs:attributeGroup ref="SetAttributeGroupType" />
+		<xs:attribute name="enable" type="xs:boolean" />
+		<xs:attribute name="trimLength" type="xs:integer" />
+		<xs:attribute name="mediaStreamDirResourceNID" type="xs:string" />
+	</xs:complexType>
+	
+	<!-- SetPortPVRInfo Response -->
+	<xs:complexType name="SetPortPVRInfoResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="SetPortBaseResponseType" />
+		</xs:complexContent>
+	</xs:complexType>		
+		
+	<!-- SetPortBaseResponseType -->
+	<xs:complexType name="SetPortBaseResponseType">
+		<xs:sequence>		
+			<xs:element name="Port" minOccurs="0" maxOccurs="unbounded" type="PortDataType" />					
+		</xs:sequence>						
+	</xs:complexType>
+    <!-- Service Login Request -->
+   	<xs:complexType name="ServiceLoginRequestType">
+    	<xs:sequence>
+			<xs:element name="clientPrivateKey" type="xs:string" />
+			<xs:element name="ready" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="clientVersion" type="xs:string"	use="required" />
+	</xs:complexType>
+  
+<!-- Service Login Response -->
+	<!--
+		Error Codes public static final int SERVICE_VERSION_MISMATCH = 1200;
+		public static final int ASSET_RESOURCE_NOTAVAILABLE= 1025; public
+		static final int ASSET_TEMPLATE_NOTFOUND= 1026; public static final
+		int ASSET_RESOURCE_ACCESSDENIED= 1027;
+	-->
+	<xs:complexType name="ServiceLoginResponseType">
+		<xs:sequence>
+			<xs:element name="serverDate" type="xs:string" />
+			<xs:element name="clientPrivateData" type="xs:anyType" />
+		</xs:sequence>
+	</xs:complexType>  
+	
+	<!-- GetServiceClient Request-->
+	<xs:complexType name="GetServiceClientRequestType">
+		<xs:attribute name='whereContactJID' type='xs:string'/>
+		<xs:attribute name='selectFormat' type='CustomObjectSelectFormatType'/>
+	</xs:complexType>	
+	<!-- GetServiceClient Response -->	
+	<xs:complexType name="GetServiceClientResponseType">
+		<xs:sequence>
+			<xs:element name="User" type="ServiceClientUserDataType"/>
+			 <xs:element name="Asset">
+			 	<xs:complexType>
+			 		<xs:complexContent mixed="false">
+			 			<xs:extension base="ServiceClientAssetDataType">
+			 				<xs:sequence>			 	
+			 				    <xs:element name='FeatureList' type="FeatureListType"/>
+						 		<xs:element name="AssetPrivateKey" type="AssetPrivateKeyType" />
+			      		 		<xs:element name="AssetPrivateData" type="xs:string" />
+			      		 	</xs:sequence>
+			      		 	<xs:attribute name='NID' type='xs:string' />
+		  					<xs:attribute name='presence' type='xs:string' />
+		  					<xs:attribute name='state' type='xs:string' />
+		      		 	</xs:extension>
+      		 		</xs:complexContent>
+      		 	</xs:complexType>
+			 </xs:element>			 
+			 <xs:element name="PortList" >
+			  <xs:complexType>
+			    <xs:sequence>
+			       <xs:element name='Port' type='ServiceClientPortType'/>
+			    </xs:sequence>						    
+			  </xs:complexType>						 
+			 </xs:element>
+			 <xs:element name="Device" type='ServiceClientDeviceType'/>
+			 <xs:element name="Permissions" type='PermissionsDataType'/>
+		</xs:sequence>
+	</xs:complexType>	
+		
+	<!-- SetUserPassword Request-->
+	<xs:complexType name="SetUserPasswordRequestType">
+		<xs:attribute name='byNID' type='xs:string'/>
+		<xs:attribute name='byUsername' type='xs:string'/>
+		<xs:attribute name='oldPassword' type='xs:string'/>
+		<xs:attribute name='newPassword' type='xs:string'/>
+	</xs:complexType>
+	<!-- SetUserPassword Response -->
+	<xs:complexType name="SetUserPasswordResponseType"/>
+	
+	<!-- Get/Add/Update/Delete Book mark Requests - Start -->
+	
+	<!--  Get Book mark -->
+	<xs:complexType name="GetBookmarkRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetBookmarkRequestInfoType" />
+		</xs:complexContent>
+	</xs:complexType>
+
+ 	<!-- GetBookmarkResponse -->
+	<xs:complexType name="GetBookmarkResponseType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkResponseInfoType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	
+	<!-- AddBookmark Request-->
+	<xs:complexType name="AddBookmarkRequestType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkRequestInfoType" />
+		</xs:sequence>
+		<xs:attribute name="whereFileNID" type="xs:string" />
+		<xs:attribute name="whereSessionInfo" type="xs:string" />
+	</xs:complexType>	
+
+	<!-- AddBookmark Response -->
+	<xs:complexType name="AddBookmarkResponseType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkResponseInfoType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- NewBookmark Request-->
+	<xs:complexType name="NewBookmarkRequestType">
+		<xs:attribute name="whereFileNID" type="xs:string" />
+		<xs:attribute name="whereSessionInfo" type="xs:string" />
+	</xs:complexType>	
+
+	<!-- NewBookmark Response -->
+	<xs:complexType name="NewBookmarkResponseType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkRequestInfoType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- UpdateBookmark Request -->
+	<xs:complexType name="UpdateBookmarkRequestType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkRequestInfoType" />
+		</xs:sequence>
+		<xs:attribute name="whereNID" type="xs:string" />
+	</xs:complexType>
+
+    <!-- UpdateBookmark Response -->
+	<xs:complexType name="UpdateBookmarkResponseType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkResponseInfoType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+    <!-- DeleteBookmark Request -->
+	<xs:complexType name="DeleteBookmarkRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="DeleteBookmarkRequestInfoType" />
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- DeleteBookmark Response -->
+	<xs:complexType name="DeleteBookmarkResponseType">
+		<xs:sequence>
+			<xs:element name="Bookmark" type="BookmarkResponseInfoType" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Get/Add/Update/Delete Bookmark Requests - End -->
+
+	<!--  JoinRequest -->
+	<xs:complexType name="JoinRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Join Response -->
+	<!--
+		Error Code public static final int SESSION_ID_DOES_NOTEXISTS = 2018;
+	-->
+	<xs:complexType name="JoinResponseType">
+		<xs:sequence>
+			<xs:element name="roomNID" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+		AddTrackAction Error Codes public static final int
+		ACTIONTRANSACTIONNOTFOUND = 2033;//updateAction not found public
+		static final int INVALID_OFFSET = 2045;//Invalid offset public static
+		final int SESSION_ID_DOES_NOTEXISTS = 2018;//Sessoin Not Found
+	-->
+	 
+	<!--  PauseRequest -->
+	<xs:complexType name="PauseRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!-- Pause Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="PauseResponseType">
+		<xs:sequence>
+			<!-- <xs:element name="TrackData" type="TrackDataType" />-->
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResumeRequest -->
+	<xs:complexType name="ResumeRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Resume Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="ResumeResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!--  PlayRequest -->
+	<xs:complexType name="PlayRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="timeScale" type="xs:double" use="optional" />
+	</xs:complexType>
+	
+	<!-- Play Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="PlayResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  CatchupRequest -->
+	<xs:complexType name="CatchupRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Catchup Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="CatchupResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  SkipBackRequest -->
+	<xs:complexType name="SkipBackRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="skipOffset" type="xs:string" use="required" />
+		<xs:attribute name="timeScale" type="xs:double" use="optional" />
+	</xs:complexType>
+	
+	<!-- SkipBack Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="SkipBackResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  SkipFwdRequest -->
+	<xs:complexType name="SkipFwdRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="skipOffset" type="xs:string" use="required" />
+		<xs:attribute name="timeScale" type="xs:double" use="optional" />
+	</xs:complexType>
+	
+	<!-- SkipFwd Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="SkipFwdResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="AddBookmarkType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Comments" type="xs:string" />
+			<xs:element name="Bookmark">
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	
+	<!-- BookmarkDataType is used in the Add/Update/Delete Responses -->
+	<xs:complexType name="BookmarkDataType">
+		<xs:sequence>
+			<xs:element name="Owner" type="xs:string" />
+			<xs:element name="DateCreated" type="xs:string" />
+			<xs:element name="MediaInfo" type="MediaInfoType" />
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Comments" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="MediaStreamFileNID" type="xs:string" />
+	</xs:complexType>
+	
+	<!-- MediaInfo is used BookmarkDataType,UpdateBookmarkType -->
+	<xs:complexType name="MediaInfoType">
+		<xs:attribute name="idref" type="xs:string" />
+		<xs:attribute name="TC" type="xs:string" />
+		<xs:attribute name="offset" type="xs:string" />
+	</xs:complexType>
+	 
+	 <!-- ScopeType is used in Get/Add Request -->
+	<xs:complexType name="ScopeType">
+		<xs:attribute name="sessionId" type="xs:string" />
+		<xs:attribute name="connGroupId" type="xs:string" />
+		<xs:attribute name="connId" type="xs:string" />
+	</xs:complexType>
+	 
+	 <!-- UpdateBookmarkType is used in UpdateRequestRequestType -->
+	<xs:complexType name="UpdateBookmarkType">
+		<xs:sequence>
+			<xs:element name="MediaInfo" type="MediaInfoType" />
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Comments" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+
+   
+     <!--  GetFile request -->
+	<xs:complexType name="FileRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectBaseType">
+				<xs:attribute name="whereParentDirNID" type="xs:string" />
+				<xs:attribute name="whereSessionConfigNID" type="xs:string" />
+				<xs:attribute name="whereState" type="MediaStateEnumType" />
+				<xs:attribute name="whereMetaDataExpr" type="xs:string" />
+				<xs:attribute name="selectFormat" type="FileObjectSelectFormatType" />
+				<xs:attribute name="sortByMetaData" type="xs:string" />
+				<xs:attribute name="sortByTagName" type="xs:string" />
+				<xs:attribute name="wherePermissions" type="FileWherePermissionsType" />
+				<xs:attribute name="expireTime" type="xs:double" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="GetFileRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="FileRequestType">
+				<xs:attribute name="whereType">
+				    <xs:simpleType>
+				       <xs:restriction base="xs:string">
+				         <xs:enumeration value="MediaClip"/>
+				         <xs:enumeration value="MediaGroup"/>
+				         <xs:enumeration value="MediaImage"/>
+				         <xs:enumeration value="All"/>
+				       </xs:restriction>
+				    </xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="whereMediaGroupID" type="xs:string" />
+				<xs:attribute name="dstPortTitle" type="xs:string" />		
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+
+ 	<!-- GetFile Response -->
+	<xs:complexType name="GetFileResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="File" minOccurs="0" maxOccurs="unbounded" type='FileResponseType'/>						
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="FileResponseType">
+	<xs:complexContent>
+		<xs:extension base="FileType">
+			<xs:sequence>
+				<xs:element name="FileList">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name='File' type="FileType" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+	<xs:complexType name="GetPVRFileResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="File">
+						<xs:complexType>
+							<xs:complexContent mixed="false">	
+								<xs:extension base="FileType">
+									<xs:sequence>
+									</xs:sequence>
+									<xs:attribute name='startTC' type='xs:string' />
+									<xs:attribute name='persistent' type='xs:string' />
+									<xs:attribute name='trimlength' type='xs:string' />
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="FileType" abstract="true">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="Description" type="xs:string" />
+			<xs:element minOccurs="0" name="MetaData" type="MetaDataType" />
+			<xs:element minOccurs="0" name="Groups" type="TagList" />
+			<xs:element minOccurs="0" name="Permissions" type="FilePermissionsDataType" />
+			<xs:element minOccurs="0" name="Dir">
+				<xs:complexType>
+					<xs:attribute name='dirNID' type='xs:string' />
+					<xs:attribute name='title' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="NID" type="xs:string" />
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="fileType" type="MediaTypeEnumType" />
+		<xs:attribute name="streamType" type="xs:string" />
+		<xs:attribute name="size" type="xs:long" />
+		<xs:attribute name="playLength" type="xs:long" />
+		<xs:attribute name="state" type="MediaStateEnumType" />
+		<xs:attribute name="dateCreated" type="xs:long" />
+		<xs:attribute name="dateModified" type="xs:long" />
+		<xs:attribute name="readOnly" type="xs:boolean" />
+		<xs:attribute name="mediaGroupId" type="xs:string" />
+		<xs:attribute name="clipID" type="xs:string" />
+		<xs:attribute name="sessionConfigNID" type="xs:string" />
+		<xs:attribute name="ffTracks" type="xs:string" />
+		<xs:attribute name="mediaURL" type="xs:anyURI" />
+		<xs:attribute name="streamingURL" type="xs:anyURI" />
+		<xs:attribute name="thumbnailURL" type="xs:anyURI" />
+		<xs:attribute name="bypassAutoStorageRules" type="xs:boolean" />
+		<xs:attribute name="hls" type="xs:boolean" />
+	</xs:complexType>
+		<!--  GetFileTags request -->
+	<xs:complexType name="GetFileTagsRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseRequestType" >
+			  <xs:attribute name="wherePermissions" type="FileWherePermissionsType" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetFileTags Response -->
+	<xs:complexType name="GetFileTagsResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+	 <!--  GetDir request -->
+	<xs:complexType name="GetDirRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectBaseType">
+				<xs:attribute name="whereParentDirNID" type="xs:string" />
+				<xs:attribute name="selectFormat" type="DirObjectSelectFormatType" />
+				<xs:attribute name="wherePermissions" type="DirWherePermissionsType" />
+				<xs:attribute name="whereFilePermissions" type="FileWherePermissionsType" />
+				<xs:attribute name="subscriptionID" type="xs:string" />
+				<xs:attribute name="expireTime" type="xs:double" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetDir Response -->
+	<xs:complexType name="GetDirResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Dir" minOccurs="0" maxOccurs="unbounded" type="DirListType"/>									
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<!--  GetUser request -->
+	<xs:complexType name="GetUserRequestType">			
+		<xs:complexContent mixed="false">
+  			<xs:extension base="GetObjectBaseType">						        					
+				<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />													
+				<xs:attribute name="whereUsername" type="xs:string" />
+			</xs:extension>
+		</xs:complexContent>							
+	</xs:complexType>		
+
+ 	<!-- GetUser Response -->
+	<xs:complexType name="GetUserResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="User" minOccurs="0" maxOccurs="unbounded" type="UserListType"/>									
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	<xs:complexType name="UserListType">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="UserPrivateData" type="xs:string" />
+			<xs:element minOccurs="0" name="Groups" type="TagList" />			
+		</xs:sequence>
+		<xs:attribute name="NID" type="xs:string" />
+		<xs:attribute name="username" type="xs:string" />
+		<xs:attribute name="email" type="xs:string" />
+		<xs:attribute name="fullName" type="xs:string" />
+		<xs:attribute name="password" type="xs:string" />		
+		<xs:attribute name="creationDate" type="xs:string" />		
+		<xs:attribute name="modifiedDate" type="xs:string" />		
+		<xs:attribute name="presence" type="xs:string" />		
+		<xs:attribute name="state" type="xs:string" />		
+	</xs:complexType>
+	
+	<!--  GetDirTags request -->
+	<xs:complexType name="GetDirTagsRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseRequestType" >
+			  <xs:attribute name="wherePermissions" type="DirWherePermissionsType" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetDirTags Response -->
+	<xs:complexType name="GetDirTagsResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+		
+	<!--  GetSession request -->
+	<xs:complexType name="GetSessionRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectBaseType">
+				<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />
+				<xs:attribute name="whereId" type="xs:string" />
+				<xs:attribute name="whereType" type="xs:string" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetSession Response -->
+	<xs:complexType name="GetSessionResponseType">
+	<xs:complexContent mixed="false">
+	<xs:extension base="GetObjectResponseType">
+		<xs:sequence>
+			<xs:element name="Session" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="SessionDataType">
+							<xs:attribute name="ownerUserJID" type="xs:string" />
+							<xs:attribute name="dateCreated" type="xs:long" />
+							<xs:attribute name="sessionConfigNID" type="xs:string" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<!--  GetSessionConfig request -->
+	<xs:complexType name="GetSessionConfigRequestType">
+			<xs:attribute name="startFrom" type="xs:long" use="required" />
+			<xs:attribute name="countToFetch" type="xs:long" use="required" />
+			<xs:attribute name="sortOrder" type="SortOrderType" />
+			<xs:attribute name="sortBy" type="xs:string" />
+			<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />
+			<xs:attribute name="whereNID" type="xs:string" />
+			<xs:attribute name="whereTextSubStr" type="xs:string" />
+			<xs:attribute name="whereTagExpr" type="xs:string" />
+	</xs:complexType>		
+
+ 	<!-- GetSessionConfig Response -->
+	<xs:complexType name="GetSessionConfigResponseType">
+	<xs:complexContent mixed="false">
+	<xs:extension base="GetObjectResponseType">
+		<xs:sequence>
+			<xs:element name="SessionConfig" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="description" type="xs:string" />
+						<xs:element name="Groups" type="TagList" />
+      					<xs:element name="SessionInfo" type="SessionInfoType" />
+      				</xs:sequence>
+					<xs:attribute name="NID" type="xs:string"/>
+					<xs:attribute name="title" type="xs:string"/>
+					<xs:attribute name="dateCreated" type="xs:string"/>
+					<xs:attribute name="playbackOption" type="xs:string"/>	
+					<xs:attribute name="type" type="xs:string"/>								
+      			</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+	
+	<!--  GetProfile request -->
+	<xs:complexType name="GetProfileRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectBaseType">
+				<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetProfile Response -->
+	<xs:complexType name="GetProfileResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Profile" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Description" minOccurs="0" />
+								<xs:element name="Groups" minOccurs="0" type="TagList" />
+							</xs:sequence>
+							<xs:attribute name="NID" type="xs:string" />
+							<xs:attribute name="title" type="xs:string" />
+							<xs:attribute name="streamType" type="xs:string" />
+							<xs:attribute name="bandwidth" type="xs:string" />
+							<xs:attribute name="avOption" type="xs:string" />
+							<xs:attribute name="remoteControl" type="xs:string" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<!--  GetPort request -->
+	<xs:complexType name="GetPortRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectBaseType">
+				<xs:attribute name="selectFormat">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="BASIC" />
+							<xs:enumeration value="EXTENDED" />							
+							<xs:enumeration value="BASICCONNECTIONINFO" />
+							<xs:enumeration value="EXTENDEDCONNECTIONINFO" />
+							<xs:enumeration value="BASICURL" />
+							<xs:enumeration value="EXTENDEDURL" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>														  
+				<xs:attribute name="portType" type="PortTypeEnum" />
+				<xs:attribute name="whereStreamType" type="StreamTypeEnum" />
+				<xs:attribute name="wherePermissions" type="PortWherePermissionsType" />
+				<xs:attribute name="dstPortTitle" type="xs:string" />
+				<xs:attribute name="whereState" type="xs:string" />
+				<xs:attribute name="whereOperationMode" type="OperationModeEnum" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- GetPort Response -->
+	<xs:complexType name="GetPortResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Port" minOccurs="0" maxOccurs="unbounded" type="PortDataType" />							
+				</xs:sequence>
+				<xs:attribute name="mediaURL" type="xs:anyURI" />
+				<xs:attribute name="streamingURL" type="xs:anyURI" />
+				<xs:attribute name="thumbnailURL" type="xs:anyURI" />
+				<xs:attribute name="hls" type="xs:boolean" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+
+	<!--  GetPortRecordDir request -->
+	<xs:complexType name="GetPortRecordDirRequestType">
+		<xs:attribute name="startFrom" type="xs:long" use="required" />
+		<xs:attribute name="countToFetch" type="xs:long" use="required" />
+		<xs:attribute name="sortOrder" type="SortOrderType" />
+		<xs:attribute name="sortBy" type="xs:string" />
+		<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />
+		<xs:attribute name="whereNID" type="xs:string" />
+	</xs:complexType>
+
+	<!-- GetPortRecordDir Response -->
+	<xs:complexType name="GetPortRecordDirResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Port">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Dir" minOccurs="0" maxOccurs="unbounded" type="DirListType" />
+							</xs:sequence>
+							<xs:attribute name="NID" type="xs:string" />
+							<xs:attribute name="title" type="xs:string" />
+							<xs:attribute name="streamType" type="StreamTypeEnumType" />
+							<xs:attribute name="presence" type="xs:string" />
+							<xs:attribute name="state" type="xs:string" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+	
+	<!--  GetPortTags request -->
+	<xs:complexType name="GetPortTagsRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseRequestType" >
+			  <xs:attribute name="wherePermissions" type="PortWherePermissionsType" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>		
+
+ 	<!-- GetPortTags Response -->
+	<xs:complexType name="GetPortTagsResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--  GetTags request -->
+	<xs:complexType name="GetTagsRequestType">
+		<xs:attribute name="whereObjectType" type="xs:string" />
+		<xs:attribute name="whereNameTextSubString" type="xs:string" />
+		<xs:attribute name="whereValueTextSubString" type="xs:string" />
+		<xs:attribute name="selectFormat">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="NameList" />
+				<xs:enumeration value="NameValueList" />
+				<xs:enumeration value="NameValueTree" />
+				<xs:enumeration value="Extended" />
+			</xs:restriction>
+		</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>		
+
+ 	<!-- GetTags Response -->
+	<xs:complexType name="GetTagsResponseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetTagsBaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+	<!--  DeleteConnRequest -->
+	<xs:complexType name="DeleteConnRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="connId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- DeleteConn Response -->
+	<xs:complexType name="DeleteConnResponseType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="connId" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!-- DeleteFile Request -->
+	<xs:complexType name="DeleteFileRequestType">
+		<xs:attribute name="byNID" type="xs:string" use="required" />
+		<xs:attribute name="moveToRecycleBin" type="xs:boolean" use="required" />
+	</xs:complexType>
+
+	<!-- DeleteFile Response -->
+	<xs:complexType name="DeleteFileResponseType">
+		<xs:sequence>
+			<xs:element name="File" minOccurs="0" maxOccurs="unbounded" type='FileResponseType'/>						
+		</xs:sequence>
+	</xs:complexType>	
+	
+	
+	<!--  UpdateConnectionType -->
+	<xs:complexType name="UpdateConnectionType">
+			<xs:attribute name="sessionId" type="xs:string" use="required" />
+			<xs:attribute name="sessionName" type="xs:string"  />
+			<xs:attribute name="id" type="xs:string" use="required" />
+			<xs:attribute name="name" type="xs:string"  />
+			<xs:attribute name="srcEntityId" type="xs:string" use="required" />
+			<xs:attribute name="dstEntityId" type="xs:string" use="required" />
+			<xs:attribute name="canvasId" type="xs:string"  />
+			<xs:attribute name="windowId" type="xs:string"  />
+			<xs:attribute name="profileId" type="xs:string"  />
+			<xs:attribute name="restartSession" type="xs:boolean"  />
+	</xs:complexType>
+	
+	<!--  ViewRequest -->
+
+	<xs:complexType name="ViewRequestType">
+		<xs:complexContent>
+			<xs:extension base="UpdateConnectionType">
+				<xs:sequence>
+				    <xs:element name="Profile" type="ProfileInfoDataType" />
+					<xs:element name="DstPort" type="PortInfoDataType" />
+					<xs:element name="SrcPort" type="SrcPortInfoDataType" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ProfileInfoDataType">
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="profileNID" type="xs:string" use="required" />
+		<xs:attribute name="profileTitle" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="PortInfoDataType">
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="portNID" type="xs:string" use="required" />
+		<xs:attribute name="portTitle" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="SrcPortInfoDataType">
+		<xs:complexContent>
+			<xs:extension base="PortInfoDataType">
+				<xs:attribute name='pvrEnable' type='xs:boolean' use='optional'/>
+				<xs:attribute name='trimLength' type='xs:string' use='optional' />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+			
+
+	
+	<!-- View Response -->
+	<xs:complexType name="ViewResponseType">
+		<xs:sequence>
+			<xs:element name="Session" type="SessionDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  InviteRequest -->
+	<xs:complexType name="InviteRequestType">
+		<xs:choice>
+			<xs:element name="DstPort" type="PortInfoDataType" />
+			<xs:element name="SrcPort" type="SrcPortInfoDataType" />
+			<xs:element name="SrcFile" type="FileInfoDataType" />
+			<xs:element name="GrpFile" type="FileInfoDataType" />
+		</xs:choice>
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!-- Invite Response -->
+	<xs:complexType name="InviteResponseType">
+		<xs:sequence>
+			<xs:element name="Session" type="SessionDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  KickRequest -->
+	<xs:complexType name="KickRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="entityId" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!-- Kick Response -->
+	<xs:complexType name="KickResponseType">
+		<xs:sequence>
+			<xs:element name="Session" type="SessionDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ShareRequest -->
+	<xs:complexType name="ShareRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="portTitle" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!--  PlaybackRequest -->
+	<xs:complexType name="PlaybackRequestType">
+		<xs:complexContent>
+			<xs:extension base="UpdateConnectionType">
+				<xs:sequence>
+				    <xs:element name="Profile" type="ProfileInfoDataType" />
+					<xs:element name="SrcFile" type="FileInfoDataType" />
+					<xs:element name="GrpFile" type="FileInfoDataType" />
+					<xs:element name="DstPort" type="PortInfoDataType" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="FileInfoDataType">
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="fileNID" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Playback Response -->
+	<xs:complexType name="PlaybackResponseType">
+		<xs:sequence>
+			<xs:element name="Session" type="SessionDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<!--  SwitchRequest -->
+	<xs:complexType name="SwitchRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="connId" type="xs:string" use="required" />
+		<xs:attribute name="newSrcEntityId" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- Switch Response -->
+	<xs:complexType name="SwitchResponseType">
+		<xs:sequence>
+			<xs:element name="Connection" type="ConnectionType" />
+		</xs:sequence>
+	</xs:complexType>
+
+  <!--  StartSession request -->
+  <xs:complexType name="StartSessionRequestType" >
+    <xs:all>
+      <xs:element ref="Session" />
+    </xs:all>
+    <xs:attribute name="sessionId" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:element name="Session" type="SessionDataType"/>
+  <xs:complexType name="SessionDataType" >
+    <xs:sequence>
+      <xs:element name="Properties" type="PropertiesDataType"/>
+      <xs:element name="TimelineList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Timeline" type="TimelineDataType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GrpFileList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="GrpFile" type="GrpFileType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+       <xs:element name="DirList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Dir" type="DirType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ProfileList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Profile" type="ProfileType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>     
+      <xs:element name="EntityList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="Entity" type="EntityType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectionList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="Connection" type="ConnectionType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+		<xs:attribute name="serviceVer" type="xs:string" use="required" />
+	    <xs:attribute fixed="1.8" name="Ver" type="xs:double" use="required" />
+	    <xs:attribute fixed="1" name="Rev" type="xs:int" use="optional" />
+	    <xs:attribute name="id" type="xs:string" use="required" />
+	    <xs:attribute name="type" type="SessionTypeEnumType" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="timelineId" type="xs:string" use="required" />
+		<xs:attribute name="recordTimelineId" type="xs:string" use="required" />		
+		<xs:attribute name="gc" type="xs:boolean" use="required" />
+		<xs:attribute name="state" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name = "PropertiesDataType">
+  	<xs:attribute name="sessionConfigNID" type="xs:string" use="required" />
+  	<xs:attribute name="ownerUserJID" type="xs:string" use="optional" />
+  	<xs:attribute name="dateCreated" type="xs:string" use="optional" />
+  	<xs:attribute name="playlength" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <!--  StartSession response -->
+  <xs:complexType name="StartSessionResponseType">
+	<xs:sequence>
+		<xs:element name="Session" type="SessionDataType" />
+	</xs:sequence>
+  </xs:complexType>
+  
+  <!-- StopSession Request -->
+  <xs:complexType name="StopSessionRequestType">
+  	<xs:attribute name="sessionId" type="xs:string" use="required" />					
+  </xs:complexType>
+
+  <!--  StopSession response -->
+  <xs:complexType name="StopSessionResponseType">
+	<xs:sequence>
+		<xs:element name="sessionID" type="xs:string"/>
+	</xs:sequence>
+  </xs:complexType>
+  
+  
+  <!--  GetPortDisplayConfig request -->
+	<xs:complexType name="GetPortDisplayConfigRequestType">
+		<xs:attribute name="whereNID" type="xs:string" />
+		<xs:attribute name="whereTextSubStr" type="xs:string" />
+		<xs:attribute name="subscriptionID" type="xs:string" />
+	</xs:complexType>
+	
+	<!-- GetPortDisplayConfig Response -->
+	<xs:complexType name="GetPortDisplayConfigResponseType">
+		<xs:sequence>
+			<xs:element name="PortDisplayConfig">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Canvas" type="CanvasType" />
+					</xs:sequence>			
+					<xs:attribute name="NID" type = "xs:string"/>
+					<xs:attribute name="title" type = "xs:string"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+    <!-- SetServiceClientDisplayConfig Request-->
+	<xs:complexType name="SetServiceClientDisplayConfigRequestType">
+	    <xs:sequence>
+	     <xs:element name="IPVSClientDisplayConfig" type="IPVSClientDisplayConfigType"></xs:element>
+	    </xs:sequence>
+		<xs:attribute name='byNID' type='xs:string'/>					
+	</xs:complexType>
+	<!-- SetServiceClientDisplayConfig Response -->
+	<xs:complexType name="SetServiceClientDisplayConfigResponseType">
+	    <xs:sequence>
+	     <xs:element name="IPVSClientDisplayConfig" type="IPVSClientDisplayConfigType"></xs:element>
+	    </xs:sequence>
+		<xs:attribute name='NID' type='xs:string'/>					
+	</xs:complexType>
+	
+	 <!-- SetServiceClientDisplayStatus Request-->
+	<xs:complexType name="SetServiceClientDisplayStatusRequestType">
+	    <xs:sequence>
+	     <xs:element name="IPVSClientDisplayStatus" type="IPVSClientDisplayStatusType"></xs:element>
+	    </xs:sequence>
+		<xs:attribute name='byNID' type='xs:string'/>					
+	</xs:complexType>
+	<!-- SetServiceClientDisplayStatus Response -->
+	<xs:complexType name="SetServiceClientDisplayStatusResponseType">
+	    <xs:sequence>
+	     <xs:element name="IPVSClientDisplayStatus" type="IPVSClientDisplayStatusType"></xs:element>
+	    </xs:sequence>
+		<xs:attribute name='NID' type='xs:string'/>					
+	</xs:complexType>
+	
+	 <!--  SetPortDisplayConfig request -->
+	<xs:complexType name="SetPortDisplayConfigRequestType">
+		<xs:sequence>
+         <xs:element name="Canvas" type="CanvasType" />
+		</xs:sequence>
+		<xs:attribute name="byNID" type="xs:string" />
+		<xs:attribute name="byTitle" type="xs:string" />
+	</xs:complexType>
+	
+	 <!--  SetPortDisplayConfig response -->
+	<xs:complexType name="SetPortDisplayConfigResponseType">
+		<xs:sequence>
+			<xs:element name="PortDisplayConfig">
+						<xs:complexType>
+ 							<xs:simpleContent>
+   								<xs:extension base="xs:string">
+     								<xs:attribute name="NID" type="xs:string" />
+     								<xs:attribute name="title" type="xs:string" />
+   								</xs:extension>
+ 							</xs:simpleContent>
+						</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<xs:complexType name="SetPortCommandWhereClause" abstract="true">
+	   <xs:sequence/>
+	   <xs:attribute name='bySessionId' type='xs:string'/>
+	   <xs:attribute name='byConnId' type='xs:string'/>
+	   <xs:attribute name='byPortNID' type='xs:string'/>
+	   <xs:attribute name='byCanvasId' type='xs:string'/>
+	   <xs:attribute name='byLayoutId' type='xs:string'/>
+	   <xs:attribute name='byWindowId' type='xs:string'/>
+	</xs:complexType>
+	
+    <!--  SetPortLayoutProperties request -->
+	<xs:complexType name="SetPortLayoutPropertiesRequestType">
+		<xs:complexContent>
+			<xs:extension base="SetPortCommandWhereClause">
+			   <xs:sequence>
+			      <xs:element name='LayoutProperties' type="CanvasLayoutType"/>
+			   </xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	 <!--  SetPortLayoutProperties response -->
+	<xs:complexType name="SetPortLayoutPropertiesResponseType">
+		<xs:sequence>
+			<xs:element name="LayoutProperties">
+		    	<xs:complexType>
+		    	<xs:sequence>
+		    	 <xs:any/>
+		    	</xs:sequence>
+					<xs:attribute name="layoutId" type="xs:string" />     								      					
+						</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	
+	<!--  SetPortWindowProperties request -->
+	<xs:complexType name="SetPortWindowPropertiesRequestType">
+		<xs:complexContent>
+			<xs:extension base="SetPortCommandWhereClause">
+			   <xs:sequence>
+			      <xs:element name='WindowProperties' type="WindowPropertiesType"/>
+			   </xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	 <!--  SetPortWindowProperties response -->
+	<xs:complexType name="SetPortWindowPropertiesResponseType">
+		<xs:sequence>
+			<xs:element name="WindowProperties">
+		    	<xs:complexType>
+		    	<xs:sequence>
+		    	 <xs:any/>
+		    	</xs:sequence>
+					<xs:attribute name="WindowId" type="xs:string" />     								      					
+						</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	
+	<!--  SwapPortWindowPosition request -->
+	<xs:complexType name="SwapPortWindowPositionRequestType">
+		<xs:complexContent>
+			<xs:extension base="SetPortCommandWhereClause">
+			   <xs:sequence>
+			      <xs:element name='WindowPosition'>
+			      <xs:complexType>
+			        <xs:attribute name="tgtWindowPosition" type="xs:string"/>
+			        <xs:attribute name="tgtWindowId" type="xs:string"/>
+			      </xs:complexType>
+			      </xs:element>
+			   </xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	 <!--  SwapPortWindowPosition response -->
+	<xs:complexType name="SwapPortWindowPositionResponseType">
+		<xs:sequence>
+			<xs:element name="WindowPosition">
+		    	<xs:complexType>
+		    	<xs:sequence>
+		    	 <xs:any/>
+		    	</xs:sequence>
+					<xs:attribute name="WindowId" type="xs:string" />     								      					
+						</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	
+	 <!--  GetPortDisplayStatus request -->
+	<xs:complexType name="GetPortDisplayStatusRequestType">
+		<xs:attribute name="whereNID" type="xs:string" />
+		<xs:attribute name="whereTextSubStr" type="xs:string" />
+	</xs:complexType>
+	
+	
+	<!--  GetPortDisplayStatus response -->
+	<xs:complexType name="GetPortDisplayStatusResponseType">
+		<xs:sequence>
+			<xs:element name="PortDisplayStatus">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="PortDisplayStatusType">
+							<xs:attribute name="title" type="xs:string" />							
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!--  SetFileMetaData request -->
+	<xs:complexType name="SetFileMetaDataRequestType">
+	    <xs:sequence>
+	       <xs:element name="MetaData" type="MetaDataType"/>
+	    </xs:sequence>		
+		<xs:attribute name="byNID" type="xs:string" />
+		<xs:attribute name="byTitle" type="xs:string" />							
+	</xs:complexType>
+	
+	 <!--  SetFileMetaData response -->
+	<xs:complexType name="SetFileMetaDataResponseType">
+		<xs:sequence>
+	       <xs:element name="File" type="FileResponseType"/>
+	    </xs:sequence>		
+	</xs:complexType>
+	
+	<!--  SetFileInfo request -->
+	<xs:complexType name="SetFileInfoRequestType">
+	    <xs:sequence>
+	       <xs:element name="Groups" type="TagList"/>
+	    </xs:sequence>		
+		<xs:attribute name="byNID" type="xs:string" />
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="description" type="xs:string" />
+	</xs:complexType>
+	
+	 <!--  SetFileInfo response -->
+	<xs:complexType name="SetFileInfoResponseType">
+		<xs:sequence>
+	       <xs:element name="File" type="FileResponseType"/>
+	    </xs:sequence>		
+	</xs:complexType>
+	
+	
+	<!--  RecordRequest -->
+	<xs:complexType name="RecordRequestType">
+	  <xs:sequence>
+	        <xs:element name="Profile" type="ProfileInfoDataType" />
+			<xs:element name="SrcPort" type="PortInfoDataType" />
+			<xs:element name="GrpFile" type="FileInfoDataType" />
+			<xs:element name="DstFile">
+			   <xs:complexType>
+			     <xs:sequence>
+			        <xs:element name="MetaData" type="MetaDataType"/>
+			     </xs:sequence>
+			     <xs:attribute name="id" type="xs:string"/>
+			     <xs:attribute name="fileTitle" type="xs:string"/>
+			     <xs:attribute name="dirNID" type="xs:string"/>
+			     <xs:attribute name="grpFileId" type="xs:string"/>
+			     <xs:attribute name="dirId" type="xs:string"/>
+			     <xs:attribute name="key" type="FileKeyEnumType" />
+                 <xs:attribute name="action" type="FileActionEnumType" />
+ 				 <xs:attribute name="keyMetaDataTagName" type="xs:string" />				   
+			   </xs:complexType>
+			</xs:element>
+		</xs:sequence>	
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="sessionName" type="xs:string"  />
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string"  />
+		<xs:attribute name="srcEntityId" type="xs:string" use="required" />
+		<xs:attribute name="resetTimeline" type="xs:boolean"/>
+	</xs:complexType>	
+	
+	<!-- Record Response -->
+	<xs:complexType name="RecordResponseType">
+		<xs:sequence>
+			<xs:element name="Session" type="SessionDataType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="PrepareFileRequestType">
+		<xs:attribute name="byNID" type="xs:string" use="required" />
+		<xs:attribute name="format" type="xs:string" />
+		<xs:attribute name="requestTimeStamp" type="xs:string" />
+		<xs:attribute name="startOffset" type="xs:string" />
+		<xs:attribute name="endOffset" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="PrepareFileResponseType">
+		<xs:sequence>
+			<xs:element name="PrepareFileResponseData"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ClearDownloadCacheRequestType">
+		<xs:attribute name="byNID" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="ClearDownloadCacheResponseType">
+		<xs:sequence>
+			<xs:element name="ClearDownloadCacheResponseData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="File" type="FileResponseType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  PauseRecordRequest -->
+	<xs:complexType name="PauseRecordRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />					
+		<xs:attribute name="connId" type="xs:string" use="required" />
+		<xs:attribute name="wc" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<!-- PauseRecord Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="PauseRecordResponseType">
+		<xs:sequence>
+			<!-- <xs:element name="TrackData" type="TrackDataType" />-->
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--  ResumeRecordRequest -->
+	<xs:complexType name="ResumeRecordRequestType">
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="connId" type="xs:string" use="required" />
+		<xs:attribute name="wc" type="xs:string" use="required" />
+	</xs:complexType>
+	
+	<!-- ResumeRecord Response -->
+	<!-- See AddTrackAction Error Codes -->
+	<xs:complexType name="ResumeRecordResponseType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+		</xs:sequence>
+	</xs:complexType>		
+
+	<!-- Authorize Request-->
+	<xs:complexType name="AuthorizeRequestType">
+		<xs:attribute name='sessionId' type='xs:string' />
+		<xs:attribute name='connId' type='xs:string' />
+		<xs:attribute name='action' type="AuthStateEnumType"/>
+		<xs:attribute name='reason' type="xs:string" />
+	</xs:complexType>
+	
+	
+	<!-- Authorize Response -->	
+	<xs:complexType name="AuthorizeResponseType">
+	   <xs:complexContent mixed="false">
+	     <xs:extension base="AuthInfoType"/>
+	   </xs:complexContent>
+	</xs:complexType>	
+	
+	<!-- AuditEvent Request-->	
+	<xs:complexType name="AuditEventRequestType">
+		<xs:sequence>
+			<xs:element name='Description'>
+				<xs:complexType>
+					<xs:attribute name='text' type='xs:string' />
+				</xs:complexType>
+			</xs:element>											
+		</xs:sequence>													
+		<xs:attribute name='type' type='xs:string' />
+		<xs:attribute name='level' type='xs:string' />
+		<xs:attribute name='name' type='xs:string'/>
+		<xs:attribute name='target' type='xs:string' />
+		<xs:attribute name='status' type='xs:string'/>									
+	</xs:complexType>			
+
+	<!-- AuditEvent Response -->	
+	<xs:complexType name="AuditEventResponseType" />
+	
+	<xs:complexType name="EntityPresenceType">
+		<xs:attribute name='sessionId' type='xs:string' />
+		<xs:attribute name='entityId' type='xs:string' />
+		<xs:attribute name='jid' type='xs:string' />
+		<xs:attribute name='value' type='xs:string' />
+	</xs:complexType> 	
+	<xs:element name="SessionState" type="SessionStateType"/>
+	<xs:complexType name="SessionStateType">
+		<xs:attribute name='sessionId' type='xs:string' />
+		<xs:attribute name='value' type='xs:string'/>
+	</xs:complexType>
+	
+
+	<!-- BaseReport Request -->
+	<xs:complexType name="BaseReportType">
+		<xs:choice>			
+			<xs:element name="Policy" >
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FormatXSL" type="xs:string" />
+					</xs:sequence>
+					<xs:attribute name='properties' type='xs:string' />
+					<xs:attribute name='permissions' type='xs:string' />	
+					<xs:attribute name='whereTarget' type='xs:string' />	
+					<xs:attribute name='whereTextSubStr' type='xs:string' />
+					<xs:attribute name='whereTagExpr' type='xs:string' />
+					<xs:attribute name='whereTagExprMode' type='TagExprModeType' />									
+				</xs:complexType>
+			</xs:element>				
+			<xs:element name="Audit" >
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FormatXSL" type="xs:string" />
+					</xs:sequence>
+					<xs:attribute name='properties' type='xs:string' />	
+				</xs:complexType>
+			</xs:element>	
+		</xs:choice>
+		<xs:attributeGroup ref="DefaultReportParamsType" />
+	</xs:complexType>
+	
+	
+	<!--  AddReport Request -->		
+	<xs:complexType name="AddReportRequestType">
+		<xs:complexContent mixed="false">
+        	<xs:extension base="BaseReportType" >
+				<xs:attribute name='name' type='xs:string' />		
+				<xs:attribute name='type' type='ReportEnumType' />						
+			</xs:extension>
+		</xs:complexContent>					
+	</xs:complexType>
+
+
+	<!-- AddReport Response -->
+	<xs:complexType name="AddReportResponseType">
+		<xs:sequence>
+			<xs:element name="Report">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ReportBasicResponseType">
+							<xs:attribute name='type' type='xs:string' />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  DeleteReport Request -->		
+	<xs:complexType name="DeleteReportRequestType">
+		<xs:attributeGroup ref="ReportQueryParamsType" />		
+	</xs:complexType>		
+	
+
+ 	<!-- DeleteReport Response -->	
+	<xs:complexType name="DeleteReportResponseType" />
+
+
+	<!-- SetReport Request -->
+	<xs:complexType name="SetReportRequestType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseReportType">
+				<xs:attributeGroup ref="ReportQueryParamsType" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!-- SetReport Response -->
+	<xs:complexType name="SetReportResponseType">
+		<xs:sequence>
+			<xs:element name="Report">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ReportBasicResponseType">
+							<xs:attribute name='type' type='xs:string' />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>				
+		
+	
+	<!--  GetReport Request -->	
+	<xs:complexType name="GetReportRequestType">
+		<xs:attribute name="startFrom" type="xs:long" use="required" />
+		<xs:attribute name="countToFetch" type="xs:long" use="required" />
+		<xs:attribute name="sortOrder" type="SortOrderType" />
+		<xs:attribute name="sortBy" type="xs:string" />
+		<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />
+		<xs:attributeGroup ref="ReportQueryParamsType" />
+		<xs:attribute name="whereType" type="ReportEnumType" />
+	</xs:complexType>		
+
+
+ 	<!-- GetReport Response -->	
+	<xs:complexType name="GetReportResponseType">
+		<xs:complexContent mixed="false">		
+			<xs:extension base="GetReportResponseBaseType" />						
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="GetReportResponseBaseType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Report" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent mixed="false">
+								<xs:extension base="BaseReportType">
+									<xs:sequence>															
+										<xs:element name="Status" type="StatusType" />																																			
+									</xs:sequence>			
+									<xs:attribute name='NID' type='xs:string' />
+									<xs:attribute name='name' type='xs:string' />	
+									<xs:attribute name='type' type='xs:string' />				
+								</xs:extension>
+							</xs:complexContent>													
+						</xs:complexType>
+					</xs:element>									
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<!--  DownloadReport Request -->		
+	<xs:complexType name="DownloadReportRequestType">
+		<xs:attributeGroup ref="ReportQueryParamsType" />
+		<xs:attribute name='toFileName' type='xs:string' />
+	</xs:complexType>		
+
+ 	<!-- DownloadReport Response -->	
+	<xs:complexType name="DownloadReportResponseType" />
+				
+	<xs:attributeGroup name="ReportQueryParamsType">					
+		<xs:attribute name='byNID' type='xs:string' />
+		<xs:attribute name='byName' type='xs:string' />
+	</xs:attributeGroup>
+	
+	<xs:attributeGroup name="DefaultReportParamsType">
+		<xs:attribute name='description' type='xs:string' />							
+		<xs:attribute name='format' type='xs:string' />		
+		<xs:attribute name='enableExport' type='xs:boolean' />
+		<xs:attribute name='exportSchedule' type='xs:integer' />
+		<xs:attribute name='exportURL' type='xs:string' />		
+	</xs:attributeGroup>	
+	
+	<xs:complexType name="StatusType">		
+		<xs:sequence>
+			<xs:element name="LastExportStatus">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ReportStatusType">			
+							<xs:attribute name='state' type='ReportStateEnumType' />
+						</xs:extension>									
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LastExported" type="ReportStatusType" />
+		</xs:sequence>		
+	</xs:complexType>
+		
+	<xs:complexType name="ReportStatusType">
+    	<xs:attribute name='date' type='xs:string' />
+    	<xs:attribute name='time' type='xs:string' />    	
+    </xs:complexType>
+    
+    <xs:complexType name="ReportBasicResponseType">
+		<xs:sequence>
+			<xs:element name="Status" type="StatusType" />									
+		</xs:sequence>
+		<xs:attribute name='NID' type='xs:string' />
+		<xs:attribute name='name' type='xs:string' />		
+		<xs:attributeGroup ref="DefaultReportParamsType" />
+	</xs:complexType>
+      
+	<xs:element name="ConnState" type="ConnectionStateType"/>
+	
+	<xs:complexType name="PortConnectionUpdateType">
+		<xs:sequence>
+			<xs:element name='Port'>
+				<xs:complexType>
+					<xs:sequence>
+					<xs:element name="ConnectionStatus" type="ConnectionStatusType" />
+					</xs:sequence>						
+		    		<xs:attribute name='NID' type='xs:string' />					
+		    		<xs:attribute name='operation' type='OperationTypeEnum'/>
+		    	</xs:complexType>
+			</xs:element>
+  		</xs:sequence>		
+	</xs:complexType>
+
+	<xs:complexType name="PortConnectionStateUpdateType">
+		<xs:sequence>
+			<xs:element name='Port'>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ConnectionState" type="ConnectionStateType" />
+					</xs:sequence>
+					<xs:attribute name='NID' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+		<xs:complexType name="FileConnectionUpdateType">
+		<xs:sequence>
+			<xs:element name='File'>
+				<xs:complexType>
+					<xs:sequence>
+					<xs:element name="ConnectionStatus" type="FileConnectionStatusType" />
+					</xs:sequence>						
+		    		<xs:attribute name='NID' type='xs:string' />					
+		    		<xs:attribute name='operation' type='OperationTypeEnum'/>
+		    	</xs:complexType>
+			</xs:element>
+  		</xs:sequence>		
+	</xs:complexType>
+	
+	<xs:complexType name="FileConnectionStateUpdateType">
+		<xs:sequence>
+			<xs:element name='File'>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ConnectionState" type="ConnectionStateType" />
+					</xs:sequence>
+					<xs:attribute name='NID' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<!-- GetSystemConfig Request -->
+	<xs:complexType name="GetSystemConfigRequestType">
+		<xs:sequence/>
+		<xs:attribute name='whereConfig' type='ConfigEnumType' />
+	</xs:complexType>
+
+	
+	<!-- GetSystemConfig Response -->
+	<xs:complexType name="GetSystemConfigResponseType">
+	<xs:sequence>
+		<xs:element name="Device">
+			<xs:complexType>
+				<xs:choice>
+					<xs:element name='SoftwareVersion' type='SoftwareVersionType' />
+					<xs:element name='ScheduleBackup' type='ScheduleBackupType' />
+					<xs:element name='ExternalAuthentication' type='ExternalAuthenticationType' />
+					<xs:element name='Preferences' type='PreferencesType' />
+					<xs:element name='DeviceDiscovery' type='DeviceDiscoveryType' />
+					<xs:element name="MulticastIPAddressPool" type="MulticastIPAddressPoolType" />
+				</xs:choice>
+				<xs:attribute name="jid" type="xs:string" />
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name='whereConfig' type='ConfigEnumType' />
+</xs:complexType>
+
+
+
+    <xs:complexType name="PortDisplayStatusUpdateType">
+		<xs:complexContent mixed="false">
+			<xs:extension base="PortDisplayStatusType">
+				<xs:attribute name="operation" type="OperationTypeEnum" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	
+	
+	<!-- query  -->
+	<xs:element name="query" type="queryType"/>
+    <xs:complexType name="queryType">
+    	<xs:choice>
+			<xs:element name="ServiceLoginRequest" type="ServiceLoginRequestType" />
+			<xs:element name="ServiceLoginResponse" type="ServiceLoginResponseType" />
+			<xs:element name="GetServiceClientRequest" type="GetServiceClientRequestType" />
+			<xs:element name="GetServiceClientResponse" type="GetServiceClientResponseType" />
+			<xs:element name="SetUserPasswordRequest" type="SetUserPasswordRequestType" />
+			<xs:element name="SetUserPasswordResponse" type="SetUserPasswordResponseType" />
+			<xs:element name="GetBookmarkRequest" type="GetBookmarkRequestType" />
+			<xs:element name="GetBookmarkResponse" type="GetBookmarkResponseType" />
+			<xs:element name="AddBookmarkRequest" type="AddBookmarkRequestType" />
+			<xs:element name="AddBookmarkResponse" type="AddBookmarkResponseType" />
+			<xs:element name="NewBookmarkRequest" type="NewBookmarkRequestType" />
+			<xs:element name="NewBookmarkResponse" type="NewBookmarkResponseType" />
+			<xs:element name="UpdateBookmarkRequest" type="UpdateBookmarkRequestType" />
+			<xs:element name="UpdateBookmarkResponse" type="UpdateBookmarkResponseType" />
+			<xs:element name="DeleteBookmarkRequest" type="DeleteBookmarkRequestType" />
+			<xs:element name="DeleteBookmarkResponse" type="DeleteBookmarkResponseType" />
+			<xs:element name="JoinRequest" type="JoinRequestType" />
+			<xs:element name="JoinResponse" type="JoinResponseType" />
+			<xs:element name="PauseRequest" type="PauseRequestType" />
+			<xs:element name="PauseResponse" type="PauseResponseType" />
+			<xs:element name="ResumeRequest" type="ResumeRequestType" />
+			<xs:element name="ResumeResponse" type="ResumeResponseType" />
+			<xs:element name="PlayRequest" type="PlayRequestType" />
+			<xs:element name="PlayResponse" type="PlayResponseType" />
+			<xs:element name="CatchupRequest" type="CatchupRequestType" />
+			<xs:element name="CatchupResponse" type="CatchupResponseType" />
+			<xs:element name="SkipBackRequest" type="SkipBackRequestType" />
+			<xs:element name="SkipBackResponse" type="SkipBackResponseType" />
+			<xs:element name="SkipFwdRequest" type="SkipFwdRequestType" />
+			<xs:element name="SkipFwdResponse" type="SkipFwdResponseType" />
+			<xs:element name="GetFileRequest" type="GetFileRequestType" />
+			<xs:element name="GetFileResponse" type="GetFileResponseType" />
+			<xs:element name="GetPVRFileRequest" type="FileRequestType" />
+			<xs:element name="GetPVRFileResponse" type="GetPVRFileResponseType" />		
+			<xs:element name="GetOrphanFileRequest" type="FileRequestType" />
+			<xs:element name="GetOrphanFileResponse" type="GetFileResponseType" />		
+			<xs:element name="GetFileTagsRequest" type="GetFileTagsRequestType" />
+			<xs:element name="GetFileTagsResponse" type="GetFileTagsResponseType" />
+			<xs:element name="GetDirRequest" type="GetDirRequestType" />
+			<xs:element name="GetDirResponse" type="GetDirResponseType" />
+			<xs:element name="GetUserRequest" type="GetUserRequestType" />
+			<xs:element name="GetUserResponse" type="GetUserResponseType" />
+			<xs:element name="GetDirTagsRequest" type="GetDirTagsRequestType" />
+			<xs:element name="GetDirTagsResponse" type="GetDirTagsResponseType" />
+			<xs:element name="GetSessionRequest" type="GetSessionRequestType" />
+			<xs:element name="GetSessionResponse" type="GetSessionResponseType" />
+			<xs:element name="GetSessionConfigRequest" type="GetSessionConfigRequestType" />
+			<xs:element name="GetSessionConfigResponse" type="GetSessionConfigResponseType" />
+			<xs:element name="GetProfileRequest" type="GetProfileRequestType" />
+			<xs:element name="GetProfileResponse" type="GetProfileResponseType" />
+			<xs:element name="GetPortRequest" type="GetPortRequestType" />
+			<xs:element name="GetPortResponse" type="GetPortResponseType" />
+			<xs:element name="GetPortRecordDirRequest" type="GetPortRecordDirRequestType" />
+			<xs:element name="GetPortRecordDirResponse" type="GetPortRecordDirResponseType" />
+			<xs:element name="GetPortTagsRequest" type="GetPortTagsRequestType" />
+			<xs:element name="GetPortTagsResponse" type="GetPortTagsResponseType" />
+			<xs:element name="GetTagsRequest" type="GetTagsRequestType" />
+			<xs:element name="GetTagsResponse" type="GetTagsResponseType" />
+			<xs:element name="DeleteConnRequest" type="DeleteConnRequestType" />
+			<xs:element name="DeleteConnResponse" type="DeleteConnResponseType" />
+			<xs:element name="DeleteFileRequest" type="DeleteFileRequestType" />
+			<xs:element name="DeleteFileResponse" type="DeleteFileResponseType" />
+			<xs:element name="ViewRequest" type="ViewRequestType" />
+			<xs:element name="ViewResponse" type="ViewResponseType" />
+			<xs:element name="PlaybackRequest" type="PlaybackRequestType" />
+			<xs:element name="PlaybackResponse" type="PlaybackResponseType" />
+			<xs:element name="SwitchRequest" type="SwitchRequestType" />
+			<xs:element name="SwitchResponse" type="SwitchResponseType" />
+			<xs:element name="StartSessionRequest" type="StartSessionRequestType"/>
+			<xs:element name="StartSessionResponse" type="StartSessionResponseType"/>
+			<xs:element name="StopSessionRequest" type="StopSessionRequestType"/>
+			<xs:element name="StopSessionResponse" type="StopSessionResponseType"/>
+			<xs:element name="GetPortDisplayConfigRequest" type="GetPortDisplayConfigRequestType" />
+			<xs:element name="GetPortDisplayConfigResponse" type="GetPortDisplayConfigResponseType" />
+			<xs:element name="SetServiceClientDisplayConfigRequest" type="SetServiceClientDisplayConfigRequestType" />
+			<xs:element name="SetServiceClientDisplayConfigResponse" type="SetServiceClientDisplayConfigResponseType" />
+			<xs:element name="SetServiceClientDisplayStatusRequest" type="SetServiceClientDisplayStatusRequestType" />
+			<xs:element name="SetServiceClientDisplayStatusResponse" type="SetServiceClientDisplayStatusResponseType" />
+			<xs:element name="SetPortDisplayConfigRequest" type="SetPortDisplayConfigRequestType" />
+			<xs:element name="SetPortDisplayConfigResponse" type="SetPortDisplayConfigResponseType" />
+			<xs:element name="SetPortLayoutPropertiesRequest" type="SetPortLayoutPropertiesRequestType" />
+			<xs:element name="SetPortLayoutPropertiesResponse" type="SetPortLayoutPropertiesResponseType" />
+			<xs:element name="SetPortWindowPropertiesRequest" type="SetPortWindowPropertiesRequestType" />
+			<xs:element name="SetPortWindowPropertiesResponse" type="SetPortWindowPropertiesResponseType" />
+			<xs:element name="SwapPortWindowPositionRequest" type="SwapPortWindowPositionRequestType" />
+			<xs:element name="SwapPortWindowPositionResponse" type="SwapPortWindowPositionResponseType" />
+			<xs:element name="GetPortDisplayStatusRequest" type="GetPortDisplayStatusRequestType" />
+			<xs:element name="GetPortDisplayStatusResponse" type="GetPortDisplayStatusResponseType" />
+			<xs:element name="SetFileMetaDataRequest" type="SetFileMetaDataRequestType" />
+			<xs:element name="SetFileMetaDataResponse" type="SetFileMetaDataResponseType" />
+			<xs:element name="SetFileInfoRequest" type="SetFileInfoRequestType" />
+			<xs:element name="SetFileInfoResponse" type="SetFileInfoResponseType" />
+			<xs:element name="RecordRequest" type="RecordRequestType" />
+			<xs:element name="RecordResponse" type="RecordResponseType" />
+			<xs:element name="PauseRecordRequest" type="PauseRecordRequestType" />
+			<xs:element name="PauseRecordResponse" type="PauseRecordResponseType" />
+			<xs:element name="PrepareFileRequest" type="PrepareFileRequestType" />
+			<xs:element name="PrepareFileResponse" type="PrepareFileResponseType" />
+			<xs:element name="ResumeRecordRequest" type="ResumeRecordRequestType" />
+			<xs:element name="ResumeRecordResponse" type="ResumeRecordResponseType" />
+			<xs:element name="AuthorizeRequest" type="AuthorizeRequestType" />
+			<xs:element name="AuthorizeResponse" type="AuthorizeResponseType" />
+			<xs:element name="GetSystemConfigRequest" type="GetSystemConfigRequestType" />
+			<xs:element name="GetSystemConfigResponse" type="GetSystemConfigResponseType" />
+			<xs:element name="AuditEventRequest" type="AuditEventRequestType" />
+			<xs:element name="AuditEventResponse" type="AuditEventResponseType" />
+			<xs:element name="AddReportRequest" type="AddReportRequestType" />
+			<xs:element name="AddReportResponse" type="AddReportResponseType" />
+			<xs:element name="SetReportRequest" type="SetReportRequestType" />
+			<xs:element name="SetReportResponse" type="SetReportResponseType" />
+			<xs:element name="GetReportRequest" type="GetReportRequestType" />
+			<xs:element name="GetReportResponse" type="GetReportResponseType" />
+			<xs:element name="DeleteReportRequest" type="DeleteReportRequestType" />
+			<xs:element name="DeleteReportResponse" type="DeleteReportResponseType" />
+			<xs:element name="DownloadReportRequest" type="DownloadReportRequestType" />
+			<xs:element name="DownloadReportResponse" type="DownloadReportResponseType" />
+			<xs:element name="InviteRequest" type="InviteRequestType" />
+			<xs:element name="InviteResponse" type="InviteResponseType" />
+			<xs:element name="KickRequest" type="KickRequestType" />
+			<xs:element name="KickResponse" type="KickResponseType" />
+			<xs:element name="AddDeviceRequest" type="AddDeviceRequestType" />
+			<xs:element name="AddDeviceResponse" type="AddDeviceResponseType" />
+			<xs:element name="SetDeviceInfoRequest" type="SetDeviceInfoRequestType" />
+			<xs:element name="SetDeviceInfoResponse" type="SetDeviceInfoResponseType" />
+		
+			<xs:element name="GetDeviceRequest" type="GetDeviceRequestType" />
+			<xs:element name="GetDeviceResponse" type="GetDeviceResponseType" />
+			
+			<xs:element name="DeleteDeviceRequest" type="DeleteDeviceRequestType" />
+			<xs:element name="DeleteDeviceResponse" type="DeleteDeviceResponseType" />	
+			<xs:element name="SetPortInfoRequest" type="SetPortInfoRequestType" />
+			<xs:element name="SetPortInfoResponse" type="SetPortInfoResponseType" />	
+			<xs:element name="SetPortStreamURLRequest" type="SetPortStreamURLRequestType" />
+			<xs:element name="SetPortStreamURLResponse" type="SetPortStreamURLResponseType" />
+			<xs:element name="SetPortObserverInfoRequest" type="SetPortObserverInfoRequestType" />
+			<xs:element name="SetPortObserverInfoResponse" type="SetPortObserverInfoResponseType" />
+			<xs:element name="SetPortPVRInfoRequest" type="SetPortPVRInfoRequestType" />
+			
+			<xs:element name="ClearDownloadCacheRequest" type="ClearDownloadCacheRequestType" />
+			<xs:element name="ClearDownloadCacheResponse" type="ClearDownloadCacheResponseType" />
+    	</xs:choice>
+        <xs:attribute name="serviceVer" type="xs:string" use="optional"/>
+    </xs:complexType>
+    
+    <!--  Extensions are used for iq-error and notifications -->
+	<xs:element name="x" type="IpvsExtensionType"/>
+    <xs:complexType name="IpvsExtensionType">
+    	<xs:choice>
+    		<xs:element name="ipvserror" type="IpvsErrorType"/>
+			<xs:element name="EntityPresence" type="EntityPresenceType"/>
+			<xs:element name="ConnectionState" type="ConnectionStateType"/>
+			<xs:element name="PortConnectionUpdate" type="PortConnectionUpdateType"/>
+			<xs:element name="PortConnectionStateUpdate" type="PortConnectionStateUpdateType"/>
+			<xs:element name="FileConnectionUpdate" type="FileConnectionUpdateType"/>
+			<xs:element name="FileConnectionStateUpdate" type="FileConnectionStateUpdateType"/>			
+			<xs:element name="PortDisplayStatusUpdate" type="PortDisplayStatusUpdateType"/>
+			<xs:element name="AuthorizationRequired" type="AuthInfoType" />
+    	</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="IpvsErrorType">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="code" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:element name="SetPortPVRInfoResponse" type="SetPortPVRInfoResponseType" />
+</xs:schema>

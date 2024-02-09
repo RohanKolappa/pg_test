@@ -1,0 +1,163 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="590" jsxheight="560" jsxzindex="5000" jsxwindowstate="1" jsxleft="20" jsxtop="19"></variants>
+    <strings jsxname="dialogHAConfig"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Redundant Server Configuration"></strings>
+      <dynamics jsxbg="Dialog Titlebar" jsxbgcolor="@Solid Shadow" jsxcolor="@Light"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfDlgEditHAConfig" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1" jsxloadtype="1"></variants>
+        <strings jsxname="blkHAConfig" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+        <dynamics jsxbgcolor="Dialog BG"></dynamics>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"></variants>
+          <strings jsxname="txtDirtyBitblkHAConfig" jsxmargin="0 4 0 0" jsxcdfattribute="DirtyBitblkHAConfig" jsxdisplay="none"></strings>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="layoutRows" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxborder="@Outset Bottom"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="18" jsxwidth="180"></variants>
+              <strings jsxname="label" jsxtext="Enable High Availability:" jsxdisplay=""></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.CheckBox">
+              <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="176" jsxtop="18" jsxchecked="0"></variants>
+              <strings jsxname="chkHAServerEnable" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxHAServerEnable"></strings>
+              <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"></events>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="176" jsxtop="48"></variants>
+              <strings jsxname="radioEnablePrimary" jsxtext="Primary" jsxgroupname="grpPrimarySecondary" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxIsPrimary" jsxvalue="true"></strings>
+              <events jsxselect=""></events>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="270" jsxtop="48"></variants>
+              <strings jsxname="radioEnableSecondary" jsxtext="Secondary" jsxgroupname="grpPrimarySecondary" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxIsPrimary" jsxvalue="false"></strings>
+              <events jsxselect=""></events>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="88" jsxwidth="150"></variants>
+              <strings jsxname="label" jsxtext="Peer IP Address:" jsxdisplay="" jsxtextalign="right"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="180" jsxtop="88" jsxwidth="150"></variants>
+              <strings jsxname="txtPeerIPAddress" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxPeerIPAddress" jsxvalue="0.0.0.0"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="180" jsxtop="126" jsxwidth="150"></variants>
+              <strings jsxname="txtPeerName" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxPeerName"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="128" jsxwidth="150"></variants>
+              <strings jsxname="label" jsxtext="Peer Name:" jsxdisplay="" jsxtextalign="right"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="158" jsxwidth="540"></variants>
+              <strings jsxname="label" jsxdisplay="" jsxborder="border-bottom:solid 1px #999999;"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="180" jsxwidth="180"></variants>
+              <strings jsxname="label" jsxtext="Virtual IP Address:" jsxdisplay=""></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="66" jsxtop="208"></variants>
+              <strings jsxname="label" jsxtext="Enable Virtual IP:" jsxdisplay=""></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.CheckBox">
+              <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="176" jsxtop="208" jsxchecked="0"></variants>
+              <strings jsxname="chkEnableVirtualIP" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxEnableVIP"></strings>
+              <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"></events>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="237" jsxwidth="150"></variants>
+              <strings jsxname="label" jsxtext="Virtual IP Address 1:" jsxdisplay="" jsxtextalign="right"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="176" jsxtop="235" jsxwidth="150"></variants>
+              <strings jsxname="txtVirtualIPAddress" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxVirtualIPAddress" jsxvalue="0.0.0.0"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="266" jsxwidth="150"></variants>
+              <strings jsxname="label" jsxtext="Virtual IP Address 2:" jsxdisplay="" jsxtextalign="right"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="176" jsxtop="264" jsxwidth="150"></variants>
+              <strings jsxname="txtVirtualIPAddress2" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxVirtualIPAddress2" jsxvalue="0.0.0.0"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="294" jsxwidth="540"></variants>
+              <strings jsxname="label" jsxdisplay="" jsxborder="border-bottom:solid 1px #999999;"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="314" jsxwidth="180"></variants>
+              <strings jsxname="label" jsxtext="HA Interface:" jsxdisplay=""></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="16" jsxtop="339" jsxwidth="145"></variants>
+              <strings jsxname="label" jsxtext="LAN:" jsxdisplay="" jsxtextalign="right"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="150" jsxheight="18" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="176" jsxtop="339"></variants>
+              <strings jsxname="selHAInterface" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="jsxHAInterface"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="4 8 4 8"></strings>
+            <dynamics jsxborder="@Outset Top" jsxbgcolor="Dialog Footer"></dynamics>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="22" jsxwidth="60"></variants>
+              <strings jsxname="btnCustomizeCancel" jsxtext="Cancel" jsxmargin="6 10 0 0" jsxclassname="btnOk" jsxpadding="3 0 0 0"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="22" jsxwidth="60"></variants>
+              <strings jsxname="btnCustomizeApply" jsxtext="Apply" jsxmargin="6 10 0 0" jsxclassname="btnOk" jsxpadding="3 0 0 0"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

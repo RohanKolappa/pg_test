@@ -1,0 +1,72 @@
+(: ------------------- Insert XQueryLib.xml -------------------- :)
+declare function local:getStreamFilterRelayXpath($streamfilter as element()*)
+as xs:string
+{
+	let $xpath := string-join (
+	      (
+		for $d in $streamfilter//RelayFilter/MediaStreamResourceFilterNID
+			return  local:filterNIDToXPath(data($d))
+	      ),
+	      " or "
+	)
+		
+   	return $xpath
+};
+
+declare function local:getStreamFilterProfileXpath($streamfilter as element()*)
+as xs:string
+{
+	let $xpath := string-join (
+	      (
+		for $d in $streamfilter//ProfileFilter/MediaStreamProfileFilterNID
+			return  local:filterNIDToXPath(data($d))
+	      ),
+	      " or "
+	)
+		
+   	return $xpath
+};
+
+
+declare function local:getALLNID ()
+as xs:string
+{
+	let $allNID := for $d in collection('/db/ipvs.default.tagobjectfilterlist')/*[@parentNID='default.tagobjectfilterlist']
+		where $d[Name='_ALL_']
+		return data($d/@NID)
+	return $allNID
+};
+
+declare function local:getRuleType($d as element()*, $allNID as xs:string)
+as xs:string
+{
+	let $destFilterNID = $d/DstFilter/MediaStreamResourceFilterNID
+	return "ok"
+};
+
+
+declare function local:StreamFilterList()
+as element()*
+{
+	let $mediaStreamFilterList := (
+		for $d in collection('/db/ipvs.default.mediastreamfilterlist')/*[@parentNID='default.mediastreamfilterlist']
+		order by $d/order
+		return <MediaStreamFilterList>{$d}</MediaStreamFilterList>
+	)
+	
+	let $allNID := local:getALLNID()
+	
+	let $xpathlist := (
+		for $d in $mediaStreamFilterList/MediaStreamFilter 
+		let $xpath:=local:streamFilterToXPath($d)
+		let $relay:=local:getStreamFilterRelayXpath($d)
+		let $profile:=local:getStreamFilterProfileXpath($d)
+		let $ruleType := local:getRuleType($d, $allNID)
+		return <rule><ruletype>{$ruleType}</ruletype><rulexpath>{$xpath}</rulexpath><relay>{$relay}</relay><profile>{$profile}</profile></rule> 
+	)
+
+	return <result>{$xpathlist }</result>
+};
+
+let $result := local:StreamFilterList()
+return $result

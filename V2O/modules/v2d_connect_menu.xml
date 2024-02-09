@@ -1,0 +1,84 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>V2DConnect</Title>
+   <Description>Connect to an Encoder</Description>
+   <Access>v2d_connect</Access>
+   <ConfigFile>v2dconnectconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+
+      <Item>
+        <Name>ipaddress</Name>
+        <Type>string</Type>
+        <Label>IP Address</Label>
+        <Help>IP Address of Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>port</Name>
+        <Type>integer</Type>
+        <Label>Port</Label>
+        <Help>Port for the Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>6060</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>bandwidth</Name>
+        <Type>bandwidth</Type>
+        <Label>Max Bandwidth</Label>
+        <Help>Maximum Bandwidth</Help>
+        <FieldLength>10</FieldLength>
+        <DefaultValue>10.0M</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>avoption</Name>
+        <Type>string</Type>
+        <Label>AV Option</Label>
+        <Help>Audio/Video Option</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>Both</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Video", "Audio", "Both"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>multicast</Name>
+        <Type>boolean</Type>
+        <Label>Multicast</Label>
+        <Help>Request a Multicast Connection</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>bidir</Name>
+        <Type>boolean</Type>
+        <Label>Bidirectional Audio</Label>
+        <Help>Request a Bidirectional Audio</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+
+
+   </Items>
+</Menu>

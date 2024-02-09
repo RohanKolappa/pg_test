@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.policyadminservice.datamodel.Group.xsd" />
+  <xs:complexType name="RuleType" abstract="true">
+    <xs:sequence>
+      <xs:element name="rulename" type="xs:string" />
+      <xs:element name="order" type="xs:int" />
+      <xs:element name="valid" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="PolicyRuleListType" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PolicyRule" type="PolicyRuleType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PolicyRuleType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="RuleType">
+        <xs:sequence>
+          <xs:element name="allow" type="xs:boolean" />
+          <xs:element minOccurs="0" name="ExternalCondition" type="ExternalConditionType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ExternalConditionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TimeRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:date" />
+            <xs:element name="To" type="xs:date" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="XAuth">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:choice>
+              <xs:element name="RuleKey">
+                <xs:simpleType>
+                  <xs:union memberTypes="ServiceRuleKeyEnumType MediaRoomRuleKeyEnumType" />
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ServiceXAuthOperatorFilterSet" type="ServiceOperatorFilterSetType" />
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StateFlag">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="FlagName" type="xs:string" />
+            <xs:element name="FlagValue" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServicePolicyRuleType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="PolicyRuleType">
+        <xs:sequence>
+          <xs:element name="ServiceOperatorFilterSet" type="ServiceOperatorFilterSetType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ServiceOperatorFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="ServiceOperatorFilter" type="ServiceOperatorFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServiceOperatorFilterType">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element name="UserFilterNID" type="xs:string" />
+      </xs:sequence>
+      <xs:sequence minOccurs="0">
+        <xs:element name="ResourceFilterNID" type="xs:string" />
+      </xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RuleKeyTagFilterType" abstract="true">
+    <xs:sequence>
+      <xs:element name="RuleKeyLHTagName" type="RuleKeyTagSpecType" />
+      <xs:element name="MatchOp" type="MatchOpEnumType" />
+      <xs:element name="RuleKeyRHTagName" type="RuleKeyTagSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServiceRuleKeyTagFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RuleKeyTagFilter" type="ServiceRuleKeyTagFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServiceRuleKeyTagFilterType">
+    <xs:sequence>
+      <xs:element name="RuleKeyLHTagName" type="ServiceRuleKeyTagSpecType" />
+      <xs:element name="MatchOp" type="MatchOpEnumType" />
+      <xs:element name="RuleKeyRHTagName" type="ServiceRuleKeyTagSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RuleKeyTagSpecType" abstract="true">
+    <xs:sequence>
+      <xs:element name="RuleKey" type="RuleKeyEnumType" />
+      <xs:element name="TagName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RuleKeyEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RULE_NAME" />
+      <xs:enumeration value="RULE_ORDER" />
+      <xs:enumeration value="RULE_ALLOW" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ServiceRuleKeyTagSpecType">
+    <xs:sequence>
+      <xs:element name="RuleKey" type="ServiceRuleKeyEnumType" />
+      <xs:element name="TagName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ServiceRuleKeyEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SERVICE_RULE_OPER_USER" />
+      <xs:enumeration value="SERVICE_RULE_OPER_RESOURCE" />
+      <xs:enumeration value="SERVICE_RULE_TARGET_OBJECT" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MediaRoomRuleKeyEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MEDIAROOM_RULE_CONFCREATE_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_CONFSTART_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_ADDMEDIA_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_ADDSTREAM_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_TARGET_MEDIAROOM" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_SRC_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_SRC_RESOURCE" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_DST_USER" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_DST_RESOURCE" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_RELAY_RESOURCE" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_PVR_RESOURCE" />
+      <xs:enumeration value="MEDIAROOM_RULE_STREAM_PROFILE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ServiceObjectRoleType" abstract="true">
+    <xs:sequence>
+      <xs:element name="RoleObject" type="xs:string" />
+      <xs:element name="RoleAction" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

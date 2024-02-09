@@ -1,0 +1,45 @@
+#!/usr/bin/haserl -u 50000
+<?
+source /usr/share/bweb/localui/bweb_localui.sh
+
+#bweb_header 1
+bweb_header
+
+if test -s "$FORM_file" -o -e /tmp/dpkgd/installstatus.log;
+then
+	BUSY=1
+fi
+
+if test -s "$FORM_file";
+then
+	# move into dpkgd drop directory
+	prefix=$(basename "$FORM_file");
+	mv "$FORM_file" "/tmp/dpkgd/$prefix.deb"
+fi
+?>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+<?
+if [ -n "$prefix" ];
+then
+	# tweak upgrader to show window right away and poll fast from the beginning
+	echo "     UpgradeDialog.key = \"$prefix.deb\"";
+	echo "     UpgradeDialog.idle_interval = UpgradeDialog.busy_interval";
+fi
+?>
+     $("#uploadform").validate();
+  });
+  </script>
+  <style type="text/css">
+	#uploadform .error { color: red }
+  </style>
+      <h1>Upgrade</h1>
+        <p><? cat /usr/share/project/dpkg-status | grep Package | head -n 1 | awk "/Package: / { print \$2 \" version \" }" ?>
+           <? cat /usr/share/project/dpkg-status | grep Version | head -n 1 | awk "/Version: / { print \$2 }" ?></p>
+        <p>Select upgrade file and click upload to upgrade</p>
+        <form id="uploadform" action="<? echo -n "$SCRIPT_NAME" ?>" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" class="required text ui-widget-content ui-corner-all">
+          <input type="submit" value="Upload" class="text ui-widget-content ui-corner-all">
+        </form>
+<? bweb_footer ?>

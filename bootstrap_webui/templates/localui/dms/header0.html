@@ -1,0 +1,149 @@
+Content-Type: text/html
+X-UA-Compatible: IE=edge,IE=11,IE=EmulateIE11
+Cache-Control: no-cache, must-revalidate
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>DEVICETITLE</title>
+  <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css">
+  <link rel="stylesheet" href="/css/validationEngine.jquery.css" type="text/css">
+  <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-general.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-market-portal.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-nd.css" type="text/css">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/css/html5shiv.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="/js/libs/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="/js/libs/jquery-ui.js"></script>
+  <script type="text/javascript" src="/js/barco-xml-utils.js"></script>
+  <script type="text/javascript" src="/js/languages/jquery.validationEngine-en.js"></script>
+  <script type="text/javascript" src="/js/libs/jquery.validationEngine.js"></script>
+  <script type="text/javascript" src="/js/languages/barco-dms-dashboard-detail-en.js"></script>
+  <script type="text/javascript" src="/js/barco-dms-dashboard-detail.js"></script>
+  <script type="text/javascript" src="/js/libs/mustache.js"></script>
+  <!--script type="text/javascript" src="/js/licensing.js"></script-->
+
+</head>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+	barco_showHideExitAdminLink();
+  });
+</script>
+
+<script type="text/javascript">
+var UpgradeDialog = {
+    idle_interval: 10000, // polling interval in ms when idle
+    busy_interval: 2000, // polling interval in ms when busy
+    message: "",
+    type: "",
+    busy: false,
+    progress: 0,
+    url: "/cgi-bin/upgradestatus",
+    key: "",
+    start: function() {
+	$.ajaxSettings.cache = false;
+	$("#upgrade-dialog").dialog(
+	    {
+		bgiframe: true,
+		modal: true,
+		draggable: false,
+		resizable: false,
+		show: 'scale',
+		hide: 'scale',
+		autoOpen: false,
+		close: function() { window.location = '/'; }
+	    });
+	// get rid of close button
+	$('.ui-dialog-titlebar-close').empty();
+
+	if (this.key) {
+	    this.url += "?key=" + this.key;
+	    $("#upgrade-dialog").dialog("open");
+	}
+
+	this.poll();
+    },
+    poll: function() {
+	$.getJSON(UpgradeDialog.url, function(data) {
+		      if (!UpgradeDialog.busy && data.busy) {
+			  UpgradeDialog.busy = true;
+			  $("#upgrade-dialog").dialog("open");
+		      }
+
+		      if (data.busy) {
+			  newprogress = 0;
+			  newmsg = newtype = "";
+			  for (i=0; i<data.items.length; i++) {
+			      switch (data.items[i].type) {
+			      case "PROGRESS":
+				  newprogress = +data.items[i].message;
+				  break;
+
+			      case "INFO":
+			      case "WARN":
+			      case "ERROR":
+				  newtype = data.items[i].type;
+				  newmsg = data.items[i].message;
+				  break;
+
+			      default:
+				  break;
+			      }
+			  }
+
+			  if (newprogress != UpgradeDialog.progress) {
+			      UpgradeDialog.progress = newprogress;
+			      // create progressbar if needed
+			      if (!$("#upgrade-progress").hasClass('ui-progressbar'))
+				  $("#upgrade-progress").progressbar({ value: newprogress });
+			      else
+				  $("#upgrade-progress").progressbar("value", newprogress);
+			  }
+
+			  if (newtype != UpgradeDialog.type) {
+			      UpgradeDialog.type = newtype;
+			  }
+
+			  if (newmsg != UpgradeDialog.message) {
+			      UpgradeDialog.message = newmsg;
+			      upg = $("#upgrade-msg");
+			      upg.fadeOut("def", function() {
+					      upg.empty();
+					      upg.append(newmsg + " ...");
+					      upg.fadeIn("def");
+					  });
+			  }
+		      } else { // not busy
+			  if (UpgradeDialog.busy) {
+			      UpgradeDialog.busy = false;
+			      UpgradeDialog.progress = 0;
+			      $("#upgrade-dialog").dialog("close");
+			  }
+		      }
+	          });
+	if (UpgradeDialog.type != "ERROR")
+	    self.setTimeout("UpgradeDialog.poll()",
+			    this.busy ? this.busy_interval : this.idle_interval);
+    }
+};
+</script>
+<body>
+
+ <div id="upgrade-dialog" title="Upgrade in progress" class="dialog">
+  <center><img src="/img/warning.png" width="76" height="68" alt="warning">
+  <br><b>Do NOT turn off unit during upgrade</b><p></p>
+  <div id="upgrade-progress"></div><br>
+  <div id="upgrade-msg"></div>
+  </center>
+ </div>
+
+ <div id="container">
+  <div id="barcodotcom">
+  	<div id="barcodotcomleft"><H1 id="signature" class="title">SIGNATURE</H1></div>
+<!--    <div id="barcodotcomleft"><a href="/"><img src="/img/barco.com.gif" alt="barco.com"></a></div>-->
+    <div id="barcodotcomright">

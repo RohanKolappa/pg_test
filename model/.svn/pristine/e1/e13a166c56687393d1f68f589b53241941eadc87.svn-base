@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+	
+    <!-- SetServiceClientDeviceConfig -->
+	<xs:element name="SetServiceClientConfigRequestData" type='SetServiceClientConfigRequestDataType' />
+	<xs:complexType name="SetServiceClientConfigRequestDataType">
+		<xs:sequence>
+			<xs:element name="SetServiceClientConfig">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+					<xs:attribute name='byNID' type='xs:string' />
+					<xs:attribute name='xPath' type='xs:string' />					
+					<xs:attribute name='operation' type='OperationTypeEnum' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="SetServiceClientConfigResponseData" type='SetServiceClientConfigResponseDataType' />
+	<xs:complexType name="SetServiceClientConfigResponseDataType"/>
+	
+	<!-- Set Service Client Status Request -->
+	<xs:element name="SetServiceClientStatusRequestData" type='SetServiceClientStatusRequestDataType' />
+	<xs:complexType name="SetServiceClientStatusRequestDataType">
+		<xs:sequence>
+			<xs:element name="SetServiceClientStatus">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+					<xs:attribute name='byNID' type='xs:string' />
+					<xs:attribute name='xPath' type='xs:string' />
+					<xs:attribute name='operation'>
+					    <xs:simpleType>
+					       <xs:restriction base="xs:string">
+					          <xs:enumeration value="Update"/>
+					          <xs:enumeration value="UpdateAttribute"/>
+					       </xs:restriction>
+					    </xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="SetServiceClientStatusResponseData" type='SetServiceClientStatusResponseDataType' />
+	<xs:complexType name="SetServiceClientStatusResponseDataType"/>
+	
+	
+	</xs:schema> 

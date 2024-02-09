@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<RTSPMediaStreamProfile serviceVer="" Ver="1.6"
+	Rev="1" NID="" parentNID="">
+	<Groups>
+		<Tag Name="" Value=""></Tag>
+	</Groups>
+
+	<Title></Title>
+	<Description></Description>
+	<StreamType>RTSP</StreamType>
+	<Priority></Priority>
+
+	<StreamActionInfo>
+		<AllowPause>true</AllowPause>
+		<AllowSkipback>true</AllowSkipback>
+		<AllowSkipfwd>true</AllowSkipfwd>
+	</StreamActionInfo>
+
+	<Info>
+		<RTSPStreamConfig>
+			<IsMulticast>false</IsMulticast>
+			<RTSPAudioConnectionConfig>
+				<Mode>Auto</Mode>
+				<AdvancedAudioConfig>Uncompressed-L16</AdvancedAudioConfig><!-- possible 
+					values: "AAC-192", "AAC-64", "Uncompressed-L16", "AAC-256", "AAC-32", "AAC-96", 
+					"AAC-128" -->
+			</RTSPAudioConnectionConfig>
+			<RTSPVideoConnectionConfig>
+				<Mode>Auto</Mode><!-- possible values: Disabled, Manual if, Auto the 
+					H264ProfileConfig will be ignored by default the value will be Auto -->
+				<H264ProfileConfig>
+					<Bandwidth>1000</Bandwidth>
+					<MaxResolution>2mp</MaxResolution>
+					<IntraRefresh>gdr</IntraRefresh>
+					<EncodingName>H264</EncodingName>
+					<ProfileCode>High</ProfileCode>
+					<Framerate>15p</Framerate>
+					<DisableParser>false</DisableParser>
+				</H264ProfileConfig>
+			</RTSPVideoConnectionConfig>
+		</RTSPStreamConfig>
+
+		<RTSPRecoderConfig>
+
+		</RTSPRecoderConfig>
+	</Info>
+</RTSPMediaStreamProfile>

@@ -1,0 +1,77 @@
+// ============================================================================
+//
+// Copyright (c) 2003-2014 Barco N.V.
+//
+// ============================================================================
+// 
+// This file is part of "BCP".
+// 
+// "BCP" is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+// 
+// "BCP" is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with "BCP"; if not, write to:
+//                          Free Software Foundation
+//                          59 Temple Place, Suite 330
+//                          Boston, MA 02111-1307 USA
+// 
+// ============================================================================
+//
+// Filename:
+//	...
+// 
+// Description:
+//	...
+// 
+// Author(s):
+//	...
+//
+// ============================================================================
+
+#include <iostream>
+
+#include "BFC.Base.Exception.h"
+
+// ============================================================================
+
+using namespace std;
+using namespace BFC;
+
+// ============================================================================
+
+static void doIt() {
+
+	// Do something useful here!
+
+}
+
+// ============================================================================
+
+int main( int argc, char * argv[] ) {
+
+	if ( argc != 1 ) {
+		cerr << "Usage: " << argv[ 0 ] << endl;
+		return -1;
+	}
+
+	try {
+		doIt();
+	}
+	catch ( Exception & e ) {
+		cerr << e.what() << endl;
+		return -2;
+	}
+
+	return 0;
+
+}
+
+// ============================================================================
+

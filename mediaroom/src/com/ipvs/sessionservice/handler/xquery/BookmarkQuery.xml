@@ -1,0 +1,29 @@
+declare function local:getList()
+as element()*
+{
+	let $list := for $b in  collection('/db/ipvs.default.bookmarklist')/*[@parentNID='default.bookmarklist']
+					where $b_XPATHAND_     
+					order by $b_SORTBY_ _SORTORDER_
+				 return $b
+	return $list
+};
+
+
+declare function local:formatItem($b as element()*, $detail as xs:string)
+as element()*
+{
+	let $item := $b
+	return <Bookmark NID='{ data($b/@NID) }' 
+			  title='{ data($b/Title) }' 
+			  TC='{ data($b/AtTC) }' 
+			  offset='{ data($b/Offset) }' 
+			  dateCreated='{ data($b/DateCreated) }' 
+			  mediaStreamFileNID='{ data($b/MediaStreamFileResourceNID) }'>
+			  <Description>{data($b/Comment)}</Description>
+			  <MetaData>{$b/MetaData/*}</MetaData>
+		   </Bookmark>
+};
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

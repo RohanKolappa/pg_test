@@ -1,0 +1,20 @@
+
+# Do not let the clock to be set beyond the step threshold which is
+# 600 secs since we use the -x option to ntpd
+tinker panic 600
+
+# Prohibit anyone to modify this configuration using SNTP protocol
+restrict default nomodify noquery
+
+# Permit all access over the loopback interface.
+restrict 127.0.0.1 
+
+# Undisciplined Local Clock.
+server  127.127.1.0     # local clock
+fudge   127.127.1.0 stratum 10
+
+# We allow only a single server to be configured
+server NTPSERVERIP iburst
+
+# Specify the driftfile
+driftfile /etc/ntp.drift

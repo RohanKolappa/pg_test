@@ -1,0 +1,146 @@
+
+Device List for the I50 and the XPs
+====================================
+
+
+I50
+---
+
+The I50 has an Analog Devices AD9887a analog-to-digital converter, 
+an Integrated Device Technology ID18125 FIFO on the TX (Version DA)
+board, and an Analog Devices AD9852 digital synthesizer on the RX
+board. The AD9887a and ID18125 are accessed through the I2C bus 
+implemented in the FPGA. The AD9852 is accessed through BAR2 on the
+PCI bus. All 3 devices are supported in the driver.
+
+XP100/200/220
+-------------
+
+The XPs have an PLX9056 PCI interface controller, an Analog Devices
+AD9852 digital synthesizer, two NXP PCA9555 I2C I/O extenders, one 
+Asaki Kasei Microelectronics AK4683AD and one AK4683AA audio codec, 
+one Texas Instruments PCA9545 I2C switch, one Analog Devices AD9888 
+analog-to-digital converter, two Silicon Image SiI1178 DVI transmitters, 
+two DDRs and one 24LC01B EEPROM on the video board. There is also an 
+LM63 temperature sensor on XP200/XP220 boards, and one PCA9555, one 
+PCA9545 and one 24LC01B on the Personality Module (PM). 
+
+The Ad9852 is access through BAR2 on the PCI bus.  
+
+The PLX9056 controller is accessed through BAR3 on the PCI bus. 
+There are driver routines for this.  All others XP devices are I2C 
+devices they are accessed using user-space functions.
+
+I50/XP100/200/220 Device List
+-----------------------------
+
+The following is the list of devices other than the FPGA and the
+routines that can be used to access them:
+
+    System      Device       Access Routine               Defined In
+   -----------------------------------------------------------------------
+   I50-TX DA    AD9887A   ad9887_init, ad9887_read,       ad9887vif.c
+                          ad9887_write, ad9887_dvisetup
+
+   I50-TX       ID18125   id18125_init, id18125_read,     id18125fifo.c
+                          id18125_write
+
+   I50-RX       AD9852    ad9852_init, ad9852_exit,       ad9852dds.c
+                          ad9852_reset, tweak_frequency
+
+   XP100/200    PLX9056   plx_control_init,               plx9056pciif.c
+   and 220                plx_control_exit,
+                          plx_control_ioctl,
+                          plx_interrupt_enable,
+                          plx_interrupt_disable,
+                          plx_block_dma_channel_open,
+                          plx_block_dma_channel_close,
+                          plx_block_dma_inprogress,
+                          plx_block_dma_transfer,
+                          plx_capability_enabled,
+                          plx_vpd_read,
+                          plx_vpd_write
+
+   XP100/200    AD9852    hal_get_ad9852_val_k            hal.c
+   and 220                hal_set_ad9852_val_k      
+
+   XP100/200    PCA9555   hal_get_pca9555_clk_val_k,      vlib.c 
+   and 220                hal_set_pca9555_clk_val_k,
+                          hal_get_pca9555_dvi_val_k,
+                          hal_set_pca9555_dvi_val_k,
+                          hal_get_pm_pca9555_val_k,
+                          hal_set_pm_pca9555_val_k
+
+   XP100/200    PCA9545   hal_get_pca9545_val_k,          vlib.c 
+   and 220                hal_set_pca9545_val_k 
+
+   XP100/200    AK4683    hal_get_ak4683ad_val_k,         vlib.c 
+   and 220                hal_set_ak4682ad_val_k,
+                          hal_get_ak4683aa_val_k,
+                          hal_set_ak4683aa_val_k 
+
+   XP100/200    AD9888    hal_get_v4_ad9888_val_k,        vlib.c 
+   and 220                hal_set_v4_ad9888_val_k
+
+   XP100/200    SII1178   hal_get_sii1178_1_val_k,        vlib.c 
+   and 220                hal_set_sii1178_1_val_k,
+                          hal_get_sii1178_2_val_k,
+                          hal_set_sii1178_2_val_k
+
+   XP200/220    LM63      hal_get_i2c_val_k,              vlib.c 
+                          hal_set_i2c_val_k
+
+   XP100/200    DDR       hal_get_i2c_val_k,              vlib.c 
+   and 220                hal_set_i2c_val_k
+
+In addition, both the I50 and the XP has the capability to read the
+Enhanced Display Identification Data (EDID) on the displays connected 
+on the output DVI port. The XP also has an EEPROM that can be programmed 
+with EDID data for hosts connected to the input DVI port, a CDCE706, a
+CDCE906 PLL synthesizer EEPROM and a configuration EEPROM for the NXP1520 
+USB hub controller on the board. 
+
+The following are the routines that can be used to access the EEPROMs:
+
+    System        Device           Access Routine         Defined In
+   -----------------------------------------------------------------------
+   I50 RX     Monitor EEPROM  ddcedid_init, ddcedid_read,  ddcedid.c 
+                              ddcedid_write
+
+   XP100/200  Monitor EEPROM  hal_read_i2c_val_k           vlib.c
+   and 220                    hal_write_i2c_val_k
+                              hal_read_mon_edid
+              EDID EEPROM     hal_read_i2c_val_k           vlib.c
+                              hal_write_i2c_val_k
+                              read_edid_eeprom_main        loadedideeprom.c
+                              load_edid_eeprom_main 
+              USB EEPROM      hal_read_i2c_val_k           vlib.c
+                              hal_write_i2c_val_k 
+                              read_usb_eeprom_main         maint_commands.c
+                              load_usb_eeprom_main         
+
+              PLX9056         read_plx_eeprom_main,        maint_commands.c
+              EEPROM          load_plx_eeprom_main         maint_commands.c
+
+              CDCE706/906     read_cdce_eeprom_main,       maint_commands.c
+                              load_cdce_eeprom_main        maint_commands.c
+
+XP100/200/200 Hardware Configuration 
+------------------------------------
+
+The PLX9056, CDCE706/906 and NXP1520 EEPROMs on the XPs must be programmed at 
+manufacturing time to their default configuration with the commands:
+
+    maint loadplxeeprom -c N
+    maint loadcdceeeprom -c N
+    maint loadusbeeprom -c N
+
+where 'N' is the channel number for the board.
+
+The PLX9056 VPD must also be programmed at manufacture time. The command is:
+     
+    maint loadplxvpd -c N -s serial
+
+where 'N' is the channel number  and 'serial' is the serial number for the 
+board.
+    

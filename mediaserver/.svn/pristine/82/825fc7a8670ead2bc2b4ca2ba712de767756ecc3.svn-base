@@ -1,0 +1,7 @@
+echo $1 > /sys/class/gpio/unexport
+echo $1 > /sys/class/gpio/export
+echo $2 > /sys/class/gpio/gpio$1/direction
+echo $3 > /sys/class/gpio/gpio$1/value
+cat /sys/class/gpio/gpio$1/direction
+cat /sys/class/gpio/gpio$1/value
+#echo $1 > /sys/class/gpio/unexport

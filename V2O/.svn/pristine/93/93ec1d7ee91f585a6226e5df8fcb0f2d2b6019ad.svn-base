@@ -1,0 +1,268 @@
+<Menu>
+
+   <Type>status</Type>
+   <Title>RxConnectionStatus</Title>
+   <Description>Rx Connection Status</Description>
+   <Access>rx_connection_status</Access>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+      <Item>
+        <Name>server</Name>
+        <Type>string</Type>
+        <Label>Server</Label>
+        <Help>IP address of connected server</Help>
+        <FieldLength>32</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>status</Name>
+        <Type>string</Type>
+        <Label>Status</Label>
+        <Help>Connection Status</Help>
+        <FieldLength>32</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>rlut</Name>
+        <Type>string</Type>
+        <Label>Remote LUT</Label>
+        <Help>Remote LUT String</Help>
+        <FieldLength>40</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>dlut</Name>
+        <Type>string</Type>
+        <Label>Display LUT</Label>
+        <Help>Display LUT String</Help>
+        <FieldLength>40</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>current_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Current BW</Label>
+        <Help>Current Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>current_bytes</Name>
+        <Type>unsigned_integer</Type>
+        <SubType>CliOnly</SubType>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Current Bytes</Label>
+        <Help>Total Video plus Audio Bytes</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>genlock_status</Name>
+        <Type>string</Type>
+        <Label>Genlock Status</Label>
+        <Help>Interface</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Video BW</Label>
+        <Help>Video Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_bytes</Name>
+        <Type>unsigned_integer</Type>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Video Bytes</Label>
+        <Help>Video Bytes</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_packets</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Video Packets</Label>
+        <Help>Video Packets</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_loss</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Video Lost</Label>
+        <Help>Video Lost</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_outoforder</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Video Order</Label>
+        <Help>Video Order</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_dropped</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Video Dropped</Label>
+        <Help>Video Dropped</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_frames</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Video Frames</Label>
+        <Help>Number Of Frames</Help>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_slices</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Video Slices</Label>
+        <Help>Number Of Slices</Help>
+        <Align>follow</Align>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>frame_rate</Name>
+        <Type>float</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Frame Rate</Label>
+        <Help>Current Frame Rate</Help>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>slice_rate</Name>
+        <Type>float</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Slice Rate</Label>
+        <Help>Current Slice Rate</Help>
+        <Align>follow</Align>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Audio BW</Label>
+        <Help>Audio Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_bytes</Name>
+        <Type>unsigned_integer</Type>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Audio Bytes</Label>
+        <Help>Audio Bytes</Help>
+        <Align>follow</Align>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_packets</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Audio Packets</Label>
+        <Help>Audio Packets</Help>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_loss</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Audio Lost</Label>
+        <Help>Audio Lost</Help>
+        <Align>follow</Align>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>reverse_audio_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Rev Audio BW</Label>
+        <Help>Reverse Audio Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>reverse_audio_bytes</Name>
+        <Type>unsigned_integer</Type>
+        <SubType>CliOnly</SubType>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Rev Audio Bytes</Label>
+        <Help>Reverse Audio Bytes</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+      
+      <Item>
+        <Name>audio_dropped</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Audio Dropped</Label>
+        <Help>Audio Dropped</Help>
+        <Align>follow</Align>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      
+      <Item>
+        <Name>queue_drops</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>errorcounter</Source>
+        <Label>Queue Drops</Label>
+        <Help>Internal Queue Drops</Help>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_output</Name>
+        <Type>boolean</Type>
+        <Source>truth</Source>
+        <Label>Video Output</Label>
+        <Help>Video Output</Help>
+		<Align>follow</Align>
+        <FieldLength>4</FieldLength>
+      </Item>
+
+   </Items>
+</Menu>

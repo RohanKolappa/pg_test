@@ -1,0 +1,1216 @@
+V2D V2 Codec Specification 
+==========================
+Rahul_Kale <rahul.kale@barco.com>
+:Author Initials: RKAL
+$Id: V2DCodecSpecificationV2.txt 63656 2012-04-25 23:48:16Z rkale $
+
+Introduction
+------------
+
+This document describes IP Video System's video codec called
+V2D. 
+
+The version of this codec is Version 2. It improves on the previous codec
+(Version 1) by adding the following features: 
+
+   * Support for scalable video compression where the codec bitstream provides
+   spatial and quality scalability.
+   * Improves video compression for moving images with partial updates by changing
+     the basic shape of slice
+   * Adds the concept of predictive slices with support for skipped blocks and residual blocks.
+
+
+Video Encoding 
+--------------
+
+Video Resolutions
+~~~~~~~~~~~~~~~~~
+
+The codec will support encoding of video frames of any arbitrary width
+or height. The encoder is free to expand the original dimensions by
+any number of pixels on the the right and bottom (for example to make
+the video frame divide evenly into a suitable slice size).
+
+Both the "original" frame width and height and the "encoded" frame
+will be signaled as part of the encoded bitstream. If expanded region
+is used, the encoder is free to fill the expanded pixels with any data
+and the decoder is required to throw away the data before rendering.
+
+The rest of this specification will use frame width and frame height
+to mean the "encoded" frame width and frame height. The original width
+and height will be mentioned only if ambiguous.
+
+
+Blocks: Basic Encoding Unit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+The basic encoding unit will be a block of 8x8 pixels.  The minimum
+encoding unit is two adjacent blocks of 8x8 pixels.  For the default
+4:2:2 encoding, this yields 2 8x8 Luma (Y) blocks and 2 additional 8x8
+chroma blocks (one each for U and V). Each block will be encoded using
+standard 8x8 DCT followed by quantization and VLC. The encoding will
+follow the usual "YUYV" sequence order for laying out contents of the
+two blocks.
+
+
+Slice: Frame Partitioning Into Sub-Regions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The video frame will be partitioned into regions called "slices" and
+each slice will be encoded independently of other slices.  Slices are
+fixed sized rectangular regions of the frame arranged in a
+checkerboard fashion. All the slices in each frame will always be a
+fixed size. Each slice will always be a multiple of 2 blocks (16
+pixels) wide and a multiple of 1 block (8 pixels) high. The maximum
+area occupied by a slice can be no more than 128 blocks (8192 pixels).
+The encoder is required to determine an appropriate width and height
+of a slice so that the entire frame is filled out evenly. The encoder
+is free to add any number of "expanded" pixels on the bottom and right
+side of the frame if necessary to make this happen.
+
+The encoder will signal the width and height of the slice in the
+bitstream in the frame header.  Since the "original" width and height,
+as well as the "encoded" width and height is also signaled in the
+bitstream, the decoder will have all the information needed to
+determine the rendered area for any slice.
+
+image:images/SliceShapes.png["Slice Shapes",scale="75"]
+
+Chroma Sampling and Sub-Sampling Modes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This specification supports both 4:2:2 and 4:4:4 chroma sampling.
+
+In 4:2:2 mode, chroma values are sampled using a fixed algorithm and
+sent to the decoder, the decoder up-samples by duplicating the the
+received (even) samples to derive the value of the missing (odd)
+samples.
+
+In 4:4:4 mode, 4:2:2 sampled data is first sent to the decoder using
+the fixed algorithm mentioned above. Then the missing chroma data is
+compensated for by sending the 4:4:4 information separately. Knowing
+the sub-sampling algorithm employed by the encoder, the decoder can
+derive the full 4:4:4 chroma values for each pixel.
+
+For sub-sampling chroma (U and V components of YUV), to send 4:2:2
+data, there are two modes (algorithms) that the codec can be
+configured to use.
+
+*Skipped Sub-Sampling*:: For transmitting 4:2:2 information, only even
+samples (that is every alternate sample) of chroma pixel is selected
+during sub-sampling and the odd samples are skipped. In 4:4:4 mode,
+the values of the skipped (odd) samples is sent as the compensating
+data.  (This was the method used in Version 1 of the codec).
+
+*Average Sub-Sampling*:: For transmitting 4:2:2 information, the
+average of even and and odd samples of chroma is computed during
+sub-sampling. In 4:4:4 mode, the values of the odd samples is sent as
+the compensating data.  and the decoder can derive the correct values
+for both the even and odd samples from this.
+
+The encoder will signal the chroma sampling mode used in the frame
+header so that the decoder employs the correct decoding logic in 4:4:4
+mode.
+
+The following table illustrates the information sent to the decoder in
+4:2:2 and 4:4:4 mode and how the decoder uses the data to recreate
+chroma values.
+
+[options="header"]
+|============
+| | Encoder || 4:2:2 Decoding || 4:4:4 Decoding |
+| Mode | Base Layer | Chroma Layer | Decoded Even | Decoded Odd | Decoded Even | Decoded Odd 
+| Skipped | E | O | E | E (dup) | E | O 
+| Average | A = (E + O)/2 | O | A | A (dup) | 2 * A - O | O 
+|============
+
+To achieve better compressibility, the chroma compensation data for 4:4:4 mode will
+actually be sent as a "residual" that is the difference between the value sent in the
+4:2:2 mode and the missing information to be send as in above table. The 
+table below illustrates this:
+
+[options="header"]
+|============
+| | Encoder || 4:2:2 Decoding || 4:4:4 Decoding |
+| Mode | Base Layer | Chroma Layer | Decoded Even | Decoded Odd | Decoded Even | Decoded Odd 
+| Skipped | E | R = O - E | E | E (dup) | E | R + E 
+| Average | A = (E + O)/2 | R = O - A | A | A (dup) | 2 * A - (R + A) | R + A 
+|============
+ 
+
+Frame Encoding
+--------------
+
+Frame: Sequence of Slices
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The encoding of a complete video frame consists of encoding each
+rectangular region of the frame (defined as a "slice" above)
+separately into an independently parsable unit in the bitstream. A
+slice needs to be only encoded into the bitstream of a specific frame
+if the pixel values of the slice is deemed to be sufficiently
+different from the pixel values of the slice in a previously encoded
+frame of the bitstream.
+
+It is up to the encoder to determine whether pixel values have changed
+in a slice region using any suitable algorithm. It is expected that
+the encoder will try its best to be accurate and that a wrong
+determination may result in artifacts in the decoded and rendered
+video.
+
+If the encoder determines that pixel values within a slice region have
+not changed, it may still encode the slice and signal the fact in the
+bitstream using a special "Refresh" flag in the slice headers. This
+slice may have a different quantization level (the configured low
+quant) than the slice sent out previously.
+
+If the encoder determines that pixel values within a slice region have
+not changed, it may still encode the slice and signal the fact in the
+bitstream using a special "Repeat" flag in the slice headers. This
+flag can be used by the decoder (or other tools in between) to improve
+error resiliency and/or save bandwidth. A slice having the Refresh
+flag set will be called a "Repeat Slice" in this specification. In a
+loss-less environment, the encoder should guarantee that if the
+decoder chooses to ignore Repeat Slices, it will not introduce any
+artifacts in the decoded video. A slice with Repeat flag set should
+also have the Refresh flag set.
+
+The Repeat Slice flag should only be set if the quality level of the
+slice is the same as a previously transmitted slice. If the encoder
+determines that the qpixel values of a slice region has not changed,
+and yet decides to encode the slice using a different quality
+(quantization) parameter, it should not set the Repeat flag but 
+set the Refresh flag.
+
+Slices will be encoded, in order, starting from the first slice at the
+top left corner of the frame, and proceeding in raster order (left to
+right, top to bottom) till the last slice on bottom right corner of
+the video frame.
+
+A video may consist of zero or more slices in the above encoded
+order. Slices may be missing depending on the amount of changed pixels
+(i.e. motion) between two frames. Missing slices need not be
+explicitly signaled in the bitstream. Each slice carries with it, in
+the slice header, screen location information. Once end of frame is
+detected, any slice not present within a frame is assumed to be
+skipped. The decoder should render skipped slices using pixel
+information recovered from the last frame where the corresponding
+co-located slice was not skipped.
+
+Missing slices can be optionally signaled in the bitstream. It is
+signaled as a regular slice (so that slice location information is
+automatically present) with a special flag that signifies skipped
+slice (missing data). This can be used by the encoder, for example, to
+push out data markers for very empty frames so that the decoder can
+start the decoding process without having to wait for a real
+(non-skipped) slice.
+
+This specification signals the concept of an _IFrame_ in the
+bitstream. Conceptually, an _IFrame_ is a normal frame where every
+slice is present and all slices are of type _ISlice_ (defined
+below). The encoder is free to insert as many conceptual _IFrames_ as
+necessary in the bitstream (and would typically send at least one at
+the beginning of a video encoding session). The decoder need not be
+aware of the presence of a conceptual _IFrame_ in the bitstream -- it
+just decodes and renders the slices depending on its type.
+
+A special I Frame boolean flag is present in the frame header that the
+encoder should set to true only if every slice in this frame is
+present (that is there are no skipped slices).
+
+A special Full Frame boolean flag is present in the frame header that
+the encoder should set to true every time all the slices in a frame
+has been sent at least once (prior to the current frame) since the
+last time this flag was set to true in an earlier frame.
+
+
+Frame Boundary Identifiers
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The bitstream consists of a sequence of encoded video frames.  Each
+video frame has a unique identifiable byte pattern in the bitstream
+that has to be searched for by the decoder to begin decoding any video
+frame. This search-able byte pattern is called +SOF+ or Start of Frame
+pattern.
+
+The +SOF+ pattern will always be transmitted on a four byte boundary.
+If the +SOF+ pattern is detected on a non four byte boundary, the
+encoder will treat it as part of data stream.
+
+Each video frame ends with a unique identifiable byte pattern in the
+bitstream called +EOF+ or End Of Frame pattern. Presence of an +EOF+
+pattern signals end of the current frame. There is no data expected
+after +EOF+ pattern till the next +SOF+.  Any data received by the
+decoder between +EOF+ and the next +SOF+ is expected to be discarded
+by the decoder.
+
+The +EOF+ pattern will be trasmitted on a byte boundary.
+
+The four byte Start of Frame (+SOF+) pattern is specified as: 
+
+  0x00 0x00 0x01 0x00
+
+
+The four byte End of Frame (+EOF+) pattern is specified as: 
+
+  0x00 0x00 0x01 0xB0
+
+
+image:images/FrameStructure.png[FrameStructure, scale="75"]
+
+
+Frame Header
+~~~~~~~~~~~~
+
+Frame header are bits in the bitstream that immediately follow the +SOF+
+pattern. 
+
+
+The contents of the frame header are as follows 
+(refer to [[#SyntaxElementsSpecification][Syntax]] section for explanation).
+
+[width="60%",cols="3l,1"]
+|==========================
+| reserved_one | u(1) 
+| frame_timestamp | u(31)
+| codec_version | ue(v)
+| i_frame | u(1)
+| full_frame_flag | u(1)
+| stereo_flag | u(1)
+| if (stereo_flag == 1)|
+|   left_frame | u(1) 
+| frame_dimensions_flag | u(1) 
+| if (frame_dimensions_flag == 1) { | 
+|   frame_width | ue(v) 
+|   frame_height | ue(v) 
+|   encoded_offset_X | ue(v)
+|   encoded_offset_Y | ue(v)
+|   encoded_frame_width | ue(v)
+|   encoded_frame_height | ue(v)
+|   slice_width | ue(v)
+|   slice_height | ue(v)
+|   chroma_sampling_mode | u(1)
+| } | 
+| reserved_zero | u(1) 
+| padding_bits | u(n) 
+|==========================
+
++frame_timestamp+:: denotes the timestamp of the capture of the frame in
+some fashion.
+
++codec_version+:: Number representing codec version within Version 2 series. Set to 0.
+
++i_frame+:: flag represents signaling an I Frame as defined above.
+
++full_frame_flag+:: flag represents signaling a Full Frame as defined above.
+
++stereo_flag+:: Is set to 1 for stereo video and 0 otherwise. The next
+bit, +stereo_flag+ is decoded to determine left/right frames only if
++stereo_flag+ is set to 1.
+
++frame_dimensions_flag+:: Is set to 1 if frame dimension details are
+present.  The next sequence of bits specify the frame dimensions
+(width/height etc.)  only if this flag is true.
+
++frame_width+ and +frame_height+:: The original width and height of
+the video in pixels.
+
++encoded_offset_x+ and +encoded_offset_y+:: The X and Y offsets in
+pixels from the original video frame which is encoded in this bit
+stream.
+
++encoded_frame_width+ and +encoded_frame_height+:: The width and
+height of the encoded video in pixels that includes the expanded
+pixels.
+
++slice_width+ and +slice_height+:: The width and height of the encoded
+slices in blocks (i.e. in units of 8 pixels).
+
++chroma_sampling_mode+:: Set to 1 for average sampling, 0 other wise.
+ 
+
++reserved_zero+:: Is always set to 0. The decoder should reject this
+frame if this value is set to 1.
+
++padding_bits+:: Represent all other bits in the header and should be
+filled with zeros. The decoder should ignore all these bits.
++reserved_zero+ and +padding_bits+ are used to support future
+extensions.
+
+
+Slice Encoding
+--------------
+
+Each video frame in the bitstream consists of a sequence of encoded
+slices (after the frame header) in slice encoding order. Each slice
+represents all the bits needed to completely decode a rectangular
+slice region of the video frame. Encoding and decoding of a slice will
+be completely independent of encoding and decoding of any other slice
+in the frame. Decoding and rendering of a slice may only depend on
+co-located slices received in an earlier frame.
+
+Slice Boundary Identifiers
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each slice has a unique identifiable header in the bitstream that has
+to be searched for by the decoder to begin decoding a slice. This
+search-able byte pattern is called +SOS+ or Start of Slice pattern.
+
+The +SOS+ pattern will transmitted on a byte boundary.  There is no
+end of slice marker defined. Any +SOS+ pattern detected in the
+bitstream signifies the end of previous slice and begin of a new
+slice.
+
+The four byte Start of Slice (+SOS+) pattern is specified as:
+
+ 0x00 0x00 0x01 0xB2
+
+
+After all the bits have been consumed by the decoder for a given
+slice, any remaining bits have to be ignored till the decoder finds
+the next +SOS+, +EOF+, or +SOF+.
+
+
+Slice Types
+~~~~~~~~~~~
+
+There are primarily two type of slices. These will be named _ISlice_
+and _PSlice_ in this specification.
+
+_ISlice_ is a slice which can be decoded to fully construct (render) the
+pixels of the corresponding slice region without having access to any
+previous slice at that location.
+
+_PSlice_ is a slice that has partial pixel information. The decoder
+needs access to at least the last slice received from an earlier video
+frame to fully construct the pixels of the slice region. The slice
+information is thus, in some sense, "predicted" from an earlier slice
+in one way or the other.
+
+
+
+Structure of Encoded Slice
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An encoded slice consists of a slice header followed by one or more
+independently parsable sections called Layers to support scalable
+video compression.
+
+The bits encoded in each additional layer reveals more detailed
+information about the pixels in a given rectangular slice region than
+the bits encoded in the layer before it.
+
+Each layer consists of layer header followed by VLC encoded block data
+in a format specific to that layer's type.
+
+
+image:images/SliceStructure.png[SliceStructure, scale="75"]
+
+This specification currently defines the following types of Layers.
+
+
+*_DCLayer_*:: Encodes the DC coefficients of each block in the
+slice. The decoder should to be able to create a reasonable thumbnail
+sized image (1/8th scale) image from Layer0.
+
+*_MidACNxNLayer_*:: Encodes the NxN AC coefficients in the upper left
+corner of the 8x8 DCT block. Decoder can use _DCLayer_ along with this
+layer to create a good scaled image.
+
+*_RemACNxNLayer_*:: Encodes the remaining 48 AC coefficients of the
+8x8 DCT block. Decoder can use _DCLayer_ and _MidACNxNLayer_ along
+with this layer create a good quality full sized image.
+
+*_SkipBlockDCLayer_*:: Encodes the DC coefficients of each block in
+the slice. This is the same as _DCLayer_ except that some of the
+blocks within the slice may be skipped (not coded).
+
+*_SkipBlockMidACNxNLayer_*:: Encodes the NxN AC coefficients in the
+upper left corner of the 8x8 DCT block. This is the same as
+_MidACNxNLayer_ except that some of the blocks within the slice are
+skipped (not coded).
+
+*_SkipBlockRemACNxNLayer_*:: Encodes the remaining 48 AC coefficients
+of the 8x8 DCT block. This is the same as _RemACNxNLayer_ except that
+some of the blocks within the slice are skipped (not coded).
+
+*_QualityLayer_*:: Encodes the residual quantization bits of the 8x8
+DC/AC coefficients quantized with a lower DC/AC quant (quality
+scalability). Decoder can add _QualityLayer_ information to previous
+layers to create a better quality full sized image.
+
+*_ChromaLayer_*:: Encodes the residual chroma information as a
+difference between 4:2:2 and 4:4:4.
+
+*_FullLayer_*:: Encodes all the DC and AC coefficients of the 8x8 DCT
+block (in other words the contents of above three layers
+combined). Decoder can use this layer directly to create a good
+quality full sized image.
+
+*_ZeroQuantLayer_*:: Encodes all the DC and AC coefficients of the 8x8
+DCT block without any quantization applied. Also this layer uses 4:4:4
+sampling mode for chroma planes. Decoder can use this layer directly
+to create a best quality full sized image.
+
+*_LosslessLayer_*:: Encodes all RGB pixel values directly (no YUV
+sampling, DCT or quantization). Decoder can use this layer to create a
+perfect reproduction of original video.
+
+*_ResidualLayer_*:: Encodes all the DC and AC coefficients of the 8x8
+DCT block as a residual (difference prediction) from a co-located
+block in a previously sent slice at that screen location.
+
+*_NullLayer_*:: Does not encode anything. This layer carries no data.
+
+Layer0 is mandatory and is an integral part of the codec that the
+encoder is required to include. It is not possible to strip off layer0
+information by any tools.
+
+There is a natural hierarchy of what layers are allowed at various levels
+(layer0 to layerN). Meaningless combinations are not allowed and 
+a valid bitstream has to conform to the following constraints:
+
+Layer0 can carry either _DCLayer_ (if scalable compression is enabled)
+or _FullLayer_ (if scalable compression is disabled) or one of
+_ZeroQuantLayer_ or _LosslessLayer_ (if these modes are enabled in the
+codec configuration).
+
+_FullLayer_, _ZeroQuantLayer_ and _LosslessLayer_  can only be carried in Layer0.
+
+If Layer0 carries _DCLayer_, Layer1 and Layer2 should carry
+_MidACNxNLayer_ and _RemACNxNLayer_ respectively. None of the layers
+is allowed to carry _FullLayer_, _ZeroQuantLayer_ or _LosslessLayer_
+in this case.
+
+If Layer0 carries _FullLayer_ the only other layer allowed is
+_ChromaLayer_ which would be carried in Layer1.
+
+If Layer0 carries _ZeroQuantLayer_ or _LosslessLayer_, no other layers
+are allowed.
+
+It is possible for the encoder to add any number of _QualityLayers_
+including none.
+
+_ChromaLayer_ will build upon the previous layer which could be
+_RemACNxNLayer_, the last _QualityLayer_, or _FullLayer_. Only one
+_ChromaLayer_ is supported and, if present, will be the last layer in
+the slice.
+
+_NullLayer_ can be plugged in at any level.
+
+image:images/SliceLayers.png["Slice Layers", scale="75"]
+
+Since each layer builds and depends on previous layers, if any tool
+strips off a given layer, then all higher layers are required to be
+stripped off.
+
+If a decoder encounters an unsupported layer, it is required to ignore
+that and all higher layers and render whatever has been recovered so
+far.
+
+If a decoder encounters a _NullLayer_, it is required to ignore that
+and all higher layers and render whatever has been recovered so far.
+
+A Marker Slice can be encoded as a regular slice with a _NullLayer_ in
+Layer0
+
+The bits for each layer begins at a byte aligned boundary. Each layer
+carries with it the size (in bytes) used by that layer. The byte
+offset from the beginning of the slice (after +SOS+) for any layer can
+be computed by summing together the sizes of all layers before it.
+
+The extra bits in each layer to make the next layer byte aligned have
+to be filled with zeros by the encoder and ignored by the decoder.  It
+is required by the encoder to never insert more than 7 zero padded
+bits.
+
+
+There is no flag in the bitstream that signifies enable/disable of
+scalable compression. The decoder infers this from the contents of
+encoded layers.
+
+The specification supports allowing decoders to phase in support for
+higher layers.
+
+
+
+
+Achieving Scalable Compression
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Scalable compression is achieved by in-line relay tools (e.g. SRD) to
+modify the bitsream in such a fashion that it still remains a valid
+decodable bitstream.
+
+Typically a tool will strip off certain layers from a slice to reduce
+the bandwidth such that the resulting decoded video is degraded in
+some fashion (resolution, frame-rate and/or quality).
+
+For example, a tool may strip off _RemLayer_ from all slices so that
+the decoder can still create a good 1/2 scaled video (or a reduced
+quality full sized video).
+
+A tool can also fold several frames of encoded video in a bitstream
+into a single frame in the output bitstream.  For this purpose it may
+be necessary to add layers from a previous slice at a location to the
+latest slice at that location to ensure that there are no video
+artifacts.
+
+To ensure that the resulting video does not have any jarring artifacts,
+certain constraints need to be imposed on the tools:
+
+- If a specific type of layer is stripped off in any slice of a given
+frame, then all slices in that frame should be stripped off of that
+layer.
+
+- If a specific layer is stripped off, then all higher layers are also
+required to be stripped off from that slice.
+
+- If any layer is added from a previous slice, then the usual layer
+hierarchy/constraints should still be maintained.
+
+
+image:images/ResidualLayers.png["Residual Layers"]
+
+
+Layer0 Header (Slice Header)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Layer0 Header is synonymous with Slice Header and carries global
+information about the whole slice as well as information specific to
+layer0. It immediately follows the +SOS+ pattern.
+
+The contents of  slice header are tabulated below.
+
+[width="60%",cols="3l,1"]
+|==========================
+| 1 | u(1) 
+| layer0_size | u(15) 
+| last_layer_flag | u(1) 
+| slice_number | u(14) 
+| refresh_slice | u(1) 
+| repeat_slice | u(1) 
+| slice_type | u(1) 
+| mquant | u(3) 
+| dcquant | u(3) 
+| alt_mquant | u(3) 
+| alt_dcquant | u(3) 
+| layer_type | ue(v) 
+|==========================
+
++layer0_size+:: The size in bytes of this layer including layer0 data.
+It does not include the 4 bytes of +SOS+ marker. In other words, Layer1
+begins these many bytes after +SOS+.
+
++last_layer_flag+:: Set to 1 if this is the last layer
+(that is only layer0 is present in this slice).
+
++slice_number+:: Conveys the location of the slice in the video
+frame. Slices are numbered (starting from 0) in raster order (left to
+right, top to bottom).
+
++refresh_slice+:: Bit is set to 1 if this slice is a Refresh Slice.
+
++repeat_slice+:: Bit is set to 1 if this slice is a Repeat Slice.
+
++slice_type+:: Set to 0 or ISlice else set to 1
+
++mquant+ and +dcquant+:: The AC/DC quantization parameters explained in
+another section.
+
++alt_mquant+ and +alt_dcquant:: The alternative AC/DC quantization
+parameters explained in another section.
+
++layer_type+:: An enumerated value that signifies the contents of this layer.
+
+LayerN Header
+~~~~~~~~~~~~~
+
+LayerN Header denotes any Layer header other than Layer0 and carries
+information specific to that Layer.
+
+The contents of  LayerN header are tabulated below.
+
+[width="60%",cols="3l,1"]
+|==========================
+| 1 | u(1) 
+| layer_size | u(15) 
+| last_layer_flag | u(1)
+| layer_type | ue(v)
+|==========================
+
++layer_size+:: The size in bytes of that layer including the layer
+header itself.
+
++last_layer_flag+:: Set to 1 if this is the last layer
+(that is, there are no more layers after this). If there are
+3 layers, Layer0 and Layer1 will set this 0 and Layer2
+will set this to 1.
+
++layer_type+:: An enumerated value that signifies the contents of this layer.
+
+
+There may be additional parameters in the layer header depending on the layer type.
+
+
+Assignments of Layer Type
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The +layer_type+ field in layer headers is an enumerated integer with values
+that map to different types of layers as shown in table below:
+
+[options="header",width="60%",cols="2,3"]
+|==========================
+| *+layer_type+* | *Layer Names*
+| 1  | _DCLayer_
+| 2  | _MidAC4x4Layer_
+| 3  | _RemAC4x4Layer_
+| 4  | _QualityLayer_ 
+| 5  | _ChromaLayer_ 
+| 6  | _FullLayer_ 
+| 7  | _ZeroQuantLayer_ 
+| 8  | _LosslessLayer_ 
+| 9  | _ResidualLayer_ 
+| 10 | _NullLayer_ 
+| 11 | _MidAC2x2Layer_
+| 12 | _MidAC3x3Layer_
+| 13 | _MidAC5x5Layer_
+| 14 | _MidAC6x6Layer_
+| 15 | _MidAC7x7Layer_
+| 16 | _RemAC2x2Layer_
+| 17 | _RemAC3x3Layer_
+| 18 | _RemAC5x5Layer_
+| 19 | _RemAC6x6Layer_
+| 20 | _RemAC7x7Layer_
+| 21 | _SkipBlockDCLayer_
+| 22 | _SkipBlockMidAC2x2Layer_
+| 23 | _SkipBlockMidAC3x3Layer_
+| 24 | _SkipBlockMidAC4x4Layer_
+| 25 | _SkipBlockMidAC5x5Layer_
+| 26 | _SkipBlockMidAC6x6Layer_
+| 27 | _SkipBlockMidAC7x7Layer_
+| 28 | _SkipBlockMidRemAC2x2Layer_
+| 29 | _SkipBlockMidRemAC3x3Layer_
+| 30 | _SkipBlockMidRemAC4x4Layer_ 
+| 31 | _SkipBlockMidRemAC5x5Layer_ 
+| 32 | _SkipBlockMidRemAC6x6Layer_ 
+| 33 | _SkipBlockMidRemAC7x7Layer_ 
+|==========================
+
+
+
+Video Compression 
+-----------------
+
+Video compression is primarily achieved in the codec using standard
+MPEG based techniques, i.e. by separating RGB pixel values into into
+Luma and Chroma planes and applying block based DCT, Quantization,
+followed by VLC.
+
+RGB to YUV
+~~~~~~~~~~
+
+A standard RGB to YUV conversion is perfomred.
+
+
+DCT 
+~~~
+
+The first step in encoding each block of 8x8 Luma or Chroma values
+will a standard 8x8 DCT (MPEG2) to yield a transformed
+8x8 matrix of DC and AC coefficients.
+
+This step is performed for all layers except when a _LosslessLayer_
+needs to be encoded.
+
+Quantization
+~~~~~~~~~~~~
+
+Quantization is performed on the transformed DC and AC coefficients
+using configured +mquant+ and +dcquant+ values. 
+
+A fixed quantization matrix is used (as shown in table TBD).
+
+The quantization step is performed for all layers except when a
+_LosslessLayer_ or _ZeroQuantLayer_ needs to be encoded.
+
+VLC
+~~~
+
+The method of VLC used depends entirely on the Layer being encoded
+and is explained in its own section.
+
+Emulation Prevention
+~~~~~~~~~~~~~~~~~~~~
+
+Decoder relies on the +SOF+ to indicate the start of a new frame.
+Similarly, it uses +SOS+ to indicate the start of a slice.  In order
+for the decoder to pick up +SOF+ or +SOS+ in the middle of the
+compressed stream, these codes must be unique and cannot be present in
+the stream with other meanings.  Unfortunately, the VLC scheme that is
+used does not guarantee this never happens.  As a result, we need to
+add a prevention scheme on top of the VLC coding to avoid these
+emulations.
+
+During the encode process, if a byte sequence of 0x000001 or 0x000003
+is detected and the byte sequence is not part of the +SOF+, +SOS+ or
++EOF+ code, a new byte of 0x03 is inserted to the bit stream to form
+0x00000301 and 0x00000303 respectively.
+
+During the decode process, after the detection of +SOF+, +SOS+ and
++EOF+, all byte sequence of 0x000003 will be changed to 0x0000.
+
+
+Encoding of Layers
+-----------------
+
+Each Layer will have its own well defined scheme of encoding relevant
+content and is explained in the following sections.
+
+DCLayer Encoding
+~~~~~~~~~~~~~~~~
+
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i == 0; i < num_of_blocks; i++) { | 
+|   alt_quant_sel | u(1) 
+|   luma_dc_coef | mpeg2 coded 
+|   chroma_cb_dc_coef | mpeg2 coded 
+|   luma_dc_coef | mpeg2 coded 
+|   chroma_cr_dc_coef | mpeg2 coded 
+| } | |
+|==========================
+
++num_of_blocks+:: The number of blocks within a slice.  It is
+calculated from the +slice_width+ and +slice_height+ in the frame
+header.
+
++alt_quant_sel+:: Set to 1 to indicate +alt_mquant+ and +alt_dcquant+
+are used for quantization.  It is set to 0 when +mquant+ and +dcquant+
+are used.  +alt_quant_sel+ is also used by _MidACNxNLayer_ and
+_RemACNxNLayer_.  Therefore, _DCLayer_ should be sent before
+_MidACNxNLayer_ and _RemACNxNLayer_ within the slice.
+
++luma_dc_coef+:: The DC coef of luma coded using Section 7.2.1 and
+Table B-12 of MPEG2 Video Spec (iso13838-2).
+
++chroma_dc_coef+:: The DC coef of chroma coded using Section 7.2.1 and
+Table B-12 of MPEG2 Video Spec (iso13838-2).
+
+MidACNxNLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i==0; i < num_of_blocks; i++) { |
+|   for (j==0; j < num_of_groups; j++) { |
+|     luma_AC_coef_group | CAVLC
+|   } | 
+|   for (j==0; j < num_of_groups; j++) { | 
+|     chroma_AC_coef_group | CAVLC
+|   } |
+| } |
+|==========================
+
+H.264 CAVLC is used to code _MidACNxnLayer_.  There are two types
+defined in H.264: 16 coef version and 4 coef version.  A
+_MidACNxNLayer_ has N*N-1 coefs.  These coefs are separated into
+groups of 16 except the last group which is formed using the remaining
+coefs.  For groups with less than or equal to 4 coefs, the group will
+be code using the 4 coef CAVLC.  All other groups will be coded using
+the 16 coef CAVLC.
+
+CAVLC requires a definition of Neighbor group.  We define Neighbor
+group as the corresponding group in the previous *coded* block within
+the same slice.  The first block within the slice has no neighbor.
+
+RemACNxNLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i==0; i < num_of_blocks; i++) { | 
+|   for (j==0; j < num_of_groups; j++) { | 
+|     luma_AC_coef_group | CAVLC 
+|   } | 
+|   for (j==0; j < num_of_groups; j++) { | 
+|     chroma_AC_coef_group | CAVLC 
+|   } | 
+| } | 
+|==========================
+
+H.264 CAVLC is used to code _RemACNxnLayer_.  There are two types
+defined in H.264: 16 coef version and 4 coef version.  A
+_RemACNxNLayer_ has (64 - N*N) coefs.  These coefs are separated into
+groups of 16 except the last group which is formed using the remaining
+coefs.  For groups with less than or equal to 4 coefs, the group will
+be code using the 4 coef CAVLC.  All other groups will be coded using
+the 16 coef CAVLC.
+
+CAVLC requires a definition of Neighbor group.  We define Neighbor
+group as the corresponding group in the previous *coded* block within
+the same slice.  The first block within the slice has no neighbor.
+
+SkipBlockDCLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i==0; i < num_of_blocks; i++) { |
+|   skip_block | u(1)
+|   if (skip_block==0) { |
+|     alt_quant_sel | u(1)
+|     luma_dc_coef | mpeg2 coded 
+|     chroma_cb_dc_coef | mpeg2 coded
+|     luma_dc_coef | mpeg2 coded 
+|     chroma_cr_dc_coef | mpeg2 coded
+|   } |
+| } |
+|==========================
+
++skip_block+ is set to 1 to indicate the following 16x8 block is skipped (not coded).
+
+Please read _DCLayer_ Encoding section for the definitions of other terms.
+
+
+SkipBlockMidACNxNLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i==0; i < num_of_block; i++) { |
+|   if (skip_block==0) { | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       luma_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       chroma_cb_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       luma_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       chroma_cr_AC_coef_group | CAVLC 
+|     } | 
+|   } | 
+| } | 
+|==========================
+
++skip_block+ is extracted from _SkipBlockDCLayer_.  Therefore,
+_SkipBlockDCLayer_ must be sent before _SkipBlockMidACNxNLayer_.
+
+Please read _MidACNxNLayer_ Encoding section for the definitions of other terms.
+
+SkipBlockRemACNxNLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[width="75%",cols="3l,1"]
+|==========================
+| for (i==0; i < num_of_block; i++) { |
+|   if (skip_block==0) { | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       luma_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       chroma_cb_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       luma_AC_coef_group | CAVLC 
+|     } | 
+|     for (j==0; j <= num_of_groups; j++) { | 
+|       chroma_cr_AC_coef_group | CAVLC 
+|     } | 
+|   } | 
+| } | 
+|==========================
+
++skip_block+ is extracted from _SkipBlockDCLayer_.  Therefore, _SkipBlockDCLayer_ must be sent before _SkipBlockRemACNxNLayer_.
+
+Please read _RemACNxNLayer_ Encoding section for the definitions of other terms.
+
+QualityLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+ChromaLayer Encoding
+~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+FullLayer Encoding
+~~~~~~~~~~~~~~~~~~
+
+In this case the layer transmits all the DC and AC coefficients
+using the default 8x8 scan matrix. 
+
+
+ZeroQuantLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This encoding is exactly like _FullLayer_ encoding except that no
+quantization is applied and full 4:4:4 chroma is encoded. That is, the
+blocks transmitted for a minimal encoding unit of two blocks is:
+
+Y U V   Y U V   
+
+LosslessLayer Encoding
+~~~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+
+CAVLC (Context Adaptive Variable Length Coding)
+-----------------------------------------------
+
+V2D CAVLC is different from H.264 CAVLC because the transform
+performed by the two codecs are different.  The transform used in
+H.264 is 4x4 interger transfer while V2D uses 8x8 DCT.
+
+Only AC component is coded using CAVLC.  Here are the steps needed to
+do the encode:
+
+. The AC components within each layer are arranged in a regular zigzag order.
+
+. The AC components within each layer are separated into groups of 16.
+
+. Since the number of AC components within a layer is not necessary a
+multiple of 16, the last group which contains higher frequency
+components may have less than 16 components.
+
+. Each AC group is coded using H.264 CAVLC with the following
+differences.
+
+. nC is used to deteremine which Total_Coeff table is used.  And nC is
+determined by the neighbor's Total_Coeff.  In our case, neighbor is
+defined as the corresponding group and the corresponding YUV component
+of the last *NON-SKIP* 8x8 block.  There is no neighbor for the first
+*NON-SKIP* 8x8 block in a layer which means nC = 0.
+
+. Trailing_Ones is not supported in V2D CAVLC.  This means
+Trailing_Ones are just treated as regular coefs.  As a result, the
+following line in the H.264 CAVLC spec should not be implemented in
+decoder:
+
+. When the index i is equal to Trailing_Ones( coeff_token ) and
+Trailing_Ones( coeff_token ) is smaller than 3, levelCode is
+incremented by 2.
+
+The following Total_Coeff table (in Verilog function format) replaces
+the one from H.264 CAVLC
+
+*+0 \<= nC < 2 :+* 
+
+  begin 
+    case(total_coeffs) 
+      0:  coeff_token_table = {16'b1,5'd1}; 
+      1:  coeff_token_table = {16'b01,5'd2}; 
+      2:  coeff_token_table = {16'b001,5'd3};  
+      3:  coeff_token_table = {16'b0001,5'd4};  
+      4:  coeff_token_table = {16'b0000_1,5'd5};  
+      5:  coeff_token_table = {16'b0000_01,5'd6};  
+      6:  coeff_token_table = {16'b0000_001,5'd7};  
+      7:  coeff_token_table = {16'b0000_0001,5'd8};  
+      8:  coeff_token_table = {16'b0000_0000_1,5'd9};  
+      9:  coeff_token_table = {16'b0000_0000_01,5'd10};  
+      10: coeff_token_table = {16'b0000_0000_001,5'd11};  
+      11: coeff_token_table = {16'b0000_0000_0001,5'd12};  
+      12: coeff_token_table = {16'b0000_0000_0000_1,5'd13};  
+      13: coeff_token_table = {16'b0000_0000_0000_01,5'd14};  
+      14: coeff_token_table = {16'b0000_0000_0000_0011,5'd16};  
+      15: coeff_token_table = {16'b0000_0000_0000_0010,5'd16};  
+      16: coeff_token_table = {16'b0000_0000_0000_0001,5'd16};  
+    endcase        
+  end 
+
+*+2 \<= nC < 4 :+*
+
+  begin 
+    case(total_coeffs) 
+      0:  coeff_token_table = {16'b11,5'd2};   
+      1:  coeff_token_table = {16'b10,5'd2}; 
+      2:  coeff_token_table = {16'b011,5'd3}; 
+      3:  coeff_token_table = {16'b010,5'd3}; 
+      4:  coeff_token_table = {16'b001,5'd3}; 
+      5:  coeff_token_table = {16'b0001,5'd4}; 
+      6:  coeff_token_table = {16'b0000_1,5'd5}; 
+      7:  coeff_token_table = {16'b0000_01,5'd6}; 
+      8:  coeff_token_table = {16'b0000_001,5'd7}; 
+      9:  coeff_token_table = {16'b0000_0001,5'd8}; 
+      10: coeff_token_table = {16'b0000_0000_1,5'd9}; 
+      11: coeff_token_table = {16'b0000_0000_01,5'd10}; 
+      12: coeff_token_table = {16'b0000_0000_001,5'd11}; 
+      13: coeff_token_table = {16'b0000_0000_0001,5'd12}; 
+      14: coeff_token_table = {16'b0000_0000_0000_1,5'd13}; 
+      15: coeff_token_table = {16'b0000_0000_0000_01,5'd14}; 
+      16: coeff_token_table = {16'b0000_0000_0000_001,5'd15}; 
+    endcase 
+  end 
+
+*+4 \<= nC < 8 :+*
+
+  begin 
+    case(total_coeffs) 
+      0:  coeff_token_table = {16'b111,5'd3};   
+      1:  coeff_token_table = {16'b110,5'd3}; 
+      2:  coeff_token_table = {16'b101,5'd3}; 
+      3:  coeff_token_table = {16'b100,5'd3}; 
+      4:  coeff_token_table = {16'b011,5'd3}; 
+      5:  coeff_token_table = {16'b0101,5'd4}; 
+      6:  coeff_token_table = {16'b0100,5'd4}; 
+      7:  coeff_token_table = {16'b0011,5'd4}; 
+      8:  coeff_token_table = {16'b0010,5'd4}; 
+      9:  coeff_token_table = {16'b0001_1,5'd5}; 
+      10: coeff_token_table = {16'b0001_0,5'd5}; 
+      11: coeff_token_table = {16'b0000_1,5'd5}; 
+      12: coeff_token_table = {16'b0000_01,5'd6}; 
+      13: coeff_token_table = {16'b0000_001,5'd7}; 
+      14: coeff_token_table = {16'b0000_0001,5'd8}; 
+      15: coeff_token_table = {16'b0000_0000_1,5'd9}; 
+      16: coeff_token_table = {16'b0000_0000_01,5'd10}; 
+    endcase 
+  end 
+
+*+8 \<= nC :+*
+
+  begin 
+    case(total_coeffs) 
+      0:  coeff_token_table = {16'b1111,5'd4};
+      1:  coeff_token_table = {16'b1110,5'd4};
+      2:  coeff_token_table = {16'b1101,5'd4}; 
+      3:  coeff_token_table = {16'b1100,5'd4}; 
+      4:  coeff_token_table = {16'b1011,5'd4}; 
+      5:  coeff_token_table = {16'b1010,5'd4}; 
+      6:  coeff_token_table = {16'b1001,5'd4}; 
+      7:  coeff_token_table = {16'b1000,5'd4}; 
+      8:  coeff_token_table = {16'b0111,5'd4}; 
+      9:  coeff_token_table = {16'b0110,5'd4}; 
+      10: coeff_token_table = {16'b0101,5'd4}; 
+      11: coeff_token_table = {16'b0100,5'd4}; 
+      12: coeff_token_table = {16'b0011,5'd4}; 
+      13: coeff_token_table = {16'b0010,5'd4}; 
+      14: coeff_token_table = {16'b0001_1,5'd5}; 
+      15: coeff_token_table = {16'b0001_0,5'd5}; 
+      16: coeff_token_table = {16'b0000_1,5'd5}; 
+    endcase 
+  end 
+
+
+Syntax Elements Specification
+-----------------------------
+
+Elements in the bitstream that do not use MPEG2 based VLC tables are
+specified using either fixed length bit-fields or Exponential Golomb
+encoding.
+
+For small valued integers (e.g. representing width or height of video
+frames) Exponential Golomb codes can save bits by using fewer bits for
+smaller numbers and more bits for larger numbers.
+
+The various headers in this specification uses the following
+abbreviations when specifying syntax:
+
+*u(n)*:: Unsigned integer using n bits interpreted as a two's complement
+using most significant bit first.
+
+*ue(v)*:: Unsigned integer Exponential Golomb coded element
+
+*se(v)*:: Signed integer Exponential Golomb coded element
+
+
+Recommendations for Encoding
+----------------------------
+
+Packetization of Data for Network Streaming
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For transmitting the bitstream over network, it is normally
+arbitrarily broken up into reasonable sized chunks that can be
+transmitted over UDP.
+
+It is recommended that the bitstream should be transmitted as packets
+as soon as they are encoded and available while avoiding too many
+small sized packets at the same time. Version 1 of the codec used to
+be transmitted in fixed 1K sized chunks over UDP which introduced
+unnecessary latency in waiting for the chunk to build up.  For smooth
+flow and minimum latency, the encoder (FPGA) should allow data to be
+picked up by the driver and put on the wire as soon as it is
+available.
+
+The driver should not create too many small sized packets even if it
+can read from the FPGA very fast. A good rule of thumb would be to
+accumulate about 1K size packet or 4 milliseconds worth of data
+whichever comes first.
+
+
+Use of Marker Slice for Minimizing Latency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the encoder detects that there is practically no change in a
+frame, and most slices will be skipped, it should insert Marker slices
+at around every 1/4th frame size so that the decoder FPGA pipeline can
+dimension/free its internal buffers appropriately to minimize latency.
+
+Use of Refresh Slices to Improve Error Resiliency
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+
+Recommendations for Decoding
+----------------------------
+
+Error Detection
+~~~~~~~~~~~~~~~
+
+There are various ways that the decoder can detect errors in a
+bitstream. This section lists some of them and the next section offers
+some ways the decoder can chose to recover from them.
+
+- An SOF seen before an EOF of previous frame.
+
+- Two EOFs detected without any SOF
+
+- A slice location that does not seem to follow raster order
+
+  * A repeated slice number
+
+  * Out of order slice number
+
+- A slice (or slice layer) that seems to be truncated. Since each
+slice has got a size associated with it, the decoder can detect if a
+slice ends too early (unexpected +SOS+, +EOF+ or +SOF+).
+
+- Meaningless frame and/or slice header values
+
+  * Frame width/height out of bounds
+
+  * Slice width/height out of bounds
+
+  * Meaningless Slice/Layer type values
+
+- VLC errors:
+
+  * Out of bound code words
+
+  * Unexpected End of block
+
+  * Missing pixels - VLC runs out before all pixels are read
+
+- If there are more pixels than there should be in a slice, this is
+probably a corrupted slice (results of two incomplete slices -packet
+lost in between- and just like a slice with missing pixels) .  A slice
+with too much pixels should be discarded avoiding that incorrect
+pixels are displayed at incorrect place.
+
+Error Recovery
+~~~~~~~~~~~~~~ 
+
+TBD
+
+
+
+
+
+

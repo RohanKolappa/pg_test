@@ -1,0 +1,196 @@
+declare function local:getFileInfo( $b as element()*, $dir_list as element()*, $detail as xs:string)
+as element ()*
+{
+   let $fileState := if ($dir_list[@NID=$b//ParentMediaDirNID and .//Info/Title[.!='RECYCLEBIN' and .!='PVR']]//State/StateFlag[.='Error' or .='Busy' or .='Offline']) then
+                         'Offline'
+                    else 
+                         $b//State/StateFlag                  
+   
+   let $fileInfo :=   <File NID='{ data($b/@NID) }'
+                                          title='{ data($b//Info/Title) }'
+                                          fileType='{ data($b//MediaStoreFileInfo/Type) }' 
+                                          streamType='{ data($b//Info/StreamTypeList/StreamType) }' 
+                                          size='{ data($b//Size) }' 
+                                          playlength ='{ data($b//PlayLength) }'
+					                      state='{ data($fileState) }'
+					                      dateCreated='{ data($b/Info/Properties/DateCreated) }'
+                                          dateModified='{ data($b/Info/Properties/DateModified) }'
+                                          readOnly='{if (data($b/Info/Properties/Permissions/Write) = 'true') then 'false' else 'true'}'
+                                          mediaGroupID='{ data($b//MediaStoreFileInfo/MediaGroupID) }' 
+                                          clipID='{ data($b//MediaGroupID/@ClipID) }'
+                                          sessionConfigNID='{ data($b//RecInfo/@SessionConfigNID) }'
+                                          bypassAutoStorageRules='{ data($b//MediaStoreFileInfo/BypassAutoStorageRules) }'
+                                      >   
+                                                 { if ($detail = 'EXTENDED' or $detail = 'EXTENDEDURL' or $detail = 'EXTENDEDCONNECTIONINFO' or $detail = 'BASICCONNECTIONINFO') then
+                                                          <description>{ data($b//Info/Description) }</description> 
+                                                        else  ''
+                                                 }                                                 
+                                                  { if ($detail = 'EXTENDED' or $detail = 'EXTENDEDURL' or $detail = 'EXTENDEDCONNECTIONINFO' or $detail = 'BASICCONNECTIONINFO') then
+                                                           <Dir NID='{data($b//ParentMediaDirNID)}' dirTitle = '{$dir_list[@NID=$b//ParentMediaDirNID]//Title}' />
+                                                        else  ''
+                                                  }
+                                             {$b//Info/MediaStoreFileInfo/MetaData}
+                                             {$b//Info/Groups}
+                                             {$b//Info/Properties/Download}
+                                             {$b//ThumbnailConfig}
+                                             
+                                     </File>
+   let $fileInfoWithFFTracks := if (count($b//V2DRecorderConfig/FFTracks) != 0) then
+							element { 'File' } { $fileInfo/(@*, attribute {'ffTracks'} {data($b//FFTracks)}, *)}
+   					   else $fileInfo
+   					
+   let $dir := $dir_list[@NID = data($b//ParentMediaDirNID)]
+   
+
+   let $finalFileInfoWithHLS := if(count($b//RTPRecoderConfig/HLSConfig/Enable) != 0) then
+   							element { 'File' } { $fileInfoWithFFTracks/(@*, attribute {'hls'} {data($b//HLSConfig/Enable)}, *)}
+   						else $fileInfoWithFFTracks
+   						
+   return $finalFileInfoWithHLS
+};
+
+
+declare function local:getMediaGroupInfo( $b as element()*, $media_clip as element()*, $dir_list as element()*,$detail as xs:string)
+as element ()*
+{
+   let $mediaGroupInfo := local:getFileInfo($b, $dir_list, $detail)   
+   let $fileList := <FileList>{ 
+                          for $file in $media_clip 
+                          where $file//MediaGroupID=$b//MediaGroupID 
+                          return local:getFileInfo($file, $dir_list, $detail) 
+                   }</FileList>
+                   
+   let $mediaGroupState := if ($fileList//File[@state='Ready' or @state='Error' or @state='Busy' or @state='Deleted']) then
+   						      $mediaGroupInfo//File/@state                            							  	 
+   						   else 
+   						   	  'Offline'
+                          
+   let $mediaGroupFile := element { 'File' } { $mediaGroupInfo/(@*[not(name()='state')], attribute {'state'} {$mediaGroupState}, *), $fileList } 
+   
+   let $ffTracks := if((count($fileList//File/@ffTracks) != count($fileList//File)) or ($fileList//File/@ffTracks = '')) then
+						''
+					else
+						'1-256'
+   
+   return element { 'File' } { $mediaGroupFile/(@*, attribute {'ffTracks'} {$ffTracks}, *)}
+  
+};
+
+declare function local:getList()
+as element()*
+{
+	    (:search in bookmarks if bookmark string specified :)
+		let $searchInBookmark := '_SEARCHINBOOKMARK_'
+		let $searchInFiles := '_SEARCHINFILES_'
+		let $whereStateEnabled := '_WHERESTATEENABLED_'
+		
+		let $dirListBasedOnFileState := if ($whereStateEnabled = 'true') then
+			 								  let $directories := for $a in #OBJ_MediaStreamDirResource_OBJ#
+			 								  						where $a [.//Title[.!='PVR' and .!='RECYCLEBIN'] _WHERESTATE_]
+			 								  					 return $a
+			 								  return $directories
+		 								else 
+											  <DirList/>
+		
+		let $dirNIDList := $dirListBasedOnFileState//@NID
+											  	
+		let $bookmarkList :=  if ($searchInBookmark = 'true') then 
+									let $bookmarks :=  for $b in  #OBJ_Bookmark_OBJ# 
+														where $b _BOOKMARKXPATH_
+											           return $b
+									return $bookmarks
+							  else   <BookmarkList/>
+	
+		let $bookmarkFileNIDList := distinct-values ( $bookmarkList//MediaStreamFileResourceNID)
+		
+		 let $fileList := if ($searchInFiles = 'Both' or $searchInFiles = 'All') then 							    
+										    
+								(:find list of media clips and media group which are matching to given search conditions:)		
+								let $unique_mg_id := distinct-values ( 
+											for $b in  #OBJ_MediaStreamFileResource_OBJ#   
+											where $b[ _FILEBOTHQUERYXPATH_  ( (//MediaStoreFileInfo/Type = 'MediaGroup') or 
+											((//MediaStoreFileInfo/Type = 'MediaClip') _FILEBOTHQUERYPARENTXPATH_))   ]  
+											return $b/Info/MediaStoreFileInfo/MediaGroupID  )   	
+								
+										     
+								(:find list of media clips which has corresponding media groups - Now find the corresponding clips which are matching to group search result :)		   
+							    let $unique_mg_id_matched_with_given_conditions :=  
+							    	if (empty($unique_mg_id)) then 
+										 ''
+									else distinct-values ( 
+										    for $b in   #OBJ_MediaStreamFileResource_OBJ#    
+										    where $b[ (Info/MediaStoreFileInfo/Type ='MediaClip') and  
+										              (Info/MediaStoreFileInfo/MediaGroupID=$unique_mg_id  ) _FILEBOTHQUERYPARENTXPATH_ ]  
+										    return $b/Info/MediaStoreFileInfo/MediaGroupID) 
+									
+						        (:find list of media groups based on clip search or find list of media groups based on group search or find list of media clips  which don't have media group'':)
+								let $list2 :=
+									if (empty($unique_mg_id_matched_with_given_conditions)) then 
+										for $b in    #OBJ_MediaStreamFileResource_OBJ#           
+										where $b[( 
+										( _FILEBOTHQUERYXPATH_ (Info/MediaStoreFileInfo/MediaGroupID='') _WHEREDOWNLOADSTATE_ _FILEBOTHQUERYMEDIATYPEXPATH_ _FILEBOTHQUERYPARENTXPATH_  )        
+										)]       
+										order by upper-case ($b_SORTBY_) _SORTORDER_    
+										return $b 
+									else
+											for $b in    #OBJ_MediaStreamFileResource_OBJ#           
+										where $b[( 
+										( _FILEBOTHQUERYXPATH_ (Info/MediaStoreFileInfo/MediaGroupID='') _WHEREDOWNLOADSTATE_ _FILEBOTHQUERYMEDIATYPEXPATH_ _FILEBOTHQUERYPARENTXPATH_  )        
+										or        
+							            (Info/MediaStoreFileInfo/Type='MediaGroup' and  Info/MediaStoreFileInfo/MediaGroupID=$unique_mg_id_matched_with_given_conditions _WHEREDOWNLOADSTATE_)
+										 )
+										 and
+										(.//MediaStoreFileInfo/Type != 'PVRMediaClip')]       
+										order by upper-case ($b_SORTBY_) _SORTORDER_    
+										return $b 
+								return $list2
+						else if ($searchInFiles = 'Custom') then 
+								let $list := for $b in   #OBJ_MediaStreamFileResource_OBJ#  									   
+										   		where $b _FILECUSTOMQUERYMEDIAXPATH_  
+										   		order by upper-case ($b_SORTBY_) _SORTORDER_
+										     return $b
+								return $list
+						else <FileList/>
+		return $fileList
+		
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+		 let $item := $b
+		 return $item
+};
+ 
+declare function local:formatList($b as element()*, $detail as xs:string) as element()* {
+
+         let $searchInFiles := '_SEARCHINFILES_'
+	
+		 let $unique_mg_id := distinct-values ($b//MediaStoreFileInfo[Type='MediaGroup']/MediaGroupID)
+		 
+		 let $media_clip := if($searchInFiles ='Both' or $searchInFiles ='All') then 
+		 						let $list:= for $mediaclip in #OBJ_MediaStreamFileResource_OBJ#  
+						                      where $mediaclip[//Type='MediaClip' and //MediaStoreFileInfo[not(MediaGroupID='') 
+						                      and (MediaGroupID=$unique_mg_id)] _WHERESTATE_ _WHEREDOWNLOADSTATE_]  
+						                    return  $mediaclip
+						        return $list
+						     else <FileList/>
+		 
+		 let $media_clip_with_out_media_group := $b//MediaStreamFileResource[.//MediaGroupID='' _MEDIAWITHOUTMEDIAGROUP_]
+		
+		 let $dir_list :=   let $dir_nid_list_with_mg := if (count($media_clip) = 0 ) then ''
+								  else  distinct-values($media_clip//ParentMediaDirNID)
+							 let $dir_nid_list_with_out_mg := if (count($media_clip_with_out_media_group) = 0 ) then ''
+								  else  distinct-values($media_clip_with_out_media_group//ParentMediaDirNID)
+							 let $dir_nid_list := distinct-values(insert-before ($dir_nid_list_with_mg, 1, $dir_nid_list_with_out_mg)) 
+							 return 
+							 for $dir in #OBJ_MediaStreamDirResource_OBJ#    
+								where $dir/@NID=$dir_nid_list  return $dir 
+		 				
+		 let $file_list := for $file in $b 
+		                      let $formated_file := if ($file//MediaStoreFileInfo/Type='MediaGroup' and ($searchInFiles ='Both' or $searchInFiles ='All')) 
+							                        then local:getMediaGroupInfo($file, $media_clip, $dir_list, $detail)
+													else local:getFileInfo($file, $dir_list, $detail) 
+						   order by upper-case ($file_SORTBY_) _SORTORDER_
+						   return $formated_file
+		 
+		 return $file_list
+};

@@ -1,0 +1,36 @@
+#get the server name/ip
+DEVICEAPP_PIDFILE="/var/run/deviceapp.pid"
+CLI_STATUS=/tmp/cli_status.xml
+SCRIPTS_DIR=/etc/scripts
+PORT_STATUS=/tmp/port_status.xml
+DB_DIR=/etc/agent/db/streamcache
+AGENT_XSL_DIR=/etc/agent/xsl
+AGENT_TEMPLATES_DIR=/etc/agent/templates
+
+/V2O/bin/get_xmpp_agent > /tmp/get_xmpp_agent.xml
+configured=`grep enable /tmp/get_xmpp_agent.xml| cut -f4 -d'"'`
+if [ x"${configured}" = "xNo" ]; then
+	if [ -f /etc/config/sc ]; then
+		serverip=`cat /etc/config/sc`
+		serial=`cat /etc/config/device_serial_number`
+		devicename="ngsd200-${serial}"
+		password=`date "+%s"`
+		register="1"
+	fi
+else
+	devicename=`grep devicename /tmp/get_xmpp_agent.xml| cut -f4 -d'"'`
+	password=`grep password /tmp/get_xmpp_agent.xml| cut -f4 -d'"'`
+	serverip=`grep serverip /tmp/get_xmpp_agent.xml| cut -f4 -d'"'`
+	register="0"
+fi
+
+
+
+portinfo=`get_board_info |grep boardtype | cut -f4 -d'"'`
+jid=${devicename}@localhost/${devicename}
+devicetype=`xsltproc /etc/scripts/xsl/get_name.xsl /etc/config/Device.xml`
+
+get_software_image_status > ${CLI_STATUS}
+swver=`grep \"Version\" ${CLI_STATUS}  | cut -f2 -d'>' | cut -f1 -d'<'`
+serviceversion=`grep "Service Version" ${CLI_STATUS}  | cut -f2 -d'>' | cut -f1 -d'<'`
+

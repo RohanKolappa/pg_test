@@ -1,0 +1,48 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="blkNTPServer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <dynamics jsxbgcolor="P4BG"></dynamics>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkNTPServer" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="DirtyBitblkNTPServer"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="35,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="headerPane" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#d6d6d6" jsxborder="border-bottom: 1px solid #9898a5" jsxpadding="6 8 8 10"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="lblNTPServer" jsxtext="NTP Server Information" jsxdisplay=""></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="bodyPane" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#e0e0e0" jsxborder="border-top:solid 1px #efefef"></strings>
+        <dynamics jsxfontsize="SmallText"></dynamics>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="150" jsxtop="38" jsxdefaultchecked="0"></variants>
+          <strings jsxname="chkEnableNTPServer" jsxtext="Enable NTP Server" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="EnableServerNTPServer"></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="63" jsxwidth="120"></variants>
+          <strings jsxname="lblNTPServerServerIP" jsxtext="NTP Server:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+          <dynamics jsxfontsize="SmallText"></dynamics>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18" jsxrelativeposition="0" jsxleft="150" jsxtop="63" jsxwidth="150"></variants>
+          <strings jsxname="txtNTPServerServerIP" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="left" jsxoverflow="" jsxcdfattribute="NTPServerServerIP" jsxvalue=""></strings>
+          <dynamics jsxfontsize="SmallText"></dynamics>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

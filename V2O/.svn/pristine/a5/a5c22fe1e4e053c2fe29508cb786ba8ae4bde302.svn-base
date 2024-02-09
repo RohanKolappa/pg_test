@@ -1,0 +1,103 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>RxIOParameters</Title>
+   <Description>DecoderIO Parameters</Description>
+   <Access>rx_io_parm</Access>
+   <ConfigFile>rxserialconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+      <Item>
+        <Name>serial_enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable</Label>
+        <Help>Enable Serial Port</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>serial_baudrate</Name>
+        <Type>string</Type>
+        <Label>Baud Rate</Label>
+        <Help>Baud Rate</Help>
+        <Align>follow</Align>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>9600</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"300", "600", "1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>serial_databits</Name>
+        <Type>integer</Type>
+        <Label>Data Bits</Label>
+        <Help>Data Bits</Help>
+        <FieldLength>2</FieldLength>
+        <DefaultValue>8</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>5</Min>
+           <Max>8</Max>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>serial_stopbits</Name>
+        <Type>integer</Type>
+        <Label>Stop Bits</Label>
+        <Help>Stop Bits</Help>
+        <Align>follow</Align>
+        <FieldLength>2</FieldLength>
+        <DefaultValue>1</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>2</Max>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>serial_parity</Name>
+        <Type>string</Type>
+        <Label>Parity</Label>
+        <Help>Parity</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>None</DefaultValue>
+	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Even", "Odd", "None"</Values>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>serial_flowcontrol</Name>
+        <Type>string</Type>
+        <Label>Flow Control</Label>
+        <Help>Flow Control</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>None</DefaultValue>
+ 	<Validation>
+           <Type>enumeration</Type>
+           <Values>"HW", "SW", "None"</Values>
+        </Validation>
+
+      </Item>
+
+      <Item>
+        <Name>serial_wait</Name>
+        <Type>integer</Type>
+        <Label>Maximum Wait Time</Label>
+        <Help>Maximum Wait Time</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>200</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

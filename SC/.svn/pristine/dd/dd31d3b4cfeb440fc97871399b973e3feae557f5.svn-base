@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	(c) 2004-2005
+	Thomas Hallgren, Kenneth Olwing, Mitch Sonies
+	Pontus Rydin, Nils Unden, Peer Torngren
+	The code, documentation and other materials contained herein have been
+	licensed under the Eclipse Public License - v 1.0 by the individual
+	copyright holders listed above, as Initial Contributors under such license.
+	The text of such license is available at www.eclipse.org.
+-->
+<rm:rmap 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0" 
+	xmlns:pv="http://www.eclipse.org/buckminster/Provider-1.0" 
+	xmlns:mp="http://www.eclipse.org/buckminster/MavenProvider-1.0"
+	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0">
+	
+	<rm:searchPath name="silsvn01">
+		<rm:provider readerType="svn" componentTypes="osgi.bundle,eclipse.feature,unknown" mutable="false" source="true">
+			<rm:uri format="http://nightly:n1ghtly@192.168.1.29/svn/bcs/SC/trunk/{0}?moduleAfterBranch">
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	
+	<rm:searchPath name="silsvn02">
+       <rm:provider readerType="svn" componentTypes="eclipse.feature,osgi.bundle,unknown" mutable="false" source="true">
+          <rm:uri format="http://nightly:n1ghtly@192.168.1.29/svn/bcs/{0}/trunk">
+              <bc:propertyRef key="buckminster.component" />
+          </rm:uri>
+       </rm:provider>
+    </rm:searchPath>
+       
+      
+	<rm:searchPath name="neo-compose">
+		<rm:provider readerType="svn" componentTypes="eclipse.feature,osgi.bundle" mutable="false" source="true">
+			<rm:uri format="http://dcaillia:glad01@neo.barco.com/svn/software/trunk/{0}?moduleAfterBranch">
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+    
+		
+	<rm:locator searchPathRef="silsvn01" pattern="com.barco.nimbus.*" />
+	<rm:locator searchPathRef="silsvn02" pattern="mediaroom" />
+	<rm:locator searchPathRef="silsvn02" pattern="model" />
+	<rm:locator searchPathRef="neo-compose" pattern="com.barco.compose.*" />	
+	<rm:redirect href="./eclipse.rmap" />	
+</rm:rmap>

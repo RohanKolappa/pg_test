@@ -1,0 +1,36 @@
+<html>
+<!-- saved from url=(0016)http://localhost -->
+<script>
+  //alert("call applet_16");
+  var appletHandle = null;
+  var appletInitXML = null;
+  function handleInit(messageXML) {
+    document.ServiceApplet.style.width='0';
+    document.ServiceApplet.style.height = '0';
+    appletHandle = document.getElementById("ServiceApplet");
+    appletHandle.setCallback("handleMessage");
+    appletInitXML = messageXML;
+  }
+
+  var appletCallbackFunction = null;
+  function setCallback(CallbackFunctionStr) {
+    appletCallbackFunction = eval(CallbackFunctionStr);
+    return appletInitXML;
+  }
+
+  function handleMessage(messageXML) {
+    if (appletCallbackFunction != null) {
+      appletCallbackFunction(messageXML);
+    }
+  }
+</script>
+
+<applet id="ServiceApplet" 
+        style="width: 1px; height: 1px; float: left;"
+        code="com.ipvs.app.ServiceApplet"
+        archive="commons-beanutils.jar, commons-collections-3.2.jar, commons-lang-2.3.jar, commons-logging-1.1.jar, commons-logging-adapters-1.1.jar, commons-logging-api-1.1.jar, log4j-1.2.15.jar, mediaroom.jar, smack.jar, smackx.jar, su-smack-latest.jar, xpp3.jar"
+        mayscript>
+</applet>
+
+
+</html>

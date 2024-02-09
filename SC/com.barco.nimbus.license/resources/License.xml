@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sample input file for Nimbus -->
+<licensedata>
+
+	<!--  key is a License Key
+		  id is a DeviceId/Pincode
+		  type is to which we are generating license Ex: Nimbus, CMS etc...
+	-->
+	<license key="d62d-9c3e-fb20-88aa" id="Unique-Device-Id" type="Nimbus">
+
+		<!-- Typically these values will come from the templates, that we will 
+			define per product based -->
+		<!-- Product details will be hardcoded for current impl. In future, this will 
+			come from backend portal. -->
+		<product id="SC-Id">
+			<name>SC</name>
+			<division>BSMD</division>
+			<version>4.1</version>
+			<revision>4</revision>
+		</product>
+
+		<customer id="Custmer-Id">
+			<name>Barco Internal R and D</name>
+			<!-- Get details from IT -->
+		</customer>
+
+		<project id="Nimbus-SC-Project-Id">
+			<name>SC</name>
+			<!-- Get details from IT -->
+		</project>
+
+		<validity>
+			<!-- Start date is License Generation date -->
+			<start-date>01-Jan-2014</start-date>
+			<!-- Expiry date is License Expiration date, it can take values of date in the format of 12-Jan-2014 or a value of 'never' (License never expiry case), but it can't be empty or null.  -->
+			<!-- It can take two verities of inputs, direct date of expiry or this 
+				date can be constructed by taking individual parameters of duration (years, 
+				months & days) -->
+			<expiry-date>01-Dec-2014</expiry-date>
+		</validity>
+
+		<!-- There can be multiple features in the porduct. Here are few examples -->
+		<!-- Features are like services offered by Nimbus. -->
+		<!-- Attributes are capability of the Feature -->
+		<features>
+			<feature id="License-Management-id" name="LicenseMangement">
+				<validity>
+					<!-- Start date is License Generation date, if value is empty its takes current date as start date -->
+					<start-date>01-Feb-2014</start-date>
+					<!-- Expiry date is Feature expiration date, it can take values of date in the format of 12-Jan-2014 or a value of 'never' (License never expiry case)  -->
+					<!-- It can take two verities of inputs, direct date of expiry or 
+						 this date can be constructed by taking individual parameters of duration (years, months & days) -->
+					<duration>
+						<years>1</years>
+						<months>6</months>
+						<days>20</days>
+					</duration>
+				</validity>
+
+				<attribute name="Site">Site</attribute>
+			</feature>
+			<feature id="User-Management-Id" name="UserManagement">
+			<!-- If validity details are empty, then both start & expiration date will taken as current date. (Verify with VINK) -->
+				<validity />
+
+				<attribute name="Total">1000</attribute>
+				<attribute name="Concurrent">200</attribute>
+			</feature>
+		</features>
+
+	</license>
+</licensedata>

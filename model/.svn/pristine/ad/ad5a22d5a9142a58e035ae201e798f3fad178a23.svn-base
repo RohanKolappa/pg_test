@@ -1,0 +1,51 @@
+<DeleteAccessPolicyRequest>
+	<DeleteAccessPolicyRequestData>
+		<DeleteAccessPolicy byNID='' byName="Location" />
+	</DeleteAccessPolicyRequestData>
+	<DeleteAccessPolicyResponseData>
+		<DeleteAccessPolicy>
+			<AccessPolicy NID='' name="Location" type='Ports/Media/Dir/Session'
+				active='true/false' order=''>
+				<ActionList>
+					<!-- For Port object -->
+					<Action>ViewFrom</Action>
+					<Action>StreamTo</Action>
+					<!-- For Media -->
+					<Action>Playback</Action>
+
+					<!-- For Dir -->
+					<Action>Record</Action>
+					<Action>PVR</Action>
+
+					<!-- Session -->
+					<Action>Add</Action>
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+					<Action>Start</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<TargetFilterDelete>
+					<TargetFilter filterNID='' />
+				</TargetFilterDelete>
+
+				<AdvanceFilterDelete>
+					<AdvanceFilter>
+						<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterDelete>
+			</AccessPolicy>
+		</DeleteAccessPolicy>
+	</DeleteAccessPolicyResponseData>
+	<DeleteAccessPolicyExceptionCodes />
+</DeleteAccessPolicyRequest>

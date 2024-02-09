@@ -1,0 +1,108 @@
+<query>
+   <![CDATA["declare function local:getFileList( $parent as element()*)
+as element()* 
+{ 
+ let $MediaFileList := ( 
+ for $b in #OBJ_MediaStreamFileResource_OBJ# 
+   where  data($b//MediaStoreFileInfo/MediaGroupID) = data($parent//MediaStoreFileInfo/MediaGroupID)  
+   and data($b/@NID) != data($parent/@NID) 
+   order by _SORTXPATH_ _SORTORDER_   
+   return <record jsxid='{ data($b/@NID) }'  
+    jsxtextmediaName='{ data($b/Info/Title) }'  
+    jsxtextmediaStatus='{ data($b//State/StateFlag) }'  
+    jsxtextmediaSize='{ data($b//Size) }' 
+    jsxtextmediaCreated='{ data($b/Info/Properties/DateCreated) }' 
+    jsxtextmediaLength='{ data($b//PlayLength) }' 
+    jsxtextmediaWrite='{ data($b/Info/Properties/Permissions/Write) }' 
+    jsxtextmediaStateFlag='{ data($b//State/StateFlag) }'                                              
+   >
+  {
+  for $tag in distinct-values($b//Info/Groups/Tag/@Name)
+  return 
+  attribute {  concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Info/Groups/Tag[@Name=$tag]/@Value)  }   
+  }
+  {
+  for $tag in distinct-values($b//MetaData/Tag/@Name)
+  return 
+  attribute {  concat('jsxMetaData', replace($tag,' ','' ) ,'')  }  {data($b//MetaData/Tag[@Name=$tag])}   
+  }
+</record> 
+ ) 
+ return $MediaFileList 
+}; 
+let $ParentMediaDirNID :='_PARENTMEDIADIRNID_' 
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+ 
+let $unique_non_mg_file := distinct-values ( for $b in
+ #OBJ_MediaStreamFileResource_OBJ#
+where $b[  Info/Properties[ParentMediaDirNID=$ParentMediaDirNID]  
+and not  ( Info/MediaStoreFileInfo/MediaGroupID=''  )   ] 
+return $b/Info/MediaStoreFileInfo/MediaGroupID )
+ 
+let $list2 := for $b in    #OBJ_MediaStreamFileResource_OBJ# 
+	where $b[ 
+	(Info/Properties[ParentMediaDirNID=$ParentMediaDirNID] and Info/MediaStoreFileInfo/MediaGroupID='')
+	or 
+	( Info/MediaStoreFileInfo/Type='MediaGroup' and   Info/MediaStoreFileInfo//MediaGroupID=$unique_non_mg_file       ) ]   
+	and $b_WHEREXPATH_
+	order by _SORTXPATH_ _SORTORDER_      return $b
+ 
+
+
+let $list3 := subsequence($list2, $startFrom, $countToFetch) 
+let $list := for $b in  $list3 
+return 
+if ($b//MediaStoreFileInfo/Type='MediaGroup') then 
+<record jsxid='{ data($b/@NID) }'  
+  jsxtextmediaName='{ data($b//Info/Title) }'  
+  jsxtextmediaStatus='{ data($b//State/StateFlag) }'  
+  jsxtextmediaSize='{ data($b//Size) }'  
+  jsxtextmediaCreated='{ data($b/Info/Properties/DateCreated) }'  
+  jsxtextmediaLength='{ data($b//PlayLength) }'  
+  jsxtextmediaWrite='{ data($b/Info/Properties/Permissions/Write) }'  
+  jsxtextmediaStateFlag='{ data($b//State/StateFlag) }'                                           
+  jsxtextmediaGroupID='{ data($b//MediaStoreFileInfo/MediaGroupID) }'  
+  >  
+  {
+  for $tag in distinct-values($b//Info/Groups/Tag/@Name)
+  return 
+  attribute {  concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Info/Groups/Tag[@Name=$tag]/@Value)  }   
+  }
+  {
+  for $tag in distinct-values($b//MetaData/Tag/@Name)
+  return 
+  attribute {  concat('jsxMetaData', replace($tag,' ','' ) ,'')  }  {data($b//MetaData/Tag[@Name=$tag])}   
+  }
+  { local:getFileList ($b) } 
+ </record>  
+else 
+ <record jsxid='{ data($b/@NID) }'  
+  jsxtextmediaName='{ data($b/Info/Title) }'  
+  jsxtextmediaStatus='{ data($b//State/StateFlag) }'  
+  jsxtextmediaSize='{ data($b//Size) }'  
+  jsxtextmediaCreated='{ data($b/Info/Properties/DateCreated) }'  
+  jsxtextmediaLength='{ data($b//PlayLength) }'  
+  jsxtextmediaWrite='{ data($b/Info/Properties/Permissions/Write) }'                                           
+  jsxtextmediaStateFlag='{ data($b//State/StateFlag) }' 
+ >
+{
+for $tag in distinct-values($b//Info/Groups/Tag/@Name)
+return 
+attribute {  concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Info/Groups/Tag[@Name=$tag]/@Value)  }   
+}
+{
+for $tag in distinct-values($b//MetaData/Tag/@Name)
+return 
+attribute {  concat('jsxMetaData', replace($tag,' ','' ) ,'')  }  {data($b//MetaData/Tag[@Name=$tag])}   
+}
+</record>  
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

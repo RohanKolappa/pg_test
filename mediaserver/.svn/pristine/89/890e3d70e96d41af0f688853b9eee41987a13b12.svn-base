@@ -1,0 +1,27 @@
+logging{
+  channel simple_log {
+    file "/var/log/named/bind.log" versions 3 size 100k;
+    severity warning;
+    print-time yes;
+    print-severity yes;
+    print-category yes;
+  };
+  category default{
+    simple_log;
+  };
+};
+
+options {
+	//explicitly set the directory. 
+	//so far seen three files /var/run/named.pid, /var/log/named/named.run /use/local/bind/var/run/named/session.key
+	//todo: add to log rotate as needed for other files
+	pid-file "/var/run/named.pid";
+
+	listen-on port 53 { any; };
+	//allow-query {10.1.0.0/16;};
+};
+
+zone "_IPVS_SUB_DOMAIN__CORPOATE_DOMAIN_" IN {
+	type master;
+	file "/usr/local/bind/etc/_IPVS_SUB_DOMAIN__CORPOATE_DOMAIN_.zone";
+};

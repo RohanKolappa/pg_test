@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceTopicMapping>
+	<ResourceUpdate type='PortDisplayStatusUpdate'>
+	    <Topic name='DISPLAYSTATUS'/>
+	</ResourceUpdate>
+	<ResourceUpdate type='PortDisplayConfigUpdate'>
+	    <Topic name='DISPLAYCONFIG'/>
+	</ResourceUpdate>
+	<ResourceUpdate type='PortUpdate'>
+	   <Topic name='BASIC'>
+	      <Remove nodeName='FeatureList'/>
+	      <Remove nodeName='ObserverInfo'/>
+	      <Remove nodeName='InstanceList'/>
+	      <Remove nodeName='PVRInfo'/>
+	      <Remove nodeName='MaxInstanceCount'/>
+	      <Remove nodeName='Asset'/>
+	      <Remove nodeName='Description'/>
+	      <Remove nodeName='mediaURL'/>
+	      <Remove nodeName='ConnectionStatus'/>
+	   </Topic>	 
+	    <Topic name='BASICURL'>
+	      <Remove nodeName='FeatureList'/>
+	      <Remove nodeName='ObserverInfo'/>
+	      <Remove nodeName='InstanceList'/>
+	      <Remove nodeName='PVRInfo'/>
+	      <Remove nodeName='MaxInstanceCount'/>
+	      <Remove nodeName='Asset'/>
+	      <Remove nodeName='Description'/>
+	      <Remove nodeName='ConnectionStatus'/>
+	  
+	      <UpdateURL nodeName='mediaURL' appendDestination='true'/>
+	      <UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+		</Topic>
+		<Topic name='EXTENDED'>
+			<Remove nodeName='mediaURL' />
+			<UpdateURL nodeName='thumbnailURL' />
+			<Remove nodeName='ConnectionStatus'/>			
+		</Topic>
+		<Topic name='BASICCONNECTIONINFO'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+		</Topic>
+		<Topic name='EXTENDEDCONNECTIONINFO'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL' appendDeviceAgentSignature='true' />
+		</Topic>
+		<Topic name='EXTENDEDURL'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL' appendDeviceAgentSignature='true'/>
+			<Remove nodeName='ConnectionStatus'/>
+		</Topic>
+	</ResourceUpdate>
+	<ResourceUpdate type='PortConnectionUpdate'>
+	   <Topic name='BASICCONNECTIONINFO'>
+	      <Remove nodeName='Profile'/>
+	      <Remove nodeName='srcUserJID'/>
+	      <Remove nodeName='srcUserName'/>
+	      <Remove nodeName='destUserJID'/>
+	      <Remove nodeName='destUserName'/>
+	      
+	      <UpdateURL nodeName='mediaURL' appendDestination='true'/>
+	      <UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+	      
+	   </Topic>	   
+	    <Topic name='EXTENDEDCONNECTIONINFO'>
+	      <UpdateURL nodeName='mediaURL' appendDestination='true'/>
+	      <UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+	    </Topic>
+	</ResourceUpdate>
+	<ResourceUpdate type='PortConnectionStateUpdate'>
+		<Topic name='BASICCONNECTIONINFO'/>
+		<Topic name='EXTENDEDCONNECTIONINFO'/>
+	</ResourceUpdate>
+	
+	<ResourceUpdate type='FileUpdate'>
+	   <Topic name='BASIC'>
+	      <Remove nodeName='Dir'/>
+	      <Remove nodeName='description'/>
+	      <Remove nodeName='mediaURL'/>
+	      <Remove nodeName='thumbnailURL'/>
+	      <Remove nodeName='downloadURL'/>	      
+	    </Topic>	 
+	    <Topic name='BASICURL'>
+	    <Remove nodeName='Dir'/>
+	    <Remove nodeName='description'/>
+	    <UpdateURL nodeName='mediaURL' appendDestination='true'/>	    
+	    <UpdateURL nodeName='downloadURL'  appendDestination='true'/>
+	    <UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+	   </Topic>	   
+	    <Topic name='EXTENDED'>
+	    	<Remove nodeName='mediaURL'/>
+	    	<Remove nodeName='thumbnailURL'/>
+	    	<Remove nodeName='downloadURL'/>
+	    </Topic>
+		<Topic name='BASICCONNECTIONINFO'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />			
+			<UpdateURL nodeName='downloadURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+		</Topic>
+		<Topic name='EXTENDEDCONNECTIONINFO'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />
+			<UpdateURL nodeName='downloadURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+		</Topic>
+		<Topic name='EXTENDEDURL'>
+			<UpdateURL nodeName='mediaURL' appendDestination='true' />			
+			<UpdateURL nodeName='downloadURL' appendDestination='true' />
+			<UpdateURL nodeName='thumbnailURL'  appendDeviceAgentSignature='true'/>
+		</Topic>
+	</ResourceUpdate>
+	<ResourceUpdate type='FileConnectionUpdate'>	  
+	      <Topic name='BASICCONNECTIONINFO'>
+	      <Remove nodeName='Profile'/>
+	      <Remove nodeName='srcUserJID'/>
+	      <Remove nodeName='srcUserName'/>
+	      <Remove nodeName='destUserJID'/>
+	      <Remove nodeName='destUserName'/>
+	   </Topic>	   
+	    <Topic name='EXTENDEDCONNECTIONINFO'/>
+	</ResourceUpdate>
+	<ResourceUpdate type='FileConnectionStateUpdate'>
+		<Topic name='BASICCONNECTIONINFO'/>
+		<Topic name='EXTENDEDCONNECTIONINFO'/>		
+	</ResourceUpdate>
+</ResourceTopicMapping>
+

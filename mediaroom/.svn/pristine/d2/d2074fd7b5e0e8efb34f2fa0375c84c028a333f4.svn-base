@@ -1,0 +1,2134 @@
+Test Run By miyer on Sun May  4 16:11:01 2008
+Native configuration is i686-pc-linux-gnu
+
+		=== mr_scripts tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Using /usr/share/dejagnu/baseboards/unix.exp as board description file for target.
+Using /usr/share/dejagnu/config/unix.exp as generic interface file for target.
+Using ./config/unix.exp as tool-and-target-specific interface file.
+********************************************************
+**************** DMS Regression Tests ******************
+********************************************************
+Running ./mr_scripts/room_device_test.exp ...
+(UNKNOWN) [192.168.1.228] 5689 (?) open
+ready>
+%IpvsAppletPrompt%
+INFO: Replacing "miyertest" with "deviceuser-default"
+INFO: Replacing "miyertest" with "deviceuser-default"
+INFO: Replacing "192.168.1.209" with "192.168.1.209"
+INFO: Replacing "192.168.1.209" with "192.168.1.209"
+INFO: Replacing "ClientData" with "RequestToken1"
+INFO: ===> login deviceuser-default
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>LoginRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken1</clientdata>
+    </header>
+    <data>
+        <LoginRequestData>
+            <user>deviceuser-default</user>
+            <password>deviceuser-default</password>
+            <domain>192.168.1.209</domain>
+            <resource>callcenter</resource>
+            <server>192.168.1.209</server>
+            <port>5222</port>
+        </LoginRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking login status for RequestToken1
+<Response><header><servicename>xmpp</servicename><requestname>LoginRequest</requestname><userJID>deviceuser-default@192.168.1.209/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken1</clientdata></header><data><LoginResponseData><version>3.0.11</version></LoginResponseData></data><log>Login Successful</log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "deviceuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken1"
+INFO: Get Value: /Response/header/requestname = "LoginRequest"
+INFO: Get Value: /Response/header/userJID = "deviceuser-default@192.168.1.209/callcenter"
+INFO: Got login response for UserJID: deviceuser-default@192.168.1.209/callcenter, Token: RequestToken1,  Time spent: 707
+INFO: Get Value: /Response/header/state = "1"
+INFO: Get Value: /Response/header/userJID = "deviceuser-default@192.168.1.209/callcenter"
+INFO: Replacing "miyertest" with "default"
+INFO: Replacing "ClientData" with "RequestToken2"
+INFO: ===> setServiceDomain deviceuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>SetServiceDomainRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken2</clientdata>
+    </header>
+    <data>
+        <SetServiceDomainRequestData>
+            <domain>default</domain>
+        </SetServiceDomainRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking set service domain status for RequestToken2
+<Response><header><servicename>xmpp</servicename><requestname>SetServiceDomainRequest</requestname><userJID>deviceuser-default@192.168.1.209/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken2</clientdata></header><data><SetServiceDomainResponseData><ServiceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot"><MediaRoomRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot"><RoomRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot.RoomRoot" /><RoomConfigRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot.RoomConfigRoot" /></MediaRoomRoot><DeviceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.DeviceRoot" /><MediaRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot"><MediaStreamResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot"><MediaStreamSrcPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamSrcPortResourceRoot" /><MediaStreamFileResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamFileResourceRoot" /><MediaStreamDstPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamDstPortResourceRoot" /><MediaStreamRelayPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamRelayPortResourceRoot" /></MediaStreamResourceRoot><MediaFileRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaFileRoot" /><MediaDirRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaDirRoot" /><MediaStreamPortResourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamPortResourceGroupRoot" /><StreamProfileRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.StreamProfileRoot" /></MediaRoot><PolicyRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot"><UserAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.UserAdminPolicyRuleRoot" /><PolicyAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.PolicyAdminPolicyRuleRoot" /><MediaRoomPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaRoomPolicyRuleRoot" /><MediaStreamFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaStreamFilterRoot" /><DestGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.DestGroupRoot" /><ProfileGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.ProfileGroupRoot" /><ObjectFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.ObjectFilterRoot" /><GroupTagDefRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.GroupTagDefRoot" /><SourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.SourceGroupRoot" /><MediaStoreAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaStoreAdminPolicyRuleRoot" /><TagObjectFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.TagObjectFilterRoot" /><AssetAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.AssetAdminPolicyRuleRoot" /></PolicyRoot><AssetRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot"><AssetResourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot.AssetResourceGroupRoot" /><AssetResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot.AssetResourceRoot" /></AssetRoot><UserRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.UserRoot" /></ServiceRoot></SetServiceDomainResponseData></data><log></log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "deviceuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken2"
+INFO: Get Value: /Response/header/requestname = "SetServiceDomainRequest"
+INFO: Got set service domain response Token: RequestToken2,  Time spent: 3545
+INFO: Get Value: /Response/header/state = "1"
+PASS: LoginSetup deviceuser-default
+INFO: Replacing "miyertest" with "roomuser-default"
+INFO: Replacing "miyertest" with "roomuser-default"
+INFO: Replacing "192.168.1.209" with "192.168.1.209"
+INFO: Replacing "192.168.1.209" with "192.168.1.209"
+INFO: Replacing "ClientData" with "RequestToken3"
+INFO: ===> login roomuser-default
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>LoginRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken3</clientdata>
+    </header>
+    <data>
+        <LoginRequestData>
+            <user>roomuser-default</user>
+            <password>roomuser-default</password>
+            <domain>192.168.1.209</domain>
+            <resource>callcenter</resource>
+            <server>192.168.1.209</server>
+            <port>5222</port>
+        </LoginRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking login status for RequestToken3
+<Response><header><servicename>xmpp</servicename><requestname>LoginRequest</requestname><userJID>roomuser-default@192.168.1.209/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken3</clientdata></header><data><LoginResponseData><version>3.0.11</version></LoginResponseData></data><log>Login Successful</log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken3"
+INFO: Get Value: /Response/header/requestname = "LoginRequest"
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Got login response for UserJID: roomuser-default@192.168.1.209/callcenter, Token: RequestToken3,  Time spent: 51
+INFO: Get Value: /Response/header/state = "1"
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Replacing "miyertest" with "default"
+INFO: Replacing "ClientData" with "RequestToken4"
+INFO: ===> setServiceDomain roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>SetServiceDomainRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken4</clientdata>
+    </header>
+    <data>
+        <SetServiceDomainRequestData>
+            <domain>default</domain>
+        </SetServiceDomainRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking set service domain status for RequestToken4
+<Response><header><servicename>xmpp</servicename><requestname>SetServiceDomainRequest</requestname><userJID>roomuser-default@192.168.1.209/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken4</clientdata></header><data><SetServiceDomainResponseData><ServiceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot"><MediaRoomRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot"><RoomRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot.RoomRoot" /><RoomConfigRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoomRoot.RoomConfigRoot" /></MediaRoomRoot><DeviceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.DeviceRoot" /><MediaRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot"><MediaStreamResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot"><MediaStreamSrcPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamSrcPortResourceRoot" /><MediaStreamFileResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamFileResourceRoot" /><MediaStreamDstPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamDstPortResourceRoot" /><MediaStreamRelayPortResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamResourceRoot.MediaStreamRelayPortResourceRoot" /></MediaStreamResourceRoot><MediaFileRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaFileRoot" /><MediaDirRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaDirRoot" /><MediaStreamPortResourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.MediaStreamPortResourceGroupRoot" /><StreamProfileRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.MediaRoot.StreamProfileRoot" /></MediaRoot><PolicyRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot"><UserAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.UserAdminPolicyRuleRoot" /><PolicyAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.PolicyAdminPolicyRuleRoot" /><MediaRoomPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaRoomPolicyRuleRoot" /><MediaStreamFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaStreamFilterRoot" /><DestGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.DestGroupRoot" /><ProfileGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.ProfileGroupRoot" /><ObjectFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.ObjectFilterRoot" /><GroupTagDefRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.GroupTagDefRoot" /><SourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.SourceGroupRoot" /><MediaStoreAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.MediaStoreAdminPolicyRuleRoot" /><TagObjectFilterRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.TagObjectFilterRoot" /><AssetAdminPolicyRuleRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.PolicyRoot.AssetAdminPolicyRuleRoot" /></PolicyRoot><AssetRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot"><AssetResourceGroupRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot.AssetResourceGroupRoot" /><AssetResourceRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.AssetRoot.AssetResourceRoot" /></AssetRoot><UserRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="MEDIAROOM.SERVICE.DOMAIN.default.ServiceRoot.UserRoot" /></ServiceRoot></SetServiceDomainResponseData></data><log></log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken4"
+INFO: Get Value: /Response/header/requestname = "SetServiceDomainRequest"
+INFO: Got set service domain response Token: RequestToken4,  Time spent: 3514
+INFO: Get Value: /Response/header/state = "1"
+PASS: LoginSetup roomuser-default
+INFO: Replacing "clientdata" with "RequestToken5"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetSourceListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken5</clientdata>
+    </header>
+    <data>
+        <GetSourceListRequestData>
+            <destNID/>
+            <profileNID/>
+            <title/>
+        </GetSourceListRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/5581355</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetSourceListRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/5581355</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken5</clientdata>
+  </header>
+  <data>
+    <GetSourceListResponseData>
+      <GetResponse>
+        <ResponseID>myTest1</ResponseID>
+        <ResponseXML>
+          <MediaStreamSrcPortResource Parse="true" NIDScheme="AUTO" NID="pH5LpLaSWf9Y4C8">
+            <XAuthInfo Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.XAuthInfo">
+              <ForceXAuth>true</ForceXAuth>
+              <XAuthOperatorList Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.XAuthInfo.XAuthOperatorList">
+                <XAuthUserJID>string</XAuthUserJID>
+                <XAuthResourceNID>string</XAuthResourceNID>
+              </XAuthOperatorList>
+            </XAuthInfo>
+            <PVRInfo Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.PVRInfo">
+              <PVRMediaStoreResourceFileNID>string</PVRMediaStoreResourceFileNID>
+            </PVRInfo>
+            <InstanceInfo Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.InstanceInfo">
+              <MaxInstanceCount>-2147483648</MaxInstanceCount>
+              <InstanceList>
+                <!--Element ResourceInstance is optional, maxOccurs=unbounded-->
+                <ResourceInstance>
+                  <RoomNID>string</RoomNID>
+                  <StreamNID>string</StreamNID>
+                  <ResourceNID>string</ResourceNID>
+                  <DeviceStreamingServiceEncoderInstanceNID>string</DeviceStreamingServiceEncoderInstanceNID>
+                  <DeviceStreamingServiceTransmitInstanceNID>string</DeviceStreamingServiceTransmitInstanceNID>
+                </ResourceInstance>
+              </InstanceList>
+            </InstanceInfo>
+            <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.Contact">
+              <OwnerUserJID>deviceuser-default@localhost</OwnerUserJID>
+              <Reachable>string</Reachable>
+            </Contact>
+            <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.State">
+              <StateFlag>Error</StateFlag>
+              <StateMsg>string</StateMsg>
+            </State>
+            <RelayInfo Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.RelayInfo">
+              <UseRelay>true</UseRelay>
+              <UseRelayAndDirectConnect>true</UseRelayAndDirectConnect>
+              <RelayPortList Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.RelayInfo.RelayPortList">
+                <MediaStreamRelayPortResourceNID>string</MediaStreamRelayPortResourceNID>
+              </RelayPortList>
+            </RelayInfo>
+            <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.Info">
+              <Title>Lab1Tx1</Title>
+              <Description>string</Description>
+              <StreamTypeList>
+                <!--Element StreamType, maxOccurs=unbounded-->
+                <StreamType>FileXfer</StreamType>
+              </StreamTypeList>
+              <DeviceElementID>string</DeviceElementID>
+              <Type>StreamSrc</Type>
+              <Groups Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="pH5LpLaSWf9Y4C8.Info.Groups">
+                <Tag Name="Location" Value="Stanford" Parse="true" NIDScheme="AUTO" NID="lAp7HwO3lRLkq9b" />
+              </Groups>
+            </Info>
+          </MediaStreamSrcPortResource>
+        </ResponseXML>
+        <GetListObjectResponseData>
+          <ObjectCount>1</ObjectCount>
+          <ObjectLastWhereEndCount>1</ObjectLastWhereEndCount>
+        </GetListObjectResponseData>
+      </GetResponse>
+    </GetSourceListResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/5581355"
+INFO: Get Value: /Response/header/clientdata = "RequestToken5"
+INFO: Get Value: /Response/header/requestname = "GetSourceListRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/5581355, Token: RequestToken5,  Time spent: 3273
+INFO: Get Value: /Response/header/state = "8"
+PASS: Get Source List
+INFO: Adding text "pH5LpLaSWf9Y4C8" to empty node
+INFO: Replacing "clientdata" with "RequestToken6"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetStreamProfileListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken6</clientdata>
+    </header>
+    <data>
+        <GetStreamProfileListRequestData>
+            <sourceNID>pH5LpLaSWf9Y4C8</sourceNID>
+            <destNID/>
+            <profileName/>
+        </GetStreamProfileListRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/25682308</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetStreamProfileListRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/25682308</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken6</clientdata>
+  </header>
+  <data>
+    <GetStreamProfileListResponseData>
+      <GetResponse>
+        <ResponseID>myTest1</ResponseID>
+        <ResponseXML>
+          <V2DMediaStreamProfile NID="IB4QRXMHX6IT5LV">
+            <Groups>
+              <Tag Name="Network" Value="WAN" />
+            </Groups>
+            <Title>10M</Title>
+            <Description>Description</Description>
+            <StreamType>V2D</StreamType>
+            <Priority>0</Priority>
+            <StreamActionInfo>
+              <AllowPause>true</AllowPause>
+              <AllowSkipback>true</AllowSkipback>
+              <AllowSkipfwd>true</AllowSkipfwd>
+              <AllowV2DRemoteCtrl>true</AllowV2DRemoteCtrl>
+            </StreamActionInfo>
+            <V2DBasicProfile>
+              <V2DStreamConfig>
+                <IsMulticast>False</IsMulticast>
+                <EnableSRDTranscode>true</EnableSRDTranscode>
+                <SRDTranscodeBandwidth>SRDTranscodeBandwidth</SRDTranscodeBandwidth>
+                <AVOption>Video</AVOption>
+              </V2DStreamConfig>
+              <V2DEncoderAudioConfig>
+                <SampleRate>SampleRate</SampleRate>
+                <SampleSize>SampleSize</SampleSize>
+                <MonoStereo>MonoStereo</MonoStereo>
+                <AudioEncodeEnable>true</AudioEncodeEnable>
+              </V2DEncoderAudioConfig>
+              <V2DEncoderConnectionParameterConfig>
+                <BurstRatio>0.0</BurstRatio>
+                <BurstDuration>0</BurstDuration>
+                <Compression>
+                  <High>0</High>
+                  <Low>0</Low>
+                </Compression>
+                <Bandwidth>15000</Bandwidth>
+                <Refresh>
+                  <Min>0</Min>
+                  <Max>0</Max>
+                </Refresh>
+                <Slice>
+                  <Min>0</Min>
+                  <Max>0</Max>
+                </Slice>
+                <BlockThreshold>0</BlockThreshold>
+                <Enable444>true</Enable444>
+              </V2DEncoderConnectionParameterConfig>
+              <V2DEncoderConnectionParameterKbmConfig>
+                <KbType>SGI</KbType>
+                <MouseType>PS2</MouseType>
+                <AllowKMSwitch>true</AllowKMSwitch>
+                <KMIdleTime>0</KMIdleTime>
+                <EnableKbm>False</EnableKbm>
+              </V2DEncoderConnectionParameterKbmConfig>
+            </V2DBasicProfile>
+            <V2DAdvancedProfile>
+              <V2DCodecVideoLookupTable>
+                <V2DCodecVideoLookupEntryConfig>
+                  <LUTID>0</LUTID>
+                  <Name>Name</Name>
+                  <Resolution>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Resolution>
+                  <RefreshRate>0.0</RefreshRate>
+                  <PixelClockRate>0.0</PixelClockRate>
+                  <Stereo>true</Stereo>
+                  <FrontPorch>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </FrontPorch>
+                  <BackPorch>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </BackPorch>
+                  <Sync>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Sync>
+                  <VerticalMargin>0</VerticalMargin>
+                  <SyncPolarity>SyncPolarity</SyncPolarity>
+                  <Phase>0</Phase>
+                  <Position>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Position>
+                  <NoiseElimination>
+                    <Coarse>0</Coarse>
+                    <Fine>0</Fine>
+                  </NoiseElimination>
+                  <ColorSpace>ColorSpace</ColorSpace>
+                  <ChargePumpCurr>ChargePumpCurr</ChargePumpCurr>
+                  <Gain>
+                    <Red>0</Red>
+                    <Green>0</Green>
+                    <Blue>0</Blue>
+                  </Gain>
+                  <Offset>
+                    <Red>0</Red>
+                    <Green>0</Green>
+                    <Blue>0</Blue>
+                  </Offset>
+                </V2DCodecVideoLookupEntryConfig>
+              </V2DCodecVideoLookupTable>
+              <V2DEncoderVideoConfig>
+                <NoiseElimination>
+                  <Coarse>0</Coarse>
+                  <Fine>0</Fine>
+                </NoiseElimination>
+                <Position>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Position>
+                <SamplingPhase>0</SamplingPhase>
+                <Gain>
+                  <Red>0</Red>
+                  <Green>0</Green>
+                  <Blue>0</Blue>
+                </Gain>
+                <Offset>
+                  <Red>0</Red>
+                  <Green>0</Green>
+                  <Blue>0</Blue>
+                </Offset>
+                <PumpCurr>0</PumpCurr>
+                <LUTPumpCurr>LUTPumpCurr</LUTPumpCurr>
+                <UpdateCurrentLUT>true</UpdateCurrentLUT>
+              </V2DEncoderVideoConfig>
+              <V2DEncoderSerialConfig>
+                <SerialPort>0</SerialPort>
+                <BaudRate>0</BaudRate>
+                <DataBits>0</DataBits>
+                <Parity>Parity</Parity>
+                <StopBits>0</StopBits>
+                <FlowControl>FlowControl</FlowControl>
+                <MaximumWaitTime>0</MaximumWaitTime>
+              </V2DEncoderSerialConfig>
+              <V2DEncoderSplashParametersConfig>
+                <SplashScreen>SplashScreen</SplashScreen>
+                <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                <EnableSplash>true</EnableSplash>
+                <Stereo>true</Stereo>
+                <Resolution>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Resolution>
+                <RefreshRate>0.0</RefreshRate>
+                <PixelClockRate>0.0</PixelClockRate>
+                <FrontPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </FrontPorch>
+                <BackPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </BackPorch>
+                <Sync>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Sync>
+              </V2DEncoderSplashParametersConfig>
+              <V2DDecoderVideoConfig>
+                <PixelAdjust>0</PixelAdjust>
+                <PhaseAdjust>0</PhaseAdjust>
+                <StereoSync>StereoSync</StereoSync>
+                <SyncPolarity>SyncPolarity</SyncPolarity>
+                <GenlockMode>GenlockMode</GenlockMode>
+                <LocalLUT>true</LocalLUT>
+              </V2DDecoderVideoConfig>
+              <V2DDecoderSerialConfig>
+                <SerialPort>0</SerialPort>
+                <BaudRate>0</BaudRate>
+                <DataBits>0</DataBits>
+                <Parity>Parity</Parity>
+                <StopBits>0</StopBits>
+                <FlowControl>FlowControl</FlowControl>
+                <MaximumWaitTime>0</MaximumWaitTime>
+              </V2DDecoderSerialConfig>
+              <V2DDecoderSplashParametersConfig>
+                <SplashScreen>SplashScreen</SplashScreen>
+                <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                <EnableSplash>true</EnableSplash>
+                <Stereo>true</Stereo>
+                <Resolution>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Resolution>
+                <RefreshRate>0.0</RefreshRate>
+                <PixelClockRate>0.0</PixelClockRate>
+                <FrontPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </FrontPorch>
+                <BackPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </BackPorch>
+                <Sync>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Sync>
+              </V2DDecoderSplashParametersConfig>
+            </V2DAdvancedProfile>
+          </V2DMediaStreamProfile>
+        </ResponseXML>
+        <GetListObjectResponseData>
+          <ObjectCount>1</ObjectCount>
+          <ObjectLastWhereEndCount>1</ObjectLastWhereEndCount>
+        </GetListObjectResponseData>
+      </GetResponse>
+    </GetStreamProfileListResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/25682308"
+INFO: Get Value: /Response/header/clientdata = "RequestToken6"
+INFO: Get Value: /Response/header/requestname = "GetStreamProfileListRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/25682308, Token: RequestToken6,  Time spent: 1179
+INFO: Get Value: /Response/header/state = "8"
+PASS: Get StreamProfile List
+INFO: Adding text "10M" to empty node
+INFO: Adding text "pH5LpLaSWf9Y4C8" to empty node
+INFO: Replacing "clientdata" with "RequestToken7"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetStreamProfileListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken7</clientdata>
+    </header>
+    <data>
+        <GetStreamProfileListRequestData>
+            <sourceNID>pH5LpLaSWf9Y4C8</sourceNID>
+            <destNID/>
+            <profileName>10M</profileName>
+        </GetStreamProfileListRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/3357486</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetStreamProfileListRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/3357486</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken7</clientdata>
+  </header>
+  <data>
+    <GetStreamProfileListResponseData>
+      <GetResponse>
+        <ResponseID>myTest1</ResponseID>
+        <ResponseXML>
+          <V2DMediaStreamProfile NID="IB4QRXMHX6IT5LV">
+            <Groups>
+              <Tag Name="Network" Value="WAN" />
+            </Groups>
+            <Title>10M</Title>
+            <Description>Description</Description>
+            <StreamType>V2D</StreamType>
+            <Priority>0</Priority>
+            <StreamActionInfo>
+              <AllowPause>true</AllowPause>
+              <AllowSkipback>true</AllowSkipback>
+              <AllowSkipfwd>true</AllowSkipfwd>
+              <AllowV2DRemoteCtrl>true</AllowV2DRemoteCtrl>
+            </StreamActionInfo>
+            <V2DBasicProfile>
+              <V2DStreamConfig>
+                <IsMulticast>False</IsMulticast>
+                <EnableSRDTranscode>true</EnableSRDTranscode>
+                <SRDTranscodeBandwidth>SRDTranscodeBandwidth</SRDTranscodeBandwidth>
+                <AVOption>Video</AVOption>
+              </V2DStreamConfig>
+              <V2DEncoderAudioConfig>
+                <SampleRate>SampleRate</SampleRate>
+                <SampleSize>SampleSize</SampleSize>
+                <MonoStereo>MonoStereo</MonoStereo>
+                <AudioEncodeEnable>true</AudioEncodeEnable>
+              </V2DEncoderAudioConfig>
+              <V2DEncoderConnectionParameterConfig>
+                <BurstRatio>0.0</BurstRatio>
+                <BurstDuration>0</BurstDuration>
+                <Compression>
+                  <High>0</High>
+                  <Low>0</Low>
+                </Compression>
+                <Bandwidth>15000</Bandwidth>
+                <Refresh>
+                  <Min>0</Min>
+                  <Max>0</Max>
+                </Refresh>
+                <Slice>
+                  <Min>0</Min>
+                  <Max>0</Max>
+                </Slice>
+                <BlockThreshold>0</BlockThreshold>
+                <Enable444>true</Enable444>
+              </V2DEncoderConnectionParameterConfig>
+              <V2DEncoderConnectionParameterKbmConfig>
+                <KbType>SGI</KbType>
+                <MouseType>PS2</MouseType>
+                <AllowKMSwitch>true</AllowKMSwitch>
+                <KMIdleTime>0</KMIdleTime>
+                <EnableKbm>False</EnableKbm>
+              </V2DEncoderConnectionParameterKbmConfig>
+            </V2DBasicProfile>
+            <V2DAdvancedProfile>
+              <V2DCodecVideoLookupTable>
+                <V2DCodecVideoLookupEntryConfig>
+                  <LUTID>0</LUTID>
+                  <Name>Name</Name>
+                  <Resolution>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Resolution>
+                  <RefreshRate>0.0</RefreshRate>
+                  <PixelClockRate>0.0</PixelClockRate>
+                  <Stereo>true</Stereo>
+                  <FrontPorch>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </FrontPorch>
+                  <BackPorch>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </BackPorch>
+                  <Sync>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Sync>
+                  <VerticalMargin>0</VerticalMargin>
+                  <SyncPolarity>SyncPolarity</SyncPolarity>
+                  <Phase>0</Phase>
+                  <Position>
+                    <Horizontal>0</Horizontal>
+                    <Vertical>0</Vertical>
+                  </Position>
+                  <NoiseElimination>
+                    <Coarse>0</Coarse>
+                    <Fine>0</Fine>
+                  </NoiseElimination>
+                  <ColorSpace>ColorSpace</ColorSpace>
+                  <ChargePumpCurr>ChargePumpCurr</ChargePumpCurr>
+                  <Gain>
+                    <Red>0</Red>
+                    <Green>0</Green>
+                    <Blue>0</Blue>
+                  </Gain>
+                  <Offset>
+                    <Red>0</Red>
+                    <Green>0</Green>
+                    <Blue>0</Blue>
+                  </Offset>
+                </V2DCodecVideoLookupEntryConfig>
+              </V2DCodecVideoLookupTable>
+              <V2DEncoderVideoConfig>
+                <NoiseElimination>
+                  <Coarse>0</Coarse>
+                  <Fine>0</Fine>
+                </NoiseElimination>
+                <Position>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Position>
+                <SamplingPhase>0</SamplingPhase>
+                <Gain>
+                  <Red>0</Red>
+                  <Green>0</Green>
+                  <Blue>0</Blue>
+                </Gain>
+                <Offset>
+                  <Red>0</Red>
+                  <Green>0</Green>
+                  <Blue>0</Blue>
+                </Offset>
+                <PumpCurr>0</PumpCurr>
+                <LUTPumpCurr>LUTPumpCurr</LUTPumpCurr>
+                <UpdateCurrentLUT>true</UpdateCurrentLUT>
+              </V2DEncoderVideoConfig>
+              <V2DEncoderSerialConfig>
+                <SerialPort>0</SerialPort>
+                <BaudRate>0</BaudRate>
+                <DataBits>0</DataBits>
+                <Parity>Parity</Parity>
+                <StopBits>0</StopBits>
+                <FlowControl>FlowControl</FlowControl>
+                <MaximumWaitTime>0</MaximumWaitTime>
+              </V2DEncoderSerialConfig>
+              <V2DEncoderSplashParametersConfig>
+                <SplashScreen>SplashScreen</SplashScreen>
+                <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                <EnableSplash>true</EnableSplash>
+                <Stereo>true</Stereo>
+                <Resolution>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Resolution>
+                <RefreshRate>0.0</RefreshRate>
+                <PixelClockRate>0.0</PixelClockRate>
+                <FrontPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </FrontPorch>
+                <BackPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </BackPorch>
+                <Sync>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Sync>
+              </V2DEncoderSplashParametersConfig>
+              <V2DDecoderVideoConfig>
+                <PixelAdjust>0</PixelAdjust>
+                <PhaseAdjust>0</PhaseAdjust>
+                <StereoSync>StereoSync</StereoSync>
+                <SyncPolarity>SyncPolarity</SyncPolarity>
+                <GenlockMode>GenlockMode</GenlockMode>
+                <LocalLUT>true</LocalLUT>
+              </V2DDecoderVideoConfig>
+              <V2DDecoderSerialConfig>
+                <SerialPort>0</SerialPort>
+                <BaudRate>0</BaudRate>
+                <DataBits>0</DataBits>
+                <Parity>Parity</Parity>
+                <StopBits>0</StopBits>
+                <FlowControl>FlowControl</FlowControl>
+                <MaximumWaitTime>0</MaximumWaitTime>
+              </V2DDecoderSerialConfig>
+              <V2DDecoderSplashParametersConfig>
+                <SplashScreen>SplashScreen</SplashScreen>
+                <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                <EnableSplash>true</EnableSplash>
+                <Stereo>true</Stereo>
+                <Resolution>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Resolution>
+                <RefreshRate>0.0</RefreshRate>
+                <PixelClockRate>0.0</PixelClockRate>
+                <FrontPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </FrontPorch>
+                <BackPorch>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </BackPorch>
+                <Sync>
+                  <Horizontal>0</Horizontal>
+                  <Vertical>0</Vertical>
+                </Sync>
+              </V2DDecoderSplashParametersConfig>
+            </V2DAdvancedProfile>
+          </V2DMediaStreamProfile>
+        </ResponseXML>
+        <GetListObjectResponseData>
+          <ObjectCount>1</ObjectCount>
+          <ObjectLastWhereEndCount>1</ObjectLastWhereEndCount>
+        </GetListObjectResponseData>
+      </GetResponse>
+    </GetStreamProfileListResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/3357486"
+INFO: Get Value: /Response/header/clientdata = "RequestToken7"
+INFO: Get Value: /Response/header/requestname = "GetStreamProfileListRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/3357486, Token: RequestToken7,  Time spent: 203
+INFO: Get Value: /Response/header/state = "8"
+PASS: GetStreamProfile
+INFO: Replacing "//MediaStreamSrcPortResource/Info[Title='string']" with "//MediaStreamSrcPortResource[Info[Title='Lab1Tx1']]"
+INFO: Replacing "clientData" with "RequestToken8"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>assetadminservice</servicename>
+        <requestname>AssetManagementRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken8</clientdata>
+    </header>
+    <data>
+        <AssetManagementRequestData>
+            <ObjectType>MediaStreamSrcPortResource</ObjectType>
+            <GetRequest>
+                <RequestID>myTest1</RequestID>
+                <NID/>
+                <PathSpec>
+                    <Where>
+                        <WhereAssistXML>
+                            <MediaStreamSrcPortResource>
+                                <Contact/>
+                                <State/>
+                                <Info/>
+                            </MediaStreamSrcPortResource>
+                        </WhereAssistXML>
+                        <WhereXPath>//MediaStreamSrcPortResource[Info[Title='Lab1Tx1']]</WhereXPath>
+                    </Where>
+                    <Select>
+                        <ListSpec>
+                            <StartFrom/>
+                            <CountToFetch/>
+                        </ListSpec>
+                        <ItemSpec>
+                            <SelectXML/>
+                            <NodeDepth/>
+                        </ItemSpec>
+                    </Select>
+                </PathSpec>
+                <OperationData/>
+            </GetRequest>
+        </AssetManagementRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/14725590</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>assetadminservice</servicename>
+    <requestname>AssetManagementRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/14725590</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken8</clientdata>
+  </header>
+  <data>
+    <AssetManagementResponseData>
+      <ObjectType>MediaStreamSrcPortResource</ObjectType>
+      <GetResponse>
+        <ResponseID>myTest1</ResponseID>
+        <ResponseXML>
+          <MediaStreamSrcPortResource Parse="true" NIDScheme="AUTO" NID="pH5LpLaSWf9Y4C8" />
+        </ResponseXML>
+        <GetListObjectResponseData>
+          <ObjectCount>1</ObjectCount>
+          <ObjectLastWhereEndCount>1</ObjectLastWhereEndCount>
+        </GetListObjectResponseData>
+      </GetResponse>
+    </AssetManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/14725590"
+INFO: Get Value: /Response/header/clientdata = "RequestToken8"
+INFO: Get Value: /Response/header/requestname = "AssetManagementRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/14725590, Token: RequestToken8,  Time spent: 898
+INFO: Get Value: /Response/header/state = "8"
+PASS: GetSource Lab1Tx1
+PASS: MediaRoomAssetRead
+INFO: Get Value: //header/clientdata = "clientdata"
+INFO: Replacing "clientdata" with "RequestToken9"
+INFO: Replacing "SourceNID" with "pH5LpLaSWf9Y4C8"
+INFO: Replacing "ProfileNID" with "IB4QRXMHX6IT5LV"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>CreateConnectionRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken9</clientdata>
+    </header>
+    <data>
+        <CreateConnectionRequestData>
+            <name>TestRoom</name>
+            <sourceNID>pH5LpLaSWf9Y4C8</sourceNID>
+            <destNID/>
+            <profileNID>IB4QRXMHX6IT5LV</profileNID>
+            <profileXML>
+                <V2DMediaStreamProfile NID="IB4QRXMHX6IT5LV">
+                    <Groups>
+                        <Tag Name="Network" Value="WAN"/>
+                    </Groups>
+                    <Title>10M</Title>
+                    <Description>Description</Description>
+                    <StreamType>V2D</StreamType>
+                    <Priority>0</Priority>
+                    <StreamActionInfo>
+                        <AllowPause>true</AllowPause>
+                        <AllowSkipback>true</AllowSkipback>
+                        <AllowSkipfwd>true</AllowSkipfwd>
+                        <AllowV2DRemoteCtrl>true</AllowV2DRemoteCtrl>
+                    </StreamActionInfo>
+                    <V2DBasicProfile>
+                        <V2DStreamConfig>
+                            <IsMulticast>False</IsMulticast>
+                            <EnableSRDTranscode>true</EnableSRDTranscode>
+                            <SRDTranscodeBandwidth>SRDTranscodeBandwidth</SRDTranscodeBandwidth>
+                            <AVOption>Video</AVOption>
+                        </V2DStreamConfig>
+                        <V2DEncoderAudioConfig>
+                            <SampleRate>SampleRate</SampleRate>
+                            <SampleSize>SampleSize</SampleSize>
+                            <MonoStereo>MonoStereo</MonoStereo>
+                            <AudioEncodeEnable>true</AudioEncodeEnable>
+                        </V2DEncoderAudioConfig>
+                        <V2DEncoderConnectionParameterConfig>
+                            <BurstRatio>0.0</BurstRatio>
+                            <BurstDuration>0</BurstDuration>
+                            <Compression>
+                                <High>0</High>
+                                <Low>0</Low>
+                            </Compression>
+                            <Bandwidth>15000</Bandwidth>
+                            <Refresh>
+                                <Min>0</Min>
+                                <Max>0</Max>
+                            </Refresh>
+                            <Slice>
+                                <Min>0</Min>
+                                <Max>0</Max>
+                            </Slice>
+                            <BlockThreshold>0</BlockThreshold>
+                            <Enable444>true</Enable444>
+                        </V2DEncoderConnectionParameterConfig>
+                        <V2DEncoderConnectionParameterKbmConfig>
+                            <KbType>SGI</KbType>
+                            <MouseType>PS2</MouseType>
+                            <AllowKMSwitch>true</AllowKMSwitch>
+                            <KMIdleTime>0</KMIdleTime>
+                            <EnableKbm>False</EnableKbm>
+                        </V2DEncoderConnectionParameterKbmConfig>
+                    </V2DBasicProfile>
+                    <V2DAdvancedProfile>
+                        <V2DCodecVideoLookupTable>
+                            <V2DCodecVideoLookupEntryConfig>
+                                <LUTID>0</LUTID>
+                                <Name>Name</Name>
+                                <Resolution>
+                                    <Horizontal>0</Horizontal>
+                                    <Vertical>0</Vertical>
+                                </Resolution>
+                                <RefreshRate>0.0</RefreshRate>
+                                <PixelClockRate>0.0</PixelClockRate>
+                                <Stereo>true</Stereo>
+                                <FrontPorch>
+                                    <Horizontal>0</Horizontal>
+                                    <Vertical>0</Vertical>
+                                </FrontPorch>
+                                <BackPorch>
+                                    <Horizontal>0</Horizontal>
+                                    <Vertical>0</Vertical>
+                                </BackPorch>
+                                <Sync>
+                                    <Horizontal>0</Horizontal>
+                                    <Vertical>0</Vertical>
+                                </Sync>
+                                <VerticalMargin>0</VerticalMargin>
+                                <SyncPolarity>SyncPolarity</SyncPolarity>
+                                <Phase>0</Phase>
+                                <Position>
+                                    <Horizontal>0</Horizontal>
+                                    <Vertical>0</Vertical>
+                                </Position>
+                                <NoiseElimination>
+                                    <Coarse>0</Coarse>
+                                    <Fine>0</Fine>
+                                </NoiseElimination>
+                                <ColorSpace>ColorSpace</ColorSpace>
+                                <ChargePumpCurr>ChargePumpCurr</ChargePumpCurr>
+                                <Gain>
+                                    <Red>0</Red>
+                                    <Green>0</Green>
+                                    <Blue>0</Blue>
+                                </Gain>
+                                <Offset>
+                                    <Red>0</Red>
+                                    <Green>0</Green>
+                                    <Blue>0</Blue>
+                                </Offset>
+                            </V2DCodecVideoLookupEntryConfig>
+                        </V2DCodecVideoLookupTable>
+                        <V2DEncoderVideoConfig>
+                            <NoiseElimination>
+                                <Coarse>0</Coarse>
+                                <Fine>0</Fine>
+                            </NoiseElimination>
+                            <Position>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </Position>
+                            <SamplingPhase>0</SamplingPhase>
+                            <Gain>
+                                <Red>0</Red>
+                                <Green>0</Green>
+                                <Blue>0</Blue>
+                            </Gain>
+                            <Offset>
+                                <Red>0</Red>
+                                <Green>0</Green>
+                                <Blue>0</Blue>
+                            </Offset>
+                            <PumpCurr>0</PumpCurr>
+                            <LUTPumpCurr>LUTPumpCurr</LUTPumpCurr>
+                            <UpdateCurrentLUT>true</UpdateCurrentLUT>
+                        </V2DEncoderVideoConfig>
+                        <V2DEncoderSerialConfig>
+                            <SerialPort>0</SerialPort>
+                            <BaudRate>0</BaudRate>
+                            <DataBits>0</DataBits>
+                            <Parity>Parity</Parity>
+                            <StopBits>0</StopBits>
+                            <FlowControl>FlowControl</FlowControl>
+                            <MaximumWaitTime>0</MaximumWaitTime>
+                        </V2DEncoderSerialConfig>
+                        <V2DEncoderSplashParametersConfig>
+                            <SplashScreen>SplashScreen</SplashScreen>
+                            <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                            <EnableSplash>true</EnableSplash>
+                            <Stereo>true</Stereo>
+                            <Resolution>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </Resolution>
+                            <RefreshRate>0.0</RefreshRate>
+                            <PixelClockRate>0.0</PixelClockRate>
+                            <FrontPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </FrontPorch>
+                            <BackPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </BackPorch>
+                            <Sync>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </Sync>
+                        </V2DEncoderSplashParametersConfig>
+                        <V2DDecoderVideoConfig>
+                            <PixelAdjust>0</PixelAdjust>
+                            <PhaseAdjust>0</PhaseAdjust>
+                            <StereoSync>StereoSync</StereoSync>
+                            <SyncPolarity>SyncPolarity</SyncPolarity>
+                            <GenlockMode>GenlockMode</GenlockMode>
+                            <LocalLUT>true</LocalLUT>
+                        </V2DDecoderVideoConfig>
+                        <V2DDecoderSerialConfig>
+                            <SerialPort>0</SerialPort>
+                            <BaudRate>0</BaudRate>
+                            <DataBits>0</DataBits>
+                            <Parity>Parity</Parity>
+                            <StopBits>0</StopBits>
+                            <FlowControl>FlowControl</FlowControl>
+                            <MaximumWaitTime>0</MaximumWaitTime>
+                        </V2DDecoderSerialConfig>
+                        <V2DDecoderSplashParametersConfig>
+                            <SplashScreen>SplashScreen</SplashScreen>
+                            <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                            <EnableSplash>true</EnableSplash>
+                            <Stereo>true</Stereo>
+                            <Resolution>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </Resolution>
+                            <RefreshRate>0.0</RefreshRate>
+                            <PixelClockRate>0.0</PixelClockRate>
+                            <FrontPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </FrontPorch>
+                            <BackPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </BackPorch>
+                            <Sync>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                            </Sync>
+                        </V2DDecoderSplashParametersConfig>
+                    </V2DAdvancedProfile>
+                </V2DMediaStreamProfile>
+            </profileXML>
+            <group>RedGroup</group>
+            <description>Description</description>
+        </CreateConnectionRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/14023934</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>CreateConnectionRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/14023934</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken9</clientdata>
+  </header>
+  <data>
+    <CreateConnectionResponseData>
+      <streamNID>gG55klxHzHUqxD5</streamNID>
+      <roomNID>D7LDcB2FxPxXLM0</roomNID>
+    </CreateConnectionResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/14023934"
+INFO: Get Value: /Response/header/clientdata = "RequestToken9"
+INFO: Get Value: /Response/header/requestname = "CreateConnectionRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/14023934, Token: RequestToken9,  Time spent: 3007
+INFO: Get Value: //streamNID = "gG55klxHzHUqxD5"
+INFO: Get Value: /Response/header/state = "8"
+INFO: Replacing "$" with "gG55klxHzHUqxD5"
+INFO: Replacing "clientdata" with "RequestToken10"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>AddStreamActionRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken10</clientdata>
+    </header>
+    <data>
+        <AddStreamActionRequestData>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+            <profileNID>ProfileNID</profileNID>
+            <profileXML/>
+            <updateAction>Start</updateAction>
+        </AddStreamActionRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-552" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/D7LDcB2FxPxXLM0.nickname" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Watch</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-552" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/D7LDcB2FxPxXLM0.nickname" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Watch</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-621" to="deviceuser-default@localhost" from="roomuser-default@localhost/callcenter">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.common.service.XAuthServerAgent</agent>
+          </header>
+          <data>
+            <AddStreamActionRequestData>
+              <streamNID>gG55klxHzHUqxD5</streamNID>
+              <profileNID>ProfileNID</profileNID>
+              <profileXML />
+              <updateAction>Start</updateAction>
+            </AddStreamActionRequestData>
+            <requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-621" to="deviceuser-default@localhost" from="roomuser-default@localhost/callcenter">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.common.service.XAuthServerAgent</agent>
+          </header>
+          <data>
+            <AddStreamActionRequestData>
+              <streamNID>gG55klxHzHUqxD5</streamNID>
+              <profileNID>ProfileNID</profileNID>
+              <profileXML />
+              <updateAction>Start</updateAction>
+            </AddStreamActionRequestData>
+            <requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-622" to="roomuser-default@localhost" from="deviceuser-default@localhost/callcenter">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.common.service.XAuthClientAgent</agent>
+          </header>
+          <data>
+            <AddStreamActionRequestData>
+              <streamNID>gG55klxHzHUqxD5</streamNID>
+              <profileNID>ProfileNID</profileNID>
+              <profileXML />
+              <updateAction>Start</updateAction>
+            </AddStreamActionRequestData>
+            <requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID>
+            <xauthtoken>confirmed</xauthtoken>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-622" to="roomuser-default@localhost" from="deviceuser-default@localhost/callcenter">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.common.service.XAuthClientAgent</agent>
+          </header>
+          <data>
+            <AddStreamActionRequestData>
+              <streamNID>gG55klxHzHUqxD5</streamNID>
+              <profileNID>ProfileNID</profileNID>
+              <profileXML />
+              <updateAction>Start</updateAction>
+            </AddStreamActionRequestData>
+            <requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID>
+            <xauthtoken>confirmed</xauthtoken>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>AddStreamActionRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/2817912</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken10</clientdata>
+  </header>
+  <data>
+    <AddStreamActionResponseData>
+      <actionNID>4eW2949t6r4wXuM</actionNID>
+    </AddStreamActionResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/2817912"
+INFO: Get Value: /Response/header/clientdata = "RequestToken10"
+INFO: Get Value: /Response/header/requestname = "AddStreamActionRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/2817912, Token: RequestToken10,  Time spent: 1302
+INFO: Get Value: //actionNID = "4eW2949t6r4wXuM"
+INFO: Get Value: /Response/header/state = "8"
+INFO: Replacing "TestRoom" with ""
+INFO: Adding text "" to empty node
+INFO: Adding text "gG55klxHzHUqxD5" to empty node
+INFO: Replacing "clientdata" with "RequestToken11"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetMediaRoomListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken11</clientdata>
+    </header>
+    <data>
+        <GetMediaRoomListRequestData>
+            <name></name>
+            <mediaSourceNID></mediaSourceNID>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+        </GetMediaRoomListRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/21845084</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-646" to="deviceuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent>
+          </header>
+          <data>
+            <action>Start</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-646" to="deviceuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent>
+          </header>
+          <data>
+            <action>Start</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-762" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/deviceuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Start</action>
+            <streamURL>http://10.1.5.151/mpeg4/1/media.sdp</streamURL>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-762" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/deviceuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Start</action>
+            <streamURL>http://10.1.5.151/mpeg4/1/media.sdp</streamURL>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetMediaRoomListRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/21845084</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken11</clientdata>
+  </header>
+  <data>
+    <GetMediaRoomListResponseData>
+      <MediaRoomListItem NID="D7LDcB2FxPxXLM0">
+        <roomConfigNID>QwLXgWOD7fqV3Rj</roomConfigNID>
+        <roomConfigNID />
+        <Groups>
+          <Tag Name="" Value="" />
+        </Groups>
+        <roomType>1</roomType>
+        <name>TestRoom</name>
+        <description>Description</description>
+        <roomStatus>1</roomStatus>
+        <startTime>080504161114-0700</startTime>
+        <duration>0</duration>
+      </MediaRoomListItem>
+    </GetMediaRoomListResponseData>
+  </data>
+  <log>requestNID:1209942665555:0:deleteNode NID=4eW2949t6r4wXuM</log>
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/21845084"
+INFO: Get Value: /Response/header/clientdata = "RequestToken11"
+INFO: Get Value: /Response/header/requestname = "GetMediaRoomListRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/21845084, Token: RequestToken11,  Time spent: 1368
+INFO: Get Value: /Response/header/state = "8"
+PASS: RoomTest.ConnectionSetup
+INFO: Replacing "$" with "D7LDcB2FxPxXLM0"
+INFO: Replacing "clientdata" with "RequestToken12"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetMediaRoomRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken12</clientdata>
+    </header>
+    <data>
+        <GetMediaRoomRequestData>
+            <roomNID>D7LDcB2FxPxXLM0</roomNID>
+        </GetMediaRoomRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/28098397</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetMediaRoomRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/28098397</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken12</clientdata>
+  </header>
+  <data>
+    <GetMediaRoomResponseData>
+      <MediaRoom NIDScheme="AUTO" Parse="true" NID="D7LDcB2FxPxXLM0">
+        <data>
+          <roomConfigNID>QwLXgWOD7fqV3Rj</roomConfigNID>
+          <roomConfigNID />
+          <Groups>
+            <Tag Name="" Value="" />
+          </Groups>
+          <roomType>1</roomType>
+          <name>TestRoom</name>
+          <description>Description</description>
+          <roomStatus>1</roomStatus>
+          <startTime>080504161114-0700</startTime>
+          <duration>0</duration>
+        </data>
+        <tracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.tracklist" />
+        <systemtracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist">
+          <StreamTrack NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.StreamTrack">
+            <data>
+              <roomNID>D7LDcB2FxPxXLM0</roomNID>
+              <description>RedTrack0</description>
+              <trackType>0</trackType>
+              <parentTrackNID />
+            </data>
+            <mediasourcelist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.StreamTrack.mediasourcelist">
+              <MediaSource NIDScheme="AUTO" Parse="true" NID="oUOw79wcQFWh680">
+                <data>
+                  <roomNID>D7LDcB2FxPxXLM0</roomNID>
+                  <description>Description</description>
+                  <sourceNID>pH5LpLaSWf9Y4C8</sourceNID>
+                  <startTimeCode>0</startTimeCode>
+                  <startOffset>0</startOffset>
+                  <state>0</state>
+                  <trackNID>D7LDcB2FxPxXLM0.systemtracklist.StreamTrack</trackNID>
+                  <pvrEnabled>0</pvrEnabled>
+                  <isRelay>0</isRelay>
+                  <relayStreamNID>0</relayStreamNID>
+                  <sourceAgentJID>deviceuser-default@localhost</sourceAgentJID>
+                </data>
+                <streamlist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="oUOw79wcQFWh680.streamlist">
+                  <Stream NIDScheme="AUTO" Parse="true" NID="gG55klxHzHUqxD5">
+                    <data>
+                      <mediaSourceNID>oUOw79wcQFWh680</mediaSourceNID>
+                      <description>Description</description>
+                      <profileNID>IB4QRXMHX6IT5LV</profileNID>
+                      <profileXML>
+                        <V2DMediaStreamProfile NID="IB4QRXMHX6IT5LV">
+                          <Groups>
+                            <Tag Name="Network" Value="WAN" />
+                          </Groups>
+                          <Title>10M</Title>
+                          <Description>Description</Description>
+                          <StreamType>V2D</StreamType>
+                          <Priority>0</Priority>
+                          <StreamActionInfo>
+                            <AllowPause>true</AllowPause>
+                            <AllowSkipback>true</AllowSkipback>
+                            <AllowSkipfwd>true</AllowSkipfwd>
+                            <AllowV2DRemoteCtrl>true</AllowV2DRemoteCtrl>
+                          </StreamActionInfo>
+                          <V2DBasicProfile>
+                            <V2DStreamConfig>
+                              <IsMulticast>False</IsMulticast>
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+                              <SRDTranscodeBandwidth>SRDTranscodeBandwidth</SRDTranscodeBandwidth>
+                              <AVOption>Video</AVOption>
+                            </V2DStreamConfig>
+                            <V2DEncoderAudioConfig>
+                              <SampleRate>SampleRate</SampleRate>
+                              <SampleSize>SampleSize</SampleSize>
+                              <MonoStereo>MonoStereo</MonoStereo>
+                              <AudioEncodeEnable>true</AudioEncodeEnable>
+                            </V2DEncoderAudioConfig>
+                            <V2DEncoderConnectionParameterConfig>
+                              <BurstRatio>0.0</BurstRatio>
+                              <BurstDuration>0</BurstDuration>
+                              <Compression>
+                                <High>0</High>
+                                <Low>0</Low>
+                              </Compression>
+                              <Bandwidth>15000</Bandwidth>
+                              <Refresh>
+                                <Min>0</Min>
+                                <Max>0</Max>
+                              </Refresh>
+                              <Slice>
+                                <Min>0</Min>
+                                <Max>0</Max>
+                              </Slice>
+                              <BlockThreshold>0</BlockThreshold>
+                              <Enable444>true</Enable444>
+                            </V2DEncoderConnectionParameterConfig>
+                            <V2DEncoderConnectionParameterKbmConfig>
+                              <KbType>SGI</KbType>
+                              <MouseType>PS2</MouseType>
+                              <AllowKMSwitch>true</AllowKMSwitch>
+                              <KMIdleTime>0</KMIdleTime>
+                              <EnableKbm>False</EnableKbm>
+                            </V2DEncoderConnectionParameterKbmConfig>
+                          </V2DBasicProfile>
+                          <V2DAdvancedProfile>
+                            <V2DCodecVideoLookupTable>
+                              <V2DCodecVideoLookupEntryConfig>
+                                <LUTID>0</LUTID>
+                                <Name>Name</Name>
+                                <Resolution>
+                                  <Horizontal>0</Horizontal>
+                                  <Vertical>0</Vertical>
+                                </Resolution>
+                                <RefreshRate>0.0</RefreshRate>
+                                <PixelClockRate>0.0</PixelClockRate>
+                                <Stereo>true</Stereo>
+                                <FrontPorch>
+                                  <Horizontal>0</Horizontal>
+                                  <Vertical>0</Vertical>
+                                </FrontPorch>
+                                <BackPorch>
+                                  <Horizontal>0</Horizontal>
+                                  <Vertical>0</Vertical>
+                                </BackPorch>
+                                <Sync>
+                                  <Horizontal>0</Horizontal>
+                                  <Vertical>0</Vertical>
+                                </Sync>
+                                <VerticalMargin>0</VerticalMargin>
+                                <SyncPolarity>SyncPolarity</SyncPolarity>
+                                <Phase>0</Phase>
+                                <Position>
+                                  <Horizontal>0</Horizontal>
+                                  <Vertical>0</Vertical>
+                                </Position>
+                                <NoiseElimination>
+                                  <Coarse>0</Coarse>
+                                  <Fine>0</Fine>
+                                </NoiseElimination>
+                                <ColorSpace>ColorSpace</ColorSpace>
+                                <ChargePumpCurr>ChargePumpCurr</ChargePumpCurr>
+                                <Gain>
+                                  <Red>0</Red>
+                                  <Green>0</Green>
+                                  <Blue>0</Blue>
+                                </Gain>
+                                <Offset>
+                                  <Red>0</Red>
+                                  <Green>0</Green>
+                                  <Blue>0</Blue>
+                                </Offset>
+                              </V2DCodecVideoLookupEntryConfig>
+                            </V2DCodecVideoLookupTable>
+                            <V2DEncoderVideoConfig>
+                              <NoiseElimination>
+                                <Coarse>0</Coarse>
+                                <Fine>0</Fine>
+                              </NoiseElimination>
+                              <Position>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </Position>
+                              <SamplingPhase>0</SamplingPhase>
+                              <Gain>
+                                <Red>0</Red>
+                                <Green>0</Green>
+                                <Blue>0</Blue>
+                              </Gain>
+                              <Offset>
+                                <Red>0</Red>
+                                <Green>0</Green>
+                                <Blue>0</Blue>
+                              </Offset>
+                              <PumpCurr>0</PumpCurr>
+                              <LUTPumpCurr>LUTPumpCurr</LUTPumpCurr>
+                              <UpdateCurrentLUT>true</UpdateCurrentLUT>
+                            </V2DEncoderVideoConfig>
+                            <V2DEncoderSerialConfig>
+                              <SerialPort>0</SerialPort>
+                              <BaudRate>0</BaudRate>
+                              <DataBits>0</DataBits>
+                              <Parity>Parity</Parity>
+                              <StopBits>0</StopBits>
+                              <FlowControl>FlowControl</FlowControl>
+                              <MaximumWaitTime>0</MaximumWaitTime>
+                            </V2DEncoderSerialConfig>
+                            <V2DEncoderSplashParametersConfig>
+                              <SplashScreen>SplashScreen</SplashScreen>
+                              <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                              <EnableSplash>true</EnableSplash>
+                              <Stereo>true</Stereo>
+                              <Resolution>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </Resolution>
+                              <RefreshRate>0.0</RefreshRate>
+                              <PixelClockRate>0.0</PixelClockRate>
+                              <FrontPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </FrontPorch>
+                              <BackPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </BackPorch>
+                              <Sync>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </Sync>
+                            </V2DEncoderSplashParametersConfig>
+                            <V2DDecoderVideoConfig>
+                              <PixelAdjust>0</PixelAdjust>
+                              <PhaseAdjust>0</PhaseAdjust>
+                              <StereoSync>StereoSync</StereoSync>
+                              <SyncPolarity>SyncPolarity</SyncPolarity>
+                              <GenlockMode>GenlockMode</GenlockMode>
+                              <LocalLUT>true</LocalLUT>
+                            </V2DDecoderVideoConfig>
+                            <V2DDecoderSerialConfig>
+                              <SerialPort>0</SerialPort>
+                              <BaudRate>0</BaudRate>
+                              <DataBits>0</DataBits>
+                              <Parity>Parity</Parity>
+                              <StopBits>0</StopBits>
+                              <FlowControl>FlowControl</FlowControl>
+                              <MaximumWaitTime>0</MaximumWaitTime>
+                            </V2DDecoderSerialConfig>
+                            <V2DDecoderSplashParametersConfig>
+                              <SplashScreen>SplashScreen</SplashScreen>
+                              <SplashBandwidth>SplashBandwidth</SplashBandwidth>
+                              <EnableSplash>true</EnableSplash>
+                              <Stereo>true</Stereo>
+                              <Resolution>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </Resolution>
+                              <RefreshRate>0.0</RefreshRate>
+                              <PixelClockRate>0.0</PixelClockRate>
+                              <FrontPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </FrontPorch>
+                              <BackPorch>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </BackPorch>
+                              <Sync>
+                                <Horizontal>0</Horizontal>
+                                <Vertical>0</Vertical>
+                              </Sync>
+                            </V2DDecoderSplashParametersConfig>
+                          </V2DAdvancedProfile>
+                        </V2DMediaStreamProfile>
+                      </profileXML>
+                      <destNID />
+                      <roomNID>D7LDcB2FxPxXLM0</roomNID>
+                      <sourceNID>pH5LpLaSWf9Y4C8</sourceNID>
+                      <sourceAgentJID>deviceuser-default@localhost</sourceAgentJID>
+                      <destAgentJID>roomuser-default@192.168.1.209/callcenter</destAgentJID>
+                      <destGroup>callcenter</destGroup>
+                    </data>
+                    <Instance NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="gG55klxHzHUqxD5.Instance">
+                      <sourcePortInstanceNID>pH5LpLaSWf9Y4C8.InstanceInfo</sourcePortInstanceNID>
+                      <destPortInstanceNID />
+                      <sourceDeviceInputInstanceNID>vRpgYAnDASKztcS.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.1001</sourceDeviceInputInstanceNID>
+                      <sourceDeviceOutputInstanceNID>vRpgYAnDASKztcS.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.1000</sourceDeviceOutputInstanceNID>
+                    </Instance>
+                    <Status NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="gG55klxHzHUqxD5.Status">
+                      <state>1</state>
+                      <startTime>0</startTime>
+                    </Status>
+                    <actionlist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="gG55klxHzHUqxD5.actionlist" />
+                  </Stream>
+                </streamlist>
+                <referencelist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="oUOw79wcQFWh680.referencelist" />
+              </MediaSource>
+            </mediasourcelist>
+          </StreamTrack>
+          <RecordTrack NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.RecordTrack">
+            <data>
+              <roomNID>D7LDcB2FxPxXLM0</roomNID>
+              <description>RedTrack0</description>
+              <trackType>0</trackType>
+              <parentTrackNID />
+            </data>
+            <mediasourcelist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.RecordTrack.mediasourcelist" />
+          </RecordTrack>
+          <PVRTrack NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.PVRTrack">
+            <data>
+              <roomNID>D7LDcB2FxPxXLM0</roomNID>
+              <description>RedTrack0</description>
+              <trackType>0</trackType>
+              <parentTrackNID />
+            </data>
+            <mediasourcelist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="D7LDcB2FxPxXLM0.systemtracklist.PVRTrack.mediasourcelist" />
+          </PVRTrack>
+        </systemtracklist>
+      </MediaRoom>
+    </GetMediaRoomResponseData>
+  </data>
+  <log />
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/28098397"
+INFO: Get Value: /Response/header/clientdata = "RequestToken12"
+INFO: Get Value: /Response/header/requestname = "GetMediaRoomRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/28098397, Token: RequestToken12,  Time spent: 1041
+INFO: Get Value: //Stream/Status/state = "1"
+INFO: Get Value: /Response/header/state = "8"
+PASS: RoomTest.Connection MediaRoomCheck
+INFO: Replacing "$" with "D7LDcB2FxPxXLM0"
+INFO: Replacing "clientdata" with "RequestToken13"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>DeleteMediaRoomRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken13</clientdata>
+    </header>
+    <data>
+        <DeleteMediaRoomRequestData>
+            <roomNID>D7LDcB2FxPxXLM0</roomNID>
+        </DeleteMediaRoomRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/1880086</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-915" to="deviceuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent>
+          </header>
+          <data>
+            <action>Stop</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-915" to="deviceuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>deviceuser-default/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent>
+          </header>
+          <data>
+            <action>Stop</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-976" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/deviceuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Stop</action>
+            <streamURL />
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-976" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/deviceuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>Stop</action>
+            <streamURL />
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-990" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>UnWatch</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ %IpvsAppletPrompt%
+INFO: Received a Notification: "
+<?xml version="1.0" encoding="UTF-8"?>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="TuIE8-990" to="roomuser-default@localhost/callcenter" from="d7ldcb2fxpxxlm0@conference.localhost/roomuser-default@192.168.1.209" type="groupchat">
+      <body>
+        <AgentMessage>
+          <header>
+            <agent>roomuser-default/com.ipvs.mediaroomservice.impl.DestStreamAgent</agent>
+          </header>
+          <data>
+            <action>UnWatch</action>
+            <streamNID>gG55klxHzHUqxD5</streamNID>
+          </data>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+
+
+ "
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>DeleteMediaRoomRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/1880086</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken13</clientdata>
+  </header>
+  <data>
+    <DeleteMediaRoomResponseData>
+      <roomNID>D7LDcB2FxPxXLM0</roomNID>
+    </DeleteMediaRoomResponseData>
+  </data>
+  <log>requestNID:1209942665555:0:deleteNode NID=X5dE9PpgFoONrXJ</log>
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/1880086"
+INFO: Get Value: /Response/header/clientdata = "RequestToken13"
+INFO: Get Value: /Response/header/requestname = "DeleteMediaRoomRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/1880086, Token: RequestToken13,  Time spent: 6485
+INFO: Get Value: /Response/header/state = "8"
+INFO: Replacing "$" with "D7LDcB2FxPxXLM0"
+INFO: Replacing "clientdata" with "RequestToken14"
+INFO: ===> sendRequest roomuser-default@192.168.1.209/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>DeleteMediaRoomRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken14</clientdata>
+    </header>
+    <data>
+        <DeleteMediaRoomRequestData>
+            <roomNID>D7LDcB2FxPxXLM0</roomNID>
+        </DeleteMediaRoomRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>roomuser-default@192.168.1.209/callcenter/17222722</requestNID></Request>
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>DeleteMediaRoomRequest</requestname>
+    <userJID>roomuser-default@192.168.1.209/callcenter</userJID>
+    <requestNID>roomuser-default@192.168.1.209/callcenter/17222722</requestNID>
+    <state>0</state>
+    <clientdata>RequestToken14</clientdata>
+  </header>
+  <data>
+    <Exception>D7LDcB2FxPxXLM0</Exception>
+  </data>
+  <log>roomuser-default@192.168.1.209/callcenter/17222722:1209942665555:2002:D7LDcB2FxPxXLM0
+
+D7LDcB2FxPxXLM0
+	at com.ipvs.mediaroomservice.handler.DeleteMediaRoomRequestHandler.getResponse(DeleteMediaRoomRequestHandler.java:57)
+	at com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:94)
+	at com.ipvs.common.service.MRServerThread.run(MRServerThread.java:140)
+	at java.lang.Thread.run(Thread.java:619)</log>
+</Response>
+
+
+ %IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "roomuser-default@192.168.1.209/callcenter"
+INFO: Get Value: /Response/header/requestNID = "roomuser-default@192.168.1.209/callcenter/17222722"
+INFO: Get Value: /Response/header/clientdata = "RequestToken14"
+INFO: Get Value: /Response/header/requestname = "DeleteMediaRoomRequest"
+INFO: Got response for UserJID: roomuser-default@192.168.1.209/callcenter, requestNID: roomuser-default@192.168.1.209/callcenter/17222722, Token: RequestToken14,  Time spent: 92
+INFO: Get Value: /Response/header/state = "0"
+PASS: RoomTest.Connection MediaRoomTeardown
+PASS: RoomTest
+INFO: ===> logout roomuser-default@192.168.1.209/callcenter
+
+PASS: LoginTeardown roomuser-default
+INFO: ===> logout deviceuser-default@192.168.1.209/callcenter
+
+PASS: LoginTeardown deviceuser-default
+PASS: RoomTest Room Device
+testcase ./mr_scripts/room_device_test.exp completed in 30 seconds
+
+		=== mr_scripts Summary ===
+
+# of expected passes		14
+runtest completed at Sun May  4 16:11:31 2008

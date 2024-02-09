@@ -1,0 +1,49 @@
+<Menu>
+
+   <Type>list</Type>
+   <Title>RFBConnectionList</Title>
+   <Description>RFB Connection Entry</Description>
+   <Access>rfb_connection_list</Access>
+   <ConfigFile>rfbconnectionlistconf</ConfigFile>
+   <BoardAccess>false</BoardAccess>
+   <SelectItemCallback>true</SelectItemCallback>
+
+   <Items>
+   
+      <Item>
+        <Name>ipaddress</Name>
+        <Type>string</Type>
+        <Label>IP Address</Label>
+        <Help>IP Address of the RFB Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>port</Name>
+        <Type>integer</Type>
+        <Label>Port</Label>
+        <Help>Port for the Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+      
+      <Item>
+        <Name>password</Name>
+        <Type>password</Type>
+        <Label>Password</Label>
+        <Help>Password to Connect to Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue></DefaultValue>
+      </Item>
+      
+   </Items>
+</Menu>

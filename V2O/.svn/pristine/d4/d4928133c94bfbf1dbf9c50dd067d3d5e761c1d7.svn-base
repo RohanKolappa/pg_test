@@ -1,0 +1,61 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>DHCPServer</Title>
+   <Description>DHCP Server Configuration</Description>
+   <Access>dhcp_server</Access>
+   <ConfigFile>dhcpserverconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable</Label>
+        <Help>Enable DHCP Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+
+      <Item>
+        <Name>start_ip</Name>
+        <Type>string</Type>
+        <Label>Start IP Address</Label>
+        <Help>Start IP Address for DHCP Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>10.1.5.1</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>end_ip</Name>
+        <Type>string</Type>
+        <Label>End IP Address</Label>
+        <Help>End IP Address for DHCP Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>10.1.5.50</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>dns_server</Name>
+        <Type>string</Type>
+        <Label>DNS Server</Label>
+        <Help>The DNS Server IP address to be published</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>192.168.1.254</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>
+

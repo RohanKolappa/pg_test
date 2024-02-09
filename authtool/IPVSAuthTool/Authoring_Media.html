@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Manage Media Libraries</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="pc.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+
+#dhtmltooltip{
+position: absolute;
+width: 150px;
+border: 2px solid #000033;
+padding: 2px;
+background-color: lightyellow; 
+visibility: hidden;
+z-index: 100;
+}
+
+</style>
+
+<script language="javascript" SRC="xmldom.js"></script>
+<script language="javascript" SRC="JSUnserialize.js"></script>
+<script>
+<!--
+var axAuthor = new ActiveXObject("IPVSAxAuthor.ProjectManager");
+var authFolder = "C:\\IP Video Systems\\IPVSAuthTool";  // Assumed for now
+var settingsFile = "config\\settings.xml";
+var defaultDMS = "";
+
+function Open(Sub) {
+  a = document.getElementById(Sub).style
+  if (a.display == 'block') {
+    a.display = 'none'
+  } else {
+    a.display = 'block'
+  }
+}
+
+function init() {
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  folderBool = fso.FolderExists(authFolder);
+  if(!folderBool) {
+    authFolder = fso.CreateFolder(authFolder);
+  }
+  if(fso.FileExists(authFolder + "\\" + settingsFile)) {
+    var settings = parseXML(authFolder + "\\" + settingsFile, fso);
+    defaultDMS = settings.getElements("DMS")[0].getText();
+    LibPath = settings.getElements("MEDIALIBRARY")[0].getText();
+    if(!fso.FolderExists(LibPath)) {
+      alert("Invalid Library Path");
+      return
+    }
+    var f = fso.GetFolder(LibPath.toString());
+    var e = new Enumerator(f.SubFolders);
+    for(;!e.atEnd();e.moveNext()) {
+      document.getElementById("library").options.add(new Option(e.item().Name, LibPath + e.item().Name));
+    }
+    f = null;
+	  e = null;
+  }
+  else {
+    alert("Please set Media library path in settings");
+    document.location.href = "Authoring_Settings.html";
+  }
+  fso = null;
+}
+
+function parseXML(fPath, objFSO) {
+  if(objFSO == undefined)
+  {
+    objFSO = new ActiveXObject('Scripting.FileSystemObject');
+  }
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+
+  strContents = objFSO.OpenTextFile(fPath, 1).ReadAll();
+  strContents = strContents.replace(/ID=>/,"ID='0'>");
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null ) {
+    alert( "Could not parse xml data");
+    return null;
+  }
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null ) {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return null;
+  }
+  xmlDoc = null;
+  return root;
+}
+
+function xmlErr( e ) {
+  alert(e);
+}
+
+function loadPrograms()
+{
+  document.getElementById("divProgramsList").innerHTML = "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td class='col3'  width='70%'>Name</td><td class='col3' width='16%'>Date</td><td class='col3' width='7%'>Length</td><td class='col3' width='7%'>Size</td></tr></table>";
+  path = document.getElementById("library").value;
+  if(path == "Select")
+    return;
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+ 
+  if(!fso.FolderExists(path + "\\db")) {
+    alert("Media is not available (or cannot be managed) at selected local Library");
+    return;
+  }
+  strListTable = "<table id='tblList' width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td class='col3' width='70%'>Name</td><td class='col3' width='16%'>Date</td><td class='col3' width='7%'>Length</td><td class='col3' width='7%'>Size</td></tr>";
+  var f = fso.GetFolder(path + "\\db" );
+  var e = new Enumerator(f.Files);
+  i = 0;
+  for(;!e.atEnd();e.moveNext()) {
+    fname = e.item().Name
+    stream = parseXML(path + "\\db\\" + fname, fso);
+    clips = stream.getElements("CLIPS");
+    if(clips.length > 0) {
+      if(clips[0].getText() != "") {
+        if(i%2 == 0) {
+	        cls = "class=row6";
+	      }
+	      else {
+	        cls = "class=row5";
+	      }
+        mediaentry = PHP_Unserialize(stream.getElements("METADATA")[0].getText());
+        title = mediaentry[2];
+        lng = mediaentry[4];
+        hr = parseInt(lng/3600);
+        mins = parseInt(lng/60);
+        mm = mins % 60;
+        ss = lng % 60;
+        if(hr<10)
+          hr = "0" + hr;
+        if(mm<10)
+          mm = "0" + mm;
+        if(ss<10)
+          ss = "0" + ss;
+        streamLength =  hr + ":" + mm + ":" + ss;
+        dt = new Date(mediaentry[8] * 1000);
+        MM = dt.getMonth() + 1;
+        if(MM < 10)
+          MM = "0" + MM;
+        DD = dt.getDate();
+        if(DD < 10)
+          DD = "0" + DD;
+        HH = dt.getHours();
+        if(HH < 10)
+          HH = "0" + HH;
+        MIN = dt.getMinutes();
+        if(MIN < 10)
+          MIN = "0" + MIN;
+        SEC = dt.getSeconds();
+        if(SEC < 10)
+          SEC = "0" + SEC;
+        strDate = MM + "/" + DD + "/" + dt.getFullYear() + " " + HH + ":" + MIN + ":" + SEC;
+        size = mediaentry[12];
+        size = Math.round((size/(1024*1024))*100)/100;
+        size += "&nbsp;GB";
+        strListTable += "<tr><td " + cls + ">";
+        strListTable += "<input name='" + fname + "' type='checkbox' value='" + fname + "'>";
+        strListTable += "<span id='open-" + i + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\" onmousedown=\"return Open('sub-" + i + "')\"><img src='images/btnProgram.gif' width='21' height='19' align='absmiddle'>" + title + "</span>";
+				strListTable += "</td>";
+				strListTable += "<td " + cls + ">" + strDate + "</td>";
+        strListTable += "<td " + cls + ">" + streamLength + "</td>";
+        strListTable += "<td " + cls + ">" + size + "</td>";
+        strListTable += "</tr>";
+        strListTable += "<tr><td colspan='4'><div id='sub-" + i + "' class='subs'><table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+        fnamePrefix = fname.split("_")[0];
+        clipfnames = clips[0].getText().split(",");
+        for (var clipCount=0; clipCount<clipfnames.length; clipCount++) {
+          clipfname = fnamePrefix + "_" + clipfnames[clipCount];
+          clipDATA = "";
+          clipDATA = parseXML(path + "\\db\\" + clipfname, fso);
+          mediaClip = PHP_Unserialize(clipDATA.getElements("METADATA")[0].getText());
+          title = mediaClip[2];
+          lng = mediaClip[4];
+          hr = parseInt(lng/3600);
+          mins = parseInt(lng/60);
+          mm = mins % 60;
+          ss = lng % 60;
+          streamLength =  hr + ":" + mm + ":" + ss;
+          size = mediaClip[12];
+          size = Math.round((size/(1024*1024))*100)/100;
+          strListTable += "<tr><td " + cls + " style='padding-left:20px'>&nbsp;" + title + "</td></tr>";
+        }
+        strListTable += "</table></div></td></tr>";
+        i++;
+      }
+    }
+  }
+  strListTable += "</table>";
+  document.getElementById("divProgramsList").innerHTML = strListTable;
+  fso = null;
+  f = null;
+  e = null;
+}
+
+function openDMS() {
+  if(defaultDMS == "") {
+    alert("Set default DMS in Settings");
+    return;
+  }
+  url = "http://" + defaultDMS + "/soap/mediaXfer.php";
+  window.open(url,"AddFromDMS");
+}
+
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+
+function deleteMedia() {
+  cint = document.frmLibrary.elements.length;
+  if(cint == 0) {
+    alert("Select Programs to Delete");
+    return;
+  }
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  cint = document.frmLibrary.elements.length;
+  flg = false;
+  for(i=cint-1; i>=0; i--) {
+    src = document.frmLibrary.elements[i];
+    if((src.type == "checkbox") && (src.checked)) {
+      basePath = document.getElementById("library").value;
+      parentfname = src.value;
+      fnamePrefix = parentfname.split("_")[0];
+      parentpath = basePath + "\\db\\" + parentfname;
+      parentClip = parseXML(parentpath);
+      clips = parentClip.getElements("CLIPS");
+      clipfnames = clips[0].getText().split(",");
+      for(j=0; j<clipfnames.length; j++) {
+        clipfname = fnamePrefix + "_" + clipfnames[j];
+        clipDBPath = basePath + "\\db\\" + clipfname;
+        clipBLOB = basePath + "\\blob\\" + clipfname;
+        fso.DeleteFile(clipDBPath, true);
+        fso.DeleteFolder(clipBLOB, true);
+      }
+      fso.DeleteFile(parentpath, true);
+      var oRowIndex = src.parentElement.parentElement.rowIndex;
+      document.all("tblList").deleteRow(oRowIndex+1);
+      document.all("tblList").deleteRow(oRowIndex);
+      flg = true;
+    }
+  }
+  fso = null;
+  if(!flg) {
+     alert("Select Programs to Delete");
+  }
+  document.getElementById("checkAll").checked = false;
+}
+
+function toggleSelect(chk)
+{
+  if(document.getElementById("library").value == "Select") {
+    alert("Select Media Library");
+    document.getElementById(chk).checked = false;
+    document.getElementById("library").focus();
+    return;
+  }
+  Cnt = document.frmLibrary.elements.length;
+  if(Cnt == 0) {
+    alert("There are no programs in selected Library");
+    document.getElementById(chk).checked = false;
+    return;
+  }
+  if(chk == "checkAll") {
+    md = document.getElementById("checkAll").checked;
+    document.getElementById("checkNone").checked = false;
+  }
+  else if(chk == "checkNone"){
+    md = false;
+    document.getElementById("checkAll").checked = false;
+  }
+  for(j=0; j<Cnt; j++) {
+    document.frmLibrary.elements[j].checked = md;
+  }
+}
+//-->
+</script>
+</head>
+
+<body class="body" onload="init()">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+	<tr>
+		<td class="H1">
+			<div>
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img src="Images/logoClientHeader.gif" align="absmiddle"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50">IPVS Authoring Station</div>
+				<div style="text-align:right;padding-top:4px"><span class="t5white"><a href="Authoring_Home.html">Home</a> | <a href="Authoring_Settings.html">Settings</a> | <a href="Authoring_Projects.html">Projects</a> | <a href="Authoring_Media.html">Manage
+				      Media</a> | <a href="Authoring_Burn.html">Create Media</a> | <a href="Authoring_about.html">About</a>&nbsp;&nbsp;</span></div>
+  			</div>
+		</td>
+  	<tr>
+    	<td style="padding-left:20px" align="left" valign="top">
+			<span class="t1bmid">Manage Media Libraries</span>
+			<hr width="400">
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px"> <!-- TOP FORM SECTION -->
+			<table width="514" border="0" cellspacing="5" cellpadding="0">
+                  <tr>
+                    <td width="106" align="left" class="T4bWhite">Media Library:</td>
+          <td width="194"><select name="library" onchange="loadPrograms();">
+            <option value="Select">Select Library</option>
+                    </select></td>
+                    <td width="194">&nbsp;<!-- <button>Create New Library</button> --></td>
+                  </tr>
+                </table>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px" height="100%"> 
+		
+		
+		<!-- BODY SECTION -->
+		
+			<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center">
+			<tr>
+				<td height="100%" width="100%" align="left" valign="top">	
+					<table width="80%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #23417d;filter:shadow(color:gray,strength:30, direction:135);">
+				  		<tr>
+							<td height="100%" align="left" valign="top" class="H4">Media Library</td>
+						</tr>
+				  		<tr>
+							<td height="100%" align="left" valign="top" bgcolor="#ebeff5">
+               <form name="frmLibrary">
+					  			<div id="divProgramsList" style="width:100%;height:100%;overflow:auto">
+									<table width="100%" border="0" cellpadding="0" cellspacing="0">
+									  <tr>
+										<td class="col3" width="70%">Name</td>
+										<td class="col3" width="16%">Date</td>
+										<td class="col3" width="7%">Length</td>
+										<td class="col3" width="7%">Size</td>
+									  </tr></table>
+					  		</div>
+                 </form>
+						</td>
+				  	</tr>
+				  	<tr>
+						<td valign="top" class="col1">
+							  <div style="height:30px; padding: 2px">
+								<div style="float:left">
+									<span class="T5">Select:&nbsp;&nbsp;<input type="checkbox" name="checkAll" value="checkAll" onclick="toggleSelect('checkAll')">All&nbsp;&nbsp;<input type="checkbox" name="checkNone" value="checkNone" onclick="toggleSelect('checkNone')">None</span></div>
+								<div style="text-align:right;padding-right:50px;">
+								  <button onClick="deleteMedia()">Delete</button>&nbsp;&nbsp;&nbsp;
+								  <!-- <button>Add From Local</button>&nbsp;&nbsp;&nbsp; -->
+								  <button onMouseover="ddrivetip('As of this release, only V2D and MPEG2 type media is compatible with the IPVS Authoring Station. Downloading other types of media may corrupt the library.','#FFFF99', 300)";
+onMouseout="hideddrivetip()" onClick="openDMS()">Add From DMS</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								  <button onClick="MM_goToURL('parent','Authoring_Home.html');return document.MM_returnValue">&nbsp;&nbsp;Exit&nbsp;&nbsp;</button>
+								</div>
+							  </div>
+						</td>
+				  </tr>
+				</table>
+				</td>
+			  </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px">
+			<br><br>
+	</td>
+  </tr>
+  <tr>
+    <td class="footer">&nbsp;</td>
+  </tr>
+</table>
+
+<div id="dhtmltooltip"></div>
+
+<script type="text/javascript">
+
+/***********************************************
+* Cool DHTML tooltip script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+var offsetxpoint=-60 //Customize x offset of tooltip
+var offsetypoint=20 //Customize y offset of tooltip
+var ie=document.all
+var ns6=document.getElementById && !document.all
+var enabletip=false
+if (ie||ns6)
+var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : ""
+
+function ietruebody(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function ddrivetip(thetext, thecolor, thewidth){
+if (ns6||ie){
+if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
+if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
+tipobj.innerHTML=thetext
+enabletip=true
+return false
+}
+}
+
+function positiontip(e){
+if (enabletip){
+var curX=(ns6)?e.pageX : event.clientX+ietruebody().scrollLeft;
+var curY=(ns6)?e.pageY : event.clientY+ietruebody().scrollTop;
+//Find out how close the mouse is to the corner of the window
+var rightedge=ie&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20
+var bottomedge=ie&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20
+
+var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000
+
+//if the horizontal distance isn't enough to accomodate the width of the context menu
+if (rightedge<tipobj.offsetWidth)
+//move the horizontal position of the menu to the left by it's width
+tipobj.style.left=ie? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+else if (curX<leftedge)
+tipobj.style.left="5px"
+else
+//position the horizontal position of the menu where the mouse is positioned
+tipobj.style.left=curX+offsetxpoint+"px"
+
+//same concept with the vertical position
+if (bottomedge<tipobj.offsetHeight)
+tipobj.style.top=ie? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px"
+else
+tipobj.style.top=curY+offsetypoint+"px"
+tipobj.style.visibility="visible"
+}
+}
+
+function hideddrivetip(){
+if (ns6||ie){
+enabletip=false
+tipobj.style.visibility="hidden"
+tipobj.style.left="-1000px"
+tipobj.style.backgroundColor=''
+tipobj.style.width=''
+}
+}
+
+document.onmousemove=positiontip
+
+</script>
+</body>
+</html>

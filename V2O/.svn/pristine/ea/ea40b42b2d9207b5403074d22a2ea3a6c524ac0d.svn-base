@@ -1,0 +1,54 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>TxAVBuffers</Title>
+   <Description>TX Audio Video Buffers</Description>
+   <Access>tx_av_buffers</Access>
+   <ConfigFile>tx_av_buffers</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+      <Item>
+        <Name>read_video_queue_limit</Name>
+        <Type>integer</Type>
+        <Label>Read Video Queue Limit</Label>
+        <Help>Read Video Queue Limit</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>16</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>4000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>read_audio_queue_limit</Name>
+        <Type>integer</Type>
+        <Label>Read Audio Queue Limit</Label>
+        <Help>Read Audio Queue Limit</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>2</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>1024</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>write_audio_queue_limit</Name>
+        <Type>integer</Type>
+        <Label>Write Audio Queue Limit</Label>
+        <Help>Write Audio Queue Limit</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>2</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>1024</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

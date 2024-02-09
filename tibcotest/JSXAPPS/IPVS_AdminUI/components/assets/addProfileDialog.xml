@@ -1,0 +1,216 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="825" jsxheight="600" jsxzindex="5000" jsxwindowstate="1" jsxleft="0" jsxtop="0"></variants>
+    <strings jsxname="DialogProfile"></strings>
+    <dynamics jsxbgcolor="P4BG"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Profile" jsxcolor="#fff;" jsxfontweight="bold"></strings>
+      <dynamics jsxbg="Dialog Titlebar" jsxbgcolor="@Solid Shadow"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize" jsxcolor=""></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute=""></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfDlgEditProfile" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;  &lt;/data&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="23,*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="P3"></dynamics>
+        <object type="jsx3.gui.TabbedPane">
+          <variants selectedIndex="2" jsxselectedindex="0"></variants>
+          <strings jsxname="tabbedpane" jsxtextalign="0"></strings>
+          <object type="jsx3.gui.Tab">
+            <variants jsxzindex="3" jsxheight="20" jsxwidth="60"></variants>
+            <strings jsxname="tabProfileInfo" jsxtext="Info" jsxbgcolor="#d4d4d4" jsxactivecolor="#e5e5e5" jsxinactivecolor="#d4d4d4" jsxtextalign="center"></strings>
+            <dynamics jsxfontsize="BaseText"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="paneProfileInfo" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxvisibility="visible" jsxdisplay=""></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Tab">
+            <variants jsxzindex="3" jsxheight="20" jsxwidth="60"></variants>
+            <strings jsxname="tabProfileConfig" jsxtext="Config" jsxbgcolor="#e5e5e5" jsxactivecolor="#e5e5e5" jsxinactivecolor="#d4d4d4" jsxtextalign="center"></strings>
+            <dynamics jsxfontsize="BaseText"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxname="paneProfileConfig" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible"></strings>
+              <dynamics jsxbgcolor="P3BG"></dynamics>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkInfoConfigProfile" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+          <dynamics jsxborder="@Outset Bottom"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="blkProfileInfo" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""></strings>
+            <dynamics jsxbgcolor="P3BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxleft="314" jsxtop="130" jsxwidth="300" jsxheight="100" jsxoverflow="2" jsxrelativeposition="1"></variants>
+              <strings jsxname="blkProfileHiddenContent" jsxborder="solid 1px #999999;" jsxdisplay="none"></strings>
+              <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtProfileXMLServiceVersion" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="serviceVer"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtProfileXMLVersion" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="Ver"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtProfileXMLRevision" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="Rev"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="3" jsxtop="18" jsxwidth="110"></variants>
+              <strings jsxname="lblProfileType" jsxtext="Profile Type:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="100" jsxheight="18" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="117" jsxtop="18"></variants>
+              <strings jsxname="selProfileType" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="StreamType"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="240" jsxtop="18" jsxwidth="100" jsxheight="18"></variants>
+              <strings jsxname="lblProfilePriority" jsxtext="Profile Priority:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="350" jsxtop="18" jsxwidth="40"></variants>
+              <strings jsxname="txtProfilePriority" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Priority"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="3" jsxtop="48" jsxwidth="110"></variants>
+              <strings jsxname="lblProfileName" jsxtext="Profile Name:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="115" jsxtop="48" jsxwidth="200"></variants>
+              <strings jsxname="txtProfileName" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Title"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="3" jsxtop="80" jsxwidth="110"></variants>
+              <strings jsxname="lblProfileDescription" jsxtext="Profile Description:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="115" jsxtop="80" jsxwidth="350" jsxtype="0"></variants>
+              <strings jsxname="txtProfileDescription" jsxmargin="0 4 0 0" jsxdisplay="" jsxwrap="0" jsxcdfattribute="Description"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="3" jsxtop="110" jsxwidth="110"></variants>
+              <strings jsxname="lblProfileTags" jsxtext="Assign Tags:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="114" jsxtop="130" jsxwidth="160"></variants>
+              <strings jsxname="lblProfileAddTagName" jsxtext="Enter/Select Tag Name:" jsxdisplay="" jsxtextalign="left" jsxfontweight="bold"></strings>
+              <dynamics jsxfontsize="SmallText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="114" jsxtop="165" jsxwidth="160"></variants>
+              <strings jsxname="lblProfileAddTagValue" jsxtext="Enter/Select Tag Value:" jsxdisplay="" jsxtextalign="left" jsxfontweight="bold"></strings>
+              <dynamics jsxfontsize="SmallText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="170" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="114" jsxtop="144"></variants>
+              <strings jsxname="cmbProfileAddTagName" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="170" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="114" jsxtop="179"></variants>
+              <strings jsxname="cmbProfileAddTagValue" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="237" jsxtop="210" jsxwidth="40"></variants>
+              <strings jsxname="btnProfileAddTag" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxstyleoverride="background-image: url(JSXAPPS/IPVS_AdminUI/images/buttons/btnBG.jpg);"></strings>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxleft="314" jsxtop="130" jsxwidth="300" jsxheight="100" jsxoverflow="2" jsxrelativeposition="0"></variants>
+              <strings jsxname="blkGroupListContainer" jsxborder="solid 1px #999999;"></strings>
+              <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                <strings jsxname="mtxProfileTags" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxTagName" jsxtext="Tag Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxTagName" jsxwidth="*"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxTagValue" jsxwidth="*" jsxtext="Tag Value" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxTagValue"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="20" jsxsort="0"></variants>
+                  <strings jsxname="mcGroupDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                    <strings jsxname="imageButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                    <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkProfileConfig" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay="none"></strings>
+            <dynamics jsxpadding="@8Pixel"></dynamics>
+            <include src="components/assets/profileV2DStreamType.xml" async="false"></include>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="footerPane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxbgcolor="Dialog Footer" jsxborder="@Outset Top"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnCancelAddProfile" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxclassname="btnOk"></strings>
+            <events jsxexecute="closeDialog(this);"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnAddProfile" jsxtext="Done" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxclassname="btnOk"></strings>
+            <events jsxexecute="cmpDeviceListAdd_btnADDOnClick();"></events>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

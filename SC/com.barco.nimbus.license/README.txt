@@ -1,0 +1,1 @@
+1. We need to create collection named "nimbus.default.licenselist" in exist database for licensing. 

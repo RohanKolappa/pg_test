@@ -1,0 +1,109 @@
+<AssetManagementRequest>
+  <header>
+		<servicename>assetadminservice</servicename>
+		<requestname>AssetManagement</requestname>
+		<loglevel>0</loglevel>
+		<clientdata>clientdata</clientdata>
+  </header>
+  <data>
+	<!--
+	BASE-Start tag in 'OperationData' starts from root node of the object.
+	BASE_ALL- The data inside the 'OperationData' is whole object and Start tag  in 'OperationData' starts from root node of the object.
+	BASE_PART- The data inside the 'OperationData' is partial object and Start tag  in 'OperationData' starts from root node of the object.
+	SELECT- The data inside the 'OperationData' is partial object and  Start tag  in 'OperationData' starts from the partial node of the object.
+		
+	GetRequest:
+	
+	ReplaceRequest:
+	
+	AddRequest:
+
+	DeleteRequest:
+		
+
+
+	-->
+
+    <ObjectType>MediaResourcePort</ObjectType>
+	<!-- choice: GetRequest,ReplaceRequest,AddRequest,DeleteRequest -->
+	<GetRequest>
+      <RequestID>string</RequestID>
+	  <!-- choice NID or PathSpec -->
+      <NID>string</NID>
+      <PathSpec>
+        <Where>
+          <WhereAssistXML>string</WhereAssistXML>
+          <WhereXPath>string</WhereXPath>
+        </Where>
+        <Select>
+          <ListSpec>
+            <StartFrom>4510</StartFrom>
+            <CountToFetch>4154</CountToFetch>
+          </ListSpec>
+          <ItemSpec>
+			<!-- choice:  NodeDepth , SelectXML -->
+			<NodeDepth></NodeDepth>
+            <SelectXML>string</SelectXML>
+          </ItemSpec>
+        </Select>
+      </PathSpec>
+       <OperationData>string</OperationData>
+    </GetRequest>
+	
+    <ReplaceRequest>
+      <RequestID>string</RequestID>
+	 <!-- choice:  NID or PathSpec -->
+      <NID>string</NID>
+      <PathSpec>
+        <Where>
+          <WhereAssistXML>string</WhereAssistXML>
+          <WhereXPath>string</WhereXPath>
+        </Where>
+        <Select>
+          <ItemSpec>
+            <SelectXML>string</SelectXML>
+          </ItemSpec>
+        </Select>
+      </PathSpec>
+      <OperationData>string</OperationData>
+    </ReplaceRequest>
+	
+	<AddRequest>
+      <RequestID>string</RequestID>
+	 <!-- choice:  ParentNID or ParentPathSpec -->
+      <ParentNID>string</ParentNID>
+      <ParentPathSpec>
+        <Where>
+          <WhereAssistXML>string</WhereAssistXML>
+          <WhereXPath>string</WhereXPath>
+        </Where>
+        <Select>
+          <ItemSpec>
+            <SelectXML>string</SelectXML>
+          </ItemSpec>
+        </Select>
+      </ParentPathSpec>
+	  <!-- required OperationData -->
+      <OperationData>string</OperationData>
+    </AddRequest>
+
+    <DeleteRequest>
+      <RequestID>string</RequestID>
+	 <!-- choice:  NID or PathSpec -->
+      <NID>string</NID>
+      <PathSpec>
+        <Where>
+          <WhereAssistXML>string</WhereAssistXML>
+          <WhereXPath>string</WhereXPath>
+        </Where>
+        <Select>
+          <ItemSpec>
+            <SelectXML>string</SelectXML>
+          </ItemSpec>
+        </Select>
+      </PathSpec>
+    </DeleteRequest>
+
+  </data>
+</AssetManagementRequest>
+  

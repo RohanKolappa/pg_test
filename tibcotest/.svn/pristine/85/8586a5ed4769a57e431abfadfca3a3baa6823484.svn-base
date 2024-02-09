@@ -1,0 +1,15 @@
+<query>
+   <![CDATA["
+
+let $assetNID := '_ASSETNID_'
+let $assetDoc  := for $b in #OBJ_AssetResource_OBJ#  where $b/@NID=$assetNID return $b
+let $deviceDoc := for $b in #OBJ_Device_OBJ#  where $b/AssetResourceNID=$assetNID return $b
+let $resourcePointers := $deviceDoc//ResourcePointers//NIDValue[.!='' ]
+
+let $resourceDocs := for $b in $resourcePointers 
+return index-scan('IPVSi_nids_default',$b, 'EQ')/..
+
+
+return <result> <data jsxid='jsxroot'> <record> { $assetDoc, <MediaStreamPortResources>{$resourceDocs}</MediaStreamPortResources> , $deviceDoc }</record> </data></result>
+"]]>
+</query>

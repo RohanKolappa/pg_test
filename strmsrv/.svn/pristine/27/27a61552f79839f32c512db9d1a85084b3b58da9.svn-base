@@ -1,0 +1,218 @@
+
+Streaming Server
+================
+:toc:
+
+Overview
+--------
+
+
+Synchronized streaming capabilities on the DMS is provided by the
+StreamingServer component that implements the core functionality of
+relaying, recording and replaying of multiple video/audio streams in a
+time synchronized manner.
+
+The StreamingServer component provides the following features:
+
+- Can receive one or more video or data streams from different sources
+on the network and relay each of them in real-time to multiple unique
+destinations on the network. The receiving and transmitting streams
+can be a heterogeneous mix of different video/audio codecs in
+different formats. For example, it can simultaneously stream standard
+MPEG2, MPEG4, H264 codecs in RTP, or TS (transport stream) format
+along with IP Video System's V2D codec. The system is agnostic to
+media formats and can also handle streams carrying raw data in UDP
+payloads.
+
+- Can simultaneously record to storage media, multiple input streams
+received from the network such that these streams can later be read
+back from the storage media and transmitted to multiple
+destinations. Simultaneous recording and playback of multiple high
+bitrate data streams is achieved in real-time by employing a unique
+media format specifically tuned to overcome the limitations of seek
+times in typical storage devices.
+
+- The transmission of video streams to a destination can be seamlessly
+switched between recorded and live streams to provide time-shifting
+(PVR) capabilities. The module employs a system of efficient named
+queues between receiver and sender modules that can be switched at
+user request. These dynamically addressable queues allows the module
+to achieve the time-shifting functionalities such as pause, resume,
+catchup, skip-back, or skip-forward.
+
+- The transmission of a video stream to a destination can also be
+dynamically switched between different input sources such that a
+single destination decoder can be served with media from different
+live sources at different points of time.
+
+- The playback of recorded content to multiple destination is achieved
+in a time synchronized fashion. If multiple streams from a set of
+media sources are recorded together onto storage media, it can be
+played back to a set of destinations in a synchronous fashion with up
+to millisecond accuracy. A special recording format is used that
+stores a wallclock timestamp for every media frame. During playback of
+media, the module ensures that all the bitstreams put on the network
+have the same wallclock time in spite of delays incurred in scanning
+data on storage medium for the appropriate start of media position.
+
+- The recording of media streams onto disk storage can be stopped and
+started multiple times such that gaps can be created in the
+recording. The timestamping feature of recording format allows these
+gaps to be automatically skipped over during playback so that the user
+perceives the media as one continuous recording.  Optionally, the
+media can be served such that these gaps are not ignored and playback
+media duration appears to be that of the original recording.
+
+- The recorded media can be tagged with user defined bookmarks that can
+be set anywhere along the time-line of the media. Playback of media
+can be initiated from any bookmark. The system allows the user to set
+common bookmarks on multiple streams that are recorded
+simultaneously. Playback of multiple streams from a common bookmark
+initiates synchronized streaming of video/audio from that bookmark.
+
+- This module handles video protocols that allow transmitting data in
+both forward and reverse directions. IP Video System's V2D video codec
+transmits keyboard/mouse data from the client to the server. The
+queuing component within !StreamingServer allows such data to
+transmitted to the original source. In this way the integrity of the
+V2D protocol is maintained while allowing multiple destinations to
+transmit keyboard/mouse data to a single source.
+
+- For video streams that allow some degree of scalable video streaming
+features, this module allows manipulation of transmitted bitstreams
+such that multiple destinations can be simultaneously served media
+with different bitrates and/or quality.  This component includes a
+bandwidth shaping module that can be dynamically configured to change
+the bitrate of media served to each destination.
+
+System Architecture
+-------------------
+
+StreamingServer is primarily composed of a collection of independent
+modules that only communicate to each other via messages.  Each module
+runs in a thread that calls on the module to perform any needed tasks.
+
+There are two basic types of modules, input modules and output
+modules.  Input modules primarily grab data from a source, process it,
+and send the results as messages to output modules. Output modules
+primarily read messages from input modules, process the messages, and
+send it out to a destination. The messages typically carry video/audio
+data between the modules but can also carry control messages.
+
+The most common input modules are the Receiver modules that grab video
+or data from the network and send them to a queue. These modules are
+specialized to what kind of data they handle. There are specialized
+modules for receiving RTP streams, TS streams, Raw UDP streams, or V2D
+streams from the network. The RTP receiver module, for example, is
+initialized with video and audio ports to expect incoming data on. It
+muxes the received data into a single message stream that it puts on
+its output queue.
+
+The most common output modules are the Sender modules that grab
+incoming messages, and send them to the network. These modules are
+also specialized to what kind of data they handle. There are
+specialized modules for transmitting RTP streams, TS streams, or V2D
+streams to the network. The RTP sender module, for example, is
+initialized with destination IP addresses and ports to send video and
+audio data on. It demuxes the received messages into video and audio
+packets and transmits them on the network.
+
+There is a special input module called the Reader module that reads
+recorded media content from storage device and sends the data as
+messages to Sender modules. There is also a special output module
+called the Writer module that collects incoming messages form Receiver
+modules and writes them to a storage device.  The Reader and Writer
+module together provide recording and playback capabilities of
+StreamingServer.
+
+There is also a special module called Controller whose main
+responsibility is exposing an API for configuration and control of
+StreamingServer. It accepts API commands over TCP, interprets them,
+and forwards them as control messages to other modules. Command
+responses and notifications from other modules are collected by the
+Controller and forwarded to connected control clients.
+
+Queuing Infrastructure
+----------------------
+
+One key component of !StreamingServer is a flexible and efficient
+queuing infrastructure that is available for the rest of the system to
+use. It exposes an API for creating and releasing named queues that
+all StreamingServer modules use to send and receive messages from
+each other.
+
+Queues implemented by the messaging system in StreamingServer have
+the following properties:
+
+- Each queue is an entity that has a globally unique name which can be
+any text string. A handle to the queue can be obtained using its
+unique name.
+
+ - A handle to a queue can either be a Sink or Source handle. A Sink
+ handle is used to send messages to a queue. A Source handle is used to
+ read messages from a queue.
+
+- A handle to a queue is obtained by providing a name while acquiring
+either a Source or Sink handle. It can be released via the handle at
+any time.
+
+- A queue is implicitly shared if multiple entities acquire a Source
+or Sink handle using the same name.
+
+- While acquiring either a Source or Sink handle, if a queue does not
+exist with the given name, a new one is created. All subsequent
+acquisition using the same name returns the same underlying queue.
+
+- An underlying queue is only deleted after all entities that have
+acquired either Source or Sink handles using its name have released
+them via the handle.
+
+- A message sent to a Sink handle is delivered to all entities that
+have acquired a Source handle using the same name. Thus messages can
+be sent from a single sender to a multiple receivers.
+
+- Messages sent to a multiple Sink handles all acquired using a common
+name will be delivered on any Source handle acquired using the same
+name. Thus, messages can be sent from multiple senders to a common
+receiver.
+
+- In general, the system supports message delivery from multiple
+senders to multiple receivers on the same queue. If multiple senders
+create Sink handles and multiple receivers create Source handles all
+using a common name, then all receivers will get all messages from all
+the senders.
+
+- All operations on a queue are intrinsically thread safe. Senders and
+receivers can be running in different threads. If there are multiple
+senders and receivers on a single queue, they can each be running in a
+separate threads.
+
+- Messages are efficiently delivered from a sender to receiver. A
+message, once constructed, is not copied again, even if there are
+multiple receivers. A system of reference counting is used to ensure
+that the underlying message is destroyed only after all the receivers
+have picked up the message.
+
+
+Features
+--------
+
+- Live Relay and Simulcast
+
+- Time-Shifting of Video Streams (PVR)
+
+- Support for Heterogeneous Media Formats
+
+- Stream Switching
+
+- Efficient Media Recording and Playback
+
+- Synchronized Streaming
+
+- Support for Recording with Gaps
+
+- Playback from Bookmarks 
+
+- Bi-Directional data transfer
+
+- Bandwidth control and SVC

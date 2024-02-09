@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:template match="//SetDeviceXMPPAgent">
+		<ServiceElementsConfig>
+			<XMPPAgentServiceConfig>
+				<Enable>
+					<xsl:choose>
+						<xsl:when test="./@enable!=''">
+							<xsl:value-of select="./@enable" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</Enable>
+				<XMPPServer>
+					<xsl:choose>
+						<xsl:when test="./@xmppServerIP!=''">
+							<xsl:value-of select="./@xmppServerIP" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>0.0.0.0</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</XMPPServer>
+				<XMPPServerPort>
+					<xsl:choose>
+						<xsl:when test="./@xmppServerPort!=''">
+							<xsl:value-of select="./@xmppServerPort" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>5222</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</XMPPServerPort>
+				<DeviceName>
+					<xsl:choose>
+						<xsl:when test="./@deviceName!=''">
+							<xsl:value-of select="./@deviceName" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>user</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</DeviceName>
+				<DevicePassword>
+					<xsl:choose>
+						<xsl:when test="./@password!=''">
+							<xsl:value-of select="./@password" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>secret</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</DevicePassword>
+				<Domain>string</Domain>
+				<ServiceDomain>
+					<xsl:choose>
+						<xsl:when test="./@serviceDomain!=''">
+							<xsl:value-of select="./@serviceDomain" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>default</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</ServiceDomain>
+			</XMPPAgentServiceConfig>
+		</ServiceElementsConfig>
+	</xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,261 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>FadeToOverlay</Title>
+   <Description>Fade To Overlay</Description>
+   <Access>fade_to_overlay</Access>
+   <ConfigFile>fadetooverlayconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+   <PublishRemote>false</PublishRemote>
+   <CliCommandName>undefined</CliCommandName>
+
+   <Items>
+
+      <Item>
+        <Name>keep_aspect</Name>
+        <Type>boolean</Type>
+        <Label>Keep Aspect</Label>
+        <Help>Keep aspect ratio?</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>horiz_scheme</Name>
+        <Type>string</Type>
+        <Label>Horiz Scheme</Label>
+        <Help>Select method for determining horiz resolution</Help>
+        <FieldLength>14</FieldLength>
+        <DefaultValue>Scale/Monitor</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Scale/Monitor", "Scale/Source", "Resolution"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_scale</Name>
+        <Type>integer</Type>
+        <Label>Horiz Scale</Label>
+        <Help>Enter scaling factor as a percent from 0 to 100</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>100</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_res</Name>
+        <Type>integer</Type>
+        <Label>Horiz Res</Label>
+        <Help>Enter horizontal resolution in pixels</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>1024</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>2560</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_scheme</Name>
+        <Type>string</Type>
+        <Label>Vert Scheme</Label>
+        <Help>Select method for determining vertical resolution</Help>
+        <FieldLength>14</FieldLength>
+        <DefaultValue>Scale/Monitor</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Scale/Monitor", "Scale/Source", "Resolution"</Values>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>vert_scale</Name>
+        <Type>integer</Type>
+        <Label>Vert Scale</Label>
+        <Help>Enter scaling factor as a percent from 0 to 100</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>100</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_res</Name>
+        <Type>integer</Type>
+        <Label>Vert Res</Label>
+        <Help>Enter vertical resolution in pixels</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>768</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>1600</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_position</Name>
+        <Type>string</Type>
+        <Label>Horiz Position</Label>
+        <Help>Select method for determining position</Help>
+        <FieldLength>10</FieldLength>
+        <DefaultValue>Location</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Location", "Offset"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_position</Name>
+        <Type>string</Type>
+        <Label>Vert Position</Label>
+        <Help>Select method for determining position</Help>
+        <FieldLength>10</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>Location</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Location", "Offset"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_location</Name>
+        <Type>string</Type>
+        <Label>Horiz Location</Label>
+        <Help>Select horizontal location</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Left</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Left", "Center", "Right"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_offset</Name>
+        <Type>integer</Type>
+        <Label>Horiz Offset</Label>
+        <Help>Enter an integer for horizontal offset</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>3840</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_location</Name>
+        <Type>string</Type>
+        <Label>Vert Location</Label>
+        <Help>Select vertical location</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Top</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Top", "Middle", "Bottom"</Values>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>vert_offset</Name>
+        <Type>integer</Type>
+        <Label>Vert Offset</Label>
+        <Help>Enter an integer for vertical offset</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1200</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>transparency</Name>
+        <Type>integer</Type>
+        <Label>Transparency</Label>
+        <Help>Enter percent transparency as an integer from 0 to 100.</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>duration</Name>
+        <Type>integer</Type>
+        <Label>Fade Duration</Label>
+        <Help>Duration of the fade in milliseconds.</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1000</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>60000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>fadein_duration</Name>
+        <Type>integer</Type>
+        <Label>Fade In Duration</Label>
+        <Help>Duration of the fade in in milliseconds.</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1000</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>60000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>ramp</Name>
+        <Type>float</Type>
+        <Label>Ramp</Label>
+        <Help>Ramp Factor for fade out phase</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>1.0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0.1</Min>
+           <Max>10.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>fadein_ramp</Name>
+        <Type>float</Type>
+        <Label>Fade In Ramp</Label>
+        <Help>Ramp Factor for fade in phase</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>1.0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0.1</Min>
+           <Max>10.0</Max>
+        </Validation>
+      </Item>
+
+
+   </Items>
+</Menu>

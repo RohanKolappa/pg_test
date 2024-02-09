@@ -1,0 +1,565 @@
+declare function local:getPortList($assetResourceNID as xs:string) 
+as element()* {
+
+	let $assetnid :=$assetResourceNID
+	return <PortList>{for $portDoc in  collection('ipvs.default.mediastreamsrcportresourcelist')/*[.//AssetResourceNID = $assetResourceNID] |   
+									   collection('ipvs.default.mediastreamdstportresourcelist')/* [.//AssetResourceNID =  $assetResourceNID]| 
+                                       collection('ipvs.default.mediastreamioportresourcelist')/*[.//AssetResourceNID =  $assetResourceNID] |
+                                       collection('ipvs.default.mediastreamrelayportresourcelist')/*[.//AssetResourceNID =   $assetResourceNID] |
+                                       collection('ipvs.default.mediastoreportresourcelist')/*[.//AssetResourceNID =   $assetResourceNID] 
+                                         
+					       return <Port NID='{ data($portDoc/@NID) }'
+						  	      	title='{ data($portDoc//Info/Title) }'
+						  	      	description='{ data($portDoc//Info/Description) }'
+									streamType='{ data($portDoc//StreamType) }' 
+									presence='{ data($portDoc//Presence) }' 
+									state='{ data($portDoc//State/StateFlag) }'  
+									portType='{ data($portDoc//Type) }' 
+									deviceElementID = '{ data($portDoc//DeviceElementID) }'> 
+									{$portDoc//Groups}
+									{$portDoc//PVRInfo}
+									{$portDoc//InstanceInfo}
+									<FeatureList>{
+										for $feature in $portDoc//FeatureList/Feature 
+									    where $feature/@Name!='' 
+										return <Feature name='{data($feature/@Name)}'>{data($feature)} </Feature> }
+									</FeatureList>
+									<ObserverInfoList>
+										<Observer xAuth='{data($portDoc//ObserverInfo/Observer/@xAuth)}'
+												  monitor='{data($portDoc//ObserverInfo/Observer/@monitor)}'
+										>
+											<UserNID>{data($portDoc//ObserverInfo/Observer/UserNID)}</UserNID>
+											<ResourceNID>{data($portDoc//ObserverInfo/Observer/ResourceNID)}</ResourceNID>									
+										</Observer>										
+									</ObserverInfoList>
+									<StreamURL>{data($portDoc//InstanceInfo/InstanceList/ResourceInstance/MediaStreamInfo/MediaStreamURL)}</StreamURL>
+							  </Port>
+						}
+	  	  </PortList>
+	  
+};
+
+declare function local:getDeviceConfigInfo($deviceDoc as element()*, $detail as xs:string) 
+as element()* {
+
+	let $device :=  if ($detail = 'BASIC') then <Device NID='{data($deviceDoc/@NID)}'/> 
+		             else 
+		             	   <Device NID='{data($deviceDoc/@NID)}'> 		           					  													
+		           		   <System>
+		        	           		<NTPClient enabled='{ if($deviceDoc//SystemClockConfig/EnableNTPClient = 'false') then 'false'
+	    		                                    else 'true' }'
+	    		                               serverIP='{data($deviceDoc//SystemClockConfig/NTPServerIP)}' />	  
+ 		                             <SoftwareImage softwareVersion='{ data($deviceDoc//SoftwareImageStatus/Parameters/Parameter[@name='Version'])}'
+ 		                               serviceVersion='{ data($deviceDoc//SoftwareImageStatus/Parameters/Parameter[@name='Service Version'])}' />	  		                                   	    		                    
+					       </System>
+		                           <Services> { if ($deviceDoc//HTTPServiceConfig/EnableHTTP = 'true') then 
+	                                         <HTTPServer enabled='true'/>
+											else <HTTPServer enabled='false'/>
+	                                       }
+										   { if ($deviceDoc//SSHServiceConfig/EnableSSH = 'true') then 
+	                                         <SSHServer enabled='true'/>
+											else <SSHServer enabled='false'/>
+	                                       }
+										   { if ($deviceDoc//TelnetServiceConfig/EnableTelnet = 'true') then 
+	                                         <TelnetServer enabled='true'/>
+											else <TelnetServer enabled='false'/>
+	                                       }
+										   { if ($deviceDoc//TFTPServiceConfig/EnableTFTP = 'true') then 
+	                                         <TFTPServer enabled='true'/>
+											else <TFTPServer enabled='false'/>
+	                                       }
+										   { if ($deviceDoc//XMPPServiceConfig = 'true') then 
+										      let $xmppServer := $deviceDoc//XMPPServiceConfig 
+											  return 
+	                                         <XMPPServer 
+												  enabled='{data($xmppServer/XMPPServer/XMPPServerEnable)}'
+												  port='{data($xmppServer/XMPPServer/XMPPServerPort)}'
+												  dailyBackup='{data($xmppServer/IPVSDBService/Backup/DailyBackup)}' 
+												  backupTime='{data($xmppServer/IPVSDBService/Backup/BackupTime)}' 
+												  enableExport='{data($xmppServer/IPVSDBService/Backup/EnableExport)}' 
+												  recoveryMode='{data($xmppServer/Restore/RecoveryMode)}'
+											 />
+											else ''
+	                                       }
+										   { if ($deviceDoc//XMPPAgentServiceConfig/Enable = 'true') then 
+										     let $xmppAgentConfig := $deviceDoc//XMPPAgentServiceConfig
+											 return 
+	                                        <XMPPAgent 
+			     	                              enabled='{data($xmppAgentConfig/Enable)}'
+												  xmppServer='{data($xmppAgentConfig/XMPPServer)}'
+												  deviceName='{data($xmppAgentConfig/DeviceName)}' 
+												  domain='{data($xmppAgentConfig/Domain)}' 
+											 >
+												{ if ($xmppAgentConfig//XMPPAgentServiceAdminAgentConfig/Enable = 'true') then 
+													<AdminAgent enabled='true'/>
+													else <AdminAgent enabled='false'/>
+	                                            }
+												{ if ($xmppAgentConfig//XMPPAgentServiceConfigAgentConfig/Enable = 'true') then 
+													 <ConfigAgent enabled='true'/>
+													else <ConfigAgent enabled='false'/>
+	                                            }
+												{ if ($xmppAgentConfig//XMPPAgentServiceDestinationAgentConfig/Enable = 'true') then 
+													 <DestinationAgent enabled='true'/>
+													else <DestinationAgent enabled='false'/>
+	                                            }
+												{ if ($xmppAgentConfig//XMPPAgentServiceSourceAgentConfig/Enable = 'true') then 
+													 <SourceAgent enabled='true'/>
+													else <SourceAgent enabled='false'/>
+	                                            }
+												{ if ($xmppAgentConfig//XMPPAgentServiceXAuthAgentConfig/Enable = 'true') then 
+													 <XAuthAgent enabled='true'/>
+													else <XAuthAgent enabled='false'/>
+	                                            }
+												{ if ($xmppAgentConfig//XMPPAgentServicePortCtrlAgentConfig/Enable = 'true') then 
+													 <PortCtrlAgent enabled='true'/>
+													else <PortCtrlAgent enabled='false'/>
+	                                            }
+											 </XMPPAgent>
+											else ''
+	                                       }
+										   { if (count($deviceDoc//StreamingServiceConfig) != 0) then 
+										     let $streamingConfig := $deviceDoc//StreamingServiceConfig
+											 return 												
+	                                        <StreamingServer enabled='true'>
+												{ if (count($streamingConfig//TxCtrlPortRange) != 0) then 
+													<TXcntrlPorts from='{data($streamingConfig//TxCtrlPortRange/From)}'
+																to='{data($streamingConfig//TxCtrlPortRange/To)}'/>
+													else ''
+	                                            }
+												{ if (count($streamingConfig//V2DStreamsRxConfig) != 0) then 
+													 <V2DRxPorts from='{data($streamingConfig//V2DStreamsRxConfig//RxMediaPortRange/From)}'
+																to='{data($streamingConfig//V2DStreamsRxConfig//RxMediaPortRange/To)}'/>
+													else ''
+	                                            }
+												{ if (count($streamingConfig//MPEGTSStreamsRxConfig) != 0) then 
+													 <MPEGTSRXPorts from='{data($streamingConfig//MPEGTSStreamsRxConfig//RxMediaPortRange/From)}'
+																	to='{data($streamingConfig//MPEGTSStreamsRxConfig//RxMediaPortRange/To)}'/>
+													else ''
+	                                            }
+												{ if (count($streamingConfig//UDPStreamsRxConfig) != 0) then 
+													 <UDPRXPorts from='{data($streamingConfig//UDPStreamsRxConfig//RxMediaPortRange/From)}'
+																 to='{data($streamingConfig//UDPStreamsRxConfig//RxMediaPortRange/To)}'/>
+													else ''
+	                                            }
+												{ if (count($streamingConfig//RTPStreamsRxConfig) != 0) then 
+													 <RTPRXPorts from='{data($streamingConfig//RTPStreamsRxConfig//RxMediaPortRange/From)}'
+																 to='{data($streamingConfig//RTPStreamsRxConfig//RxMediaPortRange/To)}'/>
+													else ''
+	                                            }
+												{ if (count($streamingConfig//MulticastIpAddressRange) != 0) then 
+													 <MulticastIP from='{data($streamingConfig//MulticastIpAddressRange/From)}'
+																  to='{data($streamingConfig//MulticastIpAddressRange/To)}'/>
+													else ''
+	                                            }
+											 </StreamingServer>
+											else ''
+	                                       }
+										   { if (count($deviceDoc//DHCPServiceConfig) != 0) then 
+										      let $dhcpServer := $deviceDoc//DHCPServiceConfig 
+											  return 
+	                                         <DHCPServer
+												  enabled='{data($dhcpServer/EnableDHCPServer)}'
+												  startIP='{data($dhcpServer/DHCPStartIP)}'
+												  endIP='{data($dhcpServer/DHCPEndIP)}' 
+												  publishedDNSServer='{data($dhcpServer/PublishDNSServer)}' 
+												 />
+											else ''
+	                                       }
+										   	   { if (count($deviceDoc//NTPServiceConfig) != 0) then 
+										      let $ntpServer := $deviceDoc//NTPServiceConfig 
+											  return 
+	                                         <NTPServer
+												  enabled='{data($ntpServer/EnableNTPServer)}'
+												  serverIP='{data($ntpServer/NTPServerIP)}'												 
+												 />
+											else ''
+	                                       }
+							   </Services>	
+					   <Network 
+								      isPrimaryEnabled='{if( count($deviceDoc//EthernetPortTableConfig/EthernetPortConfig[IsPrimary='true']) = 0) 
+							                               then 'false' else 'true'}' 
+								      hostName='{ if (count($deviceDoc//DNSClientConfig) != 0) then 
+													 data($deviceDoc//DNSClientConfig/HostName)
+													else ''
+	                                            }' 
+								      DNSServerIP='{ if (count($deviceDoc//DNSClientConfig) != 0) then 
+													 data($deviceDoc//DNSClientConfig/DNSServerIP)
+													else ''
+	                                            }' 
+								      DNSName='{ if (count($deviceDoc//DNSClientConfig) != 0) then 
+													 data($deviceDoc//DNSClientConfig/DNSDomain)
+													else ''
+	                                            }'>
+									<EthernetPortList>
+								
+									   {  if (count($deviceDoc//EthernetPortTableConfig/EthernetPortConfig) != 0) then 
+											  let $ethernetPortTable := $deviceDoc//EthernetPortTableConfig 
+											  return 
+												  for $ethernetPort in $ethernetPortTable/EthernetPortConfig
+												  return 
+												 <EthernetPort
+												      listIndex='{data($ethernetPort/@ListIndex)}'
+													  isPrimary='{data($ethernetPort/IsPrimary)}'
+													  portID='{data($ethernetPort/PortID)}'
+													  enabled='{data($ethernetPort/EnableInterface)}' 
+													  multicast='{data($ethernetPort/EnableMulticast)}' 
+													  useDHCP='{data($ethernetPort//UseDHCP)}' 
+													  ipAddress='{data($ethernetPort//IPAddress)}' 
+													  netmask='{data($ethernetPort/Netmask)}' 
+												 />
+										  else ''									 
+											   
+										}
+								   </EthernetPortList>
+								   <NATTable>
+									    {  if (count($deviceDoc//NATZoneTableConfig) != 0) then 
+											  let $natTable := $deviceDoc//NATZoneTableConfig 
+											  return 
+												  for $natEntry in $natTable/NATZoneEntry
+												  return 
+												 <NAT
+													  name='{data($natEntry/Name)}'
+													  listIndex='{data($natEntry/@ListIndex)}'
+													  ip='{data($natEntry/IPAddress)}' 
+												 />
+											else ''		
+										}
+								   </NATTable>	
+								   	<RouteTable>
+								
+									   {  if (count($deviceDoc//RouteTableConfig/RouteEntry) != 0) then 
+											  let $routeTable := $deviceDoc//RouteTableConfig 
+											  return 
+												  for $route in $routeTable/RouteEntry
+												  return 
+												 <Route
+												      listIndex='{data($route/@ListIndex)}'
+												      destination='{data($route/Destination)}'
+													  netmask='{data($route/Netmask)}'
+													  gateway='{data($route/Gateway)}'
+												 />
+										  else ''									 
+											   
+										}
+								   </RouteTable>		    
+							  </Network>
+							  <Storage hardDriveEnabled ='{ if (count($deviceDoc//HardDiskTableConfig/HardDiskEntry) != 0) then 
+															 'true'
+															else 'false'
+	                                                      }' 
+										NASEnabled='{if( count($deviceDoc//NASTable/NASEntry[Enable='true']) = 0) 
+							                         then 'false' else 'true'}' >
+								<HardDiskList>
+									{  if (count($deviceDoc//HardDiskTableConfig) != 0) then 
+												  let $hardDiskTable := $deviceDoc//HardDiskTableConfig 
+												  return 
+													  for $diskEntry in $hardDiskTable/HardDiskEntry
+													  return 
+														   <HardDisk name='{data($diskEntry/MediaStore/Name)}'
+																	mountPoint='{data($diskEntry/MountPoint)}'/>
+												else ''		
+									}
+								</HardDiskList>
+								<NASList>
+
+								{  if (count($deviceDoc//NASConfig/NASTable) != 0) then 
+												  let $nasTable := $deviceDoc//NASConfig/NASTable 
+												  return 
+													  for $nasEntry in $nasTable/NASEntry
+													  return 
+														   <NAS name='{data($nasEntry/MediaStore/Name)}'
+												                enabled='{data($nasEntry/Enable)}' 
+   															    server='{data($nasEntry/Server)}' 
+ 															    readOnly='{data($nasEntry/ReadOnly)}' 
+																 />
+												else ''		
+								}
+								</NASList>
+							  </Storage>
+							  <AVCodec> {
+							   for $portInfo  in $deviceDoc//AVCodecElementsConfig/*
+							      return 
+									  (:To be fix when anuj added port info to the avcodec for ipvsclient device:)
+									  if ($portInfo/name()='IPVSClientPortConfig') then
+									         <Port id='{data($portInfo/PortID)}'>							
+												 <DisplayConfig type='{$portInfo//IPVSClientDisplayConfig/name()}'> 
+											   {
+												   $portInfo//IPVSClientDisplayConfig/*
+											   }	
+											   </DisplayConfig>
+											   </Port>
+									  else if ($portInfo/name()='XP200PortConfig')  then 
+									         <Port id='{data($portInfo/PortID)}'>
+										         <DisplayConfig type='{$portInfo//XP200DisplayConfig/name()}'> 
+											   {
+												   $portInfo//XP200DisplayConfig/*
+											   }	
+											   </DisplayConfig>
+											    </Port>
+									  else if ($portInfo/name()='ORBDecoderPortConfig')  then 
+									         <Port id='{data($portInfo/PortID)}'>
+										         <DisplayConfig type='{$portInfo//ORBDecoderDisplayConfig/name()}'> 
+											   {
+												   $portInfo//ORBDecoderDisplayConfig/*
+											   }	
+											   </DisplayConfig>
+											    </Port>
+											    
+									    else if ($portInfo/name()='ORBEncoderPortConfig')  then 
+								         <Port id='{data($portInfo/PortID)}'>									        
+										 </Port>										   
+									  else ''									  								       
+								  }
+							  </AVCodec>														  
+					</Device>			           		
+		                  
+			return $device
+			
+};
+
+
+declare function local:getDeviceStatusInfo($deviceDoc as element()*) 
+as element()* {
+
+      let $deviceStatus :=   <DeviceStatus>                                                                                                                                    
+                                 <System>
+                                          <SoftwareImage>{$deviceDoc//DeviceStatus//SoftwareImageStatus//Parameter}</SoftwareImage>                                                                                        
+                                          <CPU>{$deviceDoc//DeviceStatus//CPUStatus//Parameter}</CPU>
+                                          <Memory>{$deviceDoc//DeviceStatus//MemoryStatus//Parameter}</Memory>
+                                          <SystemHW>{$deviceDoc//DeviceStatus//SystemHWStatus//Parameter}</SystemHW>
+                                          <SystemClock>{$deviceDoc//DeviceStatus//SystemClockStatus//Parameter}</SystemClock>                                          
+                                  </System>
+                                  <Services> 
+                                       <HTTPServer>{$deviceDoc//DeviceStatus//HTTPServiceStatus//Parameter}	</HTTPServer>
+                                       <SSHServer>{$deviceDoc//DeviceStatus//SSHServiceStatus//Parameter}	</SSHServer>
+                                       <TelnetServer>{$deviceDoc//DeviceStatus//TelnetServiceStatus//Parameter}	</TelnetServer>
+                                       <TFTPServer>{$deviceDoc//DeviceStatus//SystemHWStatus//Parameter}	</TFTPServer>
+                                       <XMPPServer>{$deviceDoc//DeviceStatus//XMPPServerStatus//Parameter}	</XMPPServer>
+                                       <IPVSDB>{$deviceDoc//DeviceStatus//IPVSDBServiceStatus//Parameter}	</IPVSDB>
+                                       <XMPPAgent>{$deviceDoc//DeviceStatus//XMPPAgentServiceStatus/Parameters/Parameter}</XMPPAgent>
+                                       <StreamingServer>
+                                        {
+                                            for $streamingInstance in $deviceDoc//DeviceStatus//StreamingServiceStatus/InstanceList/*/InstanceStatus
+                                              return <Instance>{$streamingInstance//Parameter}</Instance>
+                                         }	
+                                       </StreamingServer>
+                                  </Services>    
+                                 <Network>
+                                    <EthernetPortList>
+                                         {
+                                            for $ethernetPort in $deviceDoc//DeviceStatus//EthernetPortTableStatus//Parameters
+                                              return <EthernetPort>{$ethernetPort//Parameter}</EthernetPort>
+                                         }
+                                    </EthernetPortList>
+                                    <NATTable>
+                          					     {
+                                            for $nat in $deviceDoc//DeviceStatus//NATZoneTableStatus//Parameters
+                                              return <NAT>{$nat//Parameter}</NAT>
+                                         }
+                          					</NATTable>
+                          					<RouteTable>
+                          					     {
+                                            for $route in $deviceDoc//DeviceStatus//RouteTableStatus//Parameters
+                                              return <Route>{$route//Parameter}</Route>
+                                         }
+                          					</RouteTable>
+                                 </Network>  
+                                 <Storage>
+                          					<HardDiskList>
+                          					     {
+                                            for $hardDisk in $deviceDoc//DeviceStatus//HardDiskTableStatus//Parameters
+                                              return <HardDisk>{$hardDisk//Parameter}</HardDisk>
+                                         }
+                          					</HardDiskList>
+                          					<NASList>
+                          					     {
+                                            for $nas in $deviceDoc//DeviceStatus//NASStatus//Parameters
+                                              return <NAS>{$nas//Parameter}</NAS>
+                                         }
+                          					</NASList>
+				                          </Storage>                              
+                                  <AVCodec> {
+                                   for $portInfo  in $deviceDoc//AVCodecElementsStatus/*
+                                      return 
+                                              (:To be fix when anuj added port info to the avcodec for ipvsclient device:)
+                                              if ($portInfo/name()='IPVSClientPortStatus') then
+                                                     <Port id='{data($portInfo/PortID)}'>                                          
+                                                              <DisplayStatus type='{$portInfo//IPVSClientDisplayStatus/name()}'> 
+                                                           {
+                                                                 $portInfo//IPVSClientDisplayStatus/*
+                                                           }  
+                                                              </DisplayStatus>
+                                                           </Port>
+                                              else if ($portInfo/name()='XP200PortStatus')  then 
+                                                     <Port id='{data($portInfo/PortID)}'>
+                                                           <DisplayStatus type='{$portInfo//XP200PortStatus/name()}'> 
+                                                           {
+                                                                 $portInfo//XP200DisplayStatus/*
+                                                           }  
+                                                           </DisplayStatus>
+                                                            </Port>
+                                                     
+                                              else ''                                                                                                          
+                                        }
+                                  </AVCodec>                                                                                      
+                              </DeviceStatus>                                 
+                              
+                  return $deviceStatus
+                  
+};
+
+declare function local:getAssetResourceInfo($b as element()*, $detail as xs:string)
+as element ()*
+{     
+	  let $assetResourceNID := data($b/@NID)
+	  
+	  let $state := data($b//State/StateFlag)
+	  
+	  let $deviceDoc := (
+                           for $device in collection('/db/ipvs.default.devicelist')/*[(@parentNID='default.devicelist')]            
+                           where $device/AssetResourceNID = $assetResourceNID    
+                           return $device
+                        )
+                        
+      let $serviceResourceDoc := for $serviceResource in collection('/db/ipvs.default.serviceresourcelist')/*[(@parentNID='default.serviceresourcelist')]                	                       
+                          			return $serviceResource    
+      let $deviceAssetResourceNID := data($deviceDoc/AssetResourceNID)
+                
+      let $msStatus :=  if ($serviceResourceDoc[HA[Primary[@MSAssetResourceNID = ''] and Secondary[@MSAssetResourceNID = '']] and AssetResourceNID = $deviceAssetResourceNID and $state != 'Offline'] ) then	
+	 						'Active'
+	 				   else if(($serviceResourceDoc//HA/Primary[@MSAssetResourceNID = $deviceAssetResourceNID]/@state) = 'active') then
+	 				   		'Primary'
+	 				   else if(($serviceResourceDoc//HA/Primary[@MSAssetResourceNID = $deviceAssetResourceNID]/@state) = 'standby') then
+	 				   		 'PrimaryStandby'
+	 				   else if(($serviceResourceDoc//HA/Secondary[@MSAssetResourceNID = $deviceAssetResourceNID]/@state) = 'active') then
+	 				   		 'Secondary'
+	 				   else if(($serviceResourceDoc//HA/Secondary[@MSAssetResourceNID = $deviceAssetResourceNID]/@state) = 'standby') then
+							'SecondaryStandby'
+	 				   else ''
+           
+      let $ports := if($detail = 'EXTENDED') then
+                    	let $portList := local:getPortList($assetResourceNID)                
+                        return $portList
+                    else
+                    	<PortList> 
+                    			{	for $portDoc in  collection('ipvs.default.mediastreamsrcportresourcelist')/*[.//AssetResourceNID = $assetResourceNID] |   
+									   collection('ipvs.default.mediastreamdstportresourcelist')/* [.//AssetResourceNID =  $assetResourceNID] | 
+                                       collection('ipvs.default.mediastreamioportresourcelist')/*[.//AssetResourceNID =  $assetResourceNID] |
+                                       collection('ipvs.default.mediastreamrelayportresourcelist')/*[.//AssetResourceNID =  $assetResourceNID] |
+                                       collection('ipvs.default.mediastoreportresourcelist')/*[.//AssetResourceNID =  $assetResourceNID]      
+					       				return <Port NID='{ data($portDoc/@NID) }'
+										portType='{ data($portDoc//Type) }' 
+										deviceElementID = '{ data($portDoc//DeviceElementID) }'> 
+							  	  		</Port>
+								}
+	  	  				</PortList>
+
+     let $deviceConfig := if (count($deviceDoc) = 0) then <DeviceConfig/>
+                           else if($detail = 'EXTENDED') then
+                           		let $deviceInfo := local:getDeviceConfigInfo($deviceDoc, $detail)     
+                                return $deviceInfo/./*
+                           else if($detail = 'RAW') then
+								$deviceDoc//DeviceConfig/./*
+                           else ''
+
+                                                                              
+     let $deviceStatus := if (count($deviceDoc) = 0) then <DeviceStatus/>
+                          else if($detail = 'EXTENDED') then
+                          		let $deviceInfo := local:getDeviceStatusInfo($deviceDoc)     
+                               	return $deviceInfo
+                          else if($detail = 'RAW') then
+                          		$deviceDoc//DeviceStatus
+                          else ''
+    
+     let $status := if($detail = 'BASIC') then 
+     					<Status device= 	'{ data($deviceDoc//DeviceStatus/@State) }'
+	  	 				systemElements= 	'{ data($deviceDoc//SystemElementsStatus/@State) }'
+	  	  				serviceElements= 	'{ data($deviceDoc//ServiceElementsStatus/@State) }'
+	  	  				hardDisk= 			'{ if (count($deviceDoc//HardDiskTableStatus) != 0) then 
+     											data($deviceDoc//HardDiskTableStatus/@State)
+     										   else if (count($deviceDoc//HardDiskStatus) != 0) then
+     								 			data($deviceDoc//HardDiskStatus/@State)
+     										   else ''
+     							  			}'
+	  	  				NAS= 				'{ data($deviceDoc//NASStatus/@State) }'
+	  	  				networkElements= 	'{ data($deviceDoc//NetworkElementsStatus/@State) }'
+     					/>
+     				else ''
+	  	  				                               
+     let $resourceInfo :=     <Device NID='{ data($b//@NID) }'
+								   	title='{ data($b//Title) }' 
+								   	type='{ data($b//Type) }' 
+								   	description='{ data($b//Description) }'
+								   	presence='{ data($b//Presence) }' 
+								   	state='{ data($b//StateFlag) }'
+									password='{ data($b//AssetPrivateKey/KeyData) }' 
+									ownerUserJID='{ data($b//OwnerUserJID) }'
+									softwareVersion = '{ data($deviceDoc//SoftwareImageStatus/Parameters/Parameter[@name='Version'])}'
+									unManaged='{ if ($b//StateFlag = 'Unmanaged') then 'true' 
+                                                     else 'false' }'
+                                    unManned='{ if ($b//Feature[@Name = 'Mode'] = 'UnManned') then 'true'  
+                                                  	else 'false' }'
+                                    msStatus= '{ $msStatus }'                                                                                                                             
+                               >
+                                    {$b//Groups}
+									<DevicePrivateData>{data($b//AssetPrivateData)}</DevicePrivateData>
+									<TemplateNID>{data($b//TemplateAssetResourceNID)}</TemplateNID>
+									{$ports}
+									{$status}
+									<DeviceConfig NID='{ data($deviceDoc//@NID) }'>
+										{$deviceConfig}
+									</DeviceConfig>
+									{$deviceStatus}
+							</Device>
+                       		
+      return $resourceInfo
+      
+};
+
+declare function local:getTemplateItem($parent as element()*, $allChildList as element()*, $detail as xs:string) 
+as element()*
+{
+		let $myChildList := for $child in $allChildList 
+								where $child//TemplateAssetResourceNID = $parent/@NID
+								return local:getAssetResourceInfo($child, $detail)
+		let $template := element { 'Device' } { $parent/@*, $parent/*, <DeviceList>{$myChildList} </DeviceList> }
+		return $template
+};
+
+declare function local:getList()
+as element()*
+{
+	let $list1 := 
+		for $b in #OBJ_AssetResource_OBJ#		
+			where $b[.//TemplateAssetResourceNID='' or .//TemplateAssetResourceNID='TEMPLATE'] _XPATHAND_
+			order by upper-case ($b_SORTBY_) _SORTORDER_
+			return $b
+	return $list1
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $item := $b
+	return $item
+};
+
+declare function local:formatList($list as element()*, $detail as xs:string)
+as element()* {
+	let $assetResource := for $b in $list 
+							order by upper-case ($b_SORTBY_) _SORTORDER_
+							return local:getAssetResourceInfo($b, $detail)
+							
+	let $allParentList := $assetResource[.//TemplateNID ='TEMPLATE']
+
+	let $allChildList := for $b in #OBJ_AssetResource_OBJ#
+							where ($b//TemplateAssetResourceNID = $allParentList/@NID)
+							order by upper-case ($b_SORTBY_) _SORTORDER_
+							return $b
+
+	let $templateList := for $b in $assetResource
+							return if ($b//TemplateNID='TEMPLATE') then 
+									   local:getTemplateItem($b, $allChildList, $detail)
+							       else $b	
+	return $templateList
+};
+
+ 

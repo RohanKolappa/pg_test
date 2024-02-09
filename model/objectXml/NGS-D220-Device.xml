@@ -1,0 +1,435 @@
+<?xml version="1.0"?>
+<NGS-D220-Device serviceVer="2.32.5" Ver="2.1" Rev="1" NID="" parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+	<ManagementMode>Local</ManagementMode>
+	<ResourcePointers>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password></Password>
+			</AdminServiceConfig>
+			<LoginBannerConfig Dirty="CLEAN">
+				<Banner>
+					NGS-D220
+				</Banner>
+			</LoginBannerConfig>
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+			</SystemClockConfig>
+			<!-- Log Levels TRACE, DEBUG, INFO, WARN, ERROR -->
+			<SystemLogConfig Dirty="CLEAN">
+	      		<Level>INFO</Level>
+	   		</SystemLogConfig>
+		</SystemElementsConfig>
+		<ServiceElementsConfig>
+			<XMPPAgentServiceConfig Dirty="CLEAN">
+				<Enable>true</Enable>
+				<XMPPServer>0.0.0.0</XMPPServer>
+				<XMPPServerPort>5222</XMPPServerPort>
+				<DeviceName></DeviceName>
+				<DevicePassword></DevicePassword>
+				<Domain>default</Domain>
+				<ServiceDomain>default</ServiceDomain>
+				<AgentList>
+					<XMPPAgentServiceConfigAgentConfig Dirty="CLEAN">
+						<Enable>true</Enable>
+					</XMPPAgentServiceConfigAgentConfig>
+				</AgentList>
+			</XMPPAgentServiceConfig>
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+				<HTTPPort></HTTPPort>
+			</HTTPServiceConfig>
+			<SSHServiceConfig Dirty="CLEAN">
+				<EnableSSH>true</EnableSSH>
+			</SSHServiceConfig>
+			<StreamingServiceConfig Dirty="CLEAN">
+				<StreamsTxConfig>
+					<MulticastIpAddressRange>
+						<From>226.1.1.1</From>
+						<To>226.1.1.50</To>
+						<MulticastTTL>1</MulticastTTL>
+					</MulticastIpAddressRange>
+				</StreamsTxConfig>
+			</StreamingServiceConfig>
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName></HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP>0.0.0.0</DNSServerIP>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway></Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+
+			<HostTableConfig Dirty="CLEAN">
+				<HostEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</HostEntry>
+			</HostTableConfig>
+
+			<NATZoneTableConfig Dirty="CLEAN">
+				<NATZoneEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</NATZoneEntry>
+			</NATZoneTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<Name>eth0</Name>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+		</NetworkElementsConfig>
+
+		<StorageElementsConfig>
+		</StorageElementsConfig>
+
+		<AVCodecElementsConfig>
+
+			<!-- dp -->
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>inputInterface/DPIn</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+
+					<!-- StreamType will be replaced by ServiceInfo serviceType='Encoding' as defined in device login -->
+					<StreamType>RTP</StreamType>
+
+					<Configurable>false</Configurable>
+					<BasebandType>DP</BasebandType>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<NGSD220VideoInputInterfaceConfig>
+					<EDID>1280x800p50</EDID>
+				</NGSD220VideoInputInterfaceConfig>
+			</NGSD220PortConfig>
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>outputInterface/DPOut</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RTP</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>DP</BasebandType>
+					<PortIOType>StreamDst</PortIOType>
+					<MaxDecoderInstanceCount>1</MaxDecoderInstanceCount>
+				</Info>
+				<NGSD220VideoOutputInterfaceConfig>
+					<Timing>1280x800p50</Timing>
+					<Genlock>fast</Genlock>
+				</NGSD220VideoOutputInterfaceConfig>
+			</NGSD220PortConfig>
+
+			<!-- dvi -->
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>inputInterface/DVIIn</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RTP</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>DVI</BasebandType>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<NGSD220VideoInputInterfaceConfig>
+					<EDID>1280x800p50</EDID>
+				</NGSD220VideoInputInterfaceConfig>
+			</NGSD220PortConfig>
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>outputInterface/DVIOut</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RTP</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>DVI</BasebandType>
+					<PortIOType>StreamDst</PortIOType>
+					<MaxDecoderInstanceCount>1</MaxDecoderInstanceCount>
+				</Info>
+				<NGSD220VideoOutputInterfaceConfig>
+					<Timing>1280x800p50</Timing>
+					<Genlock>fast</Genlock>
+				</NGSD220VideoOutputInterfaceConfig>
+			</NGSD220PortConfig>
+
+			<!-- audio -->
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>inputInterface/audioIn</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RTP</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>minijack</BasebandType>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<NGSD220AudioInputInterfaceConfig>
+					<Gain>80</Gain>
+				</NGSD220AudioInputInterfaceConfig>
+			</NGSD220PortConfig>
+			<NGSD220PortConfig Dirty="CLEAN">
+				<PortID>outputInterface/audioOut</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RTP</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>minijack</BasebandType>
+					<PortIOType>StreamDst</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<NGSD220AudioOutputInterfaceConfig>
+					<Volume>80</Volume>
+				</NGSD220AudioOutputInterfaceConfig>
+			</NGSD220PortConfig>
+
+		</AVCodecElementsConfig>
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<SystemElementsStatus State="OK">
+			<SoftwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SoftwareImageStatus>
+
+			<LicenseStatus>
+				<LicenseInfo>
+					<ProductID></ProductID>
+					<Company></Company>
+					<Key></Key>
+				</LicenseInfo>
+
+				<LicensePack>
+					<Name></Name>
+					<ValidUntil></ValidUntil>
+					<Value></Value>
+					<Key></Key>
+				</LicensePack>
+			</LicenseStatus>
+
+			<CPUStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+				<ParameterList/>
+			</CPUStatus>
+
+			<MemoryStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</MemoryStatus>
+
+			<SystemHWStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemHWStatus>
+
+			<SystemClockStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemClockStatus>
+
+			<FirmwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</FirmwareImageStatus>
+			
+			<IdentifyStatus>
+			<Parameters>
+			</Parameters>
+		</IdentifyStatus>
+		</SystemElementsStatus>
+
+		<ServiceElementsStatus State="OK">
+			<HTTPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HTTPServiceStatus>
+			<SSHServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SSHServiceStatus>
+			<XMPPAgentServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+
+				<AgentList>
+					<XMPPAgentServiceConfigAgentStatus Queryable="true">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</XMPPAgentServiceConfigAgentStatus>
+				</AgentList>
+			</XMPPAgentServiceStatus>
+
+			<StreamingServiceStatus>
+				<CurrentStreamInstanceCount>
+					<Total></Total>
+					<Transmit></Transmit>
+					<Receive></Receive>
+					<Read></Read>
+					<Write></Write>
+					<Encode></Encode>
+					<Decode></Decode>
+				</CurrentStreamInstanceCount>
+
+				<InstanceList>
+				</InstanceList>
+			</StreamingServiceStatus>
+		</ServiceElementsStatus>
+
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+						</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+		</NetworkElementsStatus>
+
+		<StorageElementsStatus State="OK">
+		</StorageElementsStatus>
+
+		<AVCodecElementsStatus State="OK">
+			<NGSD220PortStatus State="OK">
+				<PortID>inputInterface/DPIn</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+			<NGSD220PortStatus State="OK">
+				<PortID>outputInterface/DPOut</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+			<NGSD220PortStatus State="OK">
+				<PortID>inputInterface/DVIIn</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+			<NGSD220PortStatus State="OK">
+				<PortID>outputInterface/DVIOut</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+			<NGSD220PortStatus State="OK">
+				<PortID>inputInterface/audioIn</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+			<NGSD220PortStatus State="OK">
+				<PortID>outputInterface/audioOut</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</NGSD220PortStatus>
+		</AVCodecElementsStatus>
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<!--  <SaveToFlashCommand></SaveToFlashCommand>-->
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<StorageElementsCommand></StorageElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</NGS-D220-Device>

@@ -1,0 +1,495 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>IP Video Systems Media Room Agent API</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.1"><style type="text/css">
+body { background-image: url('http://docbook.sourceforge.net/release/images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }</style></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" title="IP Video Systems Media Room Agent API"><div class="titlepage"><div><div><h1 class="title"><a name="id105294"></a>IP Video Systems Media Room Agent API</h1></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.1</td><td align="left">28 Oct 2009</td></tr><tr><td align="left" colspan="2">Media Room Agent API</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="glossary"><a href="#id362946">Glossary</a></span></dt><dt><span class="preface"><a href="#id354901">Introduction</a></span></dt><dt><span class="chapter"><a href="#id356940">1. Service Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#id357500">Version</a></span></dt><dt><span class="section"><a href="#id364878">MediaRoom Overview</a></span></dt><dt><span class="section"><a href="#id364913">Agents and Roles</a></span></dt><dt><span class="section"><a href="#id364947">Message Flow to Setup A Media Stream</a></span></dt><dt><span class="section"><a href="#id364986">Message Flow to Teardown A Media Stream</a></span></dt><dt><span class="section"><a href="#id365033">Message Flow to Control A Media Stream</a></span></dt><dt><span class="section"><a href="#id365073">Message Flow to Update the State Stream</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id365107">2. Agent Message Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#id365128">Generic Agent Message API</a></span></dt><dt><span class="section"><a href="#id365181">Generic Agent Message Data For Request Type Agent Messages</a></span></dt><dt><span class="section"><a href="#id365231">Generic Agent Message Data For Response Type Agent Messages</a></span></dt><dt><span class="section"><a href="#id365289">Generic Agent Message Data For Event Type Agent Messages</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id365353">3. Generic Agent API Overview</a></span></dt><dd><dl><dt><span class="section"><a href="#id365367">Startup Operations</a></span></dt><dd><dl><dt><span class="section"><a href="#id365374">XMPP Login</a></span></dt><dt><span class="section"><a href="#id365409">SetServiceDomain</a></span></dt><dt><span class="section"><a href="#id365508">GetMediaRoomInvites</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#id365601">4. MediaRoom Agent API</a></span></dt><dd><dl><dt><span class="section"><a href="#id365618">AppServerAgent</a></span></dt><dt><span class="section"><a href="#id363849">DestStreamAgent</a></span></dt><dt><span class="section"><a href="#id365777">SourceStreamAgent</a></span></dt></dl></dd><dt><span class="appendix"><a href="#id473569">A. Data Model</a></span></dt><dd><dl><dt><span class="section"><a href="#id473583">MediaRoom Objects</a></span></dt><dt><span class="section"><a href="#id473623">MediaRoom API Messages</a></span></dt></dl></dd></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>2.1. <a href="#id365143">Message</a></dt><dt>2.2. <a href="#id365189">Request</a></dt><dt>2.3. <a href="#id365238">Response</a></dt><dt>2.4. <a href="#id365304">Event</a></dt><dt>3.1. <a href="#id365460">SetServiceDomainRequest extended from AgentRequest</a></dt><dt>3.2. <a href="#id365494">Service Login Response extended from AgentResponse</a></dt><dt>4.1. <a href="#id473216">Generic DestStreamAgent Request payload received from the AppServerAgent extended from AgentRequest</a></dt><dt>4.2. <a href="#id473249">Stream Setup Request payload received from the AppServerAgent extended from Generic DestStreamAgent Request </a></dt><dt>4.3. <a href="#id473263">Stream Teardown Request payload received from the AppServerAgent extended from Generic DestStreamAgent Request</a></dt><dt>4.4. <a href="#id365747">StreamStatusUpdate payload sent to the AppServerAgent extended from AgentEvent</a></dt><dt>4.5. <a href="#id365831">SourceStreamAgent Action Request payload received by the SourceStreamAgent extended from AgentRequest</a></dt><dt>4.6. <a href="#id365902">Stream Start Action Request action data received by the SourceStreamAgent extended from Generic SourceStreamAgent Request</a></dt><dt>4.7. <a href="#id365855">Stream Stop Action Request received by the SourceStreamAgent extended from Generic SourceStreamAgent Request</a></dt><dt>4.8. <a href="#id473298">Generic SourceStreamAgent Response payload sent by the SourceStreamAgent</a></dt><dt>4.9. <a href="#id473311">Stream Start Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</a></dt><dt>4.10. <a href="#id473324">Stream Stop Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</a></dt><dt>4.11. <a href="#id473422">Stream TimelineUpdate Request AppServerAgent to the SourceStreamAgent</a></dt><dt>4.12. <a href="#id473433">Stream TimelineUpdate Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</a></dt><dt>4.13. <a href="#id473494">Source Event sent by SourceStreamAgent to the DestStreamAgent extended from Generic AgentEvent</a></dt></dl></div><div class="glossary" title="Glossary"><div class="titlepage"><div><div><h2 class="title"><a name="id362946"></a>Glossary</h2></div></div></div><dl><dt>MediaRoom</dt><dd><p>
+	        	The MediaRoom is an extension of a multiuser chat room whose participants are media objects which fulfill certain roles in the room.
+	        </p></dd><dt>MediaTimeline</dt><dd><p>
+	        	The MediaTimeline is a property of the MediaRoom which includes information about the Start of the MediaRoom and the Current Time-Shifted state
+	        </p></dd><dt>MediaTrack</dt><dd><p>
+	        	The MediaTrack is a grouping of media objects for control purposes which share certain common MediaTimeline and properties
+	        </p></dd><dt>Media Source</dt><dd><p>
+	        	The MediaSource is a media object which fulfills the role of a source capable of generating a media stream
+	        </p></dd><dt>MediaDest</dt><dd><p>
+	        	The MediaDest is a media object which fulfills the role of a sink capable of receiving a media stream
+	        </p></dd><dt>Stream</dt><dd><p>
+	        	The stream represents the data that flows from a Media Source to a Media Dest
+	        </p></dd><dt>StreamingServer</dt><dd><p>
+	        	A server capable of sending and receiving media streams
+	        </p></dd><dt>AppServerAgent</dt><dd><p>
+	        	The agent responsible for originating requests for setup/teardown/PVR of streams
+	        </p></dd><dt>SourceStreamAgent</dt><dd><p>
+	        	The agent hosted by a media source which handles requests for starting/stopping/PVR of streams
+	        </p></dd><dt>DestStreamAgent</dt><dd><p>
+	        	The agent hosted by a media dest which handles requests for setup/teardown of streams
+	        </p></dd><dt>MediaRelay</dt><dd><p>
+	        	The MediaRelay is a media object which receives a stream from a media source and relays it to a media dest
+	        </p></dd></dl></div><div class="preface" title="Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="id354901"></a>Introduction</h2></div></div></div><p>
+	      This document contains parts of the Media Room Agent API specifications
+	      pertaining to the setup and control of Media Rooms.
+	    </p></div><div class="chapter" title="Chapter 1. Service Overview"><div class="titlepage"><div><div><h2 class="title"><a name="id356940"></a>Chapter 1. Service Overview</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id357500">Version</a></span></dt><dt><span class="section"><a href="#id364878">MediaRoom Overview</a></span></dt><dt><span class="section"><a href="#id364913">Agents and Roles</a></span></dt><dt><span class="section"><a href="#id364947">Message Flow to Setup A Media Stream</a></span></dt><dt><span class="section"><a href="#id364986">Message Flow to Teardown A Media Stream</a></span></dt><dt><span class="section"><a href="#id365033">Message Flow to Control A Media Stream</a></span></dt><dt><span class="section"><a href="#id365073">Message Flow to Update the State Stream</a></span></dt></dl></div><p>
+      This chapter provides the version information and a brief description of the Agents involved in the IPVS Mediaroom Service.
+    </p><div class="section" title="Version"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id357500"></a>Version</h2></div></div></div><p>
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>Document Version = 0.0.1</td></tr><tr><td>Service Version = 2.24</td></tr><tr><td>Software Version = 3.8.x.x</td></tr></table><p>    
+    </p></div><div class="section" title="MediaRoom Overview"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364878"></a>MediaRoom Overview</h2></div></div></div><p>
+	  The MediaRoom is an extension of a multiuser chat room whose participants are media objects which fulfill certain roles in the room.
+	  The goal of the MediaRoom service is to allow media to be viewed/recorded/controlled in a chat room, thus enabling various collaboration applications
+	  This goal is realized by Agents implemented by devices which provide the MediaStream setup/control/teardown functionality
+	  Each of the devices implements a StreamingServer which ultimately receives/sends a MediaStream
+	  The Agent messages ultimately result in a command being sent to the streaming server on the device hosting the Agent
+      This chapter provides an overview of the agents, their roles and messaging between the agents to realize the MediaRoom functionality. 
+    </p></div><div class="section" title="Agents and Roles"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364913"></a>Agents and Roles</h2></div></div></div><p>
+       This section lists the primary agents and their roles.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>AppServerAgent: Hosted by a central server, responsible for handling requests to setup MediaRooms and Streams</td></tr><tr><td>DestStreamAgent: Hosted by each MediaDestination, responsible for handling requests to request a Stream from a source to the device on which it is co-located</td></tr><tr><td>SourceStreamAgent: Hosted by each MediaSource, responsible for handling requests for a starting/controlling a Stream </td></tr></table><p>
+    </p></div><div class="section" title="Message Flow to Setup A Media Stream"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364947"></a>Message Flow to Setup A Media Stream</h2></div></div></div><p>
+       This section lists a sample flow of messages to setup a Media Stream.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>AppServerAgent: Receives a request from the collaboration application to add a stream</td></tr><tr><td>AppServerAgent: Handles the request and sends a "Setup" request to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the "Setup" request and sends a "Start" request to the SourceStreamAgent</td></tr><tr><td>SourceStreamAgent: Handles the "Start" request, adds a stream in the co-located Streaming Server and sends the "StartResponse" with the URL for the stream to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the "StartResponse" and passes the URL to the co-located StreamingServer</td></tr></table><p>
+    </p></div><div class="section" title="Message Flow to Teardown A Media Stream"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364986"></a>Message Flow to Teardown A Media Stream</h2></div></div></div><p>
+       This section lists a sample flow of messages to teardown a Media Stream.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>AppServerAgent: Receives a request from the collaboration application to delete a stream</td></tr><tr><td>AppServerAgent: Handles the request and sends a "Teardown" request to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the "Teardown" request, deletes the URL from the co-located Streaming Server and sends a "Stop" request to the SourceStreamAgent</td></tr><tr><td>SourceStreamAgent: Handles the "Stop" request, deletes the stream in the co-located Streaming Server and sends the "StopResponse" with the URL for the stream to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the "StopResponse"</td></tr></table><p>
+    </p></div><div class="section" title="Message Flow to Control A Media Stream"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365033"></a>Message Flow to Control A Media Stream</h2></div></div></div><p>
+       This section lists a sample flow of messages to control(Pause/Resume) a Media Stream.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>AppServerAgent: Receives a request from the collaboration application to control a stream</td></tr><tr><td>AppServerAgent: Handles the request, translates the control to an Update(timescale + source + offset) and sends a "Update" request to the SourceStreamAgent</td></tr><tr><td>SourceStreamAgent: Handles the "Update" request, deletes the previous stream and sets up the updated stream in the co-located Streaming Server and sends the "UpdateResponse" to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the "UpdateResponse"</td></tr></table><p>
+    </p></div><div class="section" title="Message Flow to Update the State Stream"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365073"></a>Message Flow to Update the State Stream</h2></div></div></div><p>
+       This section lists a sample flow of messages in case there is a State update for Media Stream.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>SourceStreamAgent: Generates a SourceEvent message and sends to the DestStreamAgent</td></tr><tr><td>DestStreamAgent: Handles the SourceEvent, generates a StreamStatusUpdate event and sends to the AppServerAgent</td></tr><tr><td>AppServerAgent: Handles the StreamStatusUpdate and notifies the collaboration application</td></tr></table><p>
+    </p></div></div><div class="chapter" title="Chapter 2. Agent Message Overview"><div class="titlepage"><div><div><h2 class="title"><a name="id365107"></a>Chapter 2. Agent Message Overview</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id365128">Generic Agent Message API</a></span></dt><dt><span class="section"><a href="#id365181">Generic Agent Message Data For Request Type Agent Messages</a></span></dt><dt><span class="section"><a href="#id365231">Generic Agent Message Data For Response Type Agent Messages</a></span></dt><dt><span class="section"><a href="#id365289">Generic Agent Message Data For Event Type Agent Messages</a></span></dt></dl></div><p>
+      All API calls are transacted as extensions of standard "XMPP Message" packets.
+    </p><table border="0" summary="Simple list" class="simplelist"><tr><td>All IPVS agent message payloads will use the namespace "com.ipvs.agentmessage"</td></tr></table><div class="section" title="Generic Agent Message API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365128"></a>Generic Agent Message API</h2></div></div></div><p>
+        The messaging between the agentts is realized as a set of XML messages over an XMPP message bus.  
+        These messages constitute the IPVS Agent API.  
+        Agents will need to implement the relevant sub-set of this API based on their intended MediaRoom Role.
+      </p><div class="example"><a name="id365143"></a><p class="title"><b>Example 2.1. Message</b></p><div class="example-contents"><pre class="programlisting">
+          
+  &lt;message id="12rLk-221" to="tx1@localhost/tx1" from="managementserver@localhost/managementserver"&gt;
+    &lt;x&gt;
+      &lt;AgentMessage&gt;
+        &lt;agentmessageheader&gt;
+          &lt;fromagent&gt;com.ipvs.mediaroomservice.impl.AppServerAgent&lt;/fromagent&gt;
+          &lt;agentJID&gt;tx1@localhost/tx1&lt;/agentJID&gt;
+          &lt;agent&gt;com.ipvs.client.MRClientAgent&lt;/agent&gt;
+          &lt;agentmessagetype&gt;
+	     		&lt;!-- Message Type goes here: Request/Response/AgentEvent --&gt; 
+          &lt;/agentmessagetype&gt;
+        &lt;/agentmessageheader&gt;
+        &lt;agentmessagedata&gt;
+	     		&lt;!-- Message Data goes here --&gt; 
+        &lt;/agentmessagedata&gt;
+     &lt;/AgentMessage&gt;
+    &lt;x&gt;
+  &lt;/message&gt;
+        
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="Generic Agent Message Data For Request Type Agent Messages"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365181"></a>Generic Agent Message Data For Request Type Agent Messages</h2></div></div></div><div class="example"><a name="id365189"></a><p class="title"><b>Example 2.2. Request</b></p><div class="example-contents"><pre class="programlisting">
+                 
+  &lt;Request&gt;
+    &lt;header&gt;
+        &lt;servicename&gt;xmpp&lt;/servicename&gt;
+        &lt;requestname&gt;
+	     	&lt;!-- Request name goes here --&gt; 
+	     	SetServiceDomainRequest
+	    &lt;/requestname&gt;
+        &lt;loglevel&gt;0&lt;/loglevel&gt;
+        &lt;clientdata&gt;RequestToken2&lt;/clientdata&gt;
+    &lt;/header&gt;
+    &lt;data&gt;
+       &lt;!-- Request data goes here --&gt; 
+       &lt;SetServiceDomainRequestData&gt;
+               &lt;!-- SetServiceDomainRequestData payload goes here --&gt;
+       &lt;/SetServiceDomainRequestData&gt;
+    &lt;/data&gt;
+  &lt;/Request&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="Generic Agent Message Data For Response Type Agent Messages"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365231"></a>Generic Agent Message Data For Response Type Agent Messages</h2></div></div></div><div class="example"><a name="id365238"></a><p class="title"><b>Example 2.3. Response</b></p><div class="example-contents"><pre class="programlisting">
+          
+  &lt;Response serviceVer="2.25"&gt;
+             &lt;header&gt;
+               &lt;servicename&gt;systemservice&lt;/servicename&gt;
+               &lt;requestname&gt;
+			     	&lt;!-- Request name goes here --&gt; 
+               		SetServiceDomainRequest
+               &lt;/requestname&gt;
+               &lt;userJID&gt;tx1@localhost/tx1&lt;/userJID&gt;
+               &lt;requestNID&gt;tx1@localhost/tx1/3373203&lt;/requestNID&gt;
+               &lt;state&gt;8&lt;/state&gt;
+               &lt;clientdata&gt;RequestToken2&lt;/clientdata&gt;
+             &lt;/header&gt;
+             &lt;data&gt;
+		     	&lt;!-- Response data goes here --&gt; 
+		       	&lt;SetServiceDomainResponseData&gt;
+		               &lt;!-- SetServiceDomainResponseData payload goes here --&gt;
+		       &lt;/SetServiceDomainRequestData&gt;
+             &lt;/data&gt;
+  &lt;/Response&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="Generic Agent Message Data For Event Type Agent Messages"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365289"></a>Generic Agent Message Data For Event Type Agent Messages</h2></div></div></div><p>
+        An event can be an info event or an error event. This is indicated by the state element in the payload
+      </p><div class="example"><a name="id365304"></a><p class="title"><b>Example 2.4. Event</b></p><div class="example-contents"><pre class="programlisting">
+          
+  &lt;AgentEvent&gt;
+      &lt;header&gt;
+            &lt;eventLevel&gt;
+		       &lt;!-- Event level goes here:  --&gt; 
+               200
+            &lt;/eventLevel&gt;
+            &lt;eventAgentJID&gt;srcrelay1@localhost/srcrelay1&lt;/eventAgentJID&gt;
+                &lt;eventWallclock&gt;1288358866404&lt;/eventWallclock&gt;
+            &lt;eventname&gt;
+	     	   &lt;!-- Event Name goes here: SourceEvent/StreamStatusEvent --&gt; 
+            	SourceEvent
+            &lt;/eventname&gt;
+        &lt;/header&gt;
+			&lt;data&gt;
+			  &lt;!-- Event data goes here --&gt; 
+			  &lt;SourceEventData&gt;
+			    	  &lt;!-- Source Event data payload goes here --&gt; 
+			  &lt;/SourceEventData&gt;
+			&lt;/data&gt;
+			&lt;log/&gt;
+  &lt;/AgentEvent&gt;
+
+        </pre></div></div><br class="example-break"></div></div><div class="chapter" title="Chapter 3. Generic Agent API Overview"><div class="titlepage"><div><div><h2 class="title"><a name="id365353"></a>Chapter 3. Generic Agent API Overview</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id365367">Startup Operations</a></span></dt><dd><dl><dt><span class="section"><a href="#id365374">XMPP Login</a></span></dt><dt><span class="section"><a href="#id365409">SetServiceDomain</a></span></dt><dt><span class="section"><a href="#id365508">GetMediaRoomInvites</a></span></dt></dl></dd></dl></div><p>
+      The following set of operations will be typically performed by the devices hosting the agents outside of the agent API
+    </p><div class="section" title="Startup Operations"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365367"></a>Startup Operations</h2></div></div></div><div class="section" title="XMPP Login"><div class="titlepage"><div><div><h3 class="title"><a name="id365374"></a>XMPP Login</h3></div></div></div><p>
+          First the Client does a standard XMPP Login.
+          The credentials needed for this need to be provided to the Client
+          by the Administrator by some out-of-band means.
+        </p><p>
+          </p><table border="0" summary="Simple list" class="simplelist"><tr><td>- Username@DomainName.com (Who)</td></tr><tr><td>- Password</td></tr><tr><td>- XMPPResourceID (From Where)</td></tr></table><p>
+        </p></div><div class="section" title="SetServiceDomain"><div class="titlepage"><div><div><h3 class="title"><a name="id365409"></a>SetServiceDomain</h3></div></div></div><p>
+          After the base XMPP login the device has to discover the contactJID for the AppServerAgent
+          The AppServerAgent device publishes its userJID as the contactJID for the AppServerAgent based on static configuration on the device hosting the AppServerAgent.
+          The Device then does a "SetServiceDomain" which registers the Device with the AppServerAgent.
+          </p><table border="0" summary="Simple list" class="simplelist"><tr><td>
+          	  - The registration process includes publishing its userJID as the contactJID for the XMPPResource
+            </td></tr><tr><td>
+              - Device version number and licensing is also checked at this time
+            </td></tr><tr><td>
+              - The Device version number can be obtained from the Version section of the API document corresponding to the client implementation
+            </td></tr></table><p>
+        </p><p> This will change the status to not ready indicating that it has logged in but cannot participate in a session as a source or destination. </p><div class="example"><a name="id365460"></a><p class="title"><b>Example 3.1. SetServiceDomainRequest extended from AgentRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SetServiceDomainRequestData&gt;
+            &lt;domain&gt;default&lt;/domain&gt;
+            &lt;AssetTemplateTitle&gt;dcpc1&lt;/AssetTemplateTitle&gt;
+            &lt;AssetPrivateData&gt;&lt;/AssetPrivateData&gt;
+            &lt;AssetPrivateKeyData&gt;&lt;/AssetPrivateKeyData&gt;
+            &lt;ServiceVersion&gt;2.25&lt;/ServiceVersion&gt;
+            &lt;IPAddress&gt;10.1.2.190&lt;/IPAddress&gt;
+  &lt;/SetServiceDomainRequestData&gt;
+
+          </pre></div></div><br class="example-break"><p>
+          If all is well, the response will contain the Device's
+          private data(preferences) that has been configured/stored on
+          the server.
+          </p><table border="0" summary="Simple list" class="simplelist"><tr><td>
+              - The current date/time is also returned
+            </td></tr></table><p>
+          </p><div class="example"><a name="id365494"></a><p class="title"><b>Example 3.2. Service Login Response extended from AgentResponse</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;SetServiceDomainResponseData&gt;
+    &lt;AssetResource NID="default.assetresourcelist.arl_a3f6cdf7-be03-416d-8e0f-1a964edb60b0" Persistence="Temporary" Rev="1" Ver="1.7" parentNID="default.assetresourcelist" serviceVer="2.25"&gt;^M
+    &lt;Contact&gt;
+        &lt;OwnerUserJID/&gt;
+        &lt;Presence&gt;unavailable&lt;/Presence&gt;
+    &lt;/Contact&gt;
+    &lt;State&gt;
+        &lt;StateFlag&gt;Offline&lt;/StateFlag&gt;
+        &lt;StateMsg/&gt;
+    &lt;/State&gt;
+    &lt;TemplateAssetResourceNID/&gt;
+    &lt;Info&gt;
+        &lt;Groups&gt;
+            &lt;Tag Name="Department" Value="Engineering"/&gt;
+        &lt;/Groups&gt;
+        &lt;Title&gt;dcpc1&lt;/Title&gt;
+        &lt;Description/&gt;
+        &lt;Type&gt;IPVSClient-Device&lt;/Type&gt;
+        &lt;AssetPrivateKey&gt;
+            &lt;KeyScheme/&gt;
+            &lt;KeyData/&gt;
+        &lt;/AssetPrivateKey&gt;
+        &lt;AssetPrivateData/&gt;
+        &lt;FeatureList&gt;
+            &lt;Feature Name=""/&gt;
+        &lt;/FeatureList&gt;
+    &lt;/Info&gt;
+    &lt;/AssetResource&gt;
+    &lt;PortResourceNIDList&gt;
+      &lt;resourceNID type="MediaStreamDstPortResource"&gt;default.mediastreamdstportresourcelist.msdprl_4ddb1a8f-650b-46f6-ac35-4c46d3dc0177&lt;/resourceNID&gt;
+    &lt;/PortResourceNIDList&gt;
+    &lt;deviceNID&gt;default.devicelist.dl_236f39ca-2935-4365-a624-95637cbcf4f9&lt;/deviceNID&gt;
+    &lt;appServerAgentJID&gt;srcrelay1@localhost/srcrelay1&lt;/appServerAgentJID&gt;
+  &lt;/SetServiceDomainResponseData&gt;
+
+            </pre></div></div><p><br class="example-break">
+        </p></div><div class="section" title="GetMediaRoomInvites"><div class="titlepage"><div><div><h3 class="title"><a name="id365508"></a>GetMediaRoomInvites</h3></div></div></div><p>
+
+          Once this response is received the Agent will send out a "GetMediaRoomInvitesRequest" (refer Session API document)
+          </p><table border="0" summary="Simple list" class="simplelist"><tr><td>
+          	  - This will publish the userJID as the contactJID for the MediaSource and MediaDestination resources associated with this device
+            </td></tr><tr><td>
+          	  - The AppServerAgent will use this contactJID when sending messages to agents associated with the resource
+            </td></tr><tr><td>
+          	  - This will also result in the AppServerAgent sending out invites to the device for all the MediaRooms that include the resources for the device
+            </td></tr></table><p>
+        </p></div></div></div><div class="chapter" title="Chapter 4. MediaRoom Agent API"><div class="titlepage"><div><div><h2 class="title"><a name="id365601"></a>Chapter 4. MediaRoom Agent API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id365618">AppServerAgent</a></span></dt><dt><span class="section"><a href="#id363849">DestStreamAgent</a></span></dt><dt><span class="section"><a href="#id365777">SourceStreamAgent</a></span></dt></dl></div><p>
+      This chapter provides details on the different Agents and the set of messages that will be exchanged between agents as part 
+      of the MediaStream setup/control/teardown functions
+    </p><div class="section" title="AppServerAgent"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365618"></a>AppServerAgent</h2></div></div></div><p>
+        This is the agent responsible for all MediaRoom setup and control functions. This has the following main functional areas:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+              A Database of all active MediaRooms and their associated objects:
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>MediaTrack: StreamTrack, RecordTrack</td></tr><tr><td>MediaObjects: MediaSources, MediaDest, MediaRelays</td></tr><tr><td>Streams: The streams are setup between MediaSources and MediaDestinations and my involve one or more MediaRelays</td></tr></table><p>
+            </p></li><li class="listitem"><p>
+              A centralized run-time MediaRoom Co-ordinator that manages:
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>MediaRoom Setup Requests</td></tr><tr><td>Stream Setup Requests: A request is sent to DestStreamAgent associated with the MediaDest</td></tr><tr><td>MediaObjects: Manage invitations and presense for Media Objects</td></tr><tr><td>MediaTimelines Updates: A request is sent to SourceStreamAgent associated with the MediaSource</td></tr></table><p>
+            </p></li></ul></div><p>
+      </p></div><div class="section" title="DestStreamAgent"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id363849"></a>DestStreamAgent</h2></div></div></div><p>
+        This is the agent responsible for all MediaStream setup/teardown functions. This has the following main functional areas:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+              Handling requests to setup/teardown streams
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>The request includes all the information required to be setup the MediaSource and MediaDestinations to setup/teardown the stream</td></tr><tr><td>Once the watch is received by the DestStreamAgent, it is now responsible for the Stream</td></tr><tr><td>The Watch includes Setup. The UnWatch includes Teardown</td></tr><tr><td>If the Setup fails, the corresponding state(SETUP_ERROR) is maintained in the DestStreamAgent</td></tr><tr><td>A Setup/Teardown of the stream results in Start/Stop Stream requests being sent to the SourceStreamAgent</td></tr></table><p>
+            </p><div class="example"><a name="id473216"></a><p class="title"><b>Example 4.1. Generic DestStreamAgent Request payload received from the AppServerAgent extended from AgentRequest</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionRequestData&gt;
+    &lt;action&gt;
+		&lt;!-- action goes here --&gt; 
+        Watch
+    &lt;/action&gt;
+    &lt;streamNID&gt;3bebcbb1-3ead-47b7-b006-a1c7f829b34e&lt;/streamNID&gt;
+    &lt;streamdatadoc&gt;
+		&lt;!-- Stream object goes here --&gt;         
+    &lt;/streamdatadoc&gt;
+    &lt;mediasourcedatadoc&gt;
+		&lt;!-- MediaSource object goes here --&gt;         
+    &lt;/mediasourcedatadoc&gt;
+  &lt;/ActionRequestData&gt;
+
+            </pre></div></div><br class="example-break"><div class="example"><a name="id473249"></a><p class="title"><b>Example 4.2. Stream Setup Request payload received from the AppServerAgent extended from Generic DestStreamAgent Request </b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionRequestData&gt;
+    &lt;action&gt;Watch&lt;/action&gt;
+    ...
+  &lt;/ActionRequestData&gt;
+
+            </pre></div></div><br class="example-break"><div class="example"><a name="id473263"></a><p class="title"><b>Example 4.3. Stream Teardown Request payload received from the AppServerAgent extended from Generic DestStreamAgent Request</b></p><div class="example-contents"><pre class="programlisting">
+              
+&lt;ActionRequestData&gt;
+  &lt;action&gt;UnWatch&lt;/action&gt;
+  ...
+&lt;/ActionRequestData&gt;
+
+            </pre></div></div><br class="example-break"></li><li class="listitem"><p>
+              Maintaining a state machine for each of the MediaStreams which is updated based on
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>The presence of the MediaSource</td></tr><tr><td>The Start/Stop Response AgentMessages received from the SourceStreamAgent</td></tr><tr><td>The Update Response AgentMessages received from the SourceStreamAgent</td></tr><tr><td>The SourceEvent AgentEvents received from the SourceStreamAgent</td></tr></table><p>
+            </p></li><li class="listitem"><p>
+              The state machine action handlers are responsible for
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>Restarting a stream once an absent MediaSources comes back into the MediaRoom</td></tr><tr><td>Sending out StreamStatusUpdates whenever the state of the stream changes</td></tr></table><p>
+            </p><div class="example"><a name="id365747"></a><p class="title"><b>Example 4.4. StreamStatusUpdate payload sent to the AppServerAgent extended from AgentEvent</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;StreamStatusEventData roomNID="136cc62f-6537-4cfd-b677-8d09d37738e2" streamNID="3bebcbb1-3ead-47b7-b006-a1c7f829b34e"&gt;
+    &lt;state&gt;
+       &lt;!-- Stream state value goes here --&gt;         
+       6
+    &lt;/state&gt;
+    &lt;lastEventData&gt;
+		&lt;!-- Last Event Data goes here --&gt;         
+    &lt;/lastEventData&gt;
+    &lt;relayData relayRoomNID="" relayStreamNID=""/&gt;
+  &lt;/StreamStatusEventData&gt;
+
+            </pre></div></div><br class="example-break"></li></ul></div><p>
+      </p></div><div class="section" title="SourceStreamAgent"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365777"></a>SourceStreamAgent</h2></div></div></div><p>
+        This is the agent responsible for all MediaStream setup/teardown/control functions. This has the following main functional areas:
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+              Handling start/stop request for streams from the DestStreamAgent
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>The DestStreamAgent sends a Start request with all the source and dest information</td></tr><tr><td>The dest information is used to setup output pins in the streaming server</td></tr><tr><td>The source information is used to setup input pins in the streaming server</td></tr><tr><td>Multiple dest-output pins can be connected to a single source-input pin in the streaming server</td></tr><tr><td>The source-input pin are released once there are no more dest-output pins connected to it</td></tr></table><p>                        
+          </p><div class="example"><a name="id365831"></a><p class="title"><b>Example 4.5. SourceStreamAgent Action Request payload received by the SourceStreamAgent extended from AgentRequest</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionRequestData&gt;
+&lt;!-- MediaRoomServiceUtils.createActionRequestMessage --&gt;
+  
+        &lt;streamNID&gt;3bebcbb1-3ead-47b7-b006-a1c7f829b34e&lt;/streamNID&gt;
+        &lt;useraction&gt;
+			     	&lt;!-- User action goes here --&gt; 
+        			Start
+        &lt;/useraction&gt;
+        &lt;action&gt;
+			     	&lt;!-- Action goes here --&gt;         
+        StartRequest
+        &lt;/action&gt;
+        &lt;actiondata&gt;
+			     	&lt;!-- ActionData goes here --&gt;         
+        &lt;/actiondata&gt;
+        &lt;wallClock&gt;
+			     	&lt;!-- WallClock at which this action was fired --&gt;         
+        			0
+        &lt;/wallClock&gt;
+        &lt;actionNID&gt;
+			     	&lt;!-- A unique identified for the action --&gt;         
+        			136cc62f-6537-4cfd-b677-8d09d37738e2
+        &lt;/actionNID&gt;
+        &lt;streamdatadoc&gt;
+			     	&lt;!-- Stream object goes here --&gt;         
+        &lt;/streamdatadoc&gt;
+        &lt;mediasourcedatadoc&gt;
+			     	&lt;!-- One or more MediaSource object(s) go here --&gt;         
+        &lt;/mediasourcedatadoc&gt;
+  &lt;/ActionRequestData&gt;
+
+            </pre></div></div><p><br class="example-break">
+          </p><div class="example"><a name="id365902"></a><p class="title"><b>Example 4.6. Stream Start Action Request action data received by the SourceStreamAgent extended from Generic SourceStreamAgent Request</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionRequestData&gt;
+              ...
+        &lt;useraction&gt;Start&lt;/useraction&gt;
+        &lt;action&gt;StartRequest&lt;/action&gt;
+        ...
+  &lt;/ActionRequestData&gt;
+
+            </pre></div></div><p><br class="example-break">
+          </p><div class="example"><a name="id365855"></a><p class="title"><b>Example 4.7. Stream Stop Action Request received by the SourceStreamAgent extended from Generic SourceStreamAgent Request</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionRequestData&gt;
+        &lt;useraction&gt;Stop&lt;/useraction&gt;
+        &lt;action&gt;StopRequest&lt;/action&gt;
+        ...
+  &lt;/ActionRequestData&gt;
+
+            </pre></div></div><p><br class="example-break">
+              
+          </p><div class="example"><a name="id473298"></a><p class="title"><b>Example 4.8. Generic SourceStreamAgent Response payload sent by the SourceStreamAgent</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionResponseData&gt;
+        &lt;streamNID&gt;3bebcbb1-3ead-47b7-b006-a1c7f829b34e&lt;/streamNID&gt;
+        &lt;useraction&gt;
+			    &lt;!-- User action goes here --&gt; 
+        		Start
+        &lt;/useraction&gt;
+        &lt;action&gt;
+			    &lt;!-- Action goes here --&gt;         
+        		StartRequest
+        &lt;/action&gt;
+        &lt;actiondata&gt;
+			    &lt;!-- ActionData goes here --&gt;         
+        &lt;/actiondata&gt;
+        &lt;actionNID&gt;
+			    &lt;!-- A unique identified for the action --&gt;         
+        		136cc62f-6537-4cfd-b677-8d09d37738e2
+        &lt;/actionNID&gt;
+        &lt;streamURL&gt;v2d://10.1.103.1/port=6060?bandwidth=10240000?avoption=Video?ismulticast=false?enablekbm=false&lt;/streamURL&gt;
+        &lt;relayData relayRoomNID="" relayStreamNID=""/&gt;
+        &lt;startTime&gt;1288453969469&lt;/startTime&gt;
+        &lt;status&gt;200&lt;/status&gt;
+        &lt;log/&gt;
+  &lt;/ActionResponseData&gt;
+
+            </pre></div></div><p><br class="example-break">
+              </p><div class="example"><a name="id473311"></a><p class="title"><b>Example 4.9. Stream Start Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionResponseData&gt;
+        &lt;useraction&gt;
+        Start
+        &lt;/useraction&gt;
+        &lt;action roomNID="" sync="false" syncAgentJID="" syncSourceParentDirNID="" syncSourceUUID="" syncTC=""&gt;
+        StartRequest
+        &lt;/action&gt;
+        ...
+  &lt;/ActionResponseData&gt;
+
+            </pre></div></div><p><br class="example-break">
+              </p><div class="example"><a name="id473324"></a><p class="title"><b>Example 4.10. Stream Stop Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionResponseData&gt;
+        &lt;useraction&gt;
+        Stop
+        &lt;/useraction&gt;
+        &lt;action roomNID="" sync="false" syncAgentJID="" syncSourceParentDirNID="" syncSourceUUID="" syncTC=""&gt;
+        StopRequest
+        &lt;/action&gt;
+        ...
+  &lt;/ActionResponseData&gt;
+
+            </pre></div></div><p><br class="example-break">
+              
+            </p></li><li class="listitem"><p>
+              Handling update timeline requests for streams from the AppServerAgent
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>The AppServerAgent sends an TimelineUpdate request with all the source information for the new offset</td></tr><tr><td>The new source information is used to setup new input pins in the streaming server</td></tr><tr><td>The existing dest-output pins are switched to the new source-input pins in the streaming server</td></tr><tr><td>The source-input pin are released once there are no more dest-output pins connected to it</td></tr></table><p>
+              </p><div class="example"><a name="id473422"></a><p class="title"><b>Example 4.11. Stream TimelineUpdate Request AppServerAgent to the SourceStreamAgent</b></p><div class="example-contents"><pre class="programlisting">
+              
+&lt;TimelineUpdateRequestData&gt;
+&lt;data&gt;
+	&lt;action/&gt;
+&lt;!--  Pause(StopOutput), Resume(SwitchLookback/UpdateOffset), Catchup(StartOutput/SwitchDefault)--&gt;	
+	&lt;actiondata&gt;
+		&lt;timelineupdate&gt;
+			&lt;MediaTimeline/&gt;
+		&lt;/timelineupdate&gt;
+	&lt;/actiondata&gt;
+	&lt;actionNID/&gt;
+&lt;/data&gt;
+&lt;/TimelineUpdateRequestData&gt;
+
+            </pre></div></div><p><br class="example-break">
+              </p><div class="example"><a name="id473433"></a><p class="title"><b>Example 4.12. Stream TimelineUpdate Response sent by SourceStreamAgent to the DestStreamAgent extended from Generic SourceStreamAgent Response</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;ActionResponseData&gt;
+        &lt;useraction&gt;
+        SkipForward
+        &lt;/useraction&gt;
+        &lt;action roomNID="" sync="false" syncAgentJID="" syncSourceParentDirNID="" syncSourceUUID="" syncTC=""&gt;
+        UpdateOffset
+        &lt;/action&gt;
+        &lt;actiondata&gt;
+        120
+        &lt;/actiondata&gt;
+        ...
+  &lt;/ActionResponseData&gt;
+
+            </pre></div></div><p><br class="example-break">
+            </p></li><li class="listitem"><p>
+              It is responsible for generating the following SourceEvents when notifications are received from the streaming server
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>Info Event: Generated when the first bits of data are available on the stream</td></tr><tr><td>Error Event: Generated when the there is any error in the stream</td></tr></table><p>
+          </p><div class="example"><a name="id473494"></a><p class="title"><b>Example 4.13. Source Event sent by SourceStreamAgent to the DestStreamAgent extended from Generic AgentEvent</b></p><div class="example-contents"><pre class="programlisting">
+              
+  &lt;SourceEventData&gt;
+        &lt;eventCode&gt;
+			     &lt;!-- Event Specific Code goes here --&gt;         
+        		110
+        &lt;/eventCode&gt;
+        &lt;action&gt;SourceEvent&lt;/action&gt;
+    	&lt;streamNID&gt;02301fd9-ed29-40eb-b1b6-84ce358bf30a&lt;/streamNID&gt;
+    	&lt;startTC&gt;0&lt;/startTC&gt;
+    	&lt;sourceEventActionData&gt;
+			    &lt;!-- Event Specific Data goes here --&gt;         
+    			srcrelay1@localhost/srcrelay1/Start/1288358866396
+    	&lt;/sourceEventActionData&gt;
+    	&lt;streamNIDList&gt;
+    		&lt;streamNIDListItem&gt;3c85affb-ad7a-4213-9b6f-2e1ec1a134e1&lt;/streamNIDListItem&gt;&lt;streamNIDListItem&gt;02301fd9-ed29-40eb-b1b6-84ce358bf30a&lt;/streamNIDListItem&gt;
+    	&lt;/streamNIDList&gt;
+    	&lt;status&gt;200&lt;/status&gt;
+  &lt;/SourceEventData&gt;
+
+            </pre></div></div><p><br class="example-break">
+            </p></li><li class="listitem"><p>
+              Setup/Teardown of any upstream MediaStreams if the actual source is not local but is using an relay stream to an upstream SourceStreamAgent
+              </p><table border="0" summary="Simple list" class="simplelist"><tr><td>The relay stream is managed by the DestStreamAgent co-located on the device</td></tr><tr><td>The co-located DestStreamAgent propogates all relay stream state changes which are Stream state changes which result in SourceEvents</td></tr></table><p>
+            </p></li></ul></div><p>
+      </p></div></div><div class="appendix" title="Appendix A. Data Model"><div class="titlepage"><div><div><h2 class="title"><a name="id473569"></a>Appendix A. Data Model</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id473583">MediaRoom Objects</a></span></dt><dt><span class="section"><a href="#id473623">MediaRoom API Messages</a></span></dt></dl></div><p>
+      The following are sample XMLs that reflect the structure of Objects involved in the MediaRoom service.
+    </p><div class="section" title="MediaRoom Objects"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id473583"></a>MediaRoom Objects</h2></div></div></div><p>
+      The MediaRoom Objects are listed below. The corresponding xml is available under the svn.
+      The base svn URL is "http://192.168.1.12/svn/svnroot/model/trunk/mediaroomXML/com/ipvs/mediaroomservice/datamodel/"
+      To get the specific xml file append the Filename mentioned next to the Object
+      </p><table border="0" summary="Simple list" class="simplelist"><tr><td>MediaRoom : MediaRoomInstance.xml</td></tr><tr><td>MediaTrack : MediaTrackInstance.xml</td></tr><tr><td>MediaSource : MediaSourceInstance.xml</td></tr><tr><td>MediaDest : MediaDestInstance.xml</td></tr><tr><td>Stream : StreamInstance.xml</td></tr></table><p>
+      </p></div><div class="section" title="MediaRoom API Messages"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id473623"></a>MediaRoom API Messages</h2></div></div></div><p>
+      The MediaRoom Messages are listed below. The corresponding xml is available under the svn.
+      The base svn URL is "http://192.168.1.12/svn/svnroot/model/trunk/mediaroomXML/com/ipvs/mediaroomservice/agent/"
+      To get the specific xml file append the Filename mentioned next to the Object
+      </p><table border="0" summary="Simple list" class="simplelist"><tr><td>DestStreamAgentRequest : DestStreamAgentRequest.xml</td></tr><tr><td>SourceStreamAgentRequest : SourceStreamAgentRequest</td></tr><tr><td>SourceStreamAgentResponse : SourceStreamAgentResponse</td></tr><tr><td>SourceEvent : SourceEventInstance.xml</td></tr><tr><td>StreamStatusEvent : Uses the Status element in the StreamInstance object</td></tr></table><p>
+      </p></div></div></div></body></html>

@@ -1,0 +1,101 @@
+CU_NA := -W% -f% -pipe
+CU_CNA := -Werror
+
+# compilation with -O3 fails sometimes, so replace by -O2
+
+cu-cflags	=	$(filter-out $(CU_CNA),$(filter $(CU_NA),$(compile-cstring:-O3=-O2)))
+
+cu-flags	=	$(filter-out $(CU_NA),$(compile-cstring:-O3=-O2))
+
+cu-flags	+=	$(target-cudaflags)
+
+ifeq "$(JBS_UNIX_SYSTEM)" "1"
+cu-flags	+=	$(call compile-define,UNIX)
+endif
+
+dumpable	+= cu-flags cu-cflags
+
+# cuda sources: using runtime api
+# cu sources: using driver api
+
+compile-final-cuda-sources	:= $(sort $(wildcard $(target-cuda-sources)))
+compile-final-cu-sources	:= $(sort $(wildcard $(target-cu-sources)))
+
+vpath %.cu $(sort $(dir $(compile-final-cu-sources) $(compile-final-cuda-sources)))
+
+#########
+# runtime api
+
+$(JBS_TMP_DIR)/%.$(compile-suffix) :		%.cu $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-compiling,$<)
+	@nvcc -M -odir $(JBS_TMP_DIR) $(cu-flags) $< > $(patsubst %.$(compile-suffix),%.d,$@)
+	@nvcc -c $(cu-flags) -Xcompiler "$(cu-cflags)" -o $@ $<
+
+
+cuda-final-objects		:= $(patsubst %.cu,$(JBS_TMP_DIR)/%.$(compile-suffix),$(notdir $(compile-final-cuda-sources)))
+
+compile-final-objects	+=	$(cuda-final-objects)
+
+dumpable	+= compile-final-cuda-sources
+
+mod-cmp-temp-depends	+=	$(patsubst %.$(compile-suffix),%.d,$(cuda-final-objects))
+
+#########
+# driver api
+
+mod-get-cubin-module-name = $(subst .,_,$(patsubst %.cubin,%,$(notdir $(1))))
+
+$(JBS_TMP_DIR)/%.cubin :		%.cu $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-compiling,$<)
+	@nvcc -M -odir $(JBS_TMP_DIR) $(cu-flags) $< | sed 's/\.o /\.cubin /' > $(patsubst %.cubin,%.d,$@)
+	@nvcc -m32 --cubin $(cu-flags) -Xcompiler "$(cu-cflags)" -o $@ $<
+
+%.cubin.cpp : %.cubin
+	@echo "extern const unsigned char $(call mod-get-cubin-module-name,$<)[] = " > $@
+	@sed 's/.*/"\0\\n"/' $< >> $@
+	@echo ";" >> $@
+	@echo "" >> $@
+
+cu-final-objects		:= $(patsubst %.cu,$(JBS_TMP_DIR)/%.cubin.$(compile-suffix),$(notdir $(compile-final-cu-sources)))
+
+compile-final-objects	+=	$(cu-final-objects)
+
+dumpable	+= compile-final-cu-sources
+
+mod-cmp-temp-depends	+=	$(patsubst %.cubin.$(compile-suffix),%.d,$(cu-final-objects)) $(patsubst %.$(compile-suffix),%.d,$(cu-final-objects))
+
+##############################################################################
+
+#ifeq "$(JBS_PLATFORM)" "WIN32"
+#local-deps:	local-cu-depend
+#else
+#local-depend :	local-cu-depend
+#endif
+#
+#JBS_CU_DEPS_BASE		:=	.jbs.cu-deps
+#export JBS_CU_DEPS_FILE := $(JBS_CU_DEPS_BASE).$(JBS_PLATFORM)
+#
+#ifneq ($(strip $(compile-final-cuda-sources)),)
+#
+#compile-final-cudirs := $(dir $(compile-final-cuda-sources))
+#
+#local-cu-depend :	$(compile-final-cuda-sources)
+#	@$(call mod-echo-gendepends,$(compile-final-cuda-sources))
+#	@cat < /dev/null > $(JBS_CU_DEPS_FILE)
+#	@TMP_INCS="$(foreach i,$(compile-incldirs),-I$(i))" ;\
+#	TMP_DEFS="$(foreach d,$(compile-defs),-D$(d))" ;\
+#	for s in $(compile-final-cuda-sources) ; do \
+#		$(call mod-echo-gendepends,$$s) ; \
+#		nvcc -M -odir `dirname $$s` $$TMP_DEFS $$TMP_INCS $$s >> $(JBS_CU_DEPS_FILE); \
+#	done
+#
+#ifeq "$(wildcard $(JBS_CU_DEPS_FILE))" "$(JBS_CU_DEPS_FILE)"
+#include $(JBS_CU_DEPS_FILE)
+#endif
+#
+#else
+#
+#local-cu-depend :
+#
+#endif
+

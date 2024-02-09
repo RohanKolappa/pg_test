@@ -1,0 +1,79 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>RxInputVideoParameters</Title>
+   <Description>Input Video Parameters</Description>
+   <Access>rx_input_video_parm</Access>
+   <ConfigFile>rxipvidconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+    <Items>
+      <Item>
+        <Name>phase_shift</Name>
+        <Type>integer</Type>
+        <Label>Sampling Phase</Label>
+        <Help>Sampling Phase</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-16</Min>
+           <Max>15</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horizontal_position</Name>
+        <Type>integer</Type>
+        <Label>Horiz Position</Label>
+        <Help>Horizontal Position</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-135</Min>
+           <Max>375</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+	<Name>vertical_position</Name>
+        <Type>integer</Type>
+        <Label>Vert Position</Label>
+        <Help>Vertical Position</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-25</Min>
+           <Max>50</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>lut_cpmp</Name>
+        <Type>string</Type>
+        <Label>LUT Charge Pump Curr</Label>
+        <Help>LUT Charge Pump Curr</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "50", "100", "150", "250","350","500","750","1500"</Values>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>dvi_mode</Name>
+        <Type>string</Type>
+        <Label>DVI Mode</Label>
+        <Help>Select to automatically set H/V delay values</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "LUT"</Values>
+        </Validation>
+      </Item>
+   </Items>
+</Menu>

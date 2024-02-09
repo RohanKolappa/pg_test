@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>IPVS Setup Wizard</title>
+
+<HTA:APPLICATION 
+     ID="objHTA"
+     APPLICATIONNAME="IPVS_Setup_Wizard"
+     ICON="ipvs.ico"
+     SCROLL="yes"
+     SINGLEINSTANCE="yes"
+>
+</head>
+
+<SCRIPT Language = "JavaScript">
+
+    // Assumptions: 
+    // In this directory where script is located, there are 2 folders -
+    // GI and player". There should also be a "ipvs.ico" file in this folder
+    // The player folder should contain the IPVPlayerCtrl.cab
+
+    function InstallSoftware() {
+
+        var strCurrDir = GetParentDir(window.location.pathname) + "\\";
+        
+        var strClientIndexPath = strCurrDir + "GI\\IPVSClient-Index.hta";
+        var strAdminIndexPath  = strCurrDir + "GI\\IPVSAdmin-Index.hta";
+        var strProxyIndexPath = strCurrDir + "GI\\IPVSProxy.bat";
+        var strIconPath = strCurrDir + "ipvs.ico";
+        var strAppWorkingDir = strCurrDir + "GI";
+
+        //CreateDesktopShortcut(strClientIndexPath, "IPVS Client", strIconPath, strAppWorkingDir);
+        //CreateDesktopShortcut(strAdminIndexPath, "IPVS Admin", strIconPath, strAppWorkingDir);
+        CreateDesktopShortcut(strProxyIndexPath, "IPVS Proxy", strIconPath, strAppWorkingDir);
+        LaunchAtStartup(strProxyIndexPath, "IPVS Proxy", strIconPath, strAppWorkingDir);
+
+        var strPlayerDir = strCurrDir + "GI\\JSXAPPS\\IPVS-Common\\player";
+        var strPlayerCab  = strPlayerDir + "\\IPVPlayerCtrl.cab";
+        var strPlayerFile = strPlayerDir + "\\IPVPlayerCtrl.dll";
+        //ExpandCab(strPlayerCab);
+        //RegisterPlayer(strPlayerFile);
+    }
+
+    function GetParentDir(strFile) {
+        var LastSlashIdx = strFile.lastIndexOf("\\");
+        var strParentDir = strFile.substr(0, LastSlashIdx);
+        return strParentDir;
+    }
+
+    function LaunchAtStartup(strAppPath, strName, strIconPath, strWorkingDir) {
+
+        var objShell = new ActiveXObject("WScript.Shell");
+        var objStartup = objShell.SpecialFolders("AllUsersStartup");
+        var strShortCut = objStartup + "\\" + strName + ".lnk";
+        var objLink = objShell.CreateShortcut(strShortCut);
+
+        objLink.Description = strName;
+        objLink.HotKey = "";
+        objLink.IconLocation = strIconPath;
+        objLink.TargetPath = strAppPath;
+        objLink.WindowStyle = 1;
+        objLink.WorkingDirectory = strWorkingDir;
+        objLink.Save();
+
+    }
+    
+    function CreateDesktopShortcut(strAppPath, strName, strIconPath, strWorkingDir) {
+
+        var objShell = new ActiveXObject("WScript.Shell");
+        var objDesktop = objShell.SpecialFolders("AllUsersDesktop");
+        var strShortCut = objDesktop + "\\" + strName + ".lnk";
+        var objLink = objShell.CreateShortcut(strShortCut);
+       
+        objLink.Description = strName;
+        objLink.HotKey = "";
+        objLink.IconLocation = strIconPath;
+        objLink.TargetPath = strAppPath;
+        objLink.WindowStyle = 3;
+        objLink.WorkingDirectory = strWorkingDir;
+        objLink.Save();
+    }
+    
+    function WindowsUnZip(strZipFile, strUnzipDir) {
+
+        var oUnzipFSO = new ActiveXObject("Scripting.FileSystemObject");
+        var oShellApp = new ActiveXObject("Shell.Application"); 
+ 
+        if(oUnzipFSO.FolderExists(strUnzipDir) == false) { 
+            oUnzipFSO.CreateFolder(strUnzipDir);
+        }
+        
+        oShellApp.NameSpace(strUnzipDir).CopyHere(oShellApp.NameSpace(strZipFile).Items());
+    }
+
+    function ExpandCab(strCabFile) {
+        var strWorkingDir = "\"" + GetParentDir(strCabFile) + "\"";
+        var strArgs = " -F:* " + "\"" + strCabFile + "\"" + " " + strWorkingDir;
+        var strCmd = "expand.exe" + strArgs;
+        RunCmd(strCmd);
+    }    
+
+    function RegisterPlayer(strPlayerFile) {
+    
+        var strPlayerFile2 = "\"" + strPlayerFile + "\"";
+        var objSh = new ActiveXObject("Shell.Application");
+        objSh.ShellExecute("regsvr32.exe", strPlayerFile2, "", "runas", 0);
+    }
+
+    function RunCmd(cmd) {
+        var WshShell = new ActiveXObject("WScript.Shell");
+        var bReturn = WshShell.Run(cmd, 0, true);
+    }
+   
+</SCRIPT>
+
+<BODY>
+    <input type="button" value="Install" onClick="InstallSoftware()">    
+</BODY>
+</html>

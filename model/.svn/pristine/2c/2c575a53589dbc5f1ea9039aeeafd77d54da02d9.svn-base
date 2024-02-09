@@ -1,0 +1,367 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Resource",
+    "resourcePath": "/Region",
+	"apis":[
+		{
+			"path":"/Region",
+			"operations":[
+				{
+					"method": "GET",
+                    "summary": "Get a Region(available in EDP 1.1)",
+                    "notes": "As an Administrator i should be able to Get all regions from SC",
+                    "responseClass": "RegionResponse",
+                    "nickname": "getRegion",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Region+json",
+                        "application/vnd.barco.nimbus.Region+xml"
+                    ],
+					"parameters":[
+						{
+							"name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+						},
+						{
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }, 
+                        {
+                            "name": "subscriptionID",
+                            "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },                    
+                        {
+                            "name": "recursive",
+                            "description": "recursive",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "boolean",
+                            "paramType": "query"
+                        }
+					],
+					"responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+					"deprecated":"false"
+				},
+				{
+                    "method": "POST",
+                    "summary": "Add a region(available in EDP 1.1)",
+                    "notes": "Add a region",
+                    "responseClass": "RegionResponse",
+                    "nickname": "addRegion",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Region+json",
+                        "application/vnd.barco.nimbus.Region+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Region+json",
+                        "application/vnd.barco.nimbus.Region+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },						
+                        {
+                            "name": "body",
+                            "description": "add a Region",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddRegion",
+                            "paramType": "body"
+						}
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "DELETE",
+                    "summary": "Delete a Region(available in EDP 1.1)",
+                    "notes": "Delete a Region",
+                    "responseClass": "RegionResponse",
+                    "nickname": "deleteRegion",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "Region nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "Region title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Set a Region(available in EDP 1.1)",
+                    "notes": "Set a Region",
+                    "responseClass": "RegionResponse",
+                    "nickname": "SetRegion",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Region+json",
+                        "application/vnd.barco.nimbus.Region+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Region+json",
+                        "application/vnd.barco.nimbus.Region+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "Region nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },                        
+						{
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "Region",
+                            "paramType": "body"
+                        }
+						
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+				
+			]
+		}
+	],
+	"models": {
+		"Metadata": {
+            "id": "Metadata",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag" : {
+					"type": "array",
+					"items": {
+					"$ref": "TagAttr"
+					}
+				}
+            }
+        },
+        "RegionResponse": {
+            "id": "RegionResponse",
+            "description": "Region Response",
+            "required": [
+               "Region"
+            ],
+            "properties": {
+         "Region": {
+          "$ref": "RegionResponseData"
+        }                
+            }
+        },
+        "RegionResponseData": {
+            "id": "RegionResponseData",
+            "description": "Region Response Data",
+            "required": [
+                "@NID",
+                "Metadata",
+                "@title",
+                "@description"
+            ],
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "@title": {
+                    "type": "string"
+                },
+                "@description": {
+                    "type": "string"
+                },
+                "Metadata": {
+					"$ref":"Metadata"
+				}
+                
+            }
+        },
+		
+        "TagAttr": {
+            "id": "TagAttr",
+            "properties": {
+                "content": {
+					"type": "string"
+				},
+				"@name": {
+                    "type": "string"
+                }
+            }
+        },
+		"AddRegion": {
+            "id": "AddRegion",
+            "description": "add a Region request",
+            "required": [
+                "Region"
+            ],
+            "properties": {
+                "Region": {
+                    "$ref": "AddRegionReq"
+                }
+            }
+        },
+		"AddRegionReq":{
+			"id": "AddRegionReq",
+			"description": "A basic add region request",
+			"required": [
+				"@title",
+				"@description",
+				"Metadata"
+			],
+			"properties": {
+				"@title": {					
+					"type": "string"
+				},
+				"@description": {
+					"type": "string"					
+				},
+				"Metadata": {
+					"$ref":"Metadata"
+				}
+			}
+		},
+		"Region": {
+            "id": "Region",
+            "description": "set Region request",
+            "required": [
+                "Region"
+            ],
+            "properties": {
+                "Region": {
+                    "$ref": "setRegionReq"
+                }
+            }
+        },
+        "setRegionReq": {
+            "id": "setRegionReq",
+            "description": "A basic set Region request",
+            "required": [
+                "@title",
+				"@description",
+				"Metadata"				
+            ],
+            "properties": {
+                "@title": {					
+					"type": "string"
+				},
+				"@description": {					
+					"type": "string"
+				},
+				"Metadata":{
+					"$ref":"Metadata"}
+            }
+        }
+	}
+}

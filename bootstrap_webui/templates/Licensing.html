@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+  <title>Barco Licensing</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+  <script src="/js/libs/jquery-1.9.1.js"></script>
+  <script src="/js/libs/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+  <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-nd.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-setup.css" type="text/css">
+</head>
+
+<body>
+
+<!-- =========================================================================== 
+Header 
+============================================================================ -->
+
+<!-- <div class="navbar navbar-fixed-top">  -->
+<div>
+  <div id="barcodotcom">
+    <div id="barcodotcomleft"><a href="/"><img src="/img/barco.com.gif" alt="barco.com"></a></div>
+    <div id="barcodotcomright"> </div>
+  </div>
+  <div class="topnav">
+    <p class="righttop" style="font-family:Verdana, Geneva, sans-serif;font-size:14px;">
+    </p>
+  </div>
+</div>
+
+<!-- =========================================================================== 
+Body Container
+============================================================================ -->    
+<div class="container" style="margin-top:20px;">
+ 
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+      <form class="form-horizontal"  action="/licenseservice/put" enctype="multipart/form-data" method="GET">
+          
+		<!-- Top Row -->
+		<div class="row-fluid" style="height:50px;">
+		  <div class="section-title">License Information</div>
+		</div>
+		<!-- End Top Row -->
+		<!-- Middel Row -->
+		<div class="row-fluid" style="height:290px"><br>
+		  <fieldset>
+			<div class="control-group">
+			  <label class="control-label">Project Name</label>
+			  <div class="controls">
+				<input id="projectname" type="text" value="Project Name" readonly>
+			  </div>
+			</div>
+			
+			<div class="control-group">
+			  <label class="control-label">Licensed To</label>
+			  <div class="controls">
+				<input id="licensedto" type="text" value="Licensed To" readonly>
+			  </div>
+			</div>
+		
+			<div class="control-group">
+			  <label class="control-label">License Status</label>
+			  <div class="controls">
+				<input id="licensestatus" type="text" value="License Status" readonly>
+			  </div>
+			</div>
+			
+			<div class="control-group">
+			  <label class="control-label">Days Left</label>
+			  <div class="controls">
+				<input id="daysleft" type="text" value="Days Left" readonly>
+			  </div>
+			</div>
+			
+			<div class="control-group">
+			  <label class="control-label">Pincode</label>
+			  <div class="controls">
+				<input id="pincode" type="text" value="Pincode" readonly>
+			  </div>
+			</div>
+			
+			<div class="control-group">
+			  <label class="control-label">License Key</label>
+				<div class="controls">
+				<input id="licensekey" type="text" value="License Key" readonly>
+			  </div>
+			</div>
+			
+		  </fieldset>
+		</div>			
+	  </form>
+
+    </div><!-- end well -->
+  </div><!-- end row-fluid -->
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+      <form class="form-horizontal"  action="/licenseservice/put" enctype="multipart/form-data" method="POST">
+          
+		<!-- Top Row -->
+		<div class="row-fluid" style="height:50px;">
+		  <div class="section-title">Upload License</div>
+		</div>
+		<!-- End Top Row -->
+		
+		<div class="row-fluid" style="height:140px"><br>
+		  <fieldset>
+
+			<div class="control-group">
+			  <label class="control-label">Get License File</label>
+				<div class="controls">
+				<a href="http://productregistration.barco.com">To download your license click here</a>
+			  </div>
+			</div>
+
+			<div class="control-group" style="margin-bottom:0px">
+			  <label class="control-label">Upload License on Server</label>
+			  <div class="controls">
+				<input id="browse" name="license" type="file" accept=".lic" style="width:80; border-width:10";">
+			  </div>
+			</div>
+			<div class="control-group">
+			  <div class="controls">
+				<input id="uploadinput" type="submit" value="Upload">
+			  </div>
+			</div>
+
+		  </fieldset>
+		</div>			
+	  </form>
+
+    </div><!-- end well -->
+  </div><!-- end row-fluid -->
+</div>
+<!--end body container-->
+
+<div class="barco-footer">
+  <span class="barco-footer-text">
+    Copyright © Barco
+  </span>
+  <div class="barco-footer-logo">
+    <img src="/img/Barco_logo_60.png">
+  </div>
+</div>
+<!--- end footer -->
+ 
+
+<script src="/js/libs/bootstrap.js"></script>
+<script src="/js/licensing.js"></script>
+<script>
+  $(document).ready(loadLicenseInfo);
+</script>
+
+</body>
+</html>

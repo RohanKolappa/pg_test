@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:variable name="deviceType" select="name(/*)" />
+	<xsl:variable name="deviceName" select="//XMPPAgentServiceConfig/DeviceName" />
+	<xsl:variable name="devicepassword" select="//XMPPAgentServiceConfig/DevicePassword" />
+	<xsl:template match="*">
+		<Device NID="" description="" presence="" state="" unManaged="false" unManned="false">
+			<xsl:attribute name="type"><xsl:value-of select="$deviceType" /></xsl:attribute>
+			<xsl:attribute name="title"><xsl:value-of select="$deviceName" /></xsl:attribute>
+			<xsl:attribute name="password"><xsl:value-of select="$devicepassword" /></xsl:attribute>
+			<Groups />
+			<DevicePrivateData />
+			<TemplateNID />
+			<PortList />
+			<DeviceConfig NID="">
+				<System>
+					<NTPClient enabled="false" serverIP="">
+						<xsl:attribute name="enabled"><xsl:value-of select="//SystemClockConfig/EnableNTPClient" /></xsl:attribute>
+						<xsl:attribute name="serverIP"><xsl:value-of select="//SystemClockConfig/NTPServerIP" /></xsl:attribute>
+					</NTPClient>
+					<SoftwareImage softwareVersion="" serviceVersion="">
+						<xsl:attribute name="softwareVersion"><xsl:value-of select="//SoftwareImageStatus/Parameters/Parameter[@Name='Version']" /></xsl:attribute>
+						<xsl:attribute name="serviceVersion"><xsl:value-of select="//SoftwareImageStatus/Parameters/Parameter[@Name='Service Version']" /></xsl:attribute>
+					</SoftwareImage>
+				</System>
+				<Services>
+					<HTTPServer>
+						<xsl:choose>
+							<xsl:when test="//HTTPServiceConfig/EnableHTTP">
+								<xsl:attribute name="enabled"><xsl:value-of select="//HTTPServiceConfig/EnableHTTP" /></xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="enabled">false</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</HTTPServer>
+					<SSHServer>
+						<xsl:choose>
+							<xsl:when test="//SSHServiceConfig/EnableSSH">
+								<xsl:attribute name="enabled"><xsl:value-of select="//SSHServiceConfig/EnableSSH" /></xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="enabled">false</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</SSHServer>
+					<TelnetServer>
+						<xsl:choose>
+							<xsl:when test="//TelnetServiceConfig/EnableTelnet">
+								<xsl:attribute name="enabled"><xsl:value-of select="//TelnetServiceConfig/EnableTelnet" /></xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="enabled">false</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</TelnetServer>
+					<TFTPServer>
+						<xsl:choose>
+							<xsl:when test="//TFTPServiceConfig/EnableTFTP">
+								<xsl:attribute name="enabled"><xsl:value-of select="//TFTPServiceConfig/EnableTFTP" /></xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="enabled">false</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</TFTPServer>
+					<xsl:choose>
+						<xsl:when test="//DeviceConfig//XMPPServiceConfig">
+							<XMPPServer>
+								<xsl:attribute name="enabled"><xsl:value-of select="//XMPPServiceConfig/XMPPServer/XMPPServerEnable" /></xsl:attribute>
+								<xsl:attribute name="port"><xsl:value-of select="//XMPPServiceConfig/XMPPServer/XMPPServerEnable" /></xsl:attribute>
+								<xsl:attribute name="dailyBackup"><xsl:value-of select="//XMPPServiceConfig/IPVSDBService/Backup/DailyBackup" /></xsl:attribute>
+								<xsl:attribute name="backupTime"><xsl:value-of select="//XMPPServiceConfig/IPVSDBService/Backup/BackupTime" /></xsl:attribute>
+								<xsl:attribute name="enableExport"><xsl:value-of select="//XMPPServiceConfig/IPVSDBService/Backup/EnableExport" /></xsl:attribute>
+								<xsl:attribute name="recoveryMode"><xsl:value-of select="//XMPPServiceConfig/Restore/RecoveryMode" /></xsl:attribute>
+							</XMPPServer>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="//DeviceConfig//XMPPAgentServiceConfig">
+							<XMPPAgent>
+								<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig/Enable" /></xsl:attribute>
+								<xsl:attribute name="xmppServer"><xsl:value-of select="//XMPPAgentServiceConfig/XMPPServer" /></xsl:attribute>
+								<xsl:attribute name="deviceName"><xsl:value-of select="$deviceName" /></xsl:attribute>
+								<xsl:attribute name="domain"><xsl:value-of select="//XMPPAgentServiceConfig/Domain" /></xsl:attribute>
+								<AdminAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServiceAdminAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServiceConfigAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</AdminAgent>
+								<ConfigAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServiceConfigAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServiceConfigAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</ConfigAgent>
+								<DestinationAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServiceDestinationAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServiceDestinationAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</DestinationAgent>
+								<SourceAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServiceSourceAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServiceSourceAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</SourceAgent>
+								<XAuthAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServiceXAuthAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServiceXAuthAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</XAuthAgent>
+								<PortCtrlAgent>
+									<xsl:choose>
+										<xsl:when test="//XMPPAgentServiceConfig//XMPPAgentServicePortCtrlAgentConfig">
+											<xsl:attribute name="enabled"><xsl:value-of select="//XMPPAgentServiceConfig//XMPPAgentServicePortCtrlAgentConfig/Enable" /></xsl:attribute>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:attribute name="enabled">false</xsl:attribute>
+										</xsl:otherwise>
+									</xsl:choose>
+								</PortCtrlAgent>
+							</XMPPAgent>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="//DeviceConfig//StreamingServiceConfig">
+							<StreamingServer>
+								<xsl:attribute name="enabled">true</xsl:attribute>
+								<xsl:choose>
+									<xsl:when test=".//TxCtrlPortRange">
+										<TXcntrlPorts>
+											<xsl:attribute name="from"><xsl:value-of select=".//TxCtrlPortRange/From" /></xsl:attribute>
+											<xsl:attribute name="to"><xsl:value-of select=".//TxCtrlPortRange/To" /></xsl:attribute>
+										</TXcntrlPorts>
+									</xsl:when>
+								</xsl:choose>
+								<xsl:choose>
+									<xsl:when test=".//V2DStreamsRxConfig">
+										<V2DRxPorts>
+											<xsl:attribute name="from"><xsl:value-of select=".//V2DStreamsRxConfig/RxMediaPortRange/From" /></xsl:attribute>
+											<xsl:attribute name="to"><xsl:value-of select=".//V2DStreamsRxConfig/RxMediaPortRange/To" /></xsl:attribute>
+										</V2DRxPorts>
+									</xsl:when>
+								</xsl:choose>
+								<xsl:choose>
+									<xsl:when test=".//MPEGTSStreamsRxConfig">
+										<MPEGTSRXPorts>
+											<xsl:attribute name="from"><xsl:value-of select=".//MPEGTSStreamsRxConfig/RxMediaPortRange/From" /></xsl:attribute>
+											<xsl:attribute name="to"><xsl:value-of select=".//MPEGTSStreamsRxConfig/RxMediaPortRange/To" /></xsl:attribute>
+										</MPEGTSRXPorts>
+									</xsl:when>
+								</xsl:choose>
+								<xsl:choose>
+									<xsl:when test=".//UDPStreamsRxConfig">
+										<UDPRXPorts>
+											<xsl:attribute name="from"><xsl:value-of select=".//UDPStreamsRxConfig/RxMediaPortRange/From" /></xsl:attribute>
+											<xsl:attribute name="to"><xsl:value-of select=".//UDPStreamsRxConfig/RxMediaPortRange/To" /></xsl:attribute>
+										</UDPRXPorts>
+									</xsl:when>
+								</xsl:choose>
+								<xsl:choose>
+									<xsl:when test=".//MulticastIpAddressRange">
+										<MulticastIP>
+											<xsl:attribute name="from"><xsl:value-of select=".//MulticastIpAddressRange/From" /></xsl:attribute>
+											<xsl:attribute name="to"><xsl:value-of select=".//MulticastIpAddressRange/To" /></xsl:attribute>
+										</MulticastIP>
+									</xsl:when>
+								</xsl:choose>
+							</StreamingServer>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="//DeviceConfig//DHCPServiceConfig">
+							<DHCPServer>
+								<xsl:attribute name="enabled"><xsl:value-of select=".//DHCPServiceConfig/EnableDHCPServer" /></xsl:attribute>
+								<xsl:attribute name="startIP"><xsl:value-of select=".//DHCPServiceConfig/DHCPStartIP" /></xsl:attribute>
+								<xsl:attribute name="endIP"><xsl:value-of select=".//DHCPServiceConfig/DHCPEndIP" /></xsl:attribute>
+								<xsl:attribute name="publishedDNSServer"><xsl:value-of select=".//DHCPServiceConfig/PublishDNSServer" /></xsl:attribute>
+							</DHCPServer>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="//DeviceConfig//NTPServiceConfig">
+							<NTPServer>
+								<xsl:attribute name="enabled"><xsl:value-of select=".//NTPServiceConfig/EnableNTPServer" /></xsl:attribute>
+								<xsl:attribute name="startIP"><xsl:value-of select=".//NTPServiceConfig/NTPServerIP" /></xsl:attribute>
+							</NTPServer>
+						</xsl:when>
+					</xsl:choose>
+				</Services>
+				<Network>
+					<xsl:attribute name="isPrimaryEnabled">
+					<xsl:choose>
+						<xsl:when test="//EthernetPortTableConfig/EthernetPortConfig[IsPrimary='true']">
+							<xsl:text>true</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					</xsl:attribute>
+					<xsl:attribute name="hostName"><xsl:value-of select="//DNSClientConfig/HostName" /></xsl:attribute>
+					<xsl:attribute name="DNSServerIP"><xsl:value-of select="//DNSClientConfig/DNSServerIP" /></xsl:attribute>
+					<xsl:attribute name="DNSName"><xsl:value-of select="//DNSClientConfig/DNSDomain" /></xsl:attribute>
+					<EthernetPortList>
+						<xsl:for-each select="//EthernetPortTableConfig/EthernetPortConfig">
+							<EthernetPort>
+								<xsl:attribute name="listIndex"><xsl:value-of select="./@ListIndex" /></xsl:attribute>
+								<xsl:attribute name="isPrimary"><xsl:value-of select="./IsPrimary" /></xsl:attribute>
+								<xsl:attribute name="portID"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<xsl:attribute name="enabled"><xsl:value-of select="./EnableInterface" /></xsl:attribute>
+								<xsl:attribute name="multicast"><xsl:value-of select="./EnableMulticast" /></xsl:attribute>
+								<xsl:attribute name="useDHCP"><xsl:value-of select="./IPConfig/UseDHCP" /></xsl:attribute>
+								<xsl:attribute name="ipAddress"><xsl:value-of select="./IPConfig/IPAddress" /></xsl:attribute>
+								<xsl:attribute name="netmask"><xsl:value-of select="./IPConfig/Netmask" /></xsl:attribute>
+							</EthernetPort>
+						</xsl:for-each>
+					</EthernetPortList>
+					<NATTable>
+						<xsl:for-each select="//NATZoneTableConfig/NATZoneEntry">
+							<NAT>
+								<xsl:attribute name="name"><xsl:value-of select="./Name" /></xsl:attribute>
+								<xsl:attribute name="listIndex"><xsl:value-of select="./@ListIndex" /></xsl:attribute>
+								<xsl:attribute name="ip"><xsl:value-of select="./IPAddresst" /></xsl:attribute>
+							</NAT>
+						</xsl:for-each>
+					</NATTable>
+					<RouteTable>
+						<xsl:for-each select="//RouteTableConfig/RouteEntry">
+							<Route>
+								<xsl:attribute name="listIndex"><xsl:value-of select="./@ListIndex" /></xsl:attribute>
+								<xsl:attribute name="destination"><xsl:value-of select="./Destination" /></xsl:attribute>
+								<xsl:attribute name="netmask"><xsl:value-of select="./Netmask" /></xsl:attribute>
+								<xsl:attribute name="gateway"><xsl:value-of select="./Gateway" /></xsl:attribute>
+							</Route>
+						</xsl:for-each>
+					</RouteTable>
+				</Network>
+				<Storage>
+					<xsl:attribute name="hardDriveEnabled">
+					  <xsl:choose>
+					     <xsl:when test="//HardDiskTableConfig/HardDiskEntry">
+					         <xsl:text>true</xsl:text>
+					     </xsl:when>
+					     <xsl:otherwise>
+					     <xsl:text>false</xsl:text>
+					     </xsl:otherwise>
+					  </xsl:choose>
+					</xsl:attribute>
+					<xsl:attribute name="NASEnabled">
+					  <xsl:choose>
+					     <xsl:when test="//NASTable/NASEntry[Enable='true']">
+					         <xsl:text>true</xsl:text>
+					     </xsl:when>
+					     <xsl:otherwise>
+					     <xsl:text>false</xsl:text>
+					     </xsl:otherwise>
+					  </xsl:choose>
+					</xsl:attribute>
+					<HardDiskList>
+						<xsl:for-each select="//HardDiskTableConfig/HardDiskEntry">
+							<HardDisk>
+								<xsl:attribute name="name"><xsl:value-of select="./MediaStore/Name" /></xsl:attribute>
+								<xsl:attribute name="mountPoint"><xsl:value-of select="./MountPoint" /></xsl:attribute>
+							</HardDisk>
+						</xsl:for-each>
+					</HardDiskList>
+					<NASList>
+						<xsl:for-each select="//NASConfig/NASTable">
+							<NAS>
+								<xsl:attribute name="name"><xsl:value-of select="./MediaStore/Name" /></xsl:attribute>
+								<xsl:attribute name="enabled"><xsl:value-of select="./Enable" /></xsl:attribute>
+								<xsl:attribute name="server"><xsl:value-of select="./Server" /></xsl:attribute>
+								<xsl:attribute name="readOnly"><xsl:value-of select="./ReadOnly" /></xsl:attribute>
+							</NAS>
+						</xsl:for-each>
+					</NASList>
+				</Storage>
+				<AVCodec>
+					<xsl:for-each select="//AVCodecElementsConfig/*">
+						<xsl:variable name="elementName" select="name(.)" />
+						<xsl:if test="$elementName='IPVSClientPortConfig'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayConfig>
+									<xsl:variable name="type" select="name(.//IPVSClientDisplayConfig)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:copy-of select="IPVSClientDisplayConfig/*" />
+								</DisplayConfig>
+							</Port>
+						</xsl:if>
+						<xsl:if test="$elementName='XP200PortConfig'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayConfig>
+									<xsl:variable name="type" select="name(.//XP200DisplayConfig)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:copy-of select=".//XP200DisplayConfig/*" />
+								</DisplayConfig>
+							</Port>
+						</xsl:if>
+						<xsl:if test="$elementName='ORBDecoderPortConfig'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayConfig>
+									<xsl:variable name="type" select="name(.//ORBDecoderDisplayConfig)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:copy-of select=".//ORBDecoderDisplayConfig/*" />
+								</DisplayConfig>
+							</Port>
+						</xsl:if>
+						<xsl:if test="$elementName='ORBEncoderPortConfig'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+							</Port>
+						</xsl:if>
+					</xsl:for-each>
+				</AVCodec>
+			</DeviceConfig>
+			<DeviceStatus>
+				<System>
+					<SoftwareImage>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//SoftwareImageStatus" />
+						</xsl:call-template>
+					</SoftwareImage>
+					<CPU>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//CPUStatus" />
+						</xsl:call-template>
+					</CPU>
+					<Memory>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//MemoryStatus" />
+						</xsl:call-template>
+					</Memory>
+					<SystemHW>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//SystemHWStatus" />
+						</xsl:call-template>
+					</SystemHW>
+					<SystemClock>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//SystemClockStatus" />
+						</xsl:call-template>
+					</SystemClock>
+				</System>
+				<Service>
+					<HTTPServer>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//HTTPServiceStatus" />
+						</xsl:call-template>
+					</HTTPServer>
+					<SSHServer>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//SSHServiceStatus" />
+						</xsl:call-template>
+					</SSHServer>
+					<TelnetServer>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//TelnetServiceStatus" />
+						</xsl:call-template>
+					</TelnetServer>
+					<TFTPServer>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//SystemHWStatus" />
+						</xsl:call-template>
+					</TFTPServer>
+					<XMPPServer>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//XMPPServerStatus" />
+						</xsl:call-template>
+					</XMPPServer>
+					<IPVSDB>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//IPVSDBServiceStatus" />
+						</xsl:call-template>
+					</IPVSDB>
+					<XMPPAgent>
+						<xsl:call-template name="applyParameters">
+							<xsl:with-param name="element" select="//DeviceStatus//XMPPAgentServiceStatus/Parameters" />
+						</xsl:call-template>
+					</XMPPAgent>
+					<StreamingServer>
+						<xsl:for-each select="//DeviceStatus//StreamingServiceStatus/InstanceList/*/InstanceStatus">
+							<Instance>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</Instance>
+						</xsl:for-each>
+					</StreamingServer>
+				</Service>
+				<Network>
+					<EthernetPortList>
+						<xsl:for-each select="//DeviceStatus//EthernetPortTableStatus//Parameters">
+							<EthernetPort>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</EthernetPort>
+						</xsl:for-each>
+					</EthernetPortList>
+					<NATTable>
+						<xsl:for-each select="//DeviceStatus//NATZoneTableStatus//Parameters">
+							<NAT>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</NAT>
+						</xsl:for-each>
+					</NATTable>
+					<RouteTable>
+						<xsl:for-each select="//DeviceStatus//RouteTableStatus//Parameters">
+							<Route>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</Route>
+						</xsl:for-each>
+					</RouteTable>
+				</Network>
+				<Storage>
+					<HardDiskList>
+						<xsl:for-each select="//DeviceStatus//HardDiskTableStatus//Parameters">
+							<HardDisk>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</HardDisk>
+						</xsl:for-each>
+					</HardDiskList>
+					<NASList>
+						<xsl:for-each select="//DeviceStatus//NASStatus//Parameters">
+							<NAS>
+								<xsl:call-template name="applyParameters">
+									<xsl:with-param name="element" select="." />
+								</xsl:call-template>
+							</NAS>
+						</xsl:for-each>
+					</NASList>
+				</Storage>
+				<AVCodec>
+					<xsl:for-each select="//AVCodecElementsStatus/*">
+						<xsl:variable name="elementName" select="name(.)" />
+						<xsl:if test="$elementName='IPVSClientPortStatus'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayStatus>
+									<xsl:variable name="type" select="name(.//IPVSClientDisplayStatus)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:copy-of select="IPVSClientDisplayStatus/*" />
+								</DisplayStatus>
+							</Port>
+						</xsl:if>
+						<xsl:if test="$elementName='XP200PortStatus'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayStatus>
+									<xsl:variable name="type" select="name(.//XP200PortStatus)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:call-template name="applyParameters">
+										<xsl:with-param name="element" select=".//XP200DisplayStatus" />
+									</xsl:call-template>
+								</DisplayStatus>
+							</Port>
+						</xsl:if>
+						<xsl:if test="$elementName='ORBDecoderPortStatus'">
+							<Port>
+								<xsl:attribute name="id"><xsl:value-of select="./PortID" /></xsl:attribute>
+								<DisplayStatus>
+									<xsl:variable name="type" select="name(.//ORBDecoderDisplayStatus)" />
+									<xsl:attribute name="type"><xsl:value-of select="$type" /></xsl:attribute>
+									<xsl:call-template name="applyParameters">
+										<xsl:with-param name="element" select=".//ORBDecoderDisplayStatus" />
+									</xsl:call-template>
+								</DisplayStatus>
+							</Port>
+						</xsl:if>
+					</xsl:for-each>
+				</AVCodec>
+			</DeviceStatus>
+		</Device>
+	</xsl:template>
+	<xsl:template name="applyParameters">
+		<xsl:param name="element" />
+		<xsl:choose>
+			<xsl:when test="$element//Parameter">
+				<xsl:copy-of select="$element//Parameter"></xsl:copy-of>
+			</xsl:when>
+			<xsl:otherwise>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+</xsl:stylesheet>

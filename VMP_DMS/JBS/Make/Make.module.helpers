@@ -1,0 +1,53 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.helpers
+###
+### Description:	Provides functions to be used in Make.target files.
+###
+###############################################################################
+
+fn-cfg-extract-defs	=	$(patsubst -D%,%,$(filter -D%,$(1)))
+fn-cfg-extract-incldirs	=	$(patsubst -I%,%,$(filter -I%,$(1)))
+fn-cfg-extract-libs	=	$(patsubst -l%,%,$(filter -l%,$(1)))
+fn-cfg-extract-libdirs	=	$(patsubst -L%,%,$(filter -L%,$(1)))
+
+fn-cfg-test-platform	=	$(if $(findstring $(JBS_PLATFORM),$(1)),1,0)
+fn-cfg-test-notplatform	=	$(if $(findstring $(JBS_PLATFORM),$(1)),0,1)
+fn-cfg-test-notcompiler	=	$(if $(findstring $(JBS_COMPILER),$(1)),0,1)
+fn-cfg-test-notprepsymb	=	$(if $(findstring $(1),$(shell gcc -E -dM - < /dev/null | cut -d' ' -f2)),0,1)
+fn-cfg-test-program	=	$(shell which $(1) > /dev/null 2> /dev/null && echo "1" || echo "0")
+fn-cfg-test-exists	=	$(if $(wildcard $(1)),1,0)
+fn-cfg-test-anywhere	=	$(if $(wildcard $(foreach d,$(2),$(foreach f,$(1),$(d)/$(f)))),1,0)
+fn-cfg-test-pkg-exists	=	$(shell pkg-config --exists $(1) > /dev/null 2> /dev/null && echo "1" || echo "0")
+
+fn-cfg-ret-pkg-miss	=	$(foreach p, $(1), $(shell pkg-config --exists $(p) > /dev/null 2> /dev/null || echo "$(p)"))
+fn-cfg-ret-program-miss	=	$(shell which $(1) > /dev/null 2> /dev/null || echo "$(1)")
+
+fn-cfg-exec-program	=	$(shell which $(1) > /dev/null 2> /dev/null && ( $(2) ) || echo $(3))
+
+###############################################################################
+

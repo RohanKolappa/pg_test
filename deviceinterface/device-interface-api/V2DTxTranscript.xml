@@ -1,0 +1,339 @@
+<transcript>
+<Send-Discovery>
+
+	<iq id="r5ceW-2" to="tx1@localhost/tx1" type="result">
+		<query xmlns="jabber:iq:roster">
+			<item jid="managementserver.localhost" subscription="from"></item>
+			<item jid="ipvsdbservice.localhost" subscription="from"></item>
+		</query>
+	</iq>
+</Send-Discovery>
+<Recv-Discovery>
+	<iq id="687628699" to="tx1@localhost/tx1" from="managementserver.localhost"
+		type="result">
+		<query>
+			<identity category="client" name="Smack" type="pc" />
+			<feature var="http://jabber.org/protocol/si/profile/file-transfer" />
+			<feature var="http://jabber.org/protocol/si" />
+			<feature var="http://jabber.org/protocol/bytestreams" />
+			<feature var="http://jabber.org/protocol/ibb" />
+			<feature var="BarcoSCService" />
+		</query>
+	</iq>
+</Recv-Discovery>
+<Send-DeviceLogin>
+	<message to='managementserver.localhost'>
+		<x xmlns='com.ipvs.agentmessage'>
+			<AgentMessage type="Request" to="managementserver.localhost"
+				from="tx1@localhost/tx1">
+				<Request serviceVer="">
+					<Header serviceName="systemservice" requestName="DeviceLoginRequest"
+						logLevel="0">
+						<ClientData>clientdata</ClientData>
+						<ClientCallback>com.barco.device.handler.DeviceAdmin.SCServiceReadyEventHandler
+						</ClientCallback>
+					</Header>
+					<Data>
+						<DeviceLoginRequestData serviceVersion="2.31.6"
+							softwareVersion="3.20.r2.b6" assetTemplateTitle="" type="V2D-Tx-Device"
+							ready="">
+							<DevicePrivateData />
+							<DevicePrivateKeyData>tx1</DevicePrivateKeyData>
+							<DeviceAdminServiceInfo>
+								<Port type="NetworkPort" id="1">
+									<NetworkStatus>
+										<Parameters>
+											<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+											<Parameter name="MTU Size" type="Integer">1500</Parameter>
+											<Parameter name="Status" source="configuration"
+												type="Boolean">True</Parameter>
+											<Parameter name="IPAddress" type="String">10.51.50.1
+											</Parameter>
+											<Parameter name="Netmask" type="String">255.255.252.0
+											</Parameter>
+											<Parameter name="Broadcast" type="String">10.51.51.255
+											</Parameter>
+											<Parameter name="HardwareAddress" type="String">00:50:56:88:7D:50
+											</Parameter>
+											<Parameter name="Name" type="String">v2dtx</Parameter>
+											<Parameter name="Primary" source="configuration"
+												type="Boolean">True</Parameter>
+											<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+												units="bytes">21924565</Parameter>
+											<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+												units="bytes">14792158</Parameter>
+											<Parameter name="RxPackets" source="counter"
+												type="UnsignedInteger" units="number">72791</Parameter>
+											<Parameter name="TxPackets" source="counter"
+												type="UnsignedInteger" units="number">20455</Parameter>
+											<Parameter name="RxErrors" source="counter" type="UnsignedInteger"
+												units="number">2</Parameter>
+											<Parameter name="TxErrors" source="errorcounter"
+												type="UnsignedInteger" units="number">0</Parameter>
+											<Parameter name="LinkDetected" type="String" />
+											<Parameter name="AutoNegotiate" type="String" />
+											<Parameter name="Speed" type="String" />
+											<Parameter name="Duplex" type="String" />
+											<Parameter name="LinkPartner" type="String" />
+										</Parameters>
+									</NetworkStatus>
+								</Port>
+								<Port type="SrcPort" id="1" maxInstanceCount="1"
+									streamType="V2D" />
+							</DeviceAdminServiceInfo>
+							<MediaServiceInfo>
+								<StreamInfoList />
+							</MediaServiceInfo>
+							<LayoutServiceInfo>
+								<LayoutInfo />
+							</LayoutServiceInfo>
+							<MediaStoreServiceInfo>
+								<Dir uuid="" storeRevision="" />
+							</MediaStoreServiceInfo>
+						</DeviceLoginRequestData>
+					</Data>
+				</Request>
+			</AgentMessage>
+		</x>
+	</message>
+</Send-DeviceLogin>
+<Recv-DeviceLogin>
+<message id="3ljY2-4653" to="tx1@localhost/tx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="tx1@localhost/tx1"
+				type="Response" logLevel="">
+				<Response serviceVer="2.31.6">
+					<Header serviceName="systemservice" requestName="DeviceLoginRequest"
+						userJID="tx1@localhost/tx1" deprecated="false" requestNID="tx1@localhost/tx1/4047326"
+						state="8">
+						<ClientData>clientdata</ClientData>
+						<ClientCallback>com.barco.device.handler.DeviceAdmin.SCServiceReadyEventHandler
+						</ClientCallback>
+					</Header>
+					<Data>
+						<DeviceLoginResponseData>
+							<Device
+								NID="default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3">
+								<PortList>
+									<Port id="1" type="NetworkPort">
+										<NetworkStatus>
+											<Parameters>
+												<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+												<Parameter name="MTU Size" type="Integer">1500</Parameter>
+												<Parameter name="Status" source="configuration"
+													type="Boolean">True</Parameter>
+												<Parameter name="IPAddress" type="String">10.51.50.1
+												</Parameter>
+												<Parameter name="Netmask" type="String">255.255.252.0
+												</Parameter>
+												<Parameter name="Broadcast" type="String">10.51.51.255
+												</Parameter>
+												<Parameter name="HardwareAddress" type="String">00:50:56:88:7D:50
+												</Parameter>
+												<Parameter name="Name" type="String">v2dtx</Parameter>
+												<Parameter name="Primary" source="configuration"
+													type="Boolean">True</Parameter>
+												<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+													units="bytes">21924565</Parameter>
+												<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+													units="bytes">14792158</Parameter>
+												<Parameter name="RxPackets" source="counter"
+													type="UnsignedInteger" units="number">72791</Parameter>
+												<Parameter name="TxPackets" source="counter"
+													type="UnsignedInteger" units="number">20455</Parameter>
+												<Parameter name="RxErrors" source="counter"
+													type="UnsignedInteger" units="number">2</Parameter>
+												<Parameter name="TxErrors" source="errorcounter"
+													type="UnsignedInteger" units="number">0</Parameter>
+												<Parameter name="LinkDetected" type="String" />
+												<Parameter name="AutoNegotiate" type="String" />
+												<Parameter name="Speed" type="String" />
+												<Parameter name="Duplex" type="String" />
+												<Parameter name="LinkPartner" type="String" />
+											</Parameters>
+										</NetworkStatus>
+									</Port>
+									<Port id="1" maxInstanceCount="1" streamType="V2D" type="SrcPort"
+										NID="default.mediastreamsrcportresourcelist.mssprl_d3caeaff-9c74-4f66-86f1-a54e1e34b550" />
+								</PortList>
+								<DeviceXML
+									NID="default.devicelist.dl_9d2d51ae-e9ad-458e-8014-70b8305a8b5a" />
+								<DiscardStreamList>
+									<MediaServiceInfo />
+									<LayoutServiceInfo />
+								</DiscardStreamList>
+							</Device>
+						</DeviceLoginResponseData>
+					</Data>
+					<Log />
+				</Response>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-DeviceLogin>	
+<Recv-UserMediaRoomPresence>
+	<message id="3ljY2-4686" to="tx1@localhost/tx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="tx1@localhost/tx1"
+				type="Event" logLevel="">
+				<Event>
+					<Header serviceName="*" eventName="MediaPresenceEvent"
+						eventAgentJID="managementserver.localhost" eventWallclock="1380132573412"
+						eventLevel="200" />
+					<Data>
+						<MediaPresenceEventData type="MediaRoom"
+							roomNID="8da9ca3a-cdca-4940-96c3-c6581a4de1f0" value="Ready" />
+					</Data>
+					<Log />
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-UserMediaRoomPresence>
+<Recv-RelayMediaRoomPresence>
+	<message id="3ljY2-4696" to="tx1@localhost/tx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="tx1@localhost/tx1"
+				type="Event" logLevel="">
+				<Event>
+					<Header serviceName="*" eventName="MediaPresenceEvent"
+						eventAgentJID="managementserver.localhost" eventWallclock="1380132573641"
+						eventLevel="200" />
+					<Data>
+						<MediaPresenceEventData type="MediaRoom"
+							roomNID="27c1abb9-d7ec-4674-a323-9f679fac1c09" value="Ready" />
+					</Data>
+					<Log />
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-RelayMediaRoomPresence>
+<Recv-StartRequest>
+
+	<message id="qXG4l-57" to="tx1@localhost/tx1" from="srcrelay1@localhost/srcrelay1">
+		<x>
+			<AgentMessage from="srcrelay1@localhost/srcrelay1" to="tx1@localhost/tx1"
+				type="Request" logLevel="">
+				<Request>
+					<Header serviceName="Media" requestName="StartRequest"
+						userJID="" deprecated="false" requestNID="none">
+						<ClientData />
+						<ClientCallback>com.ipvs.mediaroomservice.impl.DestStreamAgent
+						</ClientCallback>
+					</Header>
+					<Data>
+						<StartRequestData>
+							<streamNID>4c2e6ed2-b75f-401d-9908-ba32661eb96a</streamNID>
+							<streamdatadoc>%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E%0A%3Cdata%3E%0A+++++++++++++++%09++%3Ccontext+roomId%3D%22%22+id%3D%22%22%2F%3E+%3C%21--+roomID+is+sessionId+and+id+is+conn+id+--%3E%0A++++++++++++++++++%3CroomNID%3E27c1abb9-d7ec-4674-a323-9f679fac1c09%3C%2FroomNID%3E%0A++++++++++++++++++%3CmediaSourceNID%3E02d3349d-1093-4929-a65d-30c236aaed66%3C%2FmediaSourceNID%3E%0A++++++++++++++++++%3CmediaDestNID%3Ed6daf8b1-a21b-4185-9b80-8a68a5f3c7fe%3C%2FmediaDestNID%3E%0A++++++++++++++++++%3CprofileNID%3Edefault.mediastreamprofilelist.mspl_03884513-1f9e-472e-95c1-f0d2af0bc9cd%3C%2FprofileNID%3E%0A++++++++++++++++++%3CprofileXML%3E%3CV2DMediaStreamProfile%3E%0A++++%3CGroups%3E%0A++++++++%3CTag+Name%3D%22Network%22+Value%3D%22LAN%22%2F%3E%0A++++%3C%2FGroups%3E%0A++++%3CStreamType%3EV2D%3C%2FStreamType%3E%0A++++%3CPriority%3E1%3C%2FPriority%3E%0A++++%3CTitle%3EV2D_LAN%3C%2FTitle%3E%0A++++%3CDescription%3EV2D_LAN%3C%2FDescription%3E%0A++++%3CStreamActionInfo%3E%0A++++++++%3CAllowPause%3Etrue%3C%2FAllowPause%3E%0A++++++++%3CAllowSkipback%3Etrue%3C%2FAllowSkipback%3E%0A++++++++%3CAllowSkipfwd%3Etrue%3C%2FAllowSkipfwd%3E%0A++++%3C%2FStreamActionInfo%3E%0A++++%3CInfo%3E%0A++++++++%3CV2DStreamConfig%3E%0A++++++++++++%3CIsMulticast%3Efalse%3C%2FIsMulticast%3E%0A++++++++++++%3CEnableSRDTranscode%3Etrue%3C%2FEnableSRDTranscode%3E%0A++++++++++++%3CSRDTranscodeBandwidth%2F%3E%0A++++++++++++%3CAVOption%3EVideo%3C%2FAVOption%3E%0A++++++++%3C%2FV2DStreamConfig%3E%0A++++++++%3CV2DEncoderAudioConfig%3E%0A++++++++++++%3CSampleRate%2F%3E%0A++++++++++++%3CSampleSize%2F%3E%0A++++++++++++%3CMonoStereo%2F%3E%0A++++++++++++%3CAudioEncodeEnable%3Efalse%3C%2FAudioEncodeEnable%3E%0A++++++++%3C%2FV2DEncoderAudioConfig%3E%0A++++++++%3CV2DEncoderConnectionParameterConfig%3E%0A++++++++++++%3CBurstRatio%3E1.00%3C%2FBurstRatio%3E%0A++++++++++++%3CBurstDuration%3E4%3C%2FBurstDuration%3E%0A++++++++++++%3CCompression%3E%0A++++++++++++++++%3CHigh%3E6%3C%2FHigh%3E%0A++++++++++++++++%3CLow%3E4%3C%2FLow%3E%0A++++++++++++%3C%2FCompression%3E%0A++++++++++++%3CBandwidth%3E10000%3C%2FBandwidth%3E%0A++++++++++++%3CRefresh%3E%0A++++++++++++++++%3CMin%3E1%3C%2FMin%3E%0A++++++++++++++++%3CMax%3E10%3C%2FMax%3E%0A++++++++++++%3C%2FRefresh%3E%0A++++++++++++%3CSlice%3E%0A++++++++++++++++%3CMin%3E1%3C%2FMin%3E%0A++++++++++++++++%3CMax%3E13%3C%2FMax%3E%0A++++++++++++%3C%2FSlice%3E%0A++++++++++++%3CBlockThreshold%3E4%3C%2FBlockThreshold%3E%0A++++++++++++%3CColorSampling%3E4%3A2%3A2%3C%2FColorSampling%3E%0A++++++++++++%3CFrameRateDivider%3E1%3C%2FFrameRateDivider%3E%0A++++++++%3C%2FV2DEncoderConnectionParameterConfig%3E%0A++++++++%3CV2DEncoderConnectionParameterKbmConfig%3E%0A++++++++++++%3CAllowKMSwitch%3Etrue%3C%2FAllowKMSwitch%3E%0A++++++++++++%3CKMIdleTime%3E0%3C%2FKMIdleTime%3E%0A++++++++++++%3CEnableKbm%3Efalse%3C%2FEnableKbm%3E%0A++++++++%3C%2FV2DEncoderConnectionParameterKbmConfig%3E%0A++++++++%3CV2DRecorderConfig%3E%0A++++++++++++%3CFFTracks%3E1-256%3C%2FFFTracks%3E%0A++++++++++++%3CThumbnailConfig%3E%0A++++++++++++++++%3CEnable%3Etrue%3C%2FEnable%3E%0A++++++++++++%3C%2FThumbnailConfig%3E%0A++++++++%3C%2FV2DRecorderConfig%3E%0A++++%3C%2FInfo%3E%0A%3C%2FV2DMediaStreamProfile%3E%3C%2FprofileXML%3E%0A++++++++++++++++++%3CrelayNID%2F%3E%0A++++++++++++++++++%3CmediarelayNID%2F%3E%0A++++++++++++++++++%3CdestNID%3Edefault.mediastreamrelayportresourcelist.msrprl_932275d2-1cec-481b-9e35-997b1cf2171d%3C%2FdestNID%3E%0A++++++++++++++++++%3CdestPortNID%3Edefault.mediastreamrelayportresourcelist.msrprl_932275d2-1cec-481b-9e35-997b1cf2171d%3C%2FdestPortNID%3E%0A++++++++++++++++++%3CdestIP%2F%3E%0A++++++++++++++++++%3CdestUDPStartPort%2F%3E%0A++++++++++++++++++%3CdestAgentJID%3Esrcrelay1%40localhost%2Fsrcrelay1%3C%2FdestAgentJID%3E%0A++++++++++++++++++%3CdestFileUUID%2F%3E%0A++++++++++++++++++%3CdestFileParentDirNID%2F%3E%0A++++++++++++++++++%3CcallbackPort%2F%3E%0A++++++++++++++++++%3CdestStreamURL%2F%3E%0A++++++++++++++++++%3CsourceNID%3Edefault.mediastreamsrcportresourcelist.mssprl_d3caeaff-9c74-4f66-86f1-a54e1e34b550%3C%2FsourceNID%3E%0A++++++++++++++++++%3CsourcePortNID%3Edefault.mediastreamsrcportresourcelist.mssprl_d3caeaff-9c74-4f66-86f1-a54e1e34b550%3C%2FsourcePortNID%3E%0A++++++++++++++++++%3CxAuthAgentJID%2F%3E%0A%0A++++++++++++++++++%3CstreamGroups%3E%0A+++++++++++++++++++++%3CTag+Name%3D%22track%22+Value%3D%2227c1abb9-d7ec-4674-a323-9f679fac1c09.StreamTrack%22%2F%3E%0A++++++++++++++++++%3C%2FstreamGroups%3E%0A%0A++++++++++++++++++%3CstreamOwnerUserJID%3Esrcrelay1%40localhost%2Fsrcrelay1%3C%2FstreamOwnerUserJID%3E%0A++++++++++++++++++%3CstreamURLType%2F%3E%0A++++++++++++++++++%3CsourceAgentJID%3Etx1%40localhost%2Ftx1%3C%2FsourceAgentJID%3E%0A++++++++++++++++++%3CstartWallClock%3E1380132573343%3C%2FstartWallClock%3E%0A++++++++++++++++++%3CtrimLength%2F%3E%0A++++++++++++++++++%3CtrackStateAtStart%3ESTARTED_CURRENT%3C%2FtrackStateAtStart%3E%0A++++++++++++++++++%3CtrackOffsetAtStart%3E258%3C%2FtrackOffsetAtStart%3E%0A++++++++++++++++++%3CsourceNetworkAddressRule%2F%3E%0A++++++++++++++++++%3CdestNetworkAddressRule%2F%3E%0A++++++++++++++++++%3CpublishedSourceIP%3E10.51.50.1%3C%2FpublishedSourceIP%3E%0A++++++++++++++++++%3CpublishedDestIP%3E10.51.51.12%3C%2FpublishedDestIP%3E%0A++++++++++++++++++%3CresolvedSourceIP%3E10.51.50.1%3C%2FresolvedSourceIP%3E%0A++++++++++++++++++%3CresolvedDestIP%3E10.51.51.12%3C%2FresolvedDestIP%3E%0A++++++++++++++++++%3CmulticastIP%2F%3E%0A++++++++++++++++++%3CdestPortElementID%2F%3E%0A++++++++++++++++++%3CdestType%3EOUTPUT_STREAM%3C%2FdestType%3E%0A++++++++++++++++++%3CstreamType%3EV2D%3C%2FstreamType%3E%0A++++++++++++++++++%3CstreamURL%2F%3E%0A++++++++++++++++++%3CwindowId%2F%3E%0A++++++++++++++++++%3CcanvasId%2F%3E%0A++++++++++++++++++%3CtrickPlay%3Etrue%3C%2FtrickPlay%3E%0A+++++++++++++++%3C%2Fdata%3E
+							</streamdatadoc>
+							<mediasourcedatadoc>%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E%0A%3Cdata%3E%0A++++++++++++++++++%3CroomNID%3E27c1abb9-d7ec-4674-a323-9f679fac1c09%3C%2FroomNID%3E%0A++++++++++++++++++%3CsourceNID%3Edefault.mediastreamsrcportresourcelist.mssprl_d3caeaff-9c74-4f66-86f1-a54e1e34b550%3C%2FsourceNID%3E%0A++++++++++++++++++%3CstartOffset%3E0%3C%2FstartOffset%3E%0A++++++++++++++++++%3CstartTimecode%3E1380132573085%3C%2FstartTimecode%3E%0A++++++++++++++++++%3CuserRoomMediaSourceNID%3Ee88e591e-f130-4a50-b947-e1e674760402%3C%2FuserRoomMediaSourceNID%3E%0A++++++++++++++++++%3CsourceType%3EENCODER%3C%2FsourceType%3E%0A++++++++++++++++++%3CsourcePortNID%3Edefault.mediastreamsrcportresourcelist.mssprl_d3caeaff-9c74-4f66-86f1-a54e1e34b550%3C%2FsourcePortNID%3E%0A++++++++++++++++++%3CsourcePortElementID%3E1%3C%2FsourcePortElementID%3E%0A++++++++++++++++++%3CsourceAgentJID%3Etx1%40localhost%2Ftx1%3C%2FsourceAgentJID%3E%0A++++++++++++++++++%3CstreamType%3EV2D%3C%2FstreamType%3E%0A++++++++++++++++++%3CstreamURL%2F%3E%0A++++++++++++++++++%3CstreamProfile%2F%3E%0A++++++++++++++++++%3CtrackNID%3E27c1abb9-d7ec-4674-a323-9f679fac1c09.StreamTrack%3C%2FtrackNID%3E%0A++++++++++++++++++%3CstreamTrackMediaSourceNID%2F%3E%0A++++++++++++++++++%3CpvrEnabled%2F%3E%0A++++++++++++++++++%3ClookbackSourceNID%2F%3E%0A++++++++++++++++++%3ClookbackSourceAgentJID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileUUID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileParentDirNID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFilePlayLength%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileStartTC%2F%3E%0A++++++++++++++++++%3CxAuthAgentJID%2F%3E%0A++++++++++++++++++%3CmonitorAgentJID%2F%3E%0A+++++++++++++++%3C%2Fdata%3E
+							</mediasourcedatadoc>
+						</StartRequestData>
+					</Data>
+				</Request>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-StartRequest>
+<MediaEngine>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=add
+		id=2001 operation=input streamtype=V2D srctype=V2DEncoderPort ioport=1
+	</SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=add
+		id=2002 operation=output streamtype=V2D dsttype=V2DDecoderPort
+		ioport=null authscheme=TOKEN
+		authdata=d6daf8b1-a21b-4185-9b80-8a68a5f3c7fe dstip=10.51.51.12
+		dstport=6060 maxbitrate=10240000 v2dtx=1 policycheck=0 listener=1</SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=start
+		id=2002 queueid=2001 operation=output dsttype=V2DDecoderPort </SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=start
+		id=2001 queueid=2001 operation=input srctype=V2DEncoderPort </SS>
+</MediaEngine>
+<Send-StartResponse>
+<message to='srcrelay1@localhost/srcrelay1'>
+		<x xmlns='com.ipvs.agentmessage'>
+			<AgentMessage from="tx1@localhost/tx1" to="srcrelay1@localhost/srcrelay1"
+				type="Response" logLevel="">
+				<Response>
+					<Header serviceName="Media" requestName="StartRequest"
+						userJID="" deprecated="false" requestNID="none" state="200">
+						<ClientData />
+						<ClientCallback>com.ipvs.mediaroomservice.impl.DestStreamAgent
+						</ClientCallback>
+					</Header>
+					<Data>
+						<StartResponseData>
+							<StreamStatus streamNID="4c2e6ed2-b75f-401d-9908-ba32661eb96a"
+								roomNID="27c1abb9-d7ec-4674-a323-9f679fac1c09">
+								<state>7</state>
+								<lastEventData />
+								<relayData relayRoomNID="" relayStreamNID="" />
+
+
+								<URL>v2d://10.51.50.1/port=6060?bandwidth=10240000?avoption=Video?ismulticast=false?enablekbm=false?authscheme=TOKEN?authdata=d6daf8b1-a21b-4185-9b80-8a68a5f3c7fe
+								</URL>
+								<MediaTimeline id="">
+									<Start WC="1380129538556" Offset="258" TC="1380132573085" />
+									<Last WC="1380129538556" Offset="258" TC="1380132573085"
+										TimeScale="1.0" action="Start" lastState="STARTED_CURRENT"
+										requestedAction="Start" sourceAction="Start" ssTC="" ssWC="" />
+								</MediaTimeline>
+							</StreamStatus>
+						</StartResponseData>
+					</Data>
+				</Response>
+			</AgentMessage>
+		</x>
+	</message>
+</Send-StartResponse>
+<Recv-UserMediaRoomPresence>
+	<message id="3ljY2-4724" to="tx1@localhost/tx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="tx1@localhost/tx1"
+				type="Event" logLevel="">
+				<Event>
+					<Header serviceName="*" eventName="MediaPresenceEvent"
+						eventAgentJID="managementserver.localhost" eventWallclock="1380132584262"
+						eventLevel="200" />
+					<Data>
+						<MediaPresenceEventData type="MediaRoom"
+							roomNID="8da9ca3a-cdca-4940-96c3-c6581a4de1f0" value="Unavailable" />
+					</Data>
+					<Log />
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-UserMediaRoomPresence>
+<Recv-RelayMediaRoomPresence>
+	<message id="3ljY2-4725" to="tx1@localhost/tx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="tx1@localhost/tx1"
+				type="Event" logLevel="">
+				<Event>
+					<Header serviceName="*" eventName="MediaPresenceEvent"
+						eventAgentJID="managementserver.localhost" eventWallclock="1380132584268"
+						eventLevel="200" />
+					<Data>
+						<MediaPresenceEventData type="MediaRoom"
+							roomNID="27c1abb9-d7ec-4674-a323-9f679fac1c09" value="Unavailable" />
+					</Data>
+					<Log />
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-RelayMediaRoomPresence>
+<MediaEngine>
+<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=stop
+		id=2002 queueid=2001 operation=output dsttype=V2DDecoderPort tc=0
+		offset=258 </SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=delete
+		id=2002 operation=output streamtype=V2D dsttype=V2DDecoderPort </SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=stop
+		id=2001 queueid=2001 operation=input srctype=V2DEncoderPort </SS>
+	<SS>default.assetresourcelist.arl_9c80039f-2190-4dc4-9f30-8865f78064c3:action=delete
+		id=2001 operation=input streamtype=V2D srctype=V2DEncoderPort </SS>
+</MediaEngine>	
+</transcript>

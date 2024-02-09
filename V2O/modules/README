@@ -1,0 +1,55 @@
+Version 2.1-b06 has the following changes to 2.1-b05:
+
+(1) Fixed a bug in get_fcd_rate() that caused frame and slice
+    count to be always 0 on the "Disply Connection Information" 
+    screen. (Bugzilla #1297).
+
+(2) Swapped SOP and EOP for mouse packets in write_to_ms_fpga()
+    in serverutils.c for FPGA version 162.10-0 or later. 
+    (FPGA version 162.10-0 fixes Bugzilla #1286).
+
+(3) Added code so "dreg -E 1" will make the FPGA use external
+    sync and "dreg -E 0" will make the FPGA use internal sync
+    (i.e., sync from the ADC).
+
+(4) Fixed a bug in serverutils.c (process_av_req()) where we
+    test for the first client by comparing server->snumbclients
+    with 1. This fails if two clients set up TCP connections 
+    back to back, then the server receives AV request from the
+    first client (followed by AV request from the second). Since
+    server->snumbclients is alreay 2 by the time the server 
+    received the first AV request, we never set server multicast
+    mode to that specified by the first client and everything 
+    goes wrong. This can be verified with 2.1-b05 when 3 clients
+    are connected on the same multicast connection and we disconnect
+    the controlling client. The other 2 clients will try to reconnect
+    back to back so the server never set "ismulti" and set up a  
+    unicast UDP video (and/or audio) socket. The second client will
+    show the multicast connection has been established but will 
+    not receive video or audio data. 
+
+Version 2.1-b07 has the following changes to 2.1-b06:
+    
+(5) Fixed initHorizPos(), initVertPos(), initPhaseShift(), initCoarseNoise(),
+    initFineNoise(), initFrameDivider(), initPixelAdjust(), 
+    initDropPhaseAdjust(), initVideoCompression() in configureVideo.c so
+    if the parameter the routine is looking for is not in the config file
+    we initialize the corresponding variable to its default value.
+
+(6) Changed handle_client_mouse_read() (in clienthandler.c) and 
+    write_to_ms_fpga() (in serverutils.c) to discard partial mouse 
+    packets which could happen (e.g. the user was moving the mouse
+    when the RX receives an SCAP with a different mouse type and the RX 
+    sets the mouse type).
+
+(7) Changed putStartSliceCode() and putStartFrameCode() in compression_utils.c
+    so the codes are aligned on 4-byte boundary to allow the V2D client 
+    able to display V2D splash screen.
+
+(8) Changed find_lut_entry() (in lut_table.c) so it doesn't try to match
+    the stereo setting of the detected signal to the LUT entry, also changed
+    build_server_capabilities() (in serverutils.c) to send the actual
+    detected stereo setting to the RX. This eliminates the need for the user 
+    to specify the Stereo field in the LUT. The V2D will simply use the input 
+    to the TX to configure the RX.
+ 

@@ -1,0 +1,398 @@
+<statuslog>
+<AgentMessage>
+    <agentmessageheader>
+        <agentJID>deviceuser-default@localhost</agentJID>
+        <agent>
+			com.ipvs.common.service.DeviceAdminServerAgent
+		</agent>
+        <agentmessagetype>Request</agentmessagetype>
+    </agentmessageheader>
+    <agentmessagedata>
+        <Request>
+            <header>
+                <servicename>systemservice</servicename>
+                <requestname>DeviceStatusRequest</requestname>
+                <loglevel>0</loglevel>
+                <clientdata>RequestToken3</clientdata>
+            </header>
+            <data>
+                <DeviceStatusRequestData>
+                    <RequestXPath>/SystemElementStatus/CPUStatus</RequestXPath>
+                </DeviceStatusRequestData>
+            </data>
+        </Request>
+    </agentmessagedata>
+</AgentMessage>
+
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="rThtI-33" to="superuser-default@localhost" from="deviceuser-default@localhost/lab1tx1">
+      <body>
+        <AgentMessage>
+          <agentmessageheader>
+            <fromagent />
+            <agentJID>superuser-default@localhost/callcenter</agentJID>
+            <agent>com.ipvs.common.service.DeviceAdminClientAgent</agent>
+            <agentmessagetype>Response</agentmessagetype>
+          </agentmessageheader>
+          <agentmessagedata>
+            <Response>
+              <header>
+                <servicename>systemservice</servicename>
+                <requestname>DeviceStatusRequest</requestname>
+                <userJID>none</userJID>
+                <requestNID>none</requestNID>
+                <state>8</state>
+                <clientdata>RequestToken3</clientdata>
+              </header>
+              <data>
+                <DeviceStatusResponseData>
+                  <Status>
+                    <Code />
+                    <Description />
+                  </Status>
+                  <DeviceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                    <SystemElementsStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                      <SoftwareImageStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="Version" source="constant" type="String">3.2.r6.b10</Parameter>
+                          <Parameter name="Date" source="constant" type="String">Fri Oct 31 03:25:49 PDT 2008</Parameter>
+                        </Parameters>
+                      </SoftwareImageStatus>
+                      <LicenseStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                        <LicenseInfo Parse="false">
+                          <ProductID>string</ProductID>
+                          <Company>string</Company>
+                          <Key>string</Key>
+                        </LicenseInfo>
+                        <LicensePack Parse="false">
+                          <Name>string</Name>
+                          <ValidUntil>string</ValidUntil>
+                          <Value>string</Value>
+                          <Key>string</Key>
+                        </LicensePack>
+                      </LicenseStatus>
+                      <CPUStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="Uptime" type="String">9 mins, 38 secs</Parameter>
+                          <Parameter name="LoadAverage" type="Float">0.46</Parameter>
+                        </Parameters>
+                      </CPUStatus>
+                      <MemoryStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="Total" source="guage" type="UnsignedInteger" units="bytes">253259776</Parameter>
+                          <Parameter name="Free" source="guage" type="UnsignedInteger" units="bytes">38731776</Parameter>
+                          <Parameter name="Cached" source="guage" type="UnsignedInteger" units="bytes">152469504</Parameter>
+                          <Parameter name="Usable" source="guage" type="UnsignedInteger" units="bytes">191201280</Parameter>
+                        </Parameters>
+                      </MemoryStatus>
+                      <SystemHWStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </SystemHWStatus>
+                      <SystemClockStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </SystemClockStatus>
+                      <FirmwareImageStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="Version" source="constant" type="String">162.10-0</Parameter>
+                          <Parameter name="Date" source="constant" type="String">May  9 2007 07:09:33</Parameter>
+                        </Parameters>
+                      </FirmwareImageStatus>
+                    </SystemElementsStatus>
+                    <ServiceElementsStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                      <HTTPServiceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </HTTPServiceStatus>
+                      <SSHServiceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </SSHServiceStatus>
+                      <TelnetServiceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </TelnetServiceStatus>
+                      <XMPPAgentServiceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                        <AgentList>
+                          <XMPPAgentServiceConfigAgentStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                            <Parameters>
+                              <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                            </Parameters>
+                          </XMPPAgentServiceConfigAgentStatus>
+                          <XMPPAgentServiceSourceAgentStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                            <InstanceList userJID="deviceuser-default@10.1.5.168/lab1tx1">
+                              <ResourceInstance NID="default.mediaroomlist.zzzz_1225453667425e80515b.zzzz_1225453669537e721ddba.Instance">
+                                <RoomNID>default.mediaroomlist.zzzz_1225453667425e80515b</RoomNID>
+                                <StreamNID>default.mediaroomlist.zzzz_1225453667425e80515b.zzzz_1225453669537e721ddba</StreamNID>
+                                <ResourceNID>default.mediastreamsrcportresourcelist.zzzz_1225109091984c0dbf0b9</ResourceNID>
+                                <DeviceStreamingServiceInputInstanceNID>2001</DeviceStreamingServiceInputInstanceNID>
+                                <DeviceStreamingServiceOutputInstanceNID>2002</DeviceStreamingServiceOutputInstanceNID>
+                              </ResourceInstance>
+                            </InstanceList>
+                            <SourceTable userJID="deviceuser-default@10.1.5.168/lab1tx1" NID="default.devicelist.zzzz_12251090924226d6702ab">
+                              <Instance NID="default.mediastreamsrcportresourcelist.zzzz_1225109091984c0dbf0b9.SHARED" instanceType="SHARED">
+                                <Input ssInstanceID="2001" inputType="ENCODER" sourceNID="default.mediastreamsrcportresourcelist.zzzz_1225109091984c0dbf0b9" offset="0" roomNID="" streamNID="" startTime="1225453671000" startTimecode="1225453667386" NID="default.devicelist.zzzz_12251090924226d6702ab.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2001" />
+                                <MediaSource NID="default.mediaroomlist.zzzz_1225453667425e80515b.zzzz_12254536676882dd42f24" mediaSourceType="ENCODER" startTimecode="1225453667386">
+                                  <Stream NID="default.mediaroomlist.zzzz_1225453667425e80515b.zzzz_1225453669537e721ddba" ownerUser="srcrelayuser-default" roomNID="default.mediaroomlist.zzzz_1225453667425e80515b" state="1">
+                                    <Output ssInstanceID="2002" outputType="STREAM" destNID="default.mediastreamrelayportresourcelist.zzzz_1225109099203ad7d3584" streamURL="v2d://10.1.5.147/port=6568?bandwidth=1000000?avoption=Video?ismulticast=false?enablekbm=true" NID="default.devicelist.zzzz_12251090924226d6702ab.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2002" />
+                                  </Stream>
+                                </MediaSource>
+                              </Instance>
+                            </SourceTable>
+                          </XMPPAgentServiceSourceAgentStatus>
+                          <XMPPAgentServiceXAuthAgentStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                            <Parameters>
+                              <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                            </Parameters>
+                          </XMPPAgentServiceXAuthAgentStatus>
+                        </AgentList>
+                      </XMPPAgentServiceStatus>
+                      <StreamingServiceStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                        <CurrentStreamInstanceCount>
+                          <Total>-2147483648</Total>
+                          <Transmit>-2147483648</Transmit>
+                          <Receive>-2147483648</Receive>
+                          <Read>-2147483648</Read>
+                          <Write>-2147483648</Write>
+                          <Encode>-2147483648</Encode>
+                          <Decode>-2147483648</Decode>
+                        </CurrentStreamInstanceCount>
+                        <InstanceList userJID="deviceuser-default@10.1.5.168/lab1tx1">
+                          <V2DEncoderInstance KeyElementRelativeXPath="SSInstanceID" NID="default.devicelist.zzzz_12251090924226d6702ab.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2001" NIDScheme="PARENTNID.KEYVAL" Parse="true">
+                            <Parameters>
+                              <Parameter name="Id" source="constant" type="Integer">2001</Parameter>
+                              <Parameter name="Type" type="String">V2DEncoderPort</Parameter>
+                              <Parameter name="QueueId" source="constant" type="UnsignedInteger">2001</Parameter>
+                              <Parameter name="Error" type="Boolean">False</Parameter>
+                              <Parameter name="Connected" type="Boolean">True</Parameter>
+                              <Parameter name="Started" type="Boolean">True</Parameter>
+                              <Parameter name="Timestamp" type="UnsignedLong">1225457484826</Parameter>
+                              <Parameter name="Duration" type="String">00:00:19.509</Parameter>
+                              <Parameter name="StreamDuration" type="String">00:00:17.686</Parameter>
+                              <Parameter name="FrameDuration" type="String">00:00:17.685</Parameter>
+                              <Parameter name="ErrorCount" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="BytesTransfered" source="counter" type="UnsignedInteger" units="bytes">4446264</Parameter>
+                              <Parameter name="BytesPerSec" source="guage" type="UnsignedInteger" units="number">190320</Parameter>
+                              <Parameter name="FramesTransfered" source="counter" type="UnsignedInteger" units="number">4287</Parameter>
+                              <Parameter name="FramesPerSec" source="guage" type="UnsignedInteger" units="number">183</Parameter>
+                              <Parameter name="Bitrate" type="Float">1.450576</Parameter>
+                              <Parameter name="AvgBitrate" type="Float">1.448713</Parameter>
+                              <Parameter name="FrameSize" type="Float">1040.000000</Parameter>
+                              <Parameter name="StartCount" source="counter" type="UnsignedInteger" units="number">1</Parameter>
+                              <Parameter name="QueueDrops" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="FPGAPort" type="Integer">0</Parameter>
+                              <Parameter name="VideoName" type="String">VESA 1280x1024@60 Hz</Parameter>
+                              <Parameter name="VideoPackets" source="counter" type="UnsignedInteger" units="number">3125</Parameter>
+                              <Parameter name="VideoBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="AudioPackets" source="counter" type="UnsignedInteger" units="number">1149</Parameter>
+                              <Parameter name="AudioBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="ControlInPackets" source="counter" type="UnsignedInteger" units="number">7</Parameter>
+                              <Parameter name="ControlInBytes" source="counter" type="UnsignedInteger" units="bytes">196</Parameter>
+                              <Parameter name="ControlOutPackets" source="counter" type="UnsignedInteger" units="number">13</Parameter>
+                              <Parameter name="ControlOutBytes" source="counter" type="UnsignedInteger" units="bytes">1304</Parameter>
+                              <Parameter name="MousePackets" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="MouseLostPackets" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="MouseBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="KeyBoardPackets" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="KeyBoardLostPackets" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="KeyBoardBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="SerialInPackets" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="SerialInLostPackets" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="SerialInBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="SerialOutPackets" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="SerialOutBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="RequestBandwidth" source="guage" type="UnsignedInteger" units="bytes">125000</Parameter>
+                              <Parameter name="ComputedBandwidth" source="guage" type="UnsignedInteger" units="bytes">190536</Parameter>
+                              <Parameter name="LowCompression" source="guage" type="UnsignedInteger" units="number">2</Parameter>
+                              <Parameter name="HighCompression" source="guage" type="UnsignedInteger" units="number">6</Parameter>
+                              <Parameter name="BurstRatio" type="Float">1.000000</Parameter>
+                              <Parameter name="BurstDuration" source="guage" type="UnsignedInteger" units="number">50</Parameter>
+                              <Parameter name="AVOption" type="Integer">1</Parameter>
+                              <Parameter name="AudioType" type="Integer">0</Parameter>
+                              <Parameter name="FSRefreshCount" type="UnsignedInteger">2</Parameter>
+                              <Parameter name="Serial Port" type="Integer">1</Parameter>
+                              <Parameter name="Baud Rate" type="Integer">9600</Parameter>
+                              <Parameter name="Data Bits" type="Integer">8</Parameter>
+                              <Parameter name="Stop Bits" type="Integer">1</Parameter>
+                              <Parameter name="Parity" type="Integer">110</Parameter>
+                              <Parameter name="Flow Control" type="Integer">110</Parameter>
+                              <Parameter name="Splash Hres" type="Integer">1280</Parameter>
+                              <Parameter name="Splash Vres" type="Integer">1024</Parameter>
+                              <Parameter name="Splash MQuant" type="Integer">3</Parameter>
+                              <Parameter name="Splash DCQuant" type="Integer">3</Parameter>
+                              <Parameter name="Splash Slice Size" type="Integer">128</Parameter>
+                              <Parameter name="RFBEnabled" type="Boolean">True</Parameter>
+                              <Parameter name="RFBReady" type="Boolean">False</Parameter>
+                              <Parameter name="RFBServer" type="String">10.1.16.51</Parameter>
+                              <Parameter name="RFBPort" type="Integer">5900</Parameter>
+                              <Parameter name="RFBConnectionStatus" type="String">Connection Timedout</Parameter>
+                              <Parameter name="RFBDesktop" type="String" />
+                              <Parameter name="RFBWidth" source="constant" type="UnsignedInteger">0</Parameter>
+                              <Parameter name="RFBHeight" source="constant" type="UnsignedInteger">0</Parameter>
+                              <Parameter name="RFBMouseSent" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="RFBKeyboardSent" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="RFBKeyboardDropped" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="RFBMouseDropped" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="RFBBytesWritten" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="RFBMaxWriteBuffer" source="guage" type="UnsignedInteger" units="bytes">0</Parameter>
+                            </Parameters>
+                          </V2DEncoderInstance>
+                          <V2DStreamTxInstance KeyElementRelativeXPath="SSInstanceID" NID="default.devicelist.zzzz_12251090924226d6702ab.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2002" NIDScheme="PARENTNID.KEYVAL" Parse="true">
+                            <Parameters>
+                              <Parameter name="Id" source="constant" type="Integer">2002</Parameter>
+                              <Parameter name="Type" type="String">V2DDecoderPort</Parameter>
+                              <Parameter name="QueueId" source="constant" type="UnsignedInteger">2001</Parameter>
+                              <Parameter name="Error" type="Boolean">False</Parameter>
+                              <Parameter name="Connected" type="Boolean">True</Parameter>
+                              <Parameter name="Started" type="Boolean">True</Parameter>
+                              <Parameter name="Timestamp" type="UnsignedLong">1225457484801</Parameter>
+                              <Parameter name="Duration" type="String">00:00:17.745</Parameter>
+                              <Parameter name="StreamDuration" type="String">00:00:17.661</Parameter>
+                              <Parameter name="FrameDuration" type="String">00:00:17.659</Parameter>
+                              <Parameter name="ErrorCount" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="BytesTransfered" source="counter" type="UnsignedInteger" units="bytes">4442104</Parameter>
+                              <Parameter name="BytesPerSec" source="guage" type="UnsignedInteger" units="number">189280</Parameter>
+                              <Parameter name="FramesTransfered" source="counter" type="UnsignedInteger" units="number">4283</Parameter>
+                              <Parameter name="FramesPerSec" source="guage" type="UnsignedInteger" units="number">182</Parameter>
+                              <Parameter name="Bitrate" type="Float">1.439772</Parameter>
+                              <Parameter name="AvgBitrate" type="Float">1.445007</Parameter>
+                              <Parameter name="FrameSize" type="Float">1040.000000</Parameter>
+                              <Parameter name="StartCount" source="counter" type="UnsignedInteger" units="number">1</Parameter>
+                              <Parameter name="QueueDrops" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="FramesServed" source="counter" type="UnsignedInteger" units="number">3048</Parameter>
+                              <Parameter name="BytesServed" source="counter" type="UnsignedInteger" units="bytes">3159410</Parameter>
+                              <Parameter name="Client" type="String">10.1.5.168</Parameter>
+                              <Parameter name="Port" source="constant" type="UnsignedInteger">6568</Parameter>
+                              <Parameter name="ResetCount" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="VideoName" type="String">VESA 1280x1024@60 Hz</Parameter>
+                              <Parameter name="MulticastAddress" type="String">226.1.1.30</Parameter>
+                              <Parameter name="Multicast" type="Boolean">False</Parameter>
+                              <Parameter name="KeyboardRcvd" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="MouseRcvd" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="SerialRcvd" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="CtrlPacketsRcvd" source="counter" type="UnsignedInteger" units="number">24</Parameter>
+                              <Parameter name="CtrlBytesRcvd" source="counter" type="UnsignedInteger" units="bytes">1586</Parameter>
+                              <Parameter name="CtrlPacketsSent" source="counter" type="UnsignedInteger" units="number">13</Parameter>
+                              <Parameter name="CtrlPacketsDropped" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="CtrlBytesSent" source="counter" type="UnsignedInteger" units="bytes">1147</Parameter>
+                              <Parameter name="RequestedBandwidth" source="guage" type="UnsignedInteger" units="bytes">125000</Parameter>
+                              <Parameter name="MaxQueueLen" type="UnsignedInteger">7</Parameter>
+                              <Parameter name="BackOffCount" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="ByteBucket" type="Integer">13960</Parameter>
+                              <Parameter name="BurstSize" type="Integer">15000</Parameter>
+                              <Parameter name="VideoPort" source="constant" type="UnsignedInteger">6569</Parameter>
+                              <Parameter name="VideoRate" source="guage" type="UnsignedInteger" units="bits">965952</Parameter>
+                              <Parameter name="VideoBytes" source="counter" type="UnsignedInteger" units="bytes">2024784</Parameter>
+                              <Parameter name="VideoPackets" source="counter" type="UnsignedInteger" units="number">1962</Parameter>
+                              <Parameter name="VideoLoss" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="VideoOutOfOrder" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="VideoTxError" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="AudioPort" source="constant" type="UnsignedInteger">0</Parameter>
+                              <Parameter name="AudioRate" source="guage" type="UnsignedInteger" units="bits">0</Parameter>
+                              <Parameter name="AudioBytes" source="counter" type="UnsignedInteger" units="bytes">0</Parameter>
+                              <Parameter name="AudioPackets" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="AudioLoss" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="AudioOutOfOrder" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="AudioTxError" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                              <Parameter name="SRDEnabled" type="Boolean">False</Parameter>
+                            </Parameters>
+                          </V2DStreamTxInstance>
+                        </InstanceList>
+                      </StreamingServiceStatus>
+                    </ServiceElementsStatus>
+                    <NetworkElementsStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                      <RouteTableStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <ParametersList>
+                          <Parameters>
+                            <Parameter name="Destination" type="String">10.1.5.0</Parameter>
+                            <Parameter name="Netmask" type="String">255.255.255.0</Parameter>
+                            <Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+                            <Parameter name="Flags" type="String">U</Parameter>
+                            <Parameter name="Interface" type="String">eth0</Parameter>
+                          </Parameters>
+                          <Parameters>
+                            <Parameter name="Destination" type="String">224.0.0.0</Parameter>
+                            <Parameter name="Netmask" type="String">240.0.0.0</Parameter>
+                            <Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+                            <Parameter name="Flags" type="String">U</Parameter>
+                            <Parameter name="Interface" type="String">eth0</Parameter>
+                          </Parameters>
+                          <Parameters>
+                            <Parameter name="Destination" type="String">0.0.0.0</Parameter>
+                            <Parameter name="Netmask" type="String">0.0.0.0</Parameter>
+                            <Parameter name="Gateway" type="String">10.1.5.244</Parameter>
+                            <Parameter name="Flags" type="String">UG</Parameter>
+                            <Parameter name="Interface" type="String">eth0</Parameter>
+                          </Parameters>
+                        </ParametersList>
+                      </RouteTableStatus>
+                      <DNSClientStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </DNSClientStatus>
+                      <EthernetPortStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <ParametersList>
+                          <Parameters>
+                            <Parameter name="Status" source="health" type="Boolean">True</Parameter>
+                            <Parameter name="IPAddress" type="String">10.1.5.147</Parameter>
+                            <Parameter name="Netmask" type="String">255.255.255.0</Parameter>
+                            <Parameter name="Broadcast" type="String">10.255.255.255</Parameter>
+                            <Parameter name="HardwareAddress" type="String">00:0B:AB:14:74:0E</Parameter>
+                            <Parameter name="ReceiveBytes" source="counter" type="UnsignedInteger" units="bytes">250407</Parameter>
+                            <Parameter name="ReceivePackets" source="counter" type="UnsignedInteger" units="number">1096</Parameter>
+                            <Parameter name="ReceiveErrors" source="counter" type="UnsignedInteger" units="number">0</Parameter>
+                            <Parameter name="TransmitBytes" source="counter" type="UnsignedInteger" units="bytes">2147336</Parameter>
+                            <Parameter name="TransmitPackets" source="counter" type="UnsignedInteger" units="number">2377</Parameter>
+                            <Parameter name="TransmitErrors" source="errorcounter" type="UnsignedInteger" units="number">0</Parameter>
+                          </Parameters>
+                        </ParametersList>
+                      </EthernetPortStatus>
+                    </NetworkElementsStatus>
+                    <StorageElementsStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                      <MountTableStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </MountTableStatus>
+                      <CFDriveStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="" Queryable="true">
+                        <Parameters>
+                          <Parameter name="string" type="Float" units="string" source="string">string</Parameter>
+                        </Parameters>
+                      </CFDriveStatus>
+                    </StorageElementsStatus>
+                    <AVCodecElementsStatus Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                      <V2DEncoderStatus Parse="true" NIDScheme="AUTO" NID="">
+                        <PortID>string</PortID>
+                        <InstanceInfo Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="">
+                          <PortInstance Parse="true" NIDScheme="AUTO" NID="">
+                            <ID>string</ID>
+                          </PortInstance>
+                        </InstanceInfo>
+                      </V2DEncoderStatus>
+                    </AVCodecElementsStatus>
+                  </DeviceStatus>
+                </DeviceStatusResponseData>
+              </data>
+              <log />
+            </Response>
+          </agentmessagedata>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+</statuslog>

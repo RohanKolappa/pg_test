@@ -1,0 +1,3122 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Policies",
+    "resourcePath": "/Policy",
+    "apis": [
+        {
+            "path": "/AccessPolicy",
+            "operations": [
+                            
+                {
+                    "method": "GET",
+                    "summary": "Get Access Policy (available in EDP 1.1)",
+                    "notes": "Get the list of Access Policies from EDP",
+                    "responseClass": "AccessPolicy",
+                    "nickname": "getAccessPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on TextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereType",
+                            "description": "Filter based on Type",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Ports",
+                                    "Media",
+                                    "Dir",
+                                    "Session"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Order",
+                                    "Active",
+                                    "Name"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+									"descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "startFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "select format",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Add Access Policy (available in EDP 1.1)",
+                    "notes": "Add Access Policy to EDP",
+                    "responseClass": "AccessPolicyResponse",
+                    "nickname": "addAccessPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a AccessPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddAccessPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete AccessPolicy (available in EDP 1.1)",
+                    "notes": "Delete a AccessPolicy",
+                    "responseClass": "AccessPolicyResponse",
+                    "nickname": "deleteAccessPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "AccessPolicy nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "AccessPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Set AccessPolicy (available in EDP 1.1)",
+                    "notes": "update existing AccessPolicy to EDP ",
+                    "responseClass": "AccessPolicyResponse",
+                    "nickname": "setAccessPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.AccessPolicy+json",
+                        "application/vnd.barco.nimbus.AccessPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "AccessPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a AccessPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetAccessPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/AdminPolicy",
+            "operations": [                              
+                {
+                    "method": "GET",
+                    "summary": "Get Admin Policy (available in EDP 1.1)",
+                    "notes": "Get the list of Admin Policies from EDP",
+                    "responseClass": "AdminPolicy",
+                    "nickname": "getAdminPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on TextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereType",
+                            "description": "Filter based on Type",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Device",
+                                    "Profile",
+                                    "User",
+                                    "System",
+                                    "Media",
+                                    "Dir"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Order",
+                                    "Active",
+                                    "Name"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+									"descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "startFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "select format",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Add Admin Policy (available in EDP 1.1)",
+                    "notes": "Add Admin Policy to EDP",
+                    "responseClass": "AdminPolicyResponse",
+                    "nickname": "addAdminPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a AdminPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddAdminPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete AdminPolicy (available in EDP 1.1)",
+                    "notes": "Delete a AdminPolicy",
+                    "responseClass": "AdminPolicyResponse",
+                    "nickname": "deleteAdminPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "AdminPolicy nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "AdminPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				 {
+                    "method": "POST",
+                    "summary": "Set AdminPolicy (available in EDP 1.1)",
+                    "notes": "update existing AdminPolicy to EDP",
+                    "responseClass": "AdminPolicyResponse",
+                    "nickname": "setAdminPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.AdminPolicy+json",
+                        "application/vnd.barco.nimbus.AdminPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "AdminPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a AdminPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetAdminPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/ConnectionPolicy",
+            "operations": [               
+                {
+                    "method": "GET",
+                    "summary": "Get Connection Policy (available in EDP 1.1)",
+                    "notes": "Get the list of Connection Policies from EDP",
+                    "responseClass": "ConnectionPolicyResponse",
+                    "nickname": "getConnectionPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on TextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Order",
+                                    "Active",
+                                    "Name"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+									"descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "startFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "select format",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Add Connection Policy (available in EDP 1.1)",
+                    "notes": "Add Connection Policy to EDP",
+                    "responseClass": "ConnectionPolicyResponse",
+                    "nickname": "addConnectionPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a ConnectionPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddConnectionPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete ConnectionPolicy (available in EDP 1.1)",
+                    "notes": "Delete a ConnectionPolicy",
+                    "responseClass": "ConnectionPolicyResponse",
+                    "nickname": "deleteConnectionPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "ConnectionPolicy nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "ConnectionPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Set ConnectionPolicy (available in EDP 1.1)",
+                    "notes": "update existing ConnectionPolicy to EDP ",
+                    "responseClass": "ConnectionPolicyResponse",
+                    "nickname": "setConnectionPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.ConnectionPolicy+json",
+                        "application/vnd.barco.nimbus.ConnectionPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "ConnectionPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a ConnectionPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetConnectionPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/NATPolicy",
+            "operations": [                               
+                {
+                    "method": "GET",
+                    "summary": "Get Network Policy (available in EDP 1.1)",
+                    "notes": "Get the list of Network Policies from EDP",
+                    "responseClass": "NATPolicyResponse",
+                    "nickname": "getNATPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on whereTextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Active",
+									"Order",
+									"Name"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+									"descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "startFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereTextSubString",
+                            "description": "Filter based on TextSubString, apply on name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "select format",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Add NAT Policy (available in EDP 1.1)",
+                    "notes": "Add NAT Policy to EDP",
+                    "responseClass": "NATPolicyResponse",
+                    "nickname": "addNATPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a NATPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddNATPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete NATPolicy (available in EDP 1.1)",
+                    "notes": "Delete a NATPolicy",
+                    "responseClass": "NATPolicyResponse",
+                    "nickname": "deleteNATPolicy",
+                    "produces": [
+                         "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NATPolicy nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "NATPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Set NATPolicy (available in EDP 1.1)",
+                    "notes": "update existing NATPolicy to EDP ",
+                    "responseClass": "NATPolicyResponse",
+                    "nickname": "setNATPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.NATPolicy+json",
+                        "application/vnd.barco.nimbus.NATPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "NATPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a NATPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetNATPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/RoutingPolicy",
+            "operations": [               
+                {
+                    "method": "GET",
+                    "summary": "Get Routing Policy (available in EDP 1.1)",
+                    "notes": "Get the list of Routing Policies from EDP",
+                    "responseClass": "RoutingPolicyResponse",
+                    "nickname": "getRoutingPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on whereTextSubStrring",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Name"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+									"descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "startFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereTextSubString",
+                            "description": "Filter based on TextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "select format",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Add Routing Policy (available in EDP 1.1)",
+                    "notes": "Add Routing Policy to EDP",
+                    "responseClass": "RoutingPolicyResponse",
+                    "nickname": "addRoutingPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a RoutingPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddRoutingPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete RoutingPolicy (available in EDP 1.1)",
+                    "notes": "Delete a RoutingPolicy",
+                    "responseClass": "RoutingPolicyResponse",
+                    "nickname": "deleteRoutingPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "RoutingPolicy nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "RoutingPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Set RoutingPolicy (available in EDP 1.1)",
+                    "notes": "update existing RoutingPolicy to EDP ",
+                    "responseClass": "RoutingPolicyResponse",
+                    "nickname": "setRoutingPolicy",
+                    "produces": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.RoutingPolicy+json",
+                        "application/vnd.barco.nimbus.RoutingPolicy+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "RoutingPolicy name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a RoutingPolicy to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetRoutingPolicy",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "AccessPolicy": {
+            "id": "AccessPolicy",
+            "required": [
+                "AccessPolicy"
+            ],
+            "properties": {
+                "AccessPolicy": {
+                    "$ref": "AccessPolicyAttr"
+                }
+            }
+        },
+        "AccessPolicyAttr": {
+            "id": "AccessPolicyAttr",
+            
+            "properties": {
+                "@nid": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "Location"
+                },
+                "@type": {
+                    "type": "Ports/Media/Dir/Session"
+                },
+                "@active": {
+                    "type": "boolean"
+                },
+                "@order": {
+                    "type": "string"
+                }
+            }
+        },
+        "AccessPolicyResponse": {
+            "id": "AccessPolicyResponse",
+            "properties": {
+                "AccessPolicy": {
+                    "$ref": "PolicyResponseData"
+               },
+          "TargetFilterSet":{
+          	"$ref":"TargetFilterSet"
+          }
+            }
+        },
+        "AdminPolicyResponse": {
+            "id": "AdminPolicyResponse",
+            "properties": {
+                "AdminPolicy": {
+                    "$ref": "PolicyResponseData"
+                },
+               "OperatorFilterSet": {
+                    "$ref": "OperatorFilterSet"
+               },
+             "TargetFilterSet":{
+          	"$ref":"TargetFilterSet"
+          }
+            }
+        },
+        "ConnectionPolicyResponse": {
+            "id": "ConnectionPolicyResponse",
+            "properties": {
+                "ConnectionPolicy": {
+                    "$ref": "PolicyResponseData"
+                },
+                "DestinationFilterSet": {
+                    "$ref": "PolicyResponseData"
+                },
+                "SourceFilterSet": {
+                    "$ref": "PolicyResponseData"
+                }
+            }
+        },
+        "RoutingPolicyResponse": {
+            "id": "RoutingPolicyResponse",
+            "properties": {
+                "RoutingPolicy": {
+                    "$ref": "RoutingResponseData"
+                }
+            }
+        },
+        "NATPolicyResponse": {
+            "id": "NATPolicyResponse",
+            "properties": {
+                "NATPolicy": {
+                    "$ref": "NATResponseData"
+                }
+            }
+        },
+       "NATResponseData": {
+            "id": "NATResponseData",
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "@order": {
+                    "type": "string"
+                },
+                "@active": {
+                    "type": "String"
+                },
+                "NetworkAddressScheme": {
+                     "$ref": "NetworkAddressScheme"
+                },
+                "OutboundNATTable": {
+                     "$ref": "OutboundNATTable"
+                },
+                "LocalSiteFilterSet": {
+                     "$ref": "LocalSiteFilter"
+                },
+                "RemoteSiteFilterSet": {
+                     "$ref": "RemoteSiteFilter"
+                },
+                "AdvanceFilterSet": {
+                     "$ref": "AdvanceFilterSet"
+                }
+            }
+        },
+        "RoutingResponseData": {
+            "id": "RoutingResponseData",
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "DestinationFilterSet": {
+                     "$ref": "DestinationFilterSet"
+                },
+                "ProfileFilterSet": {
+                     "$ref": "ProfileFilterSet"
+                },
+                "RelayFilterSet": {
+                     "$ref": "RelayFilterSet"
+                },
+                "SourceFilterSet": {
+                     "$ref": "SourceFilterSet"
+                },
+                "AdvanceFilterSet": {
+                     "$ref": "AdvanceFilterSet"
+                }
+            }
+        },
+         "PolicyResponseData": {
+            "id": "PolicyResponseData",
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "OperationFilterSet": {
+                     "$ref": "OperationFilterSetData"
+                },
+                "@active": {
+                    "type": "boolean"
+                },
+                "@type": {
+                    "type": "string"
+                },
+                "@order": {
+                    "type": "integer"
+                },
+                "AdvanceFilterSet": {
+                     "$ref": "AdvanceFilterSet"
+                },
+                "ActionList": {
+                     "$ref": "ActionList"
+                     
+                }
+            }
+        },
+        "NATPolicy": {
+            "id": "NATPolicy",
+            "required": [
+                "NATPolicy"
+            ],
+            "properties": {
+                "NATPolicy": {
+                    "$ref": "NATPolicyAttr"
+                }
+            }
+        },
+        "NATPolicyAttr": {
+            "id": "NATPolicyAttr",
+            "properties": {
+                "@nid": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "Ports/Media/Dir/Session"
+                },
+                "@active": {
+                    "type": "boolean"
+                },
+                "@order": {
+                    "type": "string"
+                }
+            }
+        },
+        "RoutingPolicy": {
+            "id": "RoutingPolicy",
+            "required": [
+                "RoutingPolicy"
+            ],
+            "properties": {
+                "RoutingPolicy": {
+                    "$ref": "RoutingPolicyAttr"
+                }
+            }
+        },
+        "RoutingPolicyAttr": {
+            "id": "RoutingPolicyAttr",
+            "properties": {
+                "@nid": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ConnectionPolicy": {
+            "id": "ConnectionPolicy",
+            "required": [
+                "ConnectionPolicy"
+            ],
+            "properties": {
+                "ConnectionPolicy": {
+                    "$ref": "ConnectionPolicyAttr"
+                }
+            }
+        },
+        "ConnectionPolicyAttr": {
+            "id": "ConnectionPolicyAttr",
+            "properties": {
+                "@nid": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "@xAuthRequired": {
+                    "type": "string"
+                },
+                "@active": {
+                    "type": "boolean"
+                },
+                "@order": {
+                    "type": "string"
+                }
+            }
+        },
+        "AdminPolicy": {
+            "id": "AdminPolicy",
+            "required": [
+                "AdminPolicy"
+            ],
+            "properties": {
+                "AdminPolicy": {
+                    "$ref": "AdminPolicyAttr"
+                }
+            }
+        },
+        "AdminPolicyAttr": {
+            "id": "AdminPolicyAttr",
+            "properties": {
+                "@nid": {
+                    "type": "string"
+                },
+                "@name": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "String"
+                },
+                "@active": {
+                    "type": "boolean"
+                },
+                "@order": {
+                    "type": "string"
+                }
+            }
+        },
+        
+            "User": {
+                "id": "User",
+                "description": "User",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Resource": {
+                "id": "Resource",
+                "description": "Resource",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+			
+			"ActionList": {
+                "id": "ActionList",
+                "description": "ActionList",
+                "required": [
+                    "Action"
+                ],
+                "properties": {
+                    "Action": {
+                        "$ref": "Action"
+                    }
+                }
+            },
+            "ActionListReq": {
+                "id": "ActionListReq",
+                "description": "A ActionList body",
+                "required": [
+                    "ActionList"
+                ],
+                "properties": {
+                    "ActionList": {
+                        "$ref": "ActionList"
+                    }
+                }
+            },
+            "Action": {
+                "id": "Action",
+                "description": "Action",
+                "required": [
+                    
+                ],
+                "properties": {
+                    
+                }
+            },
+            
+            "AdminActionList":{
+			"id": "AdminActionList",
+			"properties": {
+                    "Action": {
+                    	"type": "array",
+                        "items": {
+                       "type":"Add/Modify/Delete/Import/Export/Upgrade/Restore/Backup/SessionManagement"
+                        }
+                    }
+                    
+                }
+			},			
+            "AdminActionListReq": {
+                "id": "AdminActionListReq",
+                "description": "A AdminActionList body",
+                "required": [
+                    "AdminActionList"
+                ],
+                "properties": {
+                    "AdminActionList": {
+                        "$ref": "AdminActionList"
+                    }
+                }
+            },
+          "AdminAction": {
+            "id": "AdminAction",
+            "description": "AdminAction",
+            "type": "array",
+            "required": [
+                "Add",
+                "Modify",
+                "Delete",
+                "Import",
+                "Export"
+            ]
+        },
+			"ConnectionActionList":{
+			"id": "AdminActionList",
+			"properties": {
+                    "Action": {
+                    	"type": "array",
+                    	"items": {"type":"View/Playback/PVR/Record"}
+                    }
+                }
+			},
+            "ConnectionActionListReq": {
+                "id": "ConnectionActionListReq",
+                "description": "A ConnectionActionList body",
+                "required": [
+                    "ConnectionActionList"
+                ],
+                "properties": {
+                    "ConnectionActionList": {
+                        "$ref": "ConnectionActionList"
+                    }
+                }
+            },
+             "ConnectionAction": {
+            "id": "ConnectionAction",
+            "description": "ConnectionAction",
+            "required": [
+                "View",
+                "Playback",
+                "Record",
+                "PVR"
+            ],
+            "properties": {
+                "Action": {
+                    "type": "array",
+                    "$ref": "Action"
+                }
+            }
+        },
+            "OperatorFilterSet": {
+                "id": "OperatorFilterSet",
+                "description": "OperatorFilterSet",
+                "required": [
+                    "OperatorFilter"
+                ],
+                "properties": {
+                    "OperatorFilter": {
+                        "$ref": "OperatorFilter"
+                    }
+                }
+            },
+            "OperatorFilterSetReq": {
+                "id": "OperatorFilterSetReq",
+                "description": "A OperatorFilterSet body",
+                "required": [
+                    "OperatorFilterSet"
+                ],
+                "properties": {
+                    "OperatorFilterSet": {
+                        "$ref": "OperatorFilterSet"
+                    }
+                }
+            },
+            "OperatorFilter": {
+                "id": "OperatorFilter",
+                "description": "OperatorFilter",
+                "required": [
+                    "User",
+                    "Resource"
+                ],
+                "properties": {
+                    "User": {
+                        "$ref": "User"
+                    },
+                    "Resource": {
+                        "$ref": "Resource"
+                    }
+                }
+            },
+			
+			
+			
+			
+            "TargetFilterSet": {
+                "id": "TargetFilterSet",
+                "description": "TargetFilterSet",
+                "required": [
+                    "TargetFilter"
+                ],
+                "properties": {
+                    "TargetFilter": {
+                        "$ref": "TargetFilter"
+                    }
+                }
+            },
+            "TargetFilterSetReq": {
+                "id": "TargetFilterSetReq",
+                "description": "A TargetFilterSet body",
+                "required": [
+                    "TargetFilterSet"
+                ],
+                "properties": {
+                    "TargetFilterSet": {
+                        "$ref": "TargetFilterSet"
+                    }
+                }
+            },
+            "TargetFilter": {
+                "id": "TargetFilter",
+                "description": "TargetFilter",
+                "type": "array",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AdvanceFilterSet": {
+                "id": "AdvanceFilterSet",
+                "description": "AdvanceFilterSet",
+                "required": [
+                    "AdvanceFilter"
+                ],
+                "properties": {
+                    "AdvanceFilter": {
+                        "$ref": "AdvanceFilter"
+                    }
+                }
+            },
+            "AdvanceFilterSetReq": {
+                "id": "AdvanceFilterSetReq",
+                "description": "A AdvanceFilterSetReq body",
+                "required": [
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "AdvanceFilterSetReq": {
+                        "$ref": "AdvanceFilterSet"
+                    }
+                }
+            },
+            "AdvanceFilter": {
+                "id": "AdvanceFilter",
+                "description": "AdvanceFilter",
+                "required": [
+                    "LHRule",
+                    "LHTagName",
+                    "Operator",
+                    "RHRule",
+                    "RHTagName"
+                ],
+                "properties": {
+                    "LHRule": {
+                        "type": "Target/OperatorUser/OperatorResource"
+                    },
+                    "LHTagName": {
+                        "type": "string"
+                    },
+                    "Operator": {
+                        "type": "string"
+                    },
+                    "RHRule": {
+                        "type": "OperatorUser/OperatorResource"
+                    },
+                    "RHTagName": {
+                        "type": "string"
+                    }
+                }
+            },
+			
+			
+			"ConnectionAdvanceFilterSet": {
+                "id": "ConnectionAdvanceFilterSet",
+                "description": "ConnectionAdvanceFilterSet",
+                "required": [
+                    "ConnectionAdvanceFilter"
+                ],
+                "properties": {
+                    "ConnectionAdvanceFilter": {
+                        "$ref": "ConnectionAdvanceFilter"
+                    }
+                }
+            },
+            "ConnectionAdvanceFilterSetReq": {
+                "id": "ConnectionAdvanceFilterSetReq",
+                "description": "A ConnectionAdvanceFilterSetReq body",
+                "required": [
+                    "ConnectionAdvanceFilterSet"
+                ],
+                "properties": {
+                    "ConnectionAdvanceFilterSetReq": {
+                        "$ref": "ConnectionAdvanceFilterSet"
+                    }
+                }
+            },
+            "ConnectionAdvanceFilter": {
+                "id": "ConnectionAdvanceFilter",
+                "description": "ConnectionAdvanceFilter",
+                "required": [
+                    "LHRule",
+                    "LHTagName",
+                    "Operator",
+                    "RHRule",
+                    "RHTagName"
+                ],
+                "properties": {
+                    "LHRule": {
+                        "type": "OperatorUser/OperatorResource/Source/Destination"
+                    },
+                    "LHTagName": {
+                        "type": "string"
+                    },
+                    "Operator": {
+                        "type": "string"
+                    },
+                    "RHRule": {
+                        "type": "OperatorUser/OperatorResource/Source/Destination"
+                    },
+                    "RHTagName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RoutingAdvanceFilter": {
+                "id": "RoutingAdvanceFilter",
+                "description": "RoutingAdvanceFilter",
+                "required": [
+                    "LHRule",
+                    "LHTagName",
+                    "Operator",
+                    "RHRule",
+                    "RHTagName"
+                ],
+                "properties": {
+                    "LHRule": {
+                        "type": "Source/Destination/Relay/Profile"
+                    },
+                    "LHTagName": {
+                        "type": "string"
+                    },
+                    "Operator": {
+                        "type": "string"
+                    },
+                    "RHRule": {
+                        "type": "Source/Destination/Relay/Profile"
+                    },
+                    "RHTagName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NATAdvanceFilter": {
+                "id": "NATAdvanceFilter",
+                "description": "NATAdvanceFilter",
+                "required": [
+                    "LHRule",
+                    "LHTagName",
+                    "Operator",
+                    "RHRule",
+                    "RHTagName"
+                ],
+                "properties": {
+                    "LHRule": {
+                        "type": "From/To"
+                    },
+                    "LHTagName": {
+                        "type": "string"
+                    },
+                    "Operator": {
+                        "type": "string"
+                    },
+                    "RHRule": {
+                        "type": "From/To"
+                    },
+                    "RHTagName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RoutingAdvanceFilterSetReq": {
+                "id": "RoutingAdvanceFilterSetReq",
+                "description": "A RoutingAdvanceFilterSetReq body",
+                "required": [
+                    "RoutingAdvanceFilterSetReq"
+                ],
+                "properties": {
+                    "RoutingAdvanceFilterSet": {
+                        "$ref": "RoutingAdvanceFilterSet"
+                    }
+                }
+            },
+            "RoutingAdvanceFilterSet": {
+                "id": "RoutingAdvanceFilterSet",
+                "description": "RoutingAdvanceFilterSet",
+                "required": [
+                    "RoutingAdvanceFilter"
+                ],
+                "properties": {
+                    "RoutingAdvanceFilter": {
+                        "$ref": "RoutingAdvanceFilter"
+                    }
+                }
+            },
+            
+			
+			"AddAccessPolicy": {
+                "id": "AddAccessPolicy",
+                "description": "add a AccessPolicy request",
+                "required": [
+                    "AccessPolicy"
+                ],
+                "properties": {
+                    "AccessPolicy": {
+                        "$ref": "AddAccessPolicyReq"
+                    }
+                    
+                }
+            },
+            "AddAccessPolicyReq": {
+                "id": "AddAccessPolicyReq",
+                "description": "A basic add AccessPolicy request",
+                "required": [
+                    "@name",
+                    "@type",
+                    "@active",
+                    "@order",
+                    "ActionList",
+                    "OperatorFilterSet",
+                    "TargetFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@name": {
+                        "type": "Location",
+                        "description": ""
+                    },
+                    "@type": {
+                        "type": "Ports/Media/Dir/Session",
+                        "description": "[Required]"
+                    },
+                    "@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+					"ActionList": {
+                        "items": {
+                            "$ref": "AccessActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                    "TargetFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "TargetFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "SetAccessPolicy": {
+                "id": "SetAccessPolicy",
+                "description": "Set a AccessPolicy request",
+                "required": [
+                    "AccessPolicy"
+                ],
+                "properties": {
+                    "AccessPolicy": {
+                        "$ref": "SetAccessPolicyReq"
+                    }
+                }
+            },
+            "SetAccessPolicyReq": {
+                "id": "SetAccessPolicyReq",
+                "description": "A basic set AccessPolicy request",
+                "required": [
+                   
+                    "@active",
+                    "@order",
+                    "ActionList",
+                    "OperatorFilterSet",
+                    "TargetFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+					"ActionList": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AccessActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                    "TargetFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "TargetFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+			"AccessActionList":{
+			"id": "Action",
+			"properties": {
+                    "Action": {
+                    	"type": "array",
+                        "items": {
+                       "type":"ViewFrom/StreamTo/Playback/Record/PVR/Add/Modify/Delete/Start"
+                        }
+                    }
+                    
+                }
+			},
+			
+            "AddAdminPolicy": {
+                "id": "AddAdminPolicy",
+                "description": "add a AdminPolicy request",
+                "required": [
+                    "AdminPolicy"
+                ],
+                "properties": {
+                    "AdminPolicy": {
+                        "$ref": "AddAdminPolicyReq"
+                    }
+                    
+                }
+            },
+            "AddAdminPolicyReq": {
+                "id": "AddAdminPolicyReq",
+                "description": "A basic add AdminPolicy request",
+                "required": [
+                    "@name",
+                    "@type",
+                    "@active",
+                    "@order",
+                    "ActionList",
+                    "OperatorFilterSet",
+                    "TargetFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@name": {
+                        "type": "Location",
+                        "description": ""
+                    },
+                    "@type": {
+                        "type": "Device/Profile/User/System/Media/Dir",
+                        "description": "[Required]"
+                    },
+                    "@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+					"ActionList": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdminActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                    "TargetFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "TargetFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "SetAdminPolicy": {
+                "id": "SetAdminPolicy",
+                "description": "Set a AdminPolicy request",
+                "required": [
+                    "AdminPolicy"
+                ],
+                "properties": {
+                    "AdminPolicy": {
+                        "$ref": "SetAdminPolicyReq"
+                    }
+                }
+            },
+            "SetAdminPolicyReq": {
+                "id": "SetAdminPolicyReq",
+                "description": "A basic set AdminPolicy request",
+                "required": [
+                    
+                    "@active",
+                    "@order",
+                    "AdminActionList",
+                    "OperatorFilterSet",
+                    "TargetFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+					"@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "ActionList": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdminActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                    "TargetFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "TargetFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "AddConnectionPolicy": {
+                "id": "AddConnectionPolicy",
+                "description": "add a ConnectionPolicy request",
+                "required": [
+                    "AddConnectionPolicyReq"
+                ],
+                "properties": {
+                    "ConnectionPolicy": {
+                        "$ref": "AddConnectionPolicyReq"
+                    }
+                    
+                }
+            },
+            "AddConnectionPolicyReq": {
+                "id": "AddConnectionPolicyReq",
+                "description": "A basic add ConnectionPolicy request",
+                "required": [
+                    "@name",
+                    "@xAuthRequired",
+                    "@active",
+                    "@order",
+                    "ActionList",
+                    "OperatorFilterSet",
+                    "SourceFilterSet",
+                    "DestinationFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@name": {
+                        "type": "Location",
+                        "description": ""
+                    },
+                    "@xAuthRequired": {
+                        "type": "boolean"
+                    },
+                    "@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+					 "ActionList": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "ConnectionActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                   "SourceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "SourceFilterSet"
+                        }
+                    },
+                    "DestinationFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "DestinationFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "SetConnectionPolicy": {
+                "id": "SetConnectionPolicy",
+                "description": "Set a ConnectionPolicy request",
+                "required": [
+                    "ConnectionPolicy"
+                ],
+                "properties": {
+                    "ConnectionPolicy": {
+                        "$ref": "SetConnectionPolicyReq"
+                    }
+                }
+            },
+            "SetConnectionPolicyReq": {
+                "id": "SetConnectionPolicyReq",
+                "description": "A basic set ConnectionPolicy request",
+                "required": [
+                    "@active",
+                    "@order",
+                    "ActionList",
+                    "OperatorFilterSet",
+                    "SourceFilterSet",
+                    "DestinationFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@active": {
+                        "type": "boolean",
+
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+					 "ActionList": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "ConnectionActionList"
+                        }
+                    },
+                    "OperatorFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OperatorFilterSet"
+                        }
+                    },
+                    "SourceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "SourceFilterSet"
+                        }
+                    },
+                     "DestinationFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "DestinationFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "AddNATPolicy": {
+                "id": "AddNATPolicy",
+                "description": "add a NATPolicy request",
+                "required": [
+                    "AddNATPolicy"
+                ],
+                "properties": {
+                    "NATPolicy": {
+                        "$ref": "AddNATPolicyReq"
+                    }
+                }
+            },
+            "AddNATPolicyReq": {
+                "id": "AddNATPolicyReq",
+                "description": "A basic add NATPolicy request",
+                "required": [
+                    "@name",
+                    "@active",
+                    "@order",
+                    "LocalSiteFilterSet",
+                    "RemoteSiteFilterSet",
+                    "AdvanceFilterSet",
+                    "NetworkAddressScheme",
+                    "OutboundNATTable"
+                ],
+                "properties": {
+                    "@name": {
+                        "type": "Location",
+                        "description": ""
+                    },
+                    "@active": {
+                        "type": "boolean",
+                        "description": "[Required]"
+                    },
+                    "@order": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "LocalSiteFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "LocalSiteFilter"
+                        }
+                    },
+                    "RemoteSiteFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RemoteSiteFilter"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "NATAdvanceFilter"
+                        }
+                    },
+                    "NetworkAddressScheme": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "NetworkAddressScheme"
+                        }
+                    },
+                    "OutboundNATTable": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OutboundNATTable"
+                        }
+                    }
+                }
+            },
+            "LocalSiteFilterSet": {
+                "id": "LocalSiteFilterSet",
+                "description": "LocalSiteFilterSet",
+                "required": [
+                    "LocalSiteFilter"
+                ],
+                "properties": {
+                    "LocalSiteFilter": {
+                        "$ref": "LocalSiteFilter"
+                    }
+                }
+            },
+            "LocalSiteFilterSetReq": {
+                "id": "LocalSiteFilterSetReq",
+                "description": "A LocalSiteFilterSetReq body",
+                "required": [
+                    "LocalSiteFilterSetReq"
+                ],
+                "properties": {
+                    "LocalSiteFilterSetReq": {
+                        "$ref": "LocalSiteFilterSetReq"
+                    }
+                }
+            },
+            "LocalSiteFilter": {
+                "id": "LocalSiteFilter",
+                "description": "LocalSiteFilter",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RemoteSiteFilterSet": {
+                "id": "RemoteSiteFilterSet",
+                "description": "RemoteSiteFilterSet",
+                "required": [
+                    "RemoteSiteFilter"
+                ],
+                "properties": {
+                    "RemoteSiteFilter": {
+                        "$ref": "RemoteSiteFilter"
+                    }
+                }
+            },
+            "RemoteSiteFilterSetReq": {
+                "id": "RemoteSiteFilterSetReq",
+                "description": "A RemoteSiteFilterSetReq body",
+                "required": [
+                    "RemoteSiteFilterSet"
+                ],
+                "properties": {
+                    "RemoteSiteFilterSetReq": {
+                        "$ref": "RemoteSiteFilterSet"
+                    }
+                }
+            },
+            "RemoteSiteFilter": {
+                "id": "RemoteSiteFilter",
+                "description": "RemoteSiteFilter",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NetworkAddressScheme": {
+                "id": "NetworkAddressScheme",
+                "description": "NetworkAddressScheme",
+                "required": [
+                    "UseDNSname",
+                    "UseLANIP",
+                    "EthernetPortEntryID",
+                    "UseNATZoneIP",
+                    "NATZoneEntryname"
+                ],
+                "properties": {
+                    "UseDNSname": {
+                        "type": "boolean"
+                    },
+                    "UseLANIP": {
+                        "type": "string"
+                    },
+                    "EthernetPortEntryID": {
+                        "type": "string"
+                    },
+                    "UseNATZoneIP": {
+                        "type": "string"
+                    },
+                    "NATZoneEntryname": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NetworkAddressSchemeReq": {
+                "id": "NetworkAddressSchemeReq",
+                "description": "A NetworkAddressSchemeReq body",
+                "required": [
+                    "NetworkAddressScheme"
+                ],
+                "properties": {
+                    "NetworkAddressSchemeReq": {
+                        "$ref": "NetworkAddressScheme"
+                    }
+                }
+            },
+            "OutboundNATTable": {
+                "id": "OutboundNATTable",
+                "description": "OutboundNATTable",
+                "required": [
+                    "NATTable"
+                ],
+                "properties": {
+                    "NATTable": {
+                        "$ref": "NATTable"
+                    }
+                }
+            },
+            "NATTable": {
+                "id": "NATTable",
+                "description": "NATTable",
+                "required": [
+                    "NATEntry"
+                ],
+                "properties": {
+                    "NATEntry": {
+                        "$ref": "NATEntry"
+                    }
+                }
+            },
+            "NATEntry": {
+                "id": "NATEntry",
+                "description": "NATEntry",
+                "required": [
+                    "Network",
+                    "TranslatedNetwork",
+                    "Netmask"
+                ],
+                "properties": {
+                    "Network": {
+                        "type": "string"
+                    },
+                    "TranslatedNetwork": {
+                        "type": "string"
+                    },
+                    "Netmask": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SetNATPolicy": {
+                "id": "SetNATPolicy",
+                "description": "Set a NATPolicy request",
+                "required": [
+                    "NATPolicy"
+                ],
+                "properties": {
+                    "NATPolicy": {
+                        "$ref": "SetNATPolicyReq"
+                    }
+                }
+            },
+            "SetNATPolicyReq": {
+                "id": "SetNATPolicyReq",
+                "description": "A basic set NATPolicy request",
+                "required": [
+                    "@active",
+                    "@order",
+					"LocalSiteFilterSet",
+					"RemoteSiteFilterSet",
+					"AdvanceFilterSet",
+					"NetworkAddressScheme",
+					"OutboundNATTable"
+					
+                ],
+                "properties": {
+                    "LocalSiteFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "LocalSiteFilterSet"
+                        }
+                    },
+                    "RemoteSiteFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RemoteSiteFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "AdvanceFilterSet"
+                        }
+                    },
+                    "NetworkAddressScheme": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "NetworkAddressScheme"
+                        }
+                    },
+                    "OutboundNATTable": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "OutboundNATTable"
+                        }
+                    }
+                }
+            },
+            "AddRoutingPolicy": {
+                "id": "AddRoutingPolicy",
+                "description": "add a RoutingPolicy request",
+                "required": [
+                    "AddRoutingPolicy"
+                ],
+                "properties": {
+                    "RoutingPolicy": {
+                        "$ref": "AddRoutingPolicyReq"
+                    }
+                }
+            },
+            "AddRoutingPolicyReq": {
+                "id": "AddRoutingPolicyReq",
+                "description": "A basic add AccessPolicy request",
+                "required": [
+                    "@name",
+                    "SourceFilterSet",
+                    "DestinationFilterSet",
+                    "RelayFilterSet",
+                    "ProfileFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "@name": {
+                        "type": "Location",
+                        "description": ""
+                    },
+                    "SourceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "SourceFilterSet"
+                        }
+                    },
+                    "DestinationFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "DestinationFilterSet"
+                        }
+                    },
+                    "RelayFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RelayFilterSet"
+                        }
+                    },
+                    "ProfileFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "ProfileFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RoutingAdvanceFilterSet"
+                        }
+                    }
+                }
+            },
+            "SourceFilterSet": {
+                "id": "SourceFilterSet",
+                "description": "SourceFilterSet",
+                "required": [
+                    "SourceFilter"
+                ],
+                "properties": {
+                    "SourceFilter": {
+                        "$ref": "SourceFilter"
+                    }
+                }
+            },
+            "SourceFilterSetReq": {
+                "id": "SourceFilterSetReq",
+                "description": "A SourceFilterSetReq body",
+                "required": [
+                    "SourceFilterSet"
+                ],
+                "properties": {
+                    "SourceFilterSetReq": {
+                        "$ref": "SourceFilterSet"
+                    }
+                }
+            },
+            "SourceFilter": {
+                "id": "SourceFilter",
+                "description": "SourceFilter",
+                "required": [
+                   "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DestinationFilterSet": {
+                "id": "DestinationFilterSet",
+                "description": "DestinationFilterSet",
+                "required": [
+                    "DestinationFilter"
+                ],
+                "properties": {
+                    "DestinationFilter": {
+                        "$ref": "DestinationFilter"
+                    }
+                }
+            },
+            "DestinationFilterSetReq": {
+                "id": "DestinationFilterSetReq",
+                "description": "A DestinationFilterSetReq body",
+                "required": [
+                    "DestinationFilterSet"
+                ],
+                "properties": {
+                    "DestinationFilterSetReq": {
+                        "$ref": "DestinationFilterSet"
+                    }
+                }
+            },
+            "DestinationFilter": {
+                "id": "DestinationFilter",
+                "description": "DestinationFilter",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RelayFilterSet": {
+                "id": "RelayFilterSet",
+                "description": "RelayFilterSet",
+                "required": [
+                    "RelayFilter"
+                ],
+                "properties": {
+                    "RelayFilter": {
+                        "$ref": "RelayFilter"
+                    }
+                }
+            },
+            "RelayFilterSetReq": {
+                "id": "RelayFilterSetReq",
+                "description": "A RelayFilterSetReq body",
+                "required": [
+                    "RelayFilterSet"
+                ],
+                "properties": {
+                    "RelayFilterSetReq": {
+                        "$ref": "RelayFilterSet"
+                    }
+                }
+            },
+            "RelayFilter": {
+                "id": "RelayFilter",
+                "description": "RelayFilter",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProfileFilterSet": {
+                "id": "ProfileFilterSet",
+                "description": "ProfileFilterSet",
+                "required": [
+                    "ProfileFilter"
+                ],
+                "properties": {
+                    "ProfileFilter": {
+                        "$ref": "ProfileFilter"
+                    }
+                }
+            },
+            "ProfileFilterSetReq": {
+                "id": "ProfileFilterSetReq",
+                "description": "A ProfileFilterSetReq body",
+                "required": [
+                    "ProfileFilterSet"
+                ],
+                "properties": {
+                    "ProfileFilterSetReq": {
+                        "$ref": "ProfileFilterSet"
+                    }
+                }
+            },
+            "ProfileFilter": {
+                "id": "ProfileFilter",
+                "description": "ProfileFilter",
+                "required": [
+                    "@filterNID"
+                ],
+                "properties": {
+                    "@filterNID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SetRoutingPolicy": {
+                "id": "SetRoutingPolicy",
+                "description": "Set a RoutingPolicy request",
+                "required": [
+                    "RoutingPolicy"
+                ],
+                "properties": {
+                    "RoutingPolicy": {
+                        "$ref": "SetRoutingPolicyReq"
+                    }
+                }
+            },
+            "SetRoutingPolicyReq": {
+                "id": "SetRoutingPolicyReq",
+                "description": "A basic set RoutingPolicy request",
+                "required": [
+                    "SourceFilterSet",
+                    "DestinationFilterSet",
+                    "RelayFilterSet",
+                    "ProfileFilterSet",
+                    "AdvanceFilterSet"
+                ],
+                "properties": {
+                    "SourceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "SourceFilterSet"
+                        }
+                    },
+                    "DestinationFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "DestinationFilterSet"
+                        }
+                    },
+                    "RelayFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RelayFilterSet"
+                        }
+                    },
+                    "ProfileFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "ProfileFilterSet"
+                        }
+                    },
+                    "AdvanceFilterSet": {
+                        "type": "string",
+                        "items": {
+                            "$ref": "RoutingAdvanceFilterSet"
+                        }
+                    }
+                }
+            }
+        }
+        
+}

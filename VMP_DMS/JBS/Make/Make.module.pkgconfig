@@ -1,0 +1,58 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.pkgconfig
+###
+### Description:	Provides functions to be used in Make.target files.
+###
+###############################################################################
+
+target-pkgdep		:=	$(strip $(target-pkgdep))
+
+ifneq "$(target-pkgdep)" ""
+
+target-test		+=	$(call fn-cfg-test-program,pkg-config)
+target-test		+=	$(call fn-cfg-test-pkg-exists,$(target-pkgdep))
+target-depfail		+=	$(call fn-cfg-ret-program-miss,pkg-config)
+target-depfail		+=	$(call fn-cfg-ret-pkg-miss,$(target-pkgdep))
+target-cstring		+=	$(shell pkg-config --cflags --silence-errors $(target-pkgdep))
+target-cxxstring	+=	$(shell pkg-config --cflags --silence-errors $(target-pkgdep))
+target-linkstring	+=	$(shell pkg-config --libs --silence-errors $(target-pkgdep))
+
+endif
+
+###############################################################################
+
+target-pkgver		:=	$(strip $(target-pkgver))
+
+ifneq "$(target-pkgver)" ""
+
+target-ver		:=	$(shell pkg-config --modversion $(target-pkgver))
+
+endif
+
+###############################################################################
+

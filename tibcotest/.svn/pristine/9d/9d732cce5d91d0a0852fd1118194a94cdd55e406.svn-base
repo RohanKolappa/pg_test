@@ -1,0 +1,297 @@
+<query>
+   <![CDATA["
+declare function local:getTemplateList( $parent as element()*)
+as element()* 
+{ 
+	 let $WebClientList := ( 
+	 for $b in #OBJ_AssetResource_OBJ# 
+	   where $b//TemplateAssetResourceNID=$parent/@NID 
+	   order by _SORTXPATH_ _SORTORDER_   
+	   return
+	   <record  
+			jsxid='{ data($b/@NID) }'  
+			jsxtext='{ data($b/Info/Title) }'
+			jsxTemplateAssetResourceNID='{ data($b/TemplateAssetResourceNID) }'  
+			assetType='{if ( data($b/Info/Type)  = 'V2D-Tx-Device') 
+						 then 'V2D(Tx) Encoder' else
+			            if ( data($b/Info/Type)  = 'ORB-500-Device') 
+						       then 'OneRoom(500)' else
+						if ( data($b/Info/Type)  = 'V2D-Rx-Device')
+						 then 'V2D(Rx) Decoder' else 
+						if ( data($b/Info/Type)  = 'V2D-XP200-Device')
+						 then 'V2D(XP200)' else
+						if ( data($b/Info/Type)  = 'V2D-XP200S-Device')
+							 then 'V2D(XP200S)' else
+						if ( data($b/Info/Type)  = 'V2D-XP220-Device')
+							 then 'V2D(XP220)' else
+						if ( data($b/Info/Type)  = 'V2D-XP220S-Device')
+							 then 'V2D(XP220S)' else
+						if ( data($b/Info/Type)  = 'V2D-XP100-Device')
+						 then 'V2D(XP100)' else
+                        if ( data($b/Info/Type)  = 'V2D-XPi-Device')
+						 then 'NGS-D200' else
+						if ( data($b/Info/Type)  = 'DMS-100-Device')
+						 then 'DMS(100) Media Server' else                                                             
+						if ( data($b/Info/Type)  = 'DMS-200-Device') 
+						 then 'DMS(200) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-1000-Device') 
+						 then 'DMS(1000) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-1200-Device') 
+						 then 'DMS(1200) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-1500-Device') 
+						 then 'DMS(1500) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-1600-Device') 
+						 then 'DMS(1600) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-1700-Device') 
+						 then 'DMS(1700) Media Server' else 
+						if ( data($b/Info/Type)  = 'DMS-25-Device') 
+						 then 'DMS(25) Media Server' else 
+						if ( data($b/Info/Type)  = 'MS-25-Device') 
+						 then 'Management Server(25)' else 
+						if ( data($b/Info/Type)  = 'MS-Device') 
+						 then 'Management Server(100)' else 
+						if ( data($b/Info/Type)  = 'Template') 
+						 then 'Dynamic Client Template' else 
+						if ( data($b/Info/Type)  = 'IPVS-MgmtClient') 
+						 then 'Media Client' else                                                                                                    
+						if ( data($b/Info/Type)  = 'WebClient-Device') 
+						 then 'Web Client' else 
+						if ( data($b/Info/Type)  = 'Proxy-Device') 
+						 then 'Proxy Client' else 
+						if ( data($b/Info/Type)  = 'IPVSClient-Device') 
+						 then 'Media Client' else 
+						if ( data($b/Info/Type)  = 'MPEGTS-Tx-Device')
+						 then 'MPEGTS(Tx) Encoder' else 
+						if ( data($b/Info/Type)  = 'MPEGTS-Rx-Device')
+						 then 'MPEGTS(Rx) Decoder' else 
+						if ( data($b/Info/Type)  = 'RTP-Tx-Device') 
+						 then 'RTP(Tx) Encoder' else 
+						if ( data($b/Info/Type)  = 'RTP-Rx-Device')
+						 then 'RTP(Rx) Decoder' else
+						if ( data($b/Info/Type)  = 'UDP-Tx-Device')
+						 then 'UDP(Tx) Encoder' else
+						if ( data($b/Info/Type)  = 'UDP-Rx-Device')
+						 then 'UDP(Rx) Decoder' else '' 
+					   }'  
+			assetTypeOrginal='{ data($b/Info/Type) }' 
+      assetStatus='{ data($b//State/StateFlag)  }' 
+			jsximgDeviceStatus='{if ( data($b//State/StateFlag)  = 'Ready') 
+                             then 'images/icons/icon_greenball.png' else 
+                            if ( data($b//State/StateFlag)  = 'NotReady')  
+                             then 'images/icons/icon_redball.png' else 
+                            if ( data($b//State/StateFlag)  = 'Offline')  
+                             then 'images/icons/icon_grayball.png' else
+                            if ( data($b//State/StateFlag)  = 'Template')  
+                             then 'images/icons/icon_grayball.png' else  
+                            if ( data($b//State/StateFlag)  = 'NeedsUpgrade')  
+                             then 'images/icons/icon_greenball.png' else  
+                            if ( data($b//State/StateFlag)  = 'Unmanaged')
+                             then 'images/icons/icon_grayball.png' else ''  
+                           }'                                                    
+      assetMSStatus=''
+      assetMSStatusOriginal=''
+			assetStatusOrginal='{ data($b//State/StateFlag)  }'
+			assetDescription='{ data($b/Info/Description) }'  
+			assetContactOwnerJID='{ data($b//Contact/OwnerUserJID) }' 
+      deviceHAStatus=''  
+			deviceCPU=''  
+			deviceUptime=''  
+			deviceMemory=''  
+			deviceDisk=''  
+			deviceSWVersion=''  
+			deviceFWVersion=''  
+			deviceNTPClient=''  
+			deviceConnection=''   
+		> 
+			{
+			for $tag in distinct-values($b//Tag/@Name)
+			return 
+			attribute {  concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Info/Groups/Tag[@Name=$tag]/@Value)  }   
+			}
+		</record> 
+	 ) 
+	 return $WebClientList 
+}; 
+
+
+
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+let $temp := '_MSSOFTWARE_'
+let $list2 := for $b in #OBJ_AssetResource_OBJ# 
+where $b[//TemplateAssetResourceNID='' or //TemplateAssetResourceNID='TEMPLATE'] 
+and $b_WHEREXPATH_ 
+order by _SORTXPATH_  _SORTORDER_   
+return $b  
+let $list3 := subsequence($list2, $startFrom, $countToFetch)
+let $serviceResource := for $b in #OBJ_ServiceResource_OBJ# return $b 
+let $list := for $b in  $list3 
+let $cur_asset_nid := data($b/@NID)
+let $deviceDoc := for $b in #OBJ_Device_OBJ#  where $b/AssetResourceNID=$cur_asset_nid return $b
+return 
+<record  
+	jsxid='{ data($b/@NID) }'  
+	jsxtext='{ data($b/Info/Title) }'
+	jsxAssetFeature='{ data($b/Info/FeatureList/Feature) }'
+	jsxTemplateAssetResourceNID='{ data($b/TemplateAssetResourceNID) }'  
+	assetType='{if ( data($b/Info/Type)  = 'V2D-Tx-Device') 
+				 then 'V2D(Tx) Encoder' else
+	            if ( data($b/Info/Type)  = 'ORB-500-Device') 
+						   then 'OneRoom(500)' else
+				if ( data($b/Info/Type)  = 'V2D-Rx-Device')
+				 then 'V2D(Rx) Decoder' else 
+				if ( data($b/Info/Type)  = 'V2D-XP200-Device')
+				 then 'V2D(XP200)' else
+				if ( data($b/Info/Type)  = 'V2D-XP200S-Device')
+					 then 'V2D(XP200S)' else
+				if ( data($b/Info/Type)  = 'V2D-XP220-Device')
+					 then 'V2D(XP220)' else
+				if ( data($b/Info/Type)  = 'V2D-XP220S-Device')
+					 then 'V2D(XP220S)' else
+				if ( data($b/Info/Type)  = 'V2D-XP100-Device')
+					 then 'V2D(XP100)' else
+                if ( data($b/Info/Type)  = 'V2D-XPi-Device')
+					 then 'NGS-D200' else                     
+				if ( data($b/Info/Type)  = 'DMS-100-Device')
+				 then 'DMS(100) Media Server' else                                                             
+				if ( data($b/Info/Type)  = 'DMS-200-Device') 
+				 then 'DMS(200) Media Server' else 
+				if ( data($b/Info/Type)  = 'DMS-1000-Device') 
+				 then 'DMS(1000) Media Server' else 
+				if ( data($b/Info/Type)  = 'DMS-1200-Device') 
+				 then 'DMS(1200) Media Server' else 
+				if ( data($b/Info/Type)  = 'DMS-1500-Device') 
+				 then 'DMS(1500) Media Server' else
+				if ( data($b/Info/Type)  = 'DMS-1600-Device') 
+				 then 'DMS(1600) Media Server' else
+				if ( data($b/Info/Type)  = 'DMS-1700-Device') 
+				 then 'DMS(1700) Media Server' else
+				if ( data($b/Info/Type)  = 'DMS-25-Device') 
+				 then 'DMS(25) Media Server' else 
+				if ( data($b/Info/Type)  = 'MS-25-Device') 
+				 then 'Management Server(25)' else 
+				if ( data($b/Info/Type)  = 'MS-Device') 
+				 then 'Management Server(100)' else 
+				if ( data($b/Info/Type)  = 'Template') 
+				 then 'Dynamic Client Template' else 
+				if ( data($b/Info/Type)  = 'IPVS-MgmtClient') 
+				 then 'Media Client' else                                                                                                            
+				if ( data($b/Info/Type)  = 'WebClient-Device') 
+				 then 'Web Client' else 
+				if ( data($b/Info/Type)  = 'Proxy-Device') 
+				 then 'Proxy Client' else 
+				if ( data($b/Info/Type)  = 'IPVSClient-Device') 
+				 then 'Media Client' else 
+				if ( data($b/Info/Type)  = 'MPEGTS-Tx-Device')
+				 then 'MPEGTS(Tx) Encoder' else 
+				if ( data($b/Info/Type)  = 'MPEGTS-Rx-Device')
+				 then 'MPEGTS(Rx) Decoder' else 
+				if ( data($b/Info/Type)  = 'RTP-Tx-Device') 
+				 then 'RTP(Tx) Encoder' else 
+				if ( data($b/Info/Type)  = 'RTP-Rx-Device')
+				 then 'RTP(Rx) Decoder' else
+				if ( data($b/Info/Type)  = 'UDP-Tx-Device')
+				 then 'UDP(Tx) Encoder' else
+				if ( data($b/Info/Type)  = 'UDP-Rx-Device')
+				 then 'UDP(Rx) Decoder' else '' 
+			   }'  
+	assetTypeOrginal='{ data($b/Info/Type) }'  
+  assetStatus='{if ( (data($b//State/StateFlag)='Ready') and ($deviceDoc/DeviceStatus[@State='FAILED']) ) then 
+                  'FAILED' 
+                else if ( (data($b//State/StateFlag)='NeedsUpgrade') and ($deviceDoc/DeviceStatus[@State='FAILED']) ) then 
+                  'FAILED' 
+                else if ( data($b//State/StateFlag)='NeedsUpgrade') then 
+                  'UPGRADE' 
+                else
+						      data($b//State/StateFlag)  
+						 }' 
+  jsximgDeviceStatus='{if ( (data($b//State/StateFlag)='Ready') and ($deviceDoc/DeviceStatus[@State='OK'])) then 
+                          'images/icons/icon_greenBall.png' 
+                        else if ( (data($b//State/StateFlag)='Ready') and ($deviceDoc/DeviceStatus[@State='ERRORS']) ) then 
+                          'images/icons/icon_orangeBall.png'
+                        else if ( (data($b//State/StateFlag)='Ready') and ($deviceDoc/DeviceStatus[@State='FAILED'] )) then 
+                          'images/icons/icon_redBall.png'
+                        else if ( (data($b//State/StateFlag)='NeedsUpgrade') and ($deviceDoc/DeviceStatus[@State='OK'] )) then 
+                          'images/icons/icon_greenBall.png' 
+                        else if ( (data($b//State/StateFlag)='NeedsUpgrade') and ($deviceDoc/DeviceStatus[@State='ERRORS'] )) then 
+                          'images/icons/icon_orangeBall.png'
+                        else if ( (data($b//State/StateFlag)='NeedsUpgrade') and ($deviceDoc/DeviceStatus[@State='FAILED'])) then 
+                          'images/icons/icon_redBall.png'                           
+                        else if ( data($b//State/StateFlag)='NotReady') then 
+                          'images/icons/icon_redBall.png'  
+                        else if ( data($b//State/StateFlag)='Offline')  then  
+                          'images/icons/icon_grayBall.png' 
+                        else if ( data($b//State/StateFlag)='Template')  then
+                          'images/icons/icon_grayBall.png'   
+                        else if ( data($b//State/StateFlag)='Unmanaged')  then
+                          'images/icons/icon_grayBall.png' 
+                        else 'images/icons/icon_whiteBall.png'  
+                       }'                                             
+  assetMSStatus='{if($serviceResource/HA/Primary[@MSAssetResourceNID=$cur_asset_nid and @state='active'] ) then 
+                    'images/icons/icon_primary_active.png'
+                  else if($serviceResource/HA/Primary[@MSAssetResourceNID=$cur_asset_nid and @state='standby'] ) then 
+                    'images/icons/icon_primary_standby.png'
+                  else if($serviceResource/HA/Secondary[@MSAssetResourceNID=$cur_asset_nid and @state='active'] ) then 
+                    'images/icons/icon_secondary_active.png'
+                  else if($serviceResource/HA/Secondary[@MSAssetResourceNID=$cur_asset_nid and @state='standby'] ) then 
+                    'images/icons/icon_secondary_standby.png'
+                  else if($serviceResource/AssetResourceNID=$cur_asset_nid) then 
+                    'images/icons/icon_standalone_active.png'
+                  else ''
+					      }'
+  assetMSStatusOriginal='{if($serviceResource/HA/Primary[@MSAssetResourceNID=$cur_asset_nid and @state='active'] ) then 
+                            'primary-active'
+                          else if($serviceResource/HA/Primary[@MSAssetResourceNID=$cur_asset_nid and @state='standby'] ) then 
+                            'primary-standby'
+                          else if($serviceResource/HA/Secondary[@MSAssetResourceNID=$cur_asset_nid and @state='active'] ) then 
+                            'secondary-active'
+                          else if($serviceResource/HA/Secondary[@MSAssetResourceNID=$cur_asset_nid and @state='standby'] ) then 
+                            'secondary-standby'
+                          else if($serviceResource/AssetResourceNID=$cur_asset_nid) then 
+                            'standalone'
+                          else ''
+					              }'    
+	assetStatusOrginal='{ data($b//State/StateFlag)  }'
+	assetDescription='{ data($b/Info/Description) }'  
+	assetContactOwnerJID='{ data($b//Contact/OwnerUserJID) }'
+  deviceHAStatus=''   
+	deviceCPU=''  
+	deviceUptime=''  
+	deviceMemory=''  
+	deviceDisk =''
+	deviceSWVersion='{if($temp = data($deviceDoc/DeviceStatus/SystemElementsStatus/SoftwareImageStatus/Parameters/Parameter[@name='Version']))then
+	                     data($deviceDoc/DeviceStatus/SystemElementsStatus/SoftwareImageStatus/Parameters/Parameter[@name='Version'])
+	                  else if(data($b//State/StateFlag)  = 'Unmanaged' or data($b//State/StateFlag)  = 'Template' or data($b/Info/Type)  = 'Proxy-Device')then
+	                     ''
+	                  else if(data($deviceDoc/DeviceStatus/SystemElementsStatus/SoftwareImageStatus/Parameters/Parameter[@name='Version']) = '')then
+	                     ''
+	                  else
+	                    '&lt;span class=''swUpgrade''&gt;upgrade&lt;/span&gt;'
+	                  }'
+	deviceFWVersion=''  
+	deviceNTPClient=''  
+	deviceConnection=''   
+> 
+	{
+	for $tag in distinct-values($b//Tag/@Name)
+	return 
+	attribute { concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Info/Groups/Tag[@Name=$tag]/@Value)  }   
+	}
+
+	{
+	 if ($b//TemplateAssetResourceNID='TEMPLATE') then 
+		local:getTemplateList ($b) 	  
+	 else ''
+	}
+</record> 
+
+
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

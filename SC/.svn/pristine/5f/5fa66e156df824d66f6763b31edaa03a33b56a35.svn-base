@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="SCApplication"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="*"
+            thread="any"
+            visible="true">
+         <run
+               class="com.barco.nimbus.equinox.app.SCApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="SCApplication"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.barco.nimbus.equinox.app.SCApplication"
+            name="com.barco.nimbus.main">
+         <property
+               name="appName"
+               value="com.barco.nimbus.main">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

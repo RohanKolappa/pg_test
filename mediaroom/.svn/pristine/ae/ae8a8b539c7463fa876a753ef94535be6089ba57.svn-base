@@ -1,0 +1,15 @@
+declare function local:getList()
+as element()*
+{
+        let $list1 :=
+                 for $b in collection('ipvs.default.mediastreamfileresourcelist')
+                        where $b _XPATH_
+                        order by $b
+                        return <file>{$b//MediaStoreFileInfo/@MediaStoreFile-Rev}</file>
+        return $list1
+};
+
+
+let $list1 := local:getList()
+let $list2 := <filelist>{$list1}</filelist>
+return max($list2//file/@MediaStoreFile-Rev[.!=''])  

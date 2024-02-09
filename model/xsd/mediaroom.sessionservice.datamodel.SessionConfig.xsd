@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:include schemaLocation="mediaroom.sessionservice.datamodel.SessionConfig.public.xsd" />
+  <xs:element name="SessionConfigList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="SessionConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SessionConfig" type="SessionConfigType" />
+  <xs:complexType name="SessionConfigType">
+    <xs:all>
+      <xs:element name="Properties" type="PropertiesType" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Metadata" type="MetaDataType" />
+      <xs:element name="Settings" type="SessionSettingsType" />
+      <xs:element name="SessionInfo" type="SessionInfoType" />
+    </xs:all>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="SessionSettingsType">
+    <xs:sequence>
+      <xs:element name="PVR">
+        <xs:complexType>
+          <xs:attribute name="enable" type="xs:boolean" />
+          <xs:attribute name="trimLength" type="xs:int" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Record">
+        <xs:complexType>
+          <xs:attribute name="autoStart" type="xs:boolean" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Playback">
+        <xs:complexType>
+          <xs:attribute name="recSessionConfigNID" type="xs:string" />
+          <xs:attribute name="recVersion" type="RecVersionEnumType" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="RecVersionEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEFAULT" />
+      <xs:enumeration value="LATEST" />
+      <xs:enumeration value="ADHOC" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="SrcPort" type="SrcPortEntityType" />
+  <xs:complexType name="SrcPortEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element minOccurs="0" name="PVR" type="EntityPVRType" />
+    </xs:sequence>
+    <xs:attribute fixed="SrcPort" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="DstPort" type="DstPortEntityType" />
+  <xs:complexType name="DstPortEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element minOccurs="0" name="PVR" type="EntityPVRType" />
+    </xs:sequence>
+    <xs:attribute fixed="DstPort" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="RlyPort" type="RlyPortEntityType" />
+  <xs:complexType name="RlyPortEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+    </xs:sequence>
+    <xs:attribute fixed="RlyPort" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="RecFile" type="RecFileEntityType" />
+  <xs:complexType name="RecFileEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element name="File" type="RecFileEntityFileType" />
+    </xs:sequence>
+    <xs:attribute fixed="RecFile" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="PlyFile" type="PlyFileEntityType" />
+  <xs:complexType name="PlyFileEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element name="File" type="PlyFileEntityFileType" />
+    </xs:sequence>
+    <xs:attribute fixed="PlyFile" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="PVRFile" type="PVRFileEntityType" />
+  <xs:complexType name="PVRFileEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element name="File" type="PVRFileEntityFileType" />
+    </xs:sequence>
+    <xs:attribute fixed="PVRFile" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:element name="Participant" type="ParticipantEntityType" />
+  <xs:complexType name="ParticipantEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Chat" type="EntityAssetType" />
+      <xs:element minOccurs="0" name="AuthCtrl" type="EntityAssetType" />
+      <xs:element minOccurs="0" name="MediaCtrl" type="EntityAssetType" />
+    </xs:sequence>
+    <xs:attribute fixed="Participant" name="type" type="EntityTypeEnumType" use="required" />
+  </xs:complexType>
+  <xs:complexType name="RecFileEntityFileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="EntityFileType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PlyFileEntityFileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="EntityFileType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PVRFileEntityFileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="EntityFileType">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AuthType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="authEntityId" type="xs:string" />
+    <xs:attribute name="state" type="AuthStateEnumType" />
+  </xs:complexType>
+</xs:schema>

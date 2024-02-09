@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Request" type="RequestType" />
+  <xs:complexType name="RequestType">
+    <xs:sequence>
+      <xs:element name="header" type="RequestHeaderType" />
+      <xs:element name="data">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+  </xs:complexType>
+  <xs:complexType name="RequestHeaderType">
+    <xs:sequence>
+      <xs:element name="servicename" type="xs:string" />
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="loglevel" type="xs:int" />
+      <xs:element name="clientdata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Response" type="ResponseType" />
+  <xs:complexType name="ResponseType">
+    <xs:sequence>
+      <xs:element name="header" type="ResponseHeaderType" />
+      <xs:element name="data" type="xs:anyType" />
+      <xs:element name="log" type="xs:anyType" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ResponseHeaderType">
+    <xs:sequence>
+      <xs:element name="servicename" type="xs:string" />
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="userJID" type="xs:string" />
+      <xs:element name="requestNID" type="xs:string" />
+      <xs:element name="state" type="xs:int" />
+      <xs:element name="clientdata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element name="Code" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="GetRequest" type="GetRequestType" />
+  <xs:complexType name="GetRequestType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RequestID" type="xs:string" />
+      <xs:element minOccurs="0" name="NID" type="xs:string" />
+      <xs:element minOccurs="0" name="PathSpec" type="GetPathSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetPathSpecType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Where">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="XQueryPrefix" type="xs:string" />
+            <xs:element name="WhereXPath" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="Select">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="ListSpec">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="StartFrom" type="xs:int" />
+                  <xs:element name="CountToFetch" type="xs:int" />
+			      <xs:element minOccurs="0"  name="SortOrder" type="xs:string" />
+			      <xs:element minOccurs="0" name="SortByXPathList">
+			        <xs:complexType>
+			          <xs:sequence>
+			            <xs:element maxOccurs="unbounded" name="SortByXpath" type="xs:string"/>
+			          </xs:sequence>
+			        </xs:complexType>
+			      </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="ItemSpec">
+              <xs:complexType>
+			    <xs:choice>
+					<xs:element name="SelectXML" type="xs:string" />	
+			        <xs:element name="SelectXQuery" type="xs:string" />    
+			    </xs:choice>              
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetResponseType">
+    <xs:sequence>
+	  <xs:element minOccurs="0" name="ResponseID" type="xs:string" />
+      <xs:element minOccurs="0" name="GetListObjectResponseData">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ObjectCount" type="xs:int" />
+            <xs:element name="ObjectLastWhereEndCount" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="ReadQueryRequest" type="ReadQueryRequestType" />
+  <xs:complexType name="ReadQueryRequestType">
+	<xs:sequence>
+	  <xs:element minOccurs="0" name="RequestID" type="xs:string" />
+      <xs:element name="Query" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="ReadQueryResponse" type="ReadQueryResponseType" />
+  <xs:complexType name="ReadQueryResponseType">
+    <xs:sequence>
+	  <xs:element minOccurs="0" name="ResponseID" type="xs:string" />
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="QueryRequestType">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:complexType name="QueryResponseType">
+    <xs:sequence>
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>  
+  <xs:element name="AddRequest" type="AddRequestType" />
+  <xs:complexType name="AddRequestType">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RequestID" type="xs:string" />
+        <xs:element minOccurs="0" name="ParentNID" type="xs:string" />
+        <xs:element minOccurs="0" name="ParentPathSpec" type="UpdatePathSpecType" />
+      </xs:sequence>
+      <xs:element name="OperationData" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AddResponseType">
+    <xs:sequence>
+	  <xs:element minOccurs="0" name="ResponseID" type="xs:string" />
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeleteRequest" type="DeleteRequestType" />
+  <xs:complexType name="DeleteRequestType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RequestID" type="xs:string" />
+      <xs:element minOccurs="0" name="NID" type="xs:string" />
+      <xs:element minOccurs="0" name="PathSpec" type="UpdatePathSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeleteResponseType">
+    <xs:sequence>
+	  <xs:element minOccurs="0" name="ResponseID" type="xs:string" />
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReplaceRequest" type="ReplaceRequestType" />
+  <xs:complexType name="ReplaceRequestType">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RequestID" type="xs:string" />
+        <xs:element minOccurs="0" name="NID" type="xs:string" />
+        <xs:element minOccurs="0" name="PathSpec" type="UpdatePathSpecType" />
+      </xs:sequence>
+      <xs:element name="OperationData" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReplaceResponseType">
+    <xs:sequence>
+	  <xs:element minOccurs="0" name="ResponseID" type="xs:string" />
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdatePathSpecType">
+    <xs:sequence>
+      <xs:element name="Where">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="XQueryPrefix" type="xs:string" />
+            <xs:element name="WhereXPath" type="xs:string" />          
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="In">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ChildXPath" type="xs:string" />             
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirStateMachine>
+<Transition beginstate="READY" transition="DETACH_REQUEST_OK" endstate="GETTING_SEND_PATH" action="GET_SEND_PATH"/>
+<Transition beginstate="GETTING_SEND_PATH" transition="GET_SEND_PATH_OK" endstate="EXTRACTING" action="EXTRACT"/>
+<Transition beginstate="EXTRACTING" transition="EXTRACT_OK" endstate="SENDING_FILE" action="SEND_FILE"/>
+<Transition beginstate="SENDING_FILE" transition="SEND_FILE_OK" endstate="DETACHING" action="DETACH"/>
+<Transition beginstate="DETACHING" transition="DETACH_OK" endstate="DETACHED" action="SEND_DETACH_RESPONSE"/>
+
+<Transition beginstate="GETTING_SEND_PATH" transition="GET_SEND_PATH_ERROR" endstate="READY" action="SEND_DETACH_ERROR"/>
+<Transition beginstate="EXTRACTING" transition="EXTRACT_ERROR" endstate="READY" action="SEND_DETACH_ERROR"/>
+<Transition beginstate="SENDING_FILE" transition="SEND_FILE_ERROR" endstate="READY" action="SEND_DETACH_ERROR"/>
+<Transition beginstate="DETACHING" transition="DETACH_ERROR" endstate="READY" action="SEND_DETACH_ERROR"/>
+
+
+<Transition beginstate="DETACHED" transition="ATTACH_REQUEST_OK" endstate="GETTING_RECEIVE_PATH" action="GET_RECEIVE_PATH"/>
+<Transition beginstate="GETTING_RECEIVE_PATH" transition="GET_RECEIVE_PATH_OK" endstate="RECEIVING_FILE" action="RECEIVE_FILE"/>
+<Transition beginstate="RECEIVING_FILE" transition="RECEIVE_FILE_OK" endstate="UPDATING" action="UPDATE"/>
+<Transition beginstate="UPDATING" transition="UPDATE_OK" endstate="READY" action="SEND_ATTACH_RESPONSE"/>
+
+<Transition beginstate="GETTING_RECEIVE_PATH" transition="GET_RECEIVE_PATH_ERROR" endstate="DETACHED" action="SEND_ATTACH_ERROR"/>
+<Transition beginstate="RECEIVING_FILE" transition="RECEIVE_ERROR" endstate="DETACHED" action="SEND_ATTACH_ERROR"/>
+<Transition beginstate="UPDATING" transition="UPDATE_ERROR" endstate="DETACHED" action="SEND_ATTACH_ERROR"/>
+
+</DirStateMachine>

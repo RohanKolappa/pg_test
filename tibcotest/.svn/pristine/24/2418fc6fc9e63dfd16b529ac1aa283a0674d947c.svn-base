@@ -1,0 +1,8 @@
+<query>
+   <![CDATA["
+let $profileType := '_PROFILETYPE_'
+let $profileDoc  := for $b in #OBJ_MediaStreamProfile_OBJ# where $b//StreamType=$profileType return $b
+
+return <result> <data jsxid='jsxroot'> <record>{$profileDoc}</record> </data></result>
+"]]>
+</query>

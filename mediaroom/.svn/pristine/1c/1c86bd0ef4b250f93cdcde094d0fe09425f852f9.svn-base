@@ -1,0 +1,64 @@
+(: #include XQueryLib.xml :)
+
+(: ------------------- Begin MediaRoomPolicyLib.xml -------------------- :)
+
+(: Convert the given policy into xPath format :)
+declare function local:getMediaRoomPolicyRule($connectionPolicyRule as element()*) as element()* {
+	  let $operatorXpath := local:getOperatorXpath($connectionPolicyRule/ServiceOperatorFilterSet)
+	  let $sourceXpath := local:getSrcOrDstFilterXpath($connectionPolicyRule//SrcFilter)
+	  let $destinationXpath := local:getSrcOrDstFilterXpath($connectionPolicyRule//DstFilter)	
+	  let $sourceRuleKeyList := local:getSrcRuleKeyList($connectionPolicyRule/RuleKeyTagFilterSet)	
+	  let $dstRuleKeyList := local:getDstRuleKeyList($connectionPolicyRule/RuleKeyTagFilterSet)	
+	  return <PolicyRule>
+	        <RuleName> {data($connectionPolicyRule//rulename)} </RuleName> 
+    		 {$connectionPolicyRule//ExternalCondition}
+			<OperatorXpath> {$operatorXpath} </OperatorXpath> 	
+			<SourceXpath> {$sourceXpath} </SourceXpath>
+			<DestinationXpath> {$destinationXpath} </DestinationXpath>
+			<RoleList> {$connectionPolicyRule//MediaRoomObjectRole} </RoleList> 
+			<RuleKeyList>
+			     {$sourceRuleKeyList}
+				{$dstRuleKeyList}
+			</RuleKeyList>			  
+		   </PolicyRule>
+};
+
+
+(: Returns the list of target rule key xpath.
+   if the rule key contains the Enum as MEDIAROOM_RULE_STREAM_SRC_RESOURCE return list else return empty :)
+declare function local:getSrcRuleKeyList($ruleKeyFilterSet as element()*)
+as element()*
+{
+	let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	let $resourceRuleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,'Resource')
+    let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_SRC_USER'
+	let $userRuleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,'User')
+
+	return <SrcRuleKeyList> { $resourceRuleKeyXpath }{ $userRuleKeyXpath } </SrcRuleKeyList>
+
+}; 
+
+(: Returns the list of target rule key xpath.
+   if the rule key contains the Enum as MEDIAROOM_RULE_STREAM_DST_RESOURCE return list else return empty :)
+declare function local:getDstRuleKeyList($ruleKeyFilterSet as element()*)
+as element()*
+{
+	let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+	let $resourceRuleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,'Resource')
+	let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_DST_USER'
+	let $userRuleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,'User')
+	return <DstRuleKeyList> { $resourceRuleKeyXpath }{ $userRuleKeyXpath }</DstRuleKeyList>
+};
+
+
+
+(: ------------------- End MediaRoomPolicyLib.xml -------------------- :)
+
+
+let $mediaroomPolicyRuleAfterConvertingintoXpath := ( 
+	    for $policyRule in collection('/db/ipvs.default.mediaroompolicyrulelist')/*[(@parentNID='default.mediaroompolicyrulelist')]  
+	    where $policyRule/valid = "true"
+	    order by $policyRule/order	
+		return <MediaRoomPolicyRule> {local:getMediaRoomPolicyRule($policyRule)}</MediaRoomPolicyRule> 
+	)
+return <MediaRoomPolicyRuleList>{$mediaroomPolicyRuleAfterConvertingintoXpath}</MediaRoomPolicyRuleList>

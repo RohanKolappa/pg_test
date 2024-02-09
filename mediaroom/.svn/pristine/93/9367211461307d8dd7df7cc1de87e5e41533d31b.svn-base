@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+	lastActionTimedOut 
+	export:	state = queued, ready, export_db, export_dbFileTransfer, export_pack, export_fileTransfer  
+	import: state = queued, ready, import_fileTransfer, import_unpack, import_dbFileTransfer, import_db, ready
+	on error = go to ready and process next in queue on resume start from prev place 
+	-->
+	<!-- on every request to handle add export / import -->
+ 
+<FileStateMachine>
+	  <!--  queue  -->		
+ 	  <Transition  
+		    beginstate="queued"  transition="queue_trans_ok"
+		    action="handle_ready" 
+		    endstate="ready" />
+	  <Transition  
+		    beginstate="queued"  transition="queue_trans_error"
+		    action="handle_ready" 
+		    endstate="ready" />
+	  <Transition  
+		    beginstate="queued"  transition="queue_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />
+	 <Transition  
+			beginstate="completed"  transition="completed_trans_resume"
+			action="handle_completed"  
+			endstate="completed" />		
+	   
+	   <!-- EXPORT  -->
+ 	   <Transition  
+		    beginstate="queued"  transition="ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />	  
+ 	   <Transition  
+		    beginstate="ready"  transition="ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />	  
+	   <Transition  
+		    beginstate="ready"  transition="export_ready_trans_ok"
+		    action="handle_export_pack" 
+		    endstate="export_pack" />
+		<Transition 
+			beginstate="export_pack" transition="export_pack_trans_ok"  
+			action="handle_export_fileTransfer"  
+			endstate="export_fileTransfer" />   
+			
+		<Transition  
+			beginstate="export_fileTransfer"  transition="export_fileTransfer_trans_ok"
+			action="handle_completed"  
+			endstate="completed" />
+		<!-- IMPORT -->	
+  		<Transition  
+		    beginstate="ready"  transition="import_ready_trans_ok"
+		    action="handle_import_fileTransfer" 
+		    endstate="import_fileTransfer" />	
+		<Transition  
+			beginstate="import_fileTransfer" transition="import_fileTransfer_trans_ok"  
+			action="handle_import_unpack"  
+			endstate="import_unpack" />
+			<Transition  
+			beginstate="import_fileTransfer" transition="import_unpack_trans_ok"  
+			action="handle_completed"  
+			endstate="completed" />	
+	   
+		<!-- <Transition  
+			beginstate="import_fileTransfer" transition="import_unpack_trans_ok"  
+			action="handle_unpack_recvd"  
+			endstate="unpack_recvd" />			    
+		<Transition  
+			beginstate="unpack_recvd" transition="import_fileTransfer_trans_ok"  
+			action="handle_completed"  
+			endstate="completed" />  -->
+		<Transition  
+			beginstate="import_unpack" transition="import_unpack_trans_ok"  
+			action="handle_completed"  
+			endstate="completed" />
+			
+			
+		<!-- OFFLOAD  -->
+ 	   <Transition  
+		    beginstate="queued"  transition="ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />	  
+ 	   <Transition  
+		    beginstate="ready"  transition="ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />	  
+	 	<Transition  
+			beginstate="ready"  transition="offload_ready_trans_ok" 
+			action="handle_offload_pack"  
+			endstate="offload_pack" />
+		<Transition  
+			beginstate="offload_pack"  transition="offload_pack_trans_ok" 
+			action="handle_offload_fileTransfer"  
+			endstate="offload_fileTransfer" />
+		<Transition 
+			beginstate="offload_fileTransfer" transition="offload_fileTransfer_trans_ok"  
+			action="handle_completed"  
+			endstate="completed" />
+			 			
+	   <!-- EXPORT RESUME -->
+ 	   <Transition  
+		    beginstate="ready"  transition="export_ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />
+		<Transition 
+			beginstate="export_pack" transition="export_pack_trans_resume"  
+			action="handle_export_pack"  
+			endstate="export_pack" />
+		<Transition  
+			 beginstate="export_fileTransfer"  transition="export_fileTransfer_trans_resume"
+			action="handle_export_fileTransfer"  
+			endstate="export_fileTransfer" />
+	
+		<!-- IMPORT RESUME -->	
+  		<Transition  
+		    beginstate="ready"  transition="import_ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />
+		<!--  new added  import_pack -->	    
+		
+		<Transition  
+			beginstate="import_fileTransfer" transition="import_fileTransfer_trans_resume"  
+			action="handle_import_fileTransfer"  
+			endstate="import_fileTransfer" />
+		<Transition  
+			beginstate="import_unpack"  transition="import_unpack_trans_resume" 
+			action="handle_import_unpack" 
+			endstate="import_unpack" />
+		<Transition  
+			 beginstate="unpack_recvd"  transition="import_fileTransfer_trans_resume"
+			action="handle_completed"  
+			endstate="completed" />
+		<Transition 
+			beginstate="import_db"  transition="import_db_trans_resume" 
+			action="handle_import_db" 
+			endstate="import_db" />
+		<!--  new added  cleanupTempFile -->
+		<Transition  
+			beginstate="import_cleanupMediaFile"  transition="import_cleanupMediaFile_trans_resume"
+			action="handle_import_cleanupMediaFile"  
+			endstate="import_cleanupMediaFile" />
+		<!--  new added  cleanupTempFile -->				
+		<Transition  
+			beginstate="import_cleanupTempFiles"  transition="import_cleanupTempFiles_trans_resume"
+			action="handle_import_cleanupTempFiles"  
+			endstate="import_cleanupTempFiles" />
+			
+		
+		<!-- OFFLOAD RESUME -->
+ 	   <Transition  
+		    beginstate="ready"  transition="offload_ready_trans_resume"
+		    action="handle_ready" 
+		    endstate="ready" />
+		<Transition 
+			beginstate="offload_pack" transition="offload_pack_trans_resume"  
+			action="handle_offload_pack"  
+			endstate="offload_pack" />
+		<Transition  
+			 beginstate="offload_fileTransfer"  transition="offload_fileTransfer_trans_resume"
+			action="handle_offload_fileTransfer"  
+			endstate="offload_fileTransfer" />
+			
+		
+		<!-- EXPORT_ERROR -->	
+	   <Transition  
+		    beginstate="ready"  transition="ready_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition 
+			beginstate="export_pack" transition="export_pack_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		 <Transition  
+			 beginstate="export_fileTransfer"  transition="export_fileTransfer_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		  <Transition  
+			beginstate="completed"  transition="completed_trans_error"
+			action="handle_error"  
+			endstate="error" />	
+			
+						
+	 	<!-- IMPORT ERROR -->	
+  		<Transition  
+		    beginstate="ready"  transition="import_ready_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<!--  new added  import_pack -->	    
+		<Transition 
+			beginstate="import_pack" transition="import_pack_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+	
+		<Transition  
+			beginstate="import_fileTransfer" transition="import_fileTransfer_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition  
+			beginstate="import_unpack"  transition="import_unpack_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition  
+			 beginstate="unpack_recvd"  transition="import_fileTransfer_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		
+
+		
+		<!-- OFFLOAD_ERROR -->	
+	   <Transition  
+		    beginstate="ready"  transition="ready_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition 
+			beginstate="offload_pack" transition="offload_pack_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition  
+			 beginstate="offload_fileTransfer"  transition="offload_fileTransfer_trans_error"
+		    action="handle_error" 
+		    endstate="error" />
+		<Transition  
+			beginstate="completed"  transition="completed_trans_error"
+			action="handle_error"  
+			endstate="error" />	
+			
+		
+		<!-- TODO -->
+		<Transition  
+			beginstate="checkStatus" transition="checkStatus_trans_ok"   
+			action="handle_checkStatus" 
+			endstate="dmsStatus" />
+		<Transition  
+			beginstate="checkStatus" transition="checkStatus_trans_error"   
+			action="handle_checkStatus" 
+			endstate="" />	
+		<Transition  
+			beginstate="dmsStatus" transition="dmsStatus_trans_ok"   
+			action="handle_dmsStatus" 
+			endstate="ready" />
+ 	 
+</FileStateMachine>

@@ -1,0 +1,1279 @@
+<?xml version="1.0"?>
+	<!-- build of tibcotest for creating (developer environment), debugging, syntax checking and deploying -->
+<project name="Javascript build" basedir="." default="make">
+<!--============================================== DIR STRUCTURE ===========================================-->
+	<!--***************** [1] **********************-->
+	<!-- IPVS Auth Tool					            -->
+	<!--   ~~ IPVS_AuthMediaClient(dist)			-->
+	<!--   ~~ GI									-->
+	<!--      ~~ addins								-->
+	<!--      ~~ JSX								-->
+	<!--      ~~ JSXAPPS							-->
+	<!--         ~~ IPVS_Authtool					-->
+	<!--             ~~ utils(mediaconverter.exe)	-->
+	<!--      ~~ *.html								-->
+	<!--      ~~ *.hta								-->
+	<!--      ~~ logger.xml							-->
+	<!--********************************************-->
+
+
+	<!--***************** [2] **********************-->
+	<!-- IPVS_AuthMediaClient			            -->
+	<!--   ~~ player								-->
+	<!--   ~~ GI									-->
+	<!--      ~~ addins								-->
+	<!--      ~~ JSX								-->
+	<!--      ~~ JSXAPPS							-->
+	<!--         ~~ IPVS_AuthMediaClient			-->
+	<!--            ~~ components					-->
+	<!--            ~~ dist							-->
+	<!--            ~~ ....							-->
+	<!--      ~~ *.html								-->
+	<!--      ~~ *.hta								-->
+	<!--      ~~ logger.xml							-->
+	<!--********************************************-->
+
+	<!--***************** [3] **********************-->
+	<!-- IPVS Collaboration Client		            -->
+	<!--   ~~ player								-->
+	<!--   ~~ GI									-->
+	<!--      ~~ addins								-->
+	<!--      ~~ JSX								-->
+	<!--      ~~ JSXAPPS							-->
+	<!--         ~~ IPVS_ClientUI					-->
+	<!--         ~~ IPVS_AdminUI					-->
+	<!--         ~~ IPVS_Common						-->
+	<!--      ~~ *.html								-->
+	<!--      ~~ *.hta								-->
+	<!--      ~~ logger.xml							-->
+	<!--********************************************-->
+
+<!--============================================== ANT SCRIPT ===========================================-->
+
+	<!--********************************************-->
+	<!-- Part 0. Statice Properties                 -->
+	<!--   1. load properties from build.properties -->
+	<!--   2. conditionally set ant-contrib path    -->
+	<!--   3. conditionally set YUI,jslint path   -->
+	<!--   4. conditionally set jsdoc path			-->
+	<!--********************************************-->
+	<property file="build.properties"/>
+	<condition property="isWindows">
+		<os family="windows"/>
+	</condition>
+	<condition property="isUnix">
+		<os family="unix"/>
+	</condition>
+	<property environment="env"/>
+	<!-- conditionally load the ant contrib path  -->
+	<condition property="antlib.path" value="${env.ANT_HOME}/lib" else="/usr/share/java/ant-contrib-1.0.jar">
+		<os family="windows"/>
+	</condition>
+	<!-- conditionally load the YUI,jslint, and jsx-tools path  -->
+	<condition property="buildtools.path" value="${env.ANT_HOME}/lib" else="${linux-yui-libs}">
+		<os family="windows"/>
+	</condition>
+	<!-- conditionally load the jsdoc  path  -->
+	<condition property="jsdoc.path" value="${env.ANT_HOME}/lib" else="${linux-jsdoc-libs}">
+		<os family="windows"/>
+	</condition>
+	<!--********************************************-->
+	<!-- Part I. Help	                            -->
+	<!--********************************************-->
+	<target name="?" depends="init" description="usage">
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  makeDevEnv  " level="info"/>
+		<echo message=" ant  setWebDebugEnv " level="info"/>
+		<echo message=" ant  makeWebDebug " level="info"/>
+		<echo message=" ant  setInstalledDebugEnv " level="info"/>
+		<echo message=" ant  makeInstalledDebug " level="info"/>
+		<echo message=" ant  make " level="info"/>
+		<echo message=" ant  makeSrc " level="info"/>
+		<echo message=" ant  makeWebDeploy " level="info"/>
+		<echo message=" ant  makeInstalledDeploy " level="info"/>
+		<echo message=" ant  clean " level="info"/>
+		<echo message=" ant  makeAPIDoc " level="info"/>
+		<echo message=" ant  ?setWebDebugEnv " level="info"/>
+		<echo message=" ant  ?setInstalledDebugEnv " level="info"/>
+		<echo message=" ant  ?makeWebDebug " level="info"/>
+		<echo message=" ant  ?makeInstalledDebug " level="info"/>
+		<echo message=" ant  ?make " level="info"/>
+		<echo message=" ant  ?makeSrc " level="info"/>
+		<echo message=" ant  ?jsminify " level="info"/>
+		<echo message=" ant  ?jslint " level="info"/>
+		<echo message=" ant  ?jsdoc " level="info"/>
+		<echo message=" ~~~~ authtool build ~~~~  " level="info"/>
+		<echo message=" ant  make_authtool " level="info"/>
+		<echo message=" ant  make_authmediaclient " level="info"/>
+		<echo message=" ant  cleandist " level="info"/>
+		<echo message=" ant  makeAuthtoolDebug " level="info"/>
+		<echo message=" ant  ?make_authtool " level="info"/>
+		<echo message=" ant  ?make_authmediaclient " level="info"/>
+		<echo message=" ant  ?cleandist " level="info"/>
+		<echo message=" ant  ?makeAuthtoolDebug " level="info"/>
+	</target>
+	<target name="?make_authtool" depends="init" description="usage">
+		<echo message=" USAGE(ant make_authtool):  " level="info"/>
+		<echo message=" Build distribution directroy 'dist_authtool' for authtool " level="info"/>
+	</target>
+	<target name="?make_authmediaclient" depends="init" description="usage">
+		<echo message=" USAGE(ant make_authmediaclient):  " level="info"/>
+		<echo message=" Build distribution directroy 'dist_authmediaclient' for authmediaclient " level="info"/>
+	</target>
+	<target name="?cleandist" depends="init" description="usage">
+		<echo message=" USAGE(ant cleandist):  " level="info"/>
+		<echo message=" Remove all dist directories ('dist,dist_authtool,dist_authmediaclient') " level="info"/>
+	</target>
+	<target name="?makeAuthtoolDebug" depends="init" description="usage">
+		<echo message=" USAGE(ant makeAuthtoolDebug):  " level="info"/>
+		<echo message="  Get 'mediaconverter.exe' from a specified svn revision for authtool debug purpose. " level="info"/>
+	</target>
+	<target name="?setWebDebugEnv" depends="init" description="usage">
+		<echo message=" USAGE(setWebDebugEnv):  " level="info"/>
+		<echo message=" MANAGEMENT SERVER EXAMPLE: " level="info"/>
+		<echo message=" 10.1.5.178 " level="info"/>
+		<echo message=" SET A WEB DEBUG ENVIRONMENT WITHOUT COPY 'model', 'mediaroom' FROM REMOTE SERVER." level="info"/>
+	</target>
+	<target name="?setInstalledDebugEnv" depends="init" description="usage">
+		<echo message=" USAGE(setInstalledDebug):  " level="info"/>
+		<echo message=" WORKING DIRECTORY EXAMPLE: " level="info"/>
+		<echo message=" C:\svn-branch-work\ms-3.8-trunk " level="info"/>
+		<echo message=" INSTALLED GI DIRECTORY EXAMPLE(OR PRESS 'Enter' WITHOUT ANY INPUT): " level="info"/>
+		<echo message=" C:\IP Video Systems\IPVS Collaboration Client\GI " level="info"/>
+		<echo message=" SET AN INSTALLED DEBUG ENVIRONMENT WITHOUT COPY 'model', 'mediaroom' FROM INSALLED GI DIRECTORY." level="info"/>
+	</target>
+	<target name="?makeWebDebug" depends="init" description="usage">
+		<echo message=" USAGE(setInstalledDebug):  " level="info"/>
+		<echo message=" MANAGEMENT SERVER IP EXAMPLE: " level="info"/>
+		<echo message=" 10.1.5.178 " level="info"/>
+		<echo message=" SET A WEB DEBUG ENVIRONMENT and COPY 'model', 'mediaroom' FROM REMOTE SERVER." level="info"/>
+	</target>
+	<target name="?makeInstalledDebug" depends="init" description="usage">
+		<echo message=" USAGE(setInstalledDebug):  " level="info"/>
+		<echo message=" WORKING DIRECTORY EXAMPLE: " level="info"/>
+		<echo message=" C:\svn-branch-work\ms-3.8-trunk " level="info"/>
+		<echo message=" INSTALLED GI DIRECTORY EXAMPLE: " level="info"/>
+		<echo message=" C:\IP Video Systems\IPVS Collaboration Client\GI " level="info"/>
+		<echo message=" SET AN INSTALLED DEBUG ENVIRONMENT and COPY 'model', 'mediaroom' FROM INSALLED GI DIRECTORIES." level="info"/>
+	</target>
+	<target name="?make" depends="init" description="usage">
+		<echo message=" MAKE COMPRESSED JS FILES FOR DISTRIBUTION. " level="info"/>
+	</target>
+	<target name="?makeSrc" depends="init" description="usage">
+		<echo message=" MAKE SOURCE JS FILES FOR DISTRIBUTION. " level="info"/>
+	</target>
+	<target name="?jsminify" depends="init" description="usage">
+		<echo message=" USAGE(jsminify):  " level="info"/>
+		<echo message=" ant jsminifyproject -Dproject=project-abbreviation-name " level="info"/>
+		<echo message=" ant jsminifyfile -Dproject=project-abbreviation-name -Dfile=file-name.js " level="info"/>
+		<echo message=" 'project-abbreviation-name': case insensitive value: 'addins','admin','clientui','common','authtool','authmediaclient', 'odysseyclient'" level="info"/>
+	</target>
+	<target name="?jslint" depends="init" description="usage">
+		<echo message=" USAGE(jslint):  " level="info"/>
+		<echo message=" ant jslintproject -Dproject=project-abbreviation-name  " level="info"/>
+		<echo message=" ant jslintfile -Dproject=project-abbreviation-name -Dfile=file.js " level="info"/>
+		<echo message=" 'project-abbreviation-name': case insensitive value: 'addins','admin','odysseyclient','clientui','common','authtool','authmediaclient' " level="info"/>
+	</target>
+	<target name="?jsdoc" depends="init" description="usage">
+		<echo message=" USAGE(jsdoc):  " level="info"/>
+		<echo message=" ant jsdoc -Dproject=project-abbreviation-name " level="info"/>
+		<echo message=" 'project-abbreviation-name':case insensitive value: 'addins','admin','odysseyclient','clientui','common','authtool','authmediaclient' " level="info"/>
+	</target>
+
+	<!--********************************************-->
+	<!-- Part II. Initialize                        -->
+	<!--  1. define ant-contrib task				-->
+	<!--  2. define xmltask                         -->
+	<!--  3. define jslint task						-->
+	<!--  4. define jsdoc task						-->
+	<!--  5. define jsx3-tools tasks				-->
+	<!--  6. define macrodef						-->
+	<!--********************************************-->
+	<target name="init" description="build initialize">
+		<echo message=" build initialize ..." level="info"/>
+		<!--  1. -->
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="${antlib.path}"/>
+			</classpath>
+		</taskdef>
+		<!-- 2. -->
+		<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+			<classpath>
+				<pathelement location="/opt/xmltask-v1.15.1.jar"/>
+			</classpath>
+		</taskdef>
+		<!-- 3.  -->
+		<path id="tools.classpath">
+			<fileset dir="${buildtools.path}">
+				<include name="yuicompressor-2.4.2.jar"/>
+				<include name="jslint4java-1.3.1.jar"/>
+				<include name="jsx-tools.jar"/>				
+				<include name="xalan-2.1.0.jar"/>
+			</fileset>
+		</path>
+		<taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpathref="tools.classpath"/>
+		<!-- 4.  -->
+		<path id="jsdoc.classpath">
+			<fileset dir="${jsdoc.path}">
+				<include name="jsrun.jar"/>
+				<include name="jsdoctoolkit-ant-task-1.0.1.jar"/>
+			</fileset>
+		</path>
+		<taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" classpathref="jsdoc.classpath"/>
+		<!-- 5. -->
+		<if>
+			<equals arg1="${isWindows}" arg2="true"/>
+			<then>
+				<taskdef resource="com/tibco/gi/ant/antlib.xml" classpathref="tools.classpath"/>
+			</then>
+		</if>
+		<!-- 6. -->
+		<!-- common svn export -->
+		<macrodef name="svn_export">
+			<attribute name="svn.url"/>
+			<attribute name="svn.revision"/>
+			<attribute name="svn.username"/>
+			<attribute name="svn.password"/>
+			<sequential>
+				<echo message="EXPORT @{svn.url} AT @{svn.revision} " level="info"/>
+				<exec executable="svn">
+					<arg value="export"/>
+					<arg value="--username"/>
+					<arg value="@{svn.username}"/>
+					<arg value="--password"/>
+					<arg value="@{svn.password}"/>
+					<arg value="--force"/>
+					<arg value="-r"/>
+					<arg value="@{svn.revision}"/>
+					<arg value="@{svn.url}"/>
+				</exec>
+			</sequential>
+		</macrodef>
+	</target>
+	<!--********************************************-->
+	<!-- Part III. Develop Build                    -->
+	<!--********************************************-->
+	<!--********************************************-->
+	<!--Section I. Setting up develop environment -->
+	<!-- 1. prerequisite:checkout tibcotest manually-->
+	<!-- 2. export & unzip tibcodev.zip to 'temp'	-->
+	<!-- 3. copy unzipped to working directory      -->
+	<!--********************************************-->
+	<property name="working.directory" value="."/>
+	<target name="makeDevEnv" depends="init" description="For Developer">
+		<echo message=" CURRENT WORKING DIRECTORY: ${working.directory} " level="info"/>
+		<sequential>
+			<input message="PLEASE INPUT SVN USERNAME:" addproperty="svn.username"/>
+			<echo>YOUR SVN USER NAME IS ${svn.username}</echo>
+			<input message="PLEASE INPUT SVN PASSWORD:" addproperty="svn.password"/>
+			<echo>YOUR SVN PASSWORD IS ${svn.password}</echo>
+			<!-- [1]-->
+			<echo message="create a temparay directioy in ${working.directory}" level="info"/>
+			<delete dir="temp"/>
+			<mkdir dir="temp"/>
+			<!-- [2] export tibcodev.zip -->
+			<svn_export svn.url="${svn.tibcodev.url}/${svn.tibcodev.version}/${svn.gi.version}.zip" svn.revision="HEAD" svn.username="${svn.username}" svn.password="${svn.password}"/>
+			<!-- [3] unzip tibco-gi-3.x.x-src.zip to current dir and copy content to working directory  -->
+			<unzip src="${svn.gi.version}.zip" dest="temp"/>
+			<copy todir="." overwrite="true">
+				<fileset dir="temp/${svn.gi.version}" excludes="jsx3.gui.window.html"/>
+			</copy>
+			<delete file="${svn.gi.version}.zip"/>
+			<delete dir="temp"/>
+		</sequential>
+	</target>
+	<!--********************************************-->
+	<!--Section II. Set up debug enviroment         -->
+	<!-- 1. set WEB debug                           -->
+	<!-- 2. set INSTALLED debug                     -->
+	<!-- 3. make WEB debug                           -->
+	<!-- 4. make INSTALLED debug                     -->
+	<!--********************************************-->
+	<!-- 1.set web debug by given a web server IP without copy 'model' and 'mediaroom' from server-->
+	<target name="setWebDebugEnv" depends="init,checkDebugDir" description="For Developer">
+		<input message="PLEASE INPUT MANAGEMENT SERVER IP:" addproperty="server.ip"/>
+		<echo>YOUR MANAGEMENT SERVER IP IS ${server.ip}</echo>
+		<!-- set 'clienttype' property  -->
+		<property name="clienttype" value="WEB"/>
+		<!-- create a debugProperty.xml under directory ${debugproperty.dir} -->
+		<antcall target="createFile">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="file.content" value="&lt;Debug&gt;&lt;clientType&gt;WEB&lt;/clientType&gt;&lt;managementServerIP&gt;${server.ip}&lt;/managementServerIP&gt;&lt;giStartPath&gt;&lt;/giStartPath&gt;&lt;installedGIDir&gt;&lt;/installedGIDir&gt;&lt;/Debug&gt;"/>
+		</antcall>
+	</target>
+	<!-- 2.set installed debug by given a local directory without copy 'model' and 'mediaroom' from server -->
+	<target name="setInstalledDebugEnv" depends="init,checkDebugDir" description="For Developer">
+		<!-- input working directory -->
+		<input message="PLEASE INPUT WORKING DIRECTORY:" addproperty="debug.directory"/>
+		<echo>YOUR DEBUG DIRECTORY IS ${debug.directory}</echo>
+		<!-- input INSTALLED directory -->
+		<input message="PLEASE INPUT INSTALLED GI DIRECTORY:" addproperty="installedGI.directory" defaultvalue="C:\IP Video Systems\IPVS Collaboration Client\GI"/>
+		<!-- i.e. C:\IP Video Systems\IPVS Collaboration Client\GI-->
+		<echo>YOUR INSTALLED GI DIRECTORY IS ${installedGI.directory}</echo>
+		<!-- set 'clienttype' property  -->
+		<property name="clienttype" value="INSTALLED"/>
+		<!--create a debugProperty.xml under directory ${debugproperty.dir}-->
+		<antcall target="createFile">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="file.content" value="&lt;Debug&gt;&lt;clientType&gt;INSTALLED&lt;/clientType&gt;&lt;managementServerIP&gt;&lt;/managementServerIP&gt;&lt;giStartPath&gt;${debug.directory}&lt;/giStartPath&gt;&lt;installedGIDir&gt;${installedGI.directory}&lt;/installedGIDir&gt; &lt;/Debug&gt;"/>
+		</antcall>
+	</target>
+	<!-- 3.make web debug by given a web server IP and  copy 'model' and 'mediaroom' from server -->
+	<target name="makeWebDebug" depends="init,checkDebugDir" description="For Developer">
+		<input message="PLEASE INPUT MANAGEMENT SERVER IP:" addproperty="server.ip"/>
+		<echo>YOUR MANAGEMENT SERVER IP IS ${server.ip}</echo>
+		<!-- double check before coping model and mediaroom from remote server -->
+		<input message="Copy model from remote server(${server.ip}) to local IPVS-Common, continue (y/n)?" validargs="y,n" addproperty="do.copy"/>
+		<condition property="do.abort">
+			<equals arg1="n" arg2="${do.copy}"/>
+		</condition>
+		<fail if="do.abort">Build aborted by user.</fail>
+		<!-- set 'clienttype' property  -->
+		<property name="clienttype" value="WEB"/>
+		<!-- create a debugProperty.xml under directory ${debugproperty.dir} -->
+		<antcall target="createFile">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="file.content" value="&lt;Debug&gt;&lt;clientType&gt;WEB&lt;/clientType&gt;&lt;managementServerIP&gt;${server.ip}&lt;/managementServerIP&gt;&lt;giStartPath&gt;&lt;/giStartPath&gt;&lt;installedGIDir&gt;&lt;/installedGIDir&gt;&lt;/Debug&gt;"/>
+		</antcall>
+		<!-- check model dir -->
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="${IPVSCommon.dir}/model"/>
+		</antcall>
+		<!-- check mediaroom dir -->
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="${IPVSCommon.dir}/mediaroom"/>
+		</antcall>
+		<!-- remote copy model directory to to IPVS-Common/model  -->
+		<echo message="scp ${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/model/*" level="info"/>
+		<scp file="${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/model/*" todir="${IPVSCommon.dir}/model" trust="yes" verbose="true"/>
+		<!-- remote copy mediaroom from mserver /home/onair/modules/mediaroom/public to IPVS-Common/mediaroom -->
+		<echo message="scp ${mserverAccount}:${mserverPassword}@${server.ip}:${srcMserverModulesDir}/mediaroom/*" level="info"/>
+		<scp file="${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/mediaroom/*" todir="${IPVSCommon.dir}/mediaroom" trust="yes" verbose="true"/>
+	</target>
+	<!-- SAMPLE: scp remote get 	<target name="scpGETSample">		   <scp file="root:0at3n@10.1.5.178:/home/onair/htdocs/public/clients/web/JSXAPPS/IPVS-Common/mediaroom/*" todir="${IPVSCommon.dir}/mediaroom" trust="yes" verbose="true"/>	</target>	-->
+	<!-- 4.make installed debug by given a local directory  and copy 'model' and 'mediaroom' from INSTALLED GI directory-->
+	<target name="makeInstalledDebug" depends="init,checkDebugDir" description="For Developer">
+		<!-- input working directory -->
+		<input message="PLEASE INPUT WORKING DIRECTORY:" addproperty="debug.directory"/>
+		<echo>YOUR DEBUG DIRECTORY IS ${debug.directory}</echo>
+		<!-- input INSTALLED directory -->
+		<input message="PLEASE INPUT INSTALLED GI DIRECTORY:" addproperty="installedGI.directory"/>
+		<!-- i.e. C:\IP Video Systems\IPVS Collaboration Client\GI-->
+		<echo>YOUR INSTALLED GI DIRECTORY IS ${installedGI.directory}</echo>
+		<!-- double check before coping model and mediaroom from remote server -->
+		<input message="Copy model from installed dir:${installedGI.directory} to local dir:${debug.directory}, continue (y/n)?" validargs="y,n" addproperty="do.copy"/>
+		<condition property="do.abort">
+			<equals arg1="n" arg2="${do.copy}"/>
+		</condition>
+		<fail if="do.abort">Build aborted by user.</fail>
+		<!-- set 'clienttype' property  -->
+		<property name="clienttype" value="INSTALLED"/>
+		<!--create a debugProperty.xml under directory ${debugproperty.dir}-->
+		<antcall target="createFile">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="file.content" value="&lt;Debug&gt;&lt;clientType&gt;INSTALLED&lt;/clientType&gt;&lt;managementServerIP&gt;&lt;/managementServerIP&gt;&lt;giStartPath&gt;${debug.directory}&lt;/giStartPath&gt;&lt;installedGIDir&gt;${installedGI.directory}&lt;/installedGIDir&gt; &lt;/Debug&gt;"/>
+		</antcall>
+		<!-- check model dir -->
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="${IPVSCommon.dir}/model"/>
+		</antcall>
+		<!-- check mediaroom dir -->
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="${IPVSCommon.dir}/mediaroom"/>
+		</antcall>
+		<!-- copy model and mediaroom from INSTALLED GI path -->
+		<antcall target="copySrcToDest">
+			<param name="JsSrcDir" value="${installedGI.directory}/${IPVSCommon.dir}/model"/>
+			<param name="JsDestDir" value="${debug.directory}/${IPVSCommon.dir}/model"/>
+		</antcall>
+		<antcall target="copySrcToDest">
+			<param name="JsSrcDir" value="${installedGI.directory}/${IPVSCommon.dir}/mediaroom"/>
+			<param name="JsDestDir" value="${debug.directory}/${IPVSCommon.dir}/mediaroom"/>
+		</antcall>
+	</target>
+	<!--********************************************-->
+	<!--Section III.  Make							-->
+	<!-- makeSrc called by developer to deploy src	-->
+	<!-- make called by production and developer    -->
+	<!--********************************************-->
+	<target name="makeSrc" depends="init" description="For Developer">
+	  <fileset id="generalSrc_fileset" dir=".">
+			<include name="ipvs.ico"/>
+			<include name="logger.xml"/>
+			<include name="*Index.hta"/>
+			<include name="*Index*.htm"/>
+			<include name="jsx3.gui.window.html"/>
+			<exclude name="IPVSAuthMediaClient-Index.hta"/>
+			<exclude name="IPVSAuthMediaClient-Index.htm"/>
+		</fileset>
+		<antcall target="macro_make">
+			<param name="excludeSrcDir" value="dist"/>
+			<param name="dist" value="${dist.dir}"/>
+			<param name="deployProject.list" value="${generalDeployList}"/>
+			<param name="filesetRefid" value="generalSrc_fileset"/>
+		</antcall>
+	</target>
+	<!-- make for non-authtool,non-authMediaClient project -->
+	<target name="make" depends="init" description="For Production and Developer">
+		<echo message="deployProject.list=${deployProject.list}" level="info"/>
+		<fileset id="ipvsclient_fileset" dir=".">
+			<include name="ipvs.ico"/>
+			<include name="logger.xml"/>
+			<include name="*Index.hta"/>
+			<include name="jsx3.gui.window.html"/>
+			<!-- web client required-->
+			<include name="IPVSClient-Index.htm"/>
+			<include name="IPVSClient-IndexFF.htm"/>
+			<include name="IPVSClient-IndexIE.htm"/>
+			<exclude name="IPVSAuthMediaClient-Index.hta"/>
+			<exclude name="IPVSAuthMediaClient-Index.htm"/>
+			<exclude name="IPVSAuthTool-Index.hta"/>
+			<exclude name="IPVSAuthTool-Index.htm"/>
+		</fileset>
+		<antcall target="macro_make">
+			<param name="excludeSrcDir" value="js"/>
+			<param name="dist" value="${dist.dir}"/>
+			<param name="deployProject.list" value="${generalDeployList}"/>
+			<param name="filesetRefid" value="ipvsclient_fileset"/>
+		</antcall>
+	</target>
+	
+	<!-- make of authtool project -->
+	<target name="make_authtool" depends="init" description="For Production and Developer">
+		<echo message="deployProject.list=${authtoolDeployList}" level="info"/>
+		<fileset id="authtool_fileset" dir=".">
+			<include name="logger.xml"/>
+			<include name="jsx3.gui.window.html"/>
+			<include name="IPVSAuthTool-Index.hta"/>
+			<include name="IPVSAuthTool-Index.htm"/>
+			<include name="ipvsauthtool.ico"/>
+		</fileset>
+		<antcall target="macro_make">
+			<param name="excludeSrcDir" value="js"/>
+			<param name="dist" value="${dist_authtool.dir}"/>
+			<param name="deployProject.list" value="${authtoolDeployList}"/>
+			<param name="filesetRefid" value="authtool_fileset"/>
+		</antcall>
+	</target>
+	
+	<!-- make of authmediaclient project -->
+	<target name="make_authmediaclient" depends="init" description="For Production and Developer">
+		<echo message="deployProject.list=${authmediaclientDeployList}" level="info"/>
+		<fileset id="authmediaclient_fileset" dir=".">
+			<include name="logger.xml"/>
+			<include name="jsx3.gui.window.html"/>
+			<include name="IPVSAuthMediaClient-Index.hta"/>
+			<include name="IPVSAuthMediaClient-Index.htm"/>
+		</fileset>
+		<antcall target="macro_make">
+			<param name="excludeSrcDir" value="js"/>
+			<param name="dist" value="${dist_authmediaclient.dir}"/>
+			<param name="deployProject.list" value="${authmediaclientDeployList}"/>
+			<param name="filesetRefid" value="authmediaclient_fileset"/>
+		</antcall>
+	</target>
+
+	<!-- general make for IPVSClientUI/IPVSAdminUI etc. & IPVS_Authtool/IPVSAuthMediaClient   -->
+	<target name="macro_make">
+		<sequential>
+			<!-- 1. -->
+			<!-- clean '${dist}' directory -->
+			<delete dir="${dist}"/>
+			<!-- create '${dist}' directory -->
+			<antcall target="checkAndCreateDir">
+				<param name="dirFile" value="${dist}"/>
+			</antcall>
+			<!-- 2. -->
+			<!-- deploy JSX if property 'deployJSX is true -->
+			<mkdir dir="${dist}/${JSX}"/>
+			<antcall target="copySrcToDest">
+				<param name="JsSrcDir" value="${JSX}"/>
+				<param name="JsDestDir" value="${dist}/${JSX}"/>
+			</antcall>
+			<!-- 3. -->
+			<!--  according to deployProject.list to create directories under '${dist}' -->
+			<property name="createDir.list" value="${deployProject.list},IPVSAddins"/>
+			<echo message="createDir.list=${createDir.list}" level="info"/>
+			<for list="${createDir.list}" param="create.dir">
+				<sequential>
+					<echo message="creating directory ${dist}/${@{create.dir}}" level="info"/>
+					<mkdir dir="${dist}/${@{create.dir}}"/>
+				</sequential>
+			</for>
+			<!-- 4. -->
+			<!-- extract mediaconverter.exe to JSXAPPS/IPVS-Common/utils before copy to dist(so that developer can use it as well) -->
+			<echo message="put mediaconverter.exe to ${IPVSAdminUtils.dir} " level="info"/>
+			<antcall target="unzipPlayer">
+				<param name="playerURL" value="${svn.authplayer.url}/${playerVersion}"/>
+				<param name="playerRevision" value="${authplayer.revision}"/>
+				<param name="playerDestpath" value="${IPVSAdminUtils.dir}"/>
+			</antcall>
+			<!-- 5. -->
+			<!-- copy project root directory files to '${dist} -->
+			<echo message="deployRootDirFiles=${deployRootDirFiles} copy files of root directory" level="info"/>
+			
+			<copy todir="${dist}" overwrite="true">
+				<fileset refid="${filesetRefid}" />  
+			</copy>
+			<!-- 6. -->
+			<!-- set a property of source or compress and copy 'addins' -->
+			<if>
+				<equals arg1="${excludeSrcDir}" arg2="js"/>
+				<then>
+					<!-- makeCompressDist compress all javascript files -->
+					<sequential>
+						<!-- compress javascript files for each project individually -->
+						<switch value="${deployProject.list}">
+						  <case value="IPVSAuthTool.dir">
+						  	<!-- Authtool jsminifyProject -->
+							<echo message="To jsminify Authtool project. " level="info" />
+							<antcall target="jsminifyproject">
+								<param name="project" value="${IPVSAuthTool.dir}"/>
+							</antcall>
+						  </case>
+						  <case value="IPVSAuthMediaClient.dir">
+						  	<!-- AuthMediaClient jsminifyProject  -->
+							<echo message="To jsminify AuthMediaClient project. "  level="info"/>
+							<antcall target="jsminifyproject">
+								<param name="project" value="${IPVSAuthMediaClient.dir}"/>
+							</antcall>
+						  </case>
+						  <default>
+							<echo message="To jsminify IPVSAdmin and IPVSClient project. "  level="info"/>
+							<!-- Others(IPVSClientUI,IPVSAdminUI) jsminifyAll -->
+							<antcall target="jsminifyAll"/>
+						  </default>
+						</switch>
+
+						<!-- trigger to call compressGIAddins -->
+						<echo message="makeCompressDist:: compressing GI addins ...  " level="info"/>
+						<antcall target="compressGIAddins"/>
+						<echo message="makeCompressDist:: compressing config.xml and js files ...  " level="info"/>
+						<property name="config.file" value="runconfig.xml"/>
+						<!-- Since 'addins' directory structure different with projects' compress and copy individually -->
+						<copy todir="${dist}/${IPVSAddins}" overwrite="true">
+							<fileset dir="${IPVSAddins}" excludes="*.svn">
+								<!-- excluede all .svn,build,log -->
+								<exclude name="${IPVSAddins.dir}/*.js"/>
+								<exclude name="build/**"/>
+								<exclude name="log/**"/>
+							</fileset>
+						</copy>
+						<!-- copy compressed js files from addins/build (including gui and util) to addins/../com/ipvs directory-->
+						<copy todir="${dist}/${IPVSAddins.dir}" overwrite="true">
+							<fileset dir="${IPVSAddins}/build"/>
+						</copy>
+					</sequential>
+				</then>
+				<else>
+					<!-- makeSrcDist copy addins source javascirpt files -->
+					<echo message="makeSrcDist:: copying config.xml and js files ...  " level="info"/>
+					<property name="config.file" value="config.xml"/>
+					<!-- copy 'addins' directory-->
+					<copy todir="${dist}/${IPVSAddins}" overwrite="true">
+						<fileset dir="${IPVSAddins}" excludes="*.svn">
+							<!-- excluede all .svn,build,log -->
+							<exclude name="build/**"/>
+							<exclude name="log/**"/>
+						</fileset>
+					</copy>
+				</else>
+			</if>
+			<!-- 7. -->
+			<!-- copy projects to '${dist}' according to source/compress, and delopy project list -->
+			<antcall target="copyProjectsByList">
+				<param name="excludeSrcDir" value="${excludeSrcDir}"/>
+				<param name="srcConfigFile" value="${config.file}"/>
+				<param name="projectDir.list" value="${deployProject.list}"/>
+				<param name="distToCopy" value="${dist}"/>
+			</antcall>
+		</sequential>
+	</target>
+	<!-- <param name="projectDir" value="" /> -->
+	<target name="copyProjectsByList">
+		<echo message="excludeSrcDir=${excludeSrcDir}::projectDir.list=${projectDir.list}" level="info"/>
+		<for list="${projectDir.list}" param="currentProjectDir">
+			<sequential>
+				<!-- copy config.xml except IPVS-Common to sub-directories in 'dist'-->
+				<if>
+					<not><equals arg1="@{currentProjectDir}" arg2="IPVSCommon.dir"/></not>
+					<then>
+						<echo message="copying ${@{currentProjectDir}}/${srcConfigFile} to ${distToCopy}/${@{currentProjectDir}}/config.xml " level="info"/>
+						<copy file="${@{currentProjectDir}}/${srcConfigFile}" tofile="${distToCopy}/${@{currentProjectDir}}/config.xml" overwrite="true"/>
+					</then>
+				</if>
+				<!-- copy other files/dir 'dist' or its sub-directories-->
+				<echo message="copying ${@{currentProjectDir}} ..." level="info"/>
+				<copy todir="${distToCopy}/${@{currentProjectDir}}" overwrite="true">
+					<fileset dir="${@{currentProjectDir}}" excludes=".svn">
+						<!-- [1] excluede all .svn -->
+						<exclude name="components/.svn"/>
+						<exclude name="iamges/.svn"/>
+						<exclude name="jss/.svn"/>
+						<exclude name="plugins/.svn"/>
+						<exclude name="rules/.svn"/>
+						<exclude name="xml/.svn"/>
+						<exclude name="xsl/.svn"/>
+						<!-- model for Common-->
+						<exclude name="model/.svn"/>
+						<!-- query only for Admin-->
+						<exclude name="query/.svn"/>
+						<!-- [2] exclude directory js/dist,build,doc,log -->
+						<exclude name="${excludeSrcDir}/**"/>
+						<exclude name="build/**"/>
+						<exclude name="doc/**"/>
+						<exclude name="log/**"/>
+						<!-- php & player for Common-->
+						<exclude name="php/**"/>
+						<exclude name="player/**"/>
+						<!-- [3] exclude files -->
+						<exclude name="*config.xml"/>
+						<exclude name="launch*.*"/>
+						<!-- index.php only for Admin-->
+						<exclude name="index.php"/>
+					</fileset>
+				</copy>
+			</sequential>
+		</for>
+	</target>
+	<!-- SAMPLE: fileRename  	<target name="fileRenameSample">		<fileRename srcDir="dist/IPVS_AdminUI" destDir="dist/IPVS_AdminUI" orgName="runconfig.xml" newName="config.xml" />	</target>	-->
+	<!-- help macro for rename a file name 	<macrodef name="fileRename">		<attribute name="srcDir"/>		<attribute name="destDir"/>		<attribute name="orgName"/>		<attribute name="newName"/>		<sequential>		<move file="@{srcDir}/@{orgName}" tofile="@{destDir}/@{newName}" />		<echo message="change file name from @{srcDir}/@{orgName} to @{destDir}/@{newName}" level="info"/>		</sequential>	</macrodef>	-->
+	<!--********************************************-->
+	<!--Section IV. Deploy                          -->
+	<!-- 1.make web deploy                          -->
+	<!-- 2.make Installed deploy                    -->
+	<!--********************************************-->
+	<!-- 1. -->
+	<target name="makeWebDeploy" depends="setWebDebugEnv" description="For Developer">
+		<!-- I.read management server IP from XML for WEB client -->
+		<antcallback target="readPropertyXML" return="thisProperty_return">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="property.xpath" value="Debug/managementServerIP/text()"/>
+			<param name="property.return" value="thisProperty"/>
+		</antcallback>
+		<!-- II.scp 'dist' to WEB server/home/onair/htdocs/public/clients/web -->
+		<echo message="deploy 'dist' to management server IP:${thisProperty_return}" level="info"/>
+		<antcall target="quickDeployToWeb">
+			<param name="mserverIP" value="${thisProperty_return}"/>
+		</antcall>
+	</target>
+	<!-- help target:scp 'dist' from local to remove ms server -->
+	<target name="quickDeployToWeb" depends="init" description="For Developer">
+		<sequential>
+			<!-- quick deploy 'dist' dir to Web server -->
+			<echo message="## scp local 'dist' to ${mserverAccount}:${mserverPassword}@${mserverIP}:${destMserverWebDir}/JSXAPP " level="info"/>
+			<scp todir="${mserverAccount}:${mserverPassword}@${mserverIP}:${destMserverWebDir}" trust="yes" verbose="true">
+				<fileset dir="dist"/>
+			</scp>
+			<!-- quick deploy 'addins' to Web server 			 <echo message="## scp local dist/${IPVSAddins} to ${mserverAccount}:${mserverPassword}@${mserverIP}:${destMserverWebDir}/${IPVSAddins}" level="info" />		 <scp todir="${mserverAccount}:${mserverPassword}@${mserverIP}:${destMserverWebDir}" trust="yes" verbose="true">			 <fileset dir="dist">				 <include name="${IPVSAddins}/ipvsCommon/**"/>			 </fileset>		 </scp>	-->
+		</sequential>
+	</target>
+	<!-- scp test example:copy multi-directories to remote server	<target name="testSCP" depends="init">		<echo message="## scp local 'dist' to root:0at3n@10.1.5.178:/home/onair/htdocs/public/clients/web/JSXAPPSIPVS_ClientUI/dist " level="info" /> 		 <scp todir="root:0at3n@10.1.5.178:/home/onair/htdocs/public/clients/web/JSXAPPS/IPVS_ClientUI/dist" trust="yes" verbose="true">			 <fileset dir="dist"> 				 <include name="IPVS_ClientUI/jss/**"/>				 <include name="IPVS_ClientUI/log/**"/>			 </fileset>		 </scp>	</target>	-->
+	<!-- 2. -->
+	<target name="makeInstalledDeploy" depends="setInstalledDebugEnv" description="For Developer">
+		<!-- I. read GI start path from XML for INSTALLED client-->
+		<antcallback target="readPropertyXML" return="gistartpath_return">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="property.xpath" value="Debug/giStartPath/text()"/>
+			<param name="property.return" value="gistartpath"/>
+		</antcallback>
+		<echo message="GI start path is:${gistartpath_return}" level="info"/>
+		<antcallback target="readPropertyXML" return="installedgidir_return">
+			<param name="file.dir" value="${debugproperty.dir}"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="property.xpath" value="Debug/installedGIDir/text()"/>
+			<param name="property.return" value="installedgidir"/>
+		</antcallback>
+		<echo message="installed GI dir is:${installedgidir_return}" level="info"/>
+		<!-- II.  -->
+		<!-- copy dist to INSTALLED GI-->
+		<antcall target="copySrcToDest">
+			<param name="JsSrcDir" value="${gistartpath_return}/dist"/>
+			<param name="JsDestDir" value="${installedgidir_return}"/>
+		</antcall>
+	</target>
+	<!--********************************************-->
+	<!--Section V. build 'addins' Documentation	-->
+	<!--  a).create 'api','xml' & 'html' directory  -->
+	<!--  b).compile-doc-xml,compile-doc-html		-->
+	<!--  c).delete 'xml'							-->
+	<!--********************************************-->
+	<target name="makeAPIDoc" depends="init" description="For Developer">
+		<sequential>
+			<delete dir="${project.dir}/${apidoc.dir}" failonerror="true"/>
+			<mkdir dir="${project.dir}/${apidoc.dir}"/>
+			<mkdir dir="${project.dir}/${apidoc.dir}/${docs.api.xml}"/>
+			<mkdir dir="${project.dir}/${apidoc.dir}/${docs.api.html}"/>
+			<antcall target="compile-doc-xml"/>
+			<antcall target="compile-doc-html"/>
+			<delete dir="${project.dir}/${apidoc.dir}/${docs.api.xml}" failonerror="true"/>
+		</sequential>
+	</target>
+	<target name="compile-doc-xml">
+		<gi-doc destdir="${apidoc.dir}/${docs.api.xml}" access="${build.docs.access}" strict="${build.gi.strict}">
+			<fileset dir="${project.dir}" includes="${build.docs.includes}"/>
+		</gi-doc>
+	</target>
+	<target name="compile-doc-html">
+		<gi-htmldoc strict="${build.gi.strict}" title="${gi.apidocs.title}" copyright="${gi.apidocs.copyright}" srcdir="${apidoc.dir}/${docs.api.xml}" destdir="${apidoc.dir}/${docs.api.html}"/>
+	</target>
+	<!--********************************************-->
+	<!--Section . VI Util targets                   -->
+	<!--  -->
+	<!--  -->
+	<!--********************************************-->
+	<!-- create a file pass 2 parameters file.name, file.content-->
+	<!-- SAMPLE:  createFile		<target name="createFileSample">			<antcall target="createFile">				<param name="file.dir" value="."/>				<param name="file.name" value="debugProperty.xml"/>				<param name="file.content" 						value="	&lt;Debug&gt;								&lt;clientType&gt;INSTALLED&lt;/clientType&gt;								&lt;managementServerIP&gt;&lt;/managementServerIP&gt;								&lt;giStartPath&gt;${debug.directory}&lt;/giStartPath&gt;								&lt;installedGIDir&gt;&lt;/installedGIDir&gt;								&lt;/Debug&gt;"	/>			 </antcall>		</target>	-->
+	<!-- create any file with content-->
+	<target name="createFile">
+		<echo message="${file.content}" level="info"/>
+		<echo message="${file.dir}" level="info"/>
+		<echo message="${file.name}" level="info"/>
+		<echo file="${file.dir}/${file.name}">${file.content}</echo>
+	</target>
+	<!-- delete a file by name-->
+	<target name="deleteFile">
+		<delete file="${fileToDelete}"/>
+	</target>
+	<!-- check and create it if it is not exist -->
+	<target name="checkAndCreateDir">
+		<available file="${dirFile}" property="dir.available"/>
+		<echo message="${dir.available}" level="info"/>
+		<if>
+			<equals arg1="${dir.available}" arg2="true"/>
+			<then>
+				<echo message="${dirFile} already exist. " level="info"/>
+			</then>
+			<else>
+				<mkdir dir="${dirFile}"/>
+				<echo message="Creating a directory @{dirFile}" level="info"/>
+			</else>
+		</if>
+	</target>
+	<!-- create ${debugproperty.dir} directory -->
+	<target name="checkDebugDir">
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="${debugproperty.dir}"/>
+		</antcall>
+	</target>
+	<!-- SAMPLE: readPropertyXML   				<target name="readPropertyXMLSample"  depends="init">		  <antcallback target="readPropertyXML" return="DEF_return">				<param name="file.name" value="debugProperty.xml"/>				<param name="file.dir" value="temp"/>				<param name="property.xpath" value="Debug/clientType/text()"/>				<param name="property.return" value="DEF"/>		  </antcallback> 	 	  <echo message="read property XML=${DEF_return}"/>		</target>	-->
+	<target name="readPropertyXML">
+		<echo message="read property XML from ${file.dir}/${file.name}" level="info"/>
+		<available file="${file.dir}/${file.name}" property="@{file.name}_exist"/>
+		<fail unless="@{file.name}_exist" message="${file.name} is not exist."/>
+		<xmltask source="${file.dir}/${file.name}">
+			<copy path="${property.xpath}" property="${property.return}_return"/>
+		</xmltask>
+	</target>
+	<!-- # copy files from DestDir to SrcDir #	<antcall target="copySrcToDest">		<param name="JsSrcDir" value="${...}"/>		<param name="JsDestDir" value="${...}"/>	</antcall>	-->
+	<target name="copySrcToDest">
+		<delete>
+			<fileset dir="${JsDestDir}"/>
+		</delete>
+		<echo message="copy ${JsSrcDir} to ${JsDestDir} " level="info"/>
+		<copy todir="${JsDestDir}" overwrite="true">
+			<fileset dir="${JsSrcDir}"/>
+		</copy>
+	</target>
+
+	<!--***********************************************-->
+	<!--Section VII Common Task For Production and Dev -->
+	<!--***********************************************-->
+	<!-- 	Convert any command line abbreviation input to mapping standard IPVSAdminUI.dir,IPVSClientUI.dir,IPVSCommon.dir	i.e. 'common' to IPVSCommon.dir; case insensitive;	-->
+	<target name="convertPath" description="convert abbreviation input to realpath">
+		<echo message="Current project is '${passin}' ..." level="info"/>
+		<!-- addins has a different hierarchical structure with others,therefore using ${IPVSAddins}/'addins' -->
+		<condition property="real.path" value="${IPVSAddins}">
+			<contains string="${passin}" substring="addins" casesensitive="false"/>
+		</condition>
+		<condition property="real.path" value="${IPVSAdminUI.dir}">
+			<contains string="${passin}" substring="admin" casesensitive="false"/>
+		</condition>
+		<condition property="real.path" value="${IPVSClientUI.dir}">
+			<contains string="${passin}" substring="clientui" casesensitive="false"/>
+		</condition>
+		<condition property="real.path" value="${IPVSCommon.dir}">
+			<contains string="${passin}" substring="common" casesensitive="false"/>
+		</condition>
+		<condition property="real.path" value="${IPVSAuthTool.dir}">
+			<contains string="${passin}" substring="authtool" casesensitive="false"/>
+		</condition>
+		<condition property="real.path" value="${IPVSAuthMediaClient.dir}">
+			<contains string="${passin}" substring="authmediaclient" casesensitive="false"/>
+		</condition>
+		<echo message="'${passin}' correcponding to real path:${real.path} ..." level="info"/>
+	</target>
+	<!-- create javascript document files of a specified project -->
+	<target name="jsdoc" depends="init" description="create document for javascript">
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<echo message=" create document for all javascript files of project ${project} [under directory ${real.path}]..." level="info"/>
+		<jsdoctoolkit jsdochome="${jsdoc.path}/" template="jsdoc" inputdir="${real.path}/${js.src}" outputdir="${real.path}/${js.doc}"/>
+	</target>
+	<!--  SAMPLE:jsdoc test  	<target name="jsdocSample" depends="init">		<mkdir dir="${IPVSAddins.dir}/doc" />		 <jsdoctoolkit jsdochome="${jsdoc.path}/" template="jsdoc" inputdir="${IPVSAddins.dir}/${js.src}" outputdir="${IPVSAddins.dir}/doc" />	</target>	-->
+	<!-- syntax check all javascript files of a specified project -->
+	<target name="jslintproject" depends="init" description="jslint a set of files">
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<!-- check and create directorie js.log for jslint -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="${real.path}/${js.log}"/>
+		</antcall>
+		<echo message="Syntax check results output to log/JsLintLog.xml" level="info"/>
+		<jslint>
+			<formatter type="plain" destfile="${real.path}/${js.log}/${jslint.log}"/>
+			<fileset dir="${real.path}/${js.src}"/>
+		</jslint>
+	</target>
+	<!--		# a helper target add for 'addins' ;		# structure 'addins' different with other projects, where javascript files alway under dir 'js'.        # there isn't 'js' directory under directory addins/../gui	<target name="GetJsSrcDir">		  <echo message="GetJsSrcDir:: ${real.path} and ${js.src}"/>		  <condition property="jsSrcDir" value="${real.path}/${js.src}" else="${real.path}">			  <available file="${js.src}" />  		  </condition>		  <echo message="GetJsSrcDir::return ${jsSrcDir} "/>	</target>	-->
+	<!-- syntax check all javascript files of a specified project -->
+	<target name="jslintfile" depends="init" description="jslint a set of files">
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<!-- there isn't 'js' directory under directory addins/../gui -->
+		<condition property="jsSrcDir" value="${real.path}/${js.src}" else="${real.path}">
+			<available file="${js.src}"/>
+		</condition>
+		<echo message="JSLINT:: ${file} under directoty ${jsDir} and ${jsSrcDir}" level="info"/>
+		<!-- check and create directorie js.log for jslint -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="${real.path}/${js.log}"/>
+		</antcall>
+		<echo message="Syntax check results output to log/JsLintLog.xml" level="info"/>
+		<jslint>
+			<formatter type="plain" destfile="${real.path}/${js.log}/${jslint.log}"/>
+			<fileset dir="${jsSrcDir}">
+				<filename name="${file}"/>
+			</fileset>
+		</jslint>
+	</target>
+	<!-- jslint all projects by once -->
+	<target name="jslintAll" depends="init" description="check syntax for all projects">
+		<antcall target="jslintproject">
+			<param name="project" value="${IPVSCommon.dir}"/>
+		</antcall>
+		<antcall target="jslintproject">
+			<param name="project" value="${IPVSClientUI.dir}"/>
+		</antcall>
+		<antcall target="jslintproject">
+			<param name="project" value="${IPVSAdminUI.dir}"/>
+		</antcall>
+	</target>
+	<!-- minify all javascript files of a specified project -->
+	<target name="jsminifyproject" depends="init" description="Minifiy a set of files ">
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<echo message="Compress all javascript files of project ${project} [${real.path}] ..." level="info"/>
+		<!-- check and create directories js.src,js.build,js.dist,js.log -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="${real.path}/${js.build},${real.path}/${js.dist},${real.path}/${js.log},${real.path}/${js.doc}"/>
+		</antcall>
+		<!-- using variable task to conditional choose js source directory -->
+		<!-- EITHER LIKE:       js/ 1.js,2.js,3.js -->
+		<!-- OR something LIKE: js/js_temp/1.js,2.js,3.js; js/A/1.js; js/B/C/2.js,3.js; -->
+		<var name="tempSrcDir" value="${js.src}" />
+		<var name="tempParentDir" value="js" />
+		<if>
+			<equals arg1="${recursive}" arg2="true" />
+			<then>
+				<echo message="jsminify js files directory by directory RECURSIVELY." level="info"/>
+				<!-- create dir 'js_temp' under 'js' to backup all js source files in the dir to be compressed-->
+				<var name="tempSrcDir" value="${js.src}/js_temp" />
+				<delete dir="${real.path}/${tempSrcDir}"/>
+				<mkdir dir="${real.path}/${tempSrcDir}" />
+				<!--recursive copy .js files from 'JSXAPPS\Odyssey_ClientUI\js' to 'JSXAPPS\Odyssey_ClientUI\js\js_temp' -->
+				<copy todir="${real.path}/${tempSrcDir}" flatten="true">
+					<fileset dir ="${real.path}/${js.src}" >
+						<include name="**/*.js"/>
+					</fileset>
+				</copy>
+				<var name="tempParentDir" value="js_temp" />
+			</then>
+		</if>
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="${tempParentDir}"/>
+			<param name="JsSrcDir" value="${real.path}/${tempSrcDir}"/>
+			<param name="JsDestDir" value="${real.path}/${js.build}"/>
+			<param name="JsLogDir" value="${real.path}/${js.log}"/>
+		</antcall>
+		<!-- concat compressed js files to projectAllInOne.js -->
+		<echo message="CONCAT COMPRESSED JAVASCRIPT FILES FROM ${real.path}/${js.build}/*.js to ${real.path}/${js.dist}/${project-all-in-one.file}" level="info"/>
+		<condition property="common" value="true">
+			<contains string="${project}" substring="common" casesensitive="false"/>
+		</condition>
+		<!-- Order in which these files are concatenated _IS_ IMPORTANT! -->
+		<if>
+			<equals arg1="${common}" arg2="true"/>
+			<then>
+				<echo message="--${common}--- minify COMMON project" level="info"/>
+				<concat destfile="${real.path}/${js.dist}/${project-all-in-one.file}" force="yes">
+					<filelist dir="${real.path}/${js.build}" files="${commonloadorder}"/>
+				</concat>
+			</then>
+			<else>
+				<echo message="---${common}--- minify ${project} project" level="info"/>
+				<concat destfile="${real.path}/${js.dist}/${project-all-in-one.file}" force="yes">
+					<fileset dir="${real.path}/${js.build}" includes="*.js"/>
+				</concat>
+			</else>
+		</if>
+		<!-- copy and rewrite config.xml to 'dist', except IPVS-Common -->
+		<if>
+			<not>
+				<equals arg1="${real.path}" arg2="${IPVSCommon.dir}"/>
+			</not>
+			<then>
+				<echo message=" Then call setConfigXML .... " level="info"/>
+				<antcall target="setConfigXML">
+					<param name="real.path" value="${real.path}"/>
+				</antcall>
+			</then>
+		</if>
+	</target>
+	<!-- minify all javascript files of a specified project -->
+	<target name="jsminifyfile" depends="init" description="Minifiy a set of files ">
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<echo message="Compress all javascript files of project ${project} under path [under directory ${real.path}] ..." level="info"/>
+		<!-- check and create directories js.src,js.build,js.dist,js.log -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="${real.path}/${js.build},${real.path}/${js.dist},${real.path}/${js.log},${real.path}/${js.doc}"/>
+		</antcall>
+		<!-- compress a single javascript file -->
+		<exec dir="." executable="java" failonerror="true" output="${real.path}/${js.log}/compressJsLog.txt">
+			<arg line="-jar ${buildtools.path}/yuicompressor-2.4.2.jar ${real.path}/js/${file} -o ${real.path}/${js.build}/${file} "/>
+		</exec>
+	</target>
+	<!-- minify all projects by once -->
+	<target name="jsminifyAll" depends="init" description="Minifiy a set of files">
+		<antcall target="jsminifyproject">
+			<param name="project" value="${IPVSCommon.dir}"/>
+		</antcall>
+		<antcall target="jsminifyproject">
+			<param name="project" value="${IPVSClientUI.dir}"/>
+		</antcall>
+		<antcall target="jsminifyproject">
+			<param name="project" value="${IPVSAdminUI.dir}"/>
+		</antcall>
+	</target>
+
+	<!-- helper task to check and create a directory if it is not there -->
+	<target name="checkDirExist">
+		<sequential>
+			<echo message="..." level="info"/>
+			<for list="${directory.list}" param="dirFile">
+				<sequential>
+					<available file="@{dirFile}" property="@{dirFile}_isDirFileAvail"/>
+					<var name="isDirFileAvail" value="@{dirFile}_isDirFileAvail"/>
+					<switch value="${@{dirFile}_isDirFileAvail}">
+						<case value="true">
+							<echo message="@{dirFile} is already exist" level="debug"/>
+							<echo message="@{dirFile}_isDirFileAvail=${@{dirFile}_isDirFileAvail}" level="debug"/>
+						</case>
+						<default>
+							<echo message="@{dirFile} is not exist and being created now..." level="info"/>
+							<mkdir dir="@{dirFile}"/>
+						</default>
+					</switch>
+				</sequential>
+			</for>
+		</sequential>
+	</target>
+	<!--change config.xml to load compressed 2 projectAllInOne.js one for current project one for common -->
+	<target name="setConfigXML" description="remove all the 'script' records and insert 2 projectAllInOne.js node in config.xml">
+		<!-- used for unit test 'setConfigXML' as: ant setConfigXML -Dproject='client' -->
+		<echo message=" setCofigXML::: before call converPath project:=${project}" level="info"/>
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<copy file="${real.path}/config.xml" tofile="${real.path}/runconfig.xml"/>
+		<!-- in order to keep svn status clean rewrite config.xml to runconfig.xml -->
+		<echo message=" Set config.xml to load compressed Javascript files for project path: ${real.path}" level="info"/>
+		<if>
+			<and>
+				<not><equals arg1="${real.path}" arg2="${IPVSAuthTool.dir}"/></not>
+				<not><equals arg1="${real.path}" arg2="${IPVSAuthMediaClient.dir}"/></not>
+			</and>
+			<then>
+				<xmltask source="${real.path}/config.xml" dest="${real.path}/runconfig.xml" report="false">
+					<remove path=".//record/*[record='script'] "/>
+					<insert path=".//record[@jsxid='includes']/*[last()]" position="after">
+								<![CDATA[ 
+										<record jsxid="9998" type="map">
+											<record jsxid="id" type="string">dist_projectAllInOne_js</record>
+											<record jsxid="type" type="string">script</record>
+											<record jsxid="load" type="number">1</record>
+											<record jsxid="src" type="string">dist/projectAllInOne.js</record>
+										</record>
+										<record jsxid="9999"	type="map">
+											<record jsxid="id" type="string">IPVS-Common_dist_projectAllInOne.js</record>					  
+											<record jsxid="type" type="string">script</record>
+											<record jsxid="load" type="number">1</record>
+											<record jsxid="src" type="string">../IPVS-Common/dist/projectAllInOne.js</record>
+										</record>				
+								]]>
+					</insert>
+				</xmltask>
+			</then>
+			<else>
+				<xmltask source="${real.path}/config.xml" dest="${real.path}/runconfig.xml" report="false">
+					<remove path=".//record/*[record='script'] "/>
+					<insert path=".//record[@jsxid='includes']/*[last()]" position="after">
+								<![CDATA[ 
+										<record jsxid="9998" type="map">
+											<record jsxid="id" type="string">dist_projectAllInOne_js</record>
+											<record jsxid="type" type="string">script</record>
+											<record jsxid="load" type="number">1</record>
+											<record jsxid="src" type="string">dist/projectAllInOne.js</record>
+										</record>			
+								]]>
+					</insert>
+				</xmltask>
+			</else>
+		</if>
+	</target>
+	<!-- clean up all projectes -->
+	<target name="clean" depends="init">
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSCommon.dir}"/>
+		</antcall>
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSClientUI.dir}"/>
+		</antcall>
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSAdminUI.dir}"/>
+		</antcall>
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSAddins.dir}"/>
+		</antcall>
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSAuthTool.dir}"/>
+		</antcall>
+		<antcall target="cleandir">
+			<param name="project" value="${IPVSAuthMediaClient.dir}"/>
+		</antcall>
+	</target>
+	<!-- clean up non-checkout directories: build,log,doc and file runconfig.xml -->
+	<target name="cleandir">
+		<!-- get absolute path of a project by name  -->
+		<antcallback target="convertPath" return="real.path">
+			<param name="passin" value="${project}"/>
+		</antcallback>
+		<!-- clean up build area  -->
+		<echo message="clean directory ${real.path}/${js.build}" level="info"/>
+		<available file="${real.path}/${js.build}" property="build.exists"/>
+		<if>
+			<equals arg1="${build.exists}" arg2="true"/>
+			<then>
+				<delete includeemptydirs="true">
+					<fileset dir="${real.path}/${js.build}" includes="**/**"/>
+				</delete>
+			</then>
+		</if>
+		<!-- clean up doc area  -->
+		<echo message="clean directory ${real.path}/${js.doc}" level="info"/>
+		<available file="${real.path}/${js.doc}" property="doc.exists"/>
+		<if>
+			<equals arg1="${doc.exists}" arg2="true"/>
+			<then>
+				<delete includeemptydirs="true">
+					<fileset dir="${real.path}/${js.doc}" includes="**/**"/>
+				</delete>
+			</then>
+		</if>
+		<!-- clean up log area  -->
+		<echo message="clean directory ${real.path}/${js.log}" level="info"/>
+		<available file="${real.path}/${js.log}" property="log.exists"/>
+		<if>
+			<equals arg1="${log.exists}" arg2="true"/>
+			<then>
+				<delete includeemptydirs="true">
+					<fileset dir="${real.path}/${js.log}" includes="**/**"/>
+				</delete>
+			</then>
+		</if>
+		<!-- clean up dist area  -->
+		<echo message="clean directory ${real.path}/${js.dist}" level="info"/>
+		<available file="${real.path}/${js.dist}" property="dist.exists"/>
+		<if>
+			<equals arg1="${dist.exists}" arg2="true"/>
+			<then>
+				<delete includeemptydirs="true">
+					<fileset dir="${real.path}/${js.dist}" includes="**/**"/>
+				</delete>
+			</then>
+		</if>
+		<!-- clean up runconfig.xml  -->
+		<echo message="Remove  ${real.path}/runconfig.xml" level="info"/>
+		<available file="${real.path}/runconfig.xml" property="runconfig.exists"/>
+		<if>
+			<equals arg1="${runconfig.exists}" arg2="true"/>
+			<then>
+				<delete>
+					<fileset dir="${real.path}" includes="runconfig.xml"/>
+				</delete>
+			</then>
+		</if>
+	</target>
+	<!-- compress all Javascript files in tibcotest/addins/ -->
+	<target name="compressGIAddins" depends="init" description="compress addins javascript file to directory ./'build'">
+		<!-- create 'addins/build & addins/log' -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="${IPVSAddins}/${js.build}/gui,${IPVSAddins}/${js.build}/util,${IPVSAddins}/${js.log},${IPVSAddins}/${js.build}/api,${IPVSAddins}/${js.build}/agent"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/gui-->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="gui"/>
+			<param name="JsSrcDir" value="${IPVSAddins.dir}/gui"/>
+			<param name="JsDestDir" value="${IPVSAddins}/${js.build}/gui"/>
+			<param name="JsLogDir" value="${IPVSAddins}/${js.log}"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/util -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="util"/>
+			<param name="JsSrcDir" value="${IPVSAddins.dir}/util"/>
+			<param name="JsDestDir" value="${IPVSAddins}/${js.build}/util"/>
+			<param name="JsLogDir" value="${IPVSAddins}/${js.log}"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/api -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="api"/>
+			<param name="JsSrcDir" value="${IPVSAddins.dir}/api"/>
+			<param name="JsDestDir" value="${IPVSAddins}/${js.build}/api"/>
+			<param name="JsLogDir" value="${IPVSAddins}/${js.log}"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/agent -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="agent"/>
+			<param name="JsSrcDir" value="${IPVSAddins.dir}/agent"/>
+			<param name="JsDestDir" value="${IPVSAddins}/${js.build}/agent"/>
+			<param name="JsLogDir" value="${IPVSAddins}/${js.log}"/>
+		</antcall>
+	</target>
+	<!-- # compress Javascirpt files of a directory #		<antcall target="compressJSByDir">				<param name="JsDirectParentDir" value="xxx"/>				<param name="JsSrcDir" value="${...}"/>				<param name="JsDestDir" value="${...}"/>				<param name="JsLogDir" value="${...}"/>		</antcall>	-->
+	<target name="compressJSByDir">
+		<!-- test regular expression online http://www.regexplanet.com/simple/index.html -->
+		<condition property="regxpvalue" value="${JsDirectParentDir}\\([^\\]*.js)" else="${JsDirectParentDir}\/([^\/]*.js)">
+			<os family="windows"/>
+		</condition>
+		<echo message="Getting to compress Javascript files :: regxpvalue=${regxpvalue}" level="info"/>
+		<!-- loop and compress js files of a directory -->
+		<for param="jsfile">
+			<path>
+				<fileset dir="${JsSrcDir}/" includes="**/*.js"/>
+			</path>
+			<sequential>
+				<echo message="current jsfile: @{jsfile}" level="info"/>
+				<!-- substract only Javascript file from a absolute file path -->
+				<propertyregex property="@{jsfile}_name" input="@{jsfile}" regexp="${regxpvalue}" select="\1" casesensitive="true"/>
+				<echo message="propertyregex jsfile: ${@{jsfile}_name}" level="info"/>
+				<!-- check if the file exists -->
+				<available file="${JsDestDir}/${@{jsfile}_name}" property="@{jsfile}.exists"/>
+				<if>
+					<equals arg1="${@{jsfile}.exists}" arg2="true"/>
+					<then>
+						<echo message="[1] ${JsDestDir}/${@{jsfile}_name} EXIST:${@{jsfile}.exists}" level="debug"/>
+						<uptodate property="@{jsfile}.isUpToDate" srcfile="@{jsfile}" targetfile="${JsDestDir}/${@{jsfile}_name}"/>
+						<if>
+							<not>
+								<equals arg1="${@{jsfile}.isUpToDate}" arg2="true"/>
+							</not>
+							<then>
+								<echo message="[2] ${JsDestDir}/${@{jsfile}_name} UPDATED, COMPRESS AGAIN"/>
+								<echo message="java -jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} " level="info"/>
+								<exec dir="." executable="java" failonerror="true" output="${JsLogDir}/compressJsLog.txt">
+									<arg line="-jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} "/>
+								</exec>
+							</then>
+						</if>
+					</then>
+					<else>
+						<echo message="[3] COMPRESSING ${JsDestDir}/${@{jsfile}_name}" level="info"/>
+						<echo message="java -jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} " level="info"/>
+						<exec dir="." executable="java" failonerror="true" output="${JsLogDir}/compressJsLog.txt">
+							<arg line="-jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -v -o ${JsDestDir}/${@{jsfile}_name} "/>
+						</exec>
+					</else>
+				</if>
+			</sequential>
+		</for>
+	</target>
+	
+	<!-- clean all distribution directories -->
+	<target name="cleandist" depends="init">
+		<delete dir="${dist.dir}"/>
+		<delete dir="${dist_authtool.dir}"/>
+		<delete dir="${dist_authmediaclient.dir}"/>
+	</target>
+
+	<!--===  Idealy this part is in authtool_build level, put here for debug purpose   ===-->
+	<!-- get 'mediaconverter.exe' from a specified svn revision for authtool debug purpose-->
+	<target name="makeAuthtoolDebug" depends="init">
+		<echo message="IPVSAuthtoolUtils.dir is ${IPVSAuthtoolUtils.dir}" level="info"/>
+		<antcall target="unzipPlayer">
+			<param name="playerURL" value="${svn.authplayer.url}/${playerVersion}"/>
+			<param name="playerRevision" value="${authplayer.revision}"/>
+			<param name="playerDestpath" value="${IPVSAuthtoolUtils.dir}"/>
+		</antcall>
+	</target>
+	<target name="unzipPlayer" description="unzip player to local">
+			<!--passin parameters playerURL, playerRevision, & playerDestpath -->
+			<sequential>
+				<antcall target="checkoutPlayer">
+					<param name="playerSvnURL" value="${playerURL}"/>
+					<param name="playerSvnRevision" value="${playerRevision}"/>
+					<param name="playerSvnDestpath" value="${playerDestpath}"/>
+				</antcall>
+				<echo message=" unzip IPVPlayerCtrl.zip to ${playerDestpath}..." level="info"/>
+				<!-- keep only mediaconverter.exe-->
+				<unzip src="${playerDestpath}/IPVPlayerCtrl.zip" dest="${playerDestpath}">
+					<patternset>
+						<exclude name="*.cab"/>
+						<exclude name="*.dll"/>
+						<exclude name="IPVSTranscode.exe"/>
+						<include name="mediaconverter.exe"/>
+					</patternset>
+				</unzip>
+				<delete file="${playerDestpath}/readme.txt"/>
+				<delete file="${playerDestpath}/IPVPlayerCtrl.zip"/>
+			</sequential>
+	</target>
+	<target name="checkoutPlayer" description="checkout the player by revision in player.version">
+		<!-- pass in parametess playerSvnURL, playerSvnRevision & playerSvnDestpath -->
+		<sequential>
+				<echo message="checkout ${playerSvnURL} to directory ${playerSvnDestpath} ..." level="info"/>
+				<common_export svn.url="${playerSvnURL}" svn.revision="${playerSvnRevision}" svn.destpath="${playerSvnDestpath}" />
+		</sequential> 
+	</target>
+	 <!-- common svn export -->
+	  <macrodef name="common_export">
+		<attribute name="svn.url"/>
+		<attribute name="svn.revision"/>
+		<attribute name="svn.destpath"/>
+		<sequential>
+			<echo message="CHECKING OUT @{svn.url} AT @{svn.revision} TO @{svn.destpath}" level="info"/>
+			<exec executable="svn">
+				  <arg value="export" />
+				  <arg value="--force" />
+				  <arg value="-r" />
+				  <arg value="@{svn.revision}" />
+				  <arg value="@{svn.url}" />
+				  <arg value="@{svn.destpath}" />
+			</exec>	
+		</sequential>
+	  </macrodef>
+
+  	<!--=======================================================================================================-->
+</project>

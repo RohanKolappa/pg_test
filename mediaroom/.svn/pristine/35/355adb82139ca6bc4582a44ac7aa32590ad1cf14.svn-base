@@ -1,0 +1,61 @@
+declare function local:getUpgradeDeviceInfo( $device as element()*, $asset as element()* )
+as element ()*
+{	
+	let $primaryIPAddr := $device//EthernetPortStatus/Parameters[Parameter[@name='Primary' and .='True']]/Parameter[@name='IPAddress']
+	
+	let $ipAddr :=  if (empty($primaryIPAddr)) then
+						$device//EthernetPortConfig[IsPrimary='true']/IPConfig/IPAddress				
+					else 	
+						$primaryIPAddr
+				
+	let $deviceEl := 
+		<Device NID='{ data($device/@NID) }'		   		 		 
+			assetResourceNID = '{ data($asset/@NID) }'    		 		 
+			title = '{ data($asset//Info/Title) }'
+		   	ownerUserJID = '{ data($asset//Contact/OwnerUserJID) }'		   		 		 
+			state = '{ data($asset//State/StateFlag) }'
+			type = '{ data($asset//Info/Type) }'
+			serviceVersion = "{ if ( count(data($device//SoftwareImageStatus/Parameters/Parameter[@name='Service Version'])) != 0) then 
+													 data($device//SoftwareImageStatus/Parameters/Parameter[@name='Service Version'])
+													else data('NOT_AVAILABLE')
+	                           }"
+			softwareVersion = "{ data($device//SoftwareImageStatus/Parameters/Parameter[@name='Version']) }"
+			date = "{ data($device//SoftwareImageStatus/Parameters/Parameter[@name='Date']) }"	
+			ipAddress = '{ $ipAddr }'	
+			password = '{ data($device//AdminServiceConfig/Password) }'		
+		/>     				 		  		 		  		  															  
+	return $deviceEl
+};
+
+
+let $assetResourceList := 
+				for $b in  #OBJ_AssetResource_OBJ#
+						where $b  _XPATHAND_ 
+						return $b
+
+let $upgradeDeviceList := 
+				for $b in  $assetResourceList
+				for $device in #OBJ_Device_OBJ# 
+					where $device/AssetResourceNID = $assetResourceList/@NID
+				return local:getUpgradeDeviceInfo($device, $assetResourceList[@NID=$device/AssetResourceNID])  
+
+
+let $serviceResourceDoc := 
+				for $serviceResource in #OBJ_ServiceResource_OBJ#
+		 			   return $serviceResource
+
+
+let $getMSAssetResourceNID := 
+				if ($serviceResourceDoc/HA/*/@state = 'active') then
+					   $serviceResourceDoc/HA/*[@state='active']/@MSAssetResourceNID
+	     	    else 
+		 		       $serviceResourceDoc/AssetResourceNID
+
+
+let $msEl := 
+				for $ms in #OBJ_Device_OBJ#
+		     			where $ms/AssetResourceNID = data($getMSAssetResourceNID)
+		     			return <Device ipAddress='{ data($ms//EthernetPortStatus/Parameters[Parameter[@name='Primary' and .='True']]/Parameter[@name='IPAddress'][1]) }'/>
+
+							   
+return <ObjectList> <MSDevice> {$msEl} </MSDevice> <UpgradeDeviceList> {$upgradeDeviceList} </UpgradeDeviceList>  </ObjectList>

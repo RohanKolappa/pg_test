@@ -1,0 +1,14 @@
+(: include SessionXQueryLib.xml :)
+let $q := document {
+ <query>
+	  <queryitem elementName="Port" resourceTitle="tx1" resourceNID="" type="SrcPort" />
+	  <queryitem elementName="Port" resourceTitle="rtp_tx1" resourceNID="" type="SrcPort" />
+	  <queryitem elementName="Port" resourceTitle="srcpc1" resourceNID="" type="DstPort" />
+	  <queryitem elementName="File" resourceTitle="title1" resourceNID="" type="PlyFile" />
+	  <queryitem elementName="File" resourceTitle="" resourceNID="default.mediastreamfileresourcelist.msfrl_fe3e199d-b9b1-4e1b-b4e4-74d576d71f4c" type="PlyFile" />
+	  <queryitem elementName="Dir" resourceTitle="/data1" resourceNID="" type="Dir" />
+  </query>
+}
+
+let $result := local:handleQuery($q/query)
+return $result

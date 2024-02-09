@@ -1,0 +1,19 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="false">
+<validation validationID="ConnectionParameterConfig" methodName="validateRxConnectionParameterConfig" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/DefaultInstanceConfig/V2DDecoderInstanceConnectionEntryConfig" />
+ 
+  <validation validationID="RxCtrlPortRangeFrom" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/RxAVPortRange/From" />
+  <validation validationID="RxCtrlPortRangeTo" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/RxAVPortRange/To" />
+  <validation validationID="V2DStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/DefaultInstanceConfig" />  
+  <validation validationID="MPEGStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/MPEGTSStreamsRxConfig/DefaultInstanceConfig" />
+  <validation validationID="RTPStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/IPVSClient-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/RTPStreamsRxConfig/DefaultInstanceConfig" />
+  
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//IPVSClient-Device/ResourcePointers</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/IPVSClient-Device/AssetResourceNID" action="delete"/>	
+	<foreignKeyNID xpath="//ResponseXML/IPVSClient-Device/ResourcePointers/MediaStreamDstPortResourceNID/NIDValue" action="delete"/>	
+  </validation>
+</CustomValidation>

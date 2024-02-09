@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This file stores bootstrap properties needed by IpvsComponent.
+	Property names must be in the format: "prop.name.is.blah=value" That
+	will be stored as: <prop> <name> <is> <blah>value</blah> </is> </name>
+	</prop> Most properties are stored in the Openfire database. A
+	property viewer and editor is included in the admin console.
+-->
+<config>
+	
+	<!-- +++++++ GENERAL SETTINGS ++++++++++++++ -->
+	<locale>en</locale>
+	<setup>true</setup>
+	<ShutdownThread>
+		<sleepSecsBeforeShutdown>5</sleepSecsBeforeShutdown>
+	</ShutdownThread>	
+	<library>
+		<lib>/home/onair/modules/mediaroom/public</lib>
+	</library>
+	<version>
+		<major>1</major>
+		<minor>1</minor>
+		<micro>1</micro>
+		<status>Alpha</status>
+		<statusVersion>1</statusVersion>
+	</version>
+    <test>
+        <skipCreateBackup>false</skipCreateBackup>
+    </test>
+	<logs>
+		<enable>
+			<logToFile>true</logToFile>
+			<packetsummary>false</packetsummary>
+			<dbsummary>true</dbsummary>
+			
+			<notificationsummary>false</notificationsummary>
+			<packetdetails>false</packetdetails>
+			<ipvsxmlpackets>false</ipvsxmlpackets>
+
+			<dbquery>false</dbquery>
+			<dbqueryresults>false</dbqueryresults>
+			<connectionpool>false</connectionpool>
+			
+			<dbadmin>false</dbadmin>
+			<intercomponent>false</intercomponent>
+			<jetty>false</jetty>
+			<subscription>false</subscription>
+			<dbcache>false</dbcache>
+			<presence>false</presence>
+			<connectionhandler>false</connectionhandler>
+		</enable>
+	</logs>
+	
+	<shared>
+        <ObjectXmlFiles>/data/dbmigration/objectXml</ObjectXmlFiles> 	
+		<dbVendor>sedna</dbVendor>		
+        <!-- use query to send to sedna native as stream input or string - 5k-->
+        <queryStringFormatMaxSize_bytes>5000</queryStringFormatMaxSize_bytes>        
+	</shared>
+	<admindbapi>
+        <!-- sedna_native, sedna_xmldb , exist_xmldb-->
+        <admindbapi>exist_xmldb</admindbapi>  
+        <use_list_col>true</use_list_col>
+		<mediadir_export>/data/mediadir/export</mediadir_export>	
+		<mediadir_import>/data/mediadir/import</mediadir_import>	
+		<mediafile_export>/data/mediafile/export</mediafile_export>	
+		<mediafile_import>/data/mediafile/import</mediafile_import>	
+        
+        <sedna_install_path>/home/onair/sedna</sedna_install_path>
+        
+		<dbBackupArea>/data/sedna_dbsnapshot/backup</dbBackupArea>	
+		<factorydb>/home/onair/templates/factorydb</factorydb>
+		<dbMigrationBackupArea>/data/dbmigration/backup</dbMigrationBackupArea>	
+        
+		<exportSaveCorePoolSize>300</exportSaveCorePoolSize>	
+		<exportSaveMaxPoolSize>300</exportSaveMaxPoolSize>	
+		<exportSaveKeepAlivetimeSec>1</exportSaveKeepAlivetimeSec>
+		
+		<dbserver_running_onremotebox>false</dbserver_running_onremotebox>  
+		<import_useSednaUtils>true</import_useSednaUtils>
+        <delete_useSednaUtils>true</delete_useSednaUtils>
+        <!-- mediadir_zip_type= tar or tgz -->
+        <mediadir_zip_type>tar</mediadir_zip_type>
+         
+        <delete_docuri_mismatch_asset>false</delete_docuri_mismatch_asset>   
+	</admindbapi>
+	
+	<xmpp>
+		<socket>
+			<ssl>
+				<algorithm>TLS</algorithm>
+				<storeType>jks</storeType>
+				<keystore>resources/security/keystore
+				</keystore>
+				<keypass>changeit</keypass>
+				<cilent>
+					<truststore>resources/security/client.truststore
+					</truststore>
+				</cilent>
+				<truststore>resources/security/truststore
+				</truststore>
+				<trustpass>changeit</trustpass>
+				<algorithm>TLS</algorithm>
+			</ssl>
+		</socket>
+	</xmpp>
+	
+	<domainSchema>
+	    <const name='DB_COL_LIST_PREFIX'>ipvs.</const>
+	    <const name='DB_COL_PREFIX'>IPVSc_</const>
+	    <const name='DB_DOC_PREFIX'>IPVSd_</const>
+	    <const name='DB_INDEX_NODE_PREFIX'>IPVSi_nids_</const>
+	    <const name='COL_INDEX_NODE_PREFIX'>IPVSis_colnids_</const>	
+	    <const name='DB_SUB_DOC_PREFIX'>IPVScs_</const>
+	    <const name='DB_SUB_COL_PREFIX'>IPVSds_</const>
+	    <const name='DB_DATA'>1</const>
+	    <const name='DB_SCHEMA'>2</const>
+		<collection name="data" typeConst="DB_DATA" prefixConst='DB_COL_PREFIX'/>
+		<collection name="schema" typeConst="DB_SCHEMA" prefixConst='DB_SUB_COL_PREFIX'/>
+		<index name="nodeIndex" typeConst="DB_DATA" prefixConst='DB_INDEX_NODE_PREFIX' xPath='//@NID'/>
+		<index name="nodeColIndex" typeConst="DB_DATA" prefixConst='COL_INDEX_NODE_PREFIX' xPath='//@parentNID'/>
+		<document name="sub" typeConst="DB_SCHEMA"  prefixConst='DB_SUB_DOC_PREFIX'/>
+ 	</domainSchema>
+	
+	<IpvsDBDriver>
+		<default>com.ipvsserv.nxd.api.xmldb.exist.ExistXmlDBDriverImpl</default>
+		<sednaNative>com.ipvsserv.nxd.api.sednanative.SednaNativeDriverImpl</sednaNative>
+		<xmldbExist>com.ipvsserv.nxd.api.xmldb.exist.ExistXmlDBDriverImpl</xmldbExist>
+		<xmldbSedna>com.ipvsserv.nxd.api.xmldb.sedna.SednaXmlDBDriverImpl</xmldbSedna>
+		<xmldb>com.ipvsserv.nxd.api.xmldb.XmlDBDriverImpl</xmldb>
+	</IpvsDBDriver>
+	
+	
+	<!-- +++++++ MODULES SETTINGS ++++++++++++++ -->
+	<modules>
+		<priorityLevels>10</priorityLevels>
+		
+		<!-- priority 1. http getty server  -->	
+		<module name="AdminHttpService" enable="false" priority="1">
+			<class>com.ipvsserv.plugin.http.JettyModule</class>
+		</module>
+		
+		<!-- priority 2. db connection modules-->	
+		<module name="ExistXmlDBAPI" enable="true" priority="2">
+			<class>com.ipvsserv.nxd.api.xmldb.exist.ExistXmlDBModule</class>
+			<param name='host'>localhost</param>
+			<param name='database'>msdb</param>
+			<param name='user'>admin</param>
+			<param name='pwd'>admin</param>
+			<param name='vendor'>exist</param>
+			<param name='databaseurl'>xmldb:exist://localhost:10085/exist/xmlrpc/db</param>		
+			<param name='corePoolSize'>1</param>
+			<param name='maxPoolSize'>1</param>
+			<param name='getconn_timeout_msec'>1200000</param> 
+			<param name='open_extra_conn_wait_msec'>5000</param> 
+			<param name='open_extra_conn_max'>1</param> 
+		</module>	
+		<module name="SednaXmlDBAPI" enable="false" priority="2">
+			<class>com.ipvsserv.nxd.api.xmldb.sedna.SednaXmlDBModule</class>
+			<param name='host'>localhost</param>
+			<param name='database'>msdb</param>
+			<param name='user'>SYSTEM</param>
+			<param name='pwd'>MANAGER</param>
+			<param name='vendor'>sedna</param>
+			<param name='databaseurl'>xmldb:sedna://localhost/msdb</param>		
+			<param name='corePoolSize'>1</param>
+			<param name='maxPoolSize'>1</param>	
+			<param name='getconn_timeout_msec'>1200000</param> 
+			<param name='open_extra_conn_wait_msec'>5000</param> 
+			<param name='open_extra_conn_max'>1</param> 
+		</module>
+		<module name="SednaNativeAPI" enable="false" priority="2">
+			<class>com.ipvsserv.nxd.api.sednanative.SednaNativeModule</class>
+			<param name='host'>localhost</param>
+			<param name='database'>msdb</param>
+			<param name='user'>SYSTEM</param>
+			<param name='pwd'>MANAGER</param>
+			<param name='vendor'>sedna</param>
+			<param name='corePoolSize'>1</param>
+			<param name='maxPoolSize'>1</param>	
+			<param name='getconn_timeout_msec'>1200000</param> 
+			<param name='open_extra_conn_wait_msec'>5000</param> 
+			<param name='open_extra_conn_max'>1</param> 
+		</module>
+		
+		
+		<!-- priority 3.  fatctory reset-->	
+		<module  name="DBFactoryReset" enable="true" priority="3">
+			<class>com.ipvsserv.nxd.migration.DBFactoryResetModule</class>
+		</module>		
+		<!-- priority 3. db test modules  -->	
+		<module name="SednaNativeDBTest" enable="false" priority="3">
+			<class>com.ipvsserv.nxd.dbtask.test.sednanative.SednaNativeDBTestModule</class>
+			<param name='templateDefinationXmlPath'>templateDefination.xml</param>
+			<param name='testDBXmlPath'>testDB.xml</param>
+		</module>	
+		<module name="ExistXmlDBTestModule" enable="false" priority="3">
+			<class>com.ipvsserv.nxd.dbtask.test.existxmldb.ExistXmlDBTestModule</class>
+			<param name='templateDefinationXmlPath'>templateDefination.xml</param>
+			<param name='testDBXmlPath'>testdb.xml</param>
+		</module>	
+		<module name="SednaXmlDBTestModule" enable="false" priority="3">
+			<class>com.ipvsserv.nxd.dbtask.test.sednaxmldb.SednaXmlDBTestModule</class>
+			<param name='templateDefinationXmlPath'>templateDefination.xml</param>
+			<param name='testDBXmlPath'>testdb.xml</param>
+		</module>
+		<module name="BulkUpload" enable="false" priority="3">
+			<class>com.ipvsserv.nxd.bulkupload.BulkUploadModule</class>
+			<param name='templateDefinationXmlPath'>templateDefination.xml</param>
+			<param name='bulkUploadXmlPath'>bulkupload.xml</param>
+		</module>
+		
+		<!-- priority 4. db migration -->	
+		<module name="DBMigration" enable="false" priority="4">
+			<class>com.ipvsserv.nxd.migration.DBMigrationModule</class>
+		</module>	
+		
+		<module name="DBMigrationFileSystem" enable="true" priority="4">
+			<class>com.ipvsserv.nxd.migration.DBMigrationFileSystemModule</class>
+		</module>	
+		
+		<!-- priority 5. DBTask -->	
+		<module name="DBTask" enable="false" priority="5">
+			<class>com.ipvsserv.nxd.dbtask.DBTask</class>
+			<param name='dbVendor'>sedna</param>
+			<param name='collectionName'></param>
+		</module>
+		
+		<!--  priority 5. user/resource --> 
+		<module name="DMSUserRegistration" enable="true" priority="5">
+			<class>com.ipvsserv.dmsapp.DMSUserRegistrationModule</class>
+		</module>
+		
+		<module name="DMSUserManagement" enable="false" priority="5">
+			<class>com.ipvsserv.dmsapp.DMSUserManagementModule</class>
+		</module>
+		
+			
+		
+		<!--  priority 6. xmpp component or tcp clients--> 
+		<module name="OpenfireComponent" enable="true" priority="6">
+			<class>com.ipvsserv.nxd.mdc.comp.PubSubModule</class>
+			<param name='host'>localhost</param>
+			<param name='port'>5275</param>
+			<param name='secretKey'>test</param>
+		</module>
+		
+		<!--  priority 7. dynamicaly added plugins --> 
+		<module name="PluginManager" enable="false" priority="7">
+			<class>com.ipvsserv.plugin.PluginManagerImpl</class>
+		</module>
+		<module name="AdminSocketClient" enable="false" priority="7">
+			<class>com.ipvsserv.socket.mdc.MDCSocketServerModule</class>
+		</module>
+		
+		<!--  priority 8. ms component or tcp clients--> 
+		<module name="MSComponent" enable="false" priority="8">
+			<class> com.ipvs.xmpp.client.component.MSComponentModule</class>
+			<param name='name'>mediaroomplugin</param>
+		</module>
+				
+	</modules>
+
+	<MSComponent>
+    	<appServerAppImpl>com.ipvs.device.AppServerApp</appServerAppImpl> 
+		<ipvssessionimpl>com.ipvs.xmpp.client.component.IPVSSessionCompImpl</ipvssessionimpl>
+		<settings>
+		    	<!-- <class>com.ipvs.device.AppServerApp</class> --> 
+		    	<login>/etc/config/LoginRequest.xml</login> 
+		    	<servicedomain>/etc/config/SetServiceDomainRequest.xml</servicedomain>
+		    	<config>/etc/config/Device.xml</config>
+	    </settings>
+	    <library>
+	     	<lib>/home/onair/modules/mediaroom/public</lib>
+	    </library>
+	    <mscomponent>
+			<xmppServer>localhost</xmppServer>
+			<port>5222</port>
+			<componentType>external</componentType>
+			<xmppServerPort>5275</xmppServerPort>
+			<secret>test</secret>
+			<component>
+				<serviceDesc>IPVS Management Server Service</serviceDesc>
+				<serviceId>managementserver</serviceId>
+				<registerComponents>20</registerComponents>
+			</component>
+			<thread>
+				<disable>false</disable>
+				<corePoolSize>40</corePoolSize>
+				<maxPoolSize>100</maxPoolSize>
+				<keepAlivetimeSec>60</keepAlivetimeSec>
+			</thread>
+	    </mscomponent>		
+	</MSComponent>
+	
+
+	<!-- +++++++ MODULES PARAM SETTINGS ++++++++++++++ -->
+	<!--	# ExistXmlDBAPI Module  -->
+	<ExistXmlDBAPI>
+ 		<!--  any config for SednaNativeAPI -->
+		<databaseProperties>
+			<param name='create-database'>false</param>
+		</databaseProperties>
+		<connectionProperties/>
+	</ExistXmlDBAPI>
+ 
+	<DBTask/>
+	<SednaNativeAPI/>
+	<DBMigration>
+		<empty_dbServiceVersion>1.0</empty_dbServiceVersion>
+		<dbMigrationfolder>/etc/migration</dbMigrationfolder>
+		<dbMigrationWorkArea>/data/dbmigration/workarea</dbMigrationWorkArea>
+        
+        <enableCreateSnapshot>false</enableCreateSnapshot>
+        <enableRestartOnEachServiceVerMig>false</enableRestartOnEachServiceVerMig>
+
+		<serviceVersionHistory>serviceVersion.history</serviceVersionHistory>
+		<dbVendor>sedna</dbVendor>
+		<preMigrationDBBackupFolder>pre_migration_bck_db</preMigrationDBBackupFolder>
+	</DBMigration>	
+
+	<DBMigrationFileSystem>
+		<empty_dbServiceVersion>1.0</empty_dbServiceVersion>
+		<dbMigrationfolder>/etc/migration</dbMigrationfolder>
+		<dbMigrationWorkArea>/data/dbmigration/workarea</dbMigrationWorkArea>
+		<dbMigrationWorkArea_xslapply>/data/dbmigration/xslapply</dbMigrationWorkArea_xslapply>
+        
+        <enableCreateSnapshot>false</enableCreateSnapshot>
+        <enableRestartOnEachServiceVerMig>false</enableRestartOnEachServiceVerMig>
+
+		<serviceVersionHistory>serviceVersion.history</serviceVersionHistory>
+		<dbVendor>sedna</dbVendor>
+		<preMigrationDBBackupFolder>pre_migration_bck_db</preMigrationDBBackupFolder>
+	</DBMigrationFileSystem>
+
+	<DBFactoryReset>
+		<dbVendor>sedna</dbVendor>
+	</DBFactoryReset>
+	<!--	# SednaXmlDBAPI Module  -->
+	<!--
+		///////////////////////////////////// SednaXmlDBAPI Module
+		1.conn-max-active: Maximum number of concurrent database connections the
+			Sedna XML:DB API can use. Set 0 for no limit.
+		2.conn-max-idle :Maximum number of concurrent idle database connections
+			to retain in the pool. Set -1 for no limit.	
+		3.conn-max-wait: Maximum time to wait for a database connection to become
+				available in milliseconds. An XMLDBException is thrown if 
+				this timeout is exceeded. Set to -1 to wait indefinitely.
+		4.conn-remove-abandoned-timeout: Amount of connection inactivity time in milliseconds before
+			a connection is considered abandoned and thus will either
+			turn idle or be closed.
+		5.conn-remove-abandoned: Whether or not to close abandoned connections or keep
+			them open indefinitely.
+		6. conn-log-abandoned: Whether or not Sedna XML:DB API should print to the
+				standard output stream when a connection has been identified as abandoned.
+		7.conn-abandoned-check-interval : Amount of time in milliseconds between a batch check of
+			all connections within the pool, to see if any have been
+			abandoned in order to be recycled or closed.	
+	-->	
+	<SednaXmlDBAPI>
+		<connectionProperties/>
+		<databaseProperties>
+			<param name='conn-max-active'>1</param>
+			<param name='conn-max-idle'>-1</param>
+			<param name='conn-max-wait'>29000</param>
+			<param name='conn-remove-abandoned-timeout'>29000</param>
+			<param name='conn-remove-abandoned'>false</param>
+			<param name='conn-log-abandoned'>1</param>
+			<param name='conn-abandoned-check-interval'>29000</param>
+		</databaseProperties>	
+	</SednaXmlDBAPI>
+
+	<!--	# AdminSocketClient Module  -->
+	<AdminSocketClient>
+  		<!--  any config for AdminSocketClient -->
+		<xmppServer>localhost</xmppServer>
+		<port>5222</port>
+	</AdminSocketClient>
+
+	<!--	# AdminHttpService Module  -->
+	<AdminHttpService>
+		<!--  any config for AdminHttpService -->
+		<!-- Disable either port by setting the value to -1 -->
+		<!-- <inteface>127.0.0.1</inteface> -->
+		<port>9190</port>
+		<securePort>9191</securePort>
+		<jetty>
+			<debugEnabled>true</debugEnabled>
+		</jetty>
+	</AdminHttpService>
+
+	<!--	# OpenfireComponent Module  -->
+	<!-- component settings for external component OpenfireComponent-->
+	<OpenfireComponent>
+		<xmppServer>localhost</xmppServer>
+		<port>5222</port>
+		<componentType>external</componentType>
+		<xmppServerPort>5275</xmppServerPort>
+		<secret>test</secret>
+		<maxRequestLimit>60</maxRequestLimit>
+		<thread>
+			<disable>false</disable>
+			<corePoolSize>40</corePoolSize>
+			<maxPoolSize>40</maxPoolSize>
+			<keepAlivetimeSec>60</keepAlivetimeSec>
+		</thread>
+		<pubsub>
+			<serviceDesc>IPVS XML DB Component Service</serviceDesc>
+			<serviceId>ipvsdbservice</serviceId>
+			<registerComponents>20</registerComponents>
+		</pubsub>
+		<notification>
+			<serviceDesc>IPVS XML DB Component Notifiaction Service
+			</serviceDesc>
+			<serviceId>iipvsnotificationdbservice
+			</serviceId>
+			<registerComponents>20</registerComponents>
+		</notification>
+		<impl>
+			<pubsub>com.ipvsserv.nxd.mdc.comp.PubSubEngineImpl</pubsub>
+			<subscription>com.ipvsserv.nxd.mdc.sub.SubscriptionsHashMDC</subscription>
+			<dbCache>com.ipvsserv.nxd.mdc.db.cache.DBCacheImpl</dbCache>
+			<DBApiI>
+				<default>com.ipvsserv.nxd.mdc.db.xmldb.exist.ExistXmlDBDriverMDCImpl</default>
+				<sednaNative>com.ipvsserv.nxd.mdc.db.sednanative.SednaNativeDriverMDCImpl</sednaNative>
+				<xmldbExist>com.ipvsserv.nxd.mdc.db.xmldb.exist.ExistXmlDBDriverMDCImpl</xmldbExist>
+				<xmldbSedna>com.ipvsserv.nxd.api.xmldb.sedna.SednaXmlDBDriverMDCImpl</xmldbSedna>
+				<xmldb>com.ipvsserv.nxd.api.xmldb.XmlDBDriverImpl</xmldb>
+			</DBApiI>			
+ 		</impl>
+		<subscription>
+			<enable>true</enable>
+			<saveToDB>40</saveToDB>
+			<saveIntervalMinutes>2</saveIntervalMinutes>
+		</subscription>
+		<dbCache>
+			<enable>true</enable>
+			<maxLimit>100</maxLimit>
+		</dbCache>
+		<updatewithmerge>
+			<!-- enable update with merge. merge request xml with db xml for child with NID before update. -->
+			<enable>false</enable>
+			<!-- print the changes to log after merge -->
+			<assert>false</assert>
+		</updatewithmerge>			
+		<countToFetch>
+			<default>50000</default>
+			<devicelist>50000</devicelist>
+			<userlist>50000</userlist>
+		</countToFetch>
+		
+	</OpenfireComponent>
+	<DMSUserRegistration>
+		<!-- DMSUserRegistration  -->
+	</DMSUserRegistration>
+	<DMSUserManagement>
+		<loginxml>/etc/config/LoginRequest.xml</loginxml>
+		 <lib>
+		 	<objectxmljarpath>/home/onair/modules/mediaroom/public/objectxml.jar</objectxmljarpath>
+		 	<mediaroomjarpath>/home/onair/modules/mediaroom/public/mediaroom.jar</mediaroomjarpath>
+		    <resource_user></resource_user>		
+		    <resource_asset></resource_asset>		
+		 </lib>
+		 
+ 		 <verify_initdb>
+ 		 	<list_nid>default.userlist</list_nid>
+ 		 	<where_xpath>//User[UserName='superuser-default']</where_xpath> 		 	
+ 		 </verify_initdb>
+
+ 		 <user>
+ 		 	<nid>default.userlist</nid>
+ 		 	<email_suffix>ipvs.com</email_suffix> 		 	
+ 		 	<group_el_parent_path>//Roster/Item</group_el_parent_path> 	
+ 		 	<groups_el>
+				 <Groups>
+				  	<Tag Name="_RESERVED_" Value="DEVICE_BOT_USERS"/>
+				</Groups>	
+		   </groups_el> 		 		 	
+ 		 	<group_el>
+ 				 <Group>
+				 </Group>					 		
+		   </group_el>
+ 		 </user>
+ 		  <asset>
+ 		 	<nid>default.assetresourcelist</nid>
+		   	<Type>MS-Device</Type>
+ 		 	<groups_el_parent_path>//Info</groups_el_parent_path>
+ 		 	<assetPrivateKey_el_parent_path>//Info</assetPrivateKey_el_parent_path> 	 	
+ 		 	<groups_el>
+				 <Groups>
+				 	<Tag Name="" Value=""/>
+				</Groups>	
+		   </groups_el>
+		   <assetPrivateKey_el>
+			   <AssetPrivateKey>
+				   <KeyScheme></KeyScheme>
+				   <KeyData></KeyData>
+			  </AssetPrivateKey>
+ 		 	</assetPrivateKey_el>
+ 		 </asset>
+	</DMSUserManagement>	
+</config>

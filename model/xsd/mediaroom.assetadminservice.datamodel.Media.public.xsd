@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="MediaStateEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ready" />
+      <xs:enumeration value="Busy" />
+      <xs:enumeration value="Offline" />
+      <xs:enumeration value="Deleting" />
+      <xs:enumeration value="Error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="PVRInfoType">    
+    <xs:attribute name="enable" type="xs:boolean" />
+	<xs:attribute name="trimLength" type="xs:integer" />
+	<xs:attribute name="mediaStreamFileResourceNID" type="xs:string" />
+	<xs:attribute name="mediaStreamDirResourceNID" type="xs:string" />
+	<xs:attribute name="sessionId" type="xs:string" />    
+  </xs:complexType>
+  <xs:complexType name="BasePortType">
+	<xs:attribute name="deviceElementId" type="xs:string"/>
+	<xs:attribute name="readOnly" type="xs:string"/>
+	<xs:attribute name="priority" type="xs:int"/>
+	<xs:attribute name="presence" type="xs:string"/>
+  </xs:complexType>
+   <xs:complexType name="CapacityManagementType">
+  	<xs:sequence>
+      <xs:element name="ThresholdRule" type="ThresholdRuleType"/>
+      <xs:element name="ILMRule" type="ILMRuleType"/>
+    </xs:sequence>
+    <xs:attribute name="schedule" type="xs:string"/>
+   	<xs:attribute name="state" type="StateEnumType"/>
+   	<xs:attribute name="lastRunDate" type="xs:string"/>
+   	<xs:attribute name="lastRunTime" type="xs:string"/>
+   	<xs:attribute name="lastRunState" type="xs:string"/>
+  </xs:complexType> 
+  
+  <xs:complexType name="ThresholdRuleType">
+    <xs:attribute name="enable" type="xs:boolean"/>
+    <xs:attribute name="diskCapacityReached" type="xs:long"/>
+    <xs:attribute name="reduceDiskCapacity" type="xs:long"/>
+    <xs:attribute name="type" type="TypeEnumType"/>
+    <xs:attribute name="nasDriveURL" type="xs:anyURI"/>
+    <xs:attribute name="format" type="FormatObjectType"/> 
+  </xs:complexType>   
+  
+  <xs:complexType name="ILMRuleType">
+    <xs:attribute name="enable" type="xs:boolean"/>
+    <xs:attribute name="olderThan" type="xs:string"/>
+    <xs:attribute name="type" type="TypeEnumType"/>
+    <xs:attribute name="nasDriveURL" type="xs:anyURI"/>
+    <xs:attribute name="format" type="FormatObjectType"/> 
+  </xs:complexType>        
+  
+  <xs:simpleType name="ModeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DirSpanning" />
+      <xs:enumeration value="CapacityManagement" />
+    </xs:restriction>
+  </xs:simpleType> 
+  
+  <xs:simpleType name="StateEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Started" />
+      <xs:enumeration value="Running_Threshold_Rule" />
+      <xs:enumeration value="Running_ILM_Rule" />
+      <xs:enumeration value="Idle" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="TypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OFFLOAD" />
+      <xs:enumeration value="DELETE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MediaModeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Dynamic" />
+      <xs:enumeration value="AutoStart" />
+      <xs:enumeration value="Static" />
+    </xs:restriction>
+  </xs:simpleType> 
+  	<xs:simpleType name="FormatObjectType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Proprietary" />
+			<xs:enumeration value="Standard" />
+			<xs:enumeration value="Both" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+ 

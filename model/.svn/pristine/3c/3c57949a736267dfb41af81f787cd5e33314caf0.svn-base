@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:element name="MediaStreamProfileList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamProfile" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamProfile" type="MediaStreamProfileType" />
+  <xs:complexType name="MediaStreamProfileType" abstract="true">
+    <xs:sequence>
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="StreamType" type="StreamTypeEnumType" />
+      <xs:element name="Priority" type="xs:int" />
+      <xs:element name="StreamActionInfo" type="StreamActionInfoType" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />    
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="StreamActionInfoType">
+    <xs:sequence>
+      <xs:element name="AllowPause" type="xs:boolean" />
+      <xs:element name="AllowSkipback" type="xs:boolean" />
+      <xs:element name="AllowSkipfwd" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MediaStreamProfileInfo">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="MPEGTSMediaStreamProfileInfo" type="MPEGTSMediaStreamProfileInfoType" />
+        <xs:element name="RTP-RAWMediaStreamProfileInfo" type="RTP-RAWMediaStreamProfileInfoType" />
+        <xs:element name="RTP-PCMMediaStreamProfileInfo" type="RTP-PCMMediaStreamProfileInfoType" />
+        <xs:element name="RFBMediaStreamProfileInfo" type="RFBMediaStreamProfileInfoType" />
+        <xs:element name="RTPMediaStreamProfileInfo" type="RTPMediaStreamProfileInfoType" />
+        <xs:element name="UDPMediaStreamProfileInfo" type="UDPMediaStreamProfileInfoType" />
+        <xs:element name="V2DMediaStreamProfileInfo" type="V2DMediaStreamProfileInfoType" />
+        <xs:element name="DVIMediaStreamProfileInfo" type="DVIMediaStreamProfileInfoType" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamPortProfileInfo">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="MPEGTSMediaStreamProfileInfo" type="MPEGTSMediaStreamProfileInfoType" />
+        <xs:element name="RTP-RAWMediaStreamProfileInfo" type="RTP-RAWMediaStreamPortProfileInfoType" />
+        <xs:element name="RTP-PCMMediaStreamProfileInfo" type="RTP-PCMMediaStreamPortProfileInfoType" />
+        <xs:element name="RFBMediaStreamProfileInfo" type="RFBMediaStreamPortProfileInfoType" />
+        <xs:element name="RTPMediaStreamProfileInfo" type="RTPMediaStreamPortProfileInfoType" />
+        <xs:element name="UDPMediaStreamProfileInfo" type="UDPMediaStreamProfileInfoType" />
+        <xs:element name="V2DMediaStreamProfileInfo" type="V2DMediaStreamPortProfileInfoType" />
+        <xs:element name="DVIMediaStreamProfileInfo" type="DVIMediaStreamProfileInfoType" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MPEGTSMediaStreamProfile" type="MPEGTSMediaStreamProfileType" />
+  <xs:complexType name="MPEGTSMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="MPEGTSMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.4" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGTSMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element ref="MPEGTSStreamConfig" />
+      <xs:element ref="MPEGEncoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DVIMediaStreamProfile" type="DVIMediaStreamProfileType" />
+  <xs:complexType name="DVIMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="DVIMediaStreamProfileInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DVIMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element ref="DVIStreamConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPMediaStreamProfile" type="UDPMediaStreamProfileType" />
+  <xs:complexType name="UDPMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="UDPMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.4" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDPMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element ref="UDPStreamConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+   <xs:element name="RTP-RAWMediaStreamProfile" type="RTP-RAWMediaStreamProfileType" />
+  <xs:complexType name="RTP-RAWMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="RTP-RAWMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.0" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+    
+    
+  <xs:complexType name="RTP-RAWMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RTPRAWStreamConfig" type="RTPStreamConfigType" />
+      <xs:element name="RTPRAWRecoderConfig"  type="RTPRecorderConfigType"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="RTP-RAWMediaStreamPortProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RTPRAWStreamConfig" type="RTPStreamConfigType" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+  <xs:element name="RFBMediaStreamProfile" type="RFBMediaStreamProfileType" />
+  <xs:complexType name="RFBMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="RFBMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.0" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+   <xs:complexType name="RFBMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RFBStreamConfig" type="RTPStreamConfigType" />
+      <xs:element name="RFBRecoderConfig"  type="RTPRecorderConfigType"/>
+    </xs:sequence>
+  </xs:complexType>
+ 
+ <xs:complexType name="RFBMediaStreamPortProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RFBStreamConfig" type="RTPStreamConfigType" />
+    </xs:sequence>
+  </xs:complexType>
+
+ <xs:element name="RTP-PCMMediaStreamProfile" type="RTP-PCMMediaStreamProfileType" />
+  <xs:complexType name="RTP-PCMMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="RTP-PCMMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.0" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+   <xs:complexType name="RTP-PCMMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RTPPCMStreamConfig" type="RTPStreamConfigType" />
+      <xs:element name="RTPPCMRecoderConfig"  type="RTPRecorderConfigType"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="RTP-PCMMediaStreamPortProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element name="RTPPCMStreamConfig" type="RTPStreamConfigType" />
+    </xs:sequence>
+  </xs:complexType>
+   
+  <xs:element name="RTPMediaStreamProfile" type="RTPMediaStreamProfileType" />
+  <xs:complexType name="RTPMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="RTPMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.6" name="Ver" type="xs:double" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  
+  <xs:complexType name="RTPMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element ref="RTPStreamConfig" />
+      <xs:element ref="MPEGEncoderParameterConfig" />
+      <xs:element ref="RTPRecoderConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  
+   <xs:complexType name="RTPMediaStreamPortProfileInfoType">
+    <xs:sequence>
+      <xs:element name="SDP-Template-Src" type="xs:string" />
+      <xs:element ref="RTPStreamConfig" />
+      <xs:element ref="MPEGEncoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="V2DMediaStreamProfile" type="V2DMediaStreamProfileType" />
+  <xs:complexType name="V2DMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="V2DMediaStreamProfileInfoType" />
+        </xs:sequence>
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+      </xs:extension>      
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DMediaStreamProfileInfoType">
+    <xs:sequence>
+      <xs:element ref="V2DStreamConfig" />
+      <xs:element ref="V2DEncoderAudioConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterKbmConfig" />
+      <xs:element ref="V2DRecorderConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="V2DMediaStreamPortProfileInfoType">
+    <xs:sequence>
+      <xs:element ref="V2DStreamConfig" />
+      <xs:element ref="V2DEncoderAudioConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterKbmConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DCodecConfig" type="V2DCodecConfigType" />
+  <xs:complexType name="V2DCodecConfigType">
+    <xs:sequence>
+      <xs:element ref="V2DCodecVideoLookupEntryConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="V2DRecorderConfig" type="RecorderConfigType" />
+  <xs:complexType name="RecorderConfigType">
+    <xs:sequence>
+      <xs:element name='FFTracks'>
+         <xs:simpleType>            
+            <xs:restriction base="xs:string">
+              <xs:enumeration value=""/>
+              <xs:enumeration value="1-256"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:element>
+      <xs:element ref='ThumbnailConfig' />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DEncoderConfig" type="V2DEncoderConfigType" />
+  <xs:complexType name="V2DEncoderConfigType">
+    <xs:sequence>
+      <xs:element ref="V2DEncoderVideoConfig" />
+      <xs:element ref="V2DEncoderAudioConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterConfig" />
+      <xs:element ref="V2DEncoderConnectionParameterKbmConfig" />
+      <xs:element ref="V2DEncoderPortKbmTable" />
+      <xs:element ref="V2DEncoderPortRFBTable" />
+      <xs:element ref="V2DEncoderSerialConfig" />
+      <xs:element ref="V2DEncoderSplashParametersConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DDecoderConfig" type="V2DDecoderConfigType" />
+  <xs:complexType name="V2DDecoderConfigType">
+    <xs:sequence>
+      <xs:element ref="V2DDecoderVideoConfig" />
+      <xs:element ref="V2DDecoderSerialConfig" />
+      <xs:element ref="V2DDecoderSplashParametersConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VNCMediaStreamProfile" type="VNCMediaStreamProfileType" />
+  <xs:complexType name="VNCMediaStreamProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="VNCMediaStreamProfileInfo" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="VNCMediaStreamProfileInfo">
+    <xs:sequence>
+      <xs:element ref="VNCStreamConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileXferProfile" type="FileXferProfileType" />
+  <xs:complexType name="FileXferProfileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamProfileType">
+        <xs:sequence>
+          <xs:element name="Info" type="FileXferStreamProfileInfo" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FileXferStreamProfileInfo">
+    <xs:sequence>
+      <xs:element ref="FileXferStreamConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamConfig" type="V2DStreamConfigType" />
+  <xs:complexType name="V2DStreamConfigType">
+    <xs:sequence>
+      <xs:element name="IsMulticast" type="xs:boolean" />
+      <xs:element name="EnableSRDTranscode" type="xs:boolean" />
+      <xs:element name="SRDTranscodeBandwidth" type="xs:string" />
+      <xs:element name="AVOption">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Audio" />
+            <xs:enumeration value="Video" />
+            <xs:enumeration value="Both" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamConfig" type="MPEGTSStreamConfigType" />
+  <xs:complexType name="MPEGTSStreamConfigType">
+    <xs:sequence>
+      <xs:element name="IsMulticast" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DVIStreamConfig" type="DVIStreamConfigType" />
+  <xs:complexType name="DVIStreamConfigType">
+    <xs:sequence>
+      <xs:element name="IsDVII" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPStreamConfig" type="UDPStreamConfigType" />
+  <xs:complexType name="UDPStreamConfigType">
+    <xs:sequence>
+      <xs:element name="IsMulticast" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPStreamConfig" type="RTPStreamConfigType" />
+  <xs:complexType name="RTPStreamConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SDP-m-Template" type="xs:string" />
+      <xs:sequence>
+        <xs:element name="IsMulticast" type="xs:boolean" />
+        <xs:element name="AVOption">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Audio" />
+              <xs:enumeration value="Video" />
+              <xs:enumeration value="Both" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPRecoderConfig" type="RTPRecorderConfigType"/>
+  	<xs:complexType name="RTPRecorderConfigType">
+  	  <xs:sequence>
+        <xs:element ref="ThumbnailConfig" />
+        <xs:element ref="HLSConfig" />
+      </xs:sequence>
+  	</xs:complexType>
+
+  <xs:element name="VNCStreamConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TBD" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FileXferStreamConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TBD" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+   <xs:element name="MPEGEncoderParameterConfig" type="MPEGEncoderParameterConfigType"/>  
+    <xs:complexType name="MPEGEncoderParameterConfigType">
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SDP-a-Template" type="xs:string" />
+        <xs:sequence minOccurs="0">
+          <xs:element name="Encapsulation">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="MPEGTS" />
+                <xs:enumeration value="RAW" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="AudioCompression">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="MP2" />
+                <xs:enumeration value="AAC" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="AudioBitrate" type="xs:int" />
+          <xs:element name="VideoCompression">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="MPEG2" />
+                <xs:enumeration value="MPEG4" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="VideoBitrate" type="xs:int" />
+          <xs:element name="PictureSize">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="CIF" />
+                <xs:enumeration value="D1" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="VideoInputSource">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="Composite" />
+                <xs:enumeration value="S-Video" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="VideoFormat">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="PAL" />
+                <xs:enumeration value="NTSC" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="DeinterlaceMode">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="Motion" />
+                <xs:enumeration value="Blending" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="Hue" type="xs:int" />
+          <xs:element name="Saturation" type="xs:int" />
+          <xs:element name="Brightness" type="xs:int" />
+          <xs:element name="Contrast" type="xs:int" />
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+
+  <xs:element name="MPEGDecoderParameterConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Parameter" type="NVPair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UDPEncoderParameterConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Parameter" type="NVPair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UDPDecoderParameterConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Parameter" type="NVPair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="V2DEncoderEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderEntryConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="EncoderID" type="xs:int" />
+        <xs:element name="SubChannel" type="xs:int" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+      <xs:attributeGroup ref="ListIndex" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderVideoConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="NoiseElimination" type="NoiseType" />
+        <xs:element name="Position" type="HVType" />
+        <xs:element name="SamplingPhase" type="xs:int" />
+        <xs:element name="LUTPumpCurr" type="xs:string" />
+        <xs:element name="AdvancedVideoEncoderConfig">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OptimizeLatency" type="xs:boolean" />
+              <xs:element name="DVIMode" type="DVIModeEnumType" />
+              <xs:element name="EnableVideoOutput" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderVideoStatus" type="V2DEncoderVideoStatusType" />
+  <xs:complexType name="V2DEncoderVideoStatusType">
+    <xs:all>
+      <xs:element name="Parameters" type="StatusParametersType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="V2DEncoderAudioConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="SampleRate" type="xs:string" />
+        <xs:element name="SampleSize" type="xs:string" />
+        <xs:element name="MonoStereo" type="xs:string" />
+        <xs:element name="AudioEncodeEnable" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DXP200SerialConfig" type="V2DCodecSerialConfigType" />
+  <xs:element name="V2DEncoderSerialConfig" type="V2DCodecSerialConfigType" />
+  <xs:element name="V2DDecoderSerialConfig" type="V2DCodecSerialConfigType" />
+  <xs:complexType name="V2DCodecSerialConfigType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="BaudRate" type="xs:int" />
+      <xs:element name="DataBits" type="xs:int" />
+      <xs:element name="Parity" type="xs:string" />
+      <xs:element name="StopBits" type="xs:int" />
+      <xs:element name="FlowControl" type="xs:string" />
+      <xs:element name="MaximumWaitTime" type="xs:int" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="V2DDecoderVideoConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="PixelAdjust" type="xs:int" />
+        <xs:element name="StereoSync" type="xs:string" />
+        <xs:element name="HSyncPolarity" type="xs:string" />
+        <xs:element name="VSyncPolarity" type="xs:string" />
+        <xs:element name="GenlockMode" type="GenlockModeType" />
+        <xs:element name="MasterDelay" type="xs:int" />
+        <xs:element name="EnableVideoOutput" type="xs:boolean" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DDecoderVideoStatus" type="V2DDecoderVideoStatusType" />
+  <xs:complexType name="V2DDecoderVideoStatusType">
+    <xs:all>
+      <xs:element name="Parameters" type="StatusParametersType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="ThumbnailConfig" type="ThumbnailConfigType" />
+  <xs:complexType name="ThumbnailConfigType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="HLSConfig" type="HLSConfigType" />
+  <xs:complexType name="HLSConfigType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+   
+  <xs:element name="XP200DisplayConfig" type="XP200DisplayConfigType" />
+  <xs:complexType name="XP200DisplayConfigType">
+	<xs:sequence>
+		<xs:element name="DisplayType" type="DisplayTypeEnumType" />
+		<xs:element name="OverlayType" type="OverlayTypeEnumType" />
+		<xs:element name="Override" type="OverrideEnumType" />
+		<xs:element name="OverrideColor" type="OverrideColorEnumType" />
+		<xs:element name="KeepAspect" type="xs:boolean" />
+		<xs:element name="Aspect" type="AspectEnumType" />
+		<xs:element name="HorizontalTransformation" type="TransformationEnumType" />
+		<xs:element name="HorizontalScale" type="xs:int" />
+		<xs:element name="HorizontalResolution" type="xs:int" />
+		<xs:element name="VerticalTransformation" type="TransformationEnumType" />
+		<xs:element name="VerticalScale" type="xs:int" />
+		<xs:element name="VerticalResolution" type="xs:int" />
+		<xs:element name="HorizontalPosition" type="PositionEnumType" />
+		<xs:element name="HorizontalLocation" type="HorizontalLocationEnumType" />
+		<xs:element name="VerticalPosition" type="PositionEnumType" />
+		<xs:element name="VerticalLocation" type="VerticalLocationEnumType" />
+		<xs:element name="HorizontalOffset" type="xs:int" />
+		<xs:element name="VerticalOffset" type="xs:int" />
+		<xs:element name="Transparency" type="xs:int" />
+	</xs:sequence>
+	<xs:attributeGroup ref="Dirty" />
+</xs:complexType>
+  
+  <xs:element name="XP200DisplayTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="XP200DisplayEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XP200DisplayEntryConfig">
+    <xs:complexType>
+      <xs:complexContent>
+      <xs:extension base="XP200DisplayConfigType">
+      <xs:attributeGroup ref="ListIndex" />
+      </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XP200DisplayStatus" type="XP200DisplayStatusType" />
+  <xs:complexType name="XP200DisplayStatusType">
+    <xs:all>
+      <xs:element name="Parameters" type="StatusParametersType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="XP200AudioMixerConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LocalVolume" type="xs:int" />
+        <xs:element name="RemoteVolume" type="xs:int" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XP200InputVideoConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Position" type="HVType" />
+        <xs:element name="SamplingPhase" type="xs:int" />
+        <xs:element name="LUTPumpCurr" type="xs:string" />
+        <xs:element name="DVIMode" type="DVIModeEnumType" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XP200DecoderPortKbmConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="KbType">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="SGI" />
+              <xs:enumeration value="PC" />
+              <xs:enumeration value="SUN" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MouseType">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="PS2" />
+              <xs:enumeration value="IMPS2" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="KBMMode" type="KBMModeEnumType" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XP200KBMSConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ControlMode" type="XP200KBMSSettingsType" />
+        <xs:element name="LocalMode" type="XP200KBMSSettingsType" />
+        <xs:element name="RemoteMode" type="XP200KBMSSettingsType" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="XP200KBMSSettingsType">
+    <xs:sequence>
+      <xs:element name="Esc1" type="EscapeCharEnumType" />
+      <xs:element name="Esc2" type="EscapeCharEnumType" />
+      <xs:element name="Esc3" type="EscapeCharEnumType" />
+      <xs:element name="Esc4" type="EscapeCharEnumType" />
+      <xs:element name="IconColor" type="IconColorEnumType" />
+      <xs:element name="IconDuration" type="xs:int" />
+      <xs:element name="HorizontalPosition" type="PositionEnumType" />
+      <xs:element name="HorizontalLocation" type="HorizontalLocationEnumType" />
+      <xs:element name="HorizontalOffset" type="xs:int" />
+      <xs:element name="VerticalPosition" type="PositionEnumType" />
+      <xs:element name="VerticalLocation" type="VerticalLocationEnumType" />
+      <xs:element name="VerticalOffset" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DDecoderVideoLookupTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="V2DDecoderVideoLookupEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DDecoderVideoLookupEntryConfig" type="V2DDecoderVideoLookupEntryConfigType" />
+  <xs:complexType name="V2DDecoderVideoLookupEntryConfigType">
+    <xs:sequence>
+      <xs:element name="LUTID" type="xs:int" />
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Resolution" type="HVType" />
+      <xs:element name="RefreshRate" type="xs:float" />
+      <xs:element name="PixelClockRate" type="xs:float" />
+      <xs:element name="Stereo" type="xs:boolean" />
+      <xs:element name="FrontPorch" type="HVType" />
+      <xs:element name="BackPorch" type="HVType" />
+      <xs:element name="Sync" type="HVType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="V2DDisplayOverrideTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="V2DDisplayOverrideEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DDisplayOverrideEntryConfig" type="V2DDisplayOverrideEntryConfigType" />
+  <xs:complexType name="V2DDisplayOverrideEntryConfigType">
+    <xs:sequence>
+      <xs:element name="OverrideLUTID" type="xs:int" />
+      <xs:element name="CheckLUTID" type="xs:boolean" />
+      <xs:element name="LUTID" type="xs:int" />
+      <xs:element name="CheckStereo" type="xs:boolean" />
+      <xs:element name="Stereo" type="xs:boolean" />
+      <xs:element name="CheckHorizontalResolution" type="xs:boolean" />
+      <xs:element name="HorizontalResolution" type="xs:int" />
+      <xs:element name="CheckVerticalResolution" type="xs:boolean" />
+      <xs:element name="VerticalResolution" type="xs:int" />
+      <xs:element name="CheckRefreshRate" type="xs:boolean" />
+      <xs:element name="RefreshRate" type="xs:float" />
+      <xs:element name="CheckPixelClockRate" type="xs:boolean" />
+      <xs:element name="PixelClockRate" type="xs:float" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="V2DCodecVideoLookupTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="V2DCodecVideoLookupEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DCodecVideoLookupEntryConfig" type="V2DCodecVideoLookupEntryConfigType" />
+  <xs:complexType name="V2DCodecVideoLookupEntryConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="V2DDecoderVideoLookupEntryConfigType">
+        <xs:sequence>
+          <xs:element name="VerticalMargin" type="xs:int" />
+          <xs:element name="Phase" type="xs:int" />
+          <xs:element name="Position" type="HVType" />
+          <xs:element name="NoiseElimination" type="NoiseType" />
+          <xs:element name="ColorSpace" type="xs:string" />
+          <xs:element name="ChargePumpCurr" type="xs:string" />
+          <xs:element name="Gain" type="RGBType" />
+          <xs:element name="Offset" type="RGBType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DDecoderSplashParametersConfig" type="V2DDecoderSplashParametersConfigType" />
+  <xs:complexType name="V2DDecoderSplashParametersConfigType">
+    <xs:sequence>
+      <xs:element name="SplashScreen" type="xs:string" />
+      <xs:element name="EnableSplash" type="xs:boolean" />
+      <xs:element name="Stereo" type="xs:boolean" />
+      <xs:element name="Resolution" type="HVType" />
+      <xs:element name="RefreshRate" type="xs:float" />
+      <xs:element name="PixelClockRate" type="xs:float" />
+      <xs:element name="FrontPorch" type="HVType" />
+      <xs:element name="BackPorch" type="HVType" />
+      <xs:element name="Sync" type="HVType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="V2DEncoderSplashParametersConfig" type="V2DEncoderSplashParametersConfigType" />
+  <xs:complexType name="V2DEncoderSplashParametersConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="V2DDecoderSplashParametersConfigType">
+        <xs:sequence>
+          <xs:element name="SplashBandwidth" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:element name="V2DEncoderThumbnailParametersConfig" type="V2DEncoderThumbnailParametersConfigType" />
+  <xs:complexType name="V2DEncoderThumbnailParametersConfigType">    
+      <xs:sequence>
+      <xs:element name="EnableTN" type="xs:boolean" />
+      <xs:element name="Native" type="xs:boolean" />      
+      <xs:element name="TNLarge" type="TNLargeType" />
+      <xs:element name="TNSmall" type="TNSmallType" />      
+      <xs:element name="TNTimeInterval" type="xs:int" />
+      
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />    
+  </xs:complexType>
+  
+  <xs:element name="V2DEncoderConnectionParameterConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="BurstRatio" type="xs:float" />
+        <xs:element name="BurstDuration" type="xs:int" />
+        <xs:element name="Compression" type="HiLoType" />
+        <xs:element name="Bandwidth" type="xs:string" />
+        <xs:element name="Refresh" type="MinMaxType" />
+        <xs:element name="Slice" type="MinMaxType" />
+        <xs:element name="BlockThreshold" type="xs:int" />
+        <xs:element name="ColorSampling" type="ColorSamplingType" />
+        <xs:element name="FrameRateDivider" type="xs:int" />
+        <xs:element name="IFrameInterval" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderConnectionParameterKbmConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AllowKMSwitch" type="xs:boolean" />
+        <xs:element name="KMIdleTime" type="xs:int" />
+        <xs:element name="EnableKbm" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderPortKbmConfig" type="V2DEncoderPortKbmConfigType" />
+  <xs:complexType name="V2DEncoderPortKbmConfigType">
+     <xs:sequence>
+       <xs:element name="SubChannel" type="xs:int" />
+       <xs:element name="KbType">
+         <xs:simpleType>
+           <xs:restriction base="xs:string">
+             <xs:enumeration value="SGI" />
+             <xs:enumeration value="PC" />
+             <xs:enumeration value="SUN" />
+           </xs:restriction>
+         </xs:simpleType>
+        </xs:element>
+        <xs:element name="MouseType">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="PS2" />
+              <xs:enumeration value="IMPS2" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="KBMLoopback" type="xs:boolean" />
+      </xs:sequence>
+    	<xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="V2DEncoderPortKbmTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="V2DEncoderPortKbmEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderPortKbmEntryConfig">
+    <xs:complexType>
+		<xs:complexContent>
+			<xs:extension base="V2DEncoderPortKbmConfigType">
+				<xs:attributeGroup ref="ListIndex" />
+			</xs:extension>
+		</xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderPortRFBConfig" type="V2DEncoderPortRFBConfigType" />
+	<xs:complexType name="V2DEncoderPortRFBConfigType">
+		<xs:sequence>
+			<xs:element name="SubChannel" type="xs:int" />
+			<xs:element name="EnableRFB" type="xs:boolean" />
+			<xs:element name="RFBHostName" type="xs:string" />
+			<xs:element name="Password" type="xs:string" />
+			<xs:element name="Port" type="xs:integer" />
+			<xs:element name="XOffset" type="xs:integer" />
+			<xs:element name="YOffset" type="xs:integer" />
+		</xs:sequence>
+		<xs:attributeGroup ref="Dirty" />
+	</xs:complexType>
+  <xs:element name="V2DEncoderPortRFBTable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="V2DEncoderPortRFBEntryConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderPortRFBEntryConfig">
+	<xs:complexType>
+		<xs:complexContent>
+			<xs:extension base="V2DEncoderPortRFBConfigType">
+				<xs:attributeGroup ref="ListIndex" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  </xs:element>
+  <xs:complexType name="NoiseType">
+    <xs:sequence>
+      <xs:element name="Coarse" type="xs:int" />
+      <xs:element name="Fine" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HVType">
+    <xs:sequence>
+      <xs:element name="Horizontal" type="xs:int" />
+      <xs:element name="Vertical" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RGBType">
+    <xs:sequence>
+      <xs:element name="Red" type="xs:int" />
+      <xs:element name="Green" type="xs:int" />
+      <xs:element name="Blue" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HiLoType">
+    <xs:sequence>
+      <xs:element name="High" type="xs:int" />
+      <xs:element name="Low" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MinMaxType">
+    <xs:sequence>
+      <xs:element name="Min" type="xs:int" />
+      <xs:element name="Max" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ColorSamplingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Dynamic 4:4:4" />
+      <xs:enumeration value="Static 4:4:4" />
+      <xs:enumeration value="4:2:2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GenlockModeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Master" />
+      <xs:enumeration value="Slave" />
+      <xs:enumeration value="None" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="TNLargeType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="TNLargeWidth" type="xs:int" />
+      <xs:element name="TNLargeHeight" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TNSmallType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="TNSmallWidth" type="xs:int" />
+      <xs:element name="TNSmallHeight" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

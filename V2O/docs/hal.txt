@@ -1,0 +1,438 @@
+
+The Hardware Abstraction Layer (HAL)
+====================================
+
+
+
+Introduction
+------------
+
+The Hardware Abstraction Layer (HAL) for I50 and XP is the data structures
+and routines designed to simplify the way applications access the hardware
+in the system.  The basic abstraction for the HAL layer is represented by 
+`struct hal_s` or `HAL`.  The hardware access routines are all the routines
+that start with the prefix `hal_`. They're defined in the files 'hal.h',
+'hal.c', 'vlib.h' and  'vlib.c'.
+
+["ditaa",target="images/gen_hal.png",scale="60"]
+---------------------------------------------------------------------
+
+
+    +----------------+ +------------------------------------------+
+    | Initialization | |  User programs (StreamingServer, vutils) |
+    +----------------+ +------------------------------------------+
+            ^                       ^                      ^
+            |                       |                      |
+            |                       v                      |    
+            |      +------------------------------------+  |
+            |      |      Hardware Access Utilities     |  |
+            |      | lut_utils, edid_utils, kbms_utils, |  |
+            |      |    client_utils, usb_utils, etc    |  |
+            |      +------------------------------------+  |
+            |                       ^                      |
+            |                       |                      |
+            v                       v                      v
+         +----------------------------------------------------+
+         |            Hardware Abstraction Layer (HAL)        |
+         +----------------------------------------------------+
+                                    ^                      
+                                    |
+                                    v                      
+         +----------------------------------------------------+
+         |                    FPGA  DRIVER                    |
+         +----------------------------------------------------+
+
+------------------------------------------------------------------------
+
+
+
+Basic Concepts 
+--------------
+
+The `HAL` data structure contains all the information about the V2D 
+board, including the file descriptors to control the FPGA driver, 
+to read and write video, audio, keyboard, mouse or serial data, and 
+to obtain hardware information about the board. To access V2D hardware
+or driver functions, an application first obtains a handle to a `HAL` 
+structure using `hal_acquire`. For example, the following code segment 
+gets a `HAL` handle, uses it to access the ID register of the FPGA, 
+then releases the handle by calling `hal_release`:
+
+......................................................................
+   HAL *hp;
+
+   if ((hp = hal_acquire(cno)) == NULL) {
+       printf("Failed to access hardware on Channel %d\n", cno);
+       return -1;
+   }
+
+   printf("FPGA_IDREG = 0x%x\n",  hal_get_fpga_val_k(hp, FPGA_IDREG));
+
+   hal_release(hp);
+......................................................................
+
+The basic idea for `HAL` is to aggregate data about each of the FPGA 
+boards in the I50 or XP so the operations of all the devices can be 
+accessed through a single data structure. This, together with a set 
+of routines that hide the differences between the systems will then 
+provide a uniform, hardware-independent interface to the hardware. 
+Specifically, `HAL` is defined as follows (in `hal.h`): 
+
+......................................................................
+    typedef struct hal_s {
+        int kernel_fd;
+        int board_number;
+        int audio_fd;
+        int keyboard_fd;
+        int mouse_fd;
+        int i2c_fd;
+        struct console_s console_info;
+        struct serial_s serial_info;
+        struct list_head event_head;
+        struct hardware_info hw_info;
+        int debug_flags;
+    } HAL;
+......................................................................
+
+The struct contains the file descriptors necessary for accessing 
+the video, audio, keyboard, mouse devices implemented in the FPGA 
+(`kernel_fd`, `audio_fd`, `keyboard_fd`, `mouse_fd`) as well as the 
+file descriptor to control the I2C bus (`i2c_fd`) and the console, 
+serial and USB devices on the board (`console_fd` in `console_info`, 
+`serial_fd` in `serial_info` and `event_fd` in `event_head`) plus 
+some information about the hardware (`board_number` and `hw_info`). 
+
+......................................................................
+    struct serial_s {
+        int serial_fd;
+        char serial_name[MAXDEVLEN];
+    };
+                                                                                
+    struct console_s {
+        int console_fd;
+        int kb_active;
+    };
+
+    struct event_s {
+        int event_fd;
+        char event_name[MAXDEVLEN];
+        int event_state;
+        struct list_head event_list;
+    };
+......................................................................
+
+`HAL` provides the single hook for user programs to access all the 
+hardware and driver functions on the V2D board. And in many cases, 
+hardware access is done in a system-independent way. 
+
+For example, the MicroChip 24LC21 EEPROM is used for EDID on the XP whereas
+it is is implemented as FPGA registers on the I50. When the routine 
+`displayEepromEdid` needs to display the EDID on the menu, it uses 
+`hal_read_edid_eeprom` without needing to worry about differences in the 
+underlying implementation. (See `eeprom_edid_status_menu_gen.c` and 
+`eeprom_edid_status_menu.c`.).
+
+Another example is the routine `getRxConnectionStatus` (in `rx_connection_
+status_menu.c`) simply calls `hal_getGenlockMode` to display the current 
+genlock mode on the RX connection status menu even though genlock mode 
+is done differently in the I50 and the XP FPGAs and the XP FPGA supports 
+an additional genlock mode. (See `rx_connection_status_menu.c`.) 
+
+There are other cases, though, in the current HAL implementation where
+system-specific routines are used. Some of these cases are listed in 
+the Code Cleanup section at the end of the document.
+
+
+List of HAL Functions
+---------------------
+
+      Function Name                  Description             Defined In
+  ----------------------------------------------------------------------
+   hal_acquire                  routines to gain/release       hal.c
+   hal_release                  access to FPGA driver          hal.c
+
+   hal_get_board_number          routines to get information    hal.c
+   hal_get_channel_number        about hardware                 hal.c
+   hal_get_number_of_boards                                     hal.c
+   hal_get_hardware_type                                        hal.c
+   hal_get_board_type                                           hal.c
+   hal_get_hardware_version                                     hal.c
+   hal_get_hardware_revision                                    hal.c
+   hal_get_hardware_detected                                    hal.c
+   hal_get_fpga_version                                         hal.c
+   hal_get_hardware_description                                 hal.c
+   hal_get_firmware_version                                     hal.c
+   hal_get_firmware_date                                        hal.c
+   hal_get_board_serial_number                                  vlib.c
+   hal_get_board_manufacture_date                               vlib.c
+   hal_get_board_revision                                       vlib.c
+
+   hal_get_board_vpd             routines to access VPD         vlib.c
+   hal_set_board_vpd             data on XP                     vlib.c
+   hal_plx_vpd_read_k                                           vlib.c
+   hal_plx_vpd_write_k                                          vlib.c
+ 
+   hal_get_audio_fd              routines to get file           hal.c
+   hal_get_video_fd              descriptors for reading/       hal.c
+   hal_get_keyboard_fd           writing video, audio,          hal.c
+   hal_get_mouse_fd              keyboard or mouse data         hal.c
+   hal_get_serial_fd                                            hal.c
+
+   hal_add_serial_device         routines to manage             hal.c
+   hal_get_serial_name           hot-pluggable devices          hal.c
+   hal_remove_serial_device      on XP                          hal.c
+   hal_get_event_fd_list                                        hal.c
+   hal_add_event_device                                         hal.c
+   hal_remove_event_device                                      hal.c
+
+   hal_get_console_fd            routines to support            hal.c 
+   hal_kbm_switchin              shared use of keyboard/        hal.c
+   hal_kbm_switchout             mouse between the RX           hal.c
+   hal_initialize_console        and the console                hal.c
+   hal_update_virtual_console                                   hal.c
+
+   hal_get_fpga_val_k            routines to access FPGA        hal.c
+   hal_set_fpga_val_k            registers on I50 and XP        hal.c
+   hal_and_in_fpga_val_k                                        hal.c
+   hal_or_in_fpga_val_k                                         hal.c
+   hal_get_fpga_val32_k                                         hal.c
+   hal_set_fpga_val32_k                                         hal.c
+   hal_and_in_fpga_val32_k                                      hal.c
+   hal_or_in_fpga_val32_k                                       hal.c
+
+   hal_get_plx_val_k             routines to access PLX,        vlib.c
+   hal_set_plx_val_k             BAR2, BAR3 and PLX             vlib.c
+   hal_get_bar2_val_k            configuration registers        vlib.c
+   hal_set_bar2_val_k            on XP                          vlib.c
+   hal_get_bar3_val_k                                           vlib.c
+   hal_set_bar3_val_k                                           vlib.c
+   hal_get_plx_config_val_k                                     vlib.c
+   hal_set_plx_config_val_k                                     vlib.c
+
+   hal_plx_eeprom_present        routines to access PLX         vlib.c 
+   hal_set_plx_eeprom_val_k      EEPROM on XP                   vlib.c
+   hal_set_plx_eeprom_val_k                                     vlib.c
+
+   hal_get_ad9888_val_k          routines to access I2C         hal.c
+   hal_set_ad9888_val_k          devices on I50 and XP          hal.c
+   hal_id18125_write_k                                          hal.c
+   hal_id18125_read_k                                           hal.c
+   hal_get_ad9852_val_k                                         hal.c
+   hal_set_ad9852_val_k                                         hal.c
+   hal_get_pca9555_clk_val_k                                    vlib.c
+   hal_set_pca9555_clk_val_k                                    vlib.c
+   hal_get_ak4683ad_val_k                                       vlib.c
+   hal_set_ak4683ad_val_k                                       vlib.c
+   hal_get_ak4683aa_val_k                                       vlib.c
+   hal_set_ak4683aa_val_k                                       vlib.c
+   hal_get_pm_pca9555_val_k                                     vlib.c
+   hal_set_pm_pca9555_val_k                                     vlib.c
+   hal_get_pca9545a_val_k                                       vlib.c
+   hal_set_pca9545a_val_k                                       vlib.c
+   hal_get_pca9555_dvi_val_k                                    vlib.c
+   hal_set_pca9555_dvi_val_k                                    vlib.c
+   hal_get_sii1178_1_val_k                                      vlib.c
+   hal_set_sii1178_1_val_k                                      vlib.c
+   hal_get_sii1178_2_val_k                                      vlib.c
+   hal_set_sii1178_2_val_k                                      vlib.c
+
+   hal_read_i2c_val_k           routines to access I2C          vlib.c
+   hal_write_i2c_val_k          devices on XP                   vlib.c
+   hal_set_main_i2c_val_k                                       vlib.c
+   hal_get_main_i2c_val_k                                       vlib.c
+   hal_get_orbpcin_i2c_val_k                                    vlib.c
+   hal_set_orbpcin_i2c_val_k                                    vlib.c
+   hal_get_orbmon_i2c_val_k                                     vlib.c
+   hal_set_orbmon_i2c_val_k                                     vlib.c
+   hal_get_pm_i2c_val_k                                         vlib.c
+   hal_set_pm_i2c_val_k                                         vlib.c
+
+   hal_read_ddc_edid_data       routines to read monitor        hal.c
+   hal_read_mon_edid            EDID on I50 and XP              vlib.c
+   hal_read_mon_edid_extension                                  vlib.c
+
+   hal_read_edid_eeprom         routines to access EDID         vlib.c
+   hal_load_edid_eeprom         data on I50 and XP              vlib.c
+   hal_read_pcin_edid_eeprom                                    vlib.c
+   hal_load_pcin_edid_eeprom                                    vlib.c
+
+   hal_get_board_temperature    routines to monitor             vlib.c
+                                temperature on XP200/XP220
+
+   hal_init_xp100_fan_speed     routines to monitor             vlib.c
+   hal_get_xp100_fan_speed      temperature and control         vlib.c
+   hal_set_xp100_fan_speed      fan speed on XP100              vlib
+   hal_monitor_xp100_temperature
+
+   hal_activate_board           routines to start or stop       vlib.c
+   hal_deactivate_board         the operations of the FPGA      vlib.c
+                                and other devices on XP
+                            
+   hal_real_video_available     routines to access              vlib.c
+   hal_getStereo                information on input video      vlib.c
+   hal_getHorizontalLines                                       vlib.c
+   hal_getVerticalFrequency                                     vlib.c
+   hal_getVerticalFrequencyVal                                  vlib.c
+   hal_getHorizontalFrequency                                   vlib.c
+   hal_getHorizontalFrequencyVal                                vlib.c
+
+   hal_adjust_hd_k              routines to control how         hal.c
+   hal_adjust_vd_k              video input and output          hal.c
+   hal_get_hd_k                 is handled                      hal.c
+   hal_get_vd_k                                                 hal.c
+   hal_get_charge_pump_curr                                     hal.c
+   hal_set_default_charge_pump_curr                             hal.c
+   hal_get_default_charge_pump_curr                             hal.c
+   hal_set_phase_adjust_k                                       hal.c
+   hal_get_phase_adjust_k                                       hal.c
+   hal_get_framerate_divider                                    hal.c
+   hal_set_framerate_divider                                    hal.c
+   hal_compute_dds_frequency                                    hal.c
+   hal_set_pixel_adjust                                         hal.c
+   hal_get_pixel_adjust                                         hal.c
+   hal_get_horiz_polarity                                       hal.c
+   hal_set_horiz_polarity                                       hal.c
+   hal_get_vert_polarity                                        hal.c
+   hal_set_vert_polarity                                        hal.c
+   hal_set_ext_sync                                             hal.c
+   hal_set_iframe_interval                                      hal.c
+   hal_set_dvimode_auto                                         hal.c
+   hal_set_optimize_latency                                     hal.c
+   hal_set_video_output                                         vlib.c
+   hal_getGenlockMode                                           vlib.c
+   hal_setGenlockMode                                           vlib.c
+
+   hal_get_addside_compmode     routines to control             hal.c
+   hal_set_addside_compmode     video compression               hal.c
+   hal_get_dropside_compmode                                    hal.c
+   hal_set_dropside_compmode                                    hal.c
+   hal_adjustCompression                                        hal.c
+
+   hal_get_pc_params            routines to control             hal.c
+   hal_set_pc_params            progressive compression         hal.c
+
+   hal_get_fc_queue_limits      routines to control             hal.c
+   hal_set_fc_queue_limits      audio/video queue size          hal.c
+                                in the driver
+
+   hal_insert_lut               routines to control the LUT     hal.c
+   hal_reset_lut                table the driver uses for       hal.c
+                                LUT match
+
+   hal_get_addside_lut          routines to control the         hal.c  
+   hal_configure_addside_lut    add-, drop- and display         hal.c
+   hal_get_dropside_lut         LUTs in the driver              hal.c
+   hal_set_dropside_lut                                         hal.c
+   hal_check_display_lut                                        hal.c
+   hal_get_display_lut                                          hal.c
+   hal_set_display_lut                                          hal.c
+
+   hal_resetAddsideVideo        routines to re-configure        hal.c
+   hal_resetDropsideVideo       the FPGA add- or drop-side      hal.c 
+                                video on I50 and XP
+
+   hal_setDropsideVideo         routine to re-configure         hal.c
+                                the FPGA and other devices 
+                                for video output on I50  
+
+   hal_getActiveIntf            routines to control audio/      vlib.c
+   hal_setActiveIntf            video input handling in         vlib.c
+   hal_forceActiveIntf          the FPGA                        vlib.c
+
+   hal_getAudioVideoFlag        routines to control audio/      vlib.c
+   hal_setAudioVideoFlag        video processing options        vlib.c
+                                in the FPGA 
+
+   hal_setAudioMixer            routines to control audio       vlib.c
+   hal_getAudioMixerLocalVolume volume on XP                    vlib.c
+   hal_setAudioMixerLocalVolume                                 vlib.c
+
+   hal_set_framecnt_enable      routines to control frame       vlib.c
+   hal_read_framecnt_fifo       count function in FPGA          vlib.c
+
+   hal_getKeyboardType          routines to control how         hal.c
+   hal_setKeyboardType          keyboard and mouse data         hal.c
+   hal_getMouseType             is processed                    hal.c
+   hal_setMouseType                                             hal.c
+
+   hal_LED_all_on                routines to control LEDs       hal.c  
+   hal_LED_all_off               on I50 front panel             hal.c
+   hal_LED_all_normal                                           hal.c
+   hal_LED_on                                                   hal.c
+   hal_LED_off                                                  hal.c
+   hal_LED_blink                                                hal.c
+   hal_LED_keepalive                                            hal.c
+
+   hal_set_icon_xpos             routines to control            vlib.c
+   hal_set_icon_ypos             how keyboard/mouse and         vlib.c
+   hal_set_icon_color            guideruler icon is             vlib.c
+   hal_set_icon_on               displayed on XP RX             vlib.c
+   hal_set_icon_off                                             vlib.c
+   hal_init_keyboard_icon                                       vlib.c
+   hal_init_guideruler_icon                                     vlib.c
+
+   hal_init_pix_cursor           routines to control how        vlib.c
+   hal_set_pix_cursor_status     pixel and mouse cursor are     vlib.c
+   hal_init_mouse_cursor         displayed on XP RX             vlib.c
+   hal_set_mouse_cursor_pos                                     vlib.c
+   hal_set_mouse_cursor_status                                  vlib.c
+
+   hal_get_fc_params             routines to access             vlib.c
+   hal_get_fc_wparams            audio/video/keyboard/mouse     vlib.c
+   hal_get_frame_cnt             statistics                     vlib.c
+   hal_get_slice_cnt                                            vlib.c
+   hal_get_fc_read_stats                                        vlib.c
+   hal_get_fc_write_stats                                       vlib.c
+   hal_get_kbm_params                                           vlib.c
+   hal_reset_kbm_params                                         vlib.c
+
+   hal_get_overlay_params        routines to control            vlib.c
+   hal_set_overlay_params        display video on XP RX         vlib.c
+   hal_get_overlay_info                                         vlib.c
+   hal_get_overlay_mode                                         vlib.c
+   hal_get_cropping_params                                      vlib.c
+   hal_enable_cropping                                          vlib.c
+   hal_disable_cropping                                         vlib.c
+   hal_get_chromakey_enable_k                                   vlib.c
+   hal_set_chromakey_enable_k                                   vlib.c
+   hal_get_chromakey_alpha_k                                    vlib.c
+   hal_set_chromakey_alpha_k                                    vlib.c
+   hal_get_chromakey_color_value_k                              vlib.c
+   hal_set_chromakey_color_value_k                              vlib.c
+   hal_get_chromakey_pixel_value_k                              vlib.c
+   hal_set_chromakey_pixel_value_k                              vlib.c
+
+   hal_flush_fc_queues_k        routines to control internal    vlib.c
+   hal_flush_kbm_queues_k       operations of the driver or     vlib.c
+   hal_soft_reset_fpga          the FPGA                        vlib.c
+
+   read_system_attr             routines to process text files  vlib.c
+   read_hex_from_file                                           vlib.c
+   print_framecnt_to_buffer                                     vlib.c
+
+   hal_force_panic              routines for debugging          vlib.c  
+   hal_fire_interrupt                                           vlib.c 
+   hal_set_video_available                                      vlib.c
+   hal_set_driver_enable                                        vlib.c
+   hal_get_board_status                                         vlib.c
+   hal_set_i2c_debug                                            vlib.c
+
+Code Cleanup 
+------------
+  
+  . Replace code that directly access FPGA registers or makes direct 
+    ioctl calls with `hal_` routines.
+  . Organize the functions into files in a more rational way, e.g., 
+    move I2C routines into a separate file by themselves.  
+  . Move non-hardware related functions (all externs not starting 
+    with `hal_` e.g. `read_system_attr` and `get_configured_rx_
+    video_output`) to some other file.
+  . Eliminate system pecific `hal_` functions when possible (e.g.  
+    combine `hal_read_ddc_edid_data` with `hal_read_mon_edid`).
+  . Remove `hal_get_v4_ad9888_val_k` and `hal_set_v4_ad9888_val_k`.
+    Fix the rest of the code to uniformly use hal_get_ad9888_val_k`
+    and `hal_set_ad9888_val_k`.
+  . Remove unused routines and variables in data structures (e.g. 
+    hal_get_serial_name and debug_flags in `struct hal_s`.
+  . Make function names more consistent across the HAL layer (e.g. 
+    change upper & lower case names to underscored).

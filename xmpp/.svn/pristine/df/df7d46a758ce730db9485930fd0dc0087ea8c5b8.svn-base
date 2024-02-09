@@ -1,0 +1,76 @@
+<ipvs>
+   <query type="ExportQuery" name="export"  priority="1" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	<![CDATA[ 
+ 		declare variable $param_mediaFileNID:='PARAM_mediaStreamFileResourceNID' ;
+		let $mediaGroupID :=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaFileNID]//MediaGroupID
+		let $arr_fileNids :=for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+					where $b[ 
+					 @NID=$param_mediaFileNID or (   //Type='MediaGroup'  and   //MediaGroupID=$mediaGroupID) ]   
+					return $b/@NID
+		 
+			
+		for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$arr_fileNids]  
+			| index-scan('IPVSis_colnids_default', 'default.bookmarklist', 'EQ')/..[MediaStreamFileResourceNID=$arr_fileNids  ]
+		return $b 
+	]]>
+	</query>
+	
+	<query type="ExportQueryIndex" name="export"  priority="2" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	<![CDATA[ 
+		declare variable $param_mediaFileNID:='PARAM_mediaStreamFileResourceNID' ;
+		declare variable $param_exportImportFileListItem:='PARAM_exportImportFileListItem' ;
+		
+		let $mediaGroupID :=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaFileNID]//MediaGroupID
+		let $arr_fileNids :=for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+					where $b[ 
+					 @NID=$param_mediaFileNID or (   //Type='MediaGroup'  and   //MediaGroupID=$mediaGroupID) ]   
+					return $b/@NID
+		for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$arr_fileNids]  
+			| index-scan('IPVSis_colnids_default', 'default.bookmarklist', 'EQ')/..[MediaStreamFileResourceNID=$arr_fileNids  ]
+			| index-scan('IPVSis_colnids_default', 'default.exportimportfilelist', 'EQ')/..[@NID=$param_exportImportFileListItem ]
+		return 
+		<record nid='{data($b/@NID)}' name='{ $b/name()}'>
+			{$b//Type}
+			{$b//MediaGroupID}
+			{$b/*//Title}
+			{$b//ParentMediaDirNID}
+			{$b//UUID}
+			{if ($b/name()='ExportImportFileListItem' ) then $b else '' }
+			{$b//DateCreated}
+			{$b//State}
+			{$b//Owner}
+		</record>
+		]]>
+	</query>
+	
+	<query type="UpdateExportImportFileNIDs" name="Updating_FileNIDs" priority="3" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<!-- update file nid and references in bookmarks -->
+	</query>
+	
+	<query type="ReadQuery" name="readquery_groupid_mapping" priority="4" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<![CDATA[ 
+ 			declare variable $param_mediaGroupID:='PARAM_mediaGroupID' ;
+			declare variable $param_dateCreated:='PARAM_dateCreated' ;
+			let $arr_mediaGroupID := distinct-values(for $b in index-scan('IPVSis_colnids_default', 'default.exportimportfilelist', 'EQ')/..
+					where $b[ 
+					 Internal/@prev_mediaGroupID=$param_mediaGroupID and @dateCreated=$param_dateCreated and Internal/@new_mediaGroupID != '' ]   
+			return  $b/Internal/@new_mediaGroupID/data(.) )
+			
+			let $arr_mediaGroupFiles := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+					where $b[ 
+					 //Type='MediaGroup'  and   //MediaGroupID = $arr_mediaGroupID]  
+			return 					
+			<MediaStreamFileResource>{$b/@NID}<Info><MediaStoreFileInfo>{$b//MediaGroupID}</MediaStoreFileInfo></Info></MediaStreamFileResource>
+
+			return <DBResp>{$arr_mediaGroupFiles}</DBResp>
+
+
+	 	]]>
+	</query>
+	
+	<query type="UpdateMediaResourceFiles" name="update_media_resource" priority="5" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb"/>
+	
+	<query type="CreateZip" name="create_zip" priority="6" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb"/>
+	 
+	
+</ipvs>

@@ -1,0 +1,146 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkLanTable" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkLanTable" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="DirtyBitblkLanTable"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="blkLayout" jsxrows="35,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#d6d6d6" jsxborder="border-bottom: 1px solid #9898a5" jsxpadding="6 8 8 10"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="lblLanTable" jsxtext="Network Interfaces" jsxdisplay="" jsxmargin="0 20 0 0"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#e0e0e0" jsxborder="border-top:solid 1px #efefef"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="20" jsxtop="40" jsxwidth="600" jsxheight="150" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxname="blkLan" jsxbgcolor="" jsxborder="solid 1px #999999;"></strings>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="layout (--)" jsxrows="24,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H2BG.png);" jsxbgcolor="" jsxborder="border-bottom: solid 1px #a9a9a9;"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="4" jsxfontsize="12"></variants>
+                <strings jsxname="label" jsxtext="Network Interfaces" jsxdisplay=""></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkLanList" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f5f5f5"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppressvscroll="1"></variants>
+                <strings jsxname="mtxLanTable" jsxbgcolor="#f5f5f5" jsxfocusstyle="font-weight:bold;"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="70"></variants>
+                  <strings jsxname="jsxDirtyBit" jsxtext="DirtyBit" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxDirtyBit" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxListIndex" jsxwidth="100" jsxtext="ListIndex" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxListIndex" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="70"></variants>
+                  <strings jsxname="jsxLanPortId" jsxtext="PortID" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxLanPortId"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="60"></variants>
+                  <strings jsxname="jsxLanIsEnable" jsxtext="Enable" jsxpath="jsxLanIsEnable" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="chkjsxLanIsEnable" jsxtext="" jsxcdfattribute="jsxLanIsEnable"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="60"></variants>
+                  <strings jsxname="jsxLanIsPrimary" jsxtext="Primary" jsxpath="jsxLanIsPrimary" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="chkjsxLanIsPrimary" jsxtext="" jsxcdfattribute="jsxLanIsPrimary"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="60"></variants>
+                  <strings jsxname="jsxLanDhcp" jsxtext="DHCP" jsxpath="jsxLanDhcp" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="chkjsxLanDhcp" jsxtext="" jsxcdfattribute="jsxLanDhcp"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="60"></variants>
+                  <strings jsxname="jsxLanMulticast" jsxtext="Multicast" jsxpath="jsxLanMulticast" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="chkjsxLanMulticast" jsxtext="" jsxcdfattribute="jsxLanMulticast"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxLanIPAddress" jsxwidth="*" jsxtext="IP Address" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxLanIPAddress"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxLanIPAddress" jsxdisplay="none" jsxcdfattribute="jsxLanIPAddress"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxLanNetmask" jsxwidth="*" jsxtext="Netmask" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxLanNetmask"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxLanNetmask" jsxdisplay="none" jsxcdfattribute="jsxLanNetmask"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="75"></variants>
+                  <strings jsxname="jsxLanMtu" jsxtext="MTU" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxLanMtu"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxLanMtu" jsxdisplay="none" jsxcdfattribute="jsxLanMtu"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants></variants>
+              <strings jsxname="blkLanFooter" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf;" jsxborder="border-top: solid 1px #a9a9a9;" jsxpadding="6 0 0 8"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                <strings jsxname="label" jsxtext="The IP Address, Netmask and MTU fields are editable. You edit the field values by clicking on them." jsxdisplay=""></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

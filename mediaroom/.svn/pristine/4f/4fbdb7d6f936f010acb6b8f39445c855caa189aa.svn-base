@@ -1,0 +1,78 @@
+declare function local:getReportInfo( $b as element()*, $detail as xs:string)
+as element ()*
+{
+	let $reportInfo := if ($detail = 'EXTENDED')
+   		then 
+		   		 <Report NID ='{ data($b//@NID) }' 
+		   		 		name ='{ data($b//Name) }'		   		 		 
+		   		 		description = '{ data($b//Description) }'		   		 		 
+		   		 		type = '{ data($b//Type) }'		   		 		 
+		   		 		format = '{ data($b//@selectFormat) }'
+		   		 		enableExport = '{ data($b//EnableExport) }'
+		   		 		exportSchedule = '{ data($b//ExportSchedule) }'	
+						exportURL = '{ data($b//ExportURL) }'	
+		 		  	>
+
+				   { if ($b//PolicyReportConfig)
+					 then
+						<Policy properties='{ data($b//PolicyReportConfig/@selectProperties) }' 
+							permissions='{ data($b//PolicyReportConfig/@selectPermissions) }'
+							whereTarget='{ data($b//PolicyReportConfig/@whereTarget) }' 
+							whereTextSubStr='{ data($b//PolicyReportConfig/@whereTextSubStr) }' 
+							whereTagExpr='{ data($b//PolicyReportConfig/@whereTagExpr) }'
+							whereTagExprMode='{ data($b//PolicyReportConfig/@whereTagExprMode) }'
+						 >   	 
+						 <FormatXSL mode='{ data($b//SelectFormatXSL/@mode) }'> { data($b//SelectFormatXSL) } </FormatXSL>
+						</Policy> 							
+					 else 
+						<Audit properties='{ data($b//AuditReportConfig/@selectProperties) }' >   	 
+							<FormatXSL mode='{ data($b//SelectFormatXSL/@mode) }'> { data($b//SelectFormatXSL) } </FormatXSL>
+						</Audit>
+					} 							
+							
+					<Status>
+						 {$b//LastExportStatus}
+					     {$b//LastExported}
+					</Status>
+					
+				  </Report> 
+   		else      <Report NID ='{ data($b//@NID) }' 
+   						name ='{ data($b//Name) }'		   		 		 
+		   		 		description = '{ data($b//Description) }'		   		 		 
+		   		 		type = '{ data($b//Type) }'		   		 		 
+		   		 		format = '{ data($b//@selectFormat) }'
+		   		 		enableExport = '{ data($b//EnableExport) }'
+		   		 		exportSchedule = '{ data($b//ExportSchedule) }'	
+						exportURL = '{ data($b//ExportURL) }'	
+		 	        >
+
+				    <Status>
+					    {$b//LastExportStatus}
+						{$b//LastExported}
+				    </Status>
+
+				 </Report>
+
+	return $reportInfo
+};
+
+declare function local:getList()
+as element()*
+{
+	let $list1 := 
+		for $b in #OBJ_Report_OBJ#
+			where $b  _XPATHAND_
+			order by upper-case ($b_SORTBY_) _SORTORDER_     
+			return $b
+	return $list1
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $item := local:getReportInfo($b, $detail)
+	return $item
+};
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

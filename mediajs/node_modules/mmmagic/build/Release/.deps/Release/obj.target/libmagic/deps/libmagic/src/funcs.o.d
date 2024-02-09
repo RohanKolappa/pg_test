@@ -1,0 +1,12 @@
+cmd_Release/obj.target/libmagic/deps/libmagic/src/funcs.o := cc '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_BITS=64' '-DHAVE_CONFIG_H' '-DVERSION="5.18"' '-DLINK_SIZE=2' '-DPCRE_STATIC' -I/home1/neha/.node-gyp/0.10.29/src -I/home1/neha/.node-gyp/0.10.29/deps/uv/include -I/home1/neha/.node-gyp/0.10.29/deps/v8/include -I../deps/libmagic -I../deps/libmagic/src -I../deps/libmagic/pcre -I../deps/libmagic/config/linux  -Wall -Wextra -Wno-unused-parameter -pthread -m32 -fno-strict-aliasing -fno-tree-vrp -fno-tree-sink -fno-omit-frame-pointer -O3 -MMD -MF ./Release/.deps/Release/obj.target/libmagic/deps/libmagic/src/funcs.o.d.raw  -c -o Release/obj.target/libmagic/deps/libmagic/src/funcs.o ../deps/libmagic/src/funcs.c
+Release/obj.target/libmagic/deps/libmagic/src/funcs.o: ../deps/libmagic/src/funcs.c ../deps/libmagic/src/file.h \
+  ../deps/libmagic/config/linux/config.h ../deps/libmagic/pcre/regex.h \
+  ../deps/libmagic/pcre/pcre.h ../deps/libmagic/pcre/pcreposix.h \
+  ../deps/libmagic/src/magic.h
+../deps/libmagic/src/funcs.c:
+../deps/libmagic/src/file.h:
+../deps/libmagic/config/linux/config.h:
+../deps/libmagic/pcre/regex.h:
+../deps/libmagic/pcre/pcre.h:
+../deps/libmagic/pcre/pcreposix.h:
+../deps/libmagic/src/magic.h:

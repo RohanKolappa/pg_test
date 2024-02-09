@@ -1,0 +1,36 @@
+#!/usr/bin/haserl
+Cache-Control: no-store, no-cache, must-revalidate
+content-type: application/json
+<?
+# uncomment the line below to enable debug tracing
+# export _DEBUG="on"
+# change > to >> in the line below to log multiple cgi's
+eval 'exec 2>>/tmp/bweb_trace.log'
+if [ "$_DEBUG" == "on" ]; then
+  echo "================== ${SCRIPT_NAME} =================" >&2
+  env | sort >&2
+  set -x
+fi
+if [ -n "$(/usr/bin/dpkgd-log ${GET_key} 2>/dev/null)" ]; then ?>
+{
+   "busy": true,
+   "items": [
+<?
+	ELEMS=0
+	/usr/bin/dpkgd-log "${GET_key}" | \
+	while read TYPE MSG;
+	do
+		[ $ELEMS != 0 ] && echo '  },'
+		ELEMS=$(( $ELEMS + 1 ))
+		echo '  {'
+		echo "     \"type\": \"$TYPE\","
+		echo "     \"message\": \"$MSG\""
+	done
+	echo '  }' ?>
+ ]
+}
+<? else ?>
+{
+   "busy": false
+}
+<? fi ?>

@@ -1,0 +1,190 @@
+<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkCanvasEdit" jsxwidth="100%" jsxheight="100%"></strings>
+    <dynamics jsxbgcolor="BG2"></dynamics>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutCols" jsxcols="*,212" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="6 6 6 6"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="20" jsxtop="21"></variants>
+          <strings jsxname="label" jsxtext="Canvas Name:" jsxdisplay=""></strings>
+          <dynamics jsxcolor="@Light"></dynamics>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="20" jsxrelativeposition="0" jsxleft="120" jsxtop="19" jsxwidth="260" jsxfontsize="12"></variants>
+          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Filmstrip 5 Right" jsxbgcolor="#777"></strings>
+          <dynamics jsxborder="BRD4" jsxcolor="@Light"></dynamics>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="20" jsxtop="80"></variants>
+          <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay=""></strings>
+          <object type="com.ipvs.gui.BlockCanvasDisplay">
+            <variants jsxcanvasblkwidth="210" jsxcanvasblkheight="180" jsxcanvaswidth="200" jsxcanvasheight="150" jsxcanvaswinwidth="100" jsxcanvaswinheight="100" jsxcanvaswinleft="40" jsxcanvaswintop="40"></variants>
+            <strings jsxname="BlockCanvasDisplay" jsxtext="[Text]" jsxxmlurl="jsxaddin://user!ipvsCommon/xml/BlockCanvasDisplay.xml" jsxdrag="0" jsxdrop="0" jsxtype="0" jsxbgcolor="#262626" jsxcanvaswindowclassoff="window" jsxcanvaswindowclasson="windowSelected"></strings>
+            <events jsxselect="alert('Block: Select');" jsxdeleteblock="alert('Block: Delete');"></events>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="6 6 6 6"></strings>
+        <object type="jsx3.gui.CDF">
+          <variants></variants>
+          <strings jsxname="masterWindowCDF" jsxwidth="100%" jsxheight="100%" jsxcdfid="222" jsxxml="" jsxxmlurl="jsxaddin://user!ipvsCommon/xml/blockWindowingPanel.xml" jsxxmlid="master_xml"></strings>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="layoutRows" jsxrows="44,*,6,200" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="header" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="20 0 0 0"></strings>
+              <object type="jsx3.gui.Button">
+                <variants jsxindex="0" jsxwidth="80" jsxfontsize="9"></variants>
+                <strings jsxname="btnAddWindow" jsxtext="Add Window" jsxclassname="btnOk"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"></strings>
+              <dynamics jsxborder="BRD4" jsxbgcolor="BG4"></dynamics>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxxmlbind="1" jsxxmlasync="1"></variants>
+                <strings jsxname="mtxWindowList" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="master_xml" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                <dynamics jsxheaderborder="Matrix Box Header Border" jsxbodyborder="Matrix Box Body Border" jsxbgcolor="Matrix Background"></dynamics>
+                <events jsxexecute="" jsxselect="this.getAncestorOfType(&quot;jsx3.gui.CDF&quot;).setCDFId(strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="mc2" jsxtext="Window Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="25"></variants>
+                  <strings jsxname="imageButtonColumn" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty" jsxformathandler="function(objDiv, strCDFKey, objMatrix, objMatrixColumn, intRowNumber, objServer) { if(strCDFKey == &quot;jsxautorow&quot;) { objDiv.innerHTML = '&lt;div&gt;&amp;#160;&lt;/div&gt;'; } }"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                    <strings jsxname="jsximgEntityDelete" jsximage="images/buttons/btnDeleteUp.png" jsxoverimage="images/buttons/btnDeleteOver.png"></strings>
+                    <events jsxexecute=""></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="spacer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="6 6 6 6"></strings>
+              <dynamics jsxborder="BRD4" jsxbgcolor="BG4"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="20" jsxfontsize="11"></variants>
+                <strings jsxname="lblWindowProperties" jsxtext="Window Properties" jsxfontweight="bold" jsxtextalign="right" jsxpadding="4 4 14 4"></strings>
+                <dynamics jsxcolor="@Light"></dynamics>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkWindowId" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowId" jsxtext="ID" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="125" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowId" jsxmargin="0 4 0 0" jsxcdfattribute="jsxid" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="222"></strings>
+                  <dynamics jsxborder="BRD4" jsxcolor="@Light" jsxbgcolor="BG3"></dynamics>
+                  <events jsxchange="var oCDF = this.getAncestorOfType(&quot;jsx3.gui.CDF&quot;); var oMatrix = oCDF.getDescendantsOfType(&quot;jsx3.gui.Matrix&quot;)[0]; oMatrix.insertRecordProperty(oCDF.getCDFId(),this.getCDFAttribute(),this.getValue(),true); "></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkWindowLeft" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowLeft" jsxtext="Left" jsxcdfattribute="" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="55" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowLeft" jsxmargin="0 4 0 0" jsxcdfattribute="hpos" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="10"></strings>
+                  <dynamics jsxborder="BRD4" jsxbgcolor="BG3" jsxcolor="@Light"></dynamics>
+                  <events jsxchange=""></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkWindowTop" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowTop" jsxtext="Top" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="55" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowTop" jsxmargin="0 4 0 0" jsxcdfattribute="vpos" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="60"></strings>
+                  <dynamics jsxborder="BRD4" jsxbgcolor="BG3" jsxcolor="@Light"></dynamics>
+                  <events jsxchange=""></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blKWindowWidth" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowWidth" jsxtext="Width" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="55" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowWidth" jsxmargin="0 4 0 0" jsxcdfattribute="hres" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="75"></strings>
+                  <dynamics jsxborder="BRD4" jsxbgcolor="BG3" jsxcolor="@Light"></dynamics>
+                  <events jsxchange=""></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkWindowHeight" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowHeight" jsxtext="Height" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="55" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowHeight" jsxmargin="0 4 0 0" jsxcdfattribute="vres" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="50"></strings>
+                  <dynamics jsxborder="BRD4" jsxbgcolor="BG3" jsxcolor="@Light"></dynamics>
+                  <events jsxchange=""></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkWindowTransparency" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="50"></variants>
+                  <strings jsxname="lblWindowTransparency" jsxtext="40" jsxfontweight="bold" jsxtextalign="right" jsxpadding="2 4 0 0" jsxcdfattribute="transparency"></strings>
+                  <dynamics jsxcolor="Font1"></dynamics>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="16" jsxwidth="55" jsxfontsize="10"></variants>
+                  <strings jsxname="txtWindowTransparency" jsxmargin="0 4 0 0" jsxcdfattribute="transparency" jsxfontname="Verdana, Arial, sans-serif" jsxpadding="1 1 1 2" jsxvalue="40"></strings>
+                  <dynamics jsxborder="BRD4" jsxbgcolor="BG3" jsxcolor="@Light"></dynamics>
+                  <events jsxchange=""></events>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

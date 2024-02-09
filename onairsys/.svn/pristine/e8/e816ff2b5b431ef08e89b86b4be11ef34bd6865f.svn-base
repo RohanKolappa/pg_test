@@ -1,0 +1,63 @@
+KERNEL_DIR := ../../linux
+#KERNEL_DIR := /data/siyer/linux-2.4.31
+
+INCLUDE := -isystem ${KERNEL_DIR}/include
+
+WARNFLAGS  := -Wall -Wstrict-prototypes -Wmissing-prototypes
+MOPTFLAGS  := -O
+UOPTFLAGS  := -g
+DEFFLAGS   := -DMODULE -D__KERNEL__ 
+
+CROSS = 
+CC = $(CROSS)gcc
+AR = $(CROSS)ar
+LD = $(CROSS)ld
+STRIP = $(CROSS)strip
+
+CSU_FLAGS	:= ${DEFFLAGS} ${WARNFLAGS} ${MOPTFLAGS} ${INCLUDE}
+TST_FLAGS	:= ${WARNFLAGS} ${UOPTFLAGS} 
+
+CSU_OBJS := apic_csu.o
+
+CSU_SRCS := ${patsubst %.o, %.c, ${CUS_OBJS}}
+
+TST_OBJS := tester.o 
+
+TST_SRCS := ${patsubst %.c, %.o, ${TST_OBJS}}
+
+.PHONY: clean
+
+all:  csu_module.o csu_tester
+
+csu_module.o: ${CSU_OBJS}
+	${LD} -r -o $@ ${CSU_OBJS} 
+
+csu_tester: ${TST_OBJS}
+	${CC} -o $@ ${TST_OBJS}
+	${STRIP} $@
+
+clean:
+	/bin/rm -f ${CSU_OBJS} ${TST_OBJS} csu_module.o csu_tester 
+
+distclean: clean
+	/bin/rm -f TAGS *~ tut *.bak
+
+tags:
+	etags ${CSU_SRCS} ${TST_SRCS} *.h
+
+${CSU_OBJS} ${TST_OBJS}: Makefile.i386
+
+${CSU_OBJS}: %.o: %.c
+	${CC} ${CSU_FLAGS} -c -o $@ $< 
+
+${TST_OBJS}: %.o: %.c
+	${CC} ${TST_FLAGS} -c -o $@ $< 
+
+depend: 
+	mkdep ${CSU_FLAGS} ${CSU_SRCS} 
+	mkdep -a ${TST_FLAGS} ${TST_SRCS}
+
+.depend:
+	touch .depend
+
+include .depend

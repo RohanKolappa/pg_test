@@ -1,0 +1,93 @@
+<query>
+   <![CDATA["
+declare function local:getstreampolicyprofile( $parent as element()*)    {     
+  let $listsp := string-join(      
+    for $profileFilters in  collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')]
+    where data($profileFilters/@NID) = data($parent//ProfileFilterSet//ProfileFilter//MediaStreamProfileFilterNID)     
+    return  (data($profileFilters//Name)),',')
+  return $listsp 
+};
+
+declare function local:getsourceuserfilter( $parent as element()*)    {     
+  let $listsuf := string-join(
+    (for $srcFilter in $parent//SrcFilterSet/SrcFilter
+       let $resultString := (for $srcUserFilters in  collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')]
+       where data($srcUserFilters/@NID) = data($srcFilter/UserFilterNID)     
+       return data(concat(data($srcUserFilters//Name),
+              concat('@', data(for $srcResourceFilters in collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')] 
+              where data($srcResourceFilters/@NID) = data($srcFilter/MediaStreamResourceFilterNID) 
+              return data($srcResourceFilters//Name))) 
+              )))
+     return $resultString),',')
+  return $listsuf 
+};
+
+declare function local:getdstuserfilter( $parent as element()*)    {     
+  let $listduf := string-join(
+    (for $dstFilter in $parent//DstFilterSet/DstFilter
+       let $resultString := (for $dstUserFilters in  collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')]
+       where data($dstUserFilters/@NID) = data($dstFilter/UserFilterNID)     
+       return data(concat(data($dstUserFilters//Name),
+              concat('@', data(for $dstResourceFilters in collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')] 
+              where data($dstResourceFilters/@NID) = data($dstFilter/MediaStreamResourceFilterNID) 
+              return data($dstResourceFilters//Name))) 
+              )))
+     return $resultString),',')
+  return $listduf 
+};
+
+declare function local:getrelayuserfilter( $parent as element()*)    {     
+  let $listruf := string-join(
+    (for $relayFilter in $parent//RelayFilterSet/RelayFilter
+       let $resultString := (for $relayUserFilters in collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')]
+       where data($relayUserFilters/@NID) = data($relayFilter/UserFilterNID)     
+       return data(concat(data($relayUserFilters//Name),
+              concat('@', data(for $relayResourceFilters in collection('/db/ipvs.default.tagobjectfilterlist')/*[(@parentNID='default.tagobjectfilterlist')] 
+              where data($relayResourceFilters/@NID) = data($relayFilter/MediaStreamResourceFilterNID) 
+              return data($relayResourceFilters//Name)))
+              )))
+     return $resultString),',')
+  return $listruf 
+};
+
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_ 
+let $list2  := for $b in #OBJ_MediaStreamFilter_OBJ# where $b_WHEREXPATH_ 
+order by _SORTXPATH_  _SORTORDER_
+return $b
+let $list3 := subsequence($list2, $startFrom, $countToFetch)
+let $list := for $b in  $list3
+let $sourceuserfilterslist := local:getsourceuserfilter($b)
+let $dstuserfilterslist := local:getdstuserfilter($b)
+let $relayuserfilterslist := local:getrelayuserfilter($b)
+let $streamprofilelist := local:getstreampolicyprofile($b)
+
+return
+<record  
+jsxid='{ data($b/@NID) }'  
+index='{ data($b//order) }'  
+NID='{ data($b/@NID)  }'
+jsxtext='{ data($b//Name) }'
+jsxStreamPolicyPVR='{ data('')  }'
+jsxStreamPolicyRuleKey='{data('') }'
+jsxStreamPolicySourceNID='{data('') }'
+jsxStreamPolicyDestNID='{data('') }'
+jsxStreamPolicyRelayNID='{data('') }'
+jsxStreamPolicyPVRNID='{data('') }'
+jsxStreamPolicyProfileNID='{data('') }'
+jsxStreamPolicySource='{data($sourceuserfilterslist)}'
+jsxStreamPolicyDest='{data($dstuserfilterslist)}'
+jsxStreamPolicyRelay='{data($relayuserfilterslist)}'
+jsxStreamPolicyProfile='{data($streamprofilelist)}'>
+</record>
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>
+
+"]]>
+</query>

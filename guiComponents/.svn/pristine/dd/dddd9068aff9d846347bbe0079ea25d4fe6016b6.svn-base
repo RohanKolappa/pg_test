@@ -1,0 +1,194 @@
+ul.display-list {
+	list-style: none;
+	font-size: 0px;
+	margin-left: -2.5%; /* should match li left margin */
+}
+ul.display-list li {
+	display: inline-block;
+	width: 200px;
+	margin: 0 0 2.5% 2.5%;
+	height: 190px;
+	font-size: 16px;
+	font-size: 1rem;
+	overflow:hidden;
+}
+ul.display-list.grid li {
+	width: 200px; /* this value + 2.5 should = 25% */
+}
+ul.display-list.list li {
+	width: 97.5%;
+}
+
+.display-list-item {
+	display: block;
+	width: auto;
+	margin: 0 0 2.5% 2.5%;
+	height: 160px;
+	font-size: 16px;
+	font-size: 1rem;
+	overflow:hidden;
+	cursor: pointer;
+	padding: 8px;
+	transition: background-color 0.25s ease;
+}
+.display-list-item:hover {
+	background-color: #485157;
+}
+.display-list.grid div.display-list-item {
+	display: inline-block;
+	width: 200px;
+}
+.display-list-item-layout {
+  background: #262B2F;
+  width: 170px;
+  height: 100px;
+  margin-bottom: 5px;
+}
+
+.display-list-item-title {
+	display: block;
+	width: auto;
+	min-height: 20px;
+	line-height:1.2em;
+	max-height: 3.6em;
+	overflow:hidden;
+	margin-bottom: 8px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #e4e4e4;
+	font-size: 16px;
+	text-align: left;
+}
+div.display-window {
+  width: 50%;
+  height: 50%;
+  float: left;
+	background: #7b8187;
+  border:solid 1px #a7acb1;
+}
+div.display-window img[src=""] {
+    display:none;
+}
+/* div.display-window img[src="undefined"] {
+    display:none;
+} */
+/* div.display-window:nth-of-type(1) {
+    background: #7b8187;
+}
+div.display-window:nth-of-type(2) {
+    background: #676d73;
+    border-left: 1px solid #a7acb1;
+}
+div.display-window:nth-of-type(3) {
+    background: #7b8187;
+    border-top: 1px solid #a7acb1;
+}
+div.display-window:nth-of-type(4) {
+    background: #676d73;
+    border-top: 1px solid #a7acb1;
+    border-left: 1px solid #a7acb1;
+} */ 
+
+
+/*---------------------------------------
+Display Panel
+---------------------------------------*/
+.display-panel-container {
+	width: 100%;
+
+}
+.display-item-container {
+	position: relative;
+	width: 390px;
+	height: 350px;
+	display: block;
+	margin: 20px auto 5px ;
+}
+.display-item-title {
+	position:relative;
+	width: 390px;
+	height: 30px;
+	/*background: #c8c9cb;*/
+	font-family: Arial, Helvetica, sans-serif;
+	color: #e4e4e4; /*#3d444a*/
+	font-size: 20px;
+	padding: 5px 0px 0px 0px; /*10px*/
+	margin: 8px 0;
+	cursor: pointer;
+}
+.display-item-card {
+	/*-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.4);
+	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.4);
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.4); */
+	box-shadow: 0 7px 15px rgba(0,0,0,0.45);
+}
+.display-item-thumb-container {
+	position: relative;
+	width: 390px;
+	height: 200px;
+	background-color: #676d73;
+}
+.display-item-thumb {
+	position:relative;  /* Must use Relative positioning because child elements are absolute positioned */
+	height: 200px;
+	margin: 0px;
+	background: #676d73;
+	/* background-image: url("../image/displaythumb.png"); */
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.display-window-selected {
+	border: solid 3px #0f98e3 !important;
+	background-color: rgba(15, 152, 227, 0.20) !important;	
+}
+.display-window.checked {
+	border: solid 3px #0f98e3 !important;
+	background-color: rgba(15, 152, 227, 0.20) !important;	
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAVCAYAAABVAo5cAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAARRJREFUeNpi5J/xmIES8CFdBqecwMwnCUDKGKgmFybGxEAjALVsDhDnANktNLUQyTJmqFA1UKwUxGChg2Uw0AWUe8dEJ8tgwJ6JjpYtA+JEJjpaFgdMrX/RLTwExO14NJJj2WKYZeiJBmSZLRTrAnEoEH8nYB8xliXCLEPOFjDLYMAbiA8AsQQ1LYNZiG4ZDJgB8WEgVqGWZTALr+PxBciyk1DLKbYMFofpUHYaDgOEoMEbB8Q8lFiGnGgIWcoJxCugbFyWLQDiFHyWoadSQpbiyypEWYat8AZZOovEfE+0ZbhqC1IsJckyfNUTMZaSbBmh+hCfpWDLgPgvicFPsALGZinZlhFbASOnXpBliZTULAABBgAkS2m5kwCISQAAAABJRU5ErkJggg==');
+  background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.display-item-controls {
+	position: relative;
+	width: 390px;
+	height: 60px;
+	padding: 2px 0 2px 0; margin: 0;
+}
+
+
+
+/*------------------------------------------
+	Breakpoints
+------------------------------------------*/
+
+@media (max-width : 1200px) {
+  ul.display-list.grid li {
+    width: 22.5%; /* this value + 2.5 should = 20% */
+  }
+}
+
+@media (max-width: 960px) {
+  ul.display-list.grid li {
+    width: 30%; /* this value + 2.5 should = 33% */
+  }
+}
+
+@media (max-width: 640px) {
+  ul.display-list.grid li {
+    width: 47.5%; /* this value + 2.5 should = 50% */
+  }
+}
+
+@media (max-width: 500px) {
+  ul.display-list.grid li {
+    width: 97.5%; /* this value + 2.5 should = 100% */
+  }
+  .display-item-container {
+    white-space: nowrap;
+  }
+  .display-item-title {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+

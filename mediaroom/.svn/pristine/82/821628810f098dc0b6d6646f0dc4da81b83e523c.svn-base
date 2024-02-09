@@ -1,0 +1,69 @@
+(: #include XQueryLib.xml :)
+
+(: ------------------- Begin MediaStreamFilterLib.xml -------------------- :)
+
+(: Convert the given policy into xPath format :)
+declare function local:getMediaStreamFilter($mediaStreamFilter as element()*) as element()* {
+	  let $sourceXpath := local:getSrcOrDstFilterXpath($mediaStreamFilter//SrcFilter)	  
+	  let $destinationXpath := local:getSrcOrDstFilterXpath($mediaStreamFilter//DstFilter)	
+	  let $reslovedRuleKeyXpath := local:getRuleKeyXpath($mediaStreamFilter/RuleKeyTagFilterSet)	
+	  let $relayXpath := local:getSrcOrDstFilterXpath($mediaStreamFilter//RelayFilter)	
+	  let $profileXpath := local:getProfileXpath($mediaStreamFilter//ProfileFilter)
+	  let $relayRuleKeyList := local:getRelayRuleKeyList($mediaStreamFilter/RuleKeyTagFilterSet)	
+	  let $profileRuleKeyList := local:getProfileRuleKeyList($mediaStreamFilter/RuleKeyTagFilterSet)	
+	  return <PolicyRule>
+	        <RuleName> {data($mediaStreamFilter//Name)} </RuleName> 
+    		<SourceXpath> {$sourceXpath} </SourceXpath>
+			<DestinationXpath> {$destinationXpath} </DestinationXpath>
+			<RelayXpath> {$relayXpath} </RelayXpath>
+			<ProfileXpath> {$profileXpath} </ProfileXpath>
+			<ResolvedRuleKeyXPath>{$reslovedRuleKeyXpath}</ResolvedRuleKeyXPath>
+			<RuleKeyList>
+			     {$relayRuleKeyList}
+				{$profileRuleKeyList}
+			</RuleKeyList>			  
+		   </PolicyRule>
+};
+
+
+
+(:Returns the profile xPath which applies on requested profile object:)
+declare function local:getProfileXpath($profileFilterList as element()*)
+as xs:string  {
+	let $xPath := string-join (  
+		            (for $profileFilter in $profileFilterList
+					  let $profileXpath := local:filterNIDToXPath(data($profileFilter/MediaStreamProfileFilterNID))
+		             where $profileXpath!='' 
+					 return concat("(",$profileXpath,")"))
+		            , " or " )  		
+	return 
+		$xPath
+};
+
+(: Returns the list of target rule key xpath.
+   if the rule key contains the Enum as MEDIAROOM_RULE_STREAM_RELAY_RESOURCE return list else return empty :)
+declare function local:getRelayRuleKeyList($ruleKeyFilterSet as element()*)
+as element()*
+{
+	let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_RELAY_RESOURCE'
+	let $ruleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,"")
+	return <RelayRuleKeyList> { $ruleKeyXpath } </RelayRuleKeyList>
+}; 
+
+(: Returns the list of target rule key xpath.
+   if the rule key contains the Enum as MEDIAROOM_RULE_STREAM_PROFILE return list else return empty :)
+declare function local:getProfileRuleKeyList($ruleKeyFilterSet as element()*)
+as element()*
+{
+	let $targetObjectFilter :=  'MEDIAROOM_RULE_STREAM_PROFILE'
+	let $ruleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,"")
+	return <ProfileRuleKeyList> { $ruleKeyXpath } </ProfileRuleKeyList>
+};
+
+(: ------------------- End MediaStreamFilterLib.xml -------------------- :)
+
+let $mediaStreamFilterAfterConvertingintoXpath := ( 
+	    for $policyRule in collection('/db/ipvs.default.mediastreamfilterlist')/*[(@parentNID='default.mediastreamfilterlist')]  
+		return <MediaStreamFilter> {local:getMediaStreamFilter($policyRule)}</MediaStreamFilter> 
+	)
+return <MediaStreamFilterList>{$mediaStreamFilterAfterConvertingintoXpath}</MediaStreamFilterList>

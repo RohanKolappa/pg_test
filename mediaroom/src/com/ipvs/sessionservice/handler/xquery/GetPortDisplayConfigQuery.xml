@@ -1,0 +1,39 @@
+declare function local:getPortInfo( $b as element()*)
+as element ()*
+{
+   let $portInfo :=  <Port NID='{ data($b/@NID) }'
+		         title='{ data($b//Info/Title) }' 
+		        deviceElementID='{data($b//DeviceElementID) }'
+		        ownerUserJID ='{data($b//OwnerUserJID) }'
+		        state ='{data($b//StateFlag) }'>
+		        {$b//FeatureList} 
+		</Port>
+		         	 
+	              
+   return $portInfo
+};
+
+
+declare function local:formatItem($b as element()*) {
+	let $item := local:getPortInfo($b)
+	return $item
+};
+
+
+declare function local:getList()
+as element()*
+{
+	let $list1 := 
+		for $b in collection('/db/ipvs.default.mediastreamioportresourcelist')/* [@parentNID='default.mediastreamioportresourcelist'] | collection('/db/ipvs.default.mediastreamdstportresourcelist')/* [@parentNID='default.mediastreamdstportresourcelist']     
+			where $b _XPATHAND_  
+			order by $b
+			return $b
+	return $list1				
+	
+};
+
+let $list1 := local:getList()
+let $list3 :=  for $b in  $list1
+	       return local:formatItem($b)  
+	       
+return <ObjectList>{$list3}</ObjectList>

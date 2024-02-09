@@ -1,0 +1,53 @@
+<Menu>
+    <Type>config</Type>
+    <Title>XPAudioMixerParameters</Title>
+    <Description>Audio Mixer Configuration</Description>
+    <Access>xp_audio_mixer</Access>
+    <ConfigFile>xpaudiomixerconf</ConfigFile>
+    <BoardAccess>true</BoardAccess>
+
+       <Items>
+
+        <Item>
+            <Name>local_volume</Name>
+            <Type>integer</Type>
+            <Label>Local Volume</Label>
+            <Help>Local audio volume</Help>
+            <FieldLength>3</FieldLength>
+            <DefaultValue>0</DefaultValue>
+            <Validation>
+                <Type>range</Type>
+                <Min>0</Min>
+                <Max>100</Max>
+            </Validation>
+        </Item>
+
+        <Item>
+            <Name>remote_volume</Name>
+            <Type>integer</Type>
+            <Label>Remote Volume</Label>
+            <Help>Remote audio volume</Help>
+            <FieldLength>3</FieldLength>
+            <DefaultValue>100</DefaultValue>
+            <Validation>
+                <Type>range</Type>
+                <Min>0</Min>
+                <Max>100</Max>
+            </Validation>
+        </Item>
+
+         <Item>
+           <Name>audio_input</Name>
+           <Type>string</Type>
+           <Label>Audio Input</Label>
+           <Help>Set audio input type</Help>
+           <FieldLength>4</FieldLength>
+           <DefaultValue>Line</DefaultValue>
+	   	<Validation>
+	   	    <Type>enumeration</Type>
+	   		<Values>"Line", "Mic"</Values>
+	   	</Validation>
+         </Item>
+
+    </Items>
+</Menu>

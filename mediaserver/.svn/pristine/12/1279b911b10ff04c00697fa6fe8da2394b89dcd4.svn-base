@@ -1,0 +1,153 @@
+#!/bin/sh
+
+# Very early userspace script
+
+# This is the first thing called by the kernel for initramfs images.
+# We create a new tmpfs file system in /newroot and move all files
+# from / to the /newroot. Then switch the root file system to it.
+# This allows us to see the root file system in "df".
+
+/bin/busybox --install -s
+
+/bin/echo "Early Userspace: Switching root file system..."
+
+
+# Create and populate the new root file system
+# that we would be switchrooting into
+/bin/mkdir /newroot
+/bin/mount -t tmpfs -o size=128m tmpfs /newroot
+/bin/cp -a / /newroot  > /dev/null 2>&1
+
+/bin/echo "Copied base OS into new root"
+
+
+# Change ownership of all files to root 
+for dir in /usr /bin /sbin /etc /home /dev /lib /mnt /var /tmp /init; do
+    /bin/chown -R -h root:root /newroot/${dir}
+done
+
+CF_DEV=/dev/hda1
+
+# Check for qemu arm
+if [ X`/bin/uname -m` = Xarmv5tejl ]; then 
+    /bin/echo "Detected Qemu arm system"
+    /bin/cp /newroot/etc/inittab_qemu /newroot/etc/inittab; 
+    /bin/touch /newroot/etc/config/qemu_arm_system
+    CF_DEV=/dev/sda1
+fi
+if [ X`/bin/uname -m` = Xarmv5tel ]; then 
+    /bin/echo "Detected ARM system"
+    CF_DEV=/dev/sda1
+fi
+
+
+
+# Mount the /proc and /sys filesystems.
+/bin/mount -t proc none /proc
+/bin/mount -t sysfs none /sys
+
+# Setup devices in /dev using udev facility 
+/bin/echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+
+
+# Load application images
+
+# Mount CF
+/bin/ln -s ${CF_DEV} /dev/CF
+#/bin/mount /dev/CF -t vfat /mnt/cf > /dev/null 2>&1
+
+found_cf=0
+retries=0
+maxretries=5
+cfgdevs="/dev/mmcblk0p1 /dev/sda1 "
+while(true)
+do	
+	for dev in ${cfgdevs}
+	do
+		/bin/echo /bin/mount ${dev} -t vfat /mnt/cf 
+		/bin/mount ${dev} -t vfat /mnt/cf > /dev/null 2>&1
+		if [ x$? = "x0" ]; then
+			if [ -r /mnt/cf/manifest.txt ] ; then
+				found_cf=1
+			else
+				/bin/umount ${dev}
+			fi
+		fi
+		if [ "x$found_cf" = "x1" ]; then
+		 	break;
+		fi
+	done
+	if [ "x$found_cf" = "x1" ]; then
+		break;
+	fi
+	let "retries=$retries+1"
+	if [ "x$retries" = "x$maxretries" ]; then
+		/bin/echo   "Max retries exceeded: Could not find application images"
+		break;
+	fi
+	/bin/echo  "Waiting for Disk... $retries"
+	sleep 5
+done
+
+# If upgrade area does not have our done marker, clean the directory
+if [ "$(/bin/ls -A /mnt/cf/upgrade_files/)" ] ; then
+    if [ -f /mnt/cf/upgrade_files/upgrade_done ] ; then
+        /bin/rm /mnt/cf/upgrade_files/upgrade_done
+    else 
+        echo "Cleaning up files in upgrade area"
+        /bin/rm -rf /mnt/cf/upgrade_files/*
+    fi
+    sync
+fi
+ 
+union_dirs="/newroot"
+apps=""
+if [ "x$found_cf" = "x1" ]; then
+    /bin/ln -s ${dev} /dev/CF
+    apps=`/bin/grep type=squash /mnt/cf/manifest.txt | /bin/sed 's/.*file=\(.*\)\.sqf.*/\1/'`
+    /bin/echo $apps
+    for app in $apps ; do 
+        if [ -f /mnt/cf/upgrade_files/${app}.sqf ] ; then
+            echo "Found upgraded squash Image: ${app}.sqf"
+            /bin/mv /mnt/cf/upgrade_files/${app}.sqf /mnt/cf/${app}.sqf
+            sync
+        fi
+        echo "Mounting squash Image: $app"
+        /bin/mkdir -p /mnt/${app}_mnt
+        /bin/mkdir -p /newroot/mnt/${app}_mnt
+        /bin/mount -t squashfs -o loop /mnt/cf/${app}.sqf /mnt/${app}_mnt
+        union_dirs=${union_dirs}:/mnt/${app}_mnt=ro
+    done
+fi
+/bin/echo ${union_dirs}
+
+/bin/mkdir /mnt/root_mnt
+/bin/mount -t unionfs -o dirs=${union_dirs} unionfs /mnt/root_mnt
+
+
+# Move our current mount points to the new root unioned under /mnt/root_mnt
+# so that they are correctly visible after switch_root
+mkdir /mnt/root_mnt/newroot
+/bin/mount -o move /mnt/cf /mnt/root_mnt/mnt/cf
+#apps="onairapp.sqf onlibapp.sqf strmsrvapp.sqf jdkapp.sqf mediaroomapp.sqf"
+for app in $apps ; do 
+    echo "Moving squash mount: ${app}_mnt"
+    /bin/mount -o move /mnt/${app}_mnt /mnt/root_mnt/mnt/${app}_mnt
+done
+
+
+
+# Cleanup before we switch_root
+/bin/umount /proc
+/bin/umount /sys 
+
+# Call switch_root which will delete everything from / and
+# overmount the union mount on /mnt/root_mnt on /
+echo "About to switch_root..."
+exec /sbin/switch_root /mnt/root_mnt /sbin/init
+
+# The above should never return, but if switch_root fails
+# we start a shell
+echo "Failed to switch_root. Dropping into a shell."
+/bin/sh

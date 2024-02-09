@@ -1,0 +1,365 @@
+// ============================================================================
+//
+// Copyright (c) 2003-2006 Barco N.V.
+//
+// ============================================================================
+//
+// Filename:
+//	...
+// 
+// Description:
+//	...
+// 
+// Author(s):
+//	...
+//
+// ============================================================================
+
+#include <iostream>
+
+#include "BFC.Buffer.h"
+#include "BFC.BufferParser.h"
+#include "BFC.IO.File.h"
+
+// ============================================================================
+
+using namespace std;
+using namespace BFC;
+
+// ============================================================================
+
+static const char *progname = 0;
+
+static void usage() {
+
+	cerr << "Usage:" << endl;
+	cerr << "    " << progname << " -i <.vui filename> [-c <.cpp filename>] [-h <.h filename>] [-d]" << endl;
+	cerr << "    " << progname << " -v" << endl;
+
+}
+
+// ============================================================================
+
+static Buffer stringify(
+	const	Buffer&		iContent ) {
+
+	Buffer res;
+	Bool nl = true;
+
+	for ( Uint32 i = 0 ; i < iContent.length() ; i++ ) {
+		if ( nl ) {
+			res += '"';
+			nl = false;
+		}
+		Uchar c = iContent[i];
+		if ( c == '"' ) {
+			res += '\\';
+			res += '"';
+		}
+		else if ( c == '\\' ) {
+			res += '\\';
+			res += '\\';
+		}
+		else if ( c == '\n' ) {
+			res += '"';
+			res += c;
+			nl = true;
+		}
+		else {
+			res += c;
+		}
+	}
+
+	return res;
+
+}
+
+// ============================================================================
+
+static Buffer unpath(
+	const	Buffer&		filename ) {
+
+	BufferArray elts = BufferParser::tokenize( filename, "/\\" );
+
+	return elts[ elts.size() - 1 ];
+
+}
+
+// ============================================================================
+
+int main(int argc, char *argv[]) {
+
+	progname = argv[0];
+
+	Buffer	filename;
+	Buffer	hFilename;
+	Buffer	cFilename;
+	Bool	doHeader = false;
+	Bool	doImpl = false;
+	Bool	doDebug = false;
+
+	argc--; argv++;
+
+	while ( argc ) {
+
+		Buffer v( *argv );
+		argc--; argv++;
+
+		if ( v == "-i" ) {
+			if ( ! argc ) {
+				cerr << "Missing input filename!" << endl;
+				return -1;
+			}
+			if ( ! filename.isEmpty() ) {
+				cerr << "Duplicate input filename!" << endl;
+				return -1;
+			}
+			Buffer t( *argv );
+			argc--; argv++;
+			if ( t.isEmpty() ) {
+				cerr << "Empty input filename!" << endl;
+				return -1;
+			}
+			filename = t;
+			continue;
+		}
+
+		if ( v == "-c" ) {
+			if ( ! argc ) {
+				cerr << "Missing implementation filename!" << endl;
+				return -1;
+			}
+			if ( ! cFilename.isEmpty() ) {
+				cerr << "Duplicate implementation filename!" << endl;
+				return -1;
+			}
+			Buffer t( *argv );
+			argc--; argv++;
+			if ( t.isEmpty() ) {
+				cerr << "Empty implementation filename!" << endl;
+				return -1;
+			}
+			cFilename = t;
+			doImpl = true;
+			continue;
+		}
+
+		if ( v == "-h" ) {
+			if ( ! argc ) {
+				cerr << "Missing header filename!" << endl;
+				return -1;
+			}
+			if ( ! hFilename.isEmpty() ) {
+				cerr << "Duplicate header filename!" << endl;
+				return -1;
+			}
+			Buffer t( *argv );
+			argc--; argv++;
+			if ( t.isEmpty() ) {
+				cerr << "Empty headerfilename!" << endl;
+				return -1;
+			}
+			hFilename = t;
+			doHeader = true;
+			continue;
+		}
+
+		if ( v == "-d" ) {
+			doDebug = true;
+			continue;
+		}
+
+		if ( v == "-v" ) {
+			cout	<< TARGET_VERSION_MAJ << "."
+				<< TARGET_VERSION_MED << "."
+				<< TARGET_VERSION_MIN << endl;
+			return 0;
+		}
+
+		cerr << "Unsupported arg \"" << v << "\"!" << endl;
+		usage();
+		return -1;
+	}
+
+	if ( filename.isEmpty() ) {
+		cerr << "No filename!" << endl;
+		usage();
+		return -1;
+	}
+
+	BufferArray pieces = BufferParser::tokenize( unpath( filename ), "." );
+
+	if ( pieces.size() < 2 ) {
+		cerr << "Not enough pieces in filename!" << endl;
+		return -1;
+	}
+
+	Buffer extension = pieces[ pieces.size() - 1 ];
+
+	if ( extension != "vui" ) {
+		cerr << "Invalid filename extension!" << endl;
+		return -1;
+	}
+
+	Buffer varname = pieces[ pieces.size() - 2 ];
+
+	if ( varname[0] >= 'A' && varname[0] <= 'Z' ) {
+		varname[0] = varname[0] - 'A' + 'a';
+	}
+
+	Buffer nsprefix;
+	Uint32 i;
+
+	for ( i = 0 ; i < pieces.size() - 2 ; i++ ) {
+		nsprefix += pieces[i];
+		nsprefix += "::";
+	}
+
+	if ( doHeader && IO::File::exists( hFilename ) ) {
+		cerr << "Header file already exists!" << endl;
+		cerr << "Move it first!" << endl;
+		return -1;
+	}
+
+	if ( doImpl && IO::File::exists( cFilename ) ) {
+		cerr << "Implementation file already exists!" << endl;
+		cerr << "Move it first!" << endl;
+		return -1;
+	}
+
+	// Read input file...
+
+	IO::File iFile;
+
+	try {
+		iFile.open( filename, IO::File::Read );
+	}
+	catch ( Exception& e ) {
+		cerr << "Can't open input file!" << endl;
+		cerr << e.what() << endl;
+		return -1;
+	}
+
+	// Convert input content
+
+	Buffer iContent = iFile.dumpToBuffer();
+	Buffer oContent = stringify( iContent );
+
+	if ( doDebug ) {
+		cout << oContent;
+	}
+
+	if ( doHeader ) {
+
+		IO::File hFile;
+
+		try {
+			hFile.open( hFilename, IO::File::Write | IO::File::Create );
+		}
+		catch ( Exception& e ) {
+			cerr << "Can't open header file!" << endl;
+			cerr << e.what() << endl;
+			return -1;
+		}
+
+		hFile.putBytes(
+			"// ============================================================================\n"
+			"// ===                     AUTOMATICALLY GENERATED FILE                     ===\n"
+			"// ===                              DO NOT EDIT                             ===\n"
+			"// ============================================================================\n"
+			"\n"
+		);
+
+		for ( i = 0 ; i < pieces.size() - 2 ; i++ ) {
+			hFile.putBytes(
+				"namespace " + pieces[ i ] + " {\n"
+			);
+		}
+
+		hFile.putBytes(
+			"\n"
+			"// ============================================================================\n"
+			"\n"
+			"extern const char *" + varname + ";\n"
+			"\n"
+			"// ============================================================================\n"
+			"\n"
+		);
+
+		for ( i = 0 ; i < pieces.size() - 2 ; i++ ) {
+			hFile.putBytes(
+				"}\n"
+			);
+		}
+
+		hFile.putBytes(
+			"\n"
+			"// ============================================================================\n"
+			"\n"
+		);
+
+	}
+
+	if ( doImpl ) {
+
+		Buffer incFilename;
+
+		if ( doHeader ) {
+			incFilename = unpath( hFilename );
+		}
+		else {
+			// We have to figure out the header file ourself!
+			BufferArray cpieces = BufferParser::tokenize( unpath( cFilename ), "." );
+			for ( i = 0 ; i < cpieces.size() - 1 ; i++ ) {
+				incFilename += cpieces[ i ];
+				incFilename += ".";
+			}
+			incFilename += "h";
+		}
+
+		IO::File cFile;
+
+		try {
+			cFile.open( cFilename, IO::File::Write | IO::File::Create );
+		}
+		catch ( Exception& e ) {
+			cerr << "Can't open implementation file!" << endl;
+			cerr << e.what() << endl;
+			return -1;
+		}
+
+		cFile.putBytes(
+			"// ============================================================================\n"
+			"// ===                     AUTOMATICALLY GENERATED FILE                     ===\n"
+			"// ===                              DO NOT EDIT                             ===\n"
+			"// ============================================================================\n"
+			"\n"
+			"#include \"" + incFilename + "\"\n"
+			"\n"
+			"// ============================================================================\n"
+			"\n"
+			"const char * " + nsprefix + varname + " =\n"
+		);
+
+		cFile.putBytes(
+			oContent
+		);
+
+		cFile.putBytes(
+			"\n"
+			";\n"
+			"\n"
+			"// ============================================================================\n"
+			"\n"
+		);
+
+	}
+
+	return 0;
+
+}
+
+// ============================================================================
+
+
+

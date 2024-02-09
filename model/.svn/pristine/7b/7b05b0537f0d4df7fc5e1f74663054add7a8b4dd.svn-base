@@ -1,0 +1,51 @@
+<GetConnectionPolicyRequest>
+	<GetConnectionPolicyRequestData>
+		<GetConnectionPolicy countToFetch="0" sortBy="" sortOrder="ascending" startFrom="1"  
+		     whereTextSubStr="" selectFormat="BASIC/EXTENDED" whereName="" whereNID=""/>
+	</GetConnectionPolicyRequestData>
+	<GetConnectionPolicyResponseData>
+		<GetConnectionPolicy>
+			
+			 <!-- BASIC FORMAT RESPONSE -->
+			<ConnectionPolicy  NID='' name="Location" xAuthRequired='' 	active='true/false' order=''/>
+
+			<!-- EXTENDED FORMAT RESPONSE -->
+			<ConnectionPolicy NID='' name="Location"
+				xAuthRequired='' active='true/false' order=''>
+
+				<ActionList>
+					<Action>View</Action>
+					<Action>Playback</Action>
+					<Action>PVR</Action>
+					<Action>Record</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<SourceFilterSet>
+					<SourceFilter filterNID='' />
+				</SourceFilterSet>
+
+				<DestinationFilterSet>
+					<DestinationFilter filterNID='' />
+				</DestinationFilterSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>OperatorUser/OperatorResource/Source/Destination</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource/Source/Destination</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</ConnectionPolicy>
+		</GetConnectionPolicy>
+</GetConnectionPolicyResponseData>
+<GetConnectionPolicyExceptionCodes />
+</GetConnectionPolicyRequest>

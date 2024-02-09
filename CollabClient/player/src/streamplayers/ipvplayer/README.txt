@@ -1,0 +1,1 @@
+The IPVPlayer CAB and support files are placed in this directory.

@@ -1,0 +1,26 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+<validation validationID="Title" methodName="validateNameLength" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/Info/Title" />
+  
+  <!-- CustomValidation and validation: must explicitly set enable="true",  for now default enable=false -->
+  <validation enable="true" validationID="duplcateTitleAdd" methodName="validateDuplicateTitle_add" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/Info/Title"  caseSensitive="false" allowSpaces="true"/>  
+  <validation enable="true" validationID="duplcateTitleReplace" methodName="validateDuplicatePortTitle_replace" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath=""  caseSensitive="false" allowSpaces="true"/>
+  <validation enable="true" validationID="trimLength" methodName="validateTrimLength" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/PVRInfo[@enable='true']"  caseSensitive="false" allowSpaces="true"/>
+  <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharactersForPort" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/Info/Title"  />
+  <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharactersForPort" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/Info/Title"  />
+  <validation enable="true" validationID="Description" methodName="validateDescriptionForCurlyBraces" action="Replace" overWrite="true"
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//MediaStreamSrcPortResource/Info/Description"  />
+  
+</CustomValidation>

@@ -1,0 +1,1194 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.complink
+###
+### Description:	Provides variables, functions and rules used to compile
+###			or link C/C++ source code into executables or libraries
+###			(shared or static).
+###
+### Requires:
+###	(*) Make.target (user file)
+###		- <all user definitions>
+###	(*) Module 'echo'
+###	(*) Module 'version'
+###
+### Variables:
+###
+### Functions:
+###
+### Rules:
+
+###############################################################################
+###
+### Step. -1 :) : Create jbsinfo header file
+###
+###############################################################################
+
+.PHONY: JBS_INFO-FILE
+
+ifeq "$(call mod-utils-check-on, $(target-jbsinfo))" "true"
+
+JBS_INFO-NAME			:=	$(strip $(target-name))
+JBS_INFO-FILENAME-BASE	:=	$(JBS_TMP_DIR)/JbsInfo.$(JBS_INFO-NAME)
+
+$(JBS_INFO-FILENAME-BASE).h:
+	@mkdir -p $(JBS_TMP_DIR)
+	@echo "" > $@
+	@echo "namespace JbsInfo {"	>> $@
+	@echo ""	>>  $@
+	@echo "#ifndef JbsInfoType" >> $@
+	@echo "#define JbsInfoType" >> $@
+	@echo "typedef enum {" >> $@
+	@printf "\tName,\n" >> $@
+	@printf "\tBuildDate,\n" >> $@
+	@printf "\tBuildUser,\n" >> $@
+	@printf "\tBuildHost,\n" >> $@
+	@printf "\tVersion,\n" >> $@
+	@printf "\tSvnInfo\n" >> $@
+	@echo "} Type;" >> $@
+	@echo "#endif" >> $@
+	@echo "" >> $@
+	@echo "const char* $(JBS_INFO-NAME)_get(Type type);"	>>  $@
+	@echo ""	>>  $@
+	@echo "} // namespace JbsInfo"	>> $@
+
+JBS_INFO-FILE: $(JBS_INFO-FILENAME-BASE).h
+	@mkdir -p $(JBS_TMP_DIR)
+	@echo ""	> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "#include \"JbsInfo.$(JBS_INFO-NAME).h\"" >> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo ""	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_name = \"$(JBS_INFO-NAME)\";"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_builddate = \"`date +\"%F %T\"`\";"		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_builduser = \"$${USER}\";"		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_buildhost = \"$${HOSTNAME}\";"		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_version = \"$(target-ver-maj).$(target-ver-med).$(target-ver-min)\";"		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "static const char* $(JBS_INFO-NAME)_svninfo ="		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@svn info | sed -rn 's/.+/\"\0\\n\"/p'		>> $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "\"\";"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@echo ""	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "const char* JbsInfo::$(JBS_INFO-NAME)_get(JbsInfo::Type type) {"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tswitch (type) {\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::Name: return $(JBS_INFO-NAME)_name;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::BuildDate: return $(JBS_INFO-NAME)_builddate;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::BuildUser: return $(JBS_INFO-NAME)_builduser;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::BuildHost: return $(JBS_INFO-NAME)_buildhost;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::Version: return $(JBS_INFO-NAME)_version;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\tcase JbsInfo::SvnInfo: return $(JBS_INFO-NAME)_svninfo;\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\t};\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@printf "\treturn \"Unknown\";\n"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+	@echo "}"	>>  $(JBS_INFO-FILENAME-BASE).cpp
+
+#target-incldirs	+=	$(JBS_CUR_DIR)/$(JBS_TMP_DIR)
+target-sources	+=	$(JBS_INFO-FILENAME-BASE).cpp
+mod-cmp-temp-headers	:=	$(JBS_INFO-FILENAME-BASE).h
+
+else
+
+JBS_INFO-FILE:
+
+endif
+
+
+###############################################################################
+###
+### Step. 0 : Recursively find all current project dependencies.
+###
+###############################################################################
+
+### [JFGO 2007-03-16]
+### Prevent dependencies to be considered as 'already built' when no target was
+### actually brought up to date! Some old Make.targets still contain BFC_Common
+### as dependency!
+
+ifeq "$(target-type)" "none"
+target-deps		:=
+else
+target-deps		:=	$(strip $(target-deps))
+endif
+
+### Functions...
+
+fn-fw			=	$(word 1,$(1))
+fn-sw			=	$(word 2,$(1))
+fn-lw			=	$(word $(words $(1)),$(1))
+
+mod-cmp-filter-first	=	$(if $(call fn-sw,$(1)),$(call fn-fw,$(1)) $(call mod-cmp-filter-first,$(filter-out $(call fn-fw,$(1)),$(1))),$(1))
+mod-cmp-filter-last	=	$(if $(call fn-sw,$(1)),$(call mod-cmp-filter-last,$(filter-out $(call fn-lw,$(1)),$(1))) $(call fn-lw,$(1)),$(1))
+
+mod-cmp-fn-is-equal-token	=	$(if $(filter-out $(1),$(2)),,Y)
+mod-cmp-fn-is-equal-list-ne	=	$(if $(filter-out $(word 1,$(1)),$(word 1,$(2))),,$(call mod-cmp-fn-is-equal-list, $(wordlist 2,$(words $(1)),$(1)),$(wordlist 2,$(words $(2)),$(2))))
+mod-cmp-fn-is-equal-list	=	$(if $(word 1,$(1)),$(call mod-cmp-fn-is-equal-list-ne,$(1),$(2)),Y)
+mod-cmp-fn-is-equal		=	$(if $(call mod-cmp-fn-is-equal-token,$(words $(1)),$(words $(2))),$(call mod-cmp-fn-is-equal-list,$(1),$(2)),)
+
+mod-cmp-expand-deps	=	$(call mod-cmp-filter-first,$(foreach d,$(1),$($(d)-deps)) $(1))
+mod-cmp-rec-expand	=	$(if $(call mod-cmp-fn-is-equal,$(1),$(call mod-cmp-expand-deps,$(1))),$(1),$(call mod-cmp-rec-expand,$(call mod-cmp-expand-deps,$(1))))
+
+mod-cmp-all-deps	:=	$(call mod-cmp-expand-deps,$(target-deps))
+mod-cmp-all-deps	:=	$(call mod-cmp-rec-expand,$(mod-cmp-all-deps))
+
+target-all-deps		:=	$(mod-cmp-all-deps)
+
+dumpable += target-all-deps
+
+ifneq "$(JBS_PLATFORM)" "WIN32"
+
+ifeq "$(compile-compiler)" "icc"
+target-profile		:=	no
+endif
+
+# DELight doesn't compile yet with darwin platform...
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+target-profile		:=	no
+endif
+
+ifeq "$(target-profile)" "yes"
+
+target-all-deps		+=	Prof_Base		\
+				$(if $(findstring BFC_MT,$(target-name) $(target-all-deps)),Prof_MT)	\
+				$(if $(findstring BFC_Plugins,$(target-name) $(target-all-deps)),Prof_DL)	\
+				$(if $(findstring BFC_MP,$(target-all-deps)),Prof_MP)
+
+endif
+endif
+
+target-all-deps		:=	$(strip $(target-all-deps))
+
+### If any availability test failed, then don't try to rebuild this target! We
+### use a flag to export this condition, which will be tested in
+### Make.common.stuff.
+
+ifeq "$(target-type)" "none"
+target-available	:=	0
+else
+target-all-tests	:=	$(target-test)	\
+				$(foreach d,$(target-all-deps),$($(d)-test))
+target-available	:=	$(if $(findstring 0,$(target-all-tests)),0,1)
+target-depfails		:=	$(target-depfail)	\
+				$(foreach d,$(target-all-deps),$($(d)-depfail))
+endif
+
+export target-available
+export target-depfails
+
+dumpable		+=	target-available
+dumpable		+=	target-depfails
+
+###############################################################################
+###
+### Step. 1 : We compute the various flags and other defines to appear on the
+###           command-line when compiling sources...
+###
+### - defines for the particular platform
+### - defines supplied by the user
+### - defines needed because of dependencies
+### - ...
+###
+###############################################################################
+
+compile-cflags		:=
+compile-flags		:=
+compile-defs		:=
+
+compile-compiler	:=	$(JBS_COMPILER)
+compile-ccompiler	:=	$(JBS_CCOMPILER)
+
+###############################################################################
+### WIN32 platform...
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+### Common (Debug & Release) compiler flags & defs
+
+compile-flags		+=	/nologo	/W3 /WX /FD /c /GX /GR /Gd /EHa \
+				/Oy- /Od /Zm200
+
+#	/nologo		: suppress copyright message
+#	/W4		: set warning level 4 (default n=1)
+#	/WX		: treat warnings as errors
+#	/FD		: ?
+#	/c		: compile only, no link
+#	/GX		: enable C++ EH (same as /EHsc)
+#	/GR		: enable C++ RTTI
+#	/Gd		: __cdecl calling convention
+#	/EHa		: enable asynchronous C++ EH
+#	/Oy-		: disable frame pointer omission
+#	/Od		: disable optimizations (default)
+#	/Zm200		: max memory alloc == 200% of default
+
+compile-defs		+=	WIN32 _WIN32 WINDOWS _WINDOWS		\
+				PLATFORM_$(JBS_PLATFORM)		\
+				TARGET_VERSION_MAJ=$(target-ver-maj)	\
+				TARGET_VERSION_MED=$(target-ver-med)	\
+				TARGET_VERSION_MIN=$(target-ver-min)	\
+				JBS_TARGET_VERSION_MAJ=$(target-ver-maj)\
+				JBS_TARGET_VERSION_MED=$(target-ver-med)\
+				JBS_TARGET_VERSION_MIN=$(target-ver-min)\
+				JBS_TARGET_BUILD_TIME=
+
+ifeq "$(target-debug)" "yes"
+
+### Debug compiler flags & defs
+
+compile-flags		+=	/MDd /ZI /GZ /Yd /Zi /Gi
+
+#	/MDd		: link with MSVCRTD.LIB debug lib
+#	/ZI		: enable Edit and Continue debug info
+#	/GZ		: enable runtime debug checks
+#	/Yd		: put debug info in every .OBJ
+#	/FR		: name extended .SBR file
+
+compile-defs		+=	_DEBUG
+
+else
+
+### Release compiler flags & defs
+
+compile-flags		+=	/MD /Ob2
+
+#	/MD		: link with MSVCRT.LIB
+#	/Ob2		: inline expansion (default n=0)
+
+compile-defs		+=	NDEBUG
+
+endif
+
+compile-suffix		:=	obj
+compile-incldirs	:=
+
+compile-include		=	/I"$(shell cygpath -aw $(1))"
+compile-define		=	/D"$(1)"
+
+###############################################################################
+### LINUX platforms...
+
+else
+
+ifeq "$(target-profile)" "yes"
+prof-cflags		:=	-finstrument-functions
+prof-defs		:=	JBS_PROFILED=1
+else
+prof-cflags		:=
+prof-defs		:=
+endif
+
+ifeq "$(compile-compiler)" "icc"
+
+compile-cflags		:=	$(prof-cflags)				\
+				-w1					\
+				-wd68					\
+				-wd111					\
+				-wd128					\
+				-wd177					\
+				-wd181					\
+				-wd191					\
+				-wd193					\
+				-wd280					\
+				-wd383					\
+				-wd444					\
+				-wd593					\
+				-wd654					\
+				-wd981					\
+				-wd1125					\
+				-wd1418					\
+				-wd1419					\
+				-wd1478					\
+				-wd1572					\
+				-wd1599					\
+				-wd1782					\
+				-wd2259					\
+				-Wall -Werror-all			\
+				-fPIC
+compile-flags		:=	$(compile-cflags)			\
+				-Wno-deprecated				\
+				-fno-omit-frame-pointer
+
+else
+
+compile-cflags		:=	$(prof-cflags)				\
+				-Wall -Werror				\
+				-fPIC					\
+				-pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+compile-flags		:=	$(compile-cflags)			\
+				-W					\
+				-fno-strength-reduce			\
+				-fno-omit-frame-pointer			\
+				-fno-defer-pop				\
+				-fno-default-inline
+#				-Wno-deprecated
+#				-Wconversion
+
+endif
+
+compile-defs		:=	_REENTRANT				\
+				_XOPEN_SOURCE=500			\
+				_GNU_SOURCE				\
+				_LARGEFILE_SOURCE			\
+				_LARGEFILE64_SOURCE			\
+				_FILE_OFFSET_BITS=64			\
+				PLATFORM_$(JBS_PLATFORM)		\
+				LINUX					\
+				TARGET_VERSION_MAJ=$(target-ver-maj)	\
+				TARGET_VERSION_MED=$(target-ver-med)	\
+				TARGET_VERSION_MIN=$(target-ver-min)	\
+				JBS_TARGET_VERSION_MAJ=$(target-ver-maj)\
+				JBS_TARGET_VERSION_MED=$(target-ver-med)\
+				JBS_TARGET_VERSION_MIN=$(target-ver-min)\
+				JBS_TARGET_BUILD_TIME=$(shell date +%s)	\
+				$(prof-defs)
+
+### ... add PLATFORM_EMBLINUX to $(compile-defs) when needed
+ifdef JBS_PLATFORM_EMBLINUX
+compile-defs		+=	PLATFORM_EMBLINUX=1
+endif
+
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+compile-defs		+=	_DARWIN_C_SOURCE
+endif
+
+compile-suffix		:=	o
+compile-incldirs	:=
+
+ifeq "$(target-debug)" "yes"
+compile-cflags		+=	-g
+compile-flags		+=	-g
+else
+compile-cflags		+=	-O3
+compile-flags		+=	-O3
+endif
+
+compile-include		=	-I"$(1)"
+compile-define		=	-D$(1)
+
+ifeq "$(call mod-utils-check-on, $(KAE_PROFILE))" "true"
+compile-cflags		+=	-pg
+compile-flags		+=	-pg
+endif
+
+endif
+
+###############################################################################
+### All platforms...
+
+### ... add $(target-cxxdefs) to $(compile-defs)
+
+compile-defs		+=	$(foreach				\
+					d,				\
+					$(target-cxxdefs),		\
+					$(d))
+
+### ... add cxxdefs from deps to $(compile-defs)
+
+compile-defs		+=	$(foreach				\
+					d,				\
+					$(target-all-deps),		\
+					$($(d)-cxxdefs))
+
+###############################################################################
+###
+### Step. 2 : We compute source files to compile, and derive include paths...
+###
+### Output:
+### - compile-real-XXX		: files the user supply
+### - compile-temp-XXX		: files generated by the building system
+### - compile-final-XXX		: all files that should be used
+### ...
+###
+### - final-objects	:	all object files that should be generated
+###
+###############################################################################
+
+###############################################################################
+### Sources, headers, mocs, uis, ...
+
+### Suppress trailing & leading whitespaces in user definitions!
+
+target-mocs		:=	$(sort $(wildcard $(target-mocs)))
+target-guis		:=	$(sort $(wildcard $(target-guis)))
+target-sources		:=	$(sort $(wildcard $(target-sources)))
+target-vuis		:=	$(sort $(wildcard $(target-vuis)))
+target-quis		:=	$(sort $(wildcard $(target-quis)))
+
+mod-cmp-user-guis	:=	$(filter %.ui, $(target-guis))
+mod-cmp-user-mocs	:=	$(filter %.h, $(target-mocs))
+mod-cmp-user-sources	:=	$(filter %.cpp, $(target-sources))
+mod-cmp-user-csources	:=	$(filter %.c, $(target-sources))
+mod-cmp-user-headers	:=	$(filter %.h %.hpp %.h++, $(target-sources))
+mod-cmp-user-vuis	:=	$(filter %.vui, $(target-vuis))
+mod-cmp-user-quis	:=	$(filter %.ui, $(target-quis))
+
+mod-cmp-user-lpps	:=	$(filter %.lpp, $(target-sources))
+mod-cmp-user-ypps	:=	$(filter %.ypp, $(target-sources))
+
+###############################################################################
+### Provide auto-cleaning feature for files left over by previous version of
+### JBS...
+
+target-toclean		+=	$(patsubst %.ui,%.h,$(mod-cmp-user-guis))
+target-toclean		+=	$(patsubst %.ui,%.cpp,$(mod-cmp-user-guis))
+target-toclean		+=	$(patsubst %.ui,%.moc.cpp,$(mod-cmp-user-guis))
+target-toclean		+=	$(patsubst %.h,%.moc.cpp,$(mod-cmp-user-mocs))
+target-toclean		+=	$(patsubst %.cpp,%.$(compile-suffix),$(mod-cmp-user-sources))
+target-toclean		+=	$(patsubst %.c,%.$(compile-suffix),$(mod-cmp-user-csources))
+target-toclean		+=	$(patsubst %.vui,%.vui.h,$(mod-cmp-user-vuis))
+target-toclean		+=	$(patsubst %.vui,%.vui.cpp,$(mod-cmp-user-vuis))
+target-toclean		+=	$(patsubst %.ui,%.vui,$(mod-cmp-user-quis))
+target-toclean		+=	$(patsubst %.ui,%.vui.h,$(mod-cmp-user-quis))
+target-toclean		+=	$(patsubst %.ui,%.vui.cpp,$(mod-cmp-user-quis))
+
+###############################################################################
+### *.ui files (Qt UI files) listed in the "target-quis" variable are
+### translated to *.vui (VMP UI files), and additional *.h and *.cpp...
+
+mod-cmp-temp-vuis	:=	$(patsubst %.ui, %.vui, $(mod-cmp-user-quis))
+
+###############################################################################
+### *.vui files (VMP UI files) are processed to give a pair of .h and .cpp...
+
+mod-cmp-temp-sources	:=	$(patsubst %.vui, %.vui.cpp, $(mod-cmp-user-vuis) $(mod-cmp-temp-vuis))
+mod-cmp-temp-headers	+=	$(patsubst %.vui, %.vui.h  , $(mod-cmp-user-vuis) $(mod-cmp-temp-vuis))
+
+###############################################################################
+### *.ui files (Qt UI files) listed in the "target-guis" variable are used to
+### generate mocifiable .h files and .cpp files...
+
+mod-cmp-temp-headers	+=	$(patsubst %.ui, %.h      , $(mod-cmp-user-guis))
+#mod-cmp-temp-sources	+=	$(patsubst %.ui, %.cpp    , $(mod-cmp-user-guis))
+#mod-cmp-temp-mocs	:=	$(patsubst %.ui, %.h      , $(mod-cmp-user-guis))
+
+###############################################################################
+### "mocifiable" *.h files produce additional *.moc.cpp files...
+
+mod-cmp-temp-sources	+=	$(patsubst %.h, %.moc.cpp, $(mod-cmp-user-mocs) $(mod-cmp-temp-mocs))
+
+###############################################################################
+### *.lpp files (Flex++ files) are processed to give a pair of .h and .cpp...
+
+mod-cmp-temp-sources	+=	$(patsubst %.lpp, %.lpp.cpp, $(mod-cmp-user-lpps))
+mod-cmp-temp-headers	+=	$(patsubst %.lpp, %.lpp.h  , $(mod-cmp-user-lpps))
+
+###############################################################################
+### *.ypp files (Bison++ files) are processed to give a pair of .h and .cpp...
+
+mod-cmp-temp-sources	+=	$(patsubst %.ypp, %.ypp.cpp, $(mod-cmp-user-ypps))
+mod-cmp-temp-headers	+=	$(patsubst %.ypp, %.ypp.h  , $(mod-cmp-user-ypps))
+
+###############################################################################
+### C and C++ files get compiled to form *.o[bj] files...
+
+mod-cmp-temp-objects	:=	$(patsubst %.cpp, %.$(compile-suffix), $(mod-cmp-user-sources) $(mod-cmp-temp-sources)) \
+				$(patsubst %.c, %.$(compile-suffix), $(mod-cmp-user-csources))
+
+###############################################################################
+### All *.o files depend on their respective *.d file...
+
+mod-cmp-temp-depends	:=	$(patsubst %.$(compile-suffix), %.d, $(mod-cmp-temp-objects))
+
+###############################################################################
+### Fix path for temp files...
+
+mod-cmp-temp-sources	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-sources)))
+mod-cmp-temp-headers	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-headers)))
+mod-cmp-temp-mocs	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-mocs)))
+mod-cmp-temp-vuis	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-vuis)))
+
+mod-cmp-temp-objects	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-objects)))
+mod-cmp-temp-depends	:=	$(patsubst %,$(JBS_TMP_DIR)/%,$(notdir $(mod-cmp-temp-depends)))
+
+###############################################################################
+### Done!
+
+# JFGO: do NOT append the .d files to the temp-files!
+
+mod-cmp-temp-files	:=	$(strip $(mod-cmp-temp-sources)		\
+					$(mod-cmp-temp-headers)		\
+					$(mod-cmp-temp-mocs)		\
+					$(mod-cmp-temp-vuis))
+
+# JFGO: add a rule to force generation of temp files before compilation process!
+# This used to be done by "make depend" automatically...
+
+ifneq "$(mod-cmp-temp-files)" ""
+ifneq "$(mod-cmp-temp-objects)" ""
+
+$(mod-cmp-temp-objects) :	$(mod-cmp-temp-files)
+
+$(mod-cmp-temp-depends) :	$(mod-cmp-temp-files)
+
+endif
+endif
+
+###############################################################################
+
+mod-cmp-all-sources	:=	$(strip $(mod-cmp-user-sources) $(mod-cmp-temp-sources))
+mod-cmp-all-csources	:=	$(strip $(mod-cmp-user-csources))
+
+###############################################################################
+
+compile-sbr-files	:=	$(patsubst %.cpp, %.sbr, $(mod-cmp-all-sources)) \
+				$(patsubst %.c  , %.sbr, $(mod-cmp-all-csources))
+
+###############################################################################
+### Where to find input files for the compiler, mocifier, ...
+
+# Don't add the JBS_TMP_DIR to the vpath search path, because this could lead
+# to implicit rules (%.o : %.cpp) being invoked, for example if the input and
+# the output are all in this temp folder. Instead, provide explicit rules to
+# handle such a case!
+
+mod-cmp-path-cpp	:=	$(sort $(dir $(mod-cmp-user-sources)))
+mod-cmp-path-c		:=	$(sort $(dir $(mod-cmp-user-csources)))
+mod-cmp-path-moc	:=	$(sort $(dir $(mod-cmp-user-mocs)))
+mod-cmp-path-gui	:=	$(sort $(dir $(mod-cmp-user-guis)))
+mod-cmp-path-qui	:=	$(sort $(dir $(mod-cmp-user-quis)))
+mod-cmp-path-vui	:=	$(sort $(dir $(mod-cmp-user-vuis)))
+mod-cmp-path-lpp	:=	$(sort $(dir $(mod-cmp-user-lpps)))
+mod-cmp-path-ypp	:=	$(sort $(dir $(mod-cmp-user-ypps)))
+
+vpath %.cpp $(mod-cmp-path-cpp)
+vpath %.c $(mod-cmp-path-c)
+vpath %.h $(mod-cmp-path-moc)
+vpath %.ui $(mod-cmp-path-gui) $(mod-cmp-path-qui)
+vpath %.vui $(mod-cmp-path-vui)
+vpath %.lpp $(mod-cmp-path-lpp)
+vpath %.ypp $(mod-cmp-path-ypp)
+
+dumpable		+=	mod-cmp-path-cpp	\
+				mod-cmp-path-c		\
+				mod-cmp-path-moc	\
+				mod-cmp-path-gui	\
+				mod-cmp-path-qui	\
+				mod-cmp-path-vui	\
+				mod-cmp-path-lpp	\
+				mod-cmp-path-ypp
+
+###############################################################################
+### Other Make.* files need those...
+
+compile-final-sources	:=	$(mod-cmp-all-sources)
+compile-final-csources	:=	$(mod-cmp-all-csources)
+compile-final-headers	:=	$(mod-cmp-user-headers) $(mod-cmp-temp-headers)
+compile-final-objects	:=	$(mod-cmp-temp-objects)
+
+###############################################################################
+
+ifneq "$(target-type)" "none"
+got-sources		:=	$(if $(mod-cmp-all-sources) $(mod-cmp-all-csources),true,false)
+endif
+
+###############################################################################
+### Include paths...
+
+### ... path to all our headers (temp and real)
+
+compile-final-incldirs	:=	$(sort $(dir $(mod-cmp-user-headers) $(mod-cmp-temp-headers)))
+compile-incldirs	+=	$(compile-final-incldirs)
+
+# on mac os x, include macports paths
+
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+compile-incldirs	+=	/opt/local/include
+endif
+
+### ... user defined paths
+
+compile-incldirs	+=	$(target-incldirs)
+
+### ... paths to the headers of all our dependencies
+
+compile-incldirs	+=	$(foreach				\
+					p,				\
+					$(target-all-deps),		\
+					$($(p)-incldirs))
+
+### ... cleanup
+
+compile-incldirs	:=	$(strip $(compile-incldirs))
+
+###############################################################################
+###
+### Step. 3 : We create specific rules to build common object types.
+###
+###############################################################################
+
+compile-defs		:=	$(strip $(compile-defs))
+
+compile-cstring		=	$(compile-cflags)			\
+				$(foreach				\
+					d,				\
+					$(compile-defs),		\
+					$(call compile-define,$(d)))	\
+				$(target-cflags)			\
+				$(foreach				\
+					d,				\
+					$(compile-incldirs),		\
+					$(call compile-include,$(d)))
+compile-string		=	$(compile-flags)			\
+				$(foreach				\
+					d,				\
+					$(compile-defs),		\
+					$(call compile-define,$(d)))	\
+				$(target-cflags)			\
+				$(target-cxxflags)			\
+				$(foreach				\
+					d,				\
+					$(compile-incldirs),		\
+					$(call compile-include,$(d)))
+
+### ... add $(target-cxxstring) to $(compile-string)
+
+compile-string		+=	$(target-cxxstring)
+
+compile-string		+=	$(foreach				\
+							p,				\
+							$(target-all-deps),		\
+							$($(p)-addcxxstring))
+
+compile-cstring		+=	$(target-cstring)
+
+compile-cstring		+=	$(foreach				\
+							p,				\
+							$(target-all-deps),		\
+							$($(p)-addcstring))
+
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+
+#disable warnings about base class constructor should be explicitly initialized, because the are just wrong :-)
+compile-cstring		+=	-Wno-extra
+compile-string		+=	-Wno-extra
+
+prep-cstring		:=	$(compile-cstring)
+prep-string		:=	$(compile-string)
+
+# get frameworks
+
+target-all-frameworks	:=	$(strip $(target-frameworks))	\
+							$(foreach				\
+								p,				\
+								$(target-all-deps),		\
+								$(strip $($(p)-frameworks)))
+
+target-all-frameworks	:=	$(strip $(target-all-frameworks))
+
+dumpable		+=	prep-cstring prep-string target-all-frameworks
+
+compile-cstring		+=	$(foreach				\
+							f,				\
+							$(target-all-frameworks),		\
+							-F$(f))
+
+compile-string		+=	$(foreach				\
+							f,				\
+							$(target-all-frameworks),		\
+							-F$(f))
+
+# replace ? with space, on DARWIN frameworks tend to have spaces in their paths... grrrr
+comp-sp :=
+comp-sp +=
+comp-qs = $(subst ?,$(comp-sp),$1)
+
+compile-string	:=	$(call comp-qs,$(compile-string))
+compile-cstring	:=	$(call comp-qs,$(compile-cstring))
+prep-cstring	:=	$(call comp-qs,$(prep-cstring))
+prep-string		:=	$(call comp-qs,$(prep-string))
+
+endif
+
+dumpable += compile-string compile-cstring
+
+tmp-vui2cpp-ver		:=	$(vui2cpp-ver-maj).$(vui2cpp-ver-med).$(vui2cpp-ver-min)
+tmp-qui2vui-ver		:=	$(qui2vui-ver-maj).$(qui2vui-ver-med).$(qui2vui-ver-min)
+
+$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE) :
+	@mkdir -p $(JBS_TMP_DIR)
+	@touch -t 200001010000 $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+
+### First, clear implicit rules.
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+%.obj :		%.cpp
+	@$(call mod-echo-compiling,$<)
+ifeq "$(target-debug)" "yes"
+	"$(compile-compiler)" $(compile-string) /Fo"$@" /Fr"$(patsubst %.cpp,%.sbr,$<)" $<
+else
+	"$(compile-compiler)" $(compile-string) /Fo"$@" $<
+endif
+
+%.prep :	%.cpp
+	@"$(compile-compiler)" $(compile-string) /E "$<" > "$@"
+
+%.moc.cpp :	%.h
+	@$(call mod-echo-mocing,$<)
+	@`cygpath -u "moc.exe"` -o `cygpath -w $@` `cygpath -w $<`
+
+%.h :		%.ui
+	@$(call mod-echo-uicing,$<)
+	@`cygpath -u "uic.exe"` -o `cygpath -w $@` `cygpath -w $<`
+
+%.cpp :		%.h %.ui
+	@$(call mod-echo-uicing,$*.ui)
+	@`cygpath -u "uic.exe"` -o `cygpath -w $@` -impl `cygpath -w $(notdir $<)` `cygpath -w $*.ui`
+
+compile-vui2cpp-bin	:=	$(JBS_UTIL_DIR)/vui2cpp-win32.exe
+compile-vui2cpp-src	:=	$(JBS_APPS_DIR)/VUI2CPP/vui2cpp.exe
+
+compile-qui2vui-bin	:=	$(JBS_UTIL_DIR)/qui2vui-win32.exe
+compile-qui2vui-src	:=	$(JBS_APPS_DIR)/QUI2VUI/qui2vui.exe
+
+$(compile-vui2cpp-bin) :	$(compile-vui2cpp-src)
+	cp $< $@
+
+$(compile-qui2vui-bin) :	$(compile-qui2vui-src)
+	cp $< $@
+
+JBS_HOSTENVTOOLS	:=	JBS_COMPILER=$(JBS_HOSTCOMPILER) JBS_CCOMPILER=$(JBS_HOSTCCOMPILER) JBS_LINKER=$(JBS_HOSTLINKER) JBS_STRIP=$(JBS_HOSTSTRIP)
+
+$(compile-vui2cpp-src) :	### FORCE
+	$(MAKE) $(JBS_HOSTENVTOOLS) -C $(dir $@)
+
+$(compile-qui2vui-src) :	### FORCE
+	$(MAKE) $(JBS_HOSTENVTOOLS) -C $(dir $@)
+
+%.vui.cpp :		%.vui	$(compile-vui2cpp-bin)
+	@$(call mod-echo-vui-imp,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -c $@
+
+%.vui.h :		%.vui	$(compile-vui2cpp-bin)
+	@$(call mod-echo-vui-dec,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -h $@
+
+%.vui :			%.ui	$(compile-qui2vui-bin)
+	@$(call mod-echo-ui-vui,$<)
+	@$(compile-qui2vui-bin) -i $< -f -o $@
+
+else
+
+.PHONY :	dumpprep local-dumpprep
+
+dumpprep :	local-dumpprep do-in-subdirs-dumpprep
+
+local-dumpprep :
+	@echo $(target-name) ;	\
+	echo "" ; \
+	for h in $(mod-cmp-user-headers) ; do \
+		b=`basename $$h` ; \
+		l=`( printf "\0043include \"$$b\"\n" | g++ -x c++ -E $(compile-string) - | wc -l )` ;	\
+		printf "$$l\t$$h\n" ; \
+	done
+
+###############################################################################
+### fn-prepr-cpp-cmd function
+### $1: target (.d file) (+ path)
+### $2: source (.cpp file) (+ path)
+### $3: source (.o file) (+ path)
+
+ifeq "$(compile-compiler)" "icc"
+fn-prepr-cpp-cmd	=	icc -MM -MF $1 -MT $3 $(compile-string) $2
+fn-prepr-c-cmd		=	icc -MM -MF $1 -MT $3 $(compile-cstring) $2
+else
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+fn-prepr-cpp-cmd	=	cpp-4.2 -MM -MF $1 -MT $3 $(prep-string) $2
+fn-prepr-c-cmd		=	cpp-4.2 -MM -MF $1 -MT $3 $(prep-cstring) $2
+else
+fn-prepr-cpp-cmd	=	cpp -MM -MF $1 -MT $3 $(compile-string) $2
+fn-prepr-c-cmd		=	cpp -MM -MF $1 -MT $3 $(compile-cstring) $2
+endif
+endif
+
+$(JBS_TMP_DIR)/%.o :		$(JBS_TMP_DIR)/%.cpp			\
+				$(JBS_TMP_DIR)/%.d
+	@$(call mod-echo-compiling,$<)
+	@$(call fn-prepr-cpp-cmd,$(patsubst %.o,%.d,$@),$<,$@)
+	@$(compile-compiler) $(compile-string) -c -o $@ $<
+
+$(JBS_TMP_DIR)/%.o :		%.cpp					\
+				$(JBS_TMP_DIR)/%.d
+	@$(call mod-echo-compiling,$<)
+	@$(call fn-prepr-cpp-cmd,$(patsubst %.o,%.d,$@),$<,$@)
+	@$(compile-compiler) $(compile-string) -c -o $@ $<
+
+$(JBS_TMP_DIR)/%.o :		$(JBS_TMP_DIR)/%.c			\
+				$(JBS_TMP_DIR)/%.d
+	@$(call mod-echo-compiling,$<)
+	@$(call fn-prepr-c-cmd,$(patsubst %.o,%.d,$@),$<,$@)
+	@$(compile-ccompiler) $(compile-cstring) -c -o $@ $<
+
+$(JBS_TMP_DIR)/%.o :		%.c					\
+				$(JBS_TMP_DIR)/%.d
+	@$(call mod-echo-compiling,$<)
+	@$(call fn-prepr-c-cmd,$(patsubst %.o,%.d,$@),$<,$@)
+	@$(compile-ccompiler) $(compile-cstring) -c -o $@ $<
+
+$(JBS_TMP_DIR)/%.d :		$(JBS_TMP_DIR)/%.cpp			\
+				$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-gendepends,$<)
+	@$(call fn-prepr-cpp-cmd,$@,$<,$@)
+
+$(JBS_TMP_DIR)/%.d :		%.cpp					\
+				$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-gendepends,$<)
+	@$(call fn-prepr-cpp-cmd,$@,$<,$@)
+
+$(JBS_TMP_DIR)/%.d :		$(JBS_TMP_DIR)/%.c			\
+				$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-gendepends,$<)
+	@$(call fn-prepr-c-cmd,$@,$<,$@)
+
+$(JBS_TMP_DIR)/%.d :		%.c					\
+				$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-gendepends,$<)
+	@$(call fn-prepr-c-cmd,$@,$<,$@)
+
+$(JBS_TMP_DIR)/%.prep :		%.cpp $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	$(compile-compiler) $(compile-string) -E "$<" > "$@"
+
+$(JBS_TMP_DIR)/%.S :		%.cpp $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	$(compile-compiler) $(compile-string) -S "$<" > "$@"
+
+$(JBS_TMP_DIR)/%.moc.cpp :	$(JBS_TMP_DIR)/%.h $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-mocing,$<)
+	@qtchooser -run-tool=moc -qt=qt4 -o $@ $<
+
+$(JBS_TMP_DIR)/%.moc.cpp :	%.h $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-mocing,$<)
+	@qtchooser -run-tool=moc -qt=qt4 -o $@ $<
+
+$(JBS_TMP_DIR)/%.h :		%.ui $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-uicing,$<)
+	@qtchooser -run-tool=uic -qt=qt4 -o $@ $<
+
+# $(JBS_TMP_DIR)/%.cpp :		%.ui $(JBS_TMP_DIR)/%.h $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+# 	@$(call mod-echo-uicing,$<)
+# 	uic -o $@ -impl $(notdir $*.h) $<
+
+compile-vui2cpp-bin	:=	$(JBS_UTIL_DIR)/vui2cpp-linux
+compile-vui2cpp-src	:=	$(JBS_APPS_DIR)/VUI2CPP/vui2cpp
+
+compile-qui2vui-bin	:=	$(JBS_UTIL_DIR)/qui2vui-linux
+compile-qui2vui-src	:=	$(JBS_APPS_DIR)/QUI2VUI/qui2vui
+
+$(compile-vui2cpp-bin) :	$(compile-vui2cpp-src)
+	cp $< $@
+
+$(compile-qui2vui-bin) :	$(compile-qui2vui-src)
+	cp $< $@
+
+$(compile-vui2cpp-src) :	### FORCE
+	$(MAKE) -C $(dir $@)
+
+$(compile-qui2vui-src) :	### FORCE
+	$(MAKE) -C $(dir $@)
+
+$(JBS_TMP_DIR)/%.vui.cpp :	$(JBS_TMP_DIR)/%.vui $(compile-vui2cpp-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-vui-imp,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -c $@
+
+$(JBS_TMP_DIR)/%.vui.cpp :	%.vui $(compile-vui2cpp-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-vui-imp,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -c $@
+
+$(JBS_TMP_DIR)/%.vui.h :	$(JBS_TMP_DIR)/%.vui $(compile-vui2cpp-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-vui-dec,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -h $@
+
+$(JBS_TMP_DIR)/%.vui.h :	%.vui $(compile-vui2cpp-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-vui-dec,$<)
+	@$(compile-vui2cpp-bin) -i $< -f -h $@
+
+$(JBS_TMP_DIR)/%.vui :		$(JBS_TMP_DIR)/%.ui $(compile-qui2vui-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-ui-vui,$<)
+	@$(compile-qui2vui-bin) -i $< -f -o $@
+
+$(JBS_TMP_DIR)/%.vui :		%.ui $(compile-qui2vui-bin) $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-ui-vui,$<)
+	@$(compile-qui2vui-bin) -i $< -f -o $@
+
+$(JBS_TMP_DIR)/%.lpp.h $(JBS_TMP_DIR)/%.lpp.cpp :	%.lpp $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-flexing,$<)
+	@flex	--header-file=$(patsubst %.cpp,%.h,$(patsubst %.h,%.cpp,$@)) \
+		--outfile=$(patsubst %.h,%.cpp,$(patsubst %.cpp,%.h,$@)) \
+		$<
+
+$(JBS_TMP_DIR)/%.ypp.h $(JBS_TMP_DIR)/%.ypp.cpp :	%.ypp $(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@$(call mod-echo-bisoning,$<)
+	@bison \
+		-Wall -Werror \
+		--defines=$(patsubst %.cpp,%.h,$(patsubst %.h,%.cpp,$@)) \
+		--output=$(patsubst %.h,%.cpp,$(patsubst %.cpp,%.h,$@)) \
+		$<
+
+endif
+
+###############################################################################
+###
+### Step. 4 : We compute various elements that __could__ be used when
+###           linking. It will be up to the specific Make.target.$(???) to
+###           compose a specific command line using those elements.
+###
+###############################################################################
+
+link-linker		:=	$(JBS_LINKER)
+
+### Some platform-dependent basic definitions...
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+link-flags		:=	/nologo /STACK:10000000
+link-suffix-exe		:=	.exe
+link-prefix-dll		:=
+link-suffix-dll		:=	.dll
+link-prefix-lib		:=
+link-suffix-lib		:=	.lib
+
+link-libs		:=	# kernel32 user32 gdi32 winspool \
+				# comdlg32 advapi32 shell32 ole32 \
+				# oleaut32 uuid odbc32 odbccp32
+link-dirs		:=
+
+link-linkdir		=	/libpath:"$(shell cygpath -aw $(1))"
+link-linklib		=	$(1).lib
+
+ifeq "$(target-debug)" "yes"
+link-flags		+=	/debug /INCREMENTAL:YES
+endif
+
+else
+
+ifneq "$(JBS_PLATFORM)" "DARWIN"
+link-flags		:=	-Wl,-E
+endif
+link-suffix-exe		:=
+link-prefix-dll		:=	lib
+link-suffix-dll		:=	.so
+link-prefix-lib		:=	lib
+link-suffix-lib		:=	.a
+
+link-libs		:=
+link-dirs		:=
+
+# on mac os x, include macports paths
+
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+link-dirs	+=	/opt/local/lib
+link-suffix-dll		:=	.dylib
+endif
+
+link-linkdir		=	-L"$(1)"
+link-linklib		=	-l$(1)
+
+ifeq "$(call mod-utils-check-on, $(KAE_PROFILE))" "true"
+link-flags		+=	-pg
+endif
+
+endif
+
+### The paths and libraries to - maybe - link to...
+### Source:
+### - add. libraries, specified in the Make.target file
+### - dependencies (base project and project add. libraries)
+### Specifically, we compute 2 variables:
+### - link-libs : list of ALL libraries referred to at some point
+### - link-dirs : paths to those libs
+### Note: the libs are basically the $(target-name)s!
+
+### Inversion recursive algorithm:
+### Let L = { L_1 ... L_N } be the list to process.
+### Let S := S(L) be the inverted version of L.
+### Then, S is given by:
+###	if N >= 2
+###	then S := S( { L_2 ... L_N } ) L_1
+###	else S := L_1
+
+fn-inv-list		= $(if	\
+				$(call fn-sw,$(1)),	\
+				$(call fn-inv-list,$(wordlist 2,$(words $(1)),$(1))) $(word 1,$(1)),	\
+				$(1)	\
+			)
+
+target-all-deps-inv := $(call fn-inv-list,$(target-all-deps))
+
+link-libs		+=	$(target-libs)				\
+				$(foreach				\
+					p,				\
+					$(target-all-deps-inv),		\
+					$(p) $($(p)-addlibs))
+
+link-dirs		+=	$(target-libdirs)			\
+				$(foreach				\
+					p,				\
+					$(target-all-deps-inv),		\
+					$($(p)-linkdir) $($(p)-addlibdirs))
+
+link-libs		:=	$(strip $(link-libs))
+link-dirs		:=	$(strip $(link-dirs))
+
+
+
+ifeq "$(JBS_UNIX_SYSTEM)" "1"
+
+
+### One of the nice features of Linux... We may include the path to our DLLs
+### right into the executable... No need to play with environment variables
+### to locate all required components at start time!
+
+link-flags		+=	$(foreach				\
+					d,				\
+					$(link-dirs),			\
+					-Wl,-rpath,"$(d)")
+
+endif
+### ... add $(target-linkstring) to $(link-flags)
+
+link-flags		+=	$(target-linkstring)
+
+link-flags		+=	$(foreach				\
+						p,				\
+						$(target-all-deps-inv),		\
+						$($(p)-addlinkstring))
+
+
+### We put it all together and construct a string that COULD be inserted on the
+### command-line (ex: "-L/users/gobbers/.../Lib -lBFC_Qt -lqt")
+
+link-string		=	$(link-flags)				\
+				$(foreach				\
+					l,				\
+					$(link-dirs),			\
+					$(call link-linkdir,$(l)))	\
+				$(foreach				\
+					l,				\
+					$(link-libs),			\
+					$(call link-linklib,$(l)))
+
+
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+
+link-string			+=	$(foreach				\
+							f,				\
+							$(target-all-frameworks),		\
+							-framework $(f))
+
+sp :=
+sp +=
+qs = $(subst ?,$(sp),$1)
+sq = $(subst $(sp),?,$1)
+
+link-string	:=	$(call qs,$(link-string))
+
+endif
+
+
+###############################################################################
+###
+### Step. x : to rebuild dependencies...
+###
+###############################################################################
+
+ifdef JBS_NO_ALREADY_BUILT
+already-built-deps	:=
+else
+already-built-deps	:=	$(shell [ -e $(JBS_PROGR_FILE) ] && cat $(JBS_PROGR_FILE))
+endif
+
+#export already-built-deps
+
+build-needed-deps	:=	$(foreach \
+					d, \
+					$(target-all-deps), \
+					$(if $($(d)-linkdir),$(d),))
+
+build-needed-deps	:=	$(filter-out \
+					$(already-built-deps), \
+					$(build-needed-deps))
+
+dumpable += build-needed-deps
+dumpable += build-needed-libs
+
+ifndef JBS_NO_ALREADY_BUILT
+
+already-built-deps	+=	$(build-needed-deps)
+already-built-deps	:=	$(sort $(already-built-deps))
+
+### $(warning ALREADY BUILT: $(already-built-deps))
+ifeq "$(target-available)" "1"
+$(shell echo "$(already-built-deps)" > $(JBS_PROGR_FILE))
+endif
+
+endif
+
+build-needed-libs	:=	$(foreach \
+					p, \
+					$(build-needed-deps), \
+					$($(p)-linkdir)/$($(p)-filename))
+
+build-needed-libs	:=	$(strip $(build-needed-libs))
+
+ifneq "$(build-needed-libs)" ""
+
+.PHONY : $(build-needed-libs)
+
+# We use the 'local-target' entry point to ensure we avoid entering subdirs,
+# which could potentially create infinite loops!
+
+ifeq "$(call mod-utils-check-on, $(JBS_SILENT_MAKE))" "true"
+make-recurse-opt	:=	-s
+else
+make-recurse-opt	:=	-w
+endif
+
+$(build-needed-libs) :
+	@$(MAKE) $(make-recurse-opt) -C $(dir $@) local-target
+
+endif
+
+
+###############################################################################
+
+dumpable		+=	compile-flags				\
+				compile-defs				\
+				compile-incldirs
+
+dumpable		+=	mod-cmp-user-sources			\
+				mod-cmp-user-csources			\
+				mod-cmp-user-headers			\
+				mod-cmp-user-mocs			\
+				mod-cmp-user-guis			\
+				mod-cmp-temp-sources			\
+				mod-cmp-temp-headers			\
+				mod-cmp-temp-mocs			\
+				mod-cmp-temp-vuis			\
+				mod-cmp-temp-files			\
+				mod-cmp-temp-objects			\
+				mod-cmp-temp-depends
+
+dumpable		+=	link-flags				\
+				link-dirs				\
+				link-libs				\
+				link-string
+
+###############################################################################
+

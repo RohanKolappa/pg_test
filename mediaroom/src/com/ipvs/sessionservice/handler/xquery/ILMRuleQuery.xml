@@ -1,0 +1,32 @@
+let $dirNID := '_DIRNID_'
+let $timestamp := _DATETIMESTAMP_
+let $skipError := '_SKIPERRORS_'
+
+
+let $dirDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dirNID, 'default.'),'.')))/*[@NID=$dirNID]
+
+let $listOfFilesInDir := for $file in collection('ipvs.default.mediastreamfileresourcelist')/*
+						   						      [.//ParentMediaDirNID = $dirNID and .//StateFlag='Ready' and (.//MediaClip/PlayLength!='0' or .//Type='MediaImage') and .//DateCreated < $timestamp and .//BypassAutoStorageRules='false'] 
+                                order by $file//DateCreated ascending
+								          	return $file
+let $fileList := if($skipError = 'true') then
+                         let $listOfFilesInError := for $offloadEntry in collection('ipvs.default.exportimportfilelist')/*
+						   						                            [.//Internal/@dirNID = $dirNID and   @type='Offload'  and @state_description='Error'] 
+								      	                            return $offloadEntry//Internal/@fileNID
+                         let $fileListWithOutErrors := if(count($listOfFilesInError) !=0) then 
+                                                            for $file in   $listOfFilesInDir
+															   where $file[not(@NID=$listOfFilesInError)]
+                                                               order by $file//DateCreated ascending
+             								          		return $file
+                                                       else  $listOfFilesInDir
+                         return $fileListWithOutErrors
+                 else $listOfFilesInDir
+                        
+return 
+      <Dir nid='{$dirNID}'>
+          {subsequence($fileList, 1, 5)}
+      </Dir>
+
+

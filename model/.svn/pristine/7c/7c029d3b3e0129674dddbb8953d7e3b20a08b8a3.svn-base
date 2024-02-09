@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.xsd" />
+  <xs:include schemaLocation="mediaroom.service.datamodel.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.DMS.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.ManagementServer.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.V2D.xsd" />
+  <xs:element name="LoginRequestData" type="LoginRequestDataType" />
+  <xs:complexType name="LoginRequestDataType">
+    <xs:sequence>
+      <xs:element name="user" type="xs:string" />
+      <xs:element name="password" type="xs:string" />
+      <xs:element name="domain" type="xs:string" />
+      <xs:element name="resource" type="xs:string" />
+      <xs:element name="server" type="xs:string" />
+      <xs:element name="port" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LoginResponseData" type="LoginResponseDataType" />
+  <xs:complexType name="LoginResponseDataType">
+    <xs:sequence>
+      <xs:element name="version" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SetServiceDomainRequestData" type="SetServiceDomainRequestDataType" />
+  <xs:complexType name="SetServiceDomainRequestDataType">
+    <xs:sequence>
+      <xs:element name="domain" type="xs:string" />
+      <xs:element name="AssetTemplateTitle" type="xs:string" />
+      <xs:element name="AssetPrivateData" type="xs:anyType" />
+      <xs:element name="AssetPrivateKeyData" type="xs:string" />
+      <xs:element name="ServiceVersion" type="xs:string" />
+      <xs:element name="SoftwareVersion" type="xs:string" />
+      <xs:element name="IPAddress" type="xs:string" />
+      <xs:element name="AppName" type="AppNameEnumType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SetServiceDomainResponseData" type="SetServiceDomainResponseDataType" />
+  <xs:complexType name="SetServiceDomainResponseDataType">
+    <xs:sequence>
+      <xs:any />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LogoutRequestData" type="xs:anyType" />
+  <xs:element name="LogoutResponseData" type="xs:anyType" />
+  <xs:element name="Error" type="xs:string" />
+  <xs:element name="Notification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="notificationheader" type="NotificationHeaderType" />
+        <xs:element name="notificationdata" type="xs:string" />
+      </xs:sequence>
+      <xs:attribute name="serviceVer" type="xs:double" use="required" />
+      <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="NotificationHeaderType">
+    <xs:sequence>
+      <xs:element name="notificationtype">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="agentmessage" />
+            <xs:enumeration value="AgentEvent" />
+            <xs:enumeration value="XMPPEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="agentmessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="agentmessageheader" type="AgentMessageHeaderType" />
+        <xs:element name="agentmessagedata" type="xs:anyType" />
+      </xs:sequence>
+      <xs:attribute name="serviceVer" type="xs:double" use="required" />
+      <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AgentMessageHeaderType">
+    <xs:sequence>
+      <xs:element name="fromagent" type="xs:string" />
+      <xs:element name="agentJID" type="xs:string" />
+      <xs:element name="agent" type="xs:string" />
+      <xs:element name="agentmessagetype">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Request" />
+            <xs:enumeration value="Response" />
+            <xs:enumeration value="AgentEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AgentEventType">
+    <xs:sequence>
+      <xs:element name="header" type="AgentEventHeaderType" />
+      <xs:element name="data" type="xs:anyType" />
+      <xs:element name="log" type="xs:anyType" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+  </xs:complexType>
+
+<!-- AgentEvent
+  	- Values for eventLevel ERROR = 0, OK = 200
+    - Values for eventType SourceEvent,DestEvent,StreamEvent,SSEvent,StreamStatusEvent
+    -->
+  <xs:complexType name="AgentEventHeaderType">
+    <xs:sequence>
+      <xs:element name="eventLevel">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0" />
+            <xs:enumeration value="200" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="eventAgentJID" type="xs:string" />
+      <xs:element name="eventWallclock" type="xs:double" />
+      <xs:element name="eventname">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="SourceEvent" />
+            <xs:enumeration value="DestEvent" />
+            <xs:enumeration value="SSEvent" />
+            <xs:enumeration value="StreamStatusEvent" />
+            <xs:enumeration value="FileTransferStatusEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <!-- the data element will have a child which is "<eventname>Data" -->
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="WatchRequestDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Watch" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="streamdatadoc" type="xs:string" />
+      <xs:element name="mediasourcedatadoc" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UnWatchRequestDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="UnWatch" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="streamNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NotifyRequestDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Notify" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="notifydata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NotifyResponseDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="NotifyResponse" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="notifydata" type="xs:string" />
+      <xs:element name="status" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="StartRequest" />
+      <xs:enumeration value="StopRequest" />
+      <xs:enumeration value="StopOutput" />
+      <xs:enumeration value="SwitchLookback" />
+      <xs:enumeration value="StartOutput" />
+      <xs:enumeration value="UpdateOffset" />
+      <xs:enumeration value="SwitchCurrent" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="UserActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Start" />
+      <xs:enumeration value="Stop" />
+      <xs:enumeration value="Pause" />
+      <xs:enumeration value="Resume" />
+      <xs:enumeration value="Catchup" />
+      <xs:enumeration value="SkipBackward" />
+      <xs:enumeration value="SkipForward" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ActionRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="useraction" type="UserActionType" />
+      <xs:element name="action" type="ActionType" />
+      <xs:element name="actiondata" type="xs:string" />
+      <xs:element name="currentTrackOffset" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="streamdatadoc" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ActionResponseDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="useraction" type="UserActionType" />
+      <xs:element name="action" type="ActionType" />
+      <xs:element name="actiondata" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="streamURL" type="xs:string" />
+      <xs:element name="status" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- SourceEvent 
+  	Values for the Error eventCode
+  	public static final int END_OF_MEDIA = 12;
+  	public static final int RELAY_SOURCE_UNAVAILABLE = 14;
+  	public static final int RELAY_SOURCE_DISCONNECTED = 15;   
+  	public static final int MEDIA_ERROR = 204;
+  	public static final int UNKNOWN_EVENT = 100;
+  	
+  	Values for the Info eventCode
+  	public static final int RELAY_SOURCE_STARTED = 10;
+  	public static final int STREAM_START_TC = 11;
+  	public static final int SOURCE_UNAVAILABLE = 13;
+  -->
+  <xs:complexType name="SourceEventDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="SourceEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="eventCode" type="xs:int" />
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="startTC" type="xs:string" />
+      <xs:element name="sourceEventActionData" type="xs:anyType" />
+      <xs:element name="streamNIDList" type="xs:anyType" />
+      <xs:element name="status" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- DestEvent  
+  	Values for the Error eventCode
+  	public static final int MEDIA_STORE_ERROR = 103; 
+  	public static final int NO_AVAILABLE_DISK_SPACE = 9001;
+  	
+  	Values for the Info eventCode
+  	//Destination Event Codes
+  	public static final int RECORDING_STARTED = 101;
+  	public static final int RECORDING_STOPPED = 102;
+  	
+  	destEventDoc.append(	"<"+event+"TimeStamp>" + timeStamp + "</"+event+"TimeStamp>");
+  	destEventDoc.append(	"<"+event+"WallClock>" + wallclock + "</"+event+"WallClock>");
+  	
+  -->
+  <xs:complexType name="DestEventDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="DestEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="eventCode" type="xs:int" />
+      <xs:element name="StartedTimeStamp" type="xs:double" />
+      <xs:element name="StartedWallClock" type="xs:double" />
+      <xs:element name="StopTimeStamp" type="xs:double" />
+      <xs:element name="StopWallClock" type="xs:double" />
+      <xs:element name="destinationEventActionData" type="xs:anyType" />
+      <xs:element name="status" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SSEventDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="SSEvent" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="SSEventActionData" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeviceConfigurationRequestData" type="DeviceConfigurationRequestDataType" />
+  <xs:complexType name="DeviceConfigurationRequestDataType">
+    <xs:choice>
+      <xs:element ref="SystemDCRE" />
+      <xs:element ref="StreamDCRE" />
+      <xs:element ref="PortsDCRE" />
+      <xs:element ref="InfoDCRE" />
+      <xs:element ref="StorageDCRE" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="SystemDCRE" type="SystemDCREType" />
+  <xs:complexType name="SystemDCREType">
+    <xs:sequence> 
+      <xs:element name="DNSClientConfigDCRE" type="DNSClientConfigDCREType" />
+      <xs:element name="EthernetTableConfigDCRE" type="EthernetTableConfigDCREType" />
+      <xs:element name="RouteTableConfigDCRE" type="RouteTableConfigDCREType" />
+      <xs:element name="HostTableConfigDCRE" type="HostTableConfigDCREType" />
+      <xs:element name="NATZoneTableConfigDCRE" type="NATZoneTableConfigDCREType" />
+      <xs:element name="SystemClockConfigDCRE" type="SystemClockConfigDCREType" />
+      <xs:element name="NTPServiceConfigDCRE" type="NTPServiceConfigDCREType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreamDCRE" type="StreamDCREType" />
+  <xs:complexType name="StreamDCREType">
+    <xs:sequence>
+      <xs:element name="StreamsTxConfigDCRE" type="StreamsTxConfigDCREType" />
+      <xs:element name="V2DStreamsTxConfigDCRE" type="V2DStreamsTxConfigDCREType" />
+      <xs:element name="V2DStreamsRxConfigDCRE" type="V2DStreamsRxConfigDCREType" />
+      <xs:element name="MPEGTSStreamsRxConfigDCRE" type="MPEGTSStreamsRxConfigDCREType" />
+      <xs:element name="MPEGTSStreamsTxConfigDCRE" type="MPEGTSStreamsTxConfigDCREType" />
+      <xs:element name="RTPStreamsRxConfigDCRE" type="RTPStreamsRxConfigDCREType" />
+      <xs:element name="RTPStreamsTxConfigDCRE" type="RTPStreamsTxConfigDCREType" />
+      <xs:element name="UDPStreamsRxConfigDCRE" type="UDPStreamsRxConfigDCREType" />
+      <xs:element name="UDPStreamsTxConfigDCRE" type="UDPStreamsTxConfigDCREType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PortsDCRE" type="PortsDCREType" />
+  <xs:complexType name="PortsDCREType">
+    <xs:sequence>
+      <xs:element name="V2DEncoderVideoConfigDCRE" type="V2DEncoderVideoConfigDCREType" />
+      <xs:element name="V2DEncoderPortKbmConfigDCRE" type="V2DEncoderPortKbmConfigDCREType" />
+      <xs:element name="V2DEncoderPortRFBConfigDCRE" type="V2DEncoderPortRFBConfigDCREType" />
+      <xs:element name="V2DEncoderSerialConfigDCRE" type="V2DEncoderSerialConfigDCREType" />
+      <xs:element name="V2DEncoderSplashParametersConfigDCRE" type="V2DEncoderSplashParametersConfigDCREType" />
+      <xs:element name="V2DCodecVideoLookupTableDCRE" type="V2DCodecVideoLookupTableDCREType" />
+      <xs:element name="V2DDecoderVideoConfigDCRE" type="V2DDecoderVideoConfigDCREType" />
+      <xs:element name="V2DDecoderSerialConfigDCRE" type="V2DDecoderSerialConfigDCREType" />
+      <xs:element name="V2DDecoderSplashParametersConfigDCRE" type="V2DDecoderSplashParametersConfigDCREType" />
+      <xs:element name="V2DDecoderVideoLookupTableDCRE" type="V2DDecoderVideoLookupTableDCREType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoDCRE" type="InfoDCREType" />
+  <xs:complexType name="InfoDCREType">
+    <xs:sequence>
+      <xs:element name="AdminServiceConfigDCRE" type="AdminServiceConfigDCREType" />
+      <xs:element name="XMPPAgentServiceConfigDCRE" type="XMPPAgentServiceConfigDCREType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StorageDCRE" type="StorageDCREType" />
+  <xs:complexType name="StorageDCREType">
+    <xs:sequence>
+      <xs:element name="NASConfigDCRE" type="NASElementConfigDCREType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DCREType" abstract="true">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="SystemClockConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="SystemClockConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/SystemElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NTPServiceConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="NTPServiceConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RouteTableConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:sequence>
+          <xs:element ref="RouteTableConfig" />
+        </xs:sequence>
+        <xs:attribute fixed="DeviceConfig/NetworkElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="HostTableConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="HostTableConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/NetworkElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NATZoneTableConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="NATZoneTableConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/NetworkElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:complexType name="DNSClientConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="DNSClientConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/NetworkElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType> 
+  <xs:complexType name="EthernetTableConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="EthernetPortTableConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/NetworkElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>   
+  <xs:complexType name="StreamsTxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="StreamsTxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DStreamsTxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DStreamsTxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DStreamsRxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DStreamsRxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RTPStreamsTxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="RTPStreamsTxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RTPStreamsRxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="RTPStreamsRxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGTSStreamsTxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="MPEGTSStreamsTxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGTSStreamsRxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="MPEGTSStreamsRxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDPStreamsTxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="UDPStreamsTxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDPStreamsRxConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="UDPStreamsRxConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig/StreamingServiceConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderVideoConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DEncoderVideoConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderVideoConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderPortKbmConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DEncoderPortKbmConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderPortRFBConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DEncoderPortRFBConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderSerialConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DEncoderSerialConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderSerialConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderSplashParametersConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DEncoderSplashParametersConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderSplashParametersConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DCodecVideoLookupTableDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DCodecVideoLookupTable" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DDecoderVideoConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DDecoderVideoConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DDecoderVideoConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DDecoderSerialConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DDecoderSerialConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DDecoderSerialConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DDecoderSplashParametersConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DDecoderSplashParametersConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DDecoderSplashParametersConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DDecoderVideoLookupTableDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="V2DDecoderVideoLookupTable" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/AVCodecElementsConfig/V2DDecoderConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AdminServiceConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="AdminServiceConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/SystemElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="XMPPAgentServiceConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element name="XMPPAgentServiceConfig" type="All-XMPPAgentServiceElementConfigType" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/ServiceElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NASElementConfigDCREType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DCREType">
+        <xs:all>
+          <xs:element ref="NASConfig" />
+        </xs:all>
+        <xs:attribute fixed="DeviceConfig/StorageElementsConfig" name="ElementXPath" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:element name="DeviceCommandRequestData" type="DeviceCommandRequestDataType" />
+  <xs:complexType name="DeviceCommandRequestDataType">
+    <xs:choice>
+      <xs:element name="V2D-Tx-DeviceCommand" type="V2D-DeviceCommandType" />
+      <xs:element name="V2D-Rx-DeviceCommand" type="V2D-DeviceCommandType" />
+      <xs:element name="V2D-XP200-DeviceCommand" type="V2D-DeviceCommandType" />
+      <xs:element name="DMS-25-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-100-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-120-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-200-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-1000-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-1200-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="DMS-1500-DeviceCommand" type="DMS-DeviceCommandType" />
+      <xs:element name="MS-DeviceCommand" type="MS-DeviceCommandType" />
+      </xs:choice>
+  </xs:complexType>
+  <xs:element name="DeviceStatusRequestData" type="DeviceStatusRequestDataType" />
+  <xs:complexType name="DeviceStatusRequestDataType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="RequestXPath" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Status">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Code" type="xs:string" />
+        <xs:element name="Description" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeviceConfigurationResponseData" type="DeviceConfigurationResponseDataType" />
+  <xs:complexType name="DeviceConfigurationResponseDataType">
+    <xs:sequence>
+      <xs:element ref="Status" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeviceStatusResponseData" type="DeviceStatusResponseDataType" />
+  <xs:complexType name="DeviceStatusResponseDataType">
+    <xs:sequence>
+      <xs:element ref="Status" />
+      <xs:choice>
+        <xs:element name="DeviceStatus" type="xs:anyType" />
+        <!--
+        <xs:element name="DeviceStatus" type="V2D-Tx-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="V2D-Rx-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="V2D-XP200-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-25-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-100-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-120-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-200-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-1000-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-1200-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="DMS-1500-DeviceStatusType" />
+        <xs:element name="DeviceStatus" type="MS-DeviceStatusType" />
+        -->
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeviceCommandResponseData" type="DeviceCommandResponseDataType" />
+  <xs:complexType name="DeviceCommandResponseDataType">
+    <xs:sequence>
+      <xs:element ref="Status" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Service" type="ServiceType" />
+  <xs:complexType name="ServiceType">
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.2" name="Ver" type="xs:double" use="required" />      
+  </xs:complexType>
+  
+  
+  <!-- Link local api calls  -->
+  <xs:element name="StartLLServiceRequestData" type="StartLLServiceRequestDataType" />
+  <xs:complexType name="StartLLServiceRequestDataType">
+    <xs:sequence>
+      <xs:element name="Restart" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="StartLLServiceResponseData" type="StartLLServiceResponseDataType" />
+  <xs:complexType name="StartLLServiceResponseDataType">
+    <xs:sequence>
+      <xs:element name="UserJID" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="StopLLServiceRequestData" type="StopLLServiceRequestDataType" />
+  <xs:complexType name="StopLLServiceRequestDataType">
+   <xs:sequence/>
+  </xs:complexType>
+  
+  <xs:element name="StopLLServiceResponseData" type="StopLLServiceResponseDataType" />
+  <xs:complexType name="StopLLServiceResponseDataType">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>

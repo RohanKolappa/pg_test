@@ -1,0 +1,33 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <object type="com.ipvs.ipv.LivePanel">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxwidth="100%" jsxheight="100%" jsxname="LivePanel" jsxdisplay="" SHOW_ON_MENU_SELECTION="LIVEPANEL"></strings>
+    <dynamics jsxcursor="@Default"></dynamics>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutRows" jsxrows="*,35" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkLiveList" jsxwidth="100%" jsxheight="100%" jsxborder="border-bottom:solid 0px #353535"></strings>
+        <object type="com.ipvs.gui.List">
+          <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppresshscroll="1" jsxsuppressvscroll="0" jsxheaderheight="0" jsxrowheight="90" _isMouseDown="true"></variants>
+          <strings jsxname="mtxMediaList" jsxbgcolor="#434343" jsxselectionbg="images/bg/selectBG.png"></strings>
+          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxresize="0" jsxwidth="130"></variants>
+            <strings jsxname="thumbnail" jsxtext="&amp;#160;" jsxcellpadding="10 5 10 5" jsxpath="jsxthumbnailURL" jsxvaluetemplate="@image" jsxcellborder="0px solid #585858; 0px solid; 0px solid #333333; 0px solid;" jsxcellbgcolor="" jsxcellcolor="#d5e0e6" jsxtextalign="center" jsxvalign="Center"></strings>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxcellfontsize="16"></variants>
+            <strings jsxname="mc2" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="12 12 12 4" jsxpath="jsxtext" jsxcellborder="0px solid #585858; 0px solid; 0px solid #333333; 0px solid;" jsxcellcolor="#d5e0e6" jsxvalign="middle" jsxcellvalign=""></strings>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkLivePaginationControls" jsxwidth="100%" jsxheight="100%"></strings>
+        <include src="components/pagination.xml" async="false"></include>
+      </object>
+    </object>
+  </object>
+</serialization>

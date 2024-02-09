@@ -1,0 +1,103 @@
+declare function local:getFileInfo( $b as element()*, $dir_list as element()*, $detail as xs:string)
+as element ()*
+{
+   let $fileState := if ($dir_list[@NID=$b//ParentMediaDirNID and .//Info/Title[.!='RECYCLEBIN' and .!='PVR']]//State/StateFlag[.='Error' or .='Busy' or .='Offline']) then
+                         'Offline'
+                    else 
+                         $b//State/StateFlag                  
+   
+   let $fileInfo :=   <File NID='{ data($b/@NID) }'
+                                          title='{ data($b//Info/Title) }'
+                                          fileType='{ data($b//MediaStoreFileInfo/Type) }' 
+                                          streamType='{ data($b//Info/StreamTypeList/StreamType) }' 
+                                          size='{ data($b//Size) }' 
+                                          playlength ='{ data($b//PlayLength) }'
+					                      state='{ data($fileState) }'
+					                      dateCreated='{ data($b/Info/Properties/DateCreated) }'
+                                          dateModified='{ data($b/Info/Properties/DateModified) }'
+                                          readOnly='{if (data($b/Info/Properties/Permissions/Write) = 'true') then 'false' else 'true'}'
+                                          mediaGroupID='{ data($b//MediaStoreFileInfo/MediaGroupID) }' 
+                                          clipID='{ data($b//MediaGroupID/@ClipID) }'
+                                          sessionConfigNID='{ data($b//RecInfo/@SessionConfigNID) }'
+                                          bypassAutoStorageRules='{ data($b//MediaStoreFileInfo/BypassAutoStorageRules) }'
+                                      >   
+                                                 { if ($detail = 'EXTENDED' or $detail = 'EXTENDEDURL' or $detail = 'EXTENDEDCONNECTIONINFO' or $detail = 'BASICCONNECTIONINFO') then
+                                                          <description>{ data($b//Info/Description) }</description> 
+                                                        else  ''
+                                                 }                                                 
+                                                  { if ($detail = 'EXTENDED' or $detail = 'EXTENDEDURL' or $detail = 'EXTENDEDCONNECTIONINFO' or $detail = 'BASICCONNECTIONINFO') then
+                                                           <Dir NID='{data($b//ParentMediaDirNID)}' dirTitle = '{$dir_list[@NID=$b//ParentMediaDirNID]//Title}' />
+                                                        else  ''
+                                                  }
+                                             {$b//Info/MediaStoreFileInfo/MetaData}
+                                             {$b//Info/Groups}
+                                             {$b//Info/Properties/Download}
+                                             {$b//ThumbnailConfig}
+                                             
+                                     </File>
+   let $fileInfoWithFFTracks := if (count($b//V2DRecorderConfig/FFTracks) != 0) then
+							element { 'File' } { $fileInfo/(@*, attribute {'ffTracks'} {data($b//FFTracks)}, *)}
+   					   else $fileInfo
+   					
+   let $dir := $dir_list[@NID = data($b//ParentMediaDirNID)]
+   
+
+   let $finalFileInfoWithHLS := if(count($b//RTPRecoderConfig/HLSConfig/Enable) != 0) then
+   							element { 'File' } { $fileInfoWithFFTracks/(@*, attribute {'hls'} {data($b//HLSConfig/Enable)}, *)}
+   						else $fileInfoWithFFTracks
+   						
+   return $finalFileInfoWithHLS
+};
+
+
+declare function local:getMediaGroupInfo( $b as element()*, $media_clip as element()*, $dir_list as element()*,$detail as xs:string)
+as element ()*
+{
+   let $mediaGroupInfo := local:getFileInfo($b, $dir_list, $detail)   
+   let $fileList := <FileList>{ 
+                          for $file in $media_clip 
+                          where $file//MediaGroupID=$b//MediaGroupID 
+                          return local:getFileInfo($file, $dir_list, $detail) 
+                   }</FileList>
+                   
+   let $mediaGroupState := if ($fileList//File[@state='Ready' or @state='Error' or @state='Busy' or @state='Deleted']) then
+   						      $mediaGroupInfo//File/@state                            							  	 
+   						   else 
+   						   	  'Offline'
+                          
+   let $mediaGroupFile := element { 'File' } { $mediaGroupInfo/(@*[not(name()='state')], attribute {'state'} {$mediaGroupState}, *), $fileList } 
+   
+   let $ffTracks := if((count($fileList//File/@ffTracks) != count($fileList//File)) or ($fileList//File/@ffTracks = '')) then
+						''
+					else
+						'1-256'
+   
+   return element { 'File' } { $mediaGroupFile/(@*, attribute {'ffTracks'} {$ffTracks}, *)}
+  
+};
+
+let $selectFormat := '_SELECTFORMAT_'
+
+let $file := for $b in   #OBJ_MediaStreamFileResource_OBJ# 
+			  where $b[  _XPATH_   ]  
+			 return $b 
+let $groupId := data($file//MediaGroupID)
+
+
+let $fileret := if($groupId != '') then  
+					let $fileList :=  for $b in   #OBJ_MediaStreamFileResource_OBJ# 
+										where $b[.//MediaGroupID  = $groupId]  
+									 return $b 
+					let $group := $fileList[.//Type='MediaGroup']
+					let $mediacliplist := $fileList[.//Type!='MediaGroup']
+					let $dir_list :=for $dir in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]    
+										where $dir/@NID=distinct-values($file//ParentMediaDirNID) 
+									 return $dir 
+					return local:getMediaGroupInfo($group, $mediacliplist, $dir_list,$selectFormat)
+                else 
+                    let $dir_list := for $dir in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]    
+										where $dir/@NID=data($file//ParentMediaDirNID) 
+									 return $dir 
+					return local:getFileInfo($file, $dir_list, $selectFormat)		
+let $listcount := count($fileret)
+return <ObjectList from='0' total='{$listcount}'>{$fileret}</ObjectList>

@@ -1,0 +1,68 @@
+declare function local:formatList() {
+
+let $mediaStreamFileNID :=_XPATHAND_
+
+let $dataElement :=  local:getData($mediaStreamFileNID)
+
+return $dataElement    
+};
+
+
+declare function local:getData($mediaStreamFileNID) as element()*{
+let $mediaStreamDoc := for $file  in collection('/db/ipvs.default.mediastreamfileresourcelist')/*[.//@NID=$mediaStreamFileNID]
+                               return $file
+         let $mediaType := data($mediaStreamDoc//Type)
+         let $parentNID := data($mediaStreamDoc//ParentMediaDirNID)
+         let $mediaGroupID := if ($mediaType = 'MediaGroup')
+              then
+                 let $uuid := $mediaStreamDoc//UUID
+          return data($uuid)
+               else 
+                ''
+     
+         let $clipResource := if ($mediaType = 'MediaGroup')
+                            then
+              let $groupId := data($mediaStreamDoc//MediaGroupID)
+              let $clipDoc := let $files := for $res in collection('/db/ipvs.default.mediastreamfileresourcelist')//MediaStreamFileResource[.//MediaGroupID= $groupId and .//Type='MediaClip']
+                         return $res//MediaStreamFileResource
+                         let $fileSet := $files[.//ParentMediaDirNID=$parentNID]
+                         
+                         let $result := if($fileSet!='')then
+                                let $subResult :=$fileSet[1]
+          return $subResult
+                             else
+                              let $subSet := $files[1]
+         return $subSet   
+                         return $result
+                                               
+                  return $clipDoc
+                  
+            else let $doc :=$mediaStreamDoc
+               return $doc
+               
+ let $groupPortElement := if($parentNID = data($clipResource//ParentMediaDirNID))then
+        ''
+       else
+         let $ele:= local:getDirInfo($parentNID)
+         return $ele
+         
+ let $portElement :=  local:getDirInfo($clipResource//ParentMediaDirNID)
+ return <Data><GroupID>{$mediaGroupID}</GroupID>
+   <MediaStreamDoc>{$clipResource}</MediaStreamDoc>
+   <portEle>{$portElement}</portEle>
+   <groupPortEle>{$groupPortElement}</groupPortEle>
+   <groupParentDirNID>{$parentNID}</groupParentDirNID></Data>
+};
+
+declare function local:getDirInfo($parentNID) as element()*{
+let $b := 
+ for $file  in collection('/db/ipvs.default.mediastreamdirresourcelist')/*
+ [.//@NID=$parentNID and .//StateFlag='Ready'
+ ]//MediaStorePortResourceNIDList/MediaStorePortResourceNID[@readOnly='false' and @presence="available" ]  
+ return $file
+
+return $b[@priority=max($b/@priority)]
+};
+
+let $requestDoc := local:formatList()
+return $requestDoc

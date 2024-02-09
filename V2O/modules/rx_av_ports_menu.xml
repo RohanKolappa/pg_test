@@ -1,0 +1,44 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>RxAVPorts</Title>
+   <Description>Rx Audio/Video Port Range</Description>
+   <Access>rx_av_ports_parm</Access>
+   <ConfigFile>avportsconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>port_from</Name>
+        <Type>integer</Type>
+        <Label>Audio/Video Port Start</Label>
+        <Help>Starting UDP Audio/Video ports for V2D connections</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>6060</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>port_to</Name>
+        <Type>integer</Type>
+        <Label>Audio/Video Port End</Label>
+        <Help>Ending UDP Audio/Video ports for V2D connections</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>7000</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+
+   </Items>
+</Menu>

@@ -1,0 +1,37 @@
+let $dirNID := '_DIRNID_'
+let $diskCapacityReached := _DISKCAPACITYREACHED_
+let $skipError := '_SKIPERRORS_'
+
+
+let $dirDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dirNID, 'default.'),'.')))/*[@NID=$dirNID]
+
+
+(:let $filesTotalSize := sum(for $file in $listOfFilesInDir return xs:decimal($file//Size)):)
+let $filesTotalSize := $dirDoc//SizeUsed   
+let $fileList := if($diskCapacityReached <= $filesTotalSize ) then 
+                        let $listOfFilesInDir := for $file in collection('ipvs.default.mediastreamfileresourcelist')/*
+                    						   						      [.//ParentMediaDirNID = $dirNID and .//StateFlag='Ready' and (.//MediaClip/PlayLength!='0' or .//Type='MediaImage') and .//BypassAutoStorageRules='false'] 
+                                                    order by $file//DateCreated ascending
+                    								           return $file
+                        let $list := if($skipError = 'true') then
+                                          let $listOfFilesInError := for $offloadEntry in collection('ipvs.default.exportimportfilelist')/*
+						   						                                               [.//Internal/@dirNID = $dirNID and   @type='Offload'  and @state_description='Error'] 
+								      	                                             return $offloadEntry//Internal/@fileNID
+                                          let $fileListWithOutErrors := if(count($listOfFilesInError) !=0) then 
+                                                                            for $file in   $listOfFilesInDir
+  																				where $file[not(@NID=$listOfFilesInError)]
+                                                                                order by $file//DateCreated ascending
+                    								          			   return $file
+                                                                        else  $listOfFilesInDir
+                                          return $fileListWithOutErrors
+                                     else $listOfFilesInDir   
+                        return subsequence($list, 1, 5)
+                     else '' 
+                        
+return 
+      <Dir nid='{$dirNID}' sizeUsed='{data($dirDoc//SizeUsed)}'>
+          {$fileList}
+      </Dir>
+

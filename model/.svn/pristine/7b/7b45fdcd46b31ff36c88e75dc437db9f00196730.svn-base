@@ -1,0 +1,85 @@
+<AddAdminPolicyRequest>
+	<AddAdminPolicyRequestData>
+		<AddAdminPolicy name="Location"
+			type='Device/Profile/User/System/Media/Dir' active='true/false'
+			order=''>
+			<ActionList>
+			     <Action></Action>
+				<!-- Device,Profile,User and System
+				Add
+				Modify
+				Delete
+				-->
+
+				<!-- Along above action for Media and Dir below actions are valid 
+				Modify
+				Delete
+				Import
+				Export
+				-->
+			</ActionList>
+
+			<OperatorFilterSet>
+				<OperatorFilter>
+					<User filterNID='' />
+					<Resource filterNID='' />
+				</OperatorFilter>
+			</OperatorFilterSet>
+
+			<TargetFilterSet>
+				<TargetFilter filterNID='' />
+			</TargetFilterSet>
+
+			<AdvanceFilterSet>
+				<AdvanceFilter>
+					<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+					<LHTagName></LHTagName>
+					<Operator></Operator>
+					<RHRule>OperatorUser/OperatorResource</RHRule>
+					<RHTagName></RHTagName>
+				</AdvanceFilter>
+			</AdvanceFilterSet>
+		</AddAdminPolicy>
+	</AddAdminPolicyRequestData>
+	<AddAdminPolicyResponseData>
+		<AddAdminPolicy>
+			<AdminPolicy NID='' name="Location" type='Ports/Media/Dir/Session'
+				active='true/false' order=''>
+				<ActionList>
+					<!-- Device,Profile,User and System -->
+					<Action>Add</Action>
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+
+					<!-- Along above action for Media and Dir below actions are valid -->
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+					<Action>Import</Action>
+					<Action>Export</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<TargetFilterSet>
+					<TargetFilter filterNID='' />
+				</TargetFilterSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</AdminPolicy>
+		</AddAdminPolicy>
+	</AddAdminPolicyResponseData>
+	<AddAdminPolicyExceptionCodes />
+</AddAdminPolicyRequest>

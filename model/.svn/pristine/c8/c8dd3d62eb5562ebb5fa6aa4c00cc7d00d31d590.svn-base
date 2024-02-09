@@ -1,0 +1,58 @@
+﻿<!--
+<programlisting>
+  <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ProfileType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProfileInfo" type="MediaStreamProfileInfoType"/>
+    </xs:sequence>
+    <xs:attribute name="id"/>
+    <xs:attribute use="optional" name="profileNID"/>
+  </xs:complexType>
+
+  <xs:complexType name="PortType">
+    <xs:attribute use="required" name="id"/>
+    <xs:attribute use="optional" name="userJID"/>
+    <xs:attribute use="optional" name="resourceNID"/>
+  </xs:complexType>
+
+  <xs:complexType name="RouteType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RelayPort" type="PortType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConnType" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Route" type="RouteType"/>
+    </xs:sequence>
+    <xs:attribute name="sessionId"/>
+    <xs:attribute use="optional" name="connGroupId"/>
+    <xs:attribute name="connId"/>
+  </xs:complexType>
+
+  <xs:element name="View">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="ConnType">
+          <xs:sequence>
+            <xs:element minOccurs="0" name="SrcPort" type="PortType"/>
+            <xs:element minOccurs="0" name="DstPort" type="PortType"/>
+            <xs:element minOccurs="0" name="Profile" type="ProfileType"/>
+          </xs:sequence>
+          <xs:attribute use="optional" name="srcId"/>
+          <xs:attribute use="optional" name="dstId"/>
+          <xs:attribute use="optional" name="profileId"/>
+          <xs:attribute use="optional" name="pvrBufferId"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+<!--
+]]>
+</programlisting>
+-->

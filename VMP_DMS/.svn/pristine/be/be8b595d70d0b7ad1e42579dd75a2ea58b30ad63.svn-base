@@ -1,0 +1,51 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.utils
+###
+### Description:	Provides functions to copy files, create archives, ...
+###
+###############################################################################
+
+mod-utils-make-dir	=	mkdir -p $(1)
+
+mod-utils-del-file	=	rm -f $(1)
+mod-utils-del-dir	=	rm -fr $(1) || rm -fr $(1)
+
+mod-utils-link-file	=	( ln -s "$(1)" "$(2)" 2> /dev/null || cp "$(1)" "$(2)" )
+mod-utils-copy-file	=	( cp $(1) $(2) )
+mod-utils-copy-dir	=	( cp -R $(1) $(2) )
+
+fn-skipfirst		=	$(wordlist 2,$(words $(1)),$(1))
+
+ifeq "$(call mod-utils-check-on, $(JBS_SILENT_MAKE))" "true"
+mod-utils-do-make	=	($(MAKE) -q $(1) || ($(MAKE) -s --no-print-directory JBS_INFO-FILE && $(MAKE) -w $(1)))
+else
+mod-utils-do-make	=	($(MAKE) -q $(1) || ($(MAKE) -s --no-print-directory JBS_INFO-FILE && $(MAKE) -w $(1)))
+endif
+
+###############################################################################
+

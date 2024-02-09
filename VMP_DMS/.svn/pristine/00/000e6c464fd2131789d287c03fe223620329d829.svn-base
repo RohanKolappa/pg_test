@@ -1,0 +1,112 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+target-name		:=	$(strip $(target-name))
+tmp-dll-export-name	:=	$(target-name)_DLL
+
+###############################################################################
+### WIN32
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+### For the .rc files...
+
+compile-rc-files	:=	$(strip $(wildcard $(target-rcs)))
+compile-res-files	:=	$(patsubst %.rc,%.res,$(compile-rc-files))
+
+RSC_EXE=rc.exe
+RSC_OPT=/l 0x409 /r /d "NDEBUG" /d "WIN32"
+
+#	/d <def>	Define a symbol
+#	/fo <name>	Rename .RES file
+#	/l <value>	Default language ID (in hex)
+#	/r		Emit .RES file
+
+%.res : %.rc
+	$(RSC_EXE) $(RSC_OPT) /fo $@ $<
+
+mod-cmp-temp-files	+=	$(compile-res-files)
+compile-final-objects	+=	$(compile-res-files)
+
+compile-defs		+=	_USRDLL $(tmp-dll-export-name)=JBS_DLL_EXPORT	\
+				INC_OLE2 _WIN32_WINNT=0x0400	\
+				_MT _X86_=1 WINVER=0x0400 # STRICT
+# compile-flags		:=	$(filter-out /Gd,$(compile-flags))
+# compile-flags		+=	/Gz # /O2 /Ob0 /YX"streams.h" /FD
+
+link-flags		+=	/dll /incremental:no /machine:I386	\
+	/OPT:NOREF /OPT:ICF /ignore:4089 /ignore:4078	\
+	/stack:0x200000,0x200000 /nodefaultlib
+
+tmp-full-name-nover	:=	$(link-prefix-dll)$(target-name)$(link-suffix-dll)
+tmp-full-name-lib	:=	$(link-prefix-lib)$(target-name)$(link-suffix-lib)
+tmp-full-name-exp	:=	$(target-name).exp
+tmp-full-name-def	:=	$(target-name).def
+
+$(tmp-full-name-nover) :	$(mod-cmp-temp-files)			\
+				$(compile-final-objects)
+	@$(call mod-echo-linking-lib,$(tmp-full-name-min))
+	@"$(link-linker)"							\
+		$(link-string)						\
+		/out:"$(tmp-full-name-nover)" \
+		/def:"$(tmp-full-name-def)"	\
+		/implib:"$(tmp-full-name-lib)" \
+		$(compile-final-objects)
+
+CLEAN-FILES		+=	$(tmp-full-name-lib)			\
+				$(tmp-full-name-exp)			\
+				$(tmp-full-name-nover)			\
+				$(compile-res-files)
+
+local-target :		$(build-needed-libs)				\
+			$(tmp-full-name-nover)
+
+local-defs :
+
+load :
+	regsvr32.exe $(tmp-full-name-nover)
+
+unload :
+	regsvr32.exe /u $(tmp-full-name-nover)
+
+endif
+
+###############################################################################
+### LINUX
+
+ifeq "$(JBS_PLATFORM)" "LINUX"
+
+local-target :
+
+local-defs :
+
+endif
+
+###############################################################################
+
+mod-packs-build-list		:=	src
+
+###############################################################################
+
+

@@ -1,0 +1,3 @@
+for $fileResource in collection('ipvs.default.mediastreamfileresourcelist')/*[(.//ParentMediaDirNID = '_DIRNID_' or  .//ParentMediaDirNID = '_PVRDIRNID_' or .//ParentMediaDirNID = '_RECYCLEBINDIRNID_') and .//StateFlag='Ready' and .//Media/@state='Busy']
+     let $updateState := update replace $fileResource//Media[@state="Busy"] with <Media format="" state="_STATE_" stale="_STALE_" />
+return $fileResource

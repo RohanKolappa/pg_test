@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.7.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AuthorizeStreamRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="MRRequestHeaderType" />
+        <xs:element name="data" type="StreamDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuthorizeStreamNotification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="MRRequestHeaderType" />
+        <xs:element name="data" type="StreamAuthorizationNotificationType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuthorizeStreamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="MRResponseHeaderType" />
+        <xs:element name="data" type="StreamAuthorizationInfoType" />
+        <xs:element name="log" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="StreamAuthorizationInfoType">
+    <xs:sequence>
+      <xs:element name="StreamData" type="StreamDataType" />
+      <xs:element name="AuthorizationInfo" type="AuthorizationInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamAuthorizationNotificationType">
+    <xs:sequence>
+      <xs:element name="StreamData" type="StreamDataType" />
+      <xs:element name="StreamStatus" type="StreamStatusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AuthorizationInfoType">
+    <xs:sequence>
+      <xs:element name="Result">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Allow" />
+            <xs:enumeration value="Deny" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamDataType">
+    <xs:sequence>
+      <xs:element name="mediaSourceNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="profileNID" type="xs:string" />
+      <xs:element name="profileXML" type="xs:string" />
+      <xs:element name="destNID" type="xs:string" />
+      <xs:element name="destAgentJID" type="xs:string" />
+      <xs:element name="destGroup" type="xs:string" />
+      <xs:element name="sourceNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamStatusType">
+    <xs:sequence>
+      <xs:element name="state" type="xs:int" />
+      <xs:element name="startTime" type="xs:double" />
+    </xs:sequence>
+    <xs:attribute name="nodeid" type="xs:string" />
+    <xs:attribute name="parse" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="MRRequestHeaderType">
+    <xs:sequence>
+      <xs:element name="servicename" type="xs:string" />
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="loglevel" type="xs:int" />
+      <xs:element name="clientdata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MRResponseHeaderType">
+    <xs:sequence>
+      <xs:element name="servicename" type="xs:string" />
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="userJID" type="xs:string" />
+      <xs:element name="requestNID" type="MRNIDType" />
+      <xs:element name="state" type="xs:int" />
+      <xs:element name="clientdata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="MRNIDType">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+</xs:schema>

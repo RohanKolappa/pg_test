@@ -1,0 +1,908 @@
+<?xml version="1.0"?>
+
+<project name="Javascript build" basedir="." default="make">
+
+  	<!--======================================== PROP SECTION =========================================-->
+	<property file="build.properties"/>
+	<condition property="isWindows">
+		<os family="windows"/>
+	</condition>
+	<condition property="isUnix">
+		<os family="unix"/>
+	</condition>
+	<property environment="env"/>
+	<!-- conditionally load the ant contrib path  -->
+	<condition property="antlib.path" value="${env.ANT_HOME}/lib" else="/usr/share/java/ant-contrib-1.0.jar">
+		<os family="windows"/>
+	</condition>
+	<!-- conditionally load the YUI,jslint, and jsx-tools path  -->
+	<condition property="buildtools.path" value="${env.ANT_HOME}/lib" else="${linux-yui-libs}">
+		<os family="windows"/>
+	</condition>
+	<!-- conditionally load the jsdoc  path  -->
+	<condition property="jsdoc.path" value="${env.ANT_HOME}/lib" else="${linux-jsdoc-libs}">
+		<os family="windows"/>
+	</condition>
+
+  	<!--====================================== HELP SECTION =============================================-->
+	<target name="?" depends="init" description="usage">
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  make  " level="info"/>
+		<echo message=" Creating Viewer_Client.zip under dir BUILD for a production running build  " level="info"/>
+		<echo message=" " level="info"/>		
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  makeDev  " level="info"/>
+		<echo message=" " level="info"/>		
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  makeDevEnv  " level="info"/>
+		<echo message=" Creating a working enviroment for developer with GI source version " level="info"/>
+		<echo message=" " level="info"/>
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  setDebugEnv  " level="info"/>
+		<echo message=" Set a debug enviroment to get local perference settings " level="info"/>
+		<echo message=" " level="info"/>
+		<echo message=" USAGE:  " level="info"/>
+		<echo message=" ant  clean  " level="info"/>
+		<echo message=" Remove BUILD and VIEWER_CLIENT directory  " level="info"/>
+
+    </target>
+
+  	<!--====================================== INIT SECTION =============================================-->
+	<target name="init" description="build initialize">
+		<echo message=" build initialize ..." level="info"/>
+		<!--  1. -->
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="${antlib.path}"/>
+			</classpath>
+		</taskdef>
+		<!-- 2. -->
+		<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+			<classpath>
+				<pathelement location="/opt/xmltask-v1.15.1.jar"/>
+			</classpath>
+		</taskdef>
+		<!-- 3.  -->
+		<path id="tools.classpath">
+			<fileset dir="${buildtools.path}">
+				<include name="yuicompressor-2.4.2.jar"/>
+				<include name="jslint4java-1.3.1.jar"/>
+				<include name="jsx-tools.jar"/>
+			</fileset>
+		</path>
+		<taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpathref="tools.classpath"/>
+		<!-- 4.  -->
+		<path id="jsdoc.classpath">
+			<fileset dir="${jsdoc.path}">
+				<include name="jsrun.jar"/>
+				<include name="jsdoctoolkit-ant-task-1.0.1.jar"/>
+			</fileset>
+		</path>
+		<taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" classpathref="jsdoc.classpath"/>
+		<!-- 5. -->
+		<if>
+			<equals arg1="${isWindows}" arg2="true"/>
+			<then>
+				<taskdef resource="com/tibco/gi/ant/antlib.xml" classpathref="tools.classpath"/>
+			</then>
+		</if>
+		<!-- 6. -->
+		<!-- common svn export -->
+		<macrodef name="svn_export">
+			<attribute name="svn.url"/>
+			<attribute name="svn.revision"/>
+			<sequential>
+				<echo message="EXPORT @{svn.url} AT @{svn.revision} " level="info"/>
+				<exec executable="svn">
+					<arg value="export"/>
+					<arg value="--force"/>
+					<arg value="-r"/>
+					<arg value="@{svn.revision}"/>
+					<arg value="@{svn.url}"/>
+				</exec>
+			</sequential>
+		</macrodef>
+		<!-- 7. -->
+		<!-- common svn checkout -->
+		<macrodef name="svn_checkout">
+		<attribute name="svn.url"/>
+		<attribute name="svn.revision"/>
+		<attribute name="svn.destpath"/>
+		<sequential>
+			<echo message="CHECKING OUT @{svn.url} AT @{svn.revision} TO @{svn.destpath}" level="info"/>
+			<exec executable="svn">
+				  <arg value="checkout" />
+				  <arg value="-r" />
+				  <arg value="@{svn.revision}" />
+				  <arg value="@{svn.url}" />
+				  <arg value="@{svn.destpath}" />
+			</exec>	
+		</sequential>
+	  </macrodef>
+	</target>
+
+  	<!--====================================== UTIL SECTION I. ===========================================-->
+	<!-- for MAKEDEVENV -->
+	<!-- check and create a directory 
+	<target name="checkDirExist" depends="init" description="Check and create dir if it is not there">
+		<available file="${dirToBeChecked}" property="exist"/>
+		<if>
+			<not><equals arg1="${exist}" arg2="true"/></not>
+			<then>
+				<mkdir dir="${dirToBeChecked}" />
+			</then>
+			<else>
+				<echo message="${dirToBeChecked} already exist. " level="info"/>
+			</else>
+		</if>
+	</target>
+	-->
+
+	<!-- checkout an application -->
+	<target name="checkoutApp" depends="init" description="Developer">
+		<!-- get app. from SVN server -->
+		<sequential>
+			<!-- checkout application from SVN -->
+			<svn_checkout svn.url="${url}" svn.revision="${revision}"  svn.destpath="${dest}" />
+		</sequential>
+	</target>
+
+	<!-- export GI -->
+	<target name="exportGI" depends="init" description="Developer">
+		<!-- get TibcoGI from SVN server -->
+		<sequential>
+			<!--
+			<input message="PLEASE INPUT SVN USERNAME:" addproperty="svn.username"/>
+			<echo>YOUR SVN USER NAME IS ${svn.username}</echo>
+			<input message="PLEASE INPUT SVN PASSWORD:" addproperty="svn.password"/>
+			<echo>YOUR SVN PASSWORD IS ${svn.password}</echo>
+			-->
+			<!-- [1]-->
+			<delete dir="temp"/>
+			<mkdir dir="temp"/>
+			<echo message="create directioy 'temp' " level="info"/>
+			<!-- [2] export tibcodev.zip -->
+			<svn_export svn.url="${svn.tibcodev.url}/${svn.tibcodev.version}/${svn.gi.version}.zip" svn.revision="HEAD"/>
+			<!-- [3] unzip tibco-gi-3.x.x-src.zip to current dir and copy content to working directory  -->
+			<unzip src="${svn.gi.version}.zip" dest="temp"/>
+			<copy todir="." overwrite="true">
+				<fileset dir="temp/${svn.gi.version}" excludes="jsx3.gui.window.html"/>
+			</copy>
+			<delete file="${svn.gi.version}.zip"/>
+			<delete dir="temp"/>
+		</sequential>
+	</target>
+
+	<!-- scp mediaroom and model to addins -->
+	<target name="RcopyMediaroomModel" depends="init" description="Remote copy mediaroom and model from MS server">
+		<!-- remote copy model directory to to IPVS-Common/model  -->
+		<echo message="scp ${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/model/*" level="info"/>
+		<scp file="${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/model/*" todir="addins/model"  trust="yes" verbose="true"/>
+		<!-- remote copy mediaroom from mserver /home/onair/modules/mediaroom/public to IPVS-Common/mediaroom -->
+		<echo message="scp ${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/mediaroom/*" level="info"/>
+		<scp file="${mserverAccount}:${mserverPassword}@${server.ip}:${destMserverCommonDir}/mediaroom/*" todir="addins/mediaroom" trust="yes" verbose="true" />
+	</target>
+
+	<!-- copy mediaroom and model to addins -->
+	<target name="LcopyMediaroomModel" depends="init" description="Copy mediaroom and model from installed directory">
+		<!-- copy model/mediaroom from local installed to  addins/model ,addins/mediaroom -->
+		<echo message="copy ${installedDir}/mediaroom/* " level="info"/>
+		<copy todir="addins/mediaroom" overwrite="true">
+			<fileset dir="${installedDir}/mediaroom"/>
+		</copy>
+		<echo message="copy ${installedDir}/model/* " level="info"/>
+		<copy todir="addins/model" overwrite="true">
+			<fileset dir="${installedDir}/model"/>
+		</copy>
+	</target>
+
+
+	<!-- Signing jars   TBD: CHANGE to 'dist' instead of ${nullsoft.root}      -->
+    <target name="signjars"  description="Signing jars">
+		<!-- conditionally load the ant contrib task  --> 
+		<property name="target.path" value="${jarSrcPath}"/>
+		<condition property="isWindows">
+			<os name="windows" /> 
+		</condition> 
+		
+		<if>
+				<equals arg1="${isWindows}" arg2="true"/>
+		  <then>
+				<!-- Windows Signing jars  -->	
+				<echo message="  signing jars to  ${target.path} for Windows (${isWindows}), Java home path is ${env.JAVA_HOME}..." level="info"/>
+				<exec dir="." executable="./jarSign/jarsignerdos.bat" failonerror="true" output="BUILD/jarsign_log.txt">
+					<arg value="${target.path}"/>
+					<arg value="${env.JAVA_HOME}"/>
+				</exec>
+				<echo message=" after signing jars to  ${target.path} for Windows (${isWindows}) ..." level="info"/>
+		  </then>
+		  <else> 
+				<!-- Linux Signing jars  -->
+				<echo message=" signing jars to ${target.path} for Linux ..." level="info"/>
+				<exec dir="." executable="chmod" failonerror="true" output="BUILD/jarsignperm_log.txt">
+					<arg value="777"/>
+					<arg value="./jarSign/jarsigner.sh"/>
+				</exec>
+				<exec dir="."  executable="./jarSign/jarsigner.sh" os="Linux" failonerror="true" output="BUILD/jarsign_log.txt" >
+					<arg value="${target.path}"/>
+				</exec>
+		  </else>
+		</if>
+	</target>
+	
+	<!-- check and create it if it is not exist -->
+	<target name="checkAndCreateDir">
+		<available file="${dirFile}" property="dirAvailable"/>
+		<echo message="directory '${dirFile}' is exist: ${dirAvailable}" level="info"/>
+		<if>
+			<equals arg1="${dirAvailable}" arg2="true"/>
+			<then>
+				<echo message="${dirFile} already exist. " level="info"/>
+			</then>
+			<else>
+				<mkdir dir="${dirFile}"/>
+			</else>
+		</if>
+	</target>
+
+	<!-- create any file with content-->
+	<target name="createFile">
+		<echo message="${file.content}" level="info"/>
+		<echo message="${file.dir}" level="info"/>
+		<echo message="${file.name}" level="info"/>
+		<echo file="${file.dir}/${file.name}">${file.content}</echo>
+	</target>
+
+	<!-- Set debug by given a local directory without  -->
+	<target name="setDebugEnv" depends="init" description="For Developer">
+		<!-- create 'debug' directory -->
+		<antcall target="checkAndCreateDir">
+			<param name="dirFile" value="debug"/>
+		</antcall>
+		<!-- input working directory -->
+		<input message="PLEASE INPUT WORKING DIRECTORY:" addproperty="debug.directory"/>
+		<echo>YOUR DEBUG DIRECTORY IS ${debug.directory}</echo>
+		<!-- input INSTALLED directory -->
+		<input message="PLEASE INPUT INSTALLED GI DIRECTORY:" addproperty="installedGI.directory" defaultvalue="C:\IP Video Systems\IPVS Collaboration Client\GI"/>
+		<!-- i.e. C:\IP Video Systems\IPVS Collaboration Client\GI-->
+		<echo>YOUR INSTALLED GI DIRECTORY IS ${installedGI.directory}</echo>
+		<!-- set 'clienttype' property  -->
+		<property name="clienttype" value="INSTALLED"/>
+		<!--create a debugProperty.xml under directory ${debugproperty.dir}-->
+		<antcall target="createFile">
+			<param name="file.dir" value="debug"/>
+			<param name="file.name" value="debugProperty.xml"/>
+			<param name="file.content" value="&lt;Debug&gt;&lt;clientType&gt;INSTALLED&lt;/clientType&gt;&lt;managementServerIP&gt;&lt;/managementServerIP&gt;&lt;giStartPath&gt;${debug.directory}&lt;/giStartPath&gt;&lt;installedGIDir&gt;${installedGI.directory}&lt;/installedGIDir&gt; &lt;/Debug&gt;"/>
+		</antcall>
+	</target>
+  	<!--====================================== UTIL SECTION II. ===========================================-->
+	<!-- for MAKE -->
+	<!-- build objectxml.jar under BUILD/model/  -->
+	<target name="buildObjectXMLJar"  description="build objectxml.jar">
+		<sequential>
+			<echo message=" build objectxml.jar at BUILD/model" level="info"/>
+			<ant dir="BUILD/model" antfile="build.xml" target="build"/>
+		</sequential>
+	</target>
+
+	<!-- copy objectxml.jar to BUILD/mediaroom -->
+	<target name="copyObjectXMLJar" depends="buildObjectXMLJar" description="copy objectxml.jar">
+		<sequential>
+			<echo message=" copy objectxml.jar to BUILD/mediaroom ..." level="info"/>
+			<!-- copy objectxml.jar from BUILD/model to BUILD/mediaroom -->
+			<copy todir="VIEWER_CLIENT/addins/mediaroom" overwrite="true">
+				<fileset dir="BUILD/model" includes="*.jar"/>
+			</copy>
+			<copy todir="BUILD/mediaroom" overwrite="true">
+				<fileset dir="BUILD/model" includes="*.jar"/>
+			</copy>
+			<echo message=" copy model to dist/addins/model " level="info"/>
+			<!-- copy model from BUILD/model to dist/addins/model -->
+			<copy todir="VIEWER_CLIENT/addins/model" overwrite="true">
+				<fileset dir="BUILD/model" excludes="build,objectxml.jar,svn">
+					<include name="objectXml/**"/>
+					<exclude name="migration/templates"/>
+					<include name="migration/*/client/**"/>
+				</fileset>
+			</copy>
+		</sequential>
+	</target>
+
+	<!-- a tiny target called before calling buildMediaroomJar -->
+	<target name="copy3rdpartylibJars"  description="build mediaroom.jar">
+			<echo message=" copy BUILD/javalibs to BUILD/mediaroom/3rdpartylib " level="info"/>
+			<!-- copy javalibs/*.jar to BUILD/mediaroom/3rdpartylib -->
+			<copy todir="BUILD/mediaroom/3rdpartylib" overwrite="true">
+				<fileset dir="BUILD/javalibs" includes="*.jar"/>
+			</copy>
+	</target>
+
+	<!-- build mediaroom.jar at BUILD/mediaroom -->
+	<target name="buildMediaroomJar" depends="copy3rdpartylibJars" description="build mediaroom.jar">
+			<echo message=" building mediaroom.jar and ipvsclient.jar" level="info"/>
+			<sleep milliseconds="1000"/>
+			<available file="BUILD/mediaroom/3rdpartylib/smack.jar" property="isJarReady"/>
+			<if>
+				<equals arg1="${isJarReady}" arg2="true" />	 
+				<then>
+					<trycatch>
+						<try>
+							<ant dir="BUILD/mediaroom" antfile="build.xml" target="build" inheritAll="false" inheritRefs="false"/>
+						</try>
+						<catch>
+							<ant dir="BUILD/mediaroom" antfile="build.xml" target="clean" inheritAll="false" inheritRefs="false"/>
+							<echo message=" catch error and rebuild mediaroom.jar and ipvsclient.jar " level="info"/>
+							<ant dir="BUILD/mediaroom" antfile="build.xml" target="build" inheritAll="false" inheritRefs="false"/>
+						</catch>
+					</trycatch>
+				</then>
+				<else>
+					<fail>Jar files in BUILD/mediaroom/3rdpartylib are not ready </fail>
+				</else>
+			</if>
+	</target>
+
+	<!-- copy BUILD/mediaroom/mediaroom.jar and BUILD/mediaroom/ipvsclient.jar to VIEWER_CLIENT/addins/mediaroom -->
+	<target name="copyMediaroomJar" depends="buildMediaroomJar" description="copy mediaroom.jar">
+			<echo message=" clean VIEWER_CLIENT/addins/mediaroom" level="info"/>
+			<antcall target="checkDirExist">
+				<param name="directory.list" value="VIEWER_CLIENT/addins/mediaroom"/>
+			</antcall>
+			<echo message=" COPY mediaroom.jar FROM BUILD/mediaroom/dist TO VIEWER_CLIENT/addins/mediaroom" level="info"/>
+			<copy todir="VIEWER_CLIENT/addins/mediaroom" overwrite="true">
+				<fileset dir="BUILD/mediaroom/dist" excludes="rt-1.4.jar"/>
+			</copy>
+			<echo message=" COPY JARS FROM BUILD/javalibs TO dist/addins/mediaroom" level="info"/>
+			<copy todir="VIEWER_CLIENT/addins/mediaroom" overwrite="true">
+				<fileset dir="BUILD/javalibs" includes="*.jar"/>
+			</copy>
+			<echo message=" COPY JARS FROM BUILD/javalibs-14 TO dist/addins/mediaroom" level="info"/>
+			<copy todir="VIEWER_CLIENT/addins/mediaroom" overwrite="true">
+				<fileset dir="BUILD/javalibs-14">
+					<include name="smack-1.4.jar"/>
+					<include name="smackx-1.4.jar"/>
+					<include name="su-smack-1.2.jar"/>
+					<include name="xpp3.jar"/>
+				</fileset>
+			</copy>
+	</target>
+
+	<!-- compress Viewer/JSXAPPS js files -->
+	<target name="compressViewer" depends="init" description="compress JSXAPPS/IPVS_Viewer">
+		<!-- create 'JSXAPPS/IPVS_Viewer/build & JSXAPPS/IPVS_Viewer/log' -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="BUILD/JSXAPPS/IPVS_Viewer/build/app,BUILD/JSXAPPS/IPVS_Viewer/build/ipv,BUILD/JSXAPPS/IPVS_Viewer/log"/>
+		</antcall>
+		<!-- compress JSXAPPS/IPVS_Viewer javascript files to JSXAPPS/IPVS_Viewer/build/app-->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="app"/>
+			<param name="JsSrcDir" value="BUILD/JSXAPPS/IPVS_Viewer/js/com/ipvs/app"/>
+			<param name="JsDestDir" value="BUILD/JSXAPPS/IPVS_Viewer/build/app"/>
+			<param name="JsLogDir" value="BUILD/JSXAPPS/IPVS_Viewer/log"/>
+		</antcall>
+		<!-- compress JSXAPPS/IPVS_Viewer javascript files to JSXAPPS/IPVS_Viewer/build/ipv-->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="ipv"/>
+			<param name="JsSrcDir" value="BUILD/JSXAPPS/IPVS_Viewer/js/com/ipvs/ipv"/>
+			<param name="JsDestDir" value="BUILD/JSXAPPS/IPVS_Viewer/build/ipv"/>
+			<param name="JsLogDir" value="BUILD/JSXAPPS/IPVS_Viewer/log"/>
+		</antcall>
+	</target>			
+
+	<!-- compress Viewer/addins/giIPVSCommon js files -->
+	<target name="compressIPVSCommon" depends="init" description="compress giIPVSCommon ">
+		<!-- create 'addins/build & addins/log' -->
+		<antcall target="checkDirExist">
+			<param name="directory.list" value="BUILD/addins/build/agent,BUILD/addins/build/api,BUILD/addins/build/app,BUILD/addins/build/gui,BUILD/addins/build/util,BUILD/addins/log"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/agent from BUILD/addins/giIPVSCommon/js/com/ipvs/agent -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="agent"/>
+			<param name="JsSrcDir" value="BUILD/addins/giIPVSCommon/js/com/ipvs/agent"/>
+			<param name="JsDestDir" value="BUILD/addins/build/agent"/>
+			<param name="JsLogDir" value="BUILD/addins/log"/>
+		</antcall>
+		<!-- compress addins' js file to addins/build/api from BUILD/addins/giIPVSCommon/js/com/ipvs/api -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="api"/>
+			<param name="JsSrcDir" value="BUILD/addins/giIPVSCommon/js/com/ipvs/api"/>
+			<param name="JsDestDir" value="BUILD/addins/build/api"/>
+			<param name="JsLogDir" value="BUILD/addins/log"/>
+		</antcall>
+
+		<!-- compress addins' js file to addins/build/app from BUILD/addins/giIPVSCommon/js/com/ipvs/app -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="app"/>
+			<param name="JsSrcDir" value="BUILD/addins/giIPVSCommon/js/com/ipvs/app"/>
+			<param name="JsDestDir" value="BUILD/addins/build/app"/>
+			<param name="JsLogDir" value="BUILD/addins/log"/>
+		</antcall>
+
+		<!-- compress addins' js file to addins/build/gui from BUILD/addins/giIPVSCommon/js/com/ipvs/gui -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="gui"/>
+			<param name="JsSrcDir" value="BUILD/addins/giIPVSCommon/js/com/ipvs/gui"/>
+			<param name="JsDestDir" value="BUILD/addins/build/gui"/>
+			<param name="JsLogDir" value="BUILD/addins/log"/>
+		</antcall>
+
+		<!-- compress addins' js file to addins/build/util from BUILD/addins/giIPVSCommon/js/com/ipvs/util -->
+		<antcall target="compressJSByDir">
+			<param name="JsDirectParentDir" value="util"/>
+			<param name="JsSrcDir" value="BUILD/addins/giIPVSCommon/js/com/ipvs/util"/>
+			<param name="JsDestDir" value="BUILD/addins/build/util"/>
+			<param name="JsLogDir" value="BUILD/addins/log"/>
+		</antcall>
+	</target>
+
+	<!-- compress javascript by directory -->
+	<target name="compressJSByDir">
+		<!-- test regular expression online http://www.regexplanet.com/simple/index.html -->
+		<condition property="regxpvalue" value="${JsDirectParentDir}\\([^\\]*.js)" else="${JsDirectParentDir}\/([^\/]*.js)">
+			<os family="windows"/>
+		</condition>
+		<echo message="Getting to compress Javascript files :: regxpvalue=${regxpvalue}" level="info"/>
+		<!-- loop and compress js files of a directory -->
+		<for param="jsfile">
+			<path>
+				<fileset dir="${JsSrcDir}/" includes="**/*.js"/>
+			</path>
+			<sequential>
+				<echo message="current jsfile: @{jsfile}" level="info"/>
+				<!-- substract only Javascript file from a absolute file path -->
+				<propertyregex property="@{jsfile}_name" input="@{jsfile}" regexp="${regxpvalue}" select="\1" casesensitive="true"/>
+				<echo message="propertyregex jsfile: ${@{jsfile}_name}" level="info"/>
+				<!-- check if the file exists -->
+				<available file="${JsDestDir}/${@{jsfile}_name}" property="@{jsfile}.exists"/>
+				<if>
+					<equals arg1="${@{jsfile}.exists}" arg2="true"/>
+					<then>
+						<echo message="Update-Compress ${JsDestDir}/${@{jsfile}_name} EXIST:${@{jsfile}.exists}" level="debug"/>
+						<uptodate property="@{jsfile}.isUpToDate" srcfile="@{jsfile}" targetfile="${JsDestDir}/${@{jsfile}_name}"/>
+						<if>
+							<not>
+								<equals arg1="${@{jsfile}.isUpToDate}" arg2="true"/>
+							</not>
+							<then>
+								<echo message=" ${JsDestDir}/${@{jsfile}_name} UPDATED, COMPRESS AGAIN"/>
+								<echo message="java -jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} " level="info"/>
+								<exec dir="." executable="java" failonerror="true" output="${JsLogDir}/compressJsLog.txt">
+									<arg line="-jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} "/>
+								</exec>
+							</then>
+						</if>
+					</then>
+					<else>
+						<echo message="Add-Compress ${JsDestDir}/${@{jsfile}_name}" level="info"/>
+						<echo message="java -jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -o ${JsDestDir}/${@{jsfile}_name} " level="info"/>
+						<exec dir="." executable="java" failonerror="true" output="${JsLogDir}/compressJsLog.txt">
+							<arg line="-jar ${buildtools.path}/yuicompressor-2.4.2.jar ${JsSrcDir}/${@{jsfile}_name} -v -o ${JsDestDir}/${@{jsfile}_name} "/>
+						</exec>
+					</else>
+				</if>
+			</sequential>
+		</for>
+	</target>
+
+	<!-- copy compress application to VIEWER_CLIENT -->
+	<target name="copyAppToViewerClient">
+		<!-- 1. 
+			 prepare directories for copying -->
+		<antcall target="checkDirExist">
+			<param  name="directory.list" value="VIEWER_CLIENT,VIEWER_CLIENT/addins/giIPVSCommon/js/com/ipvs,VIEWER_CLIENT/JSXAPPS/IPVS_Viewer/js/com/ipvs"/>
+		</antcall>
+
+		<!-- 2.
+			 copy BUILD/addins/build/* to addins/giIPVSCommon/js/com/ipvs
+			 copy BUILD/addin/giIPVSCommon/rules  to addins/giIPVSCommon/rules 
+			 copy BUILD/addin/giIPVSCommon/config.xml  to addins/giIPVSCommon/config.xml -->
+		<copy todir="VIEWER_CLIENT/addins/giIPVSCommon" overwrite="true">
+			<fileset dir="BUILD/addins/giIPVSCommon" >
+				<exclude name=".svn" />
+				<exclude name="js" />
+				<exclude name="*/.svn" />
+			</fileset>
+		</copy>
+		<!-- copy compressed js from separate directory -->
+		<echo message=" Copying copressed giIPVSCommon/* to VIEWER_CLIENT/addins/giIPVSCommon/js/com/ipvs " level="info"/>
+		<copy todir="VIEWER_CLIENT/addins/giIPVSCommon/js/com/ipvs" overwrite="true">
+			<fileset dir="BUILD/addins/build" />
+		</copy>
+
+		<!-- 3.
+			 copy BUILD/JSXAPPS/IPVS_Viewer/build  to JSXAPPS/IPVS_Viewer/js/com/ipvs -->
+		<copy todir="VIEWER_CLIENT/JSXAPPS/IPVS_Viewer" overwrite="true">
+			<fileset dir="BUILD/JSXAPPS/IPVS_Viewer" >
+				<exclude name=".svn" />
+				<exclude name="build" />
+				<exclude name="js" />
+				<exclude name="*/.svn" />
+				<exclude name="log" />
+				<exclude name="*.html" />
+			</fileset>
+		</copy>
+		<!-- copy compressed js from separate directory -->
+		<echo message=" Copying copressed IPVS_Viewer/* to VIEWER_CLIENT/JSXAPPS/IPVS_Viewer/js/com/ipvs " level="info"/>
+		<copy todir="VIEWER_CLIENT/JSXAPPS/IPVS_Viewer/js/com/ipvs" overwrite="true">
+			<fileset dir="BUILD/JSXAPPS/IPVS_Viewer/build" />
+		</copy>
+
+		<!-- 4.
+			 copy BUILD/ .hta,.htm and .xml to  VIEWER_CLIENT -->
+		<echo message=" COPY IPVSViewer-Index.hta,IPVSViewer-Index.htm, logger.html to VIEWER_CLIENT  " level="info"/>
+		<fileset id="viewer_fileset" dir="BUILD">
+			<include name="logger.xml"/>
+			<include name="jsx3.gui.window.html"/>
+			<include name="IPVSViewer-Index.ht?"/>
+		</fileset>
+		<copy todir="VIEWER_CLIENT" overwrite="true">
+			<fileset refid="viewer_fileset" /> 
+		</copy>
+
+	</target>
+
+	<target name="copyJSXToViewerClient" >
+		<!-- 1.
+			 copy BUILD/JSX  -->
+		<echo message=" COPY BUILD/JSX to VIEWER_CLIENT/JSX " level="info"/>
+		<copy todir="VIEWER_CLIENT/JSX" overwrite="true">
+			<fileset dir="BUILD/JSX" />
+		</copy> 
+	</target>
+
+	<!-- ZIP VIEWER_CLIENT -->
+	<target name="zipViewerClient">
+		  <tar destfile="BUILD\Viewer_Client.zip"
+			   basedir="VIEWER_CLIENT"/>
+	</target>
+
+	<!-- helper target to check a directory, create it if not there -->
+	<target name="checkDirExist">
+		<sequential>
+			<echo message="..." level="info"/>
+			<for list="${directory.list}" param="dirFile">
+				<sequential>
+					<available file="@{dirFile}" property="@{dirFile}_isDirFileAvail"/>
+					<var name="isDirFileAvail" value="@{dirFile}_isDirFileAvail"/>
+					<switch value="${@{dirFile}_isDirFileAvail}">
+						<case value="true">
+							<echo message="@{dirFile} is already exist" level="debug"/>
+							<echo message="@{dirFile}_isDirFileAvail=${@{dirFile}_isDirFileAvail}" level="debug"/>
+						</case>
+						<default>
+							<echo message="@{dirFile} is not exist and being created now..." level="info"/>
+							<mkdir dir="@{dirFile}"/>
+						</default>
+					</switch>
+				</sequential>
+			</for>
+		</sequential>
+	</target>
+
+	<!-- compress clean build results -->
+	<target name="clean" depends="init">
+		<input message="This will remove BUILD and VIEWER_CLIENT directory, continue (y/n)?" validargs="y,n" addproperty="do.clean"/>
+		<condition property="do.abort">
+			<equals arg1="n" arg2="${do.clean}"/>
+		</condition>
+		<fail if="do.abort">Don't clean BUILD and VIEWER_CLIENT right now.</fail>
+		<delete dir="BUILD"/>
+		<delete dir="VIEWER_CLIENT"/>
+	</target>
+
+	<!-- macro to check files existence -->
+	<macrodef name="common_checkFile">
+		<attribute name="file.name"/>
+		<attribute name="echo.message"/>
+		<sequential>
+			<available file="@{file.name}" property="@{file.name}_exist"/>
+			<fail unless="@{file.name}_exist" message="@{echo.message}!" />
+		</sequential>
+	</macrodef>
+
+	<!-- common svn checkout without revision number-->
+	<macrodef name="common_checkout_norevision">
+		<attribute name="svn.url"/>
+		<attribute name="svn.destpath"/>
+		<sequential>
+			<echo message="CHECKING OUT @{svn.url} TO @{svn.destpath}" level="info"/>
+			<exec executable="svn">
+				  <arg value="checkout" />
+				  <arg value="@{svn.url}" />
+				  <arg value="@{svn.destpath}" />
+			</exec>	
+		</sequential>
+	</macrodef>
+
+	<!-- unzip IPVPlayerCtrl.zip and IPVPlayerCtrl.cab	 -->
+    <target name="unzipPlayer"  description="unzip player to local">
+			<sequential>
+				<!-- 1. check svn.authplayer.version.file -->
+				<common_checkFile file.name="${svn.player.version.file}" echo.message="${svn.player.version.file} is not checked out!" />
+				
+				<!-- 2. load property player.version(i.e. 3.7.r2.b1) from player.version file and complete svn URL: http://192.168.1.216/svn/svnroot/player_releases/tags/player_3.7.r0.b5 -->
+				<loadproperties srcFile="player.version"/>
+
+				<!-- 3. check dir VIEWER_CLIENT/player -->
+				<antcall target="checkDirExist">
+					<param  name="directory.list" value="${playerDestPath}"/>
+				</antcall>
+
+				<!-- 4. check dir VIEWER_CLIENT/player -->
+				<echo message="checkout player from svn.url: ${svn.player.url}/${svn.player.tag}${player.version} to directory: ${playerDestPath} " level="info"/>
+				<antcall target="checkoutApp">
+					<param name="url" value="${svn.player.url}/${svn.player.tag}${player.version}"/>
+					<param name="revision" value="HEAD"/>
+					<param name="dest" value="${playerDestPath}"/>
+				</antcall>
+
+				<!-- 5.extract IPVPlayerCtrl.zip -->
+				<echo message=" unzip IPVPlayerCtrl.zip to ${playerDestPath}" level="info"/>
+				<unzip src="${playerDestPath}/IPVPlayerCtrl.zip" dest="${playerDestPath}">
+					<patternset>
+						<include name="**/*.cab"/>
+						<exclude name="**/media*.exe"/>
+						<exclude name="**/*.dll"/>
+						<exclude name="**/*.vbs"/>
+					</patternset>
+				</unzip>
+
+				<echo message=" wait for a few seconds to check if  ${playerDestPath}/IPVPlayerCtrl.cab exist " level="info"/>
+				<waitfor maxwait="2" maxwaitunit="minute" checkevery="200">
+					<available file="${playerDestPath}/IPVPlayerCtrl.cab" property="isPlayerCabAvail"/>
+				</waitfor>
+				<!-- extract IPVPlayerCtrl.cab if it is exist-->
+				<if>
+				<equals arg1="@{isPlayerCabAvail}" arg2="false" />
+					 
+				 <then>
+				   <echo message="ERROR: The ${playerDestPath}/IPVPlayerCtrl.cab doesn't exist, unzip IPVPlayerCtrl.cab failed!" level="info" />
+				 </then>
+
+				 <else>
+				   <!-- keep IPVPlayerCtrl.cab file, no need to UNZIP -->
+				 </else>
+				</if>
+			</sequential>
+	</target>
+  	<!--======================================= BUILD SECTION ===================================================-->
+	<!--  MAKEDEVENV:
+		  manually checkout Viewer from SVN to a local i.e. 'Viewer', get build.xml then run 'ant makeDevEnv' -->
+	<target name="makeDevEnv" depends="init" description="Developer">	
+		<!-- 1. 
+			 create 'Viewer'/'addins' -->
+		<!-- 2. 
+			 checkout giIPVSCommon from giIPVSCommon/trunk to 'Viewer'/'addins/giIPVSCommon' -->
+		<!-- 3. 
+			 export and unzip GI src package to 'Viewer' -->
+		<!-- 4. 
+			 rcopy 'mediaroom' and 'model' from MS server to 'Viewer'/'addins' -->
+
+		<sequential>
+			<!-- 1. check and create 'addins' if it is not there -->
+			<antcall target="checkDirExist">
+				<param name="directory.list" value="addins"/>
+			</antcall>
+			<!-- 2. checkout application -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.giipvscommon.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="addins/giIPVSCommon"/>
+			</antcall>
+			<!-- 3. export GI -->
+			<antcall target="exportGI" /> 
+			<!-- 4. copy model and mediaroom -->
+			<trycatch>
+				<try>
+					<antcall target="RcopyMediaroomModel" />
+				</try>
+				<catch>
+					<echo message="Errors occur while remote copy 'model' and 'mediaroom' from MS server. Try copy from local installed client. " level="info"/>
+					<antcall target="LcopyMediaroomModel" />
+				</catch>
+			</trycatch>
+		</sequential>
+	</target>
+
+	<!--  Developer MAKE:
+		  manually checkout Viewer from SVN, run 'ant make', input SVN url for giIPVSCommon and Viewer, get a ZIP of application -->
+	<target name="makeDev" depends="init" description="Developer">
+			<input message="PLEASE INPUT SVN Viewer url:" addproperty="input.viewer.url" defaultvalue="http://svn.ipvideosys.com/svn/svnroot/Viewer/trunk" />
+			<echo message="YOUR SVN USER NAME IS ${input.viewer.url}" level="info" />
+			<input message="PLEASE INPUT SVN giIPVSCommon url:" addproperty="input.giipvscommon.url" defaultvalue="http://svn.ipvideosys.com/svn/svnroot/giIPVSCommon/trunk" />
+			<echo message="YOUR SVN PASSWORD IS ${input.giipvscommon.url}" level="info" />
+			<!-- call 'make' with customized giIVPSCommon, Viewer svn url -->
+			<antcall target="make">
+				<param name="svn.viewer.url" value="${input.viewer.url}"/>
+				<param name="svn.giipvscommon.url" value="${input.giipvscommon.url}"/>
+			</antcall>
+	</target>
+
+	<!--  MAKE:
+		  manually checkout Viewer from SVN, run 'ant make', get a ZIP of application -->
+	<target name="make" depends="init" description="Production">
+		<!-- 1. 
+			 Check and create 'VIEWER_CLIENT' and 'BUILD'-->
+ 		<!-- 2. 
+			 checkout Viewer from SVN to 'BUILD' -->
+		<!-- 3. 
+			 checkout giIPVSCommon from SVN to 'BUILD' -->
+		<!-- 4. 
+			 checkout  'model' and 'mediaroom' from SVN to 'BUILD' -->
+		<!-- 5. 
+			 checkout javalibs and javalibs-1.4 for mediaroom build -->
+		<!-- 6. 
+			 export and unzip tibco GI package to 'BUILD' -->
+		<!-- 7. 
+			 build 'model' and copy whole directories from 'BUILD' to 'dist'/'addins'/'model' -->
+		<!-- 8. 
+			 build 'mediaroom' and copy whole directories from 'BUILD' to 'dist'/'addins'/'mediaroom'  -->
+		<!-- 9. 
+			 checkout jarsign from client_build/trunk/jarSign -->
+		<!-- 10. 
+			 signjars at VIEWER_CLIENT/addins/mediaroom  -->
+		<!-- 11. 
+			 compress and copy View from 'BUILD' to 'dist' -->
+		<!-- 12. 
+			 compress and copy  giIPVSCommon 'BUILD' to 'dist' -->
+		<!-- 13. 
+			 copy compressed js and xml, config files to 'VIEWER_CLIENT' -->
+		<!-- 14. 
+			 check out and unzip player to 'VIEWER_CLIENT/player' -->
+		<!-- 15. 
+			 ZIP 'VIEWER_CLIENT' -->
+
+		<sequential>
+			<!-- [1]  -->
+			<echo message="creating 'VIEWER_CLIENT' and 'BUILD' for make " level="info"/>
+			<delete dir="VIEWER_CLIENT"/>
+			<mkdir dir="VIEWER_CLIENT"/>
+			<delete dir="BUILD"/>
+			<mkdir dir="BUILD"/> 
+
+			<!-- [2] -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.viewer.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD"/>
+			</antcall> 
+
+			<!-- [3] -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.giipvscommon.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD/addins/giIPVSCommon"/>
+			</antcall> 
+
+			<!-- [4] -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.model.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD/model"/>
+			</antcall>
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.mediaroom.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD/mediaroom"/>
+			</antcall>
+
+			<!-- [5] -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.javalibs.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD/javalibs"/>
+			</antcall> 
+			<!-- ? required for this Basic_Client  -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.javalibs-14.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="BUILD/javalibs-14"/>
+			</antcall> 
+
+			<!-- [6] -->
+			<!-- unzip tibco-gi-3.x.x-src.zip to 'temp' and copy content to BUILD   -->
+			<svn_export svn.url="${svn.tibcodev.url}/${svn.tibcodev.version}/${svn.gi.debugVersion}.zip" svn.revision="HEAD" />
+			<unzip src="${svn.gi.debugVersion}.zip" dest="temp"/>
+			<copy todir="BUILD" overwrite="true">
+				<fileset dir="temp/${svn.gi.debugVersion}" excludes="jsx3.gui.window.html"/>
+			</copy>
+			<delete file="${svn.gi.debugVersion}.zip"/>
+			<delete dir="temp"/>
+
+			<!-- [7] -->
+			<!-- build and copy objecxml.jar to VIEWER_CLIENT/addins/model -->
+			<antcall target="copyObjectXMLJar"/>
+
+			<!-- [8] -->
+			<!-- build and copy mediaroom.jar to VIEWER_CLIENT/addins/mediaroom -->
+			<antcall target="copyMediaroomJar"/> 
+
+			<!-- [9] -->
+			<antcall target="checkoutApp">
+				<param name="url" value="${svn.jarsign.url}"/>
+				<param name="revision" value="HEAD"/>
+				<param name="dest" value="jarSign"/>
+			</antcall> 
+
+			<!-- [10] signjars at VIEWER_CLIENT/addins/mediaroom -->
+			<antcall target="signjars"> 
+				<param name="jarSrcPath" value="./VIEWER_CLIENT/addins/mediaroom"/>
+			</antcall> 
+
+			<!-- [11]  -->
+			<antcall target="compressViewer"/>
+
+			<!-- [12]  -->
+			<antcall target="compressIPVSCommon"/> 
+
+			<!-- [13]  -->
+			<antcall target="copyAppToViewerClient"/> 
+
+			<!-- [14]  -->
+			<antcall target="copyJSXToViewerClient"/> 
+
+			<!-- [15]  -->
+			<antcall target="unzipPlayer">
+				<!-- load from file player.version dynamiclly in target 'checkoutPlayer' -->
+				<param name="playerURL" value="${svn.player.url}/${svn.player.tag}"/>
+				<param name="playerDestPath" value="BUILD/player"/>
+			</antcall>
+			<copy todir="VIEWER_CLIENT/player" overwrite="true">
+				<fileset dir="BUILD/player" >
+					<include name="IPVPlayerCtrl.cab" />
+				</fileset>
+			</copy>
+			<!-- [16]  -->
+			<antcall target="zipViewerClient"/> 
+		</sequential>
+	</target>
+
+	<!--  buildMake
+		  API for client_build call -->
+	<target name="buildMake" depends="init" description="Production">
+		<!-- 1. 
+			 Check and create 'VIEWER_CLIENT' and 'BUILD'-->
+ 		<!-- 2. 
+			 copy Viewer from current to 'BUILD' -->
+		<!-- 3. 
+			 copy giIPVSCommon from parent level to 'BUILD/addins/' -->
+		<!-- 4. 
+			 compress and copy View from 'BUILD' to 'dist' -->
+		<!-- 5. 
+			 compress and copy  giIPVSCommon 'BUILD' to 'dist' -->
+		<!-- 6. 
+			 copy 'dist' compressed js and xml, config files to 'VIEWER_CLIENT' -->
+		<!--  
+			 model and mediaroom will be copied to 'addins' during client_build create installer.exe -->
+		<sequential>
+			<!-- [1]  -->
+			<echo message="creating 'VIEWER_CLIENT' and 'BUILD' for make " level="info"/>
+			<delete dir="VIEWER_CLIENT"/>
+			<delete dir="BUILD"/>
+
+			<!-- [2]  -->
+			<!-- copy current Viewer/top level to ./BUILD -->
+			<echo message=" Copying ./* to ./BUILD/ " level="info"/>
+			<copy todir="./BUILD" overwrite="true">
+				<fileset dir="./" />
+			</copy>
+
+			<!-- [3] -->
+			<!-- copy top level giIPVSCommon to BUILD/addins/giIPVSCommon -->
+			<echo message=" Copying top level ../giIPVSCommon/* to ./BUILD/addins/giIPVSCommon " level="info"/>
+			<copy todir="./BUILD/addins/giIPVSCommon" overwrite="true">
+				<fileset dir="../giIPVSCommon" />
+			</copy> 
+
+			<!-- [4]  -->
+			<antcall target="compressViewer"/>
+
+			<!-- [5]  -->
+			<antcall target="compressIPVSCommon"/> 
+
+			<!-- [6]  -->
+			<antcall target="copyAppToViewerClient"/>  
+		</sequential>
+	</target>
+
+</project>

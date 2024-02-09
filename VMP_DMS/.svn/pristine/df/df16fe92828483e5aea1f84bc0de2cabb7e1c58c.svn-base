@@ -1,0 +1,247 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+target-name		:=	$(strip $(target-name))
+
+ifeq "$(target-name)" ""
+target-name		:=	NoAppName
+endif
+
+exe-name 		:=	$(target-name)$(link-suffix-exe)
+ver-name 		:=	$(target-name).ver
+
+exe-name-ver		:=	$(call mod-vers-append,$(target-name))$(link-suffix-exe)
+
+CLEAN-FILES		+=	$(exe-name) $(ver-name) $(exe-name-ver)
+
+###############################################################################
+### Wrappers...
+
+.PHONY : wrapper-bat wrapper-sh
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+wrapper-var		:=	PATH
+else
+ifeq "$(JBS_PLATFORM)" "DARWIN"
+wrapper-var		:=	DYLD_LIBRARY_PATH
+else
+wrapper-var		:=	LD_LIBRARY_PATH
+endif
+endif
+
+wrapper-name-bat	:=	$(target-name).bat
+wrapper-name-sh		:=	$(target-name).sh
+
+wrapper-name-bat-ver	:=	$(call mod-vers-append,$(target-name)).bat
+wrapper-name-sh-ver	:=	$(call mod-vers-append,$(target-name)).sh
+
+
+wrapper-libdirs :=	$(foreach \
+				d, \
+				$(target-all-deps), \
+				$(call mod-path-connect, \
+					$(JBS_CUR_DIR),$(JBS_TOP_DIR),$($(d)-linkdir)))
+
+wrapper-bat :
+	@### create Windows batch file...
+	@echo "echo off" > $(wrapper-name-bat)
+	@echo "if \"%PATH%\"==\"\" PATH=." >> $(wrapper-name-bat)
+	@for i in $(wrapper-libdirs) ; do \
+		ni="`cygpath -w $$i`" ; \
+		echo "PATH=%PATH%;$$i" >> $(wrapper-name-bat) ; \
+	done
+	@echo "$(exe-name) %1 %2 %3 %4 %5 %6 %7 %8 %9" >> $(wrapper-name-bat)
+	@echo "pause" >> $(wrapper-name-bat)
+	@unix2dos $(wrapper-name-bat) 2> /dev/null
+	@chmod 755 $(wrapper-name-bat)
+
+wrapper-sh :
+	@### create Unix shell script...
+	@echo "#!/bin/sh" > $(wrapper-name-sh)
+	@echo "if [ \"x\$${$(wrapper-var)}\" = \"x\" ] ; then $(wrapper-var)=\".\" ; else $(wrapper-var)=\".\":\$${$(wrapper-var)} ; fi" >> $(wrapper-name-sh)
+	@echo "DIRNAME=\"\`dirname \$$0\`\"" >> $(wrapper-name-sh)
+	@for i in $(wrapper-libdirs) ; do \
+		echo "export $(wrapper-var)=\$${$(wrapper-var)}:\$${DIRNAME}/$$i" >> $(wrapper-name-sh) ; \
+	done
+	@echo "PROGNAME=\"\$$0\"" >> $(wrapper-name-sh)
+	@echo "\$${PROGNAME%.sh}$(link-suffix-exe) \"\$$@\"" >> $(wrapper-name-sh)
+	@chmod 755 $(wrapper-name-sh)
+
+###############################################################################
+### WIN32
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+compile-defs		+=	_CONSOLE
+link-flags		+=	/subsystem:console /machine:I386
+
+ifeq "$(target-debug)" "yes"
+
+pdb-name 		:=	$(target-name).pdb
+ilk-name		:=	$(target-name).ilk
+bsc-name		:=	$(target-name).bsc
+link-flags		+=	/pdb:"$(pdb-name)"
+CLEAN-FILES		+=	$(pdb-name) $(ilk-name) $(bsc-name)
+CLEAN-FILES		+=	$(compile-sbr-files)
+
+local-target :		$(build-needed-libs) $(exe-name) $(bsc-name) wrapper-bat wrapper-sh
+
+$(bsc-name) :		$(mod-cmp-temp-files) $(compile-sbr-files)
+	@$(call mod-echo-gen-bsc,$@)
+	@bscmake /n /nologo /o $@ $(compile-sbr-files)
+
+else
+
+local-target :		$(build-needed-libs) $(exe-name) wrapper-bat wrapper-sh
+
+link-flags		+=	/pdb:none
+
+endif
+
+$(exe-name) :		$(mod-cmp-temp-files)				\
+			$(compile-final-objects)
+	@$(call mod-echo-linking-exe,$(exe-name))
+	@"$(link-linker)"						\
+		$(link-string)						\
+		$(compile-final-objects)				\
+		/out:"$@"
+
+CLEAN-FILES		+=	$(wrapper-name-bat) $(wrapper-name-sh) $(wrapper-name-bat-ver) $(wrapper-name-sh-ver)
+
+endif
+
+###############################################################################
+### LINUX
+
+ifeq "$(JBS_UNIX_SYSTEM)" "1"
+
+### The shell script wrapper is important for the BIN package, given that the
+### user could install the packages anywhere, and that the executable contains
+### only absolute paths to the dependencies.
+
+ifeq "$(target-static)" "yes"
+local-target :		$(build-needed-libs) EXE-NAME $(ver-name)
+else
+local-target :		$(build-needed-libs) EXE-NAME wrapper-sh $(ver-name)
+endif
+
+# voorlopig, "-static" geeft miserie
+#ifeq "$(target-static)" "yes"
+#link-string := -static $(link-string)
+#endif
+.PHONY: EXE-NAME
+
+EXE-NAME:
+	@$(call mod-utils-do-make, $(JBS_MAKEOPTS) $(exe-name))
+
+ifneq ($(findstring local-target,$(MAKECMDGOALS))$(findstring $(exe-name),$(MAKECMDGOALS)),)
+-include $(mod-cmp-temp-depends)
+endif
+
+$(exe-name) :		$(mod-cmp-temp-files)				\
+			$(compile-final-objects)
+	@$(call mod-echo-linking-exe,$(exe-name))
+	@"$(link-linker)"						\
+		$(compile-final-objects)				\
+		$(link-string)						\
+		-o $@
+ifeq "$(target-stripped)" "yes"
+ifneq "$(target-debug)" "yes"
+	@$(call mod-echo-stripping-exe,$@)
+	@$(JBS_STRIP) $@
+endif
+endif
+
+$(ver-name) :
+	@echo "$(target-ver)" > $@
+
+CLEAN-FILES		+=	$(wrapper-name-sh) $(wrapper-name-sh-ver)
+
+endif
+
+###############################################################################
+
+local-defs :
+	@cat < /dev/null > ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "##### $(JBS_CUR_DIR)" >> ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-test       := $(target-test)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-depfail    := $(target-depfail)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-maj    = $(mod-vers-def-maj)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-med    = $(mod-vers-def-med)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-min    = $(mod-vers-def-min)" >> ./$(JBS_DEFS_FILE)
+
+	@echo "" >> ./$(JBS_DEFS_FILE)
+
+###############################################################################
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+mod-packs-bin-filenames		:=	$(exe-name) \
+					$(wrapper-name-bat) \
+					$(wrapper-name-sh)
+endif
+
+ifeq "$(JBS_UNIX_SYSTEM)" "1"
+mod-packs-bin-filenames		:=	$(exe-name) \
+					$(wrapper-name-sh)
+endif
+
+mod-packs-build-list		:=	src bin
+
+###############################################################################
+# install
+
+#todo: let dll's install themselves
+# assigned to JFGO
+
+ifeq "$(call mod-utils-check-on, $(JBS_STATIC))" "false"
+
+target-install-lib		:=	$(foreach				\
+							d,				\
+							$(target-all-deps),		\
+							$($(d)-linkdir)/$($(d)-filename).$($(d)-ver-maj))
+else
+
+target-install-lib		:=
+
+endif
+
+target-install-bin		:=	$(exe-name)
+
+JBS_INSTALL_PREFIX	?=	/usr
+JBS_INSTALL_CMD		?=	cp
+
+install: local-target
+	@for i in $(target-install-lib); do \
+		$(call mod-echo-install,'$$i ==> $(JBS_INSTALL_PREFIX)/lib'); \
+		$(JBS_INSTALL_CMD) $$i $(JBS_INSTALL_PREFIX)/lib; \
+	done
+	@for i in $(target-install-bin); do \
+		$(call mod-echo-install,'$$i ==> $(JBS_INSTALL_PREFIX)/bin'); \
+		$(JBS_INSTALL_CMD) $$i $(JBS_INSTALL_PREFIX)/bin; \
+	done
+
+###############################################################################
+

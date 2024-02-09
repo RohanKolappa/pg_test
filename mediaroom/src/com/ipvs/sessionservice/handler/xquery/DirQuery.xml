@@ -1,0 +1,157 @@
+declare function local:getDirInfo( $b as element()*, $detail as xs:string, $portList as element()*, $mediaStorePortList as element()*)
+as element ()*
+{
+   let $portInfo :=  local:getPortInfo($b, $detail, $portList, $mediaStorePortList)
+					
+   let $description := if($detail != 'BASIC') then 
+   							<description>{ data($b//Info/Description) }</description>
+   					   else ''
+   					   
+   let $storageConfig := if($detail = 'EXTENDED' or $detail = 'SNAPSHOTURL' or $detail = 'UPLOADURL') then
+   							local:createStorageConfig($b, $portInfo)
+   						 else ''
+   								   
+   let $subDirInfo := if($detail != 'BASIC') then 
+   							<SubDirInfo> {
+									for $subDir in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*
+						   				[(@parentNID='default.mediastreamdirresourcelist') and .//ParentMediaDirNID= $b/@NID]  
+									return  <Dir NID='{ data($subDir/@NID) }'
+		   				 						title='{ data($subDir//Info/Title) }'
+		   										dirType='{ if ($subDir//Info/Title/data(.)='PVR') then data('pvr')
+						           							else if ($subDir//Info/Title/data(.)='RECYCLEBIN') then data('recyclebin')
+								  							else '' }'   />
+								}
+							</SubDirInfo>
+					else ''	
+   let $dirInfo := 
+		   		 <Dir NID='{ data($b/@NID) }'
+		   				 title='{ data($b//Info/Title) }'
+		   				 dirType='{if ($b//Info/Title/data(.)='PVR') then data('pvr')
+						           else if ($b//Info/Title/data(.)='RECYCLEBIN') then data('recyclebin')
+								   else '' }' 
+		  			  	 state='{ data($b//State/StateFlag) }' 
+		    			 size='{ data($b//Size) }' 
+		 			     sizeUsed ='{ data($b//SizeUsed) }'
+		 			     dateCreated='{ data($b/Info/Properties/DateCreated) }'
+		 			     dateModified='{ data($b/Info/Properties/DateModified) }'
+		 			     readOnly='{if (data($b/Info/Properties/Permissions/Write) = 'true') then 'false' else 'true'}'
+		 			>     			  
+					{$description}
+					{$b//Info/Groups}
+					{$storageConfig}
+					{$subDirInfo}
+				  </Dir> 
+   return $dirInfo
+   
+};
+
+declare function local:getPortInfo($b as element()*, $detail as xs:string, $portList as element()*, $mediaStorePortList as element()*)
+{
+	let $storePortList := $mediaStorePortList[@NID=data($b//MediaStorePortResourceNID)]
+	let $portInfo := <PortInfo>  {
+									for $storePort in $storePortList
+										let $mediaStorePortFromDirList := $b//MediaStorePortResourceNID[data(.)=data($storePort/@NID)]
+										let $dirPortList := for $mediaStorePortFromDir in $mediaStorePortFromDirList
+									                        	return <Port NID='{data($storePort/@NID)}' title='{data($storePort//Title)}' deviceElementId='{data($mediaStorePortFromDir/@deviceElementId)}' 
+																		priority='{data($mediaStorePortFromDir/@priority)}' presence='{data($mediaStorePortFromDir/@presence)}' readOnly='{data($mediaStorePortFromDir/@readOnly)}'
+																		userJID='{data($storePort//OwnerUserJID)}'/>
+										 return $dirPortList
+								 }
+					</PortInfo>
+					
+	let $finalPortInfo := if($detail = 'EXTENDED') then 
+							$portInfo
+						  else if($detail = 'SNAPSHOTURL' or $detail = 'UPLOADURL') then
+						  	let $list := if($b//ParentMediaDirNID = "NONE") then
+						  					let $portInfoPortList := $portInfo//Port
+						  					let $finalPortList := for $port in $portInfoPortList
+						  											let $portElement := $portList//Port[@NID=$port/@NID]
+						  											let $newPortElement := if($detail = 'SNAPSHOTURL') then element { 'Port' } { $port/(@*, attribute {'snapshotURL'} {$portElement/@snapshotURL}, *), $portElement//ApiKeyTable ,$portElement//Source , $portElement//Device }
+						  											                       else element { 'Port' } { $port/(@*, attribute {'uploadURL'} {$portElement/@uploadURL}, *), $portElement//ApiKeyTable ,$portElement//Source , $portElement//Device }
+						  											return $newPortElement
+						  					return <PortInfo>{$finalPortList}</PortInfo>
+						  	
+						  				else $portInfo
+						  	return $list
+						  else ''
+	return $finalPortInfo
+};
+
+declare function local:createStorageConfig($b as element()*, $portInfo as element()*)
+{
+	let $storageConfig := <StorageConfig mode='{ data($b//MediaDirStorageConfig/@mode) }'>
+							<DirSpanning diskFullThreshold = '{ data($b//MediaDirSpanning/@diskFullThreshold) }'>
+								<PortInfo> {$portInfo//Port} </PortInfo>
+							</DirSpanning>
+							{ $b//CapacityManagement }
+						  </StorageConfig>
+	return $storageConfig
+};
+
+declare function local:createSnapshotURL($mediaStorePortList as element()*, $deviceList as element()*, $assetResourceList as element()*, $dirList as element()*) 
+{
+		let $dmsIP := ''
+		let $protocol := '_PROTOCOL_'
+		let $portList := for $port in $mediaStorePortList
+							let $device := $deviceList[.//MediaStorePortResourceNID/NIDValue = $port/@NID]
+	          				let $assetResource := $assetResourceList[@NID = $device//AssetResourceNID]
+							let $dmsIP := data($device//EthernetPortStatus/Parameters[Parameter[@name = 'Primary' and . = 'True'] and Parameter[@name = 'Status' and . = 'True']]/./Parameter[@name='IPAddress'])
+							let $apiKeyTable := $assetResource//ApiKeyTable
+							let $snapshotURL := if($dmsIP != '') then
+									 	concat($protocol,"://_IPADDRESS_/mediajs/file/upload?dirID=_DIRID_CONST", "&amp;timestamp=_TIME_STAMP_CONST", "&amp;apiKey=", data($apiKeyTable/ApiKey/@key), "&amp;signature=_SIGNATURE_CONST")
+									 else ''
+							return <Port NID='{data($port/@NID)}' snapshotURL='{data($snapshotURL)}' uploadURL='{data($snapshotURL)}'> {$apiKeyTable}
+							         <Source>{$port}</Source> 
+							         <Device ipAddress='{$dmsIP}'> {$device//DNSClientConfig}{$device//NATZoneTableConfig} {$device//EthernetPortTableStatus} </Device> 
+							       </Port>  
+							 
+						
+		return <PortList> {$portList} </PortList>
+};
+
+
+declare function local:getList()
+as element()*
+{
+
+    let $searchInFiles := '_SEARCHINFILES_'
+    let $dirNIDListFromFileList := if ($searchInFiles = 'true') then  
+                                       distinct-values ( 
+											for $b in  collection('/db/ipvs.default.mediastreamfileresourcelist')/*[(@parentNID='default.mediastreamfileresourcelist') and 
+													MediaStreamFileResource_PEMXPATH]  													
+											return $b//ParentMediaDirNID)
+									else ''		
+																				  
+	let $list1 := 
+		 for $b  in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist') and (MediaStreamDirResource_PEMXPATH or (.//@NID=$dirNIDListFromFileList))]   
+			where $b  _XPATHAND_ 
+		   order by upper-case ($b_SORTBY_) _SORTORDER_   
+	     return $b    
+	return $list1
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $item := $b
+	return $item
+};
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $dirList := $b
+	let $mediaStoreNIDList := distinct-values ($dirList//MediaStorePortResourceNID)
+	let $mediaStorePortList := for $mediaStorePort in collection('/db/ipvs.default.mediastoreportresourcelist')/*
+									[@NID=$mediaStoreNIDList]
+									return $mediaStorePort
+	let $snapshotPortList := if($detail = "SNAPSHOTURL" or $detail = "UPLOADURL") then
+						let $deviceList :=	for $device in collection('/db/ipvs.default.devicelist')/*
+						   						[.//MediaStorePortResourceNID/NIDValue = $mediaStoreNIDList] 
+												return $device
+						let $assetResourceList := for $assetResource in collection('/db/ipvs.default.assetresourcelist')/*
+													[@NID = $deviceList//AssetResourceNID]
+													return $assetResource
+						return local:createSnapshotURL($mediaStorePortList, $deviceList, $assetResourceList, $dirList)
+					else <PortList/>
+	let $dir := for $item in $dirList order by  upper-case ($item_SORTBY_) _SORTORDER_
+					return local:getDirInfo($item, $detail, $snapshotPortList, $mediaStorePortList)
+
+	return $dir
+};

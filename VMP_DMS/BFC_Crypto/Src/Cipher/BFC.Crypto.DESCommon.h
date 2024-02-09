@@ -1,0 +1,115 @@
+// ============================================================================
+// 
+// Copyright (c) 2003-2014 Barco N.V.
+// 
+// ============================================================================
+// 
+// This file is part of "BFC".
+// 
+// "BFC" is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+// 
+// "BFC" is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with "BFC"; if not, write to:
+//                          Free Software Foundation
+//                          59 Temple Place, Suite 330
+//                          Boston, MA 02111-1307 USA
+// 
+// ============================================================================
+// 
+// Filename:
+//	BFC.Crypto.DESCommon.h
+// 
+// Description:
+//	...
+// 
+// Author(s):
+//	Jean-Francois GOBBERS
+// 
+// ============================================================================
+
+#ifndef _BFC_Crypto_DESCommon_H_
+#define _BFC_Crypto_DESCommon_H_
+
+// ============================================================================
+
+#include "BFC.Crypto.DLL.h"
+
+// ============================================================================
+
+#include "BFC.Base.Types.h"
+
+// ============================================================================
+
+namespace BFC {
+namespace Crypto {
+
+// ============================================================================
+
+/// \brief [no brief description]
+///
+/// \ingroup BFC_Crypto
+
+class BFC_Crypto_DLL DESCommon {
+
+public :
+
+	enum {
+		EN0 = 0,
+		DE1 = 1
+	};
+
+	static void deskey(
+		const	Uchar *		key,
+		const	Uint32		edf,
+			Uint32 *	out
+	);
+
+	static void desfunc(
+			Uint32 *	block,
+		const	Uint32 *	keys
+	);
+
+protected :
+
+	static void cookey(
+		const	Uint32 *	raw1,
+			Uint32 *	out
+	);
+
+private :
+
+	static const Uint32 bytebit[8];
+	static const Uint32 bigbyte[24];
+	static const Uchar pc1[56];
+	static const Uchar totrot[16];
+	static const Uchar pc2[48];
+	static const Uint32 SP1[64];
+	static const Uint32 SP2[64];
+	static const Uint32 SP3[64];
+	static const Uint32 SP4[64];
+	static const Uint32 SP5[64];
+	static const Uint32 SP6[64];
+	static const Uint32 SP7[64];
+	static const Uint32 SP8[64];
+
+};
+
+// ============================================================================
+
+} // namespace Crypto
+} // namespace BFC
+
+// ============================================================================
+
+#endif // _BFC_Crypto_DESCommon_H_
+
+// ============================================================================
+

@@ -1,0 +1,91 @@
+<ipvs>
+	<query type="ExtractZip" name="export" priority="1" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+
+	</query>
+
+	<query type="ReadQuery" name="readquery_groupid_mapping" priority="2" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<![CDATA[ 
+ 			declare variable $param_mediaGroupID:='PARAM_mediaGroupID' ;
+			declare variable $param_dateCreated:='PARAM_dateCreated' ;
+			let $arr_mediaGroupID := distinct-values(for $b in index-scan('IPVSis_colnids_default', 'default.exportimportfilelist', 'EQ')/..
+					where $b[ 
+					 Internal/@prev_mediaGroupID=$param_mediaGroupID and @dateCreated=$param_dateCreated and Internal/@new_mediaGroupID != '' ]   
+			return  $b/Internal/@new_mediaGroupID/data(.) )
+			
+			let $arr_mediaGroupFiles := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+					where $b[ 
+					 //Type='MediaGroup'  and   //MediaGroupID = $arr_mediaGroupID]  
+			return 					
+			<MediaStreamFileResource>{$b/@NID}<Info><MediaStoreFileInfo>{$b//MediaGroupID}</MediaStoreFileInfo></Info></MediaStreamFileResource>
+
+			return <DBResp>{$arr_mediaGroupFiles}</DBResp>
+
+
+	 	]]>
+	</query>
+	
+	<query type="UpdateExportImportFileNIDs" name="Updating_FileNIDs" priority="3" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<!-- update file nid and references in bookmarks -->
+		<!-- and change state to importing -->
+	</query>
+
+	<query type="ImportQuery" name="importing" priority="4" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+
+	</query>
+	
+	<query type="UpdateQuery" name="readquery_groupid_mapping" priority="5" enable="true" db_server="sedna_native,sedna_xmldb">
+		<![CDATA[ 
+	 		declare variable $param_mediaStreamFileResourceNID:='PARAM_mediaStreamFileResourceNID' ;
+			
+			declare variable $mediaStreamDirResourceNID:=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID]//ParentMediaDirNID/data(.) ;
+			declare variable $mediaGroupID:=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID]//MediaGroupID/data(.) ;
+			declare variable $groups_mediaStreamDirResource:=index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$mediaStreamDirResourceNID]/Info/Groups ;
+
+			update replace $b in index-scan( 'IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID
+			or (//MediaGroupID!='' and //MediaGroupID=$mediaGroupID)]/Info/Groups
+			with 
+			<Groups>
+				{$b/Tag[@Name != '']}
+				{
+					for $dirTag in $groups_mediaStreamDirResource/Tag[@Name != '']
+					let $newTag:= $b/Tag[ @Name=$dirTag/@Name and @Value=$dirTag/@Value ]
+					return 
+						if  ( count($newTag) !=0   ) then 
+							''
+						else
+							$dirTag
+				}
+
+
+			</Groups>	
+	 	]]>
+	</query>
+	
+	<query type="UpdateQuery" name="readquery_groupid_mapping" priority="5" enable="true" db_server="exist_xmldb">
+		<![CDATA[ 
+	 		declare variable $param_mediaStreamFileResourceNID:='PARAM_mediaStreamFileResourceNID' ;
+			
+			declare variable $mediaStreamDirResourceNID:=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID]//ParentMediaDirNID/data(.) ;
+			declare variable $mediaGroupID:=index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID]//MediaGroupID/data(.) ;
+			declare variable $groups_mediaStreamDirResource:=index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$mediaStreamDirResourceNID]/Info/Groups ;
+
+			for $b in index-scan( 'IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$param_mediaStreamFileResourceNID
+												or (//MediaGroupID!='' and //MediaGroupID=$mediaGroupID)]/Info/Groups
+			return
+			update replace $b
+			with 
+			<Groups>
+				{$b/Tag[@Name != '']}
+				{
+					for $dirTag in $groups_mediaStreamDirResource/Tag[@Name != '']
+					let $newTag:= $b/Tag[ @Name=$dirTag/@Name and @Value=$dirTag/@Value ]
+					return 
+						if  ( count($newTag) !=0   ) then 
+							''
+						else
+							$dirTag
+				}
+			</Groups>	
+	 	]]>
+	</query>	
+</ipvs>

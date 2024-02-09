@@ -1,0 +1,288 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.init
+###
+### Description:	Performs one time initialization.
+###
+### Requires:
+###
+### Variables:
+###
+### Functions:
+###
+### Rules:
+
+### [KAE] Include the JBS_TOP_DIR_MARK file, to put default settings for current DevTree
+-include $(JBS_TOP_DIR)/$(JBS_TOP_DIR_MARK)
+
+###############################################################################
+### As we are potentially working in an environment where multiple programs can
+### have the same name (ex. "link.exe" exists both in Visual C++, and in the
+### Cygwin coreutils package), we first make sure we'll be using the expected
+### version!
+###
+### To find:
+###	- compiler
+###	- linker
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+JBS_COMPILER		:=	cl.exe
+JBS_CCOMPILER		:=	cl.exe
+JBS_LINKER		:=	link.exe
+
+tmp-which-linker	:=	$(shell which $(JBS_LINKER))
+
+ifneq "$(findstring /cygdrive,$(tmp-which-linker))" "/cygdrive"
+
+JBS_LINKER		:=	$(shell dirname "`which $(JBS_COMPILER)`")/link.exe
+JBS_LINKER		:=	$(shell cygpath -u "$(JBS_LINKER)")
+
+$(warning ====================================================================)
+$(warning First guess for the linker was "$(tmp-which-linker)",)
+$(warning which doesn't seem to be part of the MSVC environment!)
+$(warning )
+$(warning To be able to work with JBS, please remove this first guess)
+$(warning by entering the following command:)
+$(warning )
+$(warning      rm $(tmp-which-linker))
+$(warning )
+$(warning ====================================================================)
+ifndef JBS_TARGET
+$(error Stopping now...)
+endif
+
+endif
+
+else
+
+
+#JBS_HOSTCOMPILER for local tools building...
+ifdef JBS_HOSTCOMPILER
+JBS_HOSTCOMPILER	:=	$(JBS_HOSTCOMPILER)
+
+ifndef JBS_HOSTCCOMPILER
+JBS_HOSTCCOMPILER		:=	$(JBS_HOSTCOMPILER)
+else
+JBS_HOSTCCOMPILER		:=	$(JBS_HOSTCCOMPILER)
+endif
+ifndef JBS_HOSTLINKER
+JBS_HOSTLINKER			:=	$(JBS_HOSTCOMPILER)
+else
+JBS_HOSTLINKER			:=	$(JBS_HOSTLINKER)
+endif
+ifndef JBS_HOSTSTRIP
+JBS_HOSTSTRIP			:=	strip
+else
+JBS_HOSTSTRIP			:=	$(JBS_HOSTSTRIP)
+endif
+
+else
+#defaults
+JBS_HOSTCOMPILER	:=	g++
+JBS_HOSTCCOMPILER	:=	gcc
+JBS_HOSTLINKER		:=	g++
+JBS_HOSTSTRIP		:=	strip
+endif
+
+ifdef JBS_COMPILER
+
+JBS_COMPILER		:=	$(JBS_COMPILER)
+ifndef JBS_CCOMPILER
+JBS_CCOMPILER		:=	$(JBS_COMPILER)
+else
+JBS_CCOMPILER		:=	$(JBS_CCOMPILER)
+endif
+ifndef JBS_LINKER
+JBS_LINKER			:=	$(JBS_COMPILER)
+else
+JBS_LINKER			:=	$(JBS_LINKER)
+endif
+ifndef JBS_STRIP
+JBS_STRIP			:=	strip
+else
+JBS_STRIP			:=	$(JBS_STRIP)
+endif
+
+else
+#NO JBS_COMPILER defined
+#check for JBS_COMPILER_PREFIX
+ifdef JBS_COMPILER_PREFIX
+
+JBS_COMPILER		:=	$(JBS_COMPILER_PREFIX)g++
+JBS_CCOMPILER		:=	$(JBS_COMPILER_PREFIX)gcc
+JBS_LINKER			:=	$(JBS_COMPILER_PREFIX)g++
+JBS_STRIP			:=	$(JBS_COMPILER_PREFIX)strip
+
+else
+#no JBS_COMPILER_PREFIX, check if JBS_DISTCC is set
+ifneq "$(findstring x$(JBS_DISTCC)x,x1x xYx xyx)" ""
+
+ifneq "$(findstring x$(JBS_CCACHE)x,x1x xYx xyx)" ""
+#if set, set current compiler commands in CCACHE_PREFIX like man page of ccache suggests
+JBS_COMPILER		:=	CCACHE_PREFIX="distcc" ccache g++
+JBS_CCOMPILER		:=	CCACHE_PREFIX="distcc" ccache gcc
+else
+JBS_COMPILER		:=	distcc
+JBS_CCOMPILER		:=	distcc
+endif #JBS_CCACHE
+
+JBS_LINKER			:=	g++
+JBS_STRIP			:=	strip
+JBS_MAKEOPTS		?=	-j16
+
+else
+#no JBS_DISTCC, set defaults
+
+ifneq "$(findstring x$(JBS_CCACHE)x,x1x xYx xyx)" ""
+#if set, set current compiler commands in CCACHE_PREFIX like man page of ccache suggests
+JBS_COMPILER		:=	ccache g++
+JBS_CCOMPILER		:=	ccache gcc
+else
+JBS_COMPILER		:=	g++
+JBS_CCOMPILER		:=	gcc
+endif #JBS_CCACHE
+
+JBS_LINKER			:=	g++
+JBS_STRIP			:=	strip
+
+endif #JBS_DISTCC
+
+endif #JBS_COMPILER_PREFIX
+
+endif #JBS_COMPILER
+
+JBS_MAKEOPTS		:=	$(JBS_MAKEOPTS)
+
+ifneq "$(findstring x$(JBS_PLATFORM_EMBLINUX)x,x1x xYx xyx)" ""
+JBS_PLATFORM_EMBLINUX	:=	1
+endif
+
+JBS_MAKEOPTS		+=	-r
+
+JBS_HAS-GCC4		:=	$(if $(strip $(shell gcc -E -dM - < /dev/null | grep "__GNUC__ 4")),1,0)
+
+endif
+
+dumpable		+=	JBS_COMPILER JBS_CCOMPILER JBS_LINKER	\
+				JBS_STRIP JBS_MAKEOPTS			\
+				JBS_HAS-GCC4
+
+export JBS_COMPILER JBS_CCOMPILER JBS_LINKER JBS_MAKEOPTS JBS_STRIP JBS_PLATFORM_EMBLINUX PLATFORM_EMBLINUX
+export JBS_STATIC JBS_DEBUG
+
+export JBS_SILENT_MAKE
+
+###############################################################################
+### Second test, to make sure SP6 is installed on Windows platforms.
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+tmp-which-sp		:=	$(shell regtool.exe get "/HKLM/SOFTWARE/Microsoft/VisualStudio/6.0/ServicePacks/latest")
+
+ifneq "$(tmp-which-sp)" "6"
+
+$(warning ====================================================================)
+$(warning You don't appear to have Visual C++ Service Pack 6 installed on your)
+$(warning system!)
+$(warning )
+$(warning Please grab and install a copy of SP6 from the microsoft website, or)
+$(warning directly from the VMP website (see http://vmp.barco.com/).)
+$(warning )
+$(warning If you are totally sure that SP6 is already installed on your PC,)
+$(warning please contact [JFGO] asap.)
+$(warning ====================================================================)
+ifndef JBS_TARGET
+$(error Stopping now...)
+endif
+endif
+
+endif
+
+###############################################################################
+### To generate the documentation, doxygen can use to 'dot' utility (part of
+### the 'graphviz' package). Let's test for its presence on this system.
+
+# JBS_HAVE_DOT		:=	$(if $(findstring version,$(shell dot -V 2>&1)),YES,NO)
+# JBS_HAVE_DOT		:=	NO
+
+tmp-check-on	=	$(if $(findstring x$(strip $(1))x,x1x xYx xyx xyesx xYesx xYESx),true,false)
+
+ifeq "$(call tmp-check-on,$(JBS_USE_DOT))" "true"
+JBS_HAVE_DOT		:=	YES
+else
+JBS_HAVE_DOT		:=	NO
+endif
+
+ifdef JBS_DOXYGEN
+JBS_DOXYGEN		:=	$(JBS_DOXYGEN)
+else
+JBS_DOXYGEN		:=	doxygen
+endif
+
+dumpable += JBS_HAVE_DOT JBS_DOXYGEN
+
+export JBS_HAVE_DOT JBS_DOXYGEN
+
+###############################################################################
+### Some additional definitions...
+
+ifneq "$(JBS_TMP_DIR)" ""
+JBS_TMP_DIR	:=	$(JBS_TMP_DIR)
+else
+JBS_TMP_DIR	:=	.jbs
+endif
+
+export JBS_TMP_DIR
+
+###############################################################################
+### On Linux, find specific flavor.
+
+ifeq "$(JBS_PLATFORM)" "LINUX"
+
+ifeq "$(if $(wildcard /etc/gentoo-release),1,0)" "1"
+JBS_LINUX_FAMILY	:=	Gentoo
+JBS_LINUX_FLAVOR	:=	Gentoo
+endif
+
+ifeq "$(if $(wildcard /etc/debian_version),1,0)" "1"
+JBS_LINUX_FAMILY	:=	Debian
+ifeq "$(findstring Ubuntu,$(shell uname -a))" "Ubuntu"
+JBS_LINUX_FLAVOR	:=	Ubuntu
+else
+JBS_LINUX_FLAVOR	:=	Debian
+endif
+endif
+
+export JBS_LINUX_FAMILY JBS_LINUX_FLAVOR
+
+dumpable		+=	JBS_LINUX_FAMILY JBS_LINUX_FLAVOR
+
+endif
+
+###############################################################################
+

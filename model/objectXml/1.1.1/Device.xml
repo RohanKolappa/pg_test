@@ -1,0 +1,34 @@
+<Device NID="" title="" type="" description="" presence="" state="" password="" ownerUserJID="" softwareVersion="" serviceVersion="" 
+		unManaged="false" unManned="false" msStatus="" deviceMode="" serviceVer="" Ver="1.0" Rev="1" persistence="Temporary">
+	<!-- serviceVer="" Ver="2.2" Rev="1" persistence="Temporary" System attribute has to be removed before returning Get Device Response -->
+	<Groups>
+		<Tag Name="" Value="" />
+	</Groups>
+	<AssetGroup groupNID="" type="" childNIDs=""/> <!-- AssetGroup in resource -->
+	<DevicePrivateData /> <!-- AssetPrivateData in resource -->
+	<Template NID="" default="" /><!-- TemplateAssetResourceNID in resource -->
+
+	<ApiKeyTable> <!-- Get device should not include this -->
+		<ApiKey key="" sharedSecret="" validInterval=""></ApiKey>
+	</ApiKeyTable>
+
+
+	<BotUser enable=""></BotUser> <!-- Represents this Device can be allowed to login or not --> <!-- Get device should not include this -->
+
+	<FeatureList> <!-- FeatureList in resource --><!-- Get device should not include this -->
+		<Feature Name="" Value=""></Feature>
+	</FeatureList>
+	<PortList>
+		<Port NID="" deviceElementID="" portType="StreamSrc/StreamDst/StreamIO/Both/StreamRelay"/>
+	</PortList>
+	<DeviceStatistics error="false" warning="false" needsUpgrade="false" identifying="false" errorDescription="" warningDescription="" upgradeDescription="" />
+	<DeviceConfig NID="">
+
+		<!-- we will get rid of DeviceConfig NID. in login response send the same nid which is there in Device node. update sc set service client logic to look for nid in the tip node. -->
+
+		<!-- Device specific config -->
+	</DeviceConfig>
+	<DeviceStatus State="OK">
+		<!-- Device Specific Status -->
+	</DeviceStatus>
+</Device>

@@ -1,0 +1,104 @@
+
+Compiling V2DLib 
+================
+Rahul Kale <rahul.kale@barco.com>
+:Author Initials: RKAL
+$Id: CompilingV2DLib.txt 63656 2012-04-25 23:48:16Z rkale $
+
+
+Introduction
+------------
+
+This document explains how to compile V2DLib on supported operating
+systems.
+
+
+Compiling on Linux
+------------------
+
+Currently v2dlib compiles under Linux on Fedora 8 with full
+development environment installed (gcc etc). It may also compile on
+other linux distributions but has not been validated.
+
+Checkout Modules from Subversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In an empty "workarea" directory checkout the following top level
+modules from Subversion.
+
++v2dlib+:: This contains the primary codebase for the V2DLib library.
+
++pkg_3party_images+:: This contains all the pre-compiled images needed
+for all IPVS builds. The only thing we will subsequently be needing
+from this module is the +pkg_3party_dev.tgz+.
+
++avdata+:: This contains test data (audio/video samples) that we use
+for unit testing various IPVS modules. The unit tests for IPVS will only
+run successfully if this module is checked out.
+
+Note that the name of the directory in which to checkout the above
+three modules should be exactly the same as the subversion module
+name.  If everything is checked out correctly, you should have the
+following three directories in the "workarea" directory: +v2dlib+,
++pkg_3party_images+, and +avdata+.
+
+Prepare for Compilation
+~~~~~~~~~~~~~~~~~~~~~~~
+
+After checking out code from Subversion, we have to make the
+development libraries available so that v2dlib can successfully
+compile. For this we have to untar +pkg_3party_dev.tgz+ in the
+workarea directory.
+
+--------
+    cd workarea;
+    tar -xvzf pkg_3party_images/pkg_3party_dev.tgz
+--------
+
+After the above step, the +workarea+ directory will be populated with
+some more directories.  Among these only +gmock+ is really used by
++v2dlib+. The rest are needed by other IPVS modules.
+
+Compiling v2dlib
+~~~~~~~~~~~~~~~~
+
+To compile, run +make+ in +v2dlib+.
+
+--------
+    cd v2dlib
+    make
+--------
+
+The primary output of the compilation is the dynamic library file
++libv2d.so+ that can be linked into an application that wishes to use
+the library.
+
+Also the unit tests get compiled into binary +v2dLibTests+.
+
+The easiest way to run the unit tests is by running:
+
+--------
+    make test
+--------
+
+
+Compiling on Windows
+--------------------
+
+TBD
+
+Compiling under MingGW
+~~~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+Compiling under VC++
+~~~~~~~~~~~~~~~~~~~~
+
+TBD
+
+
+
+ 
+
+

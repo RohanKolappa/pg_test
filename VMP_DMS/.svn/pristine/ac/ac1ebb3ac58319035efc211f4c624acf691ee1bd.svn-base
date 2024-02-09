@@ -1,0 +1,130 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.echo
+###
+### Description:	Defines functions to print colored messages on the
+###			console.
+###
+### Requires:		/
+###
+### Variables:
+###
+### Functions:
+###	(*) mod-echo-mocing(name)
+###	(*) mod-echo-uicing(name)
+###	(*) mod-echo-compiling(name)
+###	(*) mod-echo-linking-lib(name)
+###	(*) mod-echo-linking-exe(name)
+###	(*) mod-echo-stripping-exe(name)
+###	(*) mod-echo-gendepends(name)
+###	(*) mod-echo-gendefs(name)
+###	(*) mod-echo-message(message)
+###	(*) mod-echo-bimsg(part1,part2)
+
+###############################################################################
+### Supported colors: red, green, blue, ...
+
+mod-echo-priv-A		:=	\033[31m
+mod-echo-priv-B		:=	\033[32m
+mod-echo-priv-brown	:=	\033[33m
+mod-echo-priv-D		:=	\033[34m
+mod-echo-priv-E		:=	\033[35m
+mod-echo-priv-F		:=	\033[36m
+mod-echo-priv-gray	:=	\033[37m
+mod-echo-priv-red	:=	\033[1;31m
+mod-echo-priv-green	:=	\033[1;32m
+mod-echo-priv-yellow	:=	\033[1;33m
+mod-echo-priv-blue	:=	\033[1;34m
+mod-echo-priv-magenta	:=	\033[1;35m
+mod-echo-priv-cyan	:=	\033[1;36m
+mod-echo-priv-white	:=	\033[1;37m
+
+mod-echo-priv-rev-red	:=	\033[41;1;30m
+mod-echo-priv-rev-green	:=	\033[42;1;30m
+mod-echo-priv-rev-blue	:=	\033[44;1;30m
+mod-echo-priv-rev-mag	:=	\033[45;1;30m
+mod-echo-priv-rev-cyan	:=	\033[46;1;30m
+
+mod-echo-priv-black-yellow	:=	\033[43;1;30m
+
+mod-echo-priv-neutral	:=	\033[0m
+
+###############################################################################
+### A function to print a colored text on the standard output.
+
+mod-echo-priv-colored	=	$(mod-echo-priv-$(1))$(2)$(mod-echo-priv-neutral)
+
+###############################################################################
+### Helper functions for printing status information based on accessed file type...
+
+mod-echo-priv-cmd	:=	white
+
+mod-echo-priv-bsc	:=	rev-blue
+mod-echo-priv-src	:=	green
+mod-echo-priv-hdr	:=	blue
+mod-echo-priv-ui	:=	magenta
+mod-echo-priv-lib	:=	yellow
+mod-echo-priv-exe	:=	red
+mod-echo-priv-dir	:=	cyan
+mod-echo-priv-vui	:=	rev-cyan
+mod-echo-priv-qui	:=	rev-mag
+mod-echo-priv-lpp	:=	rev-green
+mod-echo-priv-ypp	:=	rev-red
+mod-echo-priv-install	:=	yellow
+mod-echo-priv-tag	:=	yellow
+
+mod-echo-priv-msg-type	=	printf "===> $(call mod-echo-priv-colored,$(mod-echo-priv-cmd),$(1)) $(call mod-echo-priv-colored,$(mod-echo-priv-$(3)),$(2))...\n"
+#mod-echo-priv-msg-type	=	echo -e "===> $(call mod-echo-priv-colored,$(mod-echo-priv-cmd),$(1)) $(call mod-echo-priv-colored,$(mod-echo-priv-$(3)),$(2))..."
+
+###############################################################################
+### Helper functions for printing status information for some common tasks...
+
+mod-echo-mocing		=	$(call mod-echo-priv-msg-type,[MOC'ING],$(1),hdr)
+mod-echo-uicing		=	$(call mod-echo-priv-msg-type,[UIC'ING],$(1),ui)
+mod-echo-compiling	=	$(call mod-echo-priv-msg-type,[COMPILE],$(1),src)
+mod-echo-linking-lib	=	$(call mod-echo-priv-msg-type,[LNK LIB],$(1),lib)
+mod-echo-linking-exe	=	$(call mod-echo-priv-msg-type,[LNK EXE],$(1),exe)
+mod-echo-gen-bsc	=	$(call mod-echo-priv-msg-type,[GEN BSC],$(1),bsc)
+mod-echo-stripping-exe	=	$(call mod-echo-priv-msg-type,[STRIP'G],$(1),exe)
+mod-echo-gendepends	=	$(call mod-echo-priv-msg-type,[GEN DEP],$(1),src)
+mod-echo-gendefs	=	$(call mod-echo-priv-msg-type,[GEN DEF],$(1),dir)
+mod-echo-vui-imp	=	$(call mod-echo-priv-msg-type,[IMP VUI],$(1),vui)
+mod-echo-vui-dec	=	$(call mod-echo-priv-msg-type,[DEC VUI],$(1),vui)
+mod-echo-ui-vui		=	$(call mod-echo-priv-msg-type,[QUI VUI],$(1),qui)
+mod-echo-flexing	=	$(call mod-echo-priv-msg-type,[FLEX'NG],$(1),lpp)
+mod-echo-bisoning	=	$(call mod-echo-priv-msg-type,[BISON'G],$(1),ypp)
+mod-echo-install	=	$(call mod-echo-priv-msg-type,[INSTALL],$(1),install)
+mod-echo-tag	=	$(call mod-echo-priv-msg-type,[TAG],$(1),tag)
+
+mod-echo-message	=	printf "===> $(call mod-echo-priv-colored,green,$(1))...\n"
+mod-echo-bimsg		=	printf "===> $(call mod-echo-priv-colored,green,$(1)) $(call mod-echo-priv-colored,yellow,$(2))...\n"
+
+#mod-echo-message	=	echo -e "===> $(call mod-echo-priv-colored,green,$(1))..."
+#mod-echo-bimsg		=	echo -e "===> $(call mod-echo-priv-colored,green,$(1)) $(call mod-echo-priv-colored,yellow,$(2))..."
+
+###############################################################################
+

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipvsdbservice>
+    <!-- enum type = exportDB, exportMediaDir , exportMediaFile -->
+    <request DBCallTimeOut="" domain="" type="exportMediaDir" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  exportDB or exportMediaDir or  exportMediaFile-->
+        
+        <!--  exportMediaDir -->
+        <exportMediaDir>
+            <params>
+                <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+            </params>
+            <!--  optional  -->
+            <scriptFilePath>exportDB_mediaDir.xml</scriptFilePath>
+            <zipFolderPath>/data/mediadir/exportdb</zipFolderPath>
+        </exportMediaDir>
+        
+        <!--  or  exportMediaFile -->
+        <exportMediaFile>
+            <params>
+                <mediaStreamFileResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamFileResourceNID>
+            </params>
+            <!--  optional  -->
+            <scriptFilePath>exportDB_mediaFile.xml</scriptFilePath>
+            <zipFolderPath>/data/mediadir/exportdb</zipFolderPath>
+        </exportMediaFile>        
+        
+        <!--  todo: or  exportDB-->
+        <exportDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </exportDB>
+        <!-- todo:   or  saveDB-->
+        <saveDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </saveDB>
+        <!-- todo:  or  createSnapshotDB -->
+        <createSnapshotDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </createSnapshotDB>
+                
+    </request>
+
+    <response  DBCallTimeOut="" domain="" type="exportMediaDir" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  exportDB or exportMediaDir or  exportMediaFile-->
+        <DBResp>
+	        <!--  exportMediaDir -->
+            <exportMediaDir>
+                <params>
+                    <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+                </params>
+            </exportMediaDir>
+	
+	        <!--  or  exportMediaFile -->
+            <exportMediaFile>
+                <params>
+                    <mediaStreamFileResourceNID>default.mediastreamdirresourcelist.msfrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamFileResourceNID>
+                </params>
+            </exportMediaFile>
+            
+            <!-- todo: or  exportDB-->
+            <exportDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </exportDB>
+            <!-- todo: or  saveDB-->
+            <saveDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </saveDB>
+            <!-- todo: or  createSnapshotDB-->
+            <createSnapshotDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </createSnapshotDB>
+                
+        </DBResp>
+    </response>
+</ipvsdbservice>

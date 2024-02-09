@@ -1,0 +1,25 @@
+<query>
+   <![CDATA["
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+let $list2  := for $b in #OBJ_GroupTagDef_OBJ# 
+where $b_WHEREXPATH_ 
+order by _SORTXPATH_  _SORTORDER_
+return $b
+let $list3 := subsequence($list2, $startFrom, $countToFetch)
+let $list := for $b in  $list3
+return
+<record  
+jsxid='{ data($b/@NID) }'  
+jsxtext='{ data($b//TagName) }' 
+> 
+</record>
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

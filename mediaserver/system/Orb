@@ -1,0 +1,72 @@
+ #!/bin/bash 
+ #
+ # Fedora-Service Update notification daemon
+ #
+ # Author:       TheLinuxBlog.com
+ #
+ # chkconfig:    2345  80 20
+ #
+ # description:  Orb Service
+ # processname:  Orb Service
+ #
+ RETVAL=0;
+
+ start() {
+ 	echo "Starting ORB-Service"
+ 	logger "Starting ORB-Service"
+	cp /etc/config/Device.xml /tmp
+	/bin/rm /V2O/bin/set_sharedvideo /V2O/bin/get_sharedvideo /V2O/bin/get_orb_overlay /V2O/bin/set_orb_overlay
+
+	cp /V2O/bin/vutils /V2O/bin/set_sharedvideo 
+	cp /V2O/bin/vutils /V2O/bin/get_sharedvideo
+	cp /V2O/bin/vutils /V2O/bin/get_orb_overlay
+	cp /V2O/bin/vutils /V2O/bin/set_orb_overlay
+	chmod +xs /V2O/bin/set_sharedvideo /V2O/bin/get_sharedvideo /V2O/bin/set_orb_overlay /V2O/bin/get_orb_overlay
+
+	insmod /home/onair/V2O/modules/fpga_module.ko
+	/V2O/bin/set_board_info -boardtype StreamSrc
+	/V2O/bin/loadlut -c 1
+	chmod 666 /dev/snd/*
+	rm /home/onair/recovery
+	rm /home/onair/appcontrol
+	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/onair/lib
+	/home/onair/TV/bin/StreamingServer
+	/V2O/bin/set_xmpp_agent
+	/etc/scripts/watchdog/watch_deviceapp.sh start
+ 	logger "Started ORB-Service"
+ }
+
+ stop() {
+ 	echo "Stopping ORB-Service"
+	/etc/scripts/watchdog/watch_deviceapp.sh stop
+	killall StreamingServer
+	killall hald
+	rmmod fpga_module
+ 	logger "Stopping ORB-Service"
+ }
+
+ restart() {
+ 	stop
+ 	start
+ }
+ usage() {
+ 	echo "usage: $0 start {start|stop|restart}"
+	exit 1
+}
+
+
+ case "$1" in
+ 	start)
+ 		start
+ 		;;
+ 	stop)
+ 		stop
+ 		;;
+ 	restart)
+ 		restart
+ 		;;
+    	*) 
+		usage ;;
+ esac
+
+ exit $RETVAL

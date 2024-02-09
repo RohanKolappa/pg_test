@@ -1,0 +1,60 @@
+<script>
+var gMessageXML;
+var gUserJID;
+function doRequest() {
+  gMessageXML = document.mrform.request.value;
+  gUserJID = "*";
+  var response = sendRequest(gUserJID, gMessageXML);
+  document.mrform.response.value = response;
+}
+
+function sendRequest(userJID, messageXML) {
+  var response = parent.applet.document.test.sendRequest(userJID, messageXML);
+  return response;
+}
+
+function myunescape (str)
+{
+	str = "" + str;
+	while (true)
+	{
+		var i = str . indexOf ('+');
+		if (i < 0)
+			break;
+		str = str . substring (0, i) + '%20' +
+			str . substring (i + 1, str . length);
+	}
+
+	return unescape (str);
+}
+
+function handleMessage(messageXML) {
+//  var uMessageXML = myunescape(messageXML);
+  var uMessageXML = ".";
+  document.mrform.result.value = 
+	messageXML 
+	+ '\n------------------------\n' + 
+	document.mrform.result.value;
+}
+
+</script>
+
+<form name="mrform">
+<table width="100%" height="100%"border=1>
+<tr>
+<td width="45%">
+Request<br>
+<textarea name="request" rows="20%" cols="40%"></textarea><br>
+</td>
+<td>
+<a href="javascript:doRequest();">request>></a><br>
+</td>
+<td width="45%">
+Response<br>
+<textarea name="response" rows=2 cols="40%"></textarea><br>
+Result<br>
+<textarea name="result" rows="20%" cols="40%"></textarea></br>
+</td>
+</tr>
+</table>
+</form>

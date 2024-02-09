@@ -1,0 +1,76 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>V2DStreamingProfile</Title>
+   <Description>Connection Profile</Description>
+   <Access>v2d_streaming_profile</Access>
+   <ConfigFile>v2dprofileconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+
+      <Item>
+        <Name>enable_auth_table</Name>
+        <Type>boolean</Type>
+        <Label>Use Authorization Table</Label>
+        <Help>Use Authorization Table</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>profile</Name>
+        <Type>string</Type>
+        <Label>Profile</Label>
+        <Help>Select Profile to be used for connections</Help>
+        <FieldLength>27</FieldLength>
+        <DefaultValue>Remote Desktop Interaction</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Remote Desktop Interaction", "High Resolution Graphics", "Full Motion Video", "Custom" </Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>bandwidth</Name>
+        <Type>bandwidth</Type>
+        <Label>Max Bandwidth</Label>
+        <Help>Maximum Bandwidth</Help>
+        <FieldLength>10</FieldLength>
+        <DefaultValue>10.0M</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>low_compression</Name>
+        <Type>integer</Type>
+        <Label>Low Compression</Label>
+        <Help>Low Compression</Help>
+        <FieldLength>3</FieldLength>
+        <DefaultValue>6</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>10</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>high_compression</Name>
+        <Type>integer</Type>
+        <Label>High Compression</Label>
+        <Help>High Compression</Help>
+        <Align>follow</Align>
+        <FieldLength>3</FieldLength>
+        <DefaultValue>6</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>10</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

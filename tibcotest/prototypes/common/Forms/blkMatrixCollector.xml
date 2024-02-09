@@ -1,0 +1,72 @@
+<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+  <object type="jsx3.gui.Block">
+    <variants jsxleft="27" jsxtop="233" jsxwidth="460" jsxheight="160" jsxoverflow="2" jsxrelativeposition="1"></variants>
+    <strings jsxname="blkUSERFILTER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+    <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+    <object type="jsx3.gui.Select">
+      <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="19" jsxtop="15"></variants>
+      <strings jsxname="selUserFilter_Users" jsxmargin="0 4 0 0" jsxdisplay="" jsxxml="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+      <events jsxselect="checkAddForFilter(&quot;selUserFilter_Users&quot;,&quot;User&quot;);"></events>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="177" jsxtop="15"></variants>
+      <strings jsxname="lbl_AT" jsxtext="@" jsxdisplay="" jsxfontweight="bold"></strings>
+    </object>
+    <object type="jsx3.gui.Select">
+      <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="199" jsxtop="15"></variants>
+      <strings jsxname="selUserFilter_Resource" jsxmargin="0 4 0 0" jsxdisplay="" jsxxml="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+      <events jsxselect="checkAddForFilter(&quot;selUserFilter_Resource&quot;,&quot;Resource&quot;);"></events>
+    </object>
+    <object type="jsx3.gui.Button">
+      <variants jsxindex="0" jsxheight="16" jsxrelativeposition="0" jsxleft="369" jsxtop="15" jsxwidth="40"></variants>
+      <strings jsxname="btnUserPolicy_AddUserFilter" jsxtext="Add" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);"></strings>
+      <events jsxexecute="AddFilterToMatrix('selUserFilter_Users','selUserFilter_Resource','mtxUserPolicy_UserFilterSel');"></events>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxleft="19" jsxtop="40" jsxheight="100" jsxoverflow="2" jsxrelativeposition="0"></variants>
+      <strings jsxwidth="80%" jsxname="blkUserFilterSel" jsxborder="solid 1px #aaaaaa;"></strings>
+      <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+      <object type="jsx3.gui.Matrix">
+        <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+        <strings jsxname="mtxUserPolicy_UserFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxUserPolicy_UserFilterSelDoc"></strings>
+        <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+        <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants></variants>
+          <strings jsxname="mcUserPolicy_UserFilterSel" jsxtext="User" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+        </object>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants jsxwidth="20"></variants>
+          <strings jsxname="mcAt" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+        </object>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants></variants>
+          <strings jsxname="mcUserPolicy_ResourceFilterSel" jsxtext="Resource" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextTwo"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+        </object>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants></variants>
+          <strings jsxname="mcUserPolicy_ResourceFilterSelNID" jsxtext="Resource filter NID" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+        </object>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants></variants>
+          <strings jsxname="mcUserPolicy_UserFilterSelNID" jsxtext="User Filters NID" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+        </object>
+        <object type="jsx3.gui.Matrix.Column">
+          <variants jsxwidth="20"></variants>
+          <strings jsxname="mcUserPolicy_UserFilterDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+            <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+            <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,32 @@
+<query>
+   <![CDATA["
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_
+let $list2  := for $b in #OBJ_PolicyAdminPolicyRule_OBJ# 
+where $b_WHEREXPATH_
+order by _SORTXPATH_  _SORTORDER_
+return $b
+let $list3 := subsequence($list2, $startFrom, $countToFetch)
+let $list := for $b in  $list3
+return 
+<record  
+jsxid='{ data($b/@NID) }'  
+index='{ data($b//order) }'  
+jsxtext='{ data($b//rulename) }' 
+jsximg='{ if (data($b//valid) = 'true') 
+              then 'images/icons/ok16.png' 
+              else 'images/icons/off16.png' }'
+jsxPolicyAdminPolicyType='{ if (data($b//allow) = 'true') 
+                                  then 'Allow' 
+                                  else 'Deny' }'
+> 
+</record>
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

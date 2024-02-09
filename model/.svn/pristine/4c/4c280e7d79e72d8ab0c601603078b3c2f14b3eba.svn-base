@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:element name="CollaborationConfigList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="CollaborationConfig" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="CollaborationConfig" type="CollaborationConfigType"/>
+  <xs:complexType name="CollaborationConfigType" >
+    <xs:all>
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="collaborationID" type="xs:string" />
+      <xs:element name="collaborationName" type="xs:string" />
+      <xs:element name="collaborationDescription" type="xs:string" />
+      <xs:element name="RecordingInfo" type="RecordingInfoType"/>
+      <xs:element name="PVRInfo" type="CollaborationPVRInfoType"/>
+      <xs:element minOccurs="0" name="collaborationGroup" type="TagList" />
+      <xs:element name="Properties" type="CollaborationPropertiesType"/>
+      <xs:element name="syncSourceEntityID" type="xs:string"/>
+      <xs:element name="EntityList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Entity" type="EntityConfigType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectionList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Connection" type="ConnectionConfigType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+
+  <xs:complexType name="RecordingInfoType">
+    <xs:sequence>
+      <xs:element name="MediaStreamDirResourceNID" type="xs:string"/>
+      <xs:element name="MediaStreamFileResourceTitle" type="xs:string"/>
+      <xs:element name="MediaGroupFileResourceNID" type="xs:string"/>
+      <xs:element name="StartOnRun" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CollaborationPVRInfoType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="TrimLength" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CollaborationPropertiesType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="PropertiesType">
+        <xs:sequence>
+          <xs:element name="Permissions" type="CollaborationPermissionsType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CollaborationPermissionsType">
+    <xs:complexContent>
+      <xs:extension base="PermissionsType">
+        <xs:sequence>
+          <xs:element name="RunRecord" type="xs:boolean" />
+          <xs:element name="RunPlayback" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EntityConfigType">
+    <xs:choice>
+      <xs:element name="MediaSourceRoleData" type="MediaSourceRoleDataType"/>
+      <xs:element name="MediaDestinationRoleData" type="MediaDestinationRoleDataType"/>
+      <xs:element name="ParticipantRoleData" type="ParticipantRoleDataType"/>
+    </xs:choice>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="role">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MediaSource"/>
+          <xs:enumeration value="MediaDestination"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="presence" type="xs:string"/>
+    <xs:attribute name="streamType" type="StreamTypeEnumType"/>
+    <xs:attribute name="objectType" type="xs:string"/>
+    <xs:attribute name="maxInstanceCount" type="xs:int"/>
+    <xs:attribute name="entityType" type="xs:string"/>
+    <xs:attribute name="title" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="MediaSourceRoleDataType">
+    <xs:sequence>
+      <xs:element name="resourceNID" type="xs:string"/>
+      <xs:element name="startOffset" type="xs:int"/>
+      <xs:element name="playLength" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaDestinationRoleDataType">
+    <xs:sequence>
+      <xs:element name="resourceNID">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="MediaStorePortResourceNID" type="xs:string" />
+              <xs:attribute name="RecordingName" type="xs:string" />
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="destJID" type="xs:string"/>
+      <xs:element name="destIP" type="xs:string"/>
+      <xs:element name="destUDPStartPort" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ParticipantRoleDataType">
+    <xs:sequence>
+      <xs:element name="participantJID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConnectionConfigType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="sourceEntityID" type="xs:string"/>
+      <xs:element name="destinationEntityID" type="xs:string"/>
+      <xs:element name="profileNID" type="xs:string"/>
+      <xs:element name="profileXML" type="xs:string"/>
+      <xs:element name="relayNID" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="gid" type="xs:string"/>
+    <xs:attribute name="streamType" type="StreamTypeEnumType"/>
+  </xs:complexType>
+</xs:schema>

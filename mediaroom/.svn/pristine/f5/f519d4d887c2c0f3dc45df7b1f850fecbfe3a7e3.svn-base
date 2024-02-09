@@ -1,0 +1,52 @@
+let $fileNID := '_FILENID_'
+
+let $dstNID := '_DSTNID_'
+
+let $protocol := '_PROTOCOL_'
+
+let $fileDoc := doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $fileNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $fileNID, 'default.'),'.')))/*[@NID=$fileNID]
+
+let $destinationDoc := doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dstNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dstNID, 'default.'),'.')))/*[@NID=$dstNID]
+
+
+let $fileType := $fileDoc//Type 
+let $parentDirNID := $fileDoc//ParentMediaDirNID
+let $dirNID :=  if($fileType ='PVRMediaClip') then 
+                doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $parentDirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $parentDirNID, 'default.'),'.')))/*[@NID=$parentDirNID]//ParentMediaDirNID
+				
+				else $fileDoc//ParentMediaDirNID    
+				
+let $dirDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dirNID, 'default.'),'.')))/*[@NID=$dirNID]
+let $priorityPort := data($dirDoc/min(.//MediaStorePortResourceNIDList/MediaStorePortResourceNID[@priority!='']/@priority))   
+
+let $portNID :=  data($dirDoc//MediaStorePortResourceNID[@priority = $priorityPort]) 
+
+let $dirId := data($dirDoc//MediaStorePortResourceNID[@priority = $priorityPort and .= $portNID]/@deviceElementId)              
+                      
+let $portDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $portNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $portNID, 'default.'),'.')))/*[@NID=$portNID]
+let $assetResourceNID :=    data($portDoc//AssetResourceNID) 
+let $deviceDoc := for $device in collection('/db/ipvs.default.devicelist')/*
+						   						[.//AssetResourceNID = $assetResourceNID] 
+												return $device
+                    
+let $assetResourceDoc :=      doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $assetResourceNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $assetResourceNID, 'default.'),'.')))/*[@NID=$assetResourceNID]
+ 
+let $dmsIP := data($deviceDoc//EthernetPortStatus/Parameters[Parameter[@name = 'Primary' and . = 'True'] and Parameter[@name = 'Status' and . = 'True']]/./Parameter[@name='IPAddress'])
+let $apiKeyTable := $assetResourceDoc//ApiKeyTable
+				                     
+let $snapshotURL := if($dmsIP !='') then 
+                        concat($protocol,"://_IPADDRESS_",  "_ACCESS_PATH_CONST", "?mediaID=",data($fileDoc//UUID),"&amp;dirID=",$dirId, "&amp;timestamp=_TIME_STAMP_CONST", "&amp;apiKey=", data($apiKeyTable/ApiKey/@key), "&amp;signature=_SIGNATURE_CONST")
+                    else ''
+return <Snapshot url='{$snapshotURL}'> {$apiKeyTable} <Destination>{$destinationDoc}</Destination> <Source>{$portDoc}</Source>  <Device ipAddress='{$dmsIP}'> {$deviceDoc//DNSClientConfig}{$deviceDoc//NATZoneTableConfig}  {$deviceDoc//EthernetPortTableStatus} </Device> </Snapshot>

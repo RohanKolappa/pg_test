@@ -1,0 +1,42 @@
+<CustomValidation
+	defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	enable="true">
+	<validation enable="true" validationID="duplcateTitleAdd"
+		methodName="validateDuplicateTitle_add" action="Add"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//MediaStreamIOPortGroupResource/Info/Title" caseSensitive="false"
+		allowSpaces="true" />
+	<validation enable="true" validationID="duplcateTitleReplace"
+		methodName="validateDuplicatePortTitle_replace" action="Replace"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="" caseSensitive="false" allowSpaces="true" />
+	<validation enable="true" validationID="duplicatemasterNode"
+		methodName="validateMasterNodeCount" action="Add"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//Canvas" caseSensitive="false" allowSpaces="true" />
+	<validation enable="true" validationID="duplicatemasterNode"
+		methodName="validateDuplicatePort" action="Add"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//Canvas" caseSensitive="false" allowSpaces="true" />
+		
+		
+	
+	<validation enable="true" validationID="trimLength"
+		methodName="validateTrimLength" action="Replace"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//MediaStreamIOPortGroupResource[Info/Type='StreamSrcGroup']/PVRInfo[@enable='true']"
+		caseSensitive="false" allowSpaces="true" />
+	<validation enable="true" validationID="Title"
+		methodName="validateTitleForSpecialCharactersForPort" action="Add"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//MediaStreamIOPortGroupResource/Info/Title" />
+	<validation enable="true" validationID="Title"
+		methodName="validateTitleForSpecialCharactersForPort" action="Replace"
+		validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//MediaStreamIOPortGroupResource/Info/Title" />
+	<validation enable="true" validationID="Description"
+		methodName="validateDescriptionForCurlyBraces" action="Replace"
+		overWrite="true" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+		xpath="//MediaStreamIOPortGroupResource/Info/Description" />
+	
+</CustomValidation>

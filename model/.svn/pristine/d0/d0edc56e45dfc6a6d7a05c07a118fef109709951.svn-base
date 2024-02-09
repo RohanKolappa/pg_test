@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	 <xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+	 <xs:include schemaLocation="mediaroom.common.datamodel.public.xsd" />
+	 <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd" />
+	
+	<!--  Get Device Request -->
+	
+	<xs:element name='GetDeviceRequestData' type='xs:string'/>
+	
+	<!--  Get Device Response -->
+	 
+	<xs:element name='GetDeviceResponseData' type='GetDeviceResponseDataType'/> 
+	<xs:complexType name='GetDeviceResponseDataType'>		
+		<xs:sequence>							
+			<xs:element name='Device' type='DeviceBaseResponseType' maxOccurs='unbounded' />						
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name='DeviceBaseResponseType'>
+		<xs:sequence>
+			<xs:element name='Groups' type='TagList' />
+			<xs:element name='DevicePrivateData' type='xs:string' />
+			<xs:element name='TemplateNID' type='xs:string' />
+			<xs:element name="PortList" >
+				<xs:complexType>
+				    <xs:sequence>
+				       <xs:element name='Port' type='ServiceClientPortType'/>
+				    </xs:sequence>						    
+				</xs:complexType>						 
+			</xs:element>
+			<xs:element name='DeviceConfig' type='ServiceClientDeviceType'/>
+			<xs:element name='DeviceStatus' type='DeviceStatusType'/>
+			<xs:element name='DeviceList'>
+				<xs:complexType>
+				    <xs:sequence>
+				       <xs:element name='Device' type='DeviceBaseResponseType' maxOccurs="unbounded"/>
+				    </xs:sequence>						    
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name='title' type='xs:string' />
+		<xs:attribute name='type' type='xs:string' />
+		<xs:attribute name='state' type='xs:string' />
+		<xs:attribute name='password' type='xs:string' />
+		<xs:attribute name='ownerUserJID' type='xs:string' />
+	</xs:complexType>
+	
+	<!--  Get Device Config Request -->
+  
+	<xs:element name='GetDeviceConfigRequestData' type='xs:string'/>
+	
+	<!--  Get Device Config Response -->
+	
+	<xs:element name='GetDeviceConfigResponseData' type='GetDeviceConfigResponseDataType'/>
+	<xs:complexType name='GetDeviceConfigResponseDataType'>
+	 	<xs:sequence>
+	 		<xs:element name='DeviceConfig' type='All-DeviceConfigType'/>
+	 	</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Set Device Config Request -->
+  
+	<xs:element name='SetDeviceConfigRequestData' type='SetDeviceConfigRequestDataType'/>
+	<xs:complexType name='SetDeviceConfigRequestDataType'>
+		<xs:sequence>
+	 		<xs:element name='DeviceConfig' type='All-DeviceConfigType'/>
+	 	</xs:sequence>
+	 	<xs:attribute name='doNotSaveToFlash' type='xs:boolean'/>
+	</xs:complexType>
+	
+	<!--  Set Device Config Response -->
+	
+	<xs:element name='SetDeviceConfigResponseData' type='xs:string'/>
+	 	
+	<!--  Get Device Status Request -->
+  
+	<xs:element name='GetDeviceStatusRequestData' type='xs:string'/>
+	
+	<!--  Get Device Status Response -->
+	
+	<xs:element name='GetDeviceStatusResponseData' type='GetDeviceStatusResponseDataType'/>
+	<xs:complexType name='GetDeviceStatusResponseData'>
+	 	<xs:sequence>
+	 		<xs:element name='DeviceStatus' type='All-DeviceStatusType'/>
+	 	</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Get Device Command Request -->
+  
+	<xs:element name='GetDeviceCommandRequestData' type='xs:string'/>
+	
+	<!--  Get Device Command Response -->
+	
+	<xs:element name='GetDeviceCommandResponseData' type='GetDeviceCommandResponseDataType'/>
+	<xs:complexType name='GetDeviceCommandResponseDataType'>
+	 	<xs:sequence>
+	 		<xs:element name='DeviceCommand' type="All-DeviceCommandType"/>
+	 	</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Put Device Config Request -->
+  
+	<xs:element name='PutDeviceConfigRequestData' type='xs:string'/>
+	
+	<!--  Put Device Config Response -->
+	
+	<xs:element name='PutDeviceConfigResponseData' type='xs:string'/>
+	
+	<!--  Post Device Config Request -->
+  
+	<xs:element name='PostDeviceConfigRequestData' type='xs:string'/>
+	
+	<!--  Post Device Config Response -->
+	
+	<xs:element name='PostDeviceConfigResponseData' type='xs:string'/>
+	
+	<!--  Delete Device Config Request -->
+  
+	<xs:element name='DeleteDeviceConfigRequestData' type='xs:string'/>
+	
+	<!--  Delete Device Config Response -->
+	
+	<xs:element name='DeleteDeviceConfigResponseData' type='xs:string'/>
+	
+	<!--  Execute Device Command Request -->
+  
+	<xs:element name='ExecuteDeviceCommandRequestData' type='ExecuteDeviceCommandRequestDataType'/>
+	<xs:complexType name='ExecuteDeviceCommandRequestDataType'>
+		<xs:sequence>
+			<xs:element name='CommandParam' type='CommandParamType'/>
+		</xs:sequence>
+		<xs:attribute name='command' type='xs:string'/>
+	</xs:complexType>
+	
+	<xs:complexType name='CommandParamType'>
+		<xs:attribute name='name' type='xs:string'/>
+		<xs:attribute name='value' type='xs:string'/>
+	</xs:complexType>
+	
+	<!--  Execute Device Command Response -->
+	
+	<xs:element name='ExecuteDeviceCommandResponseData' type='xs:string'/>
+	
+	<!--  Reboot Request -->
+  
+	<xs:element name='RebootRequestData' type='xs:string'/>
+	
+	<!--  Reboot Response -->
+	
+	<xs:element name='RebootResponseData' type='xs:string'/>
+	
+	<!--  Upgrade Request -->
+  
+	<xs:element name='UpgradeRequestData' type='UpgradeRequestDataType'/>
+	<xs:complexType name='UpgradeRequestDataType'> 
+		<xs:attribute name='url' type='xs:anyURI'/>
+	</xs:complexType>
+	
+	<!--  Upgrade Response -->
+	
+	<xs:element name='UpgradeResponseData' type='xs:string'/>
+	
+	<!--  RevertToFactoryDefault Request -->
+  
+	<xs:element name='RevertToFactoryDefaultRequestData' type='RevertToFactoryDefaultRequestDataType'/>
+	<xs:complexType name='RevertToFactoryDefaultRequestDataType'> 
+		<xs:attribute name='keepMedia' type='xs:boolean'/>
+	</xs:complexType>
+	
+	<!--  RevertToFactoryDefault Response -->
+	
+	<xs:element name='RevertToFactoryDefaultResponseData' type='xs:string'/>
+	
+	<!--  SaveConfiguration Request -->
+  
+	<xs:element name='SaveConfigurationRequestData' type='xs:string'/> 
+		
+	
+	<!--  SaveConfiguration Response -->
+	
+	<xs:element name='SaveConfigurationResponseData' type='xs:string'/>
+	 		
+	
+	
+
+</xs:schema>

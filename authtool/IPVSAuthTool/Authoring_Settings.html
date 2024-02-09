@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="pc.css" rel="stylesheet" type="text/css">
+<script language="javascript" SRC="xmldom.js"></script>
+<script language="javascript">
+var authFolder = "C:\\IP Video Systems\\IPVSAuthTool";  // Assumed for now
+var settingsFile = "config\\settings.xml";
+function saveSettings()
+{
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  medialibrary = document.getElementById("txtMediaLibrary").value;
+  if(medialibrary == "") {
+    alert("Select Default Input Directory");
+    document.getElementById("txtMediaLibrary").focus();
+    return;
+  }
+  if(!fso.FolderExists(medialibrary)) {
+    alert(medialibrary + " is not exists on your PC");
+    document.getElementById("txtMediaLibrary").focus();
+    return;
+  }
+  outputDIR = document.getElementById("txtOutPutDir").value;
+  if(outputDIR == "") {
+    alert("Select Default Output Directory");
+    document.getElementById("txtOutPutDir").focus();
+    return;
+  }
+  if(!fso.FolderExists(outputDIR)) {
+    alert(outputDIR + " is not available on your PC");
+    document.getElementById("txtOutPutDir").focus();
+    return;
+  }
+  logoPath = document.getElementById("txtLOGO").value;
+  if(logoPath == "") {
+    alert("Select Default Logo for Media Guide");
+    document.getElementById("txtLOGO").focus();
+    return;
+  }
+  if(!fso.FileExists(logoPath)) {
+    alert(logoPath + " is not available on your PC");
+    document.getElementById("txtLOGO").focus();
+    return;
+  }
+  strSettings = "<SETTINGS>\n";
+  strSettings += "<DMS>";
+  strSettings += document.getElementById("txtDMS").value;
+  strSettings += "</DMS>\n";
+  strSettings += "<MEDIALIBRARY>";
+  strSettings += medialibrary;
+  strSettings += "</MEDIALIBRARY>\n";
+  strSettings += "<OUTPUTDIR>";
+  strSettings += outputDIR;
+  strSettings += "</OUTPUTDIR>\n";
+  strSettings += "<LOGO>";
+  strSettings += logoPath;
+  strSettings += "</LOGO>\n";
+  strSettings += "<TITLE>";
+  strSettings += document.getElementById("txtTITLE").value;
+  strSettings += "</TITLE>\n";
+  strSettings += "</SETTINGS>\n";
+  try
+  {
+	  var file = fso.CreateTextFile(authFolder + "\\" + settingsFile, true); 
+  }
+  catch(er)
+  {
+    alert("Set permissions to create a file");
+    return;
+  }
+  file.WriteLine(strSettings);
+  file.close()
+  fso = null;
+  alert("Settings saved successfully");
+  document.location.href = "Authoring_Home.html";
+}
+
+function init()
+{
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  folderBool = fso.FolderExists(authFolder);
+  if(!folderBool)
+  {
+    authFolder = fso.CreateFolder(authFolder);
+  }
+  if(fso.FileExists(authFolder + "\\" + settingsFile))
+  {
+    parseXML(authFolder + "\\" + settingsFile, fso);
+  }
+  fso = null;
+}
+
+function parseXML(fPath, objFSO)
+{
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+
+  strContents = objFSO.OpenTextFile(fPath, 1).ReadAll();
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null )
+  {
+    alert( "Could not parse xml data");
+    return;
+  }
+
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null )
+  {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return;
+  }
+
+  document.getElementById("txtDMS").value = root.getElements("DMS")[0].getText();
+  document.getElementById("txtMediaLibrary").value = root.getElements("MEDIALIBRARY")[0].getText();
+  document.getElementById("txtOutPutDir").value = root.getElements("OUTPUTDIR")[0].getText();
+  document.getElementById("txtLOGO").value = root.getElements("LOGO")[0].getText();
+  document.getElementById("txtTITLE").value = root.getElements("TITLE")[0].getText();
+  xmlDoc = null;
+}
+
+function xmlErr( e )
+{
+    alert(e);
+}
+
+function getLocation(objID, f)
+{
+  var dialogPr = new Array();
+  dialogPr[0] = f;
+  dialogPr[1] = document.getElementById(objID).value;
+  var fName = showModalDialog("folderdialog.html",dialogPr,"width:400px;height:400px;resizeable:yes;");
+  if((fName == "") || (fName == undefined))
+  {
+    return;
+  }
+  document.getElementById(objID).value = fName;
+}
+
+function validate(obj)
+{
+  var iChars = "!@#$%^*()+=-[]\\\';,./{}|\":<>?";
+  for (var i = 0; i < document.getElementById(obj).value.length; i++) {
+  	if (iChars.indexOf(document.getElementById(obj).value.charAt(i)) != -1) {
+  	  alert ("Special characters not allowed for Media Guide Title Text");
+      document.getElementById(obj).focus();
+      document.getElementById(obj).select();
+  	  return false;
+  	}
+  }
+  return true;
+}
+</script>
+<script type="text/javascript">
+<!--
+function showHide(szDivID, iState) // 1 visible, 0 hidden
+{
+    if(document.layers)	   //NN4+
+    {
+       document.layers[szDivID].visibility = iState ? "show" : "hide";
+    }
+    else if(document.getElementById)	  //gecko(NN6) + IE 5+
+    {
+        var obj = document.getElementById(szDivID);
+        obj.style.visibility = iState ? "visible" : "hidden";
+    }
+    else if(document.all)	// IE 4
+    {
+        document.all[szDivID].style.visibility = iState ? "visible" : "hidden";
+    }
+}
+// -->
+</script>
+
+<style type="text/css">
+<!--
+div.imageReqs {
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	top: 100px;
+	right: 200px;
+	background-color: #23417d;
+    opacity: .75;
+    filter: alpha(opacity=75); 
+	border: solid 2px #000033;
+	z-index:99;  
+	visibility:hidden;
+	padding: 10px;
+	font-family: arial, verdana, sans-serif;
+	font-size: .9em;
+	color: #fff;
+	text-align: left;
+}
+-->
+</style>
+</head>
+
+<body class="body" onLoad="init()">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+  <tr>
+    <td class="H1">
+			<div>
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img src="Images/logoClientHeader.gif" align="absmiddle"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50">IPVS Authoring Station</div>
+				<div style="text-align:right;padding-top:4px"><span class="t5white"><a href="Authoring_Home.html">Home</a> | <a href="Authoring_Settings.html">Settings</a> | <a href="Authoring_Projects.html">Projects</a> | <a href="Authoring_Media.html">Manage
+				      Media</a> | <a href="Authoring_Burn.html">Create Media</a> | <a href="Authoring_about.html">About</a>&nbsp;&nbsp;</span></div>
+  			</div>
+	</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="padding:20px">
+		<span class="t1bmid">Settings</span>
+		<hr width="500">
+		<br>
+		<fieldset style="width: 500px; color: #D6E4FB; text-align:left;border: solid 1px #D6E4FB;padding: 8px;">
+			<legend style="color: #fff"><b>Authoring Station Settings</b></legend>
+			<br>
+			<table width="400" border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td width="135" align="right" class="T4bWhite">Default DMS:</td>
+                <td width="5">&nbsp;</td>
+                <td width="160"><input type="text" name="txtDMS">
+                </td>
+              </tr>
+              <tr>
+                <td align="right" class="T4bWhite">Default&nbsp;Input&nbsp;Directory:</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="txtMediaLibrary">
+                </td>
+                <td width="80"><button class="btnSmall" onClick="getLocation('txtMediaLibrary', 1)">Browse</button>
+                </td>
+			  </tr>
+        <tr>
+				<td align="right" class="T4bWhite">Default&nbsp;Output&nbsp;Directory:</td>
+				<td>&nbsp;</td>
+                <td><input type="text" name="txtOutPutDir">
+                </td>
+                <td width="80"><button class="btnSmall" onClick="getLocation('txtOutPutDir', 1)">Browse</button>
+                </td>
+              </tr>
+            </table>
+			<br />
+		</fieldset>
+		<br><br>
+		<fieldset style="width: 500px; color: #D6E4FB; text-align:left;border: solid 1px #D6E4FB;padding: 8px;">
+			<legend style="color: #fff"><b>Media Guide Settings</b></legend>
+			<br>
+			<table width="592" border="0" cellspacing="3" cellpadding="0">
+              <tr>
+                <td width="136" align="right" class="T4bWhite">Logo:</td>
+                <td width="5">&nbsp;</td>
+                <td width="162"><input type="text" name="txtLOGO">
+                </td>
+                <td width="274"><button class="btnSmall" onclick="getLocation('txtLOGO', 0)">Browse</button>&nbsp;&nbsp;&nbsp;<a href="#" onClick="showHide('imageReqs',1);">(Image
+                    Requirements)</a>
+                </td>
+              </tr>
+              <tr>
+                <td align="right" class="T4bWhite">Title Text:</td>
+                <td>&nbsp;</td>
+                <td><input type="text" name="txtTITLE" maxlength=70 onblur="return validate('txtTITLE');">
+                </td>
+              </tr>
+            </table>
+			<br />
+		</fieldset>
+		
+				
+		<br><br>
+		<hr width="600" align="left">
+		<div style="width:500px;text-align:right">
+			<input name="Cancel" type="button" value="Cancel" onclick="javascript:location.href='Authoring_Home.html'">&nbsp;&nbsp;<input name="Save" type="button" value="Save" onclick="saveSettings()">
+		</div>
+	</td>
+  </tr>
+  <tr>
+    <td class="footer">&nbsp;</td>
+  </tr>
+</table>
+<div id="imageReqs" class="imageReqs">
+	Image Requirements for Media Guide Logo:<br>
+	<br>
+	Format: <strong>JPEG, GIF, PNG</strong><br>
+	<br>
+	Size: Height = <strong>34 px</strong><br>
+	<br>
+	Transparency: For best results - set transparency matte to <strong>#1B52A1</strong><br><br>
+	<button onClick="showHide('imageReqs',0);">Close</button>
+</div>
+</body>
+</html>

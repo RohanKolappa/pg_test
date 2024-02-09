@@ -1,0 +1,738 @@
+Test Run By miyer on Tue Oct 28 09:27:38 2008
+Native configuration is i686-pc-linux-gnu
+
+		=== mr_scripts tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Using /usr/share/dejagnu/baseboards/unix.exp as board description file for target.
+Using /usr/share/dejagnu/config/unix.exp as generic interface file for target.
+Using ./config/unix.exp as tool-and-target-specific interface file.
+********************************************************
+**************** DMS Regression Tests ******************
+********************************************************
+Running ./mr_scripts/clean_rooms.exp ...
+(UNKNOWN) [192.168.1.228] 5669 (?) open
+ready>
+%IpvsAppletPrompt%
+INFO: Replacing "miyertest" with "adminuser-default"
+INFO: Replacing "miyertest" with "adminuser-default"
+INFO: Replacing "192.168.1.209" with "10.1.5.175"
+INFO: Replacing "192.168.1.209" with "10.1.5.175"
+INFO: Replacing "ClientData" with "RequestToken1"
+INFO: Replacing "callcenter" with "callcenter"
+INFO: ===> login adminuser-default
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>LoginRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken1</clientdata>
+    </header>
+    <data>
+        <LoginRequestData>
+            <user>adminuser-default</user>
+            <password>adminuser-default</password>
+            <domain>10.1.5.175</domain>
+            <resource>callcenter</resource>
+            <server>10.1.5.175</server>
+            <port>5222</port>
+        </LoginRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking login status for RequestToken1
+<Response><header><servicename>xmpp</servicename><requestname>LoginRequest</requestname><userJID>adminuser-default@10.1.5.175/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken1</clientdata></header><data><LoginResponseData><version>3.0.11</version></LoginResponseData></data><log></log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "adminuser-default@10.1.5.175/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken1"
+INFO: Get Value: /Response/header/requestname = "LoginRequest"
+INFO: Get Value: /Response/header/userJID = "adminuser-default@10.1.5.175/callcenter"
+INFO: Got login response for UserJID: adminuser-default@10.1.5.175/callcenter, Token: RequestToken1,  Time spent: 1250
+INFO: Get Value: /Response/header/state = "1"
+INFO: Get Value: /Response/header/userJID = "adminuser-default@10.1.5.175/callcenter"
+INFO: Creating notification list for adminuser-default
+INFO: Replacing "miyertest" with "default"
+INFO: Replacing "callcenter" with "callcenter"
+INFO: Replacing "privatedata" with ""
+INFO: Replacing "privatekeydata" with ""
+INFO: Replacing "ClientData" with "RequestToken2"
+INFO: ===> setServiceDomain adminuser-default@10.1.5.175/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>xmpp</servicename>
+        <requestname>SetServiceDomainRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken2</clientdata>
+    </header>
+    <data>
+        <SetServiceDomainRequestData>
+            <domain>default</domain>
+            <AssetTemplateTitle>callcenter</AssetTemplateTitle>
+            <AssetPrivateData></AssetPrivateData>
+            <AssetPrivateKeyData></AssetPrivateKeyData>
+        </SetServiceDomainRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+INFO: Checking set service domain status for RequestToken2
+<Response><header><servicename>xmpp</servicename><requestname>SetServiceDomainRequest</requestname><userJID>adminuser-default@10.1.5.175/callcenter</userJID><requestNID></requestNID><state>1</state><clientdata>RequestToken2</clientdata></header><data><SetServiceDomainResponseData><ServiceRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NID="default.serviceroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" xsi:noNamespaceSchemaLocation="mediaroom.service.datamodel.xsd">
+   
+  <UserRoot NID="default.userroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <UserList NID="default.userlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+  </UserRoot>
+  
+  <LogRoot NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="default.logroot" />
+  
+  <AssetRoot NID="default.assetroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <AssetResourceList NID="default.assetresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+  </AssetRoot>
+  
+  <DeviceRoot NID="default.deviceroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <DeviceList NID="default.devicelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+  </DeviceRoot>
+  
+  <MediaRoot NID="default.mediaroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <MediaStreamDirResourceList NID="default.mediastreamdirresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    <MediaStreamFileResourceList NID="default.mediastreamfileresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    <MediaStreamPortResourceRoot NID="default.mediastreamportresourceroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <MediaStorePortResourceList NID="default.mediastoreportresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+      <MediaStreamSrcPortResourceList NID="default.mediastreamsrcportresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+      <MediaStreamDstPortResourceList NID="default.mediastreamdstportresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+      <MediaStreamRelayPortResourceList NID="default.mediastreamrelayportresourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </MediaStreamPortResourceRoot>
+    <MediaStreamProfileList NID="default.mediastreamprofilelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+  </MediaRoot>
+  
+  <MediaRoomRoot NID="default.mediaroomroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <MediaRoomConfigList NID="default.mediaroomconfiglist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    <MediaRoomList NID="default.mediaroomlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+  </MediaRoomRoot>
+  
+  <GroupRoot NID="default.grouproot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <GroupTagDefList NID="default.grouptagdeflist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    <FilterList NID="default.filterlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+     <TagObjectFilterList NID="default.tagobjectfilterlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+     <ObjectFilterList NID="default.objectfilterlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </FilterList>
+  </GroupRoot>
+  
+  <PolicyRoot NID="default.policyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+    <PolicyAdminPolicyRoot NID="default.policyadminpolicyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <PolicyAdminPolicyRuleList NID="default.policyadminpolicyrulelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </PolicyAdminPolicyRoot>
+    <UserAdminPolicyRoot NID="default.useradminpolicyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <UserAdminPolicyRuleList NID="default.useradminpolicyrulelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </UserAdminPolicyRoot>
+    <AssetAdminPolicyRoot NID="default.assetadminpolicyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <AssetAdminPolicyRuleList NID="default.assetadminpolicyrulelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </AssetAdminPolicyRoot>
+    <MediaStoreAdminPolicyRoot NID="default.mediastoreadminpolicyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <MediaStoreAdminPolicyRuleList NID="default.mediastoreadminpolicyrulelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </MediaStoreAdminPolicyRoot>
+    <MediaRoomPolicyRoot NID="default.mediaroompolicyroot" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+      <MediaRoomPolicyRuleList NID="default.mediaroompolicyrulelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+      <MediaStreamFilterList NID="default.mediastreamfilterlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+    </MediaRoomPolicyRoot>
+  </PolicyRoot>
+  
+</ServiceRoot><AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.callcenter" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+ <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.callcenter.Contact">
+  <OwnerUserJID>adminuser-default@10.1.5.175/callcenter</OwnerUserJID>
+  <Reachable>string</Reachable>
+ </Contact>
+ <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.callcenter.State">
+  <StateMsg>string</StateMsg>
+  <StateFlag>Ready</StateFlag>
+ </State>
+ <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.callcenter.Info">
+  <Groups>
+   <Tag Name="Location" Value="Stanford" />
+  </Groups>
+  <Title>callcenter</Title>
+  <Description>string</Description>
+  <Type>IPVSClient-Device</Type>
+  <DeviceNID />
+  <AssetPrivateKey>
+   <KeyScheme />
+   <KeyData></KeyData>
+  </AssetPrivateKey>
+  <AssetPrivateData />
+ </Info>
+ <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+</AssetResource></SetServiceDomainResponseData></data><log></log></Response>
+%IpvsAppletPrompt%
+INFO: Get Value: /Response/header/userJID = "adminuser-default@10.1.5.175/callcenter"
+INFO: Get Value: /Response/header/requestNID = ""
+INFO: Get Value: /Response/header/clientdata = "RequestToken2"
+INFO: Get Value: /Response/header/requestname = "SetServiceDomainRequest"
+INFO: Got set service domain response Token: RequestToken2,  Time spent: 3182
+INFO: Get Value: /Response/header/state = "1"
+PASS: LoginSetup adminuser-default
+INFO: Replacing "TestRoom" with ""
+WARNING: Ignoring "//mediaSourceNID": Did not match anything: empty
+WARNING: Ignoring "//streamNID": Did not match anything: empty
+INFO: Replacing "clientdata" with "RequestToken3"
+INFO: ===> sendRequest adminuser-default@10.1.5.175/callcenter
+
+INFO: ===> <Request>
+    <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetMediaRoomListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken3</clientdata>
+    </header>
+    <data>
+        <GetMediaRoomListRequestData>
+            <name></name>
+            <mediaSourceXPath/>
+            <streamXPath/>
+            <sourceXPath/>
+        </GetMediaRoomListRequestData>
+    </data>
+</Request>
+
+INFO: ===> %IpvsAppletPrompt%
+
+<Request><requestNID>1</requestNID></Request>
+%IpvsAppletPrompt%
+INFO: Ignoring RequestNID
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <header>
+    <servicename>mediaroomservice</servicename>
+    <requestname>GetMediaRoomListRequest</requestname>
+    <userJID>adminuser-default@10.1.5.175/callcenter</userJID>
+    <requestNID>1</requestNID>
+    <state>8</state>
+    <clientdata>RequestToken3</clientdata>
+  </header>
+  <data>
+    <GetResponse>
+      <ResponseID>myTest1</ResponseID>
+      <ResponseXML>
+        <MediaRoom NIDScheme="AUTO" Parse="true" NID="default.mediaroomlist.zzzz_1225215256439cb4749af">
+          <tracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="default.mediaroomlist.zzzz_1225215256439cb4749af.tracklist" />
+          <data>
+            <roomConfigNID />
+            <Groups>
+              <Tag Name="" Value="" />
+            </Groups>
+            <roomType>1</roomType>
+            <name>srcrelayuser-default@10.1.5.175/lab1relay1</name>
+            <name>srcrelayuser-default@10.1.5.175/lab1relay1</name>
+            <description>RELAY</description>
+            <roomStatus>1</roomStatus>
+            <startTime>1225215255825</startTime>
+            <duration>0</duration>
+            <roomOwnerJID>srcrelayuser-default@10.1.5.175/lab1relay1</roomOwnerJID>
+          </data>
+          <systemtracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist">
+            <StreamTrack NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.StreamTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.StreamTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                <MediaSource NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_12252152566504017e9c9" NIDScheme="AUTO" Parse="true">
+                  <streamlist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_12252152566504017e9c9.streamlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                    <Stream NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_1225215256800d88f7ec3" NIDScheme="AUTO" Parse="true">
+                      <actionlist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_1225215256800d88f7ec3.actionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                      <data>
+                        <mediaSourceNID>default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_12252152566504017e9c9</mediaSourceNID>
+                        <description>RELAY</description>
+                        <profileNID>default.mediastreamprofilelist.zzzz_12251226939548b6346a7</profileNID>
+                        <profileXML>
+                          <profileXML>
+                            <V2DMediaStreamProfile Version="1.1" Parse="true" parentNID="default.mediastreamprofilelist">
+                              <Groups>
+                                <Tag Name="Network" Value="WAN" />
+                              </Groups>
+                              <Title>10M</Title>
+                              <Description>10M</Description>
+                              <StreamType>V2D</StreamType>
+                              <Priority>1</Priority>
+                              <StreamActionInfo>
+                                <AllowPause>true</AllowPause>
+                                <AllowSkipback>true</AllowSkipback>
+                                <AllowSkipfwd>true</AllowSkipfwd>
+                              </StreamActionInfo>
+                              <V2DStreamConfig>
+                                <IsMulticast>false</IsMulticast>
+                                <EnableSRDTranscode>true</EnableSRDTranscode>
+                                <SRDTranscodeBandwidth>string</SRDTranscodeBandwidth>
+                                <AVOption>Video</AVOption>
+                              </V2DStreamConfig>
+                              <V2DEncoderAudioConfig>
+                                <SampleRate>string</SampleRate>
+                                <SampleSize>string</SampleSize>
+                                <MonoStereo>string</MonoStereo>
+                                <AudioEncodeEnable>true</AudioEncodeEnable>
+                              </V2DEncoderAudioConfig>
+                              <V2DEncoderConnectionParameterConfig>
+                                <BurstRatio>-1E4</BurstRatio>
+                                <BurstDuration>-2147483648</BurstDuration>
+                                <Compression>
+                                  <High>6</High>
+                                  <Low>4</Low>
+                                </Compression>
+                                <Bandwidth>15000</Bandwidth>
+                                <Refresh>
+                                  <Min>-2147483648</Min>
+                                  <Max>-2147483648</Max>
+                                </Refresh>
+                                <Slice>
+                                  <Min>-2147483648</Min>
+                                  <Max>-2147483648</Max>
+                                </Slice>
+                                <BlockThreshold>-2147483648</BlockThreshold>
+                                <Enable444>true</Enable444>
+                                <FrameRateDivider>-2147483648</FrameRateDivider>
+                              </V2DEncoderConnectionParameterConfig>
+                              <V2DEncoderConnectionParameterKbmConfig>
+                                <AllowKMSwitch>true</AllowKMSwitch>
+                                <KMIdleTime>-2147483648</KMIdleTime>
+                                <EnableKbm>false</EnableKbm>
+                              </V2DEncoderConnectionParameterKbmConfig>
+                            </V2DMediaStreamProfile>
+                          </profileXML>
+                        </profileXML>
+                        <destNID>default.mediastreamrelayportresourcelist.zzzz_12251226949644ebef65a</destNID>
+                        <destType>STREAM</destType>
+                        <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                        <roomNID>default.mediaroomlist.zzzz_1225215256439cb4749af</roomNID>
+                        <OwnerUserJID>srcrelayuser-default@10.1.5.175/lab1relay1</OwnerUserJID>
+                        <sourceAgentJID>deviceuser-default@10.1.5.175/lab1tx1</sourceAgentJID>
+                        <destAgentJID>srcrelayuser-default@10.1.5.175/lab1relay1</destAgentJID>
+                        <destGroup>destGroup</destGroup>
+                        <relayNID />
+                        <xAuthAgentJID />
+                      </data>
+                      <Status NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_1225215256800d88f7ec3.Status" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <state>0</state>
+                        <startTime>0.0</startTime>
+                      </Status>
+                      <Instance NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_1225215256800d88f7ec3.Instance" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <sourcePortInstanceNID>sourcePortInstanceNID</sourcePortInstanceNID>
+                        <destPortInstanceNID>destPortInstanceNID</destPortInstanceNID>
+                        <sourceDeviceInputInstanceNID>sourceDeviceInputInstanceNID</sourceDeviceInputInstanceNID>
+                        <sourceDeviceOutputInstanceNID>sourceDeviceOutputInstanceNID</sourceDeviceOutputInstanceNID>
+                      </Instance>
+                    </Stream>
+                  </streamlist>
+                  <referencelist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.zzzz_12252152566504017e9c9.referencelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                  <data>
+                    <roomNID>default.mediaroomlist.zzzz_1225215256439cb4749af</roomNID>
+                    <description>description</description>
+                    <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                    <sourcePortNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourcePortNID>
+                    <creationTime>creationTime</creationTime>
+                    <sourceType>ENCODER</sourceType>
+                    <startOffset>0</startOffset>
+                    <state>0</state>
+                    <startTimecode>1225215256032</startTimecode>
+                    <trackNID>default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.StreamTrack</trackNID>
+                    <pvrEnabled>0</pvrEnabled>
+                    <sourceAgentJID>deviceuser-default@10.1.5.175/lab1tx1</sourceAgentJID>
+                    <parentMediaSourceNID>parentMediaSourceNID</parentMediaSourceNID>
+                    <lookbackSourceNID />
+                    <lookbackSourceAgentJID />
+                    <lookbackSourceFileUUID />
+                  </data>
+                </MediaSource>
+              </mediasourcelist>
+              <trackactionlist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.StreamTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_1225215256439cb4749af</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215255833</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215255833</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>false</pvrEnabled>
+              </data>
+            </StreamTrack>
+            <RecordTrack NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.RecordTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.RecordTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <trackactionlist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.RecordTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_1225215256439cb4749af</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215255868</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215255876</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>false</pvrEnabled>
+              </data>
+            </RecordTrack>
+            <PVRTrack NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.PVRTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.PVRTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <trackactionlist NID="default.mediaroomlist.zzzz_1225215256439cb4749af.systemtracklist.PVRTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_1225215256439cb4749af</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215255880</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215255881</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>false</pvrEnabled>
+              </data>
+            </PVRTrack>
+          </systemtracklist>
+        </MediaRoom>
+        <MediaRoom NIDScheme="AUTO" Parse="true" NID="default.mediaroomlist.zzzz_12252152548378563b6c9">
+          <tracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="default.mediaroomlist.zzzz_12252152548378563b6c9.tracklist" />
+          <data>
+            <roomConfigNID />
+            <Groups>
+              <Tag Name="" Value="" />
+            </Groups>
+            <roomType>1</roomType>
+            <name>roomuser-default@10.1.5.175/callcenter</name>
+            <name>NONAME</name>
+            <description>NODESC</description>
+            <roomStatus>1</roomStatus>
+            <startTime>1225215254223</startTime>
+            <duration>0</duration>
+            <roomOwnerJID>roomuser-default@10.1.5.175/callcenter</roomOwnerJID>
+          </data>
+          <systemtracklist NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist">
+            <StreamTrack NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.StreamTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.StreamTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                <MediaSource NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521525500951b21cac" NIDScheme="AUTO" Parse="true">
+                  <streamlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521525500951b21cac.streamlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                    <Stream NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215255497be5d3990" NIDScheme="AUTO" Parse="true">
+                      <actionlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215255497be5d3990.actionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                      <data>
+                        <mediaSourceNID>default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521525500951b21cac</mediaSourceNID>
+                        <description>NODESC</description>
+                        <profileNID>default.mediastreamprofilelist.zzzz_12251226939548b6346a7</profileNID>
+                        <profileXML>
+                          <V2DMediaStreamProfile Version="1.1" Parse="true" parentNID="default.mediastreamprofilelist">
+                            <Groups>
+                              <Tag Name="Network" Value="WAN" />
+                            </Groups>
+                            <Title>10M</Title>
+                            <Description>10M</Description>
+                            <StreamType>V2D</StreamType>
+                            <Priority>1</Priority>
+                            <StreamActionInfo>
+                              <AllowPause>true</AllowPause>
+                              <AllowSkipback>true</AllowSkipback>
+                              <AllowSkipfwd>true</AllowSkipfwd>
+                            </StreamActionInfo>
+                            <V2DStreamConfig>
+                              <IsMulticast>false</IsMulticast>
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+                              <SRDTranscodeBandwidth>string</SRDTranscodeBandwidth>
+                              <AVOption>Video</AVOption>
+                            </V2DStreamConfig>
+                            <V2DEncoderAudioConfig>
+                              <SampleRate>string</SampleRate>
+                              <SampleSize>string</SampleSize>
+                              <MonoStereo>string</MonoStereo>
+                              <AudioEncodeEnable>true</AudioEncodeEnable>
+                            </V2DEncoderAudioConfig>
+                            <V2DEncoderConnectionParameterConfig>
+                              <BurstRatio>-1E4</BurstRatio>
+                              <BurstDuration>-2147483648</BurstDuration>
+                              <Compression>
+                                <High>6</High>
+                                <Low>4</Low>
+                              </Compression>
+                              <Bandwidth>15000</Bandwidth>
+                              <Refresh>
+                                <Min>-2147483648</Min>
+                                <Max>-2147483648</Max>
+                              </Refresh>
+                              <Slice>
+                                <Min>-2147483648</Min>
+                                <Max>-2147483648</Max>
+                              </Slice>
+                              <BlockThreshold>-2147483648</BlockThreshold>
+                              <Enable444>true</Enable444>
+                              <FrameRateDivider>-2147483648</FrameRateDivider>
+                            </V2DEncoderConnectionParameterConfig>
+                            <V2DEncoderConnectionParameterKbmConfig>
+                              <AllowKMSwitch>true</AllowKMSwitch>
+                              <KMIdleTime>-2147483648</KMIdleTime>
+                              <EnableKbm>false</EnableKbm>
+                            </V2DEncoderConnectionParameterKbmConfig>
+                          </V2DMediaStreamProfile>
+                        </profileXML>
+                        <destNID />
+                        <destType>STREAM</destType>
+                        <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                        <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                        <OwnerUserJID>roomuser-default@10.1.5.175/callcenter</OwnerUserJID>
+                        <sourceAgentJID>srcrelayuser-default@10.1.5.175/lab1relay1</sourceAgentJID>
+                        <destAgentJID>roomuser-default@10.1.5.175/callcenter</destAgentJID>
+                        <destGroup>destGroup</destGroup>
+                        <relayNID>default.mediastreamrelayportresourcelist.zzzz_12251226949644ebef65a</relayNID>
+                        <xAuthAgentJID />
+                      </data>
+                      <Status NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215255497be5d3990.Status" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <state>0</state>
+                        <startTime>0.0</startTime>
+                      </Status>
+                      <Instance NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215255497be5d3990.Instance" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <sourcePortInstanceNID>sourcePortInstanceNID</sourcePortInstanceNID>
+                        <destPortInstanceNID>destPortInstanceNID</destPortInstanceNID>
+                        <sourceDeviceInputInstanceNID>sourceDeviceInputInstanceNID</sourceDeviceInputInstanceNID>
+                        <sourceDeviceOutputInstanceNID>sourceDeviceOutputInstanceNID</sourceDeviceOutputInstanceNID>
+                      </Instance>
+                    </Stream>
+                  </streamlist>
+                  <referencelist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521525500951b21cac.referencelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                  <data>
+                    <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                    <description>description</description>
+                    <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                    <sourcePortNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourcePortNID>
+                    <creationTime>creationTime</creationTime>
+                    <sourceType>ENCODER</sourceType>
+                    <startOffset>null</startOffset>
+                    <state>0</state>
+                    <startTimecode>1225215254392</startTimecode>
+                    <trackNID>default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.StreamTrack</trackNID>
+                    <pvrEnabled>0</pvrEnabled>
+                    <sourceAgentJID>deviceuser-default@10.1.5.175/lab1tx1</sourceAgentJID>
+                    <parentMediaSourceNID>parentMediaSourceNID</parentMediaSourceNID>
+                    <lookbackSourceNID>default.mediastreamfileresourcelist.zzzz_12252152584673cf4ecba</lookbackSourceNID>
+                    <lookbackSourceAgentJID>srcrelayuser-default@10.1.5.175/lab1relay1</lookbackSourceAgentJID>
+                    <lookbackSourceFileUUID>3e74f7c7-2801-40f4-a62b-273872b58386</lookbackSourceFileUUID>
+                  </data>
+                </MediaSource>
+              </mediasourcelist>
+              <trackactionlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.StreamTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215254231</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215254232</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>true</pvrEnabled>
+              </data>
+            </StreamTrack>
+            <RecordTrack NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.RecordTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.RecordTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <trackactionlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.RecordTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215254236</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215254236</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>false</pvrEnabled>
+              </data>
+            </RecordTrack>
+            <PVRTrack NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.PVRTrack" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+              <mediasourcelist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.PVRTrack.mediasourcelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                <MediaSource NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215260266de05092c" NIDScheme="AUTO" Parse="true">
+                  <streamlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215260266de05092c.streamlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                    <Stream NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521526029079c68041" NIDScheme="AUTO" Parse="true">
+                      <actionlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521526029079c68041.actionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                      <data>
+                        <mediaSourceNID>default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215260266de05092c</mediaSourceNID>
+                        <description>This is the PVR Stream</description>
+                        <profileNID>default.mediastreamprofilelist.zzzz_12251226939548b6346a7</profileNID>
+                        <profileXML>
+                          <V2DMediaStreamProfile Version="1.1" Parse="true" parentNID="default.mediastreamprofilelist">
+                            <Groups>
+                              <Tag Name="Network" Value="WAN" />
+                            </Groups>
+                            <Title>10M</Title>
+                            <Description>10M</Description>
+                            <StreamType>V2D</StreamType>
+                            <Priority>1</Priority>
+                            <StreamActionInfo>
+                              <AllowPause>true</AllowPause>
+                              <AllowSkipback>true</AllowSkipback>
+                              <AllowSkipfwd>true</AllowSkipfwd>
+                            </StreamActionInfo>
+                            <V2DStreamConfig>
+                              <IsMulticast>false</IsMulticast>
+                              <EnableSRDTranscode>true</EnableSRDTranscode>
+                              <SRDTranscodeBandwidth>string</SRDTranscodeBandwidth>
+                              <AVOption>Video</AVOption>
+                            </V2DStreamConfig>
+                            <V2DEncoderAudioConfig>
+                              <SampleRate>string</SampleRate>
+                              <SampleSize>string</SampleSize>
+                              <MonoStereo>string</MonoStereo>
+                              <AudioEncodeEnable>true</AudioEncodeEnable>
+                            </V2DEncoderAudioConfig>
+                            <V2DEncoderConnectionParameterConfig>
+                              <BurstRatio>-1E4</BurstRatio>
+                              <BurstDuration>-2147483648</BurstDuration>
+                              <Compression>
+                                <High>6</High>
+                                <Low>4</Low>
+                              </Compression>
+                              <Bandwidth>15000</Bandwidth>
+                              <Refresh>
+                                <Min>-2147483648</Min>
+                                <Max>-2147483648</Max>
+                              </Refresh>
+                              <Slice>
+                                <Min>-2147483648</Min>
+                                <Max>-2147483648</Max>
+                              </Slice>
+                              <BlockThreshold>-2147483648</BlockThreshold>
+                              <Enable444>true</Enable444>
+                              <FrameRateDivider>-2147483648</FrameRateDivider>
+                            </V2DEncoderConnectionParameterConfig>
+                            <V2DEncoderConnectionParameterKbmConfig>
+                              <AllowKMSwitch>true</AllowKMSwitch>
+                              <KMIdleTime>-2147483648</KMIdleTime>
+                              <EnableKbm>false</EnableKbm>
+                            </V2DEncoderConnectionParameterKbmConfig>
+                          </V2DMediaStreamProfile>
+                        </profileXML>
+                        <destNID>default.mediastreamfileresourcelist.zzzz_12252152584673cf4ecba</destNID>
+                        <destType>PVR</destType>
+                        <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                        <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                        <OwnerUserJID>roomuser-default@10.1.5.175/callcenter</OwnerUserJID>
+                        <sourceAgentJID>srcrelayuser-default@10.1.5.175/lab1relay1</sourceAgentJID>
+                        <destAgentJID>srcrelayuser-default@10.1.5.175/lab1relay1</destAgentJID>
+                        <destGroup>destGroup</destGroup>
+                        <relayNID>default.mediastreamrelayportresourcelist.zzzz_12251226949644ebef65a</relayNID>
+                        <xAuthAgentJID />
+                      </data>
+                      <Status NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521526029079c68041.Status" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <state>0</state>
+                        <startTime>0.0</startTime>
+                      </Status>
+                      <Instance NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521526029079c68041.Instance" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true">
+                        <sourcePortInstanceNID>sourcePortInstanceNID</sourcePortInstanceNID>
+                        <destPortInstanceNID>destPortInstanceNID</destPortInstanceNID>
+                        <sourceDeviceInputInstanceNID>sourceDeviceInputInstanceNID</sourceDeviceInputInstanceNID>
+                        <sourceDeviceOutputInstanceNID>sourceDeviceOutputInstanceNID</sourceDeviceOutputInstanceNID>
+                      </Instance>
+                    </Stream>
+                  </streamlist>
+                  <referencelist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_1225215260266de05092c.referencelist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+                  <data>
+                    <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                    <description>description</description>
+                    <sourceNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourceNID>
+                    <sourcePortNID>default.mediastreamsrcportresourcelist.zzzz_1225122689074ee972a7d</sourcePortNID>
+                    <creationTime>creationTime</creationTime>
+                    <sourceType>ENCODER</sourceType>
+                    <startOffset>0</startOffset>
+                    <state>0</state>
+                    <startTimecode>0</startTimecode>
+                    <trackNID>default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.PVRTrack</trackNID>
+                    <pvrEnabled>0</pvrEnabled>
+                    <sourceAgentJID>deviceuser-default@10.1.5.175/lab1tx1</sourceAgentJID>
+                    <parentMediaSourceNID>default.mediaroomlist.zzzz_12252152548378563b6c9.zzzz_122521525500951b21cac</parentMediaSourceNID>
+                    <lookbackSourceNID />
+                    <lookbackSourceAgentJID />
+                    <lookbackSourceFileUUID />
+                  </data>
+                </MediaSource>
+              </mediasourcelist>
+              <trackactionlist NID="default.mediaroomlist.zzzz_12252152548378563b6c9.systemtracklist.PVRTrack.trackactionlist" NIDScheme="PARENTNID.ELEMENTNAME" Parse="true" />
+              <data>
+                <roomNID>default.mediaroomlist.zzzz_12252152548378563b6c9</roomNID>
+                <description>description</description>
+                <trackType>0</trackType>
+                <parentTrackNID>parentTrackNID</parentTrackNID>
+                <creationTimestamp>1225215254240</creationTimestamp>
+                <lastAction>Start</lastAction>
+                <lastActionTimestamp>1225215254241</lastActionTimestamp>
+                <lastTrackOffset>0</lastTrackOffset>
+                <trackState>STARTED_CURRENT</trackState>
+                <pvrAvailable>false</pvrAvailable>
+                <pvrEnabled>false</pvrEnabled>
+              </data>
+            </PVRTrack>
+          </systemtracklist>
+        </MediaRoom>
+      </ResponseXML>
+      <GetListObjectResponseData>
+        <ObjectCount>2</ObjectCount>
+        <ObjectLastWhereEndCount>2</ObjectLastWhereEndCount>
+      </GetListObjectResponseData>
+    </GetResponse>
+  </data>
+  <log />
+</Response>
+
+
+%IpvsAppletPrompt%
+<?xml version="1.0" encoding="UTF-8"?>
+<INFO: Get Value: /Response/header/userJID = "adminuser-default@10.1.5.175/callcenter"
+INFO: Get Value: /Response/header/requestNID = "1"
+INFO: Get Value: /Response/header/clientdata = "RequestToken3"
+INFO: Get Value: /Response/header/requestname = "GetMediaRoomListRequest"
+INFO: Got response for UserJID: adminuser-default@10.1.5.175/callcenter, requestNID: 1, Token: RequestToken3,  Time spent: 595
+INFO: Get Value: /Response/header/state = "8"
+INFO: ===> logout adminuser-default@10.1.5.175/callcenter
+
+PASS: LoginTeardown adminuser-default
+testcase ./mr_scripts/clean_rooms.exp completed in 5 seconds
+
+		=== mr_scripts Summary ===
+
+# of expected passes		2
+runtest completed at Tue Oct 28 09:27:43 2008
+
+----------------------------------------------------------
+
+<AgentMessage>
+  <agentmessageheader>
+    <fromagent>com.ipvs.client.MRClientAgent</fromagent>
+    <agentJID>srcrelayuser-default@10.1.5.175/lab1relay1</agentJID>
+    <agent>com.ipvs.mediaroomservice.impl.AppServerAgent</agent>
+    <agentmessagetype>Request</agentmessagetype>
+  </agentmessageheader>
+  <agentmessagedata>
+    <Request>
+      <header>
+        <servicename>mediaroomservice</servicename>
+        <requestname>GetMediaRoomListRequest</requestname>
+        <loglevel>0</loglevel>
+        <clientdata>RequestToken3</clientdata>
+      </header>
+      <data>
+        <GetMediaRoomListRequestData>
+          <name />
+          <mediaSourceXPath />
+          <streamXPath />
+          <sourceXPath />
+        </GetMediaRoomListRequestData>
+      </data>
+    </Request>
+  </agentmessagedata>
+</AgentMessage>
+
+------------------------------------------------------------------

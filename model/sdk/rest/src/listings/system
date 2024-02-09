@@ -1,0 +1,968 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "/controller",
+  "resourcePath": "/System",
+  "apis": [
+		{
+            "path": "/Resource/Token",
+            "operations": [	
+			{
+					"method": "GET",
+					"summary": "Get Token API(available in EDP 1.1)",
+					"notes": "Get Token API",
+					"responseClass": "Token",
+					"nickname": "getToken",
+					"produces": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"consumes": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "name",
+							"description": "name",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+						{
+							"name": "resourceTemplateName",
+							"description": "resourceTemplateName",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+
+						{
+							"name": "expiry",
+							"description": "Expiration",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "long",
+							"paramType": "query"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				}
+			]
+		},
+		{
+            "path": "/Resource/UpgradeURL",
+            "operations": [	
+			{
+					  "method": "POST",
+					  "summary": "Add Upgrade URL(available in EDP 1.1 r2)",
+					  "notes": "AddUpgradeURL",
+					  "responseClass": "AddUpgradeURL",
+					  "nickname": "AddUpgradeURL",
+					  "produces": [
+						"application/json",
+						"application/xml"
+					  ],
+					  "parameters": [
+					  
+						{
+						  "name": "MSIP",
+						  "description": "MS IP",
+						  "required": true,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "AddUpgradeURL",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "AddUpgradeURL",
+							"paramType": "body"
+						}
+					  ],
+					  "responseMessages": [
+						 {
+						  "code": 200,
+						  "message": "Success"
+						},
+						{
+						  "code": 401,
+						  "message": "Unauthorized"
+						},
+						{
+						  "code": 500,
+						  "message": "Internal Server Error"
+						}
+					  ],
+					  "deprecated": "false"
+				}
+			]
+		},
+		{
+      "path": "/System",
+      "operations": 
+			[
+				{
+					  "method": "GET",
+					  "summary": "GetSystemConfig(available in EDP 1.1)",
+					  "notes": "GetSystemConfig",
+					  "responseClass": "GetSystemConfig",
+					  "nickname": "GetSystemConfig",
+					  "produces": [
+						"application/json",
+						"application/xml"
+					  ],
+					  "parameters": [
+					  
+						{
+						  "name": "MSIP",
+						  "description": "MS IP",
+						  "required": true,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "path"
+						},					
+						{
+						  "name": "whereConfig",
+						  "description": "whereConfig",
+						  "required": false,
+						  "allowMultiple": true,
+						  "dataType": "string",
+						  "allowableValues": {
+							"valueType": "LIST",
+							"values": [
+							  "SoftwareVersion",
+							  "ScheduleBackup",
+							  "MulticastIPAddressPool",
+							  "WriterOptions",
+							  "DBRestore",
+							  "UploadSoftware",
+							  "ScheduleExportLogs",
+							  "ALL"
+							]
+						  },
+						  "paramType": "query"
+						}
+					  ],
+					  "responseMessages": [
+						 {
+						  "code": 200,
+						  "message": "Success"
+						},
+						{
+						  "code": 401,
+						  "message": "Unauthorized"
+						},
+						{
+						  "code": 500,
+						  "message": "Internal Server Error"
+						}
+					  ],
+					  "deprecated": "false"
+				},
+				
+				{
+					"method": "POST",
+					"summary": "Backup Database (Backup) (available in EDP 1.1)",
+					"notes": "Backup Database (Backup)",
+					"responseClass": "BackupDatabase",
+					"nickname": "backupDatabase",
+					"produces": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"consumes": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "Backup Database ",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "BackupDatabase",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+				{
+					"method": "POST",
+					"summary": "Set MulticastIPAddressPool (Multicast Pools) (available in EDP 1.1)",
+					"notes": "Set MulticastIPAddressPool",
+					"responseClass": "SetMulticastIPAddressPool",
+					"nickname": "setMulticastIPAddressPool",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.System+json",
+						"application/vnd.barco.nimbus.System+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.System-SystemConfig+json",
+						"application/vnd.barco.nimbus.System-SystemConfig+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},											
+						{
+							"name": "body",
+							"description": "Set MulticastIPAddressPool",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetMulticastIPAddressPool",
+							"paramType": "body"
+						}
+						
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+				{
+					"method": "POST",
+					"summary": "Set WriterOptions (Streaming Options) (available in EDP 1.1)",
+					"notes": "SetWriterOptions (Streaming Options)",
+					"responseClass": "SetWriterOptions",
+					"nickname": "setWriterOptions",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.System+json",
+						"application/vnd.barco.nimbus.System+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.System-SystemConfig+json",
+						"application/vnd.barco.nimbus.System-SystemConfig+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "Set WriterOptions",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetWriterOptions",
+							"paramType": "body"
+						}
+						
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},				
+				{
+					"method": "POST",
+					"summary": "ScheduleDBBackup (available in EDP 1.1)",
+					"notes": "ScheduleDBBackup",
+					"responseClass": "ScheduleDBBackup",
+					"nickname": "scheduleDBBackup",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.System+json",
+						"application/vnd.barco.nimbus.System+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.System-SystemConfig+json",
+						"application/vnd.barco.nimbus.System-SystemConfig+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "ScheduleDBBackup",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "ScheduleDBBackup",
+							"paramType": "body"
+						}
+						
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},				
+				{
+					"method": "POST",
+					"summary": "ScheduleExportLogs (available in EDP 1.1)",
+					"notes": "ScheduleExportLogs",
+					"responseClass": "ScheduleExportLogs",
+					"nickname": "ScheduleExportLogs",
+					"produces": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"consumes": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "ScheduleExportLogs",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "ScheduleExportLogs",
+							"paramType": "body"
+						}
+						
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				}				
+			]	
+		}
+		
+	],
+  
+  "models": 
+    {
+		"BackupDatabase":
+		{
+			"id": "BackupDatabase",
+			"required": 
+			[
+				"BackupDatabase"
+			],
+
+			"properties": 
+			{
+				"BackupDatabase": 
+				{
+					"$ref": "BackupDatabaseReq"
+				}
+			}
+		},
+
+		"BackupDatabaseReq": 
+		{
+			"id": "BackupDatabaseReq",
+			"required":
+			[
+			"@backupType"
+			],
+			"properties": 
+			{
+				"@backupType": 
+				{
+					"type": "SYSTEM/Manual"
+				}
+
+			}
+		},
+		"AddTag": 
+		{
+			"id": "AddTag",
+			"description": "add a tag request",
+			"required": 
+			[
+				"Tag"
+			],
+
+			"properties": 
+			{
+				"Tag": 
+				{
+					"$ref": "AddTagReq"
+				}				
+			}
+		},
+
+		"AddTagReq": 
+		{
+			"id": "AddTagReq",
+			"description": "A basic add tag request",
+			"required": 
+			[
+				"@name",
+				"@objectType",
+				"Value"
+			],
+
+			"properties": 
+			{
+				
+				"@name": 
+				{
+					"type": "Location",
+					"description": ""
+				},
+
+				"@objectType": 
+				{
+					"type": "Devices/Users/MediaRoom/Profiles/Ports/Media/ALL",
+					"description": "[Required]"
+				},
+
+				"Value": 
+				{
+					"type":"array"
+					
+					
+				}
+				
+			}
+		},
+		
+		
+		"SetMulticastIPAddressPool": 
+		{
+			"id": "SetMulticastIPAddressPool",
+			"description": "Set a MulticastIPAddressPool",
+			"required": 
+			[
+				"SetMulticastIPAddressPool"
+			],
+
+			"properties": 
+			{
+				"SetMulticastIPAddressPool": 
+				{
+					"$ref": "SetMulticastIPAddressPoolReq"
+				}				
+			}
+		},
+
+		"SetMulticastIPAddressPoolReq": 
+		{
+			"id": "SetMulticastIPAddressPoolReq",
+			"description": "A basic set MulticastIPAddressPool request",
+			"required": 
+			[
+				
+				"@enable",
+				"@from",
+				"@to"
+			],
+
+			"properties": 
+			{
+				"@enable": 
+				{
+					"type": "boolean",
+					"description": "[Required]"
+				},
+
+				"@from": 
+				{
+					"type": "path",
+					"description": ""
+				},
+				
+				"@to": 
+				{
+					"type": "path",
+					"description": ""
+				}
+			
+				
+				
+			}
+		},
+		
+		"Tag": {
+      "id": "Tag",
+      "properties": {
+	  
+			"@Name": {
+			  "type": "string"
+			},
+			 "@Value": {
+			  "type": "string"
+			
+		}
+      }
+    },
+	"TagReq": {
+      "id": "TagReq",
+      "description": "A TagReq body",
+      "required": [
+        "Tag"
+      ],
+      "properties": {
+        "Tag": {
+            "$ref": "Tag"
+         }
+      }
+    },
+    
+    "AddUpgradeURL": 
+		{
+			"id": "AddUpgradeURL",
+			"description": "Add Upgrade URL",
+			"required": 
+			[
+				"AddUpgradeURL"
+			],
+
+			"properties": 
+			{
+				"AddUpgradeURL": 
+				{
+					"$ref": "AddUpgradeURLRef"
+				}				
+			}
+		},
+    "AddUpgradeURLRef": 
+		{
+			"id": "AddUpgradeURLRef",
+			"description": "Add Upgrade URL",
+			"required": 
+			[
+				"UpgradeList"
+			],
+
+			"properties": 
+			{
+				"UpgradeList": 
+				{
+					"$ref": "UpgradeListRef"
+				}				
+			}
+		},
+"UpgradeListRef": {
+      "id": "UpgradeListRef",
+      "description": "A Upgrade List body",
+      "required": [
+        "UpgradeURL"
+      ],
+      "properties": {
+        "UpgradeURL": {
+            "$ref": "UpgradeURL"
+         }
+      }
+    },	
+	"UpgradeURL": {
+      "id": "UpgradeURL",
+      "properties": {
+	  
+			"@deviceType": {
+			  "type": "string"
+			},
+			 "@url": {
+			  "type": "string"
+			
+		}
+      }
+    },	
+    
+	"SetWriterOptions": 
+		{
+			"id": "SetWriterOptions",
+			"description": "Set a WriterOptions",
+			"required": 
+			[
+				"SetWriterOptions "
+			],
+
+			"properties": 
+			{
+				"SetWriterOptions": 
+				{
+					"$ref": "SetWriterOptionsReq"
+				}				
+			}
+		},
+
+		"SetWriterOptionsReq": 
+		{
+			"id": "SetWriterOptionsReq",
+			"description": "A basic set SetWriterOptions request",
+			"required": 
+			[
+				
+				"@enableHLS"
+				
+			],
+
+			"properties": 
+			{
+				"@enableHLS": 
+				{
+					"type": "boolean",
+					"description": "[Required]"
+				}
+			
+				
+				
+			}
+		},
+		
+		
+		"UploadSoftware": 
+		{
+			"id": "UploadSoftware",
+			"description": "A basic UploadSoftware request",
+			"required": 
+			[
+				
+				"URL"
+				
+			],
+
+			"properties": 
+			{
+				"URL": 
+				{
+					"type": "restore url",
+					"description": "[Required]"
+				}
+			
+				
+				
+			}
+		},
+		"Device": 
+		{
+			"id": "Device",
+			"description": "A basic Device request",
+			"required": 
+			[
+				
+				"@jid",
+				"UploadSoftware"
+				
+			],
+
+			"properties": 
+			{
+				"@jid": 
+				{
+					"type": "string",
+					"description": "[Required]"
+				},
+				"UploadSoftware": 
+				{
+					"$ref": "UploadSoftware",
+					"description": "[Required]"
+				}
+								
+			}
+		},
+		"GetSystemConfig": 
+		{
+			"id": "GetSystemConfig",
+			"description": "A basic GetSystemConfig request",
+			"required": 
+			[
+				
+				"Device"
+				
+			],
+
+			"properties": 
+			{
+				
+				"Device": 
+				{
+					"$ref": "Device",
+					"description": "[Required]"
+				}
+								
+			}
+		},
+		
+		"ScheduleDBBackup": 
+		{
+			"id": "ScheduleDBBackup",
+			"description": "A basic ScheduleDBBackup request",
+			"required": 
+			[
+				
+				"ScheduleDBBackup"
+				
+			],
+
+			"properties": 
+			{
+				
+				"ScheduleDBBackup": 
+				{
+					"$ref": "ScheduleDBBackupReq",
+					"description": "[Required]"
+				}
+								
+			}
+		},
+		"ScheduleDBBackupReq": 
+		{
+			"id": "ScheduleDBBackupReq",
+			"description": "A basic ScheduleDBBackupReq request",
+			"required": 
+			[
+				
+				"@enable",
+				"@backupTime",
+				"@enableExport",
+				"@exportURL",
+				"@recoveryMode"
+				
+			],
+
+			"properties": 
+			{
+				
+				"@enable": 
+				{
+					"type": "boolean"
+							},
+				"@backupTime": 
+				{
+					"type": "time to take backup's"
+							},
+				"@enableExport": 
+				{
+					"type": "boolean"
+							},
+				"@exportURL": 
+				{
+					"type": "FTP URL to export backups"
+							},
+				"@recoveryMode": 
+				{
+					"type": "database recovery mode"
+							}
+				
+								
+			}
+		},
+		
+		"ScheduleExportLogs": 
+		{
+			"id": "ScheduleExportLogs",
+			"description": "A basic Schedule export logs request",
+			"required": 
+			[
+				
+				"ScheduleExportLogs"
+				
+			],
+
+			"properties": 
+			{
+				
+				"ScheduleExportLogs": 
+				{
+					"$ref": "ScheduleExportLogsReq",
+					"description": "[Required]"
+				}
+								
+			}
+		},
+		"ScheduleExportLogsReq": 
+		{
+			"id": "ScheduleExportLogsReq",
+			"description": "A basic Schedule export logs request",
+			"required": 
+			[
+				
+				"@exportTime",
+				"@exportURL",
+				"@enable"
+				
+			],
+
+			"properties": 
+			{
+				
+				"@exportTime": 
+				{
+					"type": "time to export logs (comma seperated values from 0-23)"
+				},
+				"@exportURL": 
+				{
+					"type": "FTP URL to export logs"
+				},
+				"@enable": 
+				{
+					"type": "boolean"
+				 }
+				
+								
+			}
+		}
+	}
+}

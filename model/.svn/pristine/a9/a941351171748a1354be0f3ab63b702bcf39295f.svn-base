@@ -1,0 +1,106 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.xsd" />
+  <xs:include schemaLocation="mediaroom.mediaroomservice.datamodel.xsd" />
+  
+  <xs:complexType name="DestStreamAgentRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="action" type="xs:string" />
+      <xs:element name="streamdatadoc" type="xs:string" />
+      <xs:element name="mediasourcedatadoc" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SourceStreamAgentRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="useraction" type="xs:string" />
+      <xs:element name="action">
+      	<xs:complexType>
+<!-- 
+      		<xs:simpleContent>
+	        	<xs:restriction base="xs:string">
+	        		<xs:enumeration value="Start"/>
+	        		<xs:enumeration value="Stop"/>
+	        		<xs:enumeration value="StopOutput"/>
+	        		<xs:enumeration value="StartOutput"/>
+	        		<xs:enumeration value="SwitchLookback"/>
+	        		<xs:enumeration value="UpdateOffset"/>
+	        		<xs:enumeration value="SwitchDefault"/>
+	        	</xs:restriction>
+      		</xs:simpleContent>
+ -->
+      		<xs:attribute name="sync" type="xs:boolean"/>
+      		<xs:attribute name="syncSourceUUID" type="xs:string"/>
+      		<xs:attribute name="syncSourceParentDirNID" type="xs:string"/>
+      		<xs:attribute name="syncAgentJID" type="xs:string"/>
+      		<xs:attribute name="syncTC" type="xs:string"/>
+      		<xs:attribute name="roomNID" type="xs:string"/>
+      	</xs:complexType>
+      </xs:element>
+      <xs:element name="wallClock" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="streamdatadoc" type="xs:string" />
+      <xs:element name="mediasourcedatadoc" type="xs:string" />
+<!--
+       Contains single mediasource in case of setup/teardown
+       Contains list of mediasources in case of PVR action which applies to multiple sources
+ -->
+      <xs:element name="grouptagname" type="xs:string" />
+      <xs:element name="grouptagvalue" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SourceStreamAgentResponseDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="useraction" type="xs:string" />
+      <xs:element name="action" type="xs:string" />
+      <xs:element name="actionNID" type="xs:string" />
+      <xs:element name="streamURL" type="xs:string" />
+      <xs:element name="relayData">
+      	<xs:complexType>
+      		<xs:attribute name="relayRoomNID" type="xs:string"/>
+      		<xs:attribute name="relayStreamNID" type="xs:string"/>
+      	</xs:complexType>
+      </xs:element>
+      <xs:element name="startTime" type="xs:string" />
+      <xs:element name="status" type="xs:string" />
+      <xs:element name="log" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SourceEventDataType">
+    <xs:sequence>
+      <xs:element name="eventCode" type="xs:string" />
+      <xs:element name="action" type="xs:string" />
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="startTC" type="xs:string" />
+      <xs:element name="sourceEventActionData" type="xs:anyType"/>
+      <xs:element name="streamNIDList">
+        <xs:complexType>
+        <xs:sequence>
+      		<xs:element minOccurs="1" name="streamNIDListItem" type="xs:string" />
+      	</xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="status" type="xs:string" />
+      <xs:element name="log" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DestEventDataType">
+    <xs:sequence>
+      <xs:element name="eventCode" type="xs:string" />
+      <xs:element name="action" type="xs:string" />
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="destEventActionData" type="xs:anyType"/>
+      <xs:element name="StartedTimeStamp" type="xs:string" />
+      <xs:element name="StartedWallClock" type="xs:string" />
+      <xs:element name="StoppedTimeStamp" type="xs:string" />
+      <xs:element name="StoppedWallClock" type="xs:string" />
+      <xs:element name="status" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

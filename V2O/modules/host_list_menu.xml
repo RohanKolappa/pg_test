@@ -1,0 +1,38 @@
+
+
+<Menu>
+
+   <Type>list</Type>
+   <Title>HostList</Title>
+   <Description>List of Host Entries</Description>
+   <Access>host_list</Access>
+   <ConfigFile>hostlistconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>hostname</Name>
+        <Type>string</Type>
+        <Label>Name</Label>
+        <Help>Name</Help>
+        <FieldLength>30</FieldLength>
+        <DefaultValue>HOSTNAME</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>hostaddress</Name>
+        <Type>string</Type>
+        <Label>IP Address</Label>
+        <Help>IP Address of the host</Help>
+        <FieldLength>30</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+   </Items>
+</Menu>

@@ -1,0 +1,119 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### Module name:	Make.module.version
+###
+### Description:	Provides variables and functions to help handle
+###			version numbers.
+###
+### Requires:
+###	(*) Make.target (user file)
+###		- target-ver-maj
+###		- target-ver-med
+###		- target-ver-min
+###
+### Variables:
+###	(*) target-ver
+###		Descr:	String of the form "<maj>.<med>.<min>".
+###
+### Functions:
+###	(*) mod-vers-append(string)
+###		Descr:	Function that appends $(target-ver) to <string>.
+###
+###############################################################################
+
+target-ver		:=	$(strip $(target-ver))
+
+ifeq "$(target-ver)" ""
+
+ifeq "$(target-ver-base)" ""
+
+target-ver-maj		:=	$(strip $(target-ver-maj))
+target-ver-med		:=	$(strip $(target-ver-med))
+target-ver-min		:=	$(strip $(target-ver-min))
+
+else
+
+target-ver-base		:=	$(strip $(target-ver-base))
+
+target-ver-maj		:=	$($(target-ver-base)-ver-maj)
+target-ver-med		:=	$($(target-ver-base)-ver-med)
+target-ver-min		:=	$($(target-ver-base)-ver-min)
+
+endif
+
+ifeq "$(target-ver-maj)" ""
+target-ver-maj		:=	0
+endif
+ifeq "$(target-ver-med)" ""
+target-ver-med		:=	0
+endif
+ifeq "$(target-ver-min)" ""
+target-ver-min		:=	0
+endif
+
+ifeq "$(target-ver-base)" ""
+
+mod-vers-def-maj	:=	$(target-ver-maj)
+mod-vers-def-med	:=	$(target-ver-med)
+mod-vers-def-min	:=	$(target-ver-min)
+
+else
+
+mod-vers-def-maj	:=	\$$($(target-ver-base)-ver-maj)
+mod-vers-def-med	:=	\$$($(target-ver-base)-ver-med)
+mod-vers-def-min	:=	\$$($(target-ver-base)-ver-min)
+
+endif
+
+else
+
+mod-vers-tmp-empty	:=
+mod-vers-tmp-dot	:=	$(mod-vers-tmp-empty).$(mod-vers-tmp-empty)
+mod-vers-tmp-spc	:=	$(mod-vers-tmp-empty) $(mod-vers-tmp-empty)
+mod-vers-tmp-tks	:=	$(subst $(mod-vers-tmp-dot),$(mod-vers-tmp-spc),$(target-ver))
+
+target-ver-maj		:=	$(word 1,$(mod-vers-tmp-tks))
+target-ver-med		:=	$(word 2,$(mod-vers-tmp-tks))
+target-ver-min		:=	$(word 3,$(mod-vers-tmp-tks))
+
+mod-vers-def-maj	:=	$(target-ver-maj)
+mod-vers-def-med	:=	$(target-ver-med)
+mod-vers-def-min	:=	$(target-ver-min)
+
+#dumpable += mod-vers-tmp-tks
+
+endif
+
+###############################################################################
+
+target-ver		:=	$(target-ver-maj).$(target-ver-med).$(target-ver-min)
+
+mod-vers-append		=	$(1)-$(target-ver)
+
+dumpable += target-ver
+
+###############################################################################

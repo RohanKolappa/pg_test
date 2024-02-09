@@ -1,0 +1,1100 @@
+{
+	"apiVersion": null,
+	"swaggerVersion": "1.2",
+	"basePath": "/controller/Resource",
+	"resourcePath": "/User",
+	"apis": 
+	[
+		{
+			"path": "/User",
+			"operations": 
+			[
+				{
+					"method": "GET",
+					"summary": "Finds the list of Users that the Client has access to",
+					"notes": "Get a the list of Users that the Client has access to",
+					"responseClass": "UserResponse",
+					"nickname": "getUser",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"consumes": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "sortBy",
+							"description": "sort",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"username",
+									"fullName"
+								]
+							},
+
+							"paramType": "query"
+						},
+
+						{
+							"name": "sortOrder",
+							"description": "sort in order ascending/descending",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"ascending",
+									"descending"
+								]
+							},
+
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereTextSubStr",
+							"description": "Filter based on substring.It will look the string in name,discription",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereNID",
+							"description": "Filter based on nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereUsername",
+							"description": "Filter based on username",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "subscriptionID",
+							"description": "Filter based on subscriptionID",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+						{
+							"name": "selectFormat",
+							"description": "Filter by response formats.(default= BASIC)",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"BASIC",
+									"EXTENDED"
+								]
+							},
+
+							"paramType": "query"
+						},
+
+						{
+							"name": "startFrom",
+							"description": "get the list starting form startFrom index",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "integer",
+							"paramType": "query"
+						},
+
+						{
+							"name": "countToFetch",
+							"description": "number of users to be fetched",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "integer",
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereTagExpr",
+							"description": "fomat: Name%3D'Location' and Value%3D'Sunnyvale'",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereType",
+							"description": "Template or Regular User (available in EDP 1.1)",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"Template"
+								]
+							},
+
+							"paramType": "query"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+
+				{
+					"method": "GET",
+					"summary": "Finds the list of Tags that the Client has access to",
+					"notes": "Get a the list of Tags that the Client has access to",
+					"responseClass": "TagList",
+					"nickname": "getDirTags",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User-Tags+json",
+						"application/vnd.barco.nimbus.User-Tags+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "sortBy",
+							"description": "sort by Name/Value",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"Name",
+									"Value"
+								]
+							},
+
+							"paramType": "query"
+						},
+
+						{
+							"name": "sortOrder,",
+							"description": "sort in order ascending/descending",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"ascending",
+									"descending"
+								]
+							},
+
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereNameTextSubString",
+							"description": "Filter based on name substring",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "whereValueTextSubStr",
+							"description": "Filter based on value substring",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "selectFormat",
+							"description": "Filter by response formats.(Default=NameValueList)",
+							"required": false,
+							"allowMultiple": true,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"NameList",
+									"NameValueList",
+									"NameValueTree"
+								]
+							},
+
+							"paramType": "query"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+				{
+					"method": "POST",
+					"summary": "Add user in the database (available in EDP 1.1 r2)",
+					"notes": "Add a new user in the database",
+					"responseClass": "UserResponse",
+					"nickname": "addUser",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "body",
+							"description": "Add a user in database",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "AddUser",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},			
+
+				{
+					"method": "DELETE",
+					"summary": "Delete a user from database (available in EDP 1.1 r2)",
+					"notes": "delete a  user",
+					"responseClass": "UserResponse",
+					"nickname": "deleteUser",
+					"produces": 
+					[
+						"application/json",
+						"application/xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "NID",
+							"description": "user nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "username",
+							"description": "username",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "purgeTemplateReference",
+							"description": "if true it will delete references otherwise throws exception. (available in EDP 1.1)",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "boolean",
+							"paramType": "query"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+
+				{
+					"method": "POST",
+					"summary": "Set user information in the database (available in EDP 1.1 r2)",
+					"notes": "Update fullName, email for the user identified by nid or username",
+					"responseClass": "UserResponse",
+					"nickname": "setUserInfo",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.User-Info+json",
+						"application/vnd.barco.nimbus.User-Info+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "NID",
+							"description": "user nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "username",
+							"description": "username",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "body",
+							"description": "Update user info in database",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetUserInfo",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+
+				{
+					"method": "POST",
+					"summary": "Set user password in the database",
+					"notes": "Update password for the user identified by nid or username. Use this API in case of user changing password for himself.",
+					"responseClass": "UserResponse",
+					"nickname": "setUserPassword",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.User-Password+json",
+						"application/vnd.barco.nimbus.User-Password+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "NID",
+							"description": "user nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "username",
+							"description": "username",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "body",
+							"description": "Update user info in database",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetUserPassword",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},
+
+				{
+					"method": "POST",
+					"summary": "Set user private data in the database (available in EDP 1.1 r2)",
+					"notes": "Update private data for the user identified by nid or username",
+					"responseClass": "UserResponse",
+					"nickname": "setUserPrivateData",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.User+json",
+						"application/vnd.barco.nimbus.User+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.User-PrivateData+json",
+						"application/vnd.barco.nimbus.User-PrivateData+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+
+						{
+							"name": "NID",
+							"description": "user nid",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "username",
+							"description": "username",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+
+						{
+							"name": "body",
+							"description": "Update user priavate data in database",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetUserPrivateData",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				}
+				
+			]
+		}
+	],
+
+	"models": 
+	{
+		"Tag": 
+		{
+			"id": "Tag",
+			"required": 
+			[
+				"Tag"
+			],
+
+			"properties": 
+			{
+				"Tag": 
+				{
+					"$ref": "TagAttr"
+				}
+			}
+		},
+
+		"TagAttr": 
+		{
+			"id": "TagAttr",
+			"properties": 
+			{
+				"@Name": 
+				{
+					"type": "string"
+				},
+
+				"@Value": 
+				{
+					"type": "String"
+				}
+			}
+		},
+		"Template": 
+		{
+			"id": "Template",
+			"required": 
+			[
+				"Template"
+			],
+
+			"properties": 
+			{
+				"Template": 
+				{
+					"$ref": "TemplateAttr"
+				}
+			}
+		},
+		"TemplateAttr": 
+		{
+			"id": "TeplateAttr",
+			"properties": 
+			{
+				"@Name": 
+				{
+					"type": "string"
+				},
+
+				"@Value": 
+				{
+					"type": "String"
+				}
+			}
+		},
+
+		"SetUserPassword": 
+		{
+			"id": "SetUserPassword",
+			"description": "a setuserpassword request",
+			"required": 
+			[
+				"UserPassword"
+			],
+
+			"properties": 
+			{
+				"UserPassword": 
+				{
+					"$ref": "UserPassword"
+				}
+			}
+		},
+
+		"UserPassword": 
+		{
+			"id": "UserPassword",
+			"description": "UserPassword",
+			"required": 
+			[
+				"@oldPassword",
+				"@newPassword"
+			],
+
+			"properties": 
+			{
+				"@oldPassword": 
+				{
+					"type": "string"
+				},
+
+				"@newPassword": 
+				{
+					"type": "string"
+				}
+			}
+		},
+
+		"SetUserPrivateData": 
+		{
+			"id": "SetUserPrivateData",
+			"description": "a setuserprivatedata request",
+			"required": 
+			[
+				"UserPrivateData"
+			],
+
+			"properties": 
+			{
+				"UserPrivateData": 
+				{
+					"$ref": "UserPrivateData"
+				}
+			}
+		},
+
+		"UserPrivateData": 
+		{
+			"id": "UserPrivateData",
+			"description": "UserPrivateData",
+			"properties": 
+			{
+				"UserPrivateData": 
+				{
+					"type": "string"
+				}
+			}
+		},
+
+		"SetUserInfo": 
+		{
+			"id": "SetUserInfo",
+			"description": "a setuserinfo request",
+			"required": 
+			[
+				"UserInfo"
+			],
+
+			"properties": 
+			{
+				"UserInfo": 
+				{
+					"$ref": "UserInfo"
+				}
+			}
+		},
+
+		"UserInfo": 
+		{
+			"id": "UserInfo",
+			"description": "UserInfo",
+			"required": 
+			[
+				"@fullName",
+				"@email",
+				"Groups"
+			],
+
+			"properties": 
+			{
+				"@fullName": 
+				{
+					"type": "string"
+				},
+
+				"@email": 
+				{
+					"type": "string"
+				},
+				"@password": 
+				{
+					"type": "string"
+				},
+
+				"Groups": 
+				{
+					"items": 
+					{
+						"$ref": "Tag"
+					}
+				}
+			}
+		},
+
+		"AddUser": 
+		{
+			"id": "AddUser",
+			"description": "add a user request",
+			"required": 
+			[
+				"User"
+			],
+
+			"properties": 
+			{
+				"User": 
+				{
+					"$ref": "AddUserReq"
+				}
+			}
+		},
+		"Groups": 
+		{
+			"id": "Groups",
+			"description": "add a Groups request",
+			"required": 
+			[
+				"Tag"
+			],
+
+			"properties": 
+			{
+				"Tag": 
+				{
+					"$ref": "Tag"
+				}
+			}
+		},
+		
+		 "UserResponse": {
+      "id": "UserResponse",
+      "description": "",
+      "required": [
+        "User"
+      ],
+      "properties": {
+        "User": {
+          "$ref": "User"
+        }
+      }
+    },
+    
+     "User": {
+      "id": "User",
+      "description": "user format",
+      "required": [
+        "@NID",
+        "@fullName",
+        "@template",
+        "@presence",
+        "UserPrivateData",
+        "@password",
+        "@modifiedDate",
+        "Groups",
+        "@externalAuthentication",
+        "@username",
+        "@state",
+        "@email",
+        "@creationDate"
+      ],
+      "properties": {
+        "@NID": {
+          "type": "string",
+          "description": ""
+        },
+        "Groups": {
+          "items": {
+            "$ref": "Tag"
+          }
+        },
+        "@fullName": {
+          "type": "string",
+          "description": ""
+        },
+        "@template": {
+          "type": "string",
+          "description": ""
+        },
+        "@presence": {
+          "type": "string",
+          "description": ""
+        },
+        "@UserPrivateData": {
+          "type": "string",
+          "description": ""
+        },
+        "@password": {
+          "type": "string",
+          "description": ""
+        },
+        "@modifiedDate": {
+          "type": "string",
+          "description": ""
+        },
+        "@externalAuthentication": {
+          "type": "string",
+          "description": ""
+        },
+        "@username": {
+          "type": "string",
+          "description": ""
+        },
+        "@state": {
+          "type": "string",
+          "description": ""
+        },
+        "@email": {
+          "type": "string",
+          "description": ""
+        },
+        "@creationDate": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+	"TagList": {
+      "id": "TagList",
+      "description": "",
+      "required": [
+        "Tag"
+      ],
+      "properties": {
+        "Tag": {
+          "type": "array",
+          "items": {
+            "$ref": "TagAttr"
+          }
+        },
+        "@total": {
+          "type": "integer"
+        },
+        "@from": {
+          "type": "integer"
+        }
+      }
+   	 },
+		"AddUserReq": 
+		{
+			"id": "AddUserReq",
+			"description": "A basic add user request",
+			"required": 
+			[
+				"Groups",
+				"@fullName",
+				"@loginName",
+				"@password",
+				"@email",
+				"UserPrivateData",
+				"@template",
+				"@byTemplateNID",
+				"@byTemplateName"
+			],
+
+			"properties": 
+			{
+				"Groups": 
+				{
+					
+					"items": 
+					{
+						"$ref": "Tag"
+					}
+				},
+
+				"@fullName": 
+				{
+					"type": "string",
+					"description": ""
+				},
+
+				"@loginName": 
+				{
+					"type": "string",
+					"description": "[Required]"
+				},
+
+				"@password": 
+				{
+					"type": "string",
+					"description": "[Required]"
+				},
+
+				"@email": 
+				{
+					"type": "string",
+					"description": ""
+				},
+
+				"UserPrivateData": 
+				{
+					"type": "string"
+				},
+				"@template": 
+				{
+					"type": "boolean"
+				},
+				"@byTemplateNID": 
+				{
+					"type": "string"
+				},
+				"@byTemplateName": 
+				{
+					"type": "string"
+				}
+			}
+		}
+	}
+}

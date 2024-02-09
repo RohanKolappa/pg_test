@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="HeartBeat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="HeartBeatDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="HeartBeatDataType">
+    <xs:all>
+      <xs:element name="seq" type="xs:double" />
+      <xs:element name="ack" type="xs:double" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="StartRecordingRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="StartRecordingRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartRecordingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="StartRecordingResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="StartRecordingRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordInfo" type="RecordingInfoDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StartRecordingResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StopRecordingRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="StopRecordingRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopRecordingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="StopRecordingResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="StopRecordingRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordID" type="RecordingIDDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StopRecordingResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PauseRecordingRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="PauseRecordingRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PauseRecordingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="PauseRecordingResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="PauseRecordingRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordID" type="RecordingIDDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PauseRecordingResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResumeRecordingRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="ResumeRecordingRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResumeRecordingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="ResumeRecordingResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ResumeRecordingRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordID" type="RecordingIDDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResumeRecordingResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateRecordingRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="UpdateRecordingRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateRecordingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="UpdateRecordingResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UpdateRecordingRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordInfo" type="RecordingInfoDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateRecordingResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RecordingStatusRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="RecordingStatusRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecordingStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="RecordingStatusResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RecordingStatusRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordID" type="RecordingIDDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RecordingStatusResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="recordInfo" type="RecordingInfoDataType" />
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RecordingNotification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="RecordingNotificationDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RecordingNotificationDataType">
+    <xs:sequence>
+      <xs:element name="recordStatus" type="RecordingStatusDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RecordingIDDataType">
+    <xs:all>
+      <xs:element name="ID" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="RecordingInfoDataType">
+    <xs:all>
+      <xs:element name="ID" type="xs:string" />
+      <xs:element name="TimeOffset" type="xs:double" />
+      <xs:element name="Patient" type="xs:string" />
+      <xs:element name="ProcedureType" type="xs:string" />
+      <xs:element name="Physician" type="xs:string" />
+      <xs:element name="Notes" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="RecordingStatusDataType">
+    <xs:all>
+      <xs:element name="ID" type="xs:string" />
+      <xs:element name="Status">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="None" />
+            <xs:enumeration value="Recording" />
+            <xs:enumeration value="Paused" />
+            <xs:enumeration value="Stopped" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="StartTime" type="xs:double" />
+      <xs:element name="EndTime" type="xs:double" />
+      <xs:element name="Date" type="xs:string" />
+      <xs:element name="DiskSpaceUsed" type="xs:double" />
+      <xs:element name="TotalDiskSpaceAvailable" type="xs:double" />
+      <xs:element name="ErrorCode" type="xs:string" />
+      <xs:element name="ErrorDescription" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="MediaTimestampRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="MediaTimestampRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaTimestampResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="MediaTimestampResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="MediaTimestampRequestDataType">
+    <xs:all>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="ID" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="MediaTimestampResponseDataType">
+    <xs:all>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="ID" type="xs:string" />
+      <xs:element name="Timestamp" type="xs:double" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="CreateBookmarkRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="CreateBookmarkRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateBookmarkResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="CreateBookmarkResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="CreateBookmarkRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="bookmarkInfo" type="BookmarkDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CreateBookmarkResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="bookmarkInfo" type="BookmarkDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BookmarkDataType">
+    <xs:all>
+      <xs:element name="ID" type="xs:string" />
+      <xs:element name="Timestamp" type="xs:double" />
+      <xs:element name="Notes" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="AuthorizeStreamRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="AuthorizeStreamDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AuthorizeStreamDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="streamData" type="StreamDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthorizeStreamNotification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="AuthorizeStreamNotificationDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AuthorizeStreamNotificationDataType">
+    <xs:sequence>
+      <xs:element name="StreamData" type="StreamDataType" />
+      <xs:element name="StreamStatus" type="StreamStatusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthorizeStreamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="AuthorizeStreamResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AuthorizeStreamResponseDataType">
+    <xs:sequence>
+      <xs:element name="StreamData" type="StreamDataType" />
+      <xs:element name="AuthorizationInfo" type="AuthorizationInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthorizationUpdateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="AuthorizationUpdateRequestDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuthorizationUpdateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="AuthorizationUpdateResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AuthorizationUpdateRequestDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="StreamData" type="StreamDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AuthorizationUpdateResponseDataType">
+    <xs:sequence>
+      <xs:element name="requestorInfo" type="ResourceInfoType" />
+      <xs:element name="StreamData" type="StreamDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AuthorizationInfoType">
+    <xs:sequence>
+      <xs:element name="Result">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Allow" />
+            <xs:enumeration value="Deny" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Reason" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetStreamListRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStreamListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="HeaderType" />
+        <xs:element name="data" type="GetStreamListResponseDataType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="GetStreamListResponseDataType">
+    <xs:sequence>
+      <xs:element name="StreamInfoList" type="StreamInfoListType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamInfoListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StreamInfo" type="StreamInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamInfoType">
+    <xs:sequence>
+      <xs:element name="StreamData" type="StreamDataType" />
+      <xs:element name="StreamStatus" type="StreamStatusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamStatusType">
+    <xs:sequence>
+      <xs:element name="state">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0" />
+            <xs:enumeration value="1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="startTime" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamDataType">
+    <xs:sequence>
+      <xs:element name="sourceInfo" type="ResourceInfoType" />
+      <xs:element name="destInfo" type="ResourceInfoType" />
+      <xs:element name="profileInfo" type="ProfileInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResourceInfoType">
+    <xs:all>
+      <xs:element name="agentName" type="xs:string" />
+      <xs:element name="JID" type="xs:string" />
+      <xs:element name="nickName" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="ProfileInfoType">
+    <xs:all>
+      <xs:element name="connect" type="xs:string" />
+      <xs:element name="remote" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="HeaderType">
+    <xs:sequence>
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="requestID" type="xs:string" />
+      <xs:element name="state">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0" />
+            <xs:enumeration value="-1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="optional" />
+    <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="optional" />
+  </xs:complexType>
+</xs:schema>

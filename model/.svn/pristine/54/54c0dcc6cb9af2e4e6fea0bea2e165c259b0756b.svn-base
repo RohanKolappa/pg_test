@@ -1,0 +1,1396 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Extension Of IP Video Systems Collaboration Service API</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.1"><style type="text/css">
+body { background-image: url('http://docbook.sourceforge.net/release/images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }</style></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" title="Extension Of IP Video Systems Collaboration Service API"><div class="titlepage"><div><div><h1 class="title"><a name="id519474"></a>Extension Of IP Video Systems Collaboration Service API</h1></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.1.9</td><td align="left">26 Mar 2013</td></tr><tr><td align="left" colspan="2">Added Upgrade, SaveConfig, RevertToDefault, Reboot and Shutdown request and response</td></tr><tr><td align="left">Revision 0.1.8</td><td align="left">20 Feb 2013</td></tr><tr><td align="left" colspan="2">Updated GetSystemConfig and added SetAutoDiscovery request and response</td></tr><tr><td align="left">Revision 0.1.7</td><td align="left">12 Dec 2012</td></tr><tr><td align="left" colspan="2">Added SetDirStorageConfig, StartDirOffload and SetFileByPassAutoStorageRules request and response</td></tr><tr><td align="left">Revision 0.1.6</td><td align="left">16 Oct 2012</td></tr><tr><td align="left" colspan="2">Moved setport APIs and Device APIs to External document </td></tr><tr><td align="left">Revision 0.1.5</td><td align="left">11 Jun 2012</td></tr><tr><td align="left" colspan="2">Added RAW format response for GetDevice</td></tr><tr><td align="left">Revision 0.1.4</td><td align="left">30 Apr 2012</td></tr><tr><td align="left" colspan="2">Added Unsubscribe, GetSubscribers request and response in DB API Chapter</td></tr><tr><td align="left">Revision 0.1.3</td><td align="left">18 Jun 2011</td></tr><tr><td align="left" colspan="2">Added GetPVRFile,GetOrphanFile and GetSystemConfig request and response</td></tr><tr><td align="left">Revision 0.1.2</td><td align="left">17 Mar 2011</td></tr><tr><td align="left" colspan="2">Added Native Admin APICalls</td></tr><tr><td align="left">Revision 0.1.1</td><td align="left">15 Mar 2011</td></tr><tr><td align="left" colspan="2">Added Admin API Calls</td></tr><tr><td align="left">Revision 0.1</td><td align="left">16 Dec 2010</td></tr><tr><td align="left" colspan="2">Added SetServiceClientDisplayconfig and SetServiceClientDisplayStatus</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#id519634">1. Set Operations</a></span></dt><dd><dl><dt><span class="section"><a href="#id519640">Set Service Client Display Configuration Request</a></span></dt><dt><span class="section"><a href="#id519674">Set Service Client Display Status Request</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id519710">2. Admin API </a></span></dt><dd><dl><dt><span class="section"><a href="#id519720">Dir Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id519730">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id519756">SetDirInfo</a></span></dt><dt><span class="section"><a href="#id519826">SetDirPriority</a></span></dt><dt><span class="section"><a href="#id519895">SetDirTags</a></span></dt><dt><span class="section"><a href="#id519949">SetDirThreshold</a></span></dt><dt><span class="section"><a href="#id520003">SetDirStorageConfig</a></span></dt><dt><span class="section"><a href="#id520073">StartDirOffload</a></span></dt><dt><span class="section"><a href="#id520127">Dir Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id520147">File Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id520157">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id520183">SetFileInfo</a></span></dt><dt><span class="section"><a href="#id520253">SetFileMetaData</a></span></dt><dt><span class="section"><a href="#id520338">SetFileTags</a></span></dt><dt><span class="section"><a href="#id520392">SetFileByPassAutoStorageRules</a></span></dt><dt><span class="section"><a href="#id520463">File Object Response XML</a></span></dt><dt><span class="section"><a href="#id520482">GetPVRFile</a></span></dt><dt><span class="section"><a href="#id520535">GetOrphanFile</a></span></dt></dl></dd><dt><span class="section"><a href="#id520589">User Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id520598">AddUser</a></span></dt><dt><span class="section"><a href="#id520730">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id520772">SetUserInfo</a></span></dt><dt><span class="section"><a href="#id520842">SetUserPrivateData</a></span></dt><dt><span class="section"><a href="#id520896">SetUserTags</a></span></dt><dt><span class="section"><a href="#id520950">DeleteUser</a></span></dt><dt><span class="section"><a href="#id520985">User Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id521005">Profile Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id521015">AddProfile</a></span></dt><dt><span class="section"><a href="#id529426">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id529468">SetProfileBandwidth</a></span></dt><dt><span class="section"><a href="#id529555">SetProfileAudioVideoOption</a></span></dt><dt><span class="section"><a href="#id529624">SetProfileAudioParam</a></span></dt><dt><span class="section"><a href="#id529710">SetProfileCompression</a></span></dt><dt><span class="section"><a href="#id529779">SetProfileRefreshRate</a></span></dt><dt><span class="section"><a href="#id529849">SetProfileBlockThreshold</a></span></dt><dt><span class="section"><a href="#id529903">SetProfileColorSampling</a></span></dt><dt><span class="section"><a href="#id529957">SetProfileKBMParam</a></span></dt><dt><span class="section"><a href="#id530026">SetProfileMulticast</a></span></dt><dt><span class="section"><a href="#id530080">SetProfileSlice</a></span></dt><dt><span class="section"><a href="#id530150">SetProfileInfo</a></span></dt><dt><span class="section"><a href="#id530204">SetProfileTags</a></span></dt><dt><span class="section"><a href="#id530258">DeleteProfile</a></span></dt><dt><span class="section"><a href="#id530293">Profile Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id530313">System Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id530323">GetSystemConfig</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#id530360">3. Native Admin API</a></span></dt><dd><dl><dt><span class="section"><a href="#id530366">Parameter Listing</a></span></dt><dt><span class="section"><a href="#id530552">Get Object</a></span></dt><dt><span class="section"><a href="#id530630">Add Object</a></span></dt><dt><span class="section"><a href="#id530665">Update Object</a></span></dt><dt><span class="section"><a href="#id530700">Delete Object</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id530736">4. Update Notifications</a></span></dt><dd><dl><dt><span class="section"><a href="#id530749">User</a></span></dt><dd><dl><dt><span class="section"><a href="#id530758">User Update</a></span></dt><dt><span class="section"><a href="#id530781">User Connection Update</a></span></dt><dt><span class="section"><a href="#id530804">User Connection State Update</a></span></dt></dl></dd><dt><span class="section"><a href="#id530828">File</a></span></dt><dd><dl><dt><span class="section"><a href="#id530838">File Update</a></span></dt><dt><span class="section"><a href="#id530860">File Connection Update</a></span></dt><dt><span class="section"><a href="#id530883">File Connection State Update</a></span></dt></dl></dd><dt><span class="section"><a href="#id530907">Dir</a></span></dt><dd><dl><dt><span class="section"><a href="#id530917">Dir Update</a></span></dt><dt><span class="section"><a href="#id530940">Dir Connection Update</a></span></dt><dt><span class="section"><a href="#id530962">Dir Connection State Update</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#id530988">5. Get Connection API 	</a></span></dt><dd><dl><dt><span class="section"><a href="#id531001">Get Port Connection Info</a></span></dt><dt><span class="section"><a href="#id531036">Get User Connection Info</a></span></dt><dt><span class="section"><a href="#id531070">Get File Connection Info</a></span></dt><dt><span class="section"><a href="#id531105">Get Dir Connection Info</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id531141">6. Report API</a></span></dt><dd><dl><dt><span class="section"><a href="#id531151">Add Report</a></span></dt><dt><span class="section"><a href="#id531396">Set Report</a></span></dt><dt><span class="section"><a href="#id531641">Get Report</a></span></dt><dt><span class="section"><a href="#id531820">Delete Report</a></span></dt><dt><span class="section"><a href="#id531894">Download Report</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id531985">7. DB API</a></span></dt><dd><dl><dt><span class="section"><a href="#id531995">Unsubscribe</a></span></dt><dt><span class="section"><a href="#id532056">GetSubscribers</a></span></dt><dt><span class="section"><a href="#id532143">Set Auto Discovery</a></span></dt><dt><span class="section"><a href="#id532217">Upgrade Device</a></span></dt><dt><span class="section"><a href="#id532291">Save Config Device</a></span></dt><dt><span class="section"><a href="#id532366">Revert To Default Device</a></span></dt><dt><span class="section"><a href="#id532470">Reboot Device</a></span></dt><dt><span class="section"><a href="#id532545">Shutdown Device</a></span></dt></dl></dd></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>1.1. <a href="#id519649">Set Service Client Display Configuration Request</a></dt><dt>1.2. <a href="#id519661">Set Service Client Display Configuration Response</a></dt><dt>1.3. <a href="#id519684">Set Service Client Display Status Request</a></dt><dt>1.4. <a href="#id519696">Set Service Client Display Status Response</a></dt><dt>2.1. <a href="#id519766">Set Dir Info Request</a></dt><dt>2.2. <a href="#id519812">Set Dir Info Response</a></dt><dt>2.3. <a href="#id519835">Set Dir Priority Request</a></dt><dt>2.4. <a href="#id519882">Set Dir Priority Response</a></dt><dt>2.5. <a href="#id519905">Set Dir Tags Request</a></dt><dt>2.6. <a href="#id519936">Set Dir Tags Response</a></dt><dt>2.7. <a href="#id519959">Set Dir Threshold Request</a></dt><dt>2.8. <a href="#id519990">Set Dir Threshold Response</a></dt><dt>2.9. <a href="#id520013">Set Dir Storage Config Request</a></dt><dt>2.10. <a href="#id520060">Set Dir Storage Config Response</a></dt><dt>2.11. <a href="#id520082">Start Dir Offload Request</a></dt><dt>2.12. <a href="#id520114">Start Dir Offload Response</a></dt><dt>2.13. <a href="#id520133">Dir Object Response XML </a></dt><dt>2.14. <a href="#id520193">Set File Info Request</a></dt><dt>2.15. <a href="#id520240">Set File Info Response</a></dt><dt>2.16. <a href="#id520262">Set File MetaData Request</a></dt><dt>2.17. <a href="#id520325">Set File MetaData Response</a></dt><dt>2.18. <a href="#id520348">Set File Tags Request</a></dt><dt>2.19. <a href="#id520379">Set File Tags Response</a></dt><dt>2.20. <a href="#id520402">Set File BypassAutoStorageRules Request</a></dt><dt>2.21. <a href="#id520450">Set File BypassAutoStorageRules Response</a></dt><dt>2.22. <a href="#id520469">File Object Response XML </a></dt><dt>2.23. <a href="#id520492">GetPVRFile Request</a></dt><dt>2.24. <a href="#id520510">GetPVRFile Response BASIC</a></dt><dt>2.25. <a href="#id520522">GetPVRFile Response EXTENDED</a></dt><dt>2.26. <a href="#id520544">GetOrphanFile Request</a></dt><dt>2.27. <a href="#id520562">GetOrphanFile Response BASIC</a></dt><dt>2.28. <a href="#id520574">GetOrphanFile Response EXTENDED</a></dt><dt>2.29. <a href="#id520608">Add User Request</a></dt><dt>2.30. <a href="#id520717">Add User Response</a></dt><dt>2.31. <a href="#id520782">Set User Info Request</a></dt><dt>2.32. <a href="#id520829">Set User Info Response</a></dt><dt>2.33. <a href="#id520852">Set User PrivateData Request</a></dt><dt>2.34. <a href="#id520883">Set User PrivateData Response</a></dt><dt>2.35. <a href="#id520906">Set User Tags Request</a></dt><dt>2.36. <a href="#id520937">Set User Tags Response</a></dt><dt>2.37. <a href="#id520960">Delete User Request</a></dt><dt>2.38. <a href="#id520972">Delete User Response</a></dt><dt>2.39. <a href="#id520991">User Object Response XML </a></dt><dt>2.40. <a href="#id521024">Add Profile Request</a></dt><dt>2.41. <a href="#id529413">Add Profile Response</a></dt><dt>2.42. <a href="#id529479">Set ProfileBandwidth Request</a></dt><dt>2.43. <a href="#id529542">Set Profile Bandwidth Response</a></dt><dt>2.44. <a href="#id529564">Set Profile Audio Video Option Request</a></dt><dt>2.45. <a href="#id529611">Set Profile Audio Video Option Response</a></dt><dt>2.46. <a href="#id529634">Set Profile Audio Param  Request</a></dt><dt>2.47. <a href="#id529696">Set Profile Audio Param  Response</a></dt><dt>2.48. <a href="#id529719">Set Profile Compression Request</a></dt><dt>2.49. <a href="#id529766">Set Profile Compression  Response</a></dt><dt>2.50. <a href="#id529789">Set Profile Refresh Rate Request</a></dt><dt>2.51. <a href="#id529836">Set Profile Refresh Rate  Response</a></dt><dt>2.52. <a href="#id529858">Set Profile Block Threshold Request</a></dt><dt>2.53. <a href="#id529890">Set Profile Block Threshold  Response</a></dt><dt>2.54. <a href="#id529912">Set Profile Color Sampling Request</a></dt><dt>2.55. <a href="#id529944">Set Profile Color Sampling Response</a></dt><dt>2.56. <a href="#id529966">Set Profile KBM Param Request</a></dt><dt>2.57. <a href="#id530013">Set Profile KBM Param Response</a></dt><dt>2.58. <a href="#id530036">Set Profile Multicast Request</a></dt><dt>2.59. <a href="#id530067">Set Profile Multicast Response</a></dt><dt>2.60. <a href="#id530090">Set Profile Slice Request</a></dt><dt>2.61. <a href="#id530137">Set Profile Slice Response</a></dt><dt>2.62. <a href="#id530160">Set Profile Info Request</a></dt><dt>2.63. <a href="#id530191">Set Profile Info Response</a></dt><dt>2.64. <a href="#id530214">Set Profile Tags Request</a></dt><dt>2.65. <a href="#id530245">Set Profile Tags Response</a></dt><dt>2.66. <a href="#id530268">Delete Profile Request</a></dt><dt>2.67. <a href="#id530280">Delete Profile Response</a></dt><dt>2.68. <a href="#id530299">Profile Object Response XML </a></dt><dt>2.69. <a href="#id530332">GetSystemConfig Request </a></dt><dt>2.70. <a href="#id530344">GetSystemConfig Response </a></dt><dt>3.1. <a href="#id530574">Get Object Request</a></dt><dt>3.2. <a href="#id530605">Get Object Response - NATIVE Format</a></dt><dt>3.3. <a href="#id530617">Get Object Response - CUSTOM Format</a></dt><dt>3.4. <a href="#id530640">Add Object Request</a></dt><dt>3.5. <a href="#id530652">Add Object Response</a></dt><dt>3.6. <a href="#id530674">Update Object Request</a></dt><dt>3.7. <a href="#id530686">Update Object Response</a></dt><dt>3.8. <a href="#id530709">Delete Object Request</a></dt><dt>3.9. <a href="#id530721">Delete Object Response</a></dt><dt>4.1. <a href="#id530768">User Update Notification</a></dt><dt>4.2. <a href="#id530791">User Connection Update Notification</a></dt><dt>4.3. <a href="#id530814">User Connection State Update Notification</a></dt><dt>4.4. <a href="#id530847">File Update Notification</a></dt><dt>4.5. <a href="#id530870">File Connection Update Notification</a></dt><dt>4.6. <a href="#id530893">File Connection State Update Notification</a></dt><dt>4.7. <a href="#id530926">Dir Update Notification</a></dt><dt>4.8. <a href="#id530949">Dir Connection Update Notification</a></dt><dt>4.9. <a href="#id530972">Dir Connection State Update Notification</a></dt><dt>5.1. <a href="#id531010">Get Port Connection Info Request</a></dt><dt>5.2. <a href="#id531022">Get Port Connection Info Response</a></dt><dt>5.3. <a href="#id531045">Get User Connection Info Request</a></dt><dt>5.4. <a href="#id531057">Get User Connection Info Response</a></dt><dt>5.5. <a href="#id531080">Get File Connection Info Request</a></dt><dt>5.6. <a href="#id531092">Get File Connection Info Response</a></dt><dt>5.7. <a href="#id531115">Get Dir Connection Info Request</a></dt><dt>5.8. <a href="#id531127">Get Dir Connection Info Response</a></dt><dt>6.1. <a href="#id531370">Add Report Request</a></dt><dt>6.2. <a href="#id531382">Add Report Response</a></dt><dt>6.3. <a href="#id531616">Set Report Request</a></dt><dt>6.4. <a href="#id531628">Set Report Response</a></dt><dt>6.5. <a href="#id531783">Get Report Request</a></dt><dt>6.6. <a href="#id531795">Get Report Response - BASIC Format</a></dt><dt>6.7. <a href="#id531807">Get Report Response - EXTENDED Format</a></dt><dt>6.8. <a href="#id531869">Delete Report Request</a></dt><dt>6.9. <a href="#id531881">Delete Report Response</a></dt><dt>6.10. <a href="#id531959">Download Report Request</a></dt><dt>6.11. <a href="#id531971">Download Report Response</a></dt><dt>7.1. <a href="#id532043">Unsubscribe Request</a></dt><dt>7.2. <a href="#id532105">GetSubscribers Request</a></dt><dt>7.3. <a href="#id532117">GetSubscribers Response - BASIC format</a></dt><dt>7.4. <a href="#id532129">GetSubscribers Response - EXTENDED format</a></dt><dt>7.5. <a href="#id532192">Set Auto Discovery Request</a></dt><dt>7.6. <a href="#id532204">Set Auto Discovery Response</a></dt><dt>7.7. <a href="#id532266">Upgrade Device Request</a></dt><dt>7.8. <a href="#id532278">Upgrade Device Response</a></dt><dt>7.9. <a href="#id532341">Save Config Device Request</a></dt><dt>7.10. <a href="#id532353">Save Config Device Response</a></dt><dt>7.11. <a href="#id532445">Revert To Default Device Request</a></dt><dt>7.12. <a href="#id532457">Revert To Default Device Response</a></dt><dt>7.13. <a href="#id532519">Reboot Device Request</a></dt><dt>7.14. <a href="#id532531">Reboot Device Response</a></dt><dt>7.15. <a href="#id532594">Shutdown Device Request</a></dt><dt>7.16. <a href="#id532606">Shutdown Device Response</a></dt></dl></div><div class="chapter" title="Chapter 1. Set Operations"><div class="titlepage"><div><div><h2 class="title"><a name="id519634"></a>Chapter 1. Set Operations</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id519640">Set Service Client Display Configuration Request</a></span></dt><dt><span class="section"><a href="#id519674">Set Service Client Display Status Request</a></span></dt></dl></div><div class="section" title="Set Service Client Display Configuration Request"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id519640"></a>Set Service Client Display Configuration Request</h2></div></div></div><p>
+				Sets the display configuration parameters for given service client.
+			</p><div class="example"><a name="id519649"></a><p class="title"><b>Example 1.1. Set Service Client Display Configuration Request</b></p><div class="example-contents"><pre class="programlisting">
+            
+		&lt;SetServiceClientDisplayConfig byNID=''&gt;
+			&lt;IPVSClientDisplayConfig&gt;
+				&lt;!-- check the unmanned client display config--&gt;
+			&lt;/IPVSClientDisplayConfig&gt;
+		&lt;/SetServiceClientDisplayConfig&gt;
+            
+          </pre></div></div><br class="example-break"><div class="example"><a name="id519661"></a><p class="title"><b>Example 1.2. Set Service Client Display Configuration Response</b></p><div class="example-contents"><pre class="programlisting">
+            
+		&lt;SetServiceClientDisplayConfig byNID=''&gt;
+			&lt;IPVSClientDisplayConfig&gt;
+			 &lt;!-- check the unmanned client display config--&gt;
+			&lt;/IPVSClientDisplayConfig&gt;
+		&lt;/SetServiceClientDisplayConfig&gt;
+		    
+          </pre></div></div><br class="example-break"></div><div class="section" title="Set Service Client Display Status Request"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id519674"></a>Set Service Client Display Status Request</h2></div></div></div><p>
+				Sets the display status parameters for given service client.
+			</p><div class="example"><a name="id519684"></a><p class="title"><b>Example 1.3. Set Service Client Display Status Request</b></p><div class="example-contents"><pre class="programlisting">
+            
+		&lt;SetServiceClientDisplayStatus byNID=''&gt;
+			&lt;IPVSClientDisplayStatus&gt;
+				&lt;!-- check the unmanned client display status--&gt;
+			&lt;/IPVSClientDisplayStatus&gt;
+		&lt;/SetServiceClientDisplayStatus&gt;
+            
+          </pre></div></div><br class="example-break"><div class="example"><a name="id519696"></a><p class="title"><b>Example 1.4. Set Service Client Display Status Response</b></p><div class="example-contents"><pre class="programlisting">
+            
+		&lt;SetServiceClientDisplayStatus byNID=''&gt;
+			&lt;IPVSClientDisplayStatus&gt;
+			 &lt;!-- check the unmanned client display status--&gt;
+			&lt;/IPVSClientDisplayStatus&gt;
+		&lt;/SetServiceClientDisplayStatus&gt;
+		    
+          </pre></div></div><br class="example-break"></div></div><div class="chapter" title="Chapter 2. Admin API"><div class="titlepage"><div><div><h2 class="title"><a name="id519710"></a>Chapter 2. Admin API </h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id519720">Dir Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id519730">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id519756">SetDirInfo</a></span></dt><dt><span class="section"><a href="#id519826">SetDirPriority</a></span></dt><dt><span class="section"><a href="#id519895">SetDirTags</a></span></dt><dt><span class="section"><a href="#id519949">SetDirThreshold</a></span></dt><dt><span class="section"><a href="#id520003">SetDirStorageConfig</a></span></dt><dt><span class="section"><a href="#id520073">StartDirOffload</a></span></dt><dt><span class="section"><a href="#id520127">Dir Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id520147">File Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id520157">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id520183">SetFileInfo</a></span></dt><dt><span class="section"><a href="#id520253">SetFileMetaData</a></span></dt><dt><span class="section"><a href="#id520338">SetFileTags</a></span></dt><dt><span class="section"><a href="#id520392">SetFileByPassAutoStorageRules</a></span></dt><dt><span class="section"><a href="#id520463">File Object Response XML</a></span></dt><dt><span class="section"><a href="#id520482">GetPVRFile</a></span></dt><dt><span class="section"><a href="#id520535">GetOrphanFile</a></span></dt></dl></dd><dt><span class="section"><a href="#id520589">User Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id520598">AddUser</a></span></dt><dt><span class="section"><a href="#id520730">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id520772">SetUserInfo</a></span></dt><dt><span class="section"><a href="#id520842">SetUserPrivateData</a></span></dt><dt><span class="section"><a href="#id520896">SetUserTags</a></span></dt><dt><span class="section"><a href="#id520950">DeleteUser</a></span></dt><dt><span class="section"><a href="#id520985">User Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id521005">Profile Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id521015">AddProfile</a></span></dt><dt><span class="section"><a href="#id529426">Parameter Listing Of Set API</a></span></dt><dt><span class="section"><a href="#id529468">SetProfileBandwidth</a></span></dt><dt><span class="section"><a href="#id529555">SetProfileAudioVideoOption</a></span></dt><dt><span class="section"><a href="#id529624">SetProfileAudioParam</a></span></dt><dt><span class="section"><a href="#id529710">SetProfileCompression</a></span></dt><dt><span class="section"><a href="#id529779">SetProfileRefreshRate</a></span></dt><dt><span class="section"><a href="#id529849">SetProfileBlockThreshold</a></span></dt><dt><span class="section"><a href="#id529903">SetProfileColorSampling</a></span></dt><dt><span class="section"><a href="#id529957">SetProfileKBMParam</a></span></dt><dt><span class="section"><a href="#id530026">SetProfileMulticast</a></span></dt><dt><span class="section"><a href="#id530080">SetProfileSlice</a></span></dt><dt><span class="section"><a href="#id530150">SetProfileInfo</a></span></dt><dt><span class="section"><a href="#id530204">SetProfileTags</a></span></dt><dt><span class="section"><a href="#id530258">DeleteProfile</a></span></dt><dt><span class="section"><a href="#id530293">Profile Object Response XML</a></span></dt></dl></dd><dt><span class="section"><a href="#id530313">System Object</a></span></dt><dd><dl><dt><span class="section"><a href="#id530323">GetSystemConfig</a></span></dt></dl></dd></dl></div><p> List of admin API calls </p><div class="section" title="Dir Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id519720"></a>Dir Object</h2></div></div></div><p> This section explain list of Dir object API calls</p><div class="section" title="Parameter Listing Of Set API"><div class="titlepage"><div><div><h3 class="title"><a name="id519730"></a>Parameter Listing Of Set API</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>byNID</code></em>
+							[<span class="optional">Required</span>]
+						</p></li></ul></div></div><div class="section" title="SetDirInfo"><div class="titlepage"><div><div><h3 class="title"><a name="id519756"></a>SetDirInfo</h3></div></div></div><p>Update Dir title and description in database</p><div class="example"><a name="id519766"></a><p class="title"><b>Example 2.1. Set Dir Info Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>title</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>description</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				     &lt;SetDirInfo byNID='' title='' description='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id519812"></a><p class="title"><b>Example 2.2. Set Dir Info Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetDirInfo&gt;
+				      &lt;!-- Check Dir Object Response XML--&gt;
+				    &lt;/SetDirInfo&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetDirPriority"><div class="titlepage"><div><div><h3 class="title"><a name="id519826"></a>SetDirPriority</h3></div></div></div><p>Update Directory priority in database</p><div class="example"><a name="id519835"></a><p class="title"><b>Example 2.3. Set Dir Priority Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>MediaStorePort: NID</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>MediaStorePort: priority</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;SetDirPriority byNID=''&gt;
+			&lt;MediaStorePort NID='' priority='' /&gt;
+			&lt;MediaStorePort NID='' priority='' /&gt;
+		&lt;/SetDirPriority&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id519882"></a><p class="title"><b>Example 2.4. Set Dir Priority Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetDirPriority&gt;
+				      &lt;!-- Check Dir Object Response XML--&gt;
+				    &lt;/SetDirPriority&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetDirTags"><div class="titlepage"><div><div><h3 class="title"><a name="id519895"></a>SetDirTags</h3></div></div></div><p>Update Directory tags in database</p><div class="example"><a name="id519905"></a><p class="title"><b>Example 2.5. Set Dir Tags Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				 &lt;SetDirTags byNID=''&gt;
+					&lt;Groups&gt;
+						&lt;Tag name='' value='' /&gt;
+					&lt;/Groups&gt;		
+				&lt;/SetDirTags&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id519936"></a><p class="title"><b>Example 2.6. Set Dir Tags Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetDirTags&gt;
+				      &lt;!-- Check Dir Object Response XML--&gt;
+				    &lt;/SetDirTags&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetDirThreshold"><div class="titlepage"><div><div><h3 class="title"><a name="id519949"></a>SetDirThreshold</h3></div></div></div><p>Update Directory threshold in database</p><div class="example"><a name="id519959"></a><p class="title"><b>Example 2.7. Set Dir Threshold Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>threshold</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				&lt;SetDirThreshold byNID='' threshold='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id519990"></a><p class="title"><b>Example 2.8. Set Dir Threshold Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetDirThreshold&gt;
+				      &lt;!-- Check Dir Object Response XML--&gt;
+				    &lt;/SetDirThreshold&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetDirStorageConfig"><div class="titlepage"><div><div><h3 class="title"><a name="id520003"></a>SetDirStorageConfig</h3></div></div></div><p>Update DirSpanning and CapacityManagement in database</p><div class="example"><a name="id520013"></a><p class="title"><b>Example 2.9. Set Dir Storage Config Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>byNID</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>whereMode='DirSpanning/CapacityManagement'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				     		&lt;SetDirStorageConfig byNID='' whereMode=''&gt;
+								&lt;DirSpanning diskFullThreshold=''&gt;
+        							&lt;PortInfo&gt;
+        								&lt;Port byNID="" priority="" /&gt;
+        							&lt;/PortInfo&gt;
+        						&lt;/DirSpanning&gt;
+        						&lt;CapacityManagement  schedule=''&gt;
+        							&lt;ThresholdRule enable='' diskCapacityReached='' reduceDiskCapacity='' type='' nasDriveURL=''/&gt;
+        							&lt;ILMRule enable='' timestamp='' type='' nasDriveURL=''/&gt;
+        						&lt;/CapacityManagement&gt;
+        					&lt;/SetDirStorageConfig&gt;
+			      		 
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520060"></a><p class="title"><b>Example 2.10. Set Dir Storage Config Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    	&lt;SetDirStorageConfig&gt;
+						  &lt;Dir NID="" title="" dirType="" state="" size="" sizeUsed="" dateCreated="" dateModified="" readOnly=""&gt;
+							&lt;description /&gt;
+							&lt;Groups&gt;
+								&lt;Tag Name="" Value="" /&gt;
+							&lt;/Groups&gt;
+							&lt;StorageConfig mode=''&gt;
+								&lt;DirSpanning diskFullThreshold=''&gt;
+        							&lt;PortInfo&gt;
+										&lt;Port NID="" title="" deviceElementId="" priority="" presence="" readOnly="" /&gt;
+									&lt;/PortInfo&gt;
+								&lt;/DirSpanning&gt;
+								&lt;CapacityManagement  schedule='' state='' lastRunDate='' lastRunTime='' lastRunState=''&gt;
+									&lt;ThresholdRule enable='' diskCapacityReached='' reduceDiskCapacity='' type='' nasDriveURL=''/&gt;
+									&lt;ILMRule enable='' timestamp='' type='' nasDriveURL=''/&gt;
+								&lt;/CapacityManagement&gt;
+							&lt;/StorageConfig&gt;
+							&lt;SubDirInfo&gt;
+								&lt;Dir NID="" title="" dirType="RECYCLEBIN" /&gt;
+								&lt;Dir NID="" title="" dirType="PVR" /&gt;
+							&lt;/SubDirInfo&gt;
+							&lt;Permissions modify='' delete='' read='' import='' playback='' record='' /&gt;
+						&lt;/Dir&gt;
+					 &lt;/SetDirStorageConfig&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="StartDirOffload"><div class="titlepage"><div><div><h3 class="title"><a name="id520073"></a>StartDirOffload</h3></div></div></div><p>Start directory offload</p><div class="example"><a name="id520082"></a><p class="title"><b>Example 2.11. Start Dir Offload Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>byNID</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				     		&lt;StartDirOffload byNID='' /&gt;
+			      		 
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520114"></a><p class="title"><b>Example 2.12. Start Dir Offload Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    		&lt;StartDirOffload /&gt;
+			         	
+			         </pre></div></div><br class="example-break"></div><div class="section" title="Dir Object Response XML"><div class="titlepage"><div><div><h3 class="title"><a name="id520127"></a>Dir Object Response XML</h3></div></div></div><div class="example"><a name="id520133"></a><p class="title"><b>Example 2.13. Dir Object Response XML </b></p><div class="example-contents"><pre class="programlisting">
+			            
+				   &lt;Dir NID='' title='' dirType='' presence='' state='' size=''
+					sizeUsed='' diskFullThreashold='' dateCreated='' dateModified=''
+					readOnly=''&gt;
+					&lt;PortInfo /&gt;
+					&lt;description /&gt;
+					&lt;Groups&gt;
+						&lt;Tag name='' value='' /&gt;
+					&lt;/Groups&gt;
+			   	   &lt;/Dir&gt;
+					 
+			    </pre></div></div><br class="example-break"></div></div><div class="section" title="File Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id520147"></a>File Object</h2></div></div></div><p> This section explain list of File object API calls</p><div class="section" title="Parameter Listing Of Set API"><div class="titlepage"><div><div><h3 class="title"><a name="id520157"></a>Parameter Listing Of Set API</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>byNID</code></em>
+							[<span class="optional">Required</span>]
+						</p></li></ul></div></div><div class="section" title="SetFileInfo"><div class="titlepage"><div><div><h3 class="title"><a name="id520183"></a>SetFileInfo</h3></div></div></div><p>Update File title and description in database</p><div class="example"><a name="id520193"></a><p class="title"><b>Example 2.14. Set File Info Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>title</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>description</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				     &lt;SetFileInfo byNID='' title='' description='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520240"></a><p class="title"><b>Example 2.15. Set File Info Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetFileInfo&gt;
+				      &lt;!-- Check File Object Response XML--&gt;
+				    &lt;/SetFileInfo&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetFileMetaData"><div class="titlepage"><div><div><h3 class="title"><a name="id520253"></a>SetFileMetaData</h3></div></div></div><p>replace given metadata in database</p><div class="example"><a name="id520262"></a><p class="title"><b>Example 2.16. Set File MetaData Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>byNID</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>byTitle</code></em>
+								[<span class="optional">Either byNID or byTitle required</span>]
+							</p></li><li class="listitem"><p>
+							<em class="parameter"><code>MetaData</code></em>
+							[<span class="optional">Required</span>]
+						</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;SetFileMetaData byNID='nid1' byTitle=''&gt;
+			&lt;MetaData&gt;
+				&lt;Tag name='' /&gt;
+			&lt;/MetaData&gt;
+		&lt;/SetFileMetaData&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520325"></a><p class="title"><b>Example 2.17. Set File MetaData Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetFileMetaData&gt;
+				      &lt;!-- Check File Object Response XML--&gt;
+				    &lt;/SetFileMetaData&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetFileTags"><div class="titlepage"><div><div><h3 class="title"><a name="id520338"></a>SetFileTags</h3></div></div></div><p>Update File tags in database</p><div class="example"><a name="id520348"></a><p class="title"><b>Example 2.18. Set File Tags Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;SetFileTags byNID=''&gt;
+			&lt;Groups&gt;
+				&lt;Tag name='' value='' /&gt;
+			&lt;/Groups&gt;
+		&lt;/SetFileTags&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520379"></a><p class="title"><b>Example 2.19. Set File Tags Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetFileTags&gt;
+				      &lt;!-- Check File Object Response XML--&gt;
+				    &lt;/SetFileTags&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetFileByPassAutoStorageRules"><div class="titlepage"><div><div><h3 class="title"><a name="id520392"></a>SetFileByPassAutoStorageRules</h3></div></div></div><p>                  
+          			This is used to set the bypassAutoStorageRules.         
+        		</p><div class="example"><a name="id520402"></a><p class="title"><b>Example 2.20. Set File BypassAutoStorageRules Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>byNID</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>bypassAutoStorageRules='true/false'</code></em>
+								[<span class="optional">if the value is true, it bypasses NAS offload rules(delete/copy).</span>]
+							</p></li></ul></div><pre class="programlisting">
+						
+							&lt;SetFileBypassAutoStorageRules byNID ="" bypassAutoStorageRules='' /&gt;
+					       
+					</pre></div></div><br class="example-break"><div class="example"><a name="id520450"></a><p class="title"><b>Example 2.21. Set File BypassAutoStorageRules Response</b></p><div class="example-contents"><pre class="programlisting">
+            			
+							&lt;SetFileBypassAutoStorageRules&gt;
+								&lt;File NID='' title='' fileType='' streamType='' size=''
+									playlength='' presence='' state='' dateCreated='' dateModified=''
+									readOnly='' mediaGroupId='' bypassAutoStorageRules=''&gt;
+									&lt;description /&gt;
+									&lt;Groups&gt;
+										&lt;Tag name='' value='' /&gt;
+									&lt;/Groups&gt;
+									&lt;MetaData&gt;
+										&lt;Tag Name=''&gt;Value&lt;/Tag&gt;
+									&lt;/MetaData&gt;
+									&lt;Dir dirNID='' dirTitle='' /&gt;
+								&lt;/File&gt;
+							&lt;/SetFileBypassAutoStorageRules&gt;
+						
+          			</pre></div></div><br class="example-break"></div><div class="section" title="File Object Response XML"><div class="titlepage"><div><div><h3 class="title"><a name="id520463"></a>File Object Response XML</h3></div></div></div><div class="example"><a name="id520469"></a><p class="title"><b>Example 2.22. File Object Response XML </b></p><div class="example-contents"><pre class="programlisting">
+			            
+				  &lt;File NID='' title='' fileType='' streamType='' size=''
+					playlength='' presence='' state='' dateCreated='' dateModified=''
+					readOnly='' mediaGroupId=''&gt;
+					&lt;description /&gt;
+					&lt;Groups&gt;
+						&lt;Tag name='' value='' /&gt;
+					&lt;/Groups&gt;
+					&lt;MetaData&gt;
+						&lt;Tag Name=''&gt;Value&lt;/Tag&gt;
+					&lt;/MetaData&gt;
+					&lt;Dir dirNID='' dirTitle='' /&gt;
+				&lt;/File&gt;
+					 
+			    </pre></div></div><br class="example-break"></div><div class="section" title="GetPVRFile"><div class="titlepage"><div><div><h3 class="title"><a name="id520482"></a>GetPVRFile</h3></div></div></div><p>Returns PVR file information</p><div class="example"><a name="id520492"></a><p class="title"><b>Example 2.23. GetPVRFile Request</b></p><div class="example-contents"><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Check GetFile API Parameter Listing</p></div><pre class="programlisting">
+			            
+     &lt;GetPVRFile countToFetch="" selectFormat="BASIC"
+		sortBy="" sortByMetaData='' sortByTagName='' sortOrder="ascending" startFrom="1" whereDateRange=""
+		whereNID="" whereTagExpr="" whereTextSubStr="" searchTextSubStrIn='TITLE,DESCRIPTION,METADATA,BOOKMARK' 
+		whereState="" whereMetaDataExpr="" 
+		whereParentDirNID="" whereSessionConfigNID = "" /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520510"></a><p class="title"><b>Example 2.24. GetPVRFile Response BASIC</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;GetPVRFile from="0" total="0"&gt;
+			&lt;File NID='' title='' fileType='PVRMediaClip' streamType='' size='
+				playlength='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''&gt;
+				&lt;Permissions add='' modify='' delete='' read='' import='' export='' playback='' /&gt;
+			&lt;/File&gt;			
+		&lt;/GetPVRFile&gt;
+			         
+			          </pre></div></div><br class="example-break"><div class="example"><a name="id520522"></a><p class="title"><b>Example 2.25. GetPVRFile Response EXTENDED</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;GetPVRFile from="0" total="0"&gt;
+			&lt;File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' presence='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''&gt;
+				&lt;description /&gt;
+				&lt;Groups&gt;
+					&lt;Tag name='' value='' /&gt;
+				&lt;/Groups&gt;
+				&lt;Permissions add='' modify='' delete='' read='' import='' export='' playback='' /&gt;
+				&lt;MetaData&gt;
+					&lt;Tag Name=''&gt;Value&lt;/Tag&gt;
+				&lt;/MetaData&gt;
+				&lt;Dir dirNID='' dirTitle='' /&gt;
+			&lt;/File&gt;
+		&lt;/GetPVRFile&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="GetOrphanFile"><div class="titlepage"><div><div><h3 class="title"><a name="id520535"></a>GetOrphanFile</h3></div></div></div><p>Returns Orphan file information</p><div class="example"><a name="id520544"></a><p class="title"><b>Example 2.26. GetOrphanFile Request</b></p><div class="example-contents"><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Check GetFile API Parameter Listing</p></div><pre class="programlisting">
+			            
+     &lt;GetOrphanFile countToFetch="" selectFormat="BASIC"
+		sortBy="" sortByMetaData='' sortByTagName='' sortOrder="ascending" startFrom="1" whereDateRange=""
+		whereNID="" whereTagExpr="" whereTextSubStr="" searchTextSubStrIn='TITLE,DESCRIPTION,METADATA,BOOKMARK' 
+		whereState="" whereMetaDataExpr="" 
+		whereParentDirNID="" whereSessionConfigNID = "" /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520562"></a><p class="title"><b>Example 2.27. GetOrphanFile Response BASIC</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;GetOrphanFile from="0" total="0"&gt;
+			&lt;File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''&gt;
+				&lt;Permissions add='' modify='' delete='' read='' import='' export='' playback='' /&gt;
+			&lt;/File&gt;			
+		&lt;/GetOrphanFile&gt;
+			         
+			          </pre></div></div><br class="example-break"><div class="example"><a name="id520574"></a><p class="title"><b>Example 2.28. GetOrphanFile Response EXTENDED</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;GetOrphanFile from="0" total="0"&gt;
+			&lt;File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' presence='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''&gt;
+				&lt;description /&gt;
+				&lt;Groups&gt;
+					&lt;Tag name='' value='' /&gt;
+				&lt;/Groups&gt;
+				&lt;Permissions add='' modify='' delete='' read='' import='' export='' playback='' /&gt;
+				&lt;MetaData&gt;
+					&lt;Tag Name=''&gt;Value&lt;/Tag&gt;
+				&lt;/MetaData&gt;
+				&lt;Dir dirNID='' dirTitle='' /&gt;
+			&lt;/File&gt;
+		&lt;/GetOrphanFile&gt;
+			         
+			          </pre></div></div><br class="example-break"></div></div><div class="section" title="User Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id520589"></a>User Object</h2></div></div></div><p> This section explain list of User object API calls</p><div class="section" title="AddUser"><div class="titlepage"><div><div><h3 class="title"><a name="id520598"></a>AddUser</h3></div></div></div><p>Add User in database</p><div class="example"><a name="id520608"></a><p class="title"><b>Example 2.29. Add User Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>fullName</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>loginName</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>password</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>email</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>UserPrivatData</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;AddUser fullName='' loginName='' password='' email=''&gt;
+				&lt;Groups&gt;
+					&lt;Tag Name='' value='' /&gt;
+				&lt;/Groups&gt;
+				&lt;UserPrivatData /&gt;
+			&lt;/AddUser&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520717"></a><p class="title"><b>Example 2.30. Add User Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;AddUser&gt;
+				      &lt;!-- Check User Object Response XML--&gt;
+				    &lt;/AddUser&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="Parameter Listing Of Set API"><div class="titlepage"><div><div><h3 class="title"><a name="id520730"></a>Parameter Listing Of Set API</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>byNID</code></em>
+							[<span class="optional">Either NID or username required</span>]
+						</p></li><li class="listitem"><p>
+							<em class="parameter"><code>byUserName</code></em>
+							[<span class="optional">Either NID or username required</span>]
+						</p></li></ul></div></div><div class="section" title="SetUserInfo"><div class="titlepage"><div><div><h3 class="title"><a name="id520772"></a>SetUserInfo</h3></div></div></div><p>Update User full name and email in database</p><div class="example"><a name="id520782"></a><p class="title"><b>Example 2.31. Set User Info Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>fullName</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>email</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetUserInfo byNID='' byUserName='' fullName='' email='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520829"></a><p class="title"><b>Example 2.32. Set User Info Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetUserInfo&gt;
+				      &lt;!-- Check User Object Response XML--&gt;
+				    &lt;/SetUserInfo&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetUserPrivateData"><div class="titlepage"><div><div><h3 class="title"><a name="id520842"></a>SetUserPrivateData</h3></div></div></div><p>Update User private data in database</p><div class="example"><a name="id520852"></a><p class="title"><b>Example 2.33. Set User PrivateData Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>UserPrivateData</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+				&lt;SetUserPrivateData byNID='' byUserName=''&gt;
+					&lt;UserPrivateData /&gt;
+				&lt;/SetUserPrivateData&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520883"></a><p class="title"><b>Example 2.34. Set User PrivateData Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetUserPrivateData&gt;
+				      &lt;!-- Check User Object Response XML--&gt;
+				    &lt;/SetUserPrivateData&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetUserTags"><div class="titlepage"><div><div><h3 class="title"><a name="id520896"></a>SetUserTags</h3></div></div></div><p>Update User Tags in database</p><div class="example"><a name="id520906"></a><p class="title"><b>Example 2.35. Set User Tags Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;SetUserTags byNID='' byUserName=''&gt;
+			&lt;Groups&gt;
+				&lt;Tag name='' value='' /&gt;
+			&lt;/Groups&gt;
+		&lt;/SetUserTags&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520937"></a><p class="title"><b>Example 2.36. Set User Tags Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetUserTags&gt;
+				      &lt;!-- Check User Object Response XML--&gt;
+				    &lt;/SetUserTags&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="DeleteUser"><div class="titlepage"><div><div><h3 class="title"><a name="id520950"></a>DeleteUser</h3></div></div></div><p>Delete User from database</p><div class="example"><a name="id520960"></a><p class="title"><b>Example 2.37. Delete User Request</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;DeleteUserInfo whereUserName='' whereNID=''/&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id520972"></a><p class="title"><b>Example 2.38. Delete User Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;DeleteUserInfo&gt;
+				      &lt;!-- Check User Object Response XML--&gt;
+				    &lt;/DeleteUserInfo&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="User Object Response XML"><div class="titlepage"><div><div><h3 class="title"><a name="id520985"></a>User Object Response XML</h3></div></div></div><div class="example"><a name="id520991"></a><p class="title"><b>Example 2.39. User Object Response XML </b></p><div class="example-contents"><pre class="programlisting">
+			            
+				&lt;User NID="" title="" jid="" presence=""&gt;
+				&lt;description /&gt;
+				&lt;Groups&gt;
+					&lt;Tag name="" value="" /&gt;
+				&lt;/Groups&gt;
+			   &lt;/User&gt;
+					 
+			    </pre></div></div><br class="example-break"></div></div><div class="section" title="Profile Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id521005"></a>Profile Object</h2></div></div></div><p> This section explain list of Profile object API calls</p><div class="section" title="AddProfile"><div class="titlepage"><div><div><h3 class="title"><a name="id521015"></a>AddProfile</h3></div></div></div><p>Add profile in database</p><div class="example"><a name="id521024"></a><p class="title"><b>Example 2.40. Add Profile Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>streamType</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>title</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>description</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>bandwidth</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Optional</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;AddProfile streamType='' title='' description='' bandwidth=''&gt;
+			&lt;Groups&gt;
+				&lt;Tag name='' value='' /&gt;
+			&lt;/Groups&gt;
+		&lt;/AddProfile&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529413"></a><p class="title"><b>Example 2.41. Add Profile Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;AddProfile&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/AddProfile&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="Parameter Listing Of Set API"><div class="titlepage"><div><div><h3 class="title"><a name="id529426"></a>Parameter Listing Of Set API</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>byNID</code></em>
+							[<span class="optional">Either NID or title required</span>]
+						</p></li><li class="listitem"><p>
+							<em class="parameter"><code>byTitle</code></em>
+							[<span class="optional">Either NID or title required</span>]
+						</p></li></ul></div></div><div class="section" title="SetProfileBandwidth"><div class="titlepage"><div><div><h3 class="title"><a name="id529468"></a>SetProfileBandwidth</h3></div></div></div><p>Update profile bandwidth, burst ratio and burst duration</p><div class="example"><a name="id529479"></a><p class="title"><b>Example 2.42. Set ProfileBandwidth Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>bandwidth</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>burstRatio</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>burstDuration</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileBandwidth byTitle='' byNID=''
+			bandwidth='' burstRatio='' burstDuration=''/&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529542"></a><p class="title"><b>Example 2.43. Set Profile Bandwidth Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileBandwidth&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileBandwidth&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileAudioVideoOption"><div class="titlepage"><div><div><h3 class="title"><a name="id529555"></a>SetProfileAudioVideoOption</h3></div></div></div><p>Update profile Audio and video option.</p><div class="example"><a name="id529564"></a><p class="title"><b>Example 2.44. Set Profile Audio Video Option Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>audio='true/false'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>video='true/false'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileAudioVideoOption byTitle=''
+			byNID='' audio='true/false' video='true/false' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529611"></a><p class="title"><b>Example 2.45. Set Profile Audio Video Option Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileAudioVideoOption&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileAudioVideoOption&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileAudioParam"><div class="titlepage"><div><div><h3 class="title"><a name="id529624"></a>SetProfileAudioParam</h3></div></div></div><p>Update profile audio params</p><div class="example"><a name="id529634"></a><p class="title"><b>Example 2.46. Set Profile Audio Param  Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>sampleSize</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>monoOrStereo</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>audioCodeExample</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileAudioParam byTitle='' byNID=''
+			sampleSize='' monoOrStereo='' audioCodeExample='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529696"></a><p class="title"><b>Example 2.47. Set Profile Audio Param  Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileAudioParam&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileAudioParam&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileCompression"><div class="titlepage"><div><div><h3 class="title"><a name="id529710"></a>SetProfileCompression</h3></div></div></div><p>Update profile Compression</p><div class="example"><a name="id529719"></a><p class="title"><b>Example 2.48. Set Profile Compression Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>low</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>high</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileCompresion byTitle='' byNID=''
+			low='' high='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529766"></a><p class="title"><b>Example 2.49. Set Profile Compression  Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileCompresion&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileCompresion&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileRefreshRate"><div class="titlepage"><div><div><h3 class="title"><a name="id529779"></a>SetProfileRefreshRate</h3></div></div></div><p>Update profile Refresh rate min max values</p><div class="example"><a name="id529789"></a><p class="title"><b>Example 2.50. Set Profile Refresh Rate Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>min</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>max</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileRefreshRate byTitle='' byNID='' min='' max=''/&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529836"></a><p class="title"><b>Example 2.51. Set Profile Refresh Rate  Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileRefreshRate&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileRefreshRate&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileBlockThreshold"><div class="titlepage"><div><div><h3 class="title"><a name="id529849"></a>SetProfileBlockThreshold</h3></div></div></div><p>Update profile block threshold in database</p><div class="example"><a name="id529858"></a><p class="title"><b>Example 2.52. Set Profile Block Threshold Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>threshold</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileBlockThreshold byTitle=''
+			byNID='' threshold='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529890"></a><p class="title"><b>Example 2.53. Set Profile Block Threshold  Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileBlockThreshold&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileBlockThreshold&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileColorSampling"><div class="titlepage"><div><div><h3 class="title"><a name="id529903"></a>SetProfileColorSampling</h3></div></div></div><p>Update profile color sampling in database</p><div class="example"><a name="id529912"></a><p class="title"><b>Example 2.54. Set Profile Color Sampling Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>colorSampling='Dynamic 4:4:4/Static 4:4:4/4:2:2'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileColorSampling byTitle=''
+			byNID='' colorSampling='Dynamic 4:4:4/Static 4:4:4/4:2:2' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id529944"></a><p class="title"><b>Example 2.55. Set Profile Color Sampling Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileColorSampling&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileColorSampling&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileKBMParam"><div class="titlepage"><div><div><h3 class="title"><a name="id529957"></a>SetProfileKBMParam</h3></div></div></div><p>Update profile Key  board mouse in database</p><div class="example"><a name="id529966"></a><p class="title"><b>Example 2.56. Set Profile KBM Param Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>enableKbm='true/false'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>allowKMSwitch='true/false'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileKBMParam byTitle='' byNID=''
+			enableKbm='true/false' allowKMSwitch='true/false' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530013"></a><p class="title"><b>Example 2.57. Set Profile KBM Param Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileKBMParam&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileKBMParam&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileMulticast"><div class="titlepage"><div><div><h3 class="title"><a name="id530026"></a>SetProfileMulticast</h3></div></div></div><p>Update profile multicast in database</p><div class="example"><a name="id530036"></a><p class="title"><b>Example 2.58. Set Profile Multicast Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>multicast='true/false'</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileMulticast byTitle='' byNID=''
+			multicast='true/false' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530067"></a><p class="title"><b>Example 2.59. Set Profile Multicast Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileMulticast&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileMulticast&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileSlice"><div class="titlepage"><div><div><h3 class="title"><a name="id530080"></a>SetProfileSlice</h3></div></div></div><p>Update profile Slice min and max values in database</p><div class="example"><a name="id530090"></a><p class="title"><b>Example 2.60. Set Profile Slice Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>min</code></em>
+								[<span class="optional">Required</span>]
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>max</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileSlice byTitle='' byNID='' min='' max='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530137"></a><p class="title"><b>Example 2.61. Set Profile Slice Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileSlice&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileSlice&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileInfo"><div class="titlepage"><div><div><h3 class="title"><a name="id530150"></a>SetProfileInfo</h3></div></div></div><p>Update profile Info in database</p><div class="example"><a name="id530160"></a><p class="title"><b>Example 2.62. Set Profile Info Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>description</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+			&lt;SetProfileInfo byTitle='' byNID='' description='' /&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530191"></a><p class="title"><b>Example 2.63. Set Profile Info Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileInfo&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileInfo&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="SetProfileTags"><div class="titlepage"><div><div><h3 class="title"><a name="id530204"></a>SetProfileTags</h3></div></div></div><p>Update profile Tags in database</p><div class="example"><a name="id530214"></a><p class="title"><b>Example 2.64. Set Profile Tags Request</b></p><div class="example-contents"><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>Groups</code></em>
+								[<span class="optional">Required</span>]
+							</p></li></ul></div><pre class="programlisting">
+			            
+		&lt;SetProfileTags byTitle='' byNID=''&gt;
+			&lt;Groups&gt;
+				&lt;Tag name='' value='' /&gt;
+			&lt;/Groups&gt;
+		&lt;/SetProfileTags&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530245"></a><p class="title"><b>Example 2.65. Set Profile Tags Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;SetProfileTags&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/SetProfileTags&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="DeleteProfile"><div class="titlepage"><div><div><h3 class="title"><a name="id530258"></a>DeleteProfile</h3></div></div></div><p>Delete given profile from database</p><div class="example"><a name="id530268"></a><p class="title"><b>Example 2.66. Delete Profile Request</b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;DeleteProfile whereTitle='' whereNID=''/&gt;
+			       
+				    </pre></div></div><br class="example-break"><div class="example"><a name="id530280"></a><p class="title"><b>Example 2.67. Delete Profile Response</b></p><div class="example-contents"><pre class="programlisting">
+			            
+				    &lt;DeleteProfile&gt;
+				      &lt;!-- Check Profile Object Response XML--&gt;
+				    &lt;/DeleteProfile&gt;
+			         
+			          </pre></div></div><br class="example-break"></div><div class="section" title="Profile Object Response XML"><div class="titlepage"><div><div><h3 class="title"><a name="id530293"></a>Profile Object Response XML</h3></div></div></div><div class="example"><a name="id530299"></a><p class="title"><b>Example 2.68. Profile Object Response XML </b></p><div class="example-contents"><pre class="programlisting">
+			            
+				 &lt;Profile NID='' title='' streamType='' bandwidth=''
+				avOption='Audio/Video/Both' remoteControl=''&gt;
+				&lt;description /&gt;
+				&lt;Groups&gt;
+					&lt;Tag name='' value='' /&gt;
+				&lt;/Groups&gt;
+			&lt;/Profile&gt;
+					 
+			    </pre></div></div><br class="example-break"></div></div><div class="section" title="System Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530313"></a>System Object</h2></div></div></div><p> This section explain list of System object API calls</p><div class="section" title="GetSystemConfig"><div class="titlepage"><div><div><h3 class="title"><a name="id530323"></a>GetSystemConfig</h3></div></div></div><p> Returns System config information </p><div class="example"><a name="id530332"></a><p class="title"><b>Example 2.69. GetSystemConfig Request </b></p><div class="example-contents"><pre class="programlisting">
+			            
+				 	&lt;GetSystemConfig whereConfig="SoftwareVersion/ScheduleBackup/ExternalAuthentication/Preferences/DeviceDiscovery/ALL" /&gt;	
+					 
+			    </pre></div></div><br class="example-break"><div class="example"><a name="id530344"></a><p class="title"><b>Example 2.70. GetSystemConfig Response </b></p><div class="example-contents"><pre class="programlisting">
+			            
+		&lt;GetSystemConfig&gt;
+			&lt;Device jid=''&gt;
+				&lt;SoftwareVersion version='' /&gt;
+				&lt;ScheduleBackup enable='true/false' backupTime='' enableExport='true/false' exportURL='' recoveryMode='' /&gt;
+				&lt;ExternalAuthentication enable='true/false' host='' adminDN='' adminPassword='' baseDN='' usernameField='' /&gt;
+				&lt;Preferences&gt;
+					&lt;Login maxMediaClients='' /&gt;
+				&lt;/Preferences&gt;
+			&lt;/Device&gt;
+		&lt;/GetSystemConfig&gt;
+			 
+			    </pre></div></div><br class="example-break"></div></div></div><div class="chapter" title="Chapter 3. Native Admin API"><div class="titlepage"><div><div><h2 class="title"><a name="id530360"></a>Chapter 3. Native Admin API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id530366">Parameter Listing</a></span></dt><dt><span class="section"><a href="#id530552">Get Object</a></span></dt><dt><span class="section"><a href="#id530630">Add Object</a></span></dt><dt><span class="section"><a href="#id530665">Update Object</a></span></dt><dt><span class="section"><a href="#id530700">Delete Object</a></span></dt></dl></div><div class="section" title="Parameter Listing"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530366"></a>Parameter Listing</h2></div></div></div><p>
+          This is the list of common parameters in Get Requests
+        </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>startFrom</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>countToFetch</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>sortBy=""</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>sortOrder="ascending/descending"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>selectFormat="NATIVE/CUSTOM"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereNID='nid1,nid2,nid3'</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTagExpr="Name='Location' and Value='Sunnyvale'"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereDateRange="From:YYYY-MM-DD HH:MM:SS.MMMM,
+					                           To:YYYY-MM-DD HH:MM:SS.MMMM,
+					                           Interval:xx(Y/M/D/H/m/S/s)"
+					</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTextSubStr=""</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>type</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereXPath="//xPath"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li></ul></div></div><div class="section" title="Get Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530552"></a>Get Object</h2></div></div></div><p>
+				This will get the list of given native object from the database.
+				</p><table border="0" summary="Simple list" class="simplelist"><tr><td> The NATIVE Detail Level returns the native object from
+						database.</td></tr><tr><td> The CUSTOM Detail Level returns the native object in user
+						requested format. (Not Supported)</td></tr></table><p>
+			</p><div class="example"><a name="id530574"></a><p class="title"><b>Example 3.1. Get Object Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		&lt;GetObject  startFrom="" countToFetch="" 
+		            sortBy="" sortOrder="" 
+					selectFormat=""
+					type=""
+					whereNID=""
+					whereTextSubStr=""
+					whereTagExpr="" 
+					whereDateRange="" 
+					whereXPath=""&gt;
+		 	&lt;SelectXML/&gt;
+		&lt;/GetObject&gt;
+	
+		    </pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>selectFormat="NATIVE/CUSTOM"
+							</code></em>
+							[<span class="optional">Required (CUSTOM Level not supported)</span>]
+						</p></li></ul></div></div></div><br class="example-break"><div class="example"><a name="id530605"></a><p class="title"><b>Example 3.2. Get Object Response - NATIVE Format</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		&lt;GetObject from="200" total="400"&gt;
+		        &lt;!-- Returns the native object xml's--&gt;			
+				&lt;Object NID="" title=""/&gt;
+				&lt;Object NID="" title=""/&gt;
+				&lt;Object NID="" title=""/&gt;
+		&lt;/GetObject&gt;
+	
+	          </pre></div></div><br class="example-break"><div class="example"><a name="id530617"></a><p class="title"><b>Example 3.3. Get Object Response - CUSTOM Format</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		&lt;GetObject from="200" total="400"&gt;
+				&lt;!-- Object record with CUSTOM information --&gt;
+				&lt;Object NID="" title=""&gt;
+					&lt;description /&gt;
+					&lt;Groups&gt;
+						&lt;Tag name="" value="" /&gt;
+					&lt;/Groups&gt;
+				&lt;/Object&gt;
+		&lt;/GetObject&gt;
+	
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Add Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530630"></a>Add Object</h2></div></div></div><p> This will add the native object in the database</p><div class="example"><a name="id530640"></a><p class="title"><b>Example 3.4. Add Object Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;AddObject type=""&gt;
+		      &lt;!--Add Native Object xml here --&gt;			 
+			  &lt;/AddObject&gt;
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id530652"></a><p class="title"><b>Example 3.5. Add Object Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		    &lt;AddObject type="AssetResource"&gt;
+				&lt;!--NAtive object xml --&gt;
+			&lt;/AddObject&gt;
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Update Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530665"></a>Update Object</h2></div></div></div><p> This will update the native object in the database</p><div class="example"><a name="id530674"></a><p class="title"><b>Example 3.6. Update Object Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		    &lt;UpdateObject type="" whereNID=""&gt;
+				&lt;!--Object XML --&gt;
+			&lt;/UpdateObject&gt;
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id530686"></a><p class="title"><b>Example 3.7. Update Object Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		    &lt;UpdateObject type="" whereNID=""&gt;
+		    &lt;!-- Object XML --&gt;
+			&lt;/UpdateObject&gt;
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Delete Object"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530700"></a>Delete Object</h2></div></div></div><p> This will delete the native objects from data base</p><div class="example"><a name="id530709"></a><p class="title"><b>Example 3.8. Delete Object Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		    &lt;DeleteObject type="" whereDateRange=""
+				whereNID="" whereTagExpr="" whereTextSubStr="" whereXPath=""&gt;
+			&lt;/DeleteObject&gt;
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id530721"></a><p class="title"><b>Example 3.9. Delete Object Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		    &lt;DeleteObject type="AssetResource"&gt;
+			&lt;/DeleteObject&gt;
+	         
+	          </pre></div></div><br class="example-break"></div></div><div class="chapter" title="Chapter 4. Update Notifications"><div class="titlepage"><div><div><h2 class="title"><a name="id530736"></a>Chapter 4. Update Notifications</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id530749">User</a></span></dt><dd><dl><dt><span class="section"><a href="#id530758">User Update</a></span></dt><dt><span class="section"><a href="#id530781">User Connection Update</a></span></dt><dt><span class="section"><a href="#id530804">User Connection State Update</a></span></dt></dl></dd><dt><span class="section"><a href="#id530828">File</a></span></dt><dd><dl><dt><span class="section"><a href="#id530838">File Update</a></span></dt><dt><span class="section"><a href="#id530860">File Connection Update</a></span></dt><dt><span class="section"><a href="#id530883">File Connection State Update</a></span></dt></dl></dd><dt><span class="section"><a href="#id530907">Dir</a></span></dt><dd><dl><dt><span class="section"><a href="#id530917">Dir Update</a></span></dt><dt><span class="section"><a href="#id530940">Dir Connection Update</a></span></dt><dt><span class="section"><a href="#id530962">Dir Connection State Update</a></span></dt></dl></dd></dl></div><p> [<span class="optional">Not Implemented</span>]	</p><div class="section" title="User"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530749"></a>User</h2></div></div></div><p>
+				This is a list of update notifications corresponding to the user.
+			</p><div class="section" title="User Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530758"></a>User Update</h3></div></div></div><p> 
+					This is a notification for user update. 
+				</p><div class="example"><a name="id530768"></a><p class="title"><b>Example 4.1. User Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;UserUpdate&gt;
+				&lt;!-- Either BASIC or EXTENDED format send based on user requested --&gt;
+				
+				&lt;User NID="" username="" email="" fullName="" creationDate="" modifiedDate="" presence="" state="" selectFormat="BASIC" operation="Add/Delete/Update" /&gt;
+
+				&lt;User NID="" username="" email="" fullName="" creationDate="" modifiedDate="" presence="" state="" selectFormat="EXTENDED" operation="Add/Delete/Update"&gt;
+					&lt;Groups&gt;
+						&lt;Tag name="" value="" /&gt;
+					&lt;/Groups&gt;
+					&lt;UserPrivateData /&gt;
+				&lt;/User&gt;	
+			&lt;/UserUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="User Connection Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530781"></a>User Connection Update</h3></div></div></div><p> 
+					This is a notification for user connection update. 
+				</p><div class="example"><a name="id530791"></a><p class="title"><b>Example 4.2. User Connection Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;UserConnnectionUpdate&gt;	
+				&lt;User NID='' operation="Add/Delete/Update"&gt;
+					 &lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+				&lt;/User&gt;
+			&lt;/UserConnnectionUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="User Connection State Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530804"></a>User Connection State Update</h3></div></div></div><p> 
+					This is a notification for user connection state update. 
+				</p><div class="example"><a name="id530814"></a><p class="title"><b>Example 4.3. User Connection State Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;UserConnnectionStateUpdate&gt;	
+				&lt;User NID=''&gt;
+					  &lt;ConnectionState .../&gt;
+					&lt;!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter --&gt;
+				&lt;/User&gt;
+			&lt;/UserConnnectionStateUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div></div><div class="section" title="File"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530828"></a>File</h2></div></div></div><p>
+				This is a list of update notifications corresponding to the file.
+			</p><div class="section" title="File Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530838"></a>File Update</h3></div></div></div><p> 
+					This is a notification for file update. 
+				</p><div class="example"><a name="id530847"></a><p class="title"><b>Example 4.4. File Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;FileUpdate&gt;
+				&lt;!-- Either BASIC or EXTENDED format send based on user requested --&gt;
+
+				&lt;File NID='' title='' fileType='MediaClip' streamType='' size='' playlength='' state='' dateCreated='' dateModified='' readOnly='' mediaGroupId='' selectFormat="BASIC" operation="Add/Delete/Update" /&gt;
+
+				&lt;File NID='' title='' fileType='' streamType='' size='' playlength='' presence='' state='' dateCreated='' dateModified='' readOnly='' mediaGroupId='' selectFormat="EXTENDED" operation="Add/Delete/Update"&gt;
+					&lt;description /&gt;
+					&lt;Groups&gt;
+						&lt;Tag name='' value='' /&gt;
+					&lt;/Groups&gt;
+					&lt;MetaData&gt;
+						&lt;Tag Name=''&gt;Value&lt;/Tag&gt;
+					&lt;/MetaData&gt;
+					&lt;Dir dirNID='' dirTitle='' /&gt;
+				&lt;/File&gt;
+			&lt;/FileUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="File Connection Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530860"></a>File Connection Update</h3></div></div></div><p> 
+					This is a notification for file connection update. 
+				</p><div class="example"><a name="id530870"></a><p class="title"><b>Example 4.5. File Connection Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;FileConnectionUpdate&gt;
+				&lt;File NID='' operation="Add/Delete/Update"&gt;
+					&lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+				&lt;/File&gt;
+			&lt;/FileConnectionUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="File Connection State Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530883"></a>File Connection State Update</h3></div></div></div><p> 
+					This is a notification for file connection state update. 
+				</p><div class="example"><a name="id530893"></a><p class="title"><b>Example 4.6. File Connection State Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;FileConnectionStateUpdate&gt;
+				&lt;File NID=''&gt;
+				  &lt;ConnectionState .../&gt;
+					&lt;!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter --&gt;
+				&lt;/File&gt;
+			&lt;/FileConnectionStateUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div></div><div class="section" title="Dir"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id530907"></a>Dir</h2></div></div></div><p> 
+				This is a list of update notifications corresponding to the directory.
+			</p><div class="section" title="Dir Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530917"></a>Dir Update</h3></div></div></div><p>
+					This is a notification for directory update. 
+				</p><div class="example"><a name="id530926"></a><p class="title"><b>Example 4.7. Dir Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;DirUpdate&gt;
+				&lt;!-- Either BASIC or EXTENDED format send based on user requested --&gt;
+
+				&lt;Dir NID='' title='' dirType='' state='' size='' sizeUsed='' diskFullThreashold='' dateCreated='' dateModified='' readOnly='' selectFormat="BASIC" operation="Add/Delete/Update" /&gt;
+
+				&lt;Dir NID='' title='' dirType='' presence='' state='' size='' sizeUsed='' diskFullThreashold='' dateCreated='' dateModified='' readOnly='' selectFormat="EXTENDED" operation="Add/Delete/Update"&gt;
+					&lt;PortInfo /&gt;
+					&lt;description /&gt;
+					&lt;Groups&gt;
+						&lt;Tag name='' value='' /&gt;
+					&lt;/Groups&gt;
+				&lt;/Dir&gt;
+			&lt;/DirUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="Dir Connection Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530940"></a>Dir Connection Update</h3></div></div></div><p> 
+					This is a notification for directory connection update. 
+				</p><div class="example"><a name="id530949"></a><p class="title"><b>Example 4.8. Dir Connection Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;DirConnectionUpdate&gt;
+				&lt;!-- Add/Update/Delete --&gt;
+				&lt;Dir NID='' operation="Add/Delete/Update"&gt;
+					&lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+				&lt;/Dir&gt;
+			&lt;/DirConnectionUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="Dir Connection State Update"><div class="titlepage"><div><div><h3 class="title"><a name="id530962"></a>Dir Connection State Update</h3></div></div></div><p> 
+					This is a notification for directory connection state update. 
+				</p><div class="example"><a name="id530972"></a><p class="title"><b>Example 4.9. Dir Connection State Update Notification</b></p><div class="example-contents"><pre class="programlisting">
+            				
+			&lt;DirConnectionStateUpdate&gt;
+				&lt;Dir NID=''&gt;
+				  &lt;ConnectionState .../&gt;
+					&lt;!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter --&gt;
+				&lt;/Dir&gt;
+			&lt;/DirConnectionStateUpdate&gt;
+            		
+          			</pre></div></div><br class="example-break"></div></div></div><div class="chapter" title="Chapter 5. Get Connection API"><div class="titlepage"><div><div><h2 class="title"><a name="id530988"></a>Chapter 5. Get Connection API 	</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id531001">Get Port Connection Info</a></span></dt><dt><span class="section"><a href="#id531036">Get User Connection Info</a></span></dt><dt><span class="section"><a href="#id531070">Get File Connection Info</a></span></dt><dt><span class="section"><a href="#id531105">Get Dir Connection Info</a></span></dt></dl></div><p> 
+				This is used to get the connection information of the port, user, file, and directory.
+				[<span class="optional">Not Implemented</span>] 
+			</p><div class="section" title="Get Port Connection Info"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531001"></a>Get Port Connection Info</h2></div></div></div><p>
+					This is used to get the connection information of the port. 
+				</p><div class="example"><a name="id531010"></a><p class="title"><b>Example 5.1. Get Port Connection Info Request</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetPortConnectionInfo whereNID='' wherePortTitle='' /&gt;
+            		
+          			</pre></div></div><br class="example-break"><div class="example"><a name="id531022"></a><p class="title"><b>Example 5.2. Get Port Connection Info Response</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetPortConnectionInfo&gt;
+			&lt;Port NID='' title=''&gt;
+				&lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+			&lt;/Port&gt;
+		&lt;/GetPortConnectionInfo&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="Get User Connection Info"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531036"></a>Get User Connection Info</h2></div></div></div><p>
+					This is used to get the connection information of the user. 
+				</p><div class="example"><a name="id531045"></a><p class="title"><b>Example 5.3. Get User Connection Info Request</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetUserConnectionInfo whereNID='' whereUserName='' /&gt;
+            		
+          			</pre></div></div><br class="example-break"><div class="example"><a name="id531057"></a><p class="title"><b>Example 5.4. Get User Connection Info Response</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetUserConnectionInfo&gt;
+			&lt;User NID='' userName=''&gt;
+				&lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+			&lt;/User&gt;
+		&lt;/GetUserConnectionInfo&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="Get File Connection Info"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531070"></a>Get File Connection Info</h2></div></div></div><p>
+					This is used to get the connection information of the file. 
+				</p><div class="example"><a name="id531080"></a><p class="title"><b>Example 5.5. Get File Connection Info Request</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetFileConnectionInfo whereNID='' whereFileTitle='' /&gt;
+            		
+          			</pre></div></div><br class="example-break"><div class="example"><a name="id531092"></a><p class="title"><b>Example 5.6. Get File Connection Info Response</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetFileConnectionInfo&gt;
+			&lt;File NID='' title=''&gt;
+				&lt;ConnectionInfo ...../&gt;
+					 &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+			&lt;/File&gt;
+		&lt;/GetFileConnectionInfo&gt;
+            		
+          			</pre></div></div><br class="example-break"></div><div class="section" title="Get Dir Connection Info"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531105"></a>Get Dir Connection Info</h2></div></div></div><p>
+					This is used to get the connection information of the directory. 
+				</p><div class="example"><a name="id531115"></a><p class="title"><b>Example 5.7. Get Dir Connection Info Request</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetDirConnectionInfo whereNID='' whereDirTitle='' /&gt;
+            		
+          			</pre></div></div><br class="example-break"><div class="example"><a name="id531127"></a><p class="title"><b>Example 5.8. Get Dir Connection Info Response</b></p><div class="example-contents"><pre class="programlisting">
+            				
+		&lt;GetDirConnectionInfo&gt;
+			&lt;Dir NID='' title=''&gt;
+				&lt;ConnectionInfo ...../&gt;
+			    &lt;!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  --&gt;
+			&lt;/Dir&gt;
+		&lt;/GetDirConnectionInfo&gt;
+            		
+          			</pre></div></div><br class="example-break"></div></div><div class="chapter" title="Chapter 6. Report API"><div class="titlepage"><div><div><h2 class="title"><a name="id531141"></a>Chapter 6. Report API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id531151">Add Report</a></span></dt><dt><span class="section"><a href="#id531396">Set Report</a></span></dt><dt><span class="section"><a href="#id531641">Get Report</a></span></dt><dt><span class="section"><a href="#id531820">Delete Report</a></span></dt><dt><span class="section"><a href="#id531894">Download Report</a></span></dt></dl></div><p> 
+			Generate various types of reports based on the user requirement. 
+			For example, Audit Report and MS Configuration Report.  		
+		</p><div class="section" title="Add Report"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531151"></a>Add Report</h2></div></div></div><p> It is used to add a report.</p><p> This is a list of parameters for add report request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>name</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>description</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>type="Audit/Policy"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>format="CSV/XML"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>enableExport</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>exportSchedule</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>exportURL</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>properties</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>permissions</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTarget="User/Resource"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTextSubStr</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTagExpr</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>FormatXSL</code></em>
+					[<span class="optional">Required</span>]
+				</p></li></ul></div><div class="example"><a name="id531370"></a><p class="title"><b>Example 6.1. Add Report Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;AddReport name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+				&lt;Audit properties='' &gt;
+					&lt;FormatXSL /&gt;
+				&lt;/Audit&gt;	
+				&lt;Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' &gt;
+					&lt;FormatXSL /&gt;
+				&lt;/Policy&gt;												
+			  &lt;/AddReport&gt;      
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id531382"></a><p class="title"><b>Example 6.2. Add Report Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		   	 	&lt;AddReport&gt;			
+      				&lt;Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+      					&lt;Status&gt;
+      						&lt;LastExportStatus date='' time='' state='' /&gt;
+      						&lt;LastExported date='' time='' /&gt;
+						&lt;/Status&gt;	
+      				&lt;/Report&gt;
+      			&lt;/AddReport&gt;			
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Set Report"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531396"></a>Set Report</h2></div></div></div><p> It is used to update a report.</p><p> This is a list of parameters for set report request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>byNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>byName</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>description</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>format="CSV/XML"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>enableExport</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>exportSchedule</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>exportURL</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>properties</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>permissions</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTarget="User/Resource"</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTextSubStr</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereTagExpr</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>FormatXSL</code></em>
+					[<span class="optional">Required</span>]
+				</p></li></ul></div><div class="example"><a name="id531616"></a><p class="title"><b>Example 6.3. Set Report Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      	&lt;SetReport byNID='' byName='' description='' format='' enableExport='' exportSchedule='' exportURL='' &gt;							
+					&lt;Audit properties='' &gt;
+						&lt;FormatXSL /&gt;
+					&lt;/Audit&gt;	
+					&lt;Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' &gt;
+						&lt;FormatXSL /&gt;
+					&lt;/Policy&gt;							
+				&lt;/SetReport&gt;   
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id531628"></a><p class="title"><b>Example 6.4. Set Report Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		   	 	&lt;SetReport&gt;
+      				&lt;Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+      					&lt;Status&gt;
+      						&lt;LastExportStatus date='' time='' state='' /&gt;
+      						&lt;LastExported date='' time='' /&gt;
+						&lt;/Status&gt;	
+      				&lt;/Report&gt;
+      			&lt;/SetReport&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Get Report"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531641"></a>Get Report</h2></div></div></div><p> It is used to get the list of reports. </p><p> This is a list of parameters for get report request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>startFrom</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>countToFetch</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>sortBy="name/type"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>sortOrder="ascending/descending"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>selectFormat="BASIC/EXTENDED"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereNID</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereName</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereType</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li></ul></div><div class="example"><a name="id531783"></a><p class="title"><b>Example 6.5. Get Report Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      	&lt;GetReport startFrom='1' countToFetch='100' sortBy='' sortOrder='' selectFormat='BASIC/EXTENDED' whereNID='' whereName='' whereType='' /&gt;
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id531795"></a><p class="title"><b>Example 6.6. Get Report Response - BASIC Format</b></p><div class="example-contents"><pre class="programlisting">
+            
+			&lt;GetReport&gt;
+		      	&lt;Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+		      		&lt;Status&gt;
+		      			&lt;LastExportStatus date='' time='' state='' /&gt;
+      					&lt;LastExported date='' time='' /&gt;
+					&lt;/Status&gt;	
+		    	&lt;/Report&gt;
+		    &lt;/GetReport&gt;  		
+	
+
+          </pre></div></div><br class="example-break"><div class="example"><a name="id531807"></a><p class="title"><b>Example 6.7. Get Report Response - EXTENDED Format</b></p><div class="example-contents"><pre class="programlisting">
+            
+			&lt;GetReport&gt;
+			   	&lt;Report NID='' name='' description='' type='Audit' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+			   		&lt;Audit properties='' &gt;                 
+		               	&lt;FormatXSL /&gt;  
+		            &lt;/Audit&gt;         
+			   		&lt;Status&gt;    
+			   			&lt;LastExportStatus date='' time='' state='' /&gt;
+      					&lt;LastExported date='' time='' /&gt;
+					&lt;/Status&gt;        	                        
+		   	    &lt;/Report&gt;	
+		   	    &lt;Report NID='' name='' description='' type='Policy' format='' enableExport='' exportSchedule='' exportURL='' &gt;
+		   	     	&lt;Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' &gt;   	      		                                
+		            &lt;FormatXSL /&gt;      
+		        	&lt;/Policy&gt;
+		   	    	&lt;Status&gt;
+		   	    		&lt;LastExportStatus date='' time='' state='' /&gt;
+      					&lt;LastExported date='' time='' /&gt;
+					&lt;/Status&gt;            	             
+		   	   	&lt;/Report&gt;
+		   	&lt;/GetReport&gt;
+
+          </pre></div></div><br class="example-break"></div><div class="section" title="Delete Report"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531820"></a>Delete Report</h2></div></div></div><p> It is used to delete a report. Multiple reports deletion is supported.</p><p> This is a list of parameters for delete report request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>byNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>byName</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li></ul></div><div class="example"><a name="id531869"></a><p class="title"><b>Example 6.8. Delete Report Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      	&lt;DeleteReport byNID='' byName='' /&gt;
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id531881"></a><p class="title"><b>Example 6.9. Delete Report Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		   	 	&lt;DeleteReport/&gt;	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Download Report"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531894"></a>Download Report</h2></div></div></div><p> It is used to download a report.</p><p> This is a list of parameters for download report request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>whereNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereName</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>toFileName</code></em>
+					[<span class="optional">Required</span>]
+				</p></li></ul></div><div class="example"><a name="id531959"></a><p class="title"><b>Example 6.10. Download Report Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      	&lt;DownloadReport whereNID='' whereName='' toFileName='' /&gt;	
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id531971"></a><p class="title"><b>Example 6.11. Download Report Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		   	 	&lt;DownloadReport /&gt;
+	         
+	          </pre></div></div><br class="example-break"></div></div><div class="chapter" title="Chapter 7. DB API"><div class="titlepage"><div><div><h2 class="title"><a name="id531985"></a>Chapter 7. DB API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id531995">Unsubscribe</a></span></dt><dt><span class="section"><a href="#id532056">GetSubscribers</a></span></dt><dt><span class="section"><a href="#id532143">Set Auto Discovery</a></span></dt><dt><span class="section"><a href="#id532217">Upgrade Device</a></span></dt><dt><span class="section"><a href="#id532291">Save Config Device</a></span></dt><dt><span class="section"><a href="#id532366">Revert To Default Device</a></span></dt><dt><span class="section"><a href="#id532470">Reboot Device</a></span></dt><dt><span class="section"><a href="#id532545">Shutdown Device</a></span></dt></dl></div><p> 
+			DB requests such as Unsubscribe and GetSubscribers  		
+		</p><div class="section" title="Unsubscribe"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531995"></a>Unsubscribe</h2></div></div></div><p> It is used to unsubscribe a user from receiving resource updates.</p><p> This is a list of parameters for unsubscribe request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>whereNID</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>whereSubscriptionID</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li></ul></div><div class="example"><a name="id532043"></a><p class="title"><b>Example 7.1. Unsubscribe Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;Unsubscribe whereNID="" whereSubscriptionID=""&gt;
+			  &lt;/Unsubscribe&gt;      
+	       
+		    </pre></div></div><br class="example-break"></div><div class="section" title="GetSubscribers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532056"></a>GetSubscribers</h2></div></div></div><p> It is used to get a list of subscribers for a particular resource.</p><p> This is a list of parameters for GetSubscribers request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>byNID</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>selectFormat="BASIC/EXTENDED"</code></em>
+					[<span class="optional">Optional</span>]
+				</p></li></ul></div><div class="example"><a name="id532105"></a><p class="title"><b>Example 7.2. GetSubscribers Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;GetSubscribers byNID="" selectFormat="BASIC/EXTENDED"/&gt;      
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532117"></a><p class="title"><b>Example 7.3. GetSubscribers Response - BASIC format</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;GetSubscribers&gt;
+				&lt;Subscribers nid=""&gt;
+					&lt;JIDInfo jid=""/&gt;
+				&lt;/Subscribers&gt;
+			  &lt;/GetSubscribers&gt;     
+	       
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532129"></a><p class="title"><b>Example 7.4. GetSubscribers Response - EXTENDED format</b></p><div class="example-contents"><pre class="programlisting">
+	            
+		      &lt;GetSubscribers&gt;
+				&lt;Subscribers nid=""&gt;
+					&lt;JIDInfo jid=""&gt;
+						&lt;Topic subscriptionId=""/&gt;
+					&lt;/JIDInfo&gt;
+				&lt;/Subscribers&gt;
+			  &lt;/GetSubscribers&gt;      
+	       
+		    </pre></div></div><br class="example-break"></div><div class="section" title="Set Auto Discovery"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532143"></a>Set Auto Discovery</h2></div></div></div><p> It is used to set device discovery parameters in DB.</p><p> This is a list of parameters for set auto discovery request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>enable</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>Groups</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532192"></a><p class="title"><b>Example 7.5. Set Auto Discovery Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;SetAutoDiscovery enable=''&gt;
+	            	&lt;Groups&gt;
+	            		&lt;Tag Name='' Value=''/&gt;
+	            	&lt;/Groups&gt;
+	            &lt;/SetAutoDiscovery&gt;  
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532204"></a><p class="title"><b>Example 7.6. Set Auto Discovery Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;SetAutoDiscovery/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Upgrade Device"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532217"></a>Upgrade Device</h2></div></div></div><p> It is used to upgrade the device.</p><p> This is a list of parameters for Upgrade Device request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>byNID</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>byTitle</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532266"></a><p class="title"><b>Example 7.7. Upgrade Device Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;UpgradeDevice byNID="" byTitle=""&gt;
+        			&lt;URL/&gt;
+      			&lt;/UpgradeDevice&gt;  
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532278"></a><p class="title"><b>Example 7.8. Upgrade Device Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;UpgradeDevice/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Save Config Device"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532291"></a>Save Config Device</h2></div></div></div><p> It is used to save the configuration of device.</p><p> This is a list of parameters for Save Config device request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>byNID</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>byTitle</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532341"></a><p class="title"><b>Example 7.9. Save Config Device Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;SaveConfigDevice byNID="" byTitle=""/&gt;
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532353"></a><p class="title"><b>Example 7.10. Save Config Device Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;SaveConfigDevice/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Revert To Default Device"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532366"></a>Revert To Default Device</h2></div></div></div><p> It is used to revert the device to factory default.</p><p> This is a list of parameters for Revert To Default Device request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>byNID</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>byTitle</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>keepMedia="true/false"</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>KeepNetworkSettings="true/false"</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532445"></a><p class="title"><b>Example 7.11. Revert To Default Device Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;RevertToDefaultDevice byNID="" byTitle="" keepMedia="" keepNetworkSettings=""/&gt;
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532457"></a><p class="title"><b>Example 7.12. Revert To Default Device Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;RevertToDefaultDevice/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Reboot Device"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532470"></a>Reboot Device</h2></div></div></div><p> It is used to reboot device.</p><p> This is a list of parameters for reboot device request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>byNID</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>byTitle</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532519"></a><p class="title"><b>Example 7.13. Reboot Device Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;RebootDevice byNID="" byTitle=""/&gt;
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532531"></a><p class="title"><b>Example 7.14. Reboot Device Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;RebootDevice/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div><div class="section" title="Shutdown Device"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id532545"></a>Shutdown Device</h2></div></div></div><p> It is used to shutdown device.</p><p> This is a list of parameters for Shutdown device request. </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+						<em class="parameter"><code>byNID</code></em>
+						[<span class="optional">Required</span>]
+					</p></li><li class="listitem"><p>
+						<em class="parameter"><code>byTitle</code></em>
+						[<span class="optional">Optional</span>]
+					</p></li></ul></div><div class="example"><a name="id532594"></a><p class="title"><b>Example 7.15. Shutdown Device Request</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;ShutdownDevice byNID="" byTitle=""/&gt;
+	       		
+		    </pre></div></div><br class="example-break"><div class="example"><a name="id532606"></a><p class="title"><b>Example 7.16. Shutdown Device Response</b></p><div class="example-contents"><pre class="programlisting">
+	            
+	            &lt;ShutdownDevice/&gt; 	
+	         
+	          </pre></div></div><br class="example-break"></div></div></div></body></html>

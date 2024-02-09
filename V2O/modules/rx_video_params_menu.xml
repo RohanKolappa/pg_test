@@ -1,0 +1,106 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>RxVideoParameters</Title>
+   <Description>Decoder Video Parameters</Description>
+   <Access>rx_video_parm</Access>
+   <ConfigFile>rxvidconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+      <Item>
+        <Name>video_output</Name>
+        <Type>boolean</Type>
+        <Label>Video Output</Label>
+        <Help>Enable/disable video output</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>pixel_adjust</Name>
+        <Type>integer</Type>
+        <Label>Pixel Adjust</Label>
+        <Help>Pixel Adjust</Help>
+		<Align>follow</Align>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-25</Min>
+           <Max>25</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horizontal_sync_pol</Name>
+        <Type>string</Type>
+        <Label>HSync Pol.</Label>
+        <Help>Horizontal Sync Polarity</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Pos</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Pos","Neg"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vertical_sync_pol</Name>
+        <Type>string</Type>
+        <Label>VSync Pol.</Label>
+        <Help>Vertical Sync Polarity</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Pos</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Pos","Neg"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>genlock_mode</Name>
+        <Type>string</Type>
+        <Label>Genlock Mode</Label>
+        <Help>Genlock Mode</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Master</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"None","Master","Slave"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>master_delay</Name>
+        <Type>integer</Type>
+		<Label>Master Delay</Label>
+        <Help>Vsync Timing Delta to adjust for Genlock Master</Help>
+		<Align>follow</Align>
+        <FieldLength>2</FieldLength>
+        <DefaultValue>2</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>9</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>stereo_lr_sync</Name>
+        <Type>string</Type>
+        <Label>Stereo LRSync</Label>
+        <Help>Stereo LRSync</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Norm</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Norm","Rev"</Values>
+        </Validation>
+      </Item>
+
+
+   </Items>
+</Menu>

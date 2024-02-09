@@ -1,0 +1,99 @@
+<configurationlog>
+<AgentMessage>
+    <agentmessageheader>
+        <agentJID>srcrelayuser-default@localhost</agentJID>
+        <agent>
+			com.ipvs.common.service.DeviceAdminServerAgent
+		</agent>
+        <agentmessagetype>Request</agentmessagetype>
+    </agentmessageheader>
+    <agentmessagedata>
+        <Request>
+            <header>
+                <servicename>systemservice</servicename>
+                <requestname>DeviceConfigurationRequest</requestname>
+                <loglevel>0</loglevel>
+                <clientdata>RequestToken3</clientdata>
+            </header>
+            <data>
+                <DeviceConfigurationRequestData>
+                    <DeviceConfig Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string" Revision="-2147483648" Synched="false">
+                        <NetworkElementsConfig Parse="false" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                            <RouteTableConfig Dirty="CLEAN" Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                <RouteEntry Dirty="CLEAN" Parse="true" NIDScheme="AUTO" NID="string" ListIndex="-2147483648">
+                                    <RouteID>true</RouteID>
+                                    <Destination>0.0.0.0</Destination>
+                                    <Netmask>0.0.0.0</Netmask>
+                                    <Gateway>192.168.1.254</Gateway>
+                                </RouteEntry>
+                            </RouteTableConfig>
+                            <DNSClientConfig Dirty="CLEAN" Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                <HostName/>
+                                <DNSDomain/>
+                                <DNSServerIP>0.0.0.0</DNSServerIP>
+                            </DNSClientConfig>
+                            <PrimaryEthernetPortConfig Dirty="CLEAN" Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                <IPConfig Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                    <EnableInterface>true</EnableInterface>
+                                    <UseDHCP>false</UseDHCP>
+                                    <IPAddress>0.0.0.0</IPAddress>
+                                    <Netmask>255.255.255.0</Netmask>
+                                </IPConfig>
+                            </PrimaryEthernetPortConfig>
+                            <SecondaryEthernetPortConfig Dirty="CLEAN" Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                <IPConfig Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="string">
+                                    <EnableInterface>true</EnableInterface>
+                                    <UseDHCP>true</UseDHCP>
+                                    <IPAddress>10.1.5.254</IPAddress>
+                                    <Netmask>255.255.255.0</Netmask>
+                                </IPConfig>
+                            </SecondaryEthernetPortConfig>
+                        </NetworkElementsConfig>
+                    </DeviceConfig>
+                </DeviceConfigurationRequestData>
+            </data>
+        </Request>
+    </agentmessagedata>
+</AgentMessage>
+
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="37RQO-44" to="adminuser-default@localhost" from="srcrelayuser-default@localhost/lab1relay1">
+      <body>
+        <AgentMessage>
+          <agentmessageheader>
+            <fromagent />
+            <agentJID>adminuser-default@localhost/callcenter</agentJID>
+            <agent>com.ipvs.common.service.DeviceAdminClientAgent</agent>
+            <agentmessagetype>Response</agentmessagetype>
+          </agentmessageheader>
+          <agentmessagedata>
+            <Response>
+              <header>
+                <servicename>systemservice</servicename>
+                <requestname>DeviceConfigurationRequest</requestname>
+                <userJID>none</userJID>
+                <requestNID>none</requestNID>
+                <state>8</state>
+                <clientdata>RequestToken3</clientdata>
+              </header>
+              <data>
+                <DeviceConfigurationResponseData>
+                  <Status>
+                    <Code />
+                    <Description />
+                  </Status>
+                </DeviceConfigurationResponseData>
+              </data>
+              <log />
+            </Response>
+          </agentmessagedata>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+</configurationlog>

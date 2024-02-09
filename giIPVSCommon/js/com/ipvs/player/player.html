@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+  <title> embedded player </title>
+  
+    <style type="text/css"> 
+
+		body  {
+			font: 100% Verdana, Arial, Helvetica, sans-serif;
+			background: #f0f0f0;
+			margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+			padding: 0;
+			text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+			color: #333333;
+			font-family:Geneva, Arial, Helvetica, sans-serif;
+			font-size:1em;
+		}
+
+		.header { 
+			background: #242424; 
+			background-image:url(hdrBG.png);
+			padding: 0;  /* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
+			color: #e5e5e5;
+			height:50px;
+		} 
+		.header h1 {
+			margin: 0; 
+			padding: 10px 0 0 20px; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+			font-size: 1.4em;
+		
+		}
+		
+		.header img.logo {
+			float:left;
+			margin: 5 0 0 20px;
+		}
+
+		.mainContent {
+			padding:0; margin:0;
+		}
+		
+		.leftPanel {
+			float:left;
+			background: #f0f0f0;
+			border-right: solid 1px #e1e1e1;border-bottom:solid 1px #e1e1e1;
+			width:300px;
+			height:500px;
+			
+		}
+
+		.rightPanel  {
+			padding: 20px 0 0 0;
+			text-align: center;
+		}
+
+		button {
+		color:#0066cc;
+		}
+		
+		.controlsdiv {
+		height:50px;
+		background: #e0e0e0;
+		padding: 10px;
+		margin: 10px;
+		border: solid 1px #cccccc;
+		}
+		
+		.msglabel {
+		height: 20px;
+		position:relative; 
+		color:#444444;
+		font-style:italic; 
+		background:#bbbbbb; 
+		border-top: solid 1px #777777;
+		border-right: solid 1px #fefefe;
+		border-bottom: solid 1px #fefefe;
+		border-left: solid 1px #777777;
+		padding: 0px;
+		margin: 0 50px;
+		}
+		
+		.msgboard {
+		height: 20px;
+		position:relative; 
+		color:#444444;
+		font-style:italic; 
+		background:#bbbbbb; 
+		border-top: solid 1px #777777;
+		border-right: solid 1px #fefefe;
+		border-bottom: solid 1px #fefefe;
+		border-left: solid 1px #777777;
+		padding: 0px;
+		margin: 0 50px;
+		}
+		
+		
+	</style>
+  
+  <script src="jquery-1.7.1.min.js"></script>
+  <script src="player.js" >	</script>
+  
+
+    
+ </head>
+
+ <body>
+
+ 
+ 	<div class="header">
+  		<span><img class="logo" src="barco60x40.png" />   <h1>Media Player</h1></span>
+  	</div>
+	
+    <div class="mainContent">
+    	
+        
+        <div id="mainPanel" class="rightPanel">
+        
+            <!-- essential requirement; 'id' is optional -->	
+            <div id="p1"  class="barcoplayer" ></div>
+        
+            <!-- components for testing API purpose -->
+            <div id="sample">
+               <div id="mediacontrol" class="controlsdiv" style="display:block">	
+                    <span id="play">   <BUTTON>Play</BUTTON> </span>
+                    <span id="stop">   <BUTTON>Stop</BUTTON> </span>
+                    <span id="skipforward" >   <BUTTON>Skipforward</BUTTON> </span>
+                    <span id="skipbackward" >   <BUTTON>Skipbackward</BUTTON> </span>
+                    <span id="pause" >   <BUTTON>Pause</BUTTON> </span> 
+                    <span id="resume">   <BUTTON>Resume</BUTTON> </span>
+                    <span id="catchup">   <BUTTON>Catchup</BUTTON> </span>
+                    <span id="fullscreen">   <BUTTON>Fullscreen</BUTTON> </span>
+                    <span id="unload">   <BUTTON>Unload</BUTTON> </span>
+                    <span id="load">   <BUTTON>Load</BUTTON> </span>
+                    <span id="mute">   <BUTTON>Mute</BUTTON> </span>
+                    <span id="unmute">   <BUTTON>Unmute</BUTTON> </span>
+               </div>
+               <div id="additionalcontrol" style="display:none">
+                    <div  class="controlsdiv">	
+                        <span id="show">   <BUTTON>Show</BUTTON> </span>
+                        <span id="hide">   <BUTTON>Hide</BUTTON> </span>
+                        <span id="getId">   <BUTTON>GetDivId</BUTTON> </span>
+                        <span id="getPlayeVersion" >   <BUTTON>GetVersion</BUTTON> </span>
+                        <span id="getPlayerId" >   <BUTTON>GetPlayerID</BUTTON> </span>
+                        <span id="getMediaURL" >   <BUTTON>GetMediaURL</BUTTON> </span>
+                        <span id="cliplength">   <BUTTON>ClipLength</BUTTON> </span>
+                        <span id="isLoaded">   <BUTTON>isLoaded</BUTTON> </span>
+                        <span id="isPaused">   <BUTTON>isPaused</BUTTON> </span>
+                        <span id="isPlaying">   <BUTTON>isPlaying</BUTTON> </span>
+                        <span id="isHidden">   <BUTTON>isHidden</BUTTON> </span>
+                    </div>
+                    <div id="msglabel" class="msglabel"></div>
+               </div>
+               <div id="seturl"> 
+                    <form id="rscform"> 
+                    URL: <input name="URL" id="#controlurl" type="text" size="100" value=""> 
+                    <span id="set" ><BUTTON>Set</BUTTON> </span> 
+                    </form>
+               </div> 
+               <div id="msgboard" class="msgboard"></div>
+            </div>
+           
+   		</div>
+   </div>
+   
+   
+<script>
+
+
+    $(document).ready(function () {
+        //~~~~~~~~~~~~~~ Customize mediaURL, UserJID ~~~~~~~~~~~~~~~~
+        
+        //set player dimensions
+		var confObj = { width: 640, height: 360 };
+        //get user input controlURL to start a session
+        $('#set').bind("click", function () {
+            var inputs = $('#rscform :input'),
+				values = {};
+
+            inputs.each(function () {
+                values[this.name] = $(this).val();
+            });
+            var lcControlURL = values['URL'];
+
+            if (!lcControlURL) {
+                alert('Please input control URL. '); $('#controlurl').focus(); return;
+            };
+            //set player's controlURL where get from getFile or getPort response
+            $.extend(confObj, { controlURL: lcControlURL });
+            $('#mediacontrol').show();
+            $('#additionalcontrol').show();
+            $('#msgboard').text('');
+            $('#msgboard').show();
+        });
+
+        //~~~~~~~~~~~~~~ Get Player handler ~~~~~~~~~~~~~~~~~~~~~
+        var root = $('.barcoplayer').player('init');
+
+        //~~~~~~~~~~~~~~ Stop session if available while closing IE window ~~~~~~~~~~~~~~~~~~~~~  
+        if (root) {
+            window.onunload = function () {
+                root.player('unload');
+            }
+        }
+        //~~~~~~~~~~~~~~~~ Events subscription ~~~~~~~~~~~~~~~~~~
+        $.subscribe("onLoad", displayEventMsg);
+        $.subscribe("onUnload", displayEventMsg);
+        $.subscribe("onStart", displayEventMsg);
+        $.subscribe("onStop", displayEventMsg);
+        $.subscribe("onMute", displayEventMsg);
+        $.subscribe("onUnmute", displayEventMsg);
+        $.subscribe("onPause", displayEventMsg);
+        $.subscribe("onResume", displayEventMsg);
+        $.subscribe("onCatchup", displayEventMsg);
+
+        $.subscribe("onError", displayEventMsg);
+        //sub 'onSeek' (after receiving SkipFwd/SkipBack response)  
+        $.subscribe("onSeek", displayEventMsg);
+
+
+        //sub fullscreen event 
+        $.subscribe("onFullscreen", doFullscreen);
+
+        //sub 'timeLine' (while receiving timeline response from Pause/Resume/Catchup/SkipFwd/SkipBack)  
+        $.subscribe("onTimeLine", displayTimeline);
+
+
+        //onConnState event
+        $.subscribe("onConnState", displayConnState);
+
+        function displayEventMsg(obj1, obj2) {
+            setTimeout(function(){$('#msgboard').html('type: ' + obj1.type + '  ||  id: ' + obj2.id + '  ||  message: ' + obj2.message + '  ||  playerID: ' + obj2.playerId);},0);
+        };
+
+        function doFullscreen(obj1, obj2) {
+            $('#msgboard').text('type: ' + obj1.type + ' ||  id: ' + obj2.id + ' || event message:  ' + obj2.message + '  ||  playerID: ' + obj2.playerId + '  ||  flag: ' + obj2.flag);
+            //call back flag:true go to fullscreen;false back to normal.
+            if (obj2.flag) {
+                go2fullscreen();
+            } else {
+                back2normal();
+            }
+        };
+
+        function displayTimeline(obj1, obj2) {
+            $('#msglabel').text('type: ' + obj1.type + '  ||  id: ' + obj2.id + '  ||  offset: ' + obj2.message.offset + '  ||  wall clock: ' + obj2.message.wc + '  ||  timeScale: ' + obj2.message.timeScale + '  ||  action: ' + obj2.message.requestedAction + '  ||  playerID: ' + obj2.playerId);
+        };
+
+        function displayConnState(obj1, obj2) {
+            $('#msglabel').text('type: ' + obj1.type + '  ||  id: ' + obj2.id + '  ||  offset: ' + obj2.message.offset + '  ||  wall clock: ' + obj2.message.offset + '  ||  time clock: ' + obj2.message.tc + '  ||  timeScale: ' + obj2.message.timeScale + '  ||  value: ' + obj2.message.value + '  ||  action: ' + obj2.message.requestedAction + '  ||  sessionId ' + obj2.sessionId + '  ||  connId ' + obj2.connId);
+        };
+
+        //~~~~~~~~~~~~~~~~ Fullscreen function ~~~~~~~~~~~~~~~~~~
+        function go2fullscreen() {
+            //$(document).width() OR $('body').css('width')
+            var screenW = $(window).width(),
+				screenH = $(window).height(),
+				player = root.player('getplayer');
+            screenW = $.isBlank(screenW) ? $(document).width() : screenW;
+            screenH = $.isBlank(screenH) ? $(document).height() : screenH;  
+			if (player && root.player('isPlaying')) {
+                //calculate aspect ratio
+                var v_H = player.getNativeHeight(),
+					v_W = player.getNativeWidth(),
+					v_ratio = v_H / v_W,
+					a_H = v_ratio * screenW,
+					a_W = screenH / v_ratio;
+                if (a_W < screenW) {
+                    screenW = a_W;
+                    screenH = a_W * v_ratio;
+                }
+                else {
+                    screenH = a_H;
+                    screenW = a_H / v_ratio;
+                }
+            };
+			//layout adjust from normal to fullscreen
+            root.player('getParent').css({ height: screenH, width: screenW });
+			$('#mainPanel').removeClass('rightPanel');
+            $('#sample').hide();
+            $('.header').hide();
+        };
+
+        function back2normal() {
+            var conf = root.data('conf');
+			//layout adjust from fullscreen to normal
+            root.player('getParent').css({ height: conf.height, width: conf.width });
+			$('#mainPanel').addClass('rightPanel');
+            $('#sample').show();
+            $('.header').show();
+        };
+
+        //~~~~~~~~~~~~~~~~~ Basic functions call ~~~~~~~~~~~~~~~~
+        $('#play').bind("click", function () {
+            //customize configuration with a controlURL and play
+            root.player('conf', confObj).player('play');
+
+            //init clear message 
+            $('#msglabel').text('');
+            $('#msglabel').show();
+            $('#msgboard').text('');
+            $('#msgboard').show();
+            $('#additionalcontrol').show();
+        });
+        $('#stop').bind("click", function () {
+            root.player('stop');
+            $('#msglabel').text('');
+            $('#msglabel').hide();
+            $('#msgboard').text('');
+            $('#msgboard').hide();
+            $('#additionalcontrol').hide();
+        });
+        $('#skipforward').bind("click", function () {
+            root.player('skipforward');
+        });
+        $('#skipbackward').bind("click", function () {
+            root.player('skipbackward');
+        });
+        $('#pause').bind("click", function () {
+            root.player('pause');
+        });
+        $('#resume').bind("click", function () {
+            root.player('resume');
+        });
+        $('#catchup').bind("click", function () {
+            root.player('catchup');
+        });
+        $('#fullscreen').bind("click", function () {
+            root.player('fullscreen');
+        });
+        $('#load').bind("click", function () {
+        	  var isLoaded = root.player('isLoaded');
+        		if(isLoaded) return;
+            //init with confObj to get 'userJID' to start session  
+            $('#msgboard').text('');
+            $('#msgboard').show();
+            root.player('init', confObj).player('load');
+        });
+        $('#unload').bind("click", function () {
+            root.player('unload');
+            $('#msglabel').text('');
+            $('#msglabel').hide();
+            $('#msgboard').text('');
+            $('#msgboard').hide();
+            $('#additionalcontrol').hide();
+            //remove onunload
+            if (window.onunload) { window.onunload = null; }
+        });
+        $('#mute').bind("click", function () {
+            root.player('mute');
+        });
+        $('#unmute').bind("click", function () {
+            root.player('unmute');
+        });
+
+
+        //~~~~~~~~~~~~~~~~~~ Additional functions call ~~~~~~~~~~~~~~~
+        $('#show').bind("click", function () {
+            root.player('show');
+        });
+        $('#hide').bind("click", function () {
+            root.player('hide');
+        });
+        $('#cliplength').bind("click", function () {
+            var cliplength = root.player('getcliplength');
+            $('#msglabel').text("Clip length = " + cliplength + ' hh:mm:ss');
+        });
+        $('#getPlayeVersion').bind("click", function () {
+            var version = root.player('getVersion');
+            $('#msglabel').text('Player version = ' + version);
+        });
+        $('#getPlayerId').bind("click", function () {
+            var playerID = root.player('getPlayerId');
+            $('#msglabel').text('Player ID = ' + playerID);
+        });
+        $('#getMediaURL').bind("click", function () {
+            var mediaURL = root.player('getMediaURL');
+            $('#msglabel').text('mediaURL = ' + mediaURL);
+        });
+        $('#isLoaded').bind("click", function () {
+            var isLoaded = root.player('isLoaded');
+            $('#msglabel').text('isLoaded = ' + isLoaded);
+        });
+        $('#isPlaying').bind("click", function () {
+            var isPlaying = root.player('isPlaying');
+            $('#msglabel').text('isPlaying = ' + isPlaying);
+        });
+        $('#isPaused').bind("click", function () {
+            var isPaused = root.player('isPaused');
+            $('#msglabel').text('isPaused = ' + isPaused);
+        });
+        $('#isHidden').bind("click", function () {
+            var isHidden = root.player('isHidden');
+            $('#msglabel').text('isHidden = ' + isHidden);
+        });
+        $('#getId').bind("click", function () {
+            //init with confObj to get 'resource' and 'userJID' to start session  
+            var divID = root.player('id');
+            $('#msglabel').text('divID = ' + divID);
+        });
+
+    });
+
+	</script>	
+    
+    
+ </body>
+</html>
+

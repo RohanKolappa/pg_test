@@ -1,0 +1,876 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="pc.css" rel="stylesheet" type="text/css">
+<script language="javascript" SRC="xmldom.js"></script>
+<script language="javascript" SRC="JSUnserialize.js"></script>
+<script>
+<!--
+var axAuthor = new ActiveXObject("IPVSAxAuthor.ProjectManager");
+var authFolder = "C:\\IP Video Systems\\IPVSAuthTool";  // Assumed for now
+var settingsFile = "config\\settings.xml";
+var collArr = new Array();
+
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(elt /*, from*/) {
+    var len = this.length;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0)
+         ? Math.ceil(from)
+         : Math.floor(from);
+    if (from < 0)
+      from += len;
+
+    for (; from < len; from++) {
+      if (from in this &&
+          this[from] === elt)
+        return from;
+    }
+    return -1;
+  };
+}
+
+function Open(Sub) {
+  a = document.getElementById(Sub).style
+  if (a.display == 'block') {
+    a.display = 'none'
+  } else {
+    a.display = 'block'
+  }
+}
+
+function init() {
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  folderBool = fso.FolderExists(authFolder);
+  if(!folderBool) {
+    authFolder = fso.CreateFolder(authFolder);
+  }
+  if(fso.FileExists(authFolder + "\\" + settingsFile)) {
+    var settings = parseXML(authFolder + "\\" + settingsFile, fso);
+    LibPath = settings.getElements("MEDIALIBRARY")[0].getText();
+    if(!fso.FolderExists(LibPath)) {
+      alert("Set valid Library Path (Base Directory) in Settings");
+      document.location.href = "Authoring_Settings.html";
+      return
+    }
+    var f = fso.GetFolder(LibPath.toString());
+    var e = new Enumerator(f.SubFolders);
+    for(;!e.atEnd();e.moveNext()) {
+      document.getElementById("library").options.add(new Option(e.item().Name, LibPath + e.item().Name));
+    }
+    f = null;
+	  e = null;
+    document.getElementById("txtLOGO").value = settings.getElements("LOGO")[0].getText();
+    document.getElementById("txtTITLE").value = settings.getElements("TITLE")[0].getText();
+  }
+  else {
+    alert("Please set Media library path in settings");
+    document.location.href = "Authoring_Settings.html";
+  }
+  fso = null;
+  var qs = window.location.search;
+  if(qs.length>7) {
+    var args = qs.split("?");
+    nameValue = args[1].split("=");
+    if((nameValue[0] == "pname") && (nameValue[1] != "")) {
+      prName = nameValue[1];
+      prName = prName.replace(/%20/g," ");
+      prName = prName.replace(/%26/g,"&");
+      loadProject(prName);
+    }
+  }
+}
+
+function parseXML(fPath, objFSO) {
+  if(objFSO == undefined)
+  {
+    objFSO = new ActiveXObject('Scripting.FileSystemObject');
+  }
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+
+  strContents = objFSO.OpenTextFile(fPath, 1).ReadAll();
+  strContents = strContents.replace(/ID=>/,"ID='0'>");
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null ) {
+    alert( "Could not parse xml data");
+    return null;
+  }
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null ) {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return null;
+  }
+  xmlDoc = null;
+  return root;
+}
+
+function xmlErr( e ) {
+  alert(e);
+}
+
+function getLocation(objID, f) {
+  var dialogPr = new Array();
+  dialogPr[0] = f;
+  dialogPr[1] = document.getElementById(objID).value;
+  var fName = showModalDialog("folderdialog.html",dialogPr,"width:400px;height:400px;resizeable:yes;");
+  if((fName == "") || (fName == undefined))
+  {
+    return;
+  }
+  document.getElementById(objID).value = fName;
+}
+
+function loadPrograms()
+{
+  document.getElementById("SelectAll").checked = false;
+  document.getElementById("SelectNone").checked = false;
+  collArr[0] = new Array();
+  document.getElementById("divProgramsList").innerHTML = "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td class='col3' width='70%'>Name</td><td class='col3' width='16%'>Date</td><td class='col3' width='7%'>Length</td><td class='col3' width='7%'>Size</td></tr></table>";
+  path = document.getElementById("library").value;
+  if(path == "Select") return;
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+
+  if(!fso.FolderExists(path + "\\db")) {
+    // create table outer structure + header
+    strListTable = "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td class='col3' width='70%'>Name</td><td class='col3' width='16%'>Date</td><td class='col3' width='7%'>Length</td><td class='col3' width='7%'>Size</td></tr>";
+    // iterate over all files
+    var f = fso.GetFolder(path);
+    var e = new Enumerator(f.Files);
+    i = 0;
+    for(;!e.atEnd();e.moveNext()) {
+      var fname = e.item().Name;
+      if( fname.match(/.mkd$/) ) {
+        collArr[0][i] = fname;
+        if(i%2 == 0) {
+          cls = "class=row6";
+        }
+        else {
+          cls = "class=row5";
+        }
+        var title = fname.replace(/.mkd$/, "");
+        var streamLength = "--:--:--";
+        var strDate = "--/--/---- --:--:--";
+        var size = "--";
+        size += "&nbsp;GB";
+      
+        strListTable1 = "";
+        strListTable1 += "<tr><td " + cls + ">";
+        strListTable1 += "<input name='" + fname + "' type='checkbox' value='" + fname + "'>";
+        strListTable1 += "<span id='mkd-" + i + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\">" + title + "</span>";
+		    strListTable1 += "</td>";
+		    strListTable1 += "<td " + cls + ">" + strDate + "</td>";
+        strListTable1 += "<td " + cls + ">" + streamLength + "</td>";
+        strListTable1 += "<td " + cls + ">" + size + "</td>";
+        strListTable1 += "</tr>";
+        strListTable += strListTable1;
+      }
+      i++;
+    }
+  }
+  else {
+    strListTable = "<table width='100%' border='0' cellpadding='0' cellspacing='0'><tr><td class='col3' width='70%'>Name</td><td class='col3' width='16%'>Date</td><td class='col3' width='7%'>Length</td><td class='col3' width='7%'>Size</td></tr>";
+    var f = fso.GetFolder(path + "\\db" );
+    var e = new Enumerator(f.Files);
+    i = 0;
+    for(;!e.atEnd();e.moveNext()) {
+      fname = e.item().Name
+      stream = parseXML(path + "\\db\\" + fname, fso);
+      clips = stream.getElements("CLIPS");
+      if(clips.length > 0) {
+        if(clips[0].getText() != "") {
+          collArr[0][i] = fname;
+          if(i%2 == 0) {
+            cls = "class=row6";
+          }
+          else {
+            cls = "class=row5";
+          }
+          mediaentry = PHP_Unserialize(stream.getElements("METADATA")[0].getText());
+          title = mediaentry[2];
+          lng = mediaentry[4];
+          hr = parseInt(lng/3600);
+          mins = parseInt(lng/60);
+          mm = mins % 60;
+          ss = lng % 60;
+          if(hr<10)
+            hr = "0" + hr;
+          if(mm<10)
+            mm = "0" + mm;
+          if(ss<10)
+            ss = "0" + ss;
+          streamLength =  hr + ":" + mm + ":" + ss;
+          dt = new Date(mediaentry[8] * 1000);
+          MM = dt.getMonth() + 1;
+          if(MM < 10)
+            MM = "0" + MM;
+          DD = dt.getDate();
+          if(DD < 10)
+            DD = "0" + DD;
+          HH = dt.getHours();
+          if(HH < 10)
+            HH = "0" + HH;
+          MIN = dt.getMinutes();
+          if(MIN < 10)
+            MIN = "0" + MIN;
+          SEC = dt.getSeconds();
+          if(SEC < 10)
+            SEC = "0" + SEC;
+          strDate = MM + "/" + DD + "/" + dt.getFullYear() + " " + HH + ":" + MIN + ":" + SEC;
+          size = mediaentry[12];
+          size = Math.round((size/(1024*1024))*100)/100;
+          size += "&nbsp;GB";
+          strListTable1 = "";
+          strListTable1 += "<tr><td " + cls + ">";
+          strListTable1 += "<input name='" + fname + "' type='checkbox' value='" + fname + "' onClick=\"toggleProgram('" + fname + "');\">";
+          strListTable1 += "<span id='open-" + i + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\" onmousedown=\"return Open('sub-" + i + "')\"><img src='images/btnProgram.gif' width='21' height='19' align='absmiddle'>" + title + "</span>";
+      strListTable1 += "</td>";
+      strListTable1 += "<td " + cls + ">" + strDate + "</td>";
+          strListTable1 += "<td " + cls + ">" + streamLength + "</td>";
+          strListTable1 += "<td " + cls + ">" + size + "</td>";
+          strListTable1 += "</tr>";
+          strListTable1 += "<tr><td colspan='4'><div id='sub-" + i + "' class='subs'><table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+          fnamePrefix = fname.split("_")[0];
+          clipfnames = clips[0].getText().split(",");
+          strListTable2 = "";
+          for (var clipCount=0; clipCount<clipfnames.length; clipCount++) {
+            clipfname = fnamePrefix + "_" + clipfnames[clipCount];
+            clipDATA = "";
+            clipDATA = parseXML(path + "\\db\\" + clipfname, fso);
+            mediaClip = PHP_Unserialize(clipDATA.getElements("METADATA")[0].getText());
+            //if(mediaClip[11] == 3) {
+              //continue;
+            //}
+            title = mediaClip[2];
+            lng = mediaClip[4];
+            hr = parseInt(lng/3600);
+            mins = parseInt(lng/60);
+            mm = mins % 60;
+            ss = lng % 60;
+            streamLength =  hr + ":" + mm + ":" + ss;
+            size = mediaClip[12];
+            size = Math.round((size/(1024*1024))*100)/100;
+            strListTable2 += "<tr><td " + cls + " style='padding-left:20px'><input name='" + clipfname + "' type='checkbox' value='" + clipfname + "'>&nbsp;" + title + "</td></tr>";
+          }
+          strListTable3 = "</table></div></td></tr>";
+          if(strListTable2 != "") {
+            strListTable += strListTable1 + strListTable2 + strListTable3;
+          }
+          i++;
+        }
+      }
+    }
+  }
+  strListTable += "</table>";
+  document.getElementById("divProgramsList").innerHTML = strListTable;
+  fso = null;
+  f = null;
+  e = null;
+}
+
+function toggleProgram(pFile) {
+  md = document.getElementById(pFile).checked;
+  path = document.getElementById("library").value + "\\db\\" + pFile;
+  fnamePrefix = pFile.split("_")[0];
+  PData = parseXML(path);
+  clips = PData.getElements("CLIPS");
+  clipfnames = clips[0].getText().split(",");
+  for(i=0; i<clipfnames.length; i++) {
+    if(document.getElementById(fnamePrefix + "_" + clipfnames[i])) {
+    document.getElementById(fnamePrefix + "_" + clipfnames[i]).checked = md;
+    }
+  }
+}
+
+function toggleSelect(chk)
+{
+  if((collArr.length <= 0) || (document.getElementById("library").value == "Select")) {
+    alert("Select Media from MediaLibrary");
+    document.getElementById(chk).checked = false;
+    document.getElementById("library").focus();
+    return;
+  }
+  if(chk == "SelectAll") {
+    md = document.getElementById("SelectAll").checked;
+    document.getElementById("SelectNone").checked = false;
+  }
+  else {
+    md = false;
+    document.getElementById("SelectAll").checked = false;
+  }
+  flg = false;
+  for(j=0; j<collArr[0].length; j++) {
+    if(!document.getElementById(collArr[0][j])) {
+      continue;
+    }
+    document.getElementById(collArr[0][j]).checked = md;
+    //if id has .mkd in it no need for toggleprogram
+    if( !collArr[0][j].match(/.mkd$/) ) {
+      toggleProgram(collArr[0][j]);
+    }
+    flg = true;
+  }
+  if(!flg) {
+    alert("Media is not available in selected MediaLibrary");
+    document.getElementById(chk).checked = false;
+  }
+}
+
+function addStreamsToProject() {
+  if(document.getElementById("library").value == "Select") {
+    alert("Select Media Library and check the streams to Add");
+    document.getElementById("library").focus();
+    return;
+  }
+  flg = false;
+  for(i=0; i<collArr[0].length; i++) {
+    parentfname = collArr[0][i];
+    if( parentfname.match(/.mkd$/) ) {
+      // add appendMKDRow
+      if( document.getElementById(parentfname).checked ) {
+        parentpath = document.getElementById("library").value + "\\" + parentfname;
+        parentTitle = parentfname.replace(/.mkd$/, "");
+        parentSize = 0;
+        appendMKDRow(parentpath, parentTitle, parentSize);
+        flg = true;
+      }
+    }
+    else {
+      fnamePrefix = parentfname.split("_")[0];
+      parentpath = document.getElementById("library").value + "\\db\\" + parentfname;
+      parentClip = parseXML(parentpath);
+      parentData = PHP_Unserialize(parentClip.getElements("METADATA")[0].getText());
+      parentTitle = parentData[2];
+      size = parseInt(parentData[12]);
+      parentSize = Math.round((size/(1024*1024))*100)/100;
+      clips = parentClip.getElements("CLIPS");
+      clipfnames = clips[0].getText().split(",");
+      tblname = "tbl-" + parentfname;
+      for(j=0; j<clipfnames.length; j++) {
+        if(!document.getElementById(fnamePrefix + "_" + clipfnames[j])) {
+          continue;
+        }
+        if(document.getElementById(fnamePrefix + "_" + clipfnames[j]).checked) {
+          if(!document.getElementById(parentpath)) {
+            appendParentRow(parentpath, parentTitle, parentSize, tblname);
+        }
+          path = document.getElementById("library").value + "\\db\\" + fnamePrefix + "_" + clipfnames[j];
+          blobpath = document.getElementById("library").value + "\\blob\\" + fnamePrefix + "_" + clipfnames[j];
+        clipData = parseXML(path);
+        mediaClip = PHP_Unserialize(clipData.getElements("METADATA")[0].getText());
+        title = mediaClip[2];
+        size = parseInt(mediaClip[12]);
+        size = Math.round((size/(1024*1024))*100)/100;
+        size += "&nbsp;GB";
+          appendChildRow(blobpath, path, title, size, tblname);
+          flg = true;
+        }
+      }
+    }
+  }
+  if(!flg) {
+    alert("select checkboxes to add streams to Project");
+    return;
+  }
+  document.getElementById("SelectAll").checked = false;
+  toggleSelect("SelectAll");
+}
+
+var mkdrows = 0;
+function appendMKDRow(db, Title, Size) {
+  var pcnt = document.frmProject.elements.length;
+  for(k=0; k<pcnt; k++) {
+    if((document.frmProject.elements[k].type=="checkbox") && (document.frmProject.elements[k].name == db)) {
+      alert(Title + " --- Stream already added");
+      return;
+    }
+  }
+  
+  var tbody = document.getElementById("tblList").getElementsByTagName("tbody")[0];
+  var row = document.createElement("TR");
+  var cell1 = document.createElement("TD");
+  cell1.className = "row5";
+  cell1.innerHTML = "<input type='checkbox' name='" + db + "' value='" + db + "'>&nbsp;<span id='mkddiv-" + mkdrows + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\">" + Title + "</span>";
+
+  var cell2 = document.createElement("TD");
+  cell2.className = "row5";
+  cell2.innerHTML = Size;
+  row.appendChild(cell1);
+  row.appendChild(cell2);
+  tbody.appendChild(row);
+  mkdrows++;
+}
+
+parentrows = 0;
+function appendParentRow(db, Title, Size, tblname) {
+  var tbody = document.getElementById("tblList").getElementsByTagName("tbody")[0];
+  var row = document.createElement("TR");
+  var cell1 = document.createElement("TD");
+  cell1.className = "row5";
+  cell1.innerHTML = "<input type='checkbox' name='" + db + "' value='" + db + "' onclick=\"toggleProjectProgram('" + tblname + "',this.checked)\">&nbsp;<span id='opendiv-" + parentrows + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\" onmousedown=\"return Open('subdiv-" + parentrows + "')\"><img src='images/btnProgram.gif' width='21' height='19' align='absmiddle'>" + Title + "</span>";
+
+  var cell2 = document.createElement("TD");
+  cell2.className = "row5";
+  cell2.innerHTML = Size;
+  row.appendChild(cell1);
+  row.appendChild(cell2);
+  tbody.appendChild(row);
+
+  var row = document.createElement("TR");
+  var cell1 = document.createElement("TD");
+  cell1.colSpan = 2;
+  cell1.innerHTML = "<div id='subdiv-" + parentrows + "' class='subs'><table id='" + tblname + "' width='100%' border='0' cellspacing='0' cellpadding='0'></table></div>";
+  row.appendChild(cell1);
+  tbody.appendChild(row);
+  parentrows++;
+}
+
+function appendChildRow(blob, db, Title, Size, tblname) { // add new row to the table
+  var pcnt = document.frmProject.elements.length;
+  for(k=0; k<pcnt; k++) {
+    if((document.frmProject.elements[k].type=="checkbox") && (document.frmProject.elements[k].name == db)) {
+      alert(Title + " --- Stream already added");
+      return;
+    }
+  }
+  var tbody = document.getElementById(tblname).getElementsByTagName("tbody")[0];
+  var row = document.createElement("TR");
+  var cell1 = document.createElement("TD");
+  cell1.className = "row5";
+  cell1.style.width = "90%";
+  cell1.style.paddingLeft = 20;
+  cell1.innerHTML = "<input type='checkbox' name='" + db + "' value='" + blob + "'> &nbsp;" + Title;
+
+  var cell2 = document.createElement("TD");
+  cell2.className = "row5";
+  cell2.style.width = "10%";
+  cell2.innerHTML = Size;
+  row.appendChild(cell1);
+  row.appendChild(cell2);
+  tbody.appendChild(row);
+}
+
+function removeRow() { // remove row from the table
+  cnt = document.frmProject.elements.length;
+  if(cnt == 0) {
+    alert("No streams added to Project");
+    return;
+  }
+
+  flg = false;
+  for(i=cnt-1; i>=0; i--) {
+    if(document.frmProject.elements[i].type=="checkbox") {
+		    var src = document.frmProject.elements[i];
+      if(src.name == src.value) {
+        var oRowIndex = src.parentElement.parentElement.rowIndex; //rowindex of parent clip
+        if( src.name.match(/.mkd$/) ) {
+          if( src.checked ) {
+            document.all("tblList").deleteRow(oRowIndex);
+            flg = true;
+          }
+        }
+        else {
+          var childTable = src.parentElement.parentElement.parentElement.rows[oRowIndex+1].cells[0].children[0].children[0].id
+          childRowsCount = document.all(childTable).rows.length;
+          for(j=childRowsCount-1; j>=0; j--) {
+            if(document.all(childTable).rows[j].cells[0].children[0].checked) {
+              document.all(childTable).deleteRow(j);
+              flg = true;
+            }
+            if(document.all(childTable).rows.length==0) {
+              document.all("tblList").deleteRow(oRowIndex+1);
+              document.all("tblList").deleteRow(oRowIndex);
+            }
+          }
+        }
+      }
+    }
+  }
+  if(!flg) {
+    alert("Select checkboxes to remove streams from Project"); 
+  }
+  document.getElementById("checkAll").checked = false;
+}
+
+function toggleProjectProgram(tbname, md) {
+  rowsCount = document.all(tbname).rows.length;
+  for(i=0; i<rowsCount; i++) {
+    document.all(tbname).rows[i].cells[0].children[0].checked = md;
+  }
+}
+
+function toggleSelectProject(chk)
+{
+  Cnt = document.frmProject.elements.length;
+  if(Cnt == 0) {
+    alert("No streams added to Project");
+    document.getElementById(chk).checked = false;
+    return;
+  }
+  if(chk == "checkAll") {
+    md = document.getElementById("checkAll").checked;
+    document.getElementById("checkNone").checked = false;
+  }
+  else if(chk == "checkNone"){
+    md = false;
+    document.getElementById("checkAll").checked = false;
+  }
+  for(j=0; j<Cnt; j++) {
+    document.frmProject.elements[j].checked = md;
+  }
+}
+
+function createProject() {
+  projectName = document.getElementById("txtPNAME").value;
+  mediaLogo = document.getElementById("txtLOGO").value;
+  logoTitle = document.getElementById("txtTITLE").value;
+  strDate = document.getElementById("txtDATE").value;
+  if(projectName == "") {
+    alert("Please specify the project name");
+    return;
+  }
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  if(!fso.FileExists(mediaLogo)) {
+    alert("Logo path is Invalid");
+    document.getElementById("txtLOGO").focus();
+    document.getElementById("txtLOGO").select();
+    return;
+  }
+  if(strDate == "") {
+    folderBool = fso.FolderExists(authFolder + "\\Projects");
+    if(!folderBool) {
+      projectsFolder = fso.CreateFolder(authFolder + "\\Projects");
+    }
+
+    folderBool = fso.FolderExists(authFolder + "\\Projects\\" + projectName);
+    if(!folderBool) {
+      projectFolder = fso.CreateFolder(authFolder + "\\Projects\\" + projectName);
+    }
+    else {
+      alert("Project already exists with name - " + projectName);
+      return;
+    }
+    dt = new Date();
+    MM = dt.getMonth() + 1;
+    if(MM < 10)
+      MM = "0" + MM;
+    DD = dt.getDate();
+    if(DD < 10)
+      DD = "0" + DD;
+    HH = dt.getHours();
+    if(HH < 10)
+      HH = "0" + HH;
+    MIN = dt.getMinutes();
+    if(MIN < 10)
+      MIN = "0" + MIN;
+    SEC = dt.getSeconds();
+    if(SEC < 10)
+      SEC = "0" + SEC;
+    strDate = MM + "/" + DD + "/" + dt.getFullYear() + " " + HH + ":" + MIN + ":" + SEC;
+    md = "Created"
+    DVDDate = "Media Not Created";
+    DVDPath = "Media Not Created";
+  }
+  else
+  {
+    projectFolder = authFolder + "\\Projects\\" + projectName;
+    md = "Modified"
+    DVDDate = document.getElementById("txtDVDDATE").value;
+    DVDPath = document.getElementById("txtDVDPATH").value;
+  }
+
+  XMLMedia = "";
+  psize = 0;
+  plength = 0;
+  totalPrograms = 0;
+  totalStreams = 0;
+  fCnt = document.frmProject.elements.length;
+  for(i=0; i<fCnt; i++) {
+    if((document.frmProject.elements[i].type=="checkbox")) {
+      DBPath = document.frmProject.elements[i].name;
+      BLOBPath = document.frmProject.elements[i].value;
+      if(DBPath == BLOBPath) {
+        bsPath = DBPath.split("\\");
+        baseLibPath = "";
+        parentFname = bsPath[bsPath.length-1];
+        fnamePrefix = parentFname.split("_")[0];
+        if( parentFname.match(/.mkd$/) ) {
+          for(ii=0; ii<bsPath.length-1; ii++) {
+            baseLibPath += bsPath[ii] + "\\";
+          }
+          XMLMedia += "<MEDIA>\n";
+          XMLMedia += "<TITLE>" + parentFname.replace(/.mkd$/, "") + "</TITLE>\n";
+          XMLMedia += "<DATETIME>" + "--/--/-- --:--:--" + "</DATETIME>\n";
+          XMLMedia += "<LENGTH>" + "--:--:--" + "</LENGTH>\n";
+          XMLMedia += "<SIZE>" + 0 + "</SIZE>\n";
+          XMLMedia += "<FILENAME>" + parentFname + "</FILENAME>\n";
+          XMLMedia += "<BASEPATH>" + baseLibPath + "</BASEPATH>\n";
+          XMLMedia += "<FILETYPE>" + "MKD" + "</FILETYPE>\n";
+          XMLMedia += "</MEDIA>\n";
+        }
+        else {
+          for(ii=0; ii<bsPath.length-2; ii++) {
+            baseLibPath += bsPath[ii] + "\\";
+          }
+          ParentDt = parseXML(DBPath);
+          ParentData = PHP_Unserialize(ParentDt.getElements("METADATA")[0].getText());
+          XMLMedia += "<MEDIA>\n";
+          XMLMedia += "<TITLE>" + ParentData[2] + "</TITLE>\n";
+          XMLMedia += "<DATETIME>" + ParentData[8] + "</DATETIME>\n";
+          XMLMedia += "<LENGTH>" + ParentData[4] + "</LENGTH>\n";
+          XMLMedia += "<SIZE>" + parseInt(ParentData[12]) + "</SIZE>\n";
+          XMLMedia += "<FILENAME>" + parentFname + "</FILENAME>\n";
+          XMLMedia += "<BASEPATH>" + baseLibPath + "</BASEPATH>\n";
+          clips = ParentDt.getElements("CLIPS");
+          clipfnames = clips[0].getText().split(",");
+          for(j=0; j<clipfnames.length; j++) {
+            clipDBPath = baseLibPath + "db\\" + fnamePrefix + "_" + clipfnames[j];
+            if(document.getElementById(clipDBPath)) {
+              clipDt = parseXML(clipDBPath);
+              clip = PHP_Unserialize(clipDt.getElements("METADATA")[0].getText());
+              streamType = clip[11];
+              if((streamType == "") || (streamType == null) || (streamType == "undefined")) {
+                streamType = 1;
+              }
+              XMLMedia += "<CLIP>\n";
+              XMLMedia += "<TITLE>" + clip[2] + "</TITLE>\n";
+              XMLMedia += "<TYPE>" + streamType + "</TYPE>\n";
+              XMLMedia += "<DATETIME>" + clip[8] + "</DATETIME>\n";
+              XMLMedia += "<CLIPLENGTH>" + clip[4] + "</CLIPLENGTH>\n";
+              XMLMedia += "<SIZE>" + parseInt(clip[12]) + "</SIZE>\n";
+              XMLMedia += "<FILENAME>" + fnamePrefix + "_" + clipfnames[j] + "</FILENAME>\n";
+              XMLMedia += "</CLIP>\n";
+              psize = psize + parseInt(clip[12]);
+              plength = plength + parseInt(clip[4]);
+              totalStreams = totalStreams + 1;
+            }
+          }
+          XMLMedia += "</MEDIA>\n";
+        }
+        totalPrograms = totalPrograms + 1;
+      }
+    }
+  }
+  XMLString = "<PROJECT>\n";
+  XMLString += "<NAME>" + projectName + "</NAME>\n";
+  XMLString += "<CREATED>" + strDate + "</CREATED>\n";
+  XMLString += "<LENGTH>" + plength + "</LENGTH>\n";
+  XMLString += "<PSIZE>" + psize + "</PSIZE>\n";
+  XMLString += "<LOGOPATH>" + mediaLogo + "</LOGOPATH>\n";
+  XMLString += "<LOGOTITLE>" + logoTitle + "</LOGOTITLE>\n";
+  XMLString += "<PROGRAMS>" + totalPrograms + "</PROGRAMS>\n";
+  XMLString += "<STREAMS>" + totalStreams + "</STREAMS>\n";
+  XMLString += "<DVDPATH>" + DVDPath + "</DVDPATH>\n";
+  XMLString += "<DVDDATE>" + DVDDate + "</DVDDATE>\n";
+  XMLString += XMLMedia;
+  XMLString += "</PROJECT>\n";
+
+  try
+  {
+	  var file = fso.CreateTextFile(projectFolder + "\\Project.xml", true); 
+  }
+  catch(er)
+  {
+    alert("Set permissions to create a file");
+    return;
+  }
+  file.WriteLine(XMLString);
+  file.close();
+  fso = null;
+  alert("Project " + projectName + " " + md + " Successfully");
+}
+
+function loadProject(pname) {
+  var prFile = authFolder + "\\Projects\\" + pname + "\\Project.xml";
+  var project = parseXML(prFile);
+  document.getElementById("txtPNAME").value = project.getElements("NAME")[0].getText();
+  document.getElementById("txtPNAME").readOnly = true;
+  document.getElementById("txtLOGO").value = project.getElements("LOGOPATH")[0].getText();
+  document.getElementById("txtTITLE").value = project.getElements("LOGOTITLE")[0].getText();
+  document.getElementById("txtDATE").value = project.getElements("CREATED")[0].getText();
+  document.getElementById("txtDVDPATH").value = project.getElements("DVDPATH")[0].getText();
+  document.getElementById("txtDVDDATE").value = project.getElements("DVDDATE")[0].getText();
+  mediaList = project.getElements("MEDIA");
+  for(i=0; i<mediaList.length; i++) {
+    parentFname = mediaList[i].getElements("FILENAME")[0].getText();
+    basepath = mediaList[i].getElements("BASEPATH")[0].getText();
+    fileTypeList = mediaList[i].getElements("FILETYPE");
+    if( fileTypeList.length > 0 && fileTypeList[0].getText() == "MKD" ) {
+      parentpath = basepath + "" + parentFname;
+      parentTitle = parentFname.replace(/.mkd$/, "");
+      parentSize = 0;
+      appendMKDRow(parentpath, parentTitle, parentSize);
+    }
+    else {
+      parentpath = basepath + "db\\" + parentFname;
+      parentTitle = mediaList[i].getElements("TITLE")[0].getText();     
+      size = mediaList[i].getElements("SIZE")[0].getText();
+      size = parseInt(size);
+      parentSize = Math.round((size/(1024*1024))*100)/100;
+      parentpath = basepath + "db\\" + parentFname;
+      tblname = "tbl-" + parentFname;
+      appendParentRow(parentpath, parentTitle, parentSize, tblname);
+      clips = mediaList[i].getElements("CLIP");
+      for(j=0; j<clips.length; j++) {
+        clipFname = clips[j].getElements("FILENAME")[0].getText();
+        dbpath = basepath + "db\\" + clipFname;
+        blobpath = basepath + "blob\\" + clipFname;
+        title = clips[j].getElements("TITLE")[0].getText();
+        size = parseInt(clips[j].getElements("SIZE")[0].getText());
+        size = Math.round((size/(1024*1024))*100)/100;
+        size += "&nbsp;GB";
+        appendChildRow(blobpath, dbpath, title, size, tblname);
+      }
+    }
+  }
+}
+
+function validate(obj, txt) //this validates for special characters in Project name/DVD title
+{
+  var iChars = "!@#$%^*()+=-[]\\\';,./{}|\":<>?";
+  for (var i = 0; i < document.getElementById(obj).value.length; i++) {
+  	if (iChars.indexOf(document.getElementById(obj).value.charAt(i)) != -1) {
+  	  alert ("Special characters not allowed for " + txt);
+      document.getElementById(obj).focus();
+      document.getElementById(obj).select();
+  	  return false;
+  	}
+  }
+  return true;
+}
+//-->
+</script>
+</head>
+<body class="body" onload="init()">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+	<tr>
+		<td class="H1">
+			<div>
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img src="Images/logoClientHeader.gif" align="absmiddle"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50">IPVS Authoring Station</div>
+				<div style="text-align:right;padding-top:4px"><span class="t5white"><a href="Authoring_Home.html">Home</a> | <a href="Authoring_Settings.html">Settings</a> | <a href="Authoring_Projects.html">Projects</a> | <a href="Authoring_Media.html">Manage
+				      Media</a> | <a href="Authoring_Burn.html">Create Media</a> | <a href="Authoring_about.html">About</a>&nbsp;&nbsp;</span></div>
+  			</div>
+		</td>
+  	<tr>
+    	<td style="padding-left:20px" align="left" valign="top">
+			<span class="t1bmid">New Project</span>
+			<hr width="400">
+		</td>
+	</tr>
+<tr>
+<td style="padding-left:20px"> <!-- TOP FORM SECTION -->
+<table width="900" border="0" cellspacing="5" cellpadding="0">
+  <tr>
+    <td width="106" align="left" class="T4bWhite">Project Name:</td>
+    <td width="194"><input name="txtPNAME" type="text" size="30" maxlength=70 onblur="return validate('txtPNAME', 'Project Name');"></td>
+    <input name="txtDATE" type="hidden" value="">
+    <input name="txtDVDDATE" type="hidden" value="">
+    <input name="txtDVDPATH" type="hidden" value="">
+    <td width="213" align="right" class="T4bWhite">DVD Media Guide Logo:</td>
+    <td width="155"><input name="txtLOGO" type="text" id="logo" value="--Use Default--" size="40"></td>
+    <td width="114"><button class="btnSmall" onclick="getLocation('txtLOGO', 0)">Browse</button></td>
+  </tr>
+  <tr>
+    <td align="left" class="T4bWhite">Media Library:</td>
+    <td><select name="library" id="library" onchange="loadPrograms();"><option value="Select">Select</option></select></td>
+    <td align="right" class="T4bWhite">DVD Media Guide Title Text:</td>
+    <td><input name="txtTITLE" type="text" value="IPVS DVD Authoring Station" size="40" maxlength=70 onblur="return validate('txtTITLE', 'DVD Title');"></td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+  <td style="padding-left:20px" height="100%"> <!-- BODY SECTION -->
+	  <table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center">
+		  <tr>
+				<td height="100%" width="60%" align="left" valign="top">	
+					<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #23417d;filter:shadow(color:gray,strength:30, direction:135);">
+				    <tr>
+							<td height="100%" align="left" valign="top" class="H4">Media Library</td>
+						</tr>
+				  	<tr>
+							<td height="100%" align="left" valign="top" bgcolor="#ebeff5">
+              <form name="frmLibrary">
+					  			<div id="divProgramsList" style="width:100%;height:100%;overflow:auto">
+									<table width="100%" border="0" cellpadding="0" cellspacing="0">
+									  <tr>
+										<td class="col3" width="70%">Name</td>
+										<td class="col3" width="16%">Date</td>
+										<td class="col3" width="7%">Length</td>
+										<td class="col3" width="7%">Size</td>
+									  </tr></table>
+					  		   </div>
+                    </form>
+						  </td>
+				  	</tr>
+				  	<tr>
+					<td width="60%" valign="top" class="col1">
+					<div style="height:22px">
+						<div style="float:left">
+							<span class="T5">Select:&nbsp;&nbsp;<input type="checkbox" name="SelectAll" value="checkbox" onClick="toggleSelect('SelectAll')">All&nbsp;&nbsp;<input type="checkbox" name="SelectNone" value="checkbox" onClick="toggleSelect('SelectNone')">None</span>
+						</div>
+						<div style="text-align:right;padding-right:50px;"><button class="btnGreen" onClick="addStreamsToProject();">&nbsp;&nbsp;Add&nbsp;&nbsp;</button></div>
+					</div>
+					
+					</td>
+				  </tr>
+				</table>
+				</td>
+        <td width="6"><img src="images/spacer.gif" width="6" height="1"></td>
+				<td height="100%" width="40%" align="left" valign="top">
+				  <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #23417d">
+					  <tr>
+						<td height="100%" align="left" valign="top" class="H4">To Project</td>
+					  </tr>
+					  <tr>
+						<td height="100%" align="left" valign="top" bgcolor="#ebeff5">
+             <form name="frmProject">
+						  <div style="width:100%;height:100%;overflow:auto">
+							<table id=tblList width="100%" border="0" cellpadding="0" cellspacing="0">
+							  <tr>
+								<td class="Col3" width="90%">Name</td>
+								<td class="Col3" width="10%">Size</td>
+							  </tr>
+							</table>
+						  </div>
+               </form>
+						</td>
+					  </tr>
+					  <tr>
+						<td width="60%" align="right" valign="top" class="col1">
+							<div style="height:30px; padding: 2px">
+								<div style="float:left">
+									<span class="T5">Select:&nbsp;&nbsp;<input type="checkbox" name="checkAll" value="checkAll" onclick="toggleSelectProject('checkAll')">All&nbsp;&nbsp;<input type="checkbox" name="checkNone" value="checkNone" onclick="toggleSelectProject('checkNone')">None</span></div>
+								<div style="text-align:right;padding-right:50px;"><button class="btnSmall" onclick="removeRow();">Remove</button></div>
+							</div>
+						</td>
+					  </tr>
+				  </table>
+				</td>
+			  </tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px">
+			<br><br>
+			<hr width="85%" align="left">
+			<div style="width:80%;text-align:right">
+				<input style="width:75px" name="cancel" type="button" value="Cancel" onclick="javacsript:location='Authoring_Projects.html'">&nbsp;&nbsp;&nbsp;<input style="width:90px" name="save" type="button" value="Save Project" onclick="createProject();">
+			</div>
+			<br>
+	</td>
+  </tr>
+  <tr>
+    <td class="footer">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

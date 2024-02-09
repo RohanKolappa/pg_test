@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Very early userspace script
+
+# This is the first thing called by the kernel for initramfs images.
+# We create a new tmpfs file system in /newroot and move all files
+# from / to the /newroot. Then switch the root file system to it.
+# This allows us to see the root file system in "df".
+
+/bin/busybox --install -s
+
+/bin/echo "Early Userspace: Switching root file system..."
+/bin/mkdir /newroot
+/bin/mount -t tmpfs -o size=512m tmpfs /newroot
+/bin/cp -a / /newroot
+
+# Call switch_root which will delete everything from / and
+# overmount /newroot on /
+exec /sbin/switch_root /newroot /sbin/init
+
+# The above should never return, but if switch_root fails
+# we start a shell
+echo "Failed to switch_root. Dropping into a shell."
+/bin/sh

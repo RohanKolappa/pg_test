@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="ISO-8859-1">
+
+<title>Notification Channel</title>
+
+<script src='lib/Base64.js' type='text/javascript'></script>
+
+<script src='lib/barcoUtils.js' type='text/javascript'></script>
+
+</head>
+
+<script type="text/javascript">
+
+  var serverip = window.opener.document.getElementById('input_apiKey').value;
+  var resource = window.opener.document.getElementById('input_apiKey1').value;
+  var username =window.opener.document.getElementById('input_apiKey2').value;
+  var password = window.opener.document.getElementById('input_apiKey3').value;
+
+  
+
+login(serverip,username,password);
+
+
+
+function poll(longpoll) {
+
+
+
+keep_alive(longpoll, username, password, resource);
+
+}
+
+
+
+</script>
+
+<body>
+
+<form name="mrform">
+
+As a response to the Login request, you will receive a Long-Polling URL as shown below.
+
+Click on the link to start the long polling channel with the server to receive notifications
+
+about activity happening on the server. 
+
+
+
+<table id="table1">
+
+<tr>
+
+<td><a href="javascript:poll(document.getElementById('url').value);">POLL</a></td>
+
+<td><input id="url" type="text" name="url" value="" size="145"/></td>
+
+</tr>
+
+</table>
+
+
+
+
+
+<table id="table3" style="display:;">
+
+<tr><td></td>
+
+<td>
+
+<form name="cform">
+
+Notifications<br/>
+
+<textarea id="notification" name="request" rows="15" cols="123"></textarea><br/>
+
+</td>  
+
+</form>
+
+</tr>
+
+</table>
+
+
+
+
+
+
+
+</form>
+
+</body>
+
+</html>

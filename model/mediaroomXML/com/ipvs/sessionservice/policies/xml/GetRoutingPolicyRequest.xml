@@ -1,0 +1,44 @@
+<GetRoutingPolicyRequest>
+	<GetRoutingPolicyRequestData>
+	 <GetRoutingPolicy countToFetch="0" sortBy="" sortOrder="ascending" startFrom="1"  
+		     whereTextSubStr="" selectFormat="BASIC/EXTENDED" whereName="" whereNID=""/>
+     </GetRoutingPolicyRequestData>
+	<GetRoutingPolicyResponseData>
+		<GetRoutingPolicy>
+			
+			 <!-- BASIC FORMAT RESPONSE -->
+			<RoutingPolicy  NID='' name="Location"/>
+			
+			<!-- EXTENDED FORMAT RESPONSE -->
+			<RoutingPolicy NID='' name="Location">
+				<SourceFilterSet>
+					<SourceFilter filterNID='' />
+				</SourceFilterSet>
+
+				<DestinationFilterSet>
+					<DestinationFilter filterNID='' />
+				</DestinationFilterSet>
+
+				<RelayFilterSet>
+					<RelayFilter filterNID='' />
+				</RelayFilterSet>
+
+				<ProfileFilterSet>
+					<ProfileFilter filterNID='' />
+				</ProfileFilterSet>
+
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>Source/Destination/Relay/Profile</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>Source/Destination/Relay/Profile</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</RoutingPolicy>
+		</GetRoutingPolicy>
+	</GetRoutingPolicyResponseData>
+	<GetRoutingPolicyExceptionCodes />
+</GetRoutingPolicyRequest>

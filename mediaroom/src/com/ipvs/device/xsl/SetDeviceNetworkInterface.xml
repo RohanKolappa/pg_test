@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:template match="//SetDeviceNetworkInterface">
+		<NetworkElementsConfig>
+			<EthernetPortTableConfig>
+				<EthernetPortConfig>
+					<xsl:attribute name="Dirty"> 
+								<xsl:text>UPDATELIST</xsl:text>							 
+						 </xsl:attribute>
+					<xsl:attribute name="ListIndex"> 
+							<xsl:choose>
+							<xsl:when test="./@listIndex!=''">
+									<xsl:value-of select="./@listIndex" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>0</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose> 
+						 </xsl:attribute>
+					<PortID>
+						<xsl:choose>
+							<xsl:when test="./@portId!=''">
+								<xsl:value-of select="./@portId" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>1</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</PortID>
+					<EnableInterface>
+						<xsl:choose>
+							<xsl:when test="./@enable!=''">
+								<xsl:value-of select="./@enable" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>false</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</EnableInterface>
+					<IsPrimary>
+						<xsl:choose>
+							<xsl:when test="./@primary!=''">
+								<xsl:value-of select="./@primary" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>false</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</IsPrimary>
+					<EnableMulticast>
+						<xsl:choose>
+							<xsl:when test="./@multicast!=''">
+								<xsl:value-of select="./@multicast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>false</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</EnableMulticast>
+					<MTU>1500</MTU>
+					<IPConfig>
+						<UseDHCP>
+							<xsl:choose>
+								<xsl:when test="./@useDHCP!=''">
+									<xsl:value-of select="./@useDHCP" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>false</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</UseDHCP>
+						<IPAddress>
+							<xsl:choose>
+								<xsl:when test="./@ipAddress!=''">
+									<xsl:value-of select="./@ipAddress" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>169.254.0.1</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</IPAddress>
+						<Netmask>
+							<xsl:choose>
+								<xsl:when test="./@netmask!=''">
+									<xsl:value-of select="./@netmask" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>255.255.0.0</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+		</NetworkElementsConfig>
+	</xsl:template>
+</xsl:stylesheet>

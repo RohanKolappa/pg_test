@@ -1,0 +1,2826 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>Extension Of IP Video Systems Collaboration Service API</title>
+		<revhistory>
+		<revision>
+        		<revnumber>0.1.9</revnumber>
+        		<date>26 Mar 2013</date>
+       			 <revremark>Added Upgrade, SaveConfig, RevertToDefault, Reboot and Shutdown request and response</revremark>
+    		</revision>
+			<revision>
+        		<revnumber>0.1.8</revnumber>
+        		<date>20 Feb 2013</date>
+       			 <revremark>Updated GetSystemConfig and added SetAutoDiscovery request and response</revremark>
+    		</revision>
+			<revision>
+        		<revnumber>0.1.7</revnumber>
+        		<date>12 Dec 2012</date>
+       			 <revremark>Added SetDirStorageConfig, StartDirOffload and SetFileByPassAutoStorageRules request and response</revremark>
+    		</revision>
+		 	<revision>
+        		<revnumber>0.1.6</revnumber>
+        		<date>16 Oct 2012</date>
+       			 <revremark>Moved setport APIs and Device APIs to External document </revremark>
+    		</revision>
+			<revision>
+				<revnumber>0.1.5</revnumber>
+				<date>11 Jun 2012</date>
+				<revremark>Added RAW format response for GetDevice</revremark>
+			</revision>
+			<revision>
+				<revnumber>0.1.4</revnumber>
+				<date>30 Apr 2012</date>
+				<revremark>Added Unsubscribe, GetSubscribers request and response in DB API Chapter</revremark>
+			</revision>
+			<revision>
+				<revnumber>0.1.3</revnumber>
+				<date>18 Jun 2011</date>
+				<revremark>Added GetPVRFile,GetOrphanFile and GetSystemConfig request and response</revremark>
+			</revision>
+			<revision>
+				<revnumber>0.1.2</revnumber>
+				<date>17 Mar 2011</date>
+				<revremark>Added Native Admin APICalls</revremark>
+			</revision>
+			<revision>
+				<revnumber>0.1.1</revnumber>
+				<date>15 Mar 2011</date>
+				<revremark>Added Admin API Calls</revremark>
+			</revision>
+			<revision>
+				<revnumber>0.1</revnumber>
+				<date>16 Dec 2010</date>
+				<revremark>Added SetServiceClientDisplayconfig and SetServiceClientDisplayStatus</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<chapter>
+		<title>Set Operations</title>
+		<section>
+			<title>Set Service Client Display Configuration Request</title>
+			<para>
+				Sets the display configuration parameters for given service client.
+			</para>
+			<example>
+				<title>Set Service Client Display Configuration Request</title>
+				<programlisting>
+            <![CDATA[
+		<SetServiceClientDisplayConfig byNID=''>
+			<IPVSClientDisplayConfig>
+				<!-- check the unmanned client display config-->
+			</IPVSClientDisplayConfig>
+		</SetServiceClientDisplayConfig>
+            ]]>
+          </programlisting>
+			</example>
+			<example>
+				<title>Set Service Client Display Configuration Response</title>
+				<programlisting>
+            <![CDATA[
+		<SetServiceClientDisplayConfig byNID=''>
+			<IPVSClientDisplayConfig>
+			 <!-- check the unmanned client display config-->
+			</IPVSClientDisplayConfig>
+		</SetServiceClientDisplayConfig>
+		    ]]>
+          </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Set Service Client Display Status Request</title>
+			<para>
+				Sets the display status parameters for given service client.
+			</para>
+			<example>
+				<title>Set Service Client Display Status Request</title>
+				<programlisting>
+            <![CDATA[
+		<SetServiceClientDisplayStatus byNID=''>
+			<IPVSClientDisplayStatus>
+				<!-- check the unmanned client display status-->
+			</IPVSClientDisplayStatus>
+		</SetServiceClientDisplayStatus>
+            ]]>
+          </programlisting>
+			</example>
+			<example>
+				<title>Set Service Client Display Status Response</title>
+				<programlisting>
+            <![CDATA[
+		<SetServiceClientDisplayStatus byNID=''>
+			<IPVSClientDisplayStatus>
+			 <!-- check the unmanned client display status-->
+			</IPVSClientDisplayStatus>
+		</SetServiceClientDisplayStatus>
+		    ]]>
+          </programlisting>
+			</example>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>Admin API </title>
+		<para> List of admin API calls </para>
+		
+		<section>
+			<title>Dir Object</title>
+			<para> This section explain list of Dir object API calls</para>
+			<section>
+				<title>Parameter Listing Of Set API</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>byNID</parameter>
+							<optional>Required</optional>
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<title>SetDirInfo</title>
+				<para>Update Dir title and description in database</para>
+				<example>
+					<title>Set Dir Info Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>title</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>description</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				     <SetDirInfo byNID='' title='' description='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Dir Info Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetDirInfo>
+				      <!-- Check Dir Object Response XML-->
+				    </SetDirInfo>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetDirPriority</title>
+				<para>Update Directory priority in database</para>
+				<example>
+					<title>Set Dir Priority Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>MediaStorePort: NID</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>MediaStorePort: priority</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<SetDirPriority byNID=''>
+			<MediaStorePort NID='' priority='' />
+			<MediaStorePort NID='' priority='' />
+		</SetDirPriority>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Dir Priority Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetDirPriority>
+				      <!-- Check Dir Object Response XML-->
+				    </SetDirPriority>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetDirTags</title>
+				<para>Update Directory tags in database</para>
+				<example>
+					<title>Set Dir Tags Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				 <SetDirTags byNID=''>
+					<Groups>
+						<Tag name='' value='' />
+					</Groups>		
+				</SetDirTags>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Dir Tags Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetDirTags>
+				      <!-- Check Dir Object Response XML-->
+				    </SetDirTags>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetDirThreshold</title>
+				<para>Update Directory threshold in database</para>
+				<example>
+					<title>Set Dir Threshold Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>threshold</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				<SetDirThreshold byNID='' threshold='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Dir Threshold Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetDirThreshold>
+				      <!-- Check Dir Object Response XML-->
+				    </SetDirThreshold>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetDirStorageConfig</title>
+				<para>Update DirSpanning and CapacityManagement in database</para>
+				<example>
+					<title>Set Dir Storage Config Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>byNID</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>whereMode='DirSpanning/CapacityManagement'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				     		<SetDirStorageConfig byNID='' whereMode=''>
+								<DirSpanning diskFullThreshold=''>
+        							<PortInfo>
+        								<Port byNID="" priority="" />
+        							</PortInfo>
+        						</DirSpanning>
+        						<CapacityManagement  schedule=''>
+        							<ThresholdRule enable='' diskCapacityReached='' reduceDiskCapacity='' type='' nasDriveURL=''/>
+        							<ILMRule enable='' timestamp='' type='' nasDriveURL=''/>
+        						</CapacityManagement>
+        					</SetDirStorageConfig>
+			      		 ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Dir Storage Config Response</title>
+					<programlisting>
+			            <![CDATA[
+				    	<SetDirStorageConfig>
+						  <Dir NID="" title="" dirType="" state="" size="" sizeUsed="" dateCreated="" dateModified="" readOnly="">
+							<description />
+							<Groups>
+								<Tag Name="" Value="" />
+							</Groups>
+							<StorageConfig mode=''>
+								<DirSpanning diskFullThreshold=''>
+        							<PortInfo>
+										<Port NID="" title="" deviceElementId="" priority="" presence="" readOnly="" />
+									</PortInfo>
+								</DirSpanning>
+								<CapacityManagement  schedule='' state='' lastRunDate='' lastRunTime='' lastRunState=''>
+									<ThresholdRule enable='' diskCapacityReached='' reduceDiskCapacity='' type='' nasDriveURL=''/>
+									<ILMRule enable='' timestamp='' type='' nasDriveURL=''/>
+								</CapacityManagement>
+							</StorageConfig>
+							<SubDirInfo>
+								<Dir NID="" title="" dirType="RECYCLEBIN" />
+								<Dir NID="" title="" dirType="PVR" />
+							</SubDirInfo>
+							<Permissions modify='' delete='' read='' import='' playback='' record='' />
+						</Dir>
+					 </SetDirStorageConfig>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>StartDirOffload</title>
+				<para>Start directory offload</para>
+				<example>
+					<title>Start Dir Offload Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>byNID</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				     		<StartDirOffload byNID='' />
+			      		 ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Start Dir Offload Response</title>
+					<programlisting>
+			            <![CDATA[
+				    		<StartDirOffload />
+			         	]]>
+			         </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>Dir Object Response XML</title>
+				<example>
+					<title>Dir Object Response XML </title>
+					<programlisting>
+			            <![CDATA[
+				   <Dir NID='' title='' dirType='' presence='' state='' size=''
+					sizeUsed='' diskFullThreashold='' dateCreated='' dateModified=''
+					readOnly=''>
+					<PortInfo />
+					<description />
+					<Groups>
+						<Tag name='' value='' />
+					</Groups>
+			   	   </Dir>
+					 ]]>
+			    </programlisting>
+				</example>
+			</section>
+		</section>
+		<section>
+			<title>File Object</title>
+			<para> This section explain list of File object API calls</para>
+			<section>
+				<title>Parameter Listing Of Set API</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>byNID</parameter>
+							<optional>Required</optional>
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<title>SetFileInfo</title>
+				<para>Update File title and description in database</para>
+				<example>
+					<title>Set File Info Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>title</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>description</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				     <SetFileInfo byNID='' title='' description='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set File Info Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetFileInfo>
+				      <!-- Check File Object Response XML-->
+				    </SetFileInfo>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetFileMetaData</title>
+				<para>replace given metadata in database</para>
+				<example>
+					<title>Set File MetaData Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>byNID</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>	
+						<listitem>
+							<para>
+								<parameter>byTitle</parameter>
+								<optional>Either byNID or byTitle required</optional>
+							</para>
+						</listitem>
+						<listitem>
+						<para>
+							<parameter>MetaData</parameter>
+							<optional>Required</optional>
+						</para>
+					</listitem>					
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<SetFileMetaData byNID='nid1' byTitle=''>
+			<MetaData>
+				<Tag name='' />
+			</MetaData>
+		</SetFileMetaData>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set File MetaData Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetFileMetaData>
+				      <!-- Check File Object Response XML-->
+				    </SetFileMetaData>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetFileTags</title>
+				<para>Update File tags in database</para>
+				<example>
+					<title>Set File Tags Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<SetFileTags byNID=''>
+			<Groups>
+				<Tag name='' value='' />
+			</Groups>
+		</SetFileTags>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set File Tags Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetFileTags>
+				      <!-- Check File Object Response XML-->
+				    </SetFileTags>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+      			<title>SetFileByPassAutoStorageRules</title>        
+        		<para>                  
+          			This is used to set the bypassAutoStorageRules.         
+        		</para>
+        		<example>
+        			<title>Set File BypassAutoStorageRules Request</title>
+          			<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>byNID</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>bypassAutoStorageRules='true/false'</parameter>
+								<optional>if the value is true, it bypasses NAS offload rules(delete/copy).</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+						<![CDATA[
+							<SetFileBypassAutoStorageRules byNID ="" bypassAutoStorageRules='' />
+					       ]]>
+					</programlisting>
+				</example>                   
+        		<example>
+          			<title>Set File BypassAutoStorageRules Response</title>
+          			<programlisting>
+            			<![CDATA[
+							<SetFileBypassAutoStorageRules>
+								<File NID='' title='' fileType='' streamType='' size=''
+									playlength='' presence='' state='' dateCreated='' dateModified=''
+									readOnly='' mediaGroupId='' bypassAutoStorageRules=''>
+									<description />
+									<Groups>
+										<Tag name='' value='' />
+									</Groups>
+									<MetaData>
+										<Tag Name=''>Value</Tag>
+									</MetaData>
+									<Dir dirNID='' dirTitle='' />
+								</File>
+							</SetFileBypassAutoStorageRules>
+						]]>
+          			</programlisting>
+        		</example>
+      		</section>
+		    <section>
+				<title>File Object Response XML</title>
+				<example>
+					<title>File Object Response XML </title>
+					<programlisting>
+			            <![CDATA[
+				  <File NID='' title='' fileType='' streamType='' size=''
+					playlength='' presence='' state='' dateCreated='' dateModified=''
+					readOnly='' mediaGroupId=''>
+					<description />
+					<Groups>
+						<Tag name='' value='' />
+					</Groups>
+					<MetaData>
+						<Tag Name=''>Value</Tag>
+					</MetaData>
+					<Dir dirNID='' dirTitle='' />
+				</File>
+					 ]]>
+			    </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>GetPVRFile</title>
+				<para>Returns PVR file information</para>
+				<example>
+					<title>GetPVRFile Request</title>
+					<para><note><para>Check GetFile API Parameter Listing</para></note></para>
+					<programlisting>
+			            <![CDATA[
+     <GetPVRFile countToFetch="" selectFormat="BASIC"
+		sortBy="" sortByMetaData='' sortByTagName='' sortOrder="ascending" startFrom="1" whereDateRange=""
+		whereNID="" whereTagExpr="" whereTextSubStr="" searchTextSubStrIn='TITLE,DESCRIPTION,METADATA,BOOKMARK' 
+		whereState="" whereMetaDataExpr="" 
+		whereParentDirNID="" whereSessionConfigNID = "" />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>GetPVRFile Response BASIC</title>
+					<programlisting>
+			            <![CDATA[
+		<GetPVRFile from="0" total="0">
+			<File NID='' title='' fileType='PVRMediaClip' streamType='' size='
+				playlength='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''>
+				<Permissions add='' modify='' delete='' read='' import='' export='' playback='' />
+			</File>			
+		</GetPVRFile>
+			         ]]>
+			          </programlisting>
+				</example>
+				
+				<example>
+					<title>GetPVRFile Response EXTENDED</title>
+					<programlisting>
+			            <![CDATA[
+		<GetPVRFile from="0" total="0">
+			<File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' presence='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''>
+				<description />
+				<Groups>
+					<Tag name='' value='' />
+				</Groups>
+				<Permissions add='' modify='' delete='' read='' import='' export='' playback='' />
+				<MetaData>
+					<Tag Name=''>Value</Tag>
+				</MetaData>
+				<Dir dirNID='' dirTitle='' />
+			</File>
+		</GetPVRFile>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+					<section>
+				<title>GetOrphanFile</title>
+				<para>Returns Orphan file information</para>
+				<example>
+					<title>GetOrphanFile Request</title>
+					<para><note><para>Check GetFile API Parameter Listing</para></note></para>
+					<programlisting>
+			            <![CDATA[
+     <GetOrphanFile countToFetch="" selectFormat="BASIC"
+		sortBy="" sortByMetaData='' sortByTagName='' sortOrder="ascending" startFrom="1" whereDateRange=""
+		whereNID="" whereTagExpr="" whereTextSubStr="" searchTextSubStrIn='TITLE,DESCRIPTION,METADATA,BOOKMARK' 
+		whereState="" whereMetaDataExpr="" 
+		whereParentDirNID="" whereSessionConfigNID = "" />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>GetOrphanFile Response BASIC</title>
+					<programlisting>
+			            <![CDATA[
+		<GetOrphanFile from="0" total="0">
+			<File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''>
+				<Permissions add='' modify='' delete='' read='' import='' export='' playback='' />
+			</File>			
+		</GetOrphanFile>
+			         ]]>
+			          </programlisting>
+				</example>
+				
+				<example>
+					<title>GetOrphanFile Response EXTENDED</title>
+					<programlisting>
+			            <![CDATA[
+		<GetOrphanFile from="0" total="0">
+			<File NID='' title='' fileType='PVRMediaClip' streamType='' size=''
+				playlength='' presence='' state='' dateCreated='' dateModified=''
+				readOnly='' mediaGroupId=''>
+				<description />
+				<Groups>
+					<Tag name='' value='' />
+				</Groups>
+				<Permissions add='' modify='' delete='' read='' import='' export='' playback='' />
+				<MetaData>
+					<Tag Name=''>Value</Tag>
+				</MetaData>
+				<Dir dirNID='' dirTitle='' />
+			</File>
+		</GetOrphanFile>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+		</section>
+		<section>
+			<title>User Object</title>
+			<para> This section explain list of User object API calls</para>
+			<section>
+				<title>AddUser</title>
+				<para>Add User in database</para>
+				<example>
+					<title>Add User Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>fullName</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>loginName</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>password</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>email</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>UserPrivatData</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<AddUser fullName='' loginName='' password='' email=''>
+				<Groups>
+					<Tag Name='' value='' />
+				</Groups>
+				<UserPrivatData />
+			</AddUser>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Add User Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <AddUser>
+				      <!-- Check User Object Response XML-->
+				    </AddUser>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>Parameter Listing Of Set API</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>byNID</parameter>
+							<optional>Either NID or username required</optional>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<parameter>byUserName</parameter>
+							<optional>Either NID or username required</optional>
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<title>SetUserInfo</title>
+				<para>Update User full name and email in database</para>
+				<example>
+					<title>Set User Info Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>fullName</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>email</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetUserInfo byNID='' byUserName='' fullName='' email='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set User Info Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetUserInfo>
+				      <!-- Check User Object Response XML-->
+				    </SetUserInfo>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>			
+    		<section>
+				<title>SetUserPrivateData</title>
+				<para>Update User private data in database</para>
+				<example>
+					<title>Set User PrivateData Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>UserPrivateData</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+				<SetUserPrivateData byNID='' byUserName=''>
+					<UserPrivateData />
+				</SetUserPrivateData>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set User PrivateData Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetUserPrivateData>
+				      <!-- Check User Object Response XML-->
+				    </SetUserPrivateData>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetUserTags</title>
+				<para>Update User Tags in database</para>
+				<example>
+					<title>Set User Tags Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<SetUserTags byNID='' byUserName=''>
+			<Groups>
+				<Tag name='' value='' />
+			</Groups>
+		</SetUserTags>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set User Tags Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetUserTags>
+				      <!-- Check User Object Response XML-->
+				    </SetUserTags>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>			
+			<section>
+				<title>DeleteUser</title>
+				<para>Delete User from database</para>
+				<example>
+					<title>Delete User Request</title>
+					<programlisting>
+			            <![CDATA[
+		<DeleteUserInfo whereUserName='' whereNID=''/>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Delete User Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <DeleteUserInfo>
+				      <!-- Check User Object Response XML-->
+				    </DeleteUserInfo>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+		    <section>
+				<title>User Object Response XML</title>
+				<example>
+					<title>User Object Response XML </title>
+					<programlisting>
+			            <![CDATA[
+				<User NID="" title="" jid="" presence="">
+				<description />
+				<Groups>
+					<Tag name="" value="" />
+				</Groups>
+			   </User>
+					 ]]>
+			    </programlisting>
+				</example>
+			</section>
+		</section>
+		<section>
+			<title>Profile Object</title>
+			<para> This section explain list of Profile object API calls</para>
+			<section>
+				<title>AddProfile</title>
+				<para>Add profile in database</para>
+				<example>
+					<title>Add Profile Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>streamType</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>title</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>description</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>bandwidth</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Optional</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<AddProfile streamType='' title='' description='' bandwidth=''>
+			<Groups>
+				<Tag name='' value='' />
+			</Groups>
+		</AddProfile>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Add Profile Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <AddProfile>
+				      <!-- Check Profile Object Response XML-->
+				    </AddProfile>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>Parameter Listing Of Set API</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>byNID</parameter>
+							<optional>Either NID or title required</optional>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<parameter>byTitle</parameter>
+							<optional>Either NID or title required</optional>
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+			<section>
+				<title>SetProfileBandwidth</title>
+				<para>Update profile bandwidth, burst ratio and burst duration</para>
+				<example>
+					<title>Set ProfileBandwidth Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>bandwidth</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>burstRatio</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>burstDuration</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileBandwidth byTitle='' byNID=''
+			bandwidth='' burstRatio='' burstDuration=''/>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Bandwidth Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileBandwidth>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileBandwidth>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileAudioVideoOption</title>
+				<para>Update profile Audio and video option.</para>
+				<example>
+					<title>Set Profile Audio Video Option Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>audio='true/false'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>video='true/false'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+				    </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileAudioVideoOption byTitle=''
+			byNID='' audio='true/false' video='true/false' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Audio Video Option Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileAudioVideoOption>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileAudioVideoOption>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileAudioParam</title>
+				<para>Update profile audio params</para>
+				<example>
+					<title>Set Profile Audio Param  Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>sampleSize</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>monoOrStereo</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>audioCodeExample</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+				    </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileAudioParam byTitle='' byNID=''
+			sampleSize='' monoOrStereo='' audioCodeExample='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Audio Param  Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileAudioParam>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileAudioParam>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+				<section>
+				<title>SetProfileCompression</title>
+				<para>Update profile Compression</para>
+				<example>
+					<title>Set Profile Compression Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>low</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>high</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileCompresion byTitle='' byNID=''
+			low='' high='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Compression  Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileCompresion>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileCompresion>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileRefreshRate</title>
+				<para>Update profile Refresh rate min max values</para>
+				<example>
+					<title>Set Profile Refresh Rate Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>min</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>max</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileRefreshRate byTitle='' byNID='' min='' max=''/>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Refresh Rate  Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileRefreshRate>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileRefreshRate>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileBlockThreshold</title>
+				<para>Update profile block threshold in database</para>
+				<example>
+					<title>Set Profile Block Threshold Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>threshold</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileBlockThreshold byTitle=''
+			byNID='' threshold='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Block Threshold  Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileBlockThreshold>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileBlockThreshold>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileColorSampling</title>
+				<para>Update profile color sampling in database</para>
+				<example>
+					<title>Set Profile Color Sampling Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>colorSampling='Dynamic 4:4:4/Static 4:4:4/4:2:2'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileColorSampling byTitle=''
+			byNID='' colorSampling='Dynamic 4:4:4/Static 4:4:4/4:2:2' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Color Sampling Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileColorSampling>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileColorSampling>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileKBMParam</title>
+				<para>Update profile Key  board mouse in database</para>
+				<example>
+					<title>Set Profile KBM Param Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>enableKbm='true/false'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>allowKMSwitch='true/false'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>						
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileKBMParam byTitle='' byNID=''
+			enableKbm='true/false' allowKMSwitch='true/false' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile KBM Param Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileKBMParam>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileKBMParam>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileMulticast</title>
+				<para>Update profile multicast in database</para>
+				<example>
+					<title>Set Profile Multicast Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>multicast='true/false'</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileMulticast byTitle='' byNID=''
+			multicast='true/false' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Multicast Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileMulticast>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileMulticast>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileSlice</title>
+				<para>Update profile Slice min and max values in database</para>
+				<example>
+					<title>Set Profile Slice Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>min</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>max</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+			        </itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileSlice byTitle='' byNID='' min='' max='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Slice Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileSlice>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileSlice>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileInfo</title>
+				<para>Update profile Info in database</para>
+				<example>
+					<title>Set Profile Info Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>description</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+			<SetProfileInfo byTitle='' byNID='' description='' />
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Info Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileInfo>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileInfo>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetProfileTags</title>
+				<para>Update profile Tags in database</para>
+				<example>
+					<title>Set Profile Tags Request</title>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>Groups</parameter>
+								<optional>Required</optional>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<programlisting>
+			            <![CDATA[
+		<SetProfileTags byTitle='' byNID=''>
+			<Groups>
+				<Tag name='' value='' />
+			</Groups>
+		</SetProfileTags>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Set Profile Tags Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <SetProfileTags>
+				      <!-- Check Profile Object Response XML-->
+				    </SetProfileTags>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>DeleteProfile</title>
+				<para>Delete given profile from database</para>
+				<example>
+					<title>Delete Profile Request</title>
+					<programlisting>
+			            <![CDATA[
+		<DeleteProfile whereTitle='' whereNID=''/>
+			       ]]>
+				    </programlisting>
+				</example>
+				<example>
+					<title>Delete Profile Response</title>
+					<programlisting>
+			            <![CDATA[
+				    <DeleteProfile>
+				      <!-- Check Profile Object Response XML-->
+				    </DeleteProfile>
+			         ]]>
+			          </programlisting>
+				</example>
+			</section>
+			<section>			
+    			<title>Profile Object Response XML</title>
+				<example>
+					<title>Profile Object Response XML </title>
+					<programlisting>
+			            <![CDATA[
+				 <Profile NID='' title='' streamType='' bandwidth=''
+				avOption='Audio/Video/Both' remoteControl=''>
+				<description />
+				<Groups>
+					<Tag name='' value='' />
+				</Groups>
+			</Profile>
+					 ]]>
+			    </programlisting>
+				</example>
+			</section>
+		</section>
+		<section>
+			<title>System Object</title>
+			<para> This section explain list of System object API calls</para>
+			<section>
+				<title>GetSystemConfig</title>
+				<para> Returns System config information </para>
+				<example>
+					<title>GetSystemConfig Request </title>
+					<programlisting>
+			            <![CDATA[
+				 	<GetSystemConfig whereConfig="SoftwareVersion/ScheduleBackup/ExternalAuthentication/Preferences/DeviceDiscovery/ALL" />	
+					 ]]>
+			    </programlisting>
+				</example>
+				<example>
+					<title>GetSystemConfig Response </title>
+					<programlisting>
+			            <![CDATA[
+		<GetSystemConfig>
+			<Device jid=''>
+				<SoftwareVersion version='' />
+				<ScheduleBackup enable='true/false' backupTime='' enableExport='true/false' exportURL='' recoveryMode='' />
+				<ExternalAuthentication enable='true/false' host='' adminDN='' adminPassword='' baseDN='' usernameField='' />
+				<Preferences>
+					<Login maxMediaClients='' />
+				</Preferences>
+			</Device>
+		</GetSystemConfig>
+			 ]]>
+			    </programlisting>
+				</example>
+				</section>
+		</section>		
+	</chapter>
+	<chapter>
+	  <title>Native Admin API</title>
+	  <section>
+        <title>Parameter Listing</title>
+        <para>
+          This is the list of common parameters in Get Requests
+        </para>
+        <itemizedlist>
+         <listitem>
+				<para>
+					<parameter>startFrom</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>countToFetch</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+		  <listitem>
+				<para>
+					<parameter>sortBy=""</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>sortOrder="ascending/descending"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+		    <listitem>
+				<para>
+					<parameter>selectFormat="NATIVE/CUSTOM"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>			
+			<listitem>
+				<para>
+					<parameter>whereNID='nid1,nid2,nid3'</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTagExpr="Name='Location' and Value='Sunnyvale'"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereDateRange="From:YYYY-MM-DD HH:MM:SS.MMMM,
+					                           To:YYYY-MM-DD HH:MM:SS.MMMM,
+					                           Interval:xx(Y/M/D/H/m/S/s)"
+					</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>		
+			<listitem>
+				<para>
+					<parameter>whereTextSubStr=""</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>type</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereXPath="//xPath"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+		</itemizedlist>				 
+      </section>  
+		<section>
+			<title>Get Object</title>
+			<para>
+				This will get the list of given native object from the database.
+				<simplelist>
+					<member> The NATIVE Detail Level returns the native object from
+						database.</member>
+					<member> The CUSTOM Detail Level returns the native object in user
+						requested format. (Not Supported)</member>
+				</simplelist>
+			</para>
+			<example>
+				<title>Get Object Request</title>
+				<programlisting>
+	            <![CDATA[
+		<GetObject  startFrom="" countToFetch="" 
+		            sortBy="" sortOrder="" 
+					selectFormat=""
+					type=""
+					whereNID=""
+					whereTextSubStr=""
+					whereTagExpr="" 
+					whereDateRange="" 
+					whereXPath="">
+		 	<SelectXML/>
+		</GetObject>
+	]]>
+		    </programlisting>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>selectFormat="NATIVE/CUSTOM"
+							</parameter>
+							<optional>Required (CUSTOM Level not supported)</optional>
+						</para>
+					</listitem>					
+				</itemizedlist>
+			</example>
+			<example>
+				<title>Get Object Response - NATIVE Format</title>
+				<programlisting>
+	            <![CDATA[
+		<GetObject from="200" total="400">
+		        <!-- Returns the native object xml's-->			
+				<Object NID="" title=""/>
+				<Object NID="" title=""/>
+				<Object NID="" title=""/>
+		</GetObject>
+	]]>
+	          </programlisting>
+			</example>
+			<example>
+				<title>Get Object Response - CUSTOM Format</title>
+				<programlisting>
+	            <![CDATA[
+		<GetObject from="200" total="400">
+				<!-- Object record with CUSTOM information -->
+				<Object NID="" title="">
+					<description />
+					<Groups>
+						<Tag name="" value="" />
+					</Groups>
+				</Object>
+		</GetObject>
+	]]>
+	          </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Add Object</title>
+			<para> This will add the native object in the database</para>
+			<example>
+				<title>Add Object Request</title>
+				<programlisting>
+	            <![CDATA[
+		      <AddObject type="">
+		      <!--Add Native Object xml here -->			 
+			  </AddObject>
+	       ]]>
+		    </programlisting>			
+			</example>
+			<example>
+				<title>Add Object Response</title>
+				<programlisting>
+	            <![CDATA[
+		    <AddObject type="AssetResource">
+				<!--NAtive object xml -->
+			</AddObject>
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Update Object</title>
+			<para> This will update the native object in the database</para>
+			<example>
+				<title>Update Object Request</title>
+				<programlisting>
+	            <![CDATA[
+		    <UpdateObject type="" whereNID="">
+				<!--Object XML -->
+			</UpdateObject>
+	       ]]>
+		    </programlisting>
+			</example>
+			<example>
+				<title>Update Object Response</title>
+				<programlisting>
+	            <![CDATA[
+		    <UpdateObject type="" whereNID="">
+		    <!-- Object XML -->
+			</UpdateObject>
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>Delete Object</title>
+			<para> This will delete the native objects from data base</para>
+			<example>
+				<title>Delete Object Request</title>
+				<programlisting>
+	            <![CDATA[
+		    <DeleteObject type="" whereDateRange=""
+				whereNID="" whereTagExpr="" whereTextSubStr="" whereXPath="">
+			</DeleteObject>
+	       ]]>
+		    </programlisting>			
+			</example>
+			<example>
+				<title>Delete Object Response</title>
+				<programlisting>
+	            <![CDATA[
+		    <DeleteObject type="AssetResource">
+			</DeleteObject>
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>		
+	</chapter>
+	<chapter>
+		<title>Update Notifications</title>	
+		<para> <optional>Not Implemented</optional>	</para>
+		<section>
+			<title>User</title>
+			<para>
+				This is a list of update notifications corresponding to the user.
+			</para>	
+			<section>
+				<title>User Update</title>
+				<para> 
+					This is a notification for user update. 
+				</para>	
+				<example>
+					<title>User Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<UserUpdate>
+				<!-- Either BASIC or EXTENDED format send based on user requested -->
+				
+				<User NID="" username="" email="" fullName="" creationDate="" modifiedDate="" presence="" state="" selectFormat="BASIC" operation="Add/Delete/Update" />
+
+				<User NID="" username="" email="" fullName="" creationDate="" modifiedDate="" presence="" state="" selectFormat="EXTENDED" operation="Add/Delete/Update">
+					<Groups>
+						<Tag name="" value="" />
+					</Groups>
+					<UserPrivateData />
+				</User>	
+			</UserUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>							
+			<section>
+				<title>User Connection Update</title>
+				<para> 
+					This is a notification for user connection update. 
+				</para>	
+				<example>
+					<title>User Connection Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<UserConnnectionUpdate>	
+				<User NID='' operation="Add/Delete/Update">
+					 <ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+				</User>
+			</UserConnnectionUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+			<section>
+				<title>User Connection State Update</title>
+				<para> 
+					This is a notification for user connection state update. 
+				</para>	
+				<example>
+					<title>User Connection State Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<UserConnnectionStateUpdate>	
+				<User NID=''>
+					  <ConnectionState .../>
+					<!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter -->
+				</User>
+			</UserConnnectionStateUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+		</section>
+		
+		<section>
+			<title>File</title>
+			<para>
+				This is a list of update notifications corresponding to the file.
+			</para>	
+			<section>
+				<title>File Update</title>
+				<para> 
+					This is a notification for file update. 
+				</para>	
+				<example>
+					<title>File Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<FileUpdate>
+				<!-- Either BASIC or EXTENDED format send based on user requested -->
+
+				<File NID='' title='' fileType='MediaClip' streamType='' size='' playlength='' state='' dateCreated='' dateModified='' readOnly='' mediaGroupId='' selectFormat="BASIC" operation="Add/Delete/Update" />
+
+				<File NID='' title='' fileType='' streamType='' size='' playlength='' presence='' state='' dateCreated='' dateModified='' readOnly='' mediaGroupId='' selectFormat="EXTENDED" operation="Add/Delete/Update">
+					<description />
+					<Groups>
+						<Tag name='' value='' />
+					</Groups>
+					<MetaData>
+						<Tag Name=''>Value</Tag>
+					</MetaData>
+					<Dir dirNID='' dirTitle='' />
+				</File>
+			</FileUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>							
+			<section>
+				<title>File Connection Update</title>
+				<para> 
+					This is a notification for file connection update. 
+				</para>	
+				<example>
+					<title>File Connection Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<FileConnectionUpdate>
+				<File NID='' operation="Add/Delete/Update">
+					<ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+				</File>
+			</FileConnectionUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+			<section>
+				<title>File Connection State Update</title>
+				<para> 
+					This is a notification for file connection state update. 
+				</para>	
+				<example>
+					<title>File Connection State Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<FileConnectionStateUpdate>
+				<File NID=''>
+				  <ConnectionState .../>
+					<!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter -->
+				</File>
+			</FileConnectionStateUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+		</section>
+		
+		<section>
+			<title>Dir</title>
+			<para> 
+				This is a list of update notifications corresponding to the directory.
+			</para>	
+			<section>
+				<title>Dir Update</title>
+				<para>
+					This is a notification for directory update. 
+				</para>	
+				<example>
+					<title>Dir Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<DirUpdate>
+				<!-- Either BASIC or EXTENDED format send based on user requested -->
+
+				<Dir NID='' title='' dirType='' state='' size='' sizeUsed='' diskFullThreashold='' dateCreated='' dateModified='' readOnly='' selectFormat="BASIC" operation="Add/Delete/Update" />
+
+				<Dir NID='' title='' dirType='' presence='' state='' size='' sizeUsed='' diskFullThreashold='' dateCreated='' dateModified='' readOnly='' selectFormat="EXTENDED" operation="Add/Delete/Update">
+					<PortInfo />
+					<description />
+					<Groups>
+						<Tag name='' value='' />
+					</Groups>
+				</Dir>
+			</DirUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>							
+			<section>
+				<title>Dir Connection Update</title>
+				<para> 
+					This is a notification for directory connection update. 
+				</para>	
+				<example>
+					<title>Dir Connection Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<DirConnectionUpdate>
+				<!-- Add/Update/Delete -->
+				<Dir NID='' operation="Add/Delete/Update">
+					<ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+				</Dir>
+			</DirConnectionUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+			<section>
+				<title>Dir Connection State Update</title>
+				<para> 
+					This is a notification for directory connection state update. 
+				</para>	
+				<example>
+					<title>Dir Connection State Update Notification</title>
+					<programlisting>
+            		<![CDATA[		
+			<DirConnectionStateUpdate>
+				<Dir NID=''>
+				  <ConnectionState .../>
+					<!-- check ConnectionState element in ConnectionStateUpdate section in Update Notification chapter -->
+				</Dir>
+			</DirConnectionStateUpdate>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>
+		</section>
+		</chapter>
+		
+		<chapter>				
+			<title>Get Connection API 	</title>
+			<para> 
+				This is used to get the connection information of the port, user, file, and directory.
+				<optional>Not Implemented</optional> 
+			</para>					
+			<section>
+				<title>Get Port Connection Info</title>
+				<para>
+					This is used to get the connection information of the port. 
+				</para>	
+				<example>
+					<title>Get Port Connection Info Request</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetPortConnectionInfo whereNID='' wherePortTitle='' />
+            		]]>
+          			</programlisting>
+				</example>
+				<example>
+					<title>Get Port Connection Info Response</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetPortConnectionInfo>
+			<Port NID='' title=''>
+				<ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+			</Port>
+		</GetPortConnectionInfo>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>							
+			<section>
+				<title>Get User Connection Info</title>
+				<para>
+					This is used to get the connection information of the user. 
+				</para>	
+				<example>
+					<title>Get User Connection Info Request</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetUserConnectionInfo whereNID='' whereUserName='' />
+            		]]>
+          			</programlisting>
+				</example>
+				<example>
+					<title>Get User Connection Info Response</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetUserConnectionInfo>
+			<User NID='' userName=''>
+				<ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+			</User>
+		</GetUserConnectionInfo>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>		
+			<section>
+				<title>Get File Connection Info</title>
+				<para>
+					This is used to get the connection information of the file. 
+				</para>	
+				<example>
+					<title>Get File Connection Info Request</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetFileConnectionInfo whereNID='' whereFileTitle='' />
+            		]]>
+          			</programlisting>
+				</example>
+				<example>
+					<title>Get File Connection Info Response</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetFileConnectionInfo>
+			<File NID='' title=''>
+				<ConnectionInfo ...../>
+					 <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+			</File>
+		</GetFileConnectionInfo>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>	
+			<section>
+				<title>Get Dir Connection Info</title>
+				<para>
+					This is used to get the connection information of the directory. 
+				</para>	
+				<example>
+					<title>Get Dir Connection Info Request</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetDirConnectionInfo whereNID='' whereDirTitle='' />
+            		]]>
+          			</programlisting>
+				</example>
+				<example>
+					<title>Get Dir Connection Info Response</title>
+					<programlisting>
+            		<![CDATA[		
+		<GetDirConnectionInfo>
+			<Dir NID='' title=''>
+				<ConnectionInfo ...../>
+			    <!-- Check connectionInfo element in ConnectionUpdate Section of Update Notification Chapter  -->
+			</Dir>
+		</GetDirConnectionInfo>
+            		]]>
+          			</programlisting>
+				</example>
+			</section>			
+	</chapter>	
+	
+	<chapter>
+		<title>Report API</title>
+		<para> 
+			Generate various types of reports based on the user requirement. 
+			For example, Audit Report and MS Configuration Report.  		
+		</para>
+		<section>
+			<title>Add Report</title>
+			<para> It is used to add a report.</para>
+			<para> This is a list of parameters for add report request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>name</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>description</parameter>
+					<optional>Optional</optional>
+				</para>				
+			</listitem>
+		  	<listitem>
+				<para>
+					<parameter>type="Audit/Policy"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>format="CSV/XML"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+		    <listitem>
+				<para>
+					<parameter>enableExport</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>			
+			<listitem>
+				<para>
+					<parameter>exportSchedule</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>exportURL</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>properties</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>permissions</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTarget="User/Resource"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTextSubStr</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTagExpr</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>FormatXSL</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+						
+		</itemizedlist>
+			<example>
+				<title>Add Report Request</title>
+				<programlisting>
+	            <![CDATA[
+		      <AddReport name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' >
+				<Audit properties='' >
+					<FormatXSL />
+				</Audit>	
+				<Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' >
+					<FormatXSL />
+				</Policy>												
+			  </AddReport>      
+	       ]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Add Report Response</title>
+				<programlisting>
+	            <![CDATA[
+		   	 	<AddReport>			
+      				<Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' >
+      					<Status>
+      						<LastExportStatus date='' time='' state='' />
+      						<LastExported date='' time='' />
+						</Status>	
+      				</Report>
+      			</AddReport>			
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Set Report</title>
+			<para> It is used to update a report.</para>
+			<para> This is a list of parameters for set report request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>byNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>byName</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>description</parameter>
+					<optional>Optional</optional>
+				</para>				
+			</listitem>		  	
+			 <listitem>
+				<para>
+					<parameter>format="CSV/XML"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+		    <listitem>
+				<para>
+					<parameter>enableExport</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>			
+			<listitem>
+				<para>
+					<parameter>exportSchedule</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>exportURL</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>properties</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>permissions</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTarget="User/Resource"</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTextSubStr</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereTagExpr</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>FormatXSL</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+						
+		</itemizedlist>
+			<example>
+				<title>Set Report Request</title>
+				<programlisting>
+	            <![CDATA[
+		      	<SetReport byNID='' byName='' description='' format='' enableExport='' exportSchedule='' exportURL='' >							
+					<Audit properties='' >
+						<FormatXSL />
+					</Audit>	
+					<Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' >
+						<FormatXSL />
+					</Policy>							
+				</SetReport>   
+	       ]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Set Report Response</title>
+				<programlisting>
+	            <![CDATA[
+		   	 	<SetReport>
+      				<Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' >
+      					<Status>
+      						<LastExportStatus date='' time='' state='' />
+      						<LastExported date='' time='' />
+						</Status>	
+      				</Report>
+      			</SetReport> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+				
+		<section>
+        <title>Get Report</title>
+        <para> It is used to get the list of reports. </para>
+        <para> This is a list of parameters for get report request. </para>
+        <itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>startFrom</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>countToFetch</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>sortBy="name/type"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>sortOrder="ascending/descending"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>selectFormat="BASIC/EXTENDED"</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereNID</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereName</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereType</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			</itemizedlist>
+			<example>
+				<title>Get Report Request</title>
+				<programlisting>
+	            <![CDATA[
+		      	<GetReport startFrom='1' countToFetch='100' sortBy='' sortOrder='' selectFormat='BASIC/EXTENDED' whereNID='' whereName='' whereType='' />
+	       ]]>
+		    </programlisting>			
+			</example>
+			
+			
+			<example>
+          <title>Get Report Response - BASIC Format</title>
+          <programlisting>
+            <![CDATA[
+			<GetReport>
+		      	<Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' >
+		      		<Status>
+		      			<LastExportStatus date='' time='' state='' />
+      					<LastExported date='' time='' />
+					</Status>	
+		    	</Report>
+		    </GetReport>  		
+	
+]]>
+          </programlisting>
+        </example>
+        <example>
+          <title>Get Report Response - EXTENDED Format</title>
+          <programlisting>
+            <![CDATA[
+			<GetReport>
+			   	<Report NID='' name='' description='' type='Audit' format='' enableExport='' exportSchedule='' exportURL='' >
+			   		<Audit properties='' >                 
+		               	<FormatXSL />  
+		            </Audit>         
+			   		<Status>    
+			   			<LastExportStatus date='' time='' state='' />
+      					<LastExported date='' time='' />
+					</Status>        	                        
+		   	    </Report>	
+		   	    <Report NID='' name='' description='' type='Policy' format='' enableExport='' exportSchedule='' exportURL='' >
+		   	     	<Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' >   	      		                                
+		            <FormatXSL />      
+		        	</Policy>
+		   	    	<Status>
+		   	    		<LastExportStatus date='' time='' state='' />
+      					<LastExported date='' time='' />
+					</Status>            	             
+		   	   	</Report>
+		   	</GetReport>
+]]>
+          </programlisting>
+        </example>
+      </section>
+					
+		<section>
+			<title>Delete Report</title>
+			<para> It is used to delete a report. Multiple reports deletion is supported.</para>
+			<para> This is a list of parameters for delete report request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>byNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>byName</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			</itemizedlist>
+			<example>
+				<title>Delete Report Request</title>
+				<programlisting>
+	            <![CDATA[
+		      	<DeleteReport byNID='' byName='' />
+	       ]]>
+		    </programlisting>			
+			</example>
+			<example>
+				<title>Delete Report Response</title>
+				<programlisting>
+	            <![CDATA[
+		   	 	<DeleteReport/>	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>	
+		
+		<section>
+			<title>Download Report</title>
+			<para> It is used to download a report.</para>
+			<para> This is a list of parameters for download report request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>whereNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>whereName</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>toFileName</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			</itemizedlist>
+			<example>
+				<title>Download Report Request</title>
+				<programlisting>
+	            <![CDATA[
+		      	<DownloadReport whereNID='' whereName='' toFileName='' />	
+	       ]]>
+		    </programlisting>			
+			</example>
+			<example>
+				<title>Download Report Response</title>
+				<programlisting>
+	            <![CDATA[
+		   	 	<DownloadReport />
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+	</chapter>
+	
+	<chapter>
+		<title>DB API</title>
+		<para> 
+			DB requests such as Unsubscribe and GetSubscribers  		
+		</para>
+		<section>
+			<title>Unsubscribe</title>
+			<para> It is used to unsubscribe a user from receiving resource updates.</para>
+			<para> This is a list of parameters for unsubscribe request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>whereNID</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>whereSubscriptionID</parameter>
+					<optional>Optional</optional>
+				</para>				
+			</listitem>
+						
+		</itemizedlist>
+			<example>
+				<title>Unsubscribe Request</title>
+				<programlisting>
+	            <![CDATA[
+		      <Unsubscribe whereNID="" whereSubscriptionID="">
+			  </Unsubscribe>      
+	       ]]>
+		    </programlisting>			
+			</example>			
+		</section>
+		
+		<section>
+			<title>GetSubscribers</title>
+			<para> It is used to get a list of subscribers for a particular resource.</para>
+			<para> This is a list of parameters for GetSubscribers request. </para>
+			<itemizedlist>
+         	<listitem>
+				<para>
+					<parameter>byNID</parameter>
+					<optional>Optional</optional>
+				</para>
+			</listitem>
+			 <listitem>
+				<para>
+					<parameter>selectFormat="BASIC/EXTENDED"</parameter>
+					<optional>Optional</optional>
+				</para>				
+			</listitem>
+						
+		</itemizedlist>
+			<example>
+				<title>GetSubscribers Request</title>
+				<programlisting>
+	            <![CDATA[
+		      <GetSubscribers byNID="" selectFormat="BASIC/EXTENDED"/>      
+	       ]]>
+		    </programlisting>			
+			</example>
+			
+			<example>
+				<title>GetSubscribers Response - BASIC format</title>
+				<programlisting>
+	            <![CDATA[
+		      <GetSubscribers>
+				<Subscribers nid="">
+					<JIDInfo jid=""/>
+				</Subscribers>
+			  </GetSubscribers>     
+	       ]]>
+		    </programlisting>			
+			</example>
+			<example>
+				<title>GetSubscribers Response - EXTENDED format</title>
+				<programlisting>
+	            <![CDATA[
+		      <GetSubscribers>
+				<Subscribers nid="">
+					<JIDInfo jid="">
+						<Topic subscriptionId=""/>
+					</JIDInfo>
+				</Subscribers>
+			  </GetSubscribers>      
+	       ]]>
+		    </programlisting>			
+			</example>			
+		</section>
+		
+		<section>
+			<title>Set Auto Discovery</title>
+			<para> It is used to set device discovery parameters in DB.</para>
+			<para> This is a list of parameters for set auto discovery request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>enable</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>Groups</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Set Auto Discovery Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <SetAutoDiscovery enable=''>
+	            	<Groups>
+	            		<Tag Name='' Value=''/>
+	            	</Groups>
+	            </SetAutoDiscovery>  
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Set Auto Discovery Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <SetAutoDiscovery/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Upgrade Device</title>
+			<para> It is used to upgrade the device.</para>
+			<para> This is a list of parameters for Upgrade Device request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>byNID</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>byTitle</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Upgrade Device Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <UpgradeDevice byNID="" byTitle="">
+        			<URL/>
+      			</UpgradeDevice>  
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Upgrade Device Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <UpgradeDevice/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Save Config Device</title>
+			<para> It is used to save the configuration of device.</para>
+			<para> This is a list of parameters for Save Config device request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>byNID</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>byTitle</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Save Config Device Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <SaveConfigDevice byNID="" byTitle=""/>
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Save Config Device Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <SaveConfigDevice/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Revert To Default Device</title>
+			<para> It is used to revert the device to factory default.</para>
+			<para> This is a list of parameters for Revert To Default Device request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>byNID</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>byTitle</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>keepMedia="true/false"</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+				<listitem>
+					<para>
+						<parameter>KeepNetworkSettings="true/false"</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Revert To Default Device Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <RevertToDefaultDevice byNID="" byTitle="" keepMedia="" keepNetworkSettings=""/>
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Revert To Default Device Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <RevertToDefaultDevice/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Reboot Device</title>
+			<para> It is used to reboot device.</para>
+			<para> This is a list of parameters for reboot device request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>byNID</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>byTitle</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Reboot Device Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <RebootDevice byNID="" byTitle=""/>
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Reboot Device Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <RebootDevice/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		<section>
+			<title>Shutdown Device</title>
+			<para> It is used to shutdown device.</para>
+			<para> This is a list of parameters for Shutdown device request. </para>
+			<itemizedlist>
+         		<listitem>
+					<para>
+						<parameter>byNID</parameter>
+						<optional>Required</optional>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter>byTitle</parameter>
+						<optional>Optional</optional>
+					</para>
+				</listitem>	
+			</itemizedlist>
+			<example>
+				<title>Shutdown Device Request</title>
+				<programlisting>
+	            <![CDATA[
+	            <ShutdownDevice byNID="" byTitle=""/>
+	       		]]>
+		    </programlisting>			
+			</example>			
+			<example>
+				<title>Shutdown Device Response</title>
+				<programlisting>
+	            <![CDATA[
+	            <ShutdownDevice/> 	
+	         ]]>
+	          </programlisting>
+			</example>
+		</section>
+		
+		
+	</chapter>
+		
+</book>

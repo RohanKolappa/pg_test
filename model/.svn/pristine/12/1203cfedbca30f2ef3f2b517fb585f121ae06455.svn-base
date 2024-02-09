@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.common.xsd" />
+	<xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Resource.xsd" />
+	<xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Media.xsd" />
+	<xs:complexType name="SetContactRequestDataType">
+		<xs:sequence>
+			<xs:element name="ResourceNID" type="xs:string" />
+			<xs:element name="ContactInfo" type="ResourceContactType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SetContactResponseDataType">
+		<xs:sequence>
+			<xs:element name="ContactNID" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AssetAdminObjectType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AssetResourceList" />
+			<xs:enumeration value="AssetResource" />
+			<xs:enumeration value="DeviceList" />
+			<xs:enumeration value="V2D-Tx-Device" />
+			<xs:enumeration value="V2D-Rx-Device" />
+			<xs:enumeration value="DMS-120-Device" />
+			<xs:enumeration value="DMS-1000-Device" />
+			<xs:enumeration value="IPVSClient-Device" />
+			<xs:enumeration value="MediaPortResourceList" />
+			<xs:enumeration value="MediaSrcPortResource" />
+			<xs:enumeration value="MediaDstPortResource" />
+			<xs:enumeration value="MediaRelayPortResource" />
+			<xs:enumeration value="ProfileList" />
+			<xs:enumeration value="V2DStreamProfile" />
+			<xs:enumeration value="MPEGTSStreamProfile" />
+			<xs:enumeration value="RTPStreamProfile" />
+			<xs:enumeration value="ExportImportFileListItem" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="AssetManagementRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="header" type="RequestHeaderType" />
+				<xs:element name="data" type="AssetManagementRequestDataType" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AssetManagementResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="header" type="RequestHeaderType" />
+				<xs:element name="data" type="AssetManagementResponseDataType" />
+				<xs:element name="log" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AssetManagementRequestData" type="AssetManagementRequestDataType" />
+	<xs:complexType name="AssetManagementRequestDataType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="ObjectType" type="AssetAdminObjectType" />
+				<xs:choice>
+					<xs:element name="GetRequest" type="GetRequestType" />
+					<xs:element name="AddRequest" type="AddRequestType" />
+					<xs:element name="DeleteRequest" type="DeleteRequestType" />
+					<xs:element name="ReplaceRequest" type="ReplaceRequestType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:element name="ReadQueryRequest" type="ReadQueryRequestType" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="AssetManagementResponseData" type="AssetManagementResponseDataType" />
+	<xs:complexType name="AssetManagementResponseDataType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="ObjectType" type="AssetAdminObjectType" />
+				<xs:choice>
+					<xs:element name="GetResponse" type="GetResponseType" />
+					<xs:element name="AddResponse" type="AddResponseType" />
+					<xs:element name="DeleteResponse" type="DeleteResponseType" />
+					<xs:element name="ReplaceResponse" type="ReplaceResponseType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:element name="ReadQueryResponse" type="ReadQueryResponseType" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="EmptyDirRequestData" type="EmptyDirRequestDataType" />
+	<xs:complexType name="EmptyDirRequestDataType">
+		<xs:sequence>
+		    <xs:element name="MediaStreamDirNID" type="MRNIDType" />
+			<xs:element name="ActionRequest" type="ActionRequestEnumType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ActionRequestEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Start" />
+			<xs:enumeration value="Stop" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="EmptyDirResponseData" type="EmptyDirResponseDataType" />
+	<xs:complexType name="EmptyDirResponseDataType">
+		<xs:sequence>
+			<xs:element name="ActionResponse" type="ActionResponseEnumType" />
+			 <xs:element name="MediaStreamDirNID" type="MRNIDType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ActionResponseEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Started" />
+			<xs:enumeration value="stopped" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="RepairMediaStreamFileRequestData" type="RepairMediaStreamFileRequestDataType" />
+	<xs:complexType name="RepairMediaStreamFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RepairMediaStreamFileResponseData" type="RepairMediaStreamFileResponseDataType" />
+	<xs:complexType name="RepairMediaStreamFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="QueryResponse" type="QueryResponseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="GetMediaStreamFileMaxRevisionRequestData" type="GetMediaStreamFileMaxRevisionRequestDataType" />
+	<xs:complexType name="GetMediaStreamFileMaxRevisionRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStorePortResourceNID" type="MRNIDType" />
+			<xs:element name="MediaStoreRevision" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="GetMediaStreamFileMaxRevisionResponseData" type="GetMediaStreamFileMaxRevisionResponseDataType" />
+	<xs:complexType name="GetMediaStreamFileMaxRevisionResponseDataType">
+		<xs:sequence>
+			<xs:element name="MediaStorePortResourceNID" type="MRNIDType" />
+			<xs:element name="MediaStoreRevision" type="xs:int" />
+			<xs:element name="MediaStreamFileMaxRevision" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType> 
+   <!-- Update Media Stream file Resource Info Request -->
+	<xs:element name="UpdateMediaStreamFileResourceInfoRequestData" type="UpdateMediaStreamFileResourceInfoRequestDataType" />
+	<xs:complexType name="UpdateMediaStreamFileResourceInfoRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+			<xs:element name="ParentMediaDirNID" type="xs:string" />
+			<xs:element name="Groups" type="TagList" />
+		</xs:sequence>
+	</xs:complexType>
+  <!-- Update Media Stream file Resource Info Response -->
+	<xs:element name="UpdateMediaStreamFileResourceInfoResponseData" type="UpdateMediaStreamFileResourceInfoResponseDataType" />
+	<xs:complexType name="UpdateMediaStreamFileResourceInfoResponseDataType">
+		<xs:sequence>
+			<xs:element name="ReplaceRequest" type="ReplaceRequestType" />
+		</xs:sequence>
+	</xs:complexType> 
+  
+   <!-- Update Media Stream file Resource Store Info Request -->
+	<xs:element name="UpdateMediaStreamFileResourceStoreInfoRequestData" type="UpdateMediaStreamFileResourceStoreInfoRequestDataType" />
+	<xs:complexType name="UpdateMediaStreamFileResourceStoreInfoRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+			<xs:element name="MetaData" type="MetaDataType" />
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Description" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>    
+  <!-- Update Media Stream file Resource Store Info Response -->
+	<xs:element name="UpdateMediaStreamFileResourceStoreInfoResponseData" type="UpdateMediaStreamFileResourceStoreInfoResponseDataType" />
+	<xs:complexType name="UpdateMediaStreamFileResourceStoreInfoResponseDataType">
+		<xs:sequence>
+			<xs:element name="ReplaceRequest" type="ReplaceRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Upgrade Media Stream File Resource Request -->
+	<xs:element name="UpgradeMediaStreamFileResourceRequestData" type="UpgradeMediaStreamFileResourceRequestDataType" />
+	<xs:complexType name="UpgradeMediaStreamFileResourceRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />			
+		</xs:sequence>
+	</xs:complexType>    
+  <!-- Upgrade Media Stream file Resource Store Info Response -->
+	<xs:element name="UpgradeMediaStreamFileResourceResponseData" type="UpgradeMediaStreamFileResourceResponseDataType" />
+	<xs:complexType name="UpgradeMediaStreamFileResourceResponseDataType"/>
+	<!-- Clean Dir Request -->
+	<xs:element name="CleanOrphanDirRequestData" type="CleanOrphanDirRequestDataType" />
+	<xs:complexType name="CleanOrphanDirRequestDataType">
+		<xs:sequence>
+		    <xs:element name="MediaStreamDirNID" type="MRNIDType" />			
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Clean Dir Response -->
+	<xs:element name="CleanOrphanDirResponseData" type="CleanOrphanDirResponseDataType" />
+	<xs:complexType name="CleanOrphanDirResponseDataType"/>
+	<!-- Exception Codes - Include These Error codes in DB -->
+	<xs:simpleType name="CleanOrphanDirErrorCodesEnumType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="5101" /> <!-- Media Stream Dir NID Missing  -->			
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Upgrade Media Stream Dir Resource Request -->
+	<xs:element name="UpgradeMediaStreamDirResourceRequestData" type="UpgradeMediaStreamDirResourceRequestDataType" />
+	<xs:complexType name="UpgradeMediaStreamDirResourceRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamDirResourceNID" type="MRNIDType" />			
+			<xs:element name="UpgradeMediaStreamFiles" type="xs:boolean" />			
+		</xs:sequence>
+	</xs:complexType>    
+    <!-- Upgrade Media Stream Dir Resource Response -->
+	<xs:element name="UpgradeMediaStreamDirResourceResponseData" type="UpgradeMediaStreamDirResourceResponseDataType" />
+	<xs:complexType name="UpgradeMediaStreamDirResourceResponseDataType"/>
+	
+	
+	<!-- ChangePasswordRequest -->
+	<xs:element name="ChangePasswordRequestData" type="ChangePasswordRequestDataType" />
+	<xs:complexType name="ChangePasswordRequestDataType">
+		<xs:sequence>
+			<xs:element name="OldPassword" type="xs:string" />
+			<xs:element name="NewPassword" type="xs:string" />
+			<xs:element name="RetypePassword" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ChangePasswordResponse -->
+	<xs:element name="ChangePasswordResponseData" type="ChangePasswordResponseDataType" />
+	<xs:complexType name="ChangePasswordResponseDataType">
+		<xs:sequence>
+			<xs:element name="ReplaceResponse" type="ReplaceResponseType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Exception Codes ChangePasswordResponse - Include These Error codes in DB -->
+	<xs:simpleType name="ChangePasswordRequestErrorCodesEnumType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="5200" /> <!-- User Not found In Database  -->			
+			<xs:enumeration value="5201" /> <!-- OLD_PASSWORD_MISSING  -->
+			<xs:enumeration value="5202" /> <!-- NEW_PASSWORD_MISSING  -->
+			<xs:enumeration value="5203" /> <!-- NEW_PASSWORD_AND_RETYPE_PASSWORD_NOT_MATCHING -->
+			<xs:enumeration value="5204" /> <!-- USER_PASSWORD_NOT_MATCHING  -->			
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Detach Dir Request -->
+	<xs:element name="DetachDirRequestData" type="DirRequestDataType" />
+	<xs:element name="DetachDirResponseData" type="DirResponseDataType" />
+	<!-- Attach Dir Request -->
+	<xs:element name="AttachDirRequestData" type="DirRequestDataType" />
+	<xs:element name="AttachDirResponseData" type="DirResponseDataType" />
+	<xs:complexType name="DirRequestDataType">
+		<xs:sequence>
+		    <xs:element name="MediaStreamDirNID" type="MRNIDType" />			
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DirResponseDataType">
+		<xs:sequence>
+		    <xs:element name="MediaStreamDirNID" type="MRNIDType" />			
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- file export/ import -->
+	<xs:element name="ExportImportFileListItemList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					ref="ExportImportFileListItem" />
+			</xs:sequence>
+			<xs:attributeGroup ref="AutoNID" />
+		</xs:complexType>
+	</xs:element>
+    <xs:element name="ExportImportFileList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="ExportImportFileListItem" />
+          </xs:sequence>
+          <xs:attributeGroup ref="AutoNID" />
+        </xs:complexType>
+    </xs:element>
+	<xs:element name="ExportImportFileListItem" type="ExportImportFileListItemType" />
+	<xs:complexType name="ExportImportFileListItemType">
+		<xs:sequence>
+			<xs:element name="Internal" type="InternalType" />
+			<xs:element name="External" type="ExternalType" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Exception" type="ErrorType" />
+		</xs:sequence>
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Import" />
+					<xs:enumeration value="Export" />
+					<xs:enumeration value="Offload" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		
+		<!-- 
+			QUEUE_STATUS_COMPLETED = -1000;
+			QUEUE_STATUS_ERROR = -10;
+			QUEUE_STATUS_RUNNING = 1;
+			QUEUE_STATUS_ERROR_RESUME = 10;
+			QUEUE_STATUS_NOT_STARTED = 1000;
+		 -->	    
+ 		<xs:attribute name="queue_state" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="-1000" />
+					<xs:enumeration value="-10" />
+					<xs:enumeration value="1" />
+					<xs:enumeration value="10" />
+					<xs:enumeration value="1000" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>		
+		<!-- 
+			export:	state = queued, ready, export_getDMSBlobPath, export_db, export_dbFileTransfer, export_encode, export_fileTransfer, export_cleanupTempFiles , completed, ready
+			import: state = queued, ready, import_getDMSBlobPath, import_fileTransfer, import_decode, import_dbFileTransfer, import_db,  import_cleanupTempFiles , completed, ready
+			on error = go to ready and process next in queue 
+		-->
+		<xs:attribute name="state" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ready" />
+					<xs:enumeration value="queued" />
+					<!-- export -->
+					<xs:enumeration value="export_getDMSBlobPath" />
+					<xs:enumeration value="export_db" />
+					<xs:enumeration value="export_dbFileTransfer" />
+					<xs:enumeration value="export_encode" />
+					<xs:enumeration value="export_fileTransfer" />
+					<xs:enumeration value="export_cleanupTempFiles" />
+					<xs:enumeration value="completed" />
+					<!-- import -->
+					<xs:enumeration value="import_getDMSBlobPath" />
+					<xs:enumeration value="import_fileTransfer" />
+					<xs:enumeration value="import_decode" />
+					<xs:enumeration value="import_dbFileTransfer" />
+					<xs:enumeration value="import_db" />
+					<xs:enumeration value="import_cleanupTempFiles" />
+					<xs:enumeration value="completed" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="format" type="FormatObjectType"/> 
+		<xs:attribute name="dateCompleted" type="xs:long" />
+		<xs:attribute name="dateCreated" type="xs:string" />
+		<xs:attribute name="dateUpdated" type="xs:long"  />
+		<xs:attribute name="msJID" type="xs:string" />
+		<xs:attribute name="ownerJID" type="xs:string" use="required" />
+		<xs:attribute name="priority" type="xs:int" use="required" />
+		<xs:attribute name="state_description" type="xs:string" />
+		<xs:attribute name="errorCount" type="xs:long"/>
+		<xs:attribute name="action" type="xs:string"/>
+		<xs:attribute name="blobSize" type="xs:long"/>
+		
+		<xs:attribute name="serviceVer" type="xs:double" use="required" />
+	    <xs:attribute fixed="1.8" name="Ver" type="xs:double" use="required" />
+	    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+		<xs:attributeGroup ref="AutoNID" />
+	</xs:complexType>
+	<xs:complexType name="InternalType">
+		<xs:attribute name="JID" type="xs:string"/>
+		<xs:attribute name="UUID" type="xs:string"/>
+		<xs:attribute name="clipType" type="xs:string"/>
+		<xs:attribute name="dateCreated" type="xs:string"/>
+		<xs:attribute name="dirNID" type="xs:string"/>
+		<xs:attribute name="streamType" type="xs:string"/>
+		<xs:attribute name="dirTitle" type="xs:string"/>
+		<xs:attribute name="fileNID" type="xs:string"/>
+		<xs:attribute name="fileName" type="xs:string"/>
+		<xs:attribute name="startOffset" type="xs:long"/>
+		<xs:attribute name="endOffset" type="xs:long"/>
+		<xs:attribute name="new_mediaGroupID" type="xs:string"/>
+		<xs:attribute name="new_UUID" type="xs:string"/>
+		<xs:attribute name="new_fileNID" type="xs:string"/>
+		<xs:attribute name="prev_UUID" type="xs:string"/>
+		<xs:attribute name="prev_fileNID" type="xs:string"/>
+		<xs:attribute name="prev_mediaGroupID" type="xs:string"/>
+		<xs:attribute name="rootFolderPath" type="xs:string"/>
+		<xs:attribute name="tempFolderPath" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="dateModified" type="xs:long"/>
+		<xs:attribute name="mediaStoreFile_Rev" type="xs:long"/>
+		<xs:attribute name="isMedia2dot4" type="xs:string"/>
+		
+	</xs:complexType>
+	<xs:complexType name="ExternalType">
+		<xs:attribute name="JID" type="xs:string"/>
+		<xs:attribute name="fileName" type="xs:string"/>
+		<xs:attribute name="folderPath" type="xs:string"/>
+		<xs:attribute name="dateCreated" type="xs:string"/>
+		<xs:attribute name="nasURL" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="ErrorType">
+		<xs:all>
+			<xs:element name="Code" type="xs:string" />
+			<xs:element name="Description" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
+
+	<!-- AddExportFile -->
+	<xs:element name="AddExportFileRequestData" type="AddExportFileRequestDataType" />
+	<xs:element name="AddExportFileResponseData" type="AddExportFileResponseDataType" />
+	<!-- AddExportFile RequestData -->
+	<xs:complexType name="AddExportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="AddExportFile" type="AddExportFileRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddExportFileRequestType">
+		<xs:sequence>
+			<xs:element name="File"  minOccurs="0"  maxOccurs="unbounded" type="FileRequestType" /> 
+			<xs:element minOccurs="0" name="Suspended" type="xs:boolean"  />
+	  		<xs:element minOccurs="0" name="Running" type="xs:boolean"  />
+		</xs:sequence>
+	 	<xs:attribute name="JID" type="xs:string" />
+		<xs:attribute name="folderPath" type="xs:string"  use="required" />
+	 	<xs:attribute name="priority" type="xs:long" />
+		<xs:attribute name="dateCreated" type="xs:string"/>
+		<xs:attribute name="format" type="FormatObjectType"/> 
+	</xs:complexType>
+	<xs:complexType name="FileRequestType">
+ 		<xs:sequence/>
+	 	<xs:attribute name="fileName" type="xs:string" />
+		<xs:attribute name="fileNID" type="xs:string" />
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="dateCreated" type="xs:string" />
+		<xs:attribute name="startOffset" type="xs:string" />
+		<xs:attribute name="endOffset" type="xs:string" />
+	</xs:complexType>
+	<!-- AddExportFile ResponseData  -->
+	<xs:complexType name="AddExportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="AddExportFile" type="FileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="FileResponseType">
+		<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="ExportImportFileListItem" />
+		</xs:sequence>
+	</xs:complexType>	
+	
+	
+	<!-- AddImportFile -->
+	<xs:element name="AddImportFileRequestData" type="AddImportFileRequestDataType" />
+	<xs:element name="AddImportFileResponseData" type="AddImportFileResponseDataType" />
+	<!-- AddExportFile RequestData -->
+	<xs:complexType name="AddImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="AddImportFile" type="AddImportFileRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddImportFileRequestType">
+		<xs:sequence>
+			<xs:element name="File"  minOccurs="0"  maxOccurs="unbounded" type="ImportFileRequestType" />
+		</xs:sequence>
+		<xs:attribute name="folderPath" type="xs:string" use="required"/>
+	 	<xs:attribute name="dirNID" type="xs:string" use="required"/>
+	 	<xs:attribute name="dirTitle" type="xs:string"/>
+	 	<xs:attribute name="JID" type="xs:string" />
+	 	<xs:attribute name="priority" type="xs:long" />
+		<xs:attribute name="dateCreated" type="xs:string"/>
+		<xs:attribute name="blobFolder" type="xs:string"/>
+		<xs:attribute name="isMedia2dot4" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="ImportFileRequestType">
+ 		<xs:sequence/>
+		<xs:attribute name="blobSize" type="xs:long"/>
+	 	<xs:attribute name="fileName" type="xs:string" />
+		<xs:attribute name="blobName" type="xs:string"/>
+	</xs:complexType>
+	<!-- AddImportFile ResponseData  -->
+	<xs:complexType name="AddImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="AddImportFile" type="AddImportFileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="AddImportFileResponseType">
+		<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="ExportImportFileListItem" />
+		</xs:sequence>
+	</xs:complexType>
+				
+	<!-- AddOffload -->
+	<xs:element name="AddOffloadRequestData" type="AddOffloadRequestDataType" />
+	<xs:element name="AddOffloadResponseData" type="AddOffloadResponseDataType" />
+	<!-- AddOffload RequestData -->
+	<xs:complexType name="AddOffloadRequestDataType">
+		<xs:sequence>
+			<xs:element name="AddOffload" type="AddOffloadRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddOffloadRequestType">
+		<xs:sequence>
+			<xs:element name="File"  minOccurs="0"  maxOccurs="unbounded" type="FileRequestType" /> 
+			
+		</xs:sequence>
+	 	<xs:attribute name="JID" type="xs:string" />		
+		<xs:attribute name="dateCreated" type="xs:string"/>
+		<xs:attribute name="nasURL" type="xs:string"/>
+		<xs:attribute name="format" type="FormatObjectType"/> 
+	</xs:complexType>
+
+	<!-- AddOffload ResponseData  -->
+	<xs:complexType name="AddOffloadResponseDataType">
+		<xs:sequence>
+			<xs:element name="AddOffload" type="FileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	
+	
+	<!-- DeleteExportImportFile -->
+	<xs:element name="DeleteExportImportFileRequestData" type="DeleteExportImportFileRequestDataType" />
+	<xs:element name="DeleteExportImportFileResponseData" type="DeleteExportImportFileResponseDataType" />
+	<!-- DeleteExportImportFile RequestData -->
+	<xs:complexType name="DeleteExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="DeleteExportImportFile" type="DeleteExportImportFileRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeleteExportImportFileRequestType">
+		<xs:sequence/>
+	 	<xs:attribute name="whereDateCreated" type="xs:string" />
+		<xs:attribute name="whereState" type="xs:string" />
+		<xs:attribute name="whereStateDescription" type="xs:string" />
+		<xs:attribute name="whereOwnerJID" type="xs:string" />
+		<xs:attribute name="whereType" type="xs:string" />
+		<xs:attribute name="wherePriority" type="xs:string" />
+		<xs:attribute name="whereNID" type="xs:string" />
+	</xs:complexType>
+	<!-- DeleteExportImportFile ResponseData -->
+	<xs:complexType name="DeleteExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="DeleteExportImportFile" type="DeleteExportImportFileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="DeleteExportImportFileResponseType">
+		<xs:sequence>
+				<xs:element name="ExportImportFileListItem" minOccurs="0" maxOccurs="1"  type="ExportImportFileListItemResponseType" />
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="ExportImportFileListItemResponseType">
+		<xs:sequence/>
+	 	<xs:attribute name="NID" type="xs:string" />
+	</xs:complexType>		
+	
+	<!-- GetExportImportFile -->
+	<xs:element name="GetExportImportFileRequestData" type="GetExportImportFileRequestDataType" />
+	<xs:element name="GetExportImportFileResponseData" type="GetExportImportFileResponseDataType" />
+	<!-- GetExportImportFile RequestData -->
+	<xs:complexType name="GetExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="GetExportImportFile" type="GetExportImportFileRequestType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetExportImportFileRequestType">
+		<xs:sequence/>
+		<xs:attribute name="startFrom" type="xs:long" use="required" />
+		<xs:attribute name="countToFetch" type="xs:long" use="required" />
+		<xs:attribute name="sortOrder" >
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="import" />
+					<xs:enumeration value="export" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>	
+		<xs:attribute name="sortBy" type="xs:string" />
+	 	<xs:attribute name="whereDateCreated" type="xs:string" />
+		<xs:attribute name="whereStateDescription" type="xs:string" />
+		<xs:attribute name="whereState" type="xs:string" />
+		<xs:attribute name="whereOwnerJID" type="xs:string" />
+		<xs:attribute name="whereType" type="xs:string" />
+		<xs:attribute name="wherePriority" type="xs:string" />
+		<xs:attribute name="whereNID" type="xs:string" />
+	</xs:complexType>
+	<!-- GetExportImportFile ResponseData  -->
+	<xs:complexType name="GetExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="GetExportImportFile" type="GetExportImportFileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="GetExportImportFileResponseType">
+		<!--  
+		<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="ExportImportFileListItem" />
+		</xs:sequence>
+		<xs:attribute name="from" type="xs:long" />
+	 	<xs:attribute name="total" type="xs:long" />
+	 	
+	 	modified as per Satish request
+	 	-->
+   	<xs:sequence>
+	  <xs:element minOccurs="0" name="Suspended" type="xs:boolean"  />
+	  <xs:element minOccurs="0" name="Running" type="xs:boolean"  />
+      <xs:element minOccurs="0" name="GetListObjectResponseData">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ObjectCount" type="xs:int" />
+            <xs:element name="ObjectLastWhereEndCount" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ResponseXML" type="xs:anyType" />
+    </xs:sequence>
+  </xs:complexType>	
+ 
+		
+	<!-- SuspendExportImportFile -->
+	<xs:element name="SuspendExportImportFileRequestData" type="SuspendExportImportFileRequestDataType" />
+	<xs:element name="SuspendExportImportFileResponseData" type="SuspendExportImportFileResponseDataType" />
+	<!-- SuspendExportImportFile RequestData -->
+	<xs:complexType name="SuspendExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="SuspendExportImportFile" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- SuspendExportImportFile ResponseData -->
+	<xs:complexType name="SuspendExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="SuspendExportImportFile" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>	 
+	
+	<!-- ResumeExportImportFile -->
+	<xs:element name="ResumeExportImportFileRequestData" type="ResumeExportImportFileRequestDataType" />
+	<xs:element name="ResumeExportImportFileResponseData" type="ResumeExportImportFileResponseDataType" />
+	<!-- ResumeExportImportFile RequestData -->
+	<xs:complexType name="ResumeExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="ResumeExportImportFile" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ResumeExportImportFile ResponseData -->
+	<xs:complexType name="ResumeExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="ResumeExportImportFile" type="xs:string" />
+		</xs:sequence>			
+	</xs:complexType>
+
+
+	<!-- UpdateExportImportFile -->
+	<xs:element name="UpdateExportImportFileRequestData"  type="UpdateExportImportFileRequestDataType" />
+	<xs:element name="UpdateExportImportFileResponseData" type="UpdateExportImportFileResponseDataType" />
+	<!-- UpdateExportImportFile RequestData -->
+	<xs:complexType name="UpdateExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="UpdateExportImportFile" type="UpdateExportImportFileRequestType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="UpdateExportImportFileRequestType">
+		<xs:sequence>
+			<xs:element name="EIFLIPriority" type="xs:string" />
+			<xs:element name="EIFLIExternalFileName" type="xs:string" />
+			<xs:element name="EIFLIExternalJID" type="xs:string" />
+			<xs:element name="EIFLIExternalFolderPath" type="xs:string" />
+		</xs:sequence>
+	 	<xs:attribute name="whereDateCreated" type="xs:string" />
+		<xs:attribute name="whereState" type="xs:string" />
+		<xs:attribute name="whereStateDescription" type="xs:string" />
+		<xs:attribute name="whereOwnerJID" type="xs:string" />
+		<xs:attribute name="whereType" type="xs:string" />
+		<xs:attribute name="wherePriority" type="xs:string" />
+		<xs:attribute name="whereNID" type="xs:string" />
+	</xs:complexType>
+	<!-- UpdateExportImportFile ResponseData -->
+	<xs:complexType name="UpdateExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="UpdateExportImportFile" type="UpdateExportImportFileResponseType" />
+		</xs:sequence>
+	</xs:complexType>	 
+	<xs:complexType name="UpdateExportImportFileResponseType">
+		<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="1" ref="ExportImportFileListItem" />
+		</xs:sequence>
+	</xs:complexType>	
+
+
+	<!-- ClearQueueExportImportFile -->
+	<xs:element name="ClearQueueExportImportFileRequestData" type="ClearQueueExportImportFileRequestDataType" />
+	<xs:element name="ClearQueueExportImportFileResponseData" type="ClearQueueExportImportFileResponseDataType" />
+	<!-- ClearQueueExportImportFile RequestData -->
+	<xs:complexType name="ClearQueueExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="ClearQueueExportImportFile" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ClearQueueExportImportFile ResponseData -->
+	<xs:complexType name="ClearQueueExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="ClearQueueExportImportFile" type="xs:string" />
+		</xs:sequence>			
+	</xs:complexType>
+
+	<!-- QueueStatusExportImportFile -->
+	<xs:element name="QueueStatusExportImportFileRequestData" type="QueueStatusExportImportFileRequestDataType" />
+	<xs:element name="QueueStatusExportImportFileResponseData" type="QueueStatusExportImportFileResponseDataType" />
+	<!-- QueueStatusExportImportFile RequestData -->
+	<xs:complexType name="QueueStatusExportImportFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="QueueStatusExportImportFile" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- QueueStatusExportImportFile ResponseData -->
+	<xs:complexType name="QueueStatusExportImportFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="QueueStatusExportImportFile" type="QueueStatusExportImportFileType" />
+		</xs:sequence>			
+	</xs:complexType>
+	<xs:complexType name="QueueStatusExportImportFileType">
+		<xs:all>
+			<xs:element name="QueueState" type="QueueStateType" />
+			<xs:element name="Suspended" type="xs:boolean" />
+			<xs:element name="Running" type="xs:boolean" />
+		</xs:all>			
+	</xs:complexType>
+	<!--  running / waiting ( nothing in queue or  ms restarted) / suspended -->
+	<xs:simpleType name="QueueStateType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="suspended" />
+			<xs:enumeration value="running" />
+			<xs:enumeration value="waiting" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="RestoreMediaStreamFileRequestData" type="RestoreMediaStreamFileRequestDataType" />
+	<xs:complexType name="RestoreMediaStreamFileRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RestoreMediaStreamFileResponseData" type="RestoreMediaStreamFileResponseDataType" />
+	<xs:complexType name="RestoreMediaStreamFileResponseDataType">
+		<xs:sequence>
+			<xs:element name="QueryResponse" type="QueryResponseType" />
+		</xs:sequence>
+	</xs:complexType>	
+	 
+</xs:schema> 

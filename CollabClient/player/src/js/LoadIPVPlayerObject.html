@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Barco Media Player</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../resource/PlayerPage.css" type="text/css">
+    </head>
+    <body style="background:#112211;">
+        <div class="header">
+            <h3><span><img class="logo" src="../resource/barco60x40.png" />Barco Media Player: IPV Player Load</span></h3>
+        </div>
+        <div class="mainContent">
+            <div id="mainPanel" class="rightPanel">
+                <p class="PlayerDetection" style='text-align: left; margin: 10px;'>You may get zero, one or two warnings depending on your browser settings. The first may be a yellow popover (at the top or bottom of the window) asking you if you want to install the 'Barco Player Control' add-on from 'Barco, Inc.' Click "Allow" or Install". (This may not occur in some editions of IE.) A Security Warning dialog may also popup after a few seconds or you might be logged out of the application. If the latter happens, log in again and repeat the install. Click "Yes" or "Install" if it appears.
+                <p class="PlayerDetection" style='text-align: left; margin: 10px;'>A dark blue rectangle should appear below when successful. <button id="backBtn">Back to previous page</button><p>
+                <div style="text-align: center;">
+                    <OBJECT id="installIPVPlayer" codeBase="../streamplayers/ipvplayer/IPVPlayerCtrl.cab#Version=%PLAYER.VERSION2%" classid="CLSID:A2A6189E-44F4-4D69-9CE4-8329312D2E3A"></OBJECT>
+                </div>
+            </div>
+        </div>
+        <script>
+            var queryString = window.location.search;
+            var queryObjs = (function(queryArray) {
+                if (queryArray.length == 0)
+                    return {};
+                var qObj = {};
+                for (var i = 0; i < queryArray.length; ++i)
+                {
+                    var p = queryArray[i].split('=');
+                    if (p.length != 2)
+                        continue;
+                    qObj[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                }
+                return qObj;
+            })(queryString.substr(1).split('&'));
+            var backBtn = document.getElementById('backBtn');
+            backBtn.onclick = function() {
+                var now = new Date().getTime();
+                window.location.href = queryObjs["url"] + "?time=" + now;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>DeviceAdminService API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.0.1</revnumber>
+				<date>2 Jan 2013</date>
+				<revremark>First Version of Device Agent Service API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+		<glossentry>
+			<glossterm>Device Interface</glossterm>
+			<glossdef>
+				<para>
+					This represents the external interface to a device.
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Device Interface API</glossterm>
+			<glossdef>
+				<para>
+					The API accepted by the device on its external interface
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>DeviceAdminService API</glossterm>
+			<glossdef>
+				<para>
+					The API accepted by the device on its external interface for DeviceAdminService
+				</para>
+			</glossdef>
+		</glossentry>
+
+	</glossary>
+	<preface>
+		<title>Introduction</title>
+		<para>
+			This document contains the description of the device interface API for deviceadmin services
+		</para>
+	</preface>
+	<chapter>
+		<title>Discovery API</title>
+		<para>
+			API Calls used in Discovery process
+		</para>
+		<section>
+			<title>GetDevice</title>
+			<para> Returns the Device information in RAW format.</para>
+			<example>
+				<title>GetDeviceRequest</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDevice selectFormat='RAW' />
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>GetDeviceResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDevice>
+		<Device  title='' type='' state='' password='' ownerUserJID=''>				
+			<Groups />
+			<DevicePrivateData />
+			<TemplateNID />
+			<PortList />					
+			<DeviceConfig> <!-- Device specific response --> </DeviceConfig>
+			<DeviceStatus> <!-- Device specific response --> </DeviceStatus>
+			<DeviceList />
+		</Device>			
+	</GetDevice>
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>SetDeviceConfig</title>
+			<para> update the device with given config</para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						<parameter>Dirty: possible values are CLEAN/ADD/MODIFY/DELETE. (Applies the config only if Dirty!=CLEAN)</parameter>
+						<itemizedlist>
+							<listitem>
+								<para>CLEAN: No update required</para>
+							</listitem>
+							<listitem>
+								<para>ADD: Add given entry to table. Example: Adding a route to route table. </para>
+							</listitem>
+							<listitem>
+								<para>MODIFY: Modifies the given config. Example: Updating exiting route config </para>
+							</listitem>
+							<listitem>
+								<para>DELETE: Deletes the given entry from table. Example deleting a route from route table </para>
+							</listitem>
+						</itemizedlist>
+					</para>
+				</listitem>
+			</itemizedlist>
+			<example>
+				<title>SetDeviceConfigRequest</title>
+				<programlisting>
+          <![CDATA[  
+   <SetDeviceConfig doNotSaveToFlash='true/false'>
+	  <DeviceConfig Dirty="CLEAN">
+            <ServiceElementsConfig>
+              <XMPPAgentServiceConfig Dirty="MODIFY">
+                    <Enable>true</Enable>
+                    <XMPPServer>0.0.0.0</XMPPServer>
+                    <DeviceName>xp2001</DeviceName>
+                    <DevicePassword>Ipvs1234</DevicePassword>
+                    <Domain>default</Domain>
+                    <ServiceDomain>default</ServiceDomain>
+              </XMPPAgentServiceConfig>
+              <NetworkElementsConfig>
+                 <RouteTableConfig Dirty="MODIFY">
+                   <RouteEntry Dirty="MODIFY" ListIndex="1">
+                         <Destination>0.0.0.0</Destination>
+                         <Netmask>0.0.0.0</Netmask>
+                         <Gateway>192.168.1.1</Gateway>
+                   </RouteEntry>
+                 </RouteTableConfig>
+                 <EthernetPortTableConfig>
+                   <EthernetPortConfig Dirty="MODIFY" ListIndex="1">
+                         <PortID>1</PortID>
+                         <EnableInterface>true</EnableInterface>
+                               <IsPrimary>true</IsPrimary>
+                               <EnableMulticast>false</EnableMulticast>
+                         <IPConfig>
+                               <UseDHCP>false</UseDHCP>
+                               <IPAddress>192.168.1.196</IPAddress>
+                               <Netmask>255.255.0.0</Netmask>
+                         </IPConfig>
+                   </EthernetPortConfig>
+            	 </EthernetPortTableConfig>
+      		 </NetworkElementsConfig>
+       	 </ServiceElementsConfig>
+	  </DeviceConfig>
+	</SetDeviceConfig>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>SetDeviceConfigResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <SetDeviceConfig/>
+]]>
+        </programlisting>
+			</example>
+		</section>
+	</chapter>
+	<chapter>
+		<title>DeviceConfig API</title>
+		<para>
+			API Calls used to update Device Config From Clients/AppControler or publish the Config to App Controler
+		</para>
+
+		<section>
+			<title>GetDeviceConfig</title>
+			<para> Returns the Device configuration information </para>
+			<example>
+				<title>GetDeviceConfigRequest</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter> xpath: (optional) use when you want to get specific config information </parameter>
+						</para>
+					</listitem>
+				</itemizedlist>
+				<programlisting>
+          <![CDATA[  
+   <GetDeviceConfig xpath=""/>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>GetDeviceConfigResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDeviceConfig>
+		 <DeviceConfig Dirty="CLEAN">
+		      <SystemElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  System Info -->
+		      </SystemElementsConfig>
+		      <ServiceElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  Services-->
+		      </ServiceElementsConfig>
+		      <NetworkElementsConfig Dirty="CLEAN">
+		         <!-- Network Config Common for all devices-->
+		      </NetworkElementsConfig>
+		       <StorageElementsConfig Dirty="CLEAN">
+		         <!-- Common for all DMS and MS Devices-->
+		      </StorageElementsConfig>
+		      <AVCodecElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  AVCodec Elements -->
+		      </AVCodecElementsConfig>
+		  </DeviceConfig>
+	</GetDevice>
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>SetDeviceConfig</title>
+			<para> Updates the given Configuration </para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						<parameter>Dirty: possible values are CLEAN/ADD/MODIFY/DELETE. (Applies the config only if Dirty!=CLEAN)</parameter>
+						<itemizedlist>
+							<listitem>
+								<para>CLEAN: No update required</para>
+							</listitem>
+							<listitem>
+								<para>ADD: Add given entry to table. Example: Adding a route to route table. </para>
+							</listitem>
+							<listitem>
+								<para>MODIFY: Modifies the given config. Example: Updating exiting route config </para>
+							</listitem>
+							<listitem>
+								<para>DELETE: Deletes the given entry from table. Example deleting a route from route table </para>
+							</listitem>
+						</itemizedlist>
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<parameter> doNotSaveToFlash: (optional) if true it will not update the given configuration to flash. Default value is false </parameter>
+					</para>
+				</listitem>
+			</itemizedlist>
+			<example>
+				<title>SetDeviceConfigRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	   <SetDeviceConfig doNotSaveToFlash='true/false'>
+		  <DeviceConfig Dirty="CLEAN">
+		      <SystemElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  System Info -->
+		      </SystemElementsConfig>
+		      <ServiceElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  Services-->
+		      </ServiceElementsConfig>
+		      <NetworkElementsConfig Dirty="CLEAN">
+		         <!-- Network Config Common for all devices-->
+		      </NetworkElementsConfig>
+		       <StorageElementsConfig Dirty="CLEAN">
+		         <!-- Common for all DMS and MS Devices-->
+		      </StorageElementsConfig>
+		      <AVCodecElementsConfig Dirty="CLEAN">
+		         <!-- Choice of device specific  AVCodec Elements -->
+		      </AVCodecElementsConfig>
+		  </DeviceConfig>
+		</SetDeviceConfig>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>SetDeviceConfigResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <SetDeviceConfig/>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>Enable DHCP to get local ipaddress</title>
+				<programlisting>
+          <![CDATA[  
+  	   <SetDeviceConfig doNotSaveToFlash='true/false'>
+		  <DeviceConfig Dirty="CLEAN">
+		       <NetworkElementsConfig Dirty="CLEAN">
+		         <EthernetPortTableConfig>
+		            <EthernetPortConfig Dirty="MODIFY" ListIndex="1">
+		               <PortID>1</PortID>
+		               <EnableInterface>true</EnableInterface>
+		               <IsPrimary>true</IsPrimary>
+		               <EnableMulticast>true</EnableMulticast>
+		               <MTU>1500</MTU>
+		
+		               <IPConfig>
+		                  <UseDHCP>true</UseDHCP>
+		                  <IPAddress>169.254.0.1</IPAddress>
+		                  <Netmask>255.255.0.0</Netmask>
+		               </IPConfig>
+		            </EthernetPortConfig>
+		         </EthernetPortTableConfig>
+		      </NetworkElementsConfig>		      
+		  </DeviceConfig>
+		</SetDeviceConfig>
+]]>
+        </programlisting>
+			</example>
+		</section>
+	</chapter>
+	<chapter>
+		<title>DeviceStatus API</title>
+		<para>
+			API Calls used to publish the device status to AppController
+		</para>
+		<section>
+			<title>GetDeviceStatus</title>
+			<para> Returns current status of device</para>
+			<example>
+				<title>GetDynamicDeviceStatusRequest</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter> xpath: (optional) use when you want to get specific status information </parameter>
+						</para>
+					</listitem>
+				</itemizedlist>
+				<programlisting>
+			     <![CDATA[  
+				  	  <GetDeviceStatus xpath=""/>
+				]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>GetDeviceStatusResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDeviceStatus>
+		<DeviceStatus>
+			<SystemElementsStatus>
+				<!-- Choice of device specific System Status -->
+			</SystemElementsStatus>
+			<ServiceElementsStatus>
+				<!-- Choice of device specific Services status -->
+			</ServiceElementsStatus>
+			<NetworkElementsStatus>
+				<NATZoneTableStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</ParametersList>
+				</NATZoneTableStatus>
+				<EthernetPortTableStatus>
+					<EthernetPortStatus Queryable="true" State="OK">
+						<ParametersList>
+							<Parameters>
+								<Parameter name="" type="Float" units="" source=""></Parameter>
+							</Parameters>
+						</ParametersList>
+					</EthernetPortStatus>
+				</EthernetPortTableStatus>
+				<!-- Network Status Common for all devices -->
+			</NetworkElementsStatus>
+			<StorageElementsStatus>
+				<!-- Common for all DMS and MS Devices -->
+			</StorageElementsStatus>
+			<AVCodecElementsStatus>
+				<!-- Choice of device specific AVCodec Elements -->
+			</AVCodecElementsStatus>
+		</DeviceStatus>
+	</GetDeviceStatus>
+]]>
+       			 </programlisting>
+			</example>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>DeviceCommand API</title>
+		<para>
+			API Calls used to Run commands on devices like Upgrade,Reboot,RevertDefault, SaveToFlash
+		</para>
+		<section>
+			<title>GetDeviceCommand</title>
+			<para> Returns the supported commands information </para>
+			<example>
+				<title>GetDeviceCommandRequest</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDeviceCommand/>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>GetDeviceCommandResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <GetDeviceCommand>
+			 <DeviceCommand>
+		      <SystemElementsCommand">
+		         <!-- Choice of device specific  System Info -->
+		      </SystemElementsCommand>
+		      <ServiceElementsCommand">
+		         <!-- Choice of device specific  Services-->
+		      </ServiceElementsCommand>
+		      <NetworkElementsCommand">
+		         <!-- Network Config Common for all devices-->
+		      </NetworkElementsCommand>
+		       <StorageElementsCommand">
+		         <!-- Common for all DMS and MS Devices-->
+		      </StorageElementsCommand>
+		      <AVCodecElementsCommand">
+		         <!-- Choice of device specific  AVCodec Elements -->
+		      </AVCodecElementsCommand>
+		  </DeviceConfig>
+	</GetDevice>
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>ExecuteDeviceCommand</title>
+			<para> Execute the given action</para>
+			<example>
+				<title>ExecuteDeviceCommandRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	  <ExecuteDeviceCommand command='UPGRADE/REBOOT/REVERTDEFAULT/SAVECONFIG'>
+  	   <CommandParam name='' value=''/>
+  	   <CommandParam name='' value=''/>
+  	   <CommandParam name='' value=''/>
+  	  </ExecuteDeviceCommand>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>ExecuteDeviceCommandResponse</title>
+				<programlisting>
+          <![CDATA[  
+  				 <ExecuteDeviceCommand/>
+			]]>
+       			 </programlisting>
+			</example>
+		</section>
+	</chapter>
+</book>
+	

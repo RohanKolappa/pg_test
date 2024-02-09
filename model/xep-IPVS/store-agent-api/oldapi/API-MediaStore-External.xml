@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>IP Video Systems Media Store Service API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.1</revnumber>
+				<date>19 Oct 2009</date>
+				<revremark>Media Store API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<chapter>
+		<title>Media Store Synch calls </title>
+		<para>
+			The following requests are used in media store sync process
+		</para>
+		<section>
+			<title>Synch MediaStore Dir</title>
+			<para>
+				Synch the media store directory with media stream dir stored in
+				database. Handles the following States
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>Dir Available</parameter>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<parameter>Dir UnAvailable</parameter>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<parameter>Dir Delete</parameter>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<parameter>Dir State Updates</parameter>
+						</para>
+					</listitem>
+				</itemizedlist>
+				<example>
+					<title>Synch MediaStore Dir Request  </title>
+					<programlisting>
+		            <![CDATA[
+			        <SynchMediaStoreDirRequestData>	
+						<DirName/>	 
+						<State/>	 
+					</SynchMediaStoreDirRequestData>
+		            ]]>
+		          </programlisting>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>DirName</parameter>
+								<option>/data1 or /data2</option>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>State</parameter>
+								<option>Available/UnAvailable/Delete/State Update</option>
+							</para>
+						</listitem>
+					</itemizedlist>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Get Media Stream File Max Revision </title>
+			<para>
+				Media store agent send GetMediaStreamFileMaxRevision Request to
+				appserver. In response to this call on media store will start media
+				stream file	synch process
+				<example>
+					<title>Get Media Stream File Max Revision Request  </title>
+					<programlisting>
+		            <![CDATA[
+			          <GetMediaStreamFileMaxRevisionRequestData>
+					       <MediaStoreRevision/>
+					       <MediaStreamDirNID/>
+					  </GetMediaStreamFileMaxRevisionRequestData>
+		            ]]>
+		          </programlisting>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<parameter>MediaStoreRevision</parameter>
+								<option>media store revision stored in blob dir
+									MediastoreInfo.xml file</option>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<parameter>MediaStreamDirNID</parameter>
+								<option>dir nid which trying to synch</option>
+							</para>
+						</listitem>
+					</itemizedlist>
+				</example>
+				<example>
+					<title>Get Media Stream File Max Revision Response  </title>
+					<programlisting>
+		            <![CDATA[
+			          <GetMediaStreamFileMaxRevisionResponseData>
+					       <MediaStoreRevision/>
+					       <MediaStreamFileMaxRevision/>
+					       <MediaStreamDirNID/>
+					  </GetMediaStreamFileMaxRevisionResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+	</chapter>
+	<chapter>
+		<title>Media Store API calls </title>
+		<para>
+			The following requests are media store api calls
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					<parameter>MediaStoreFileNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>MediaStreamFileResourceNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>MediaStreamDirResourceNID</parameter>
+					<optional>Required</optional>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<parameter>ActionData</parameter>
+					<optional>optional</optional>
+				</para>
+			</listitem>
+		</itemizedlist>
+		<section>
+			<title>Add MediaStore File</title>
+			<para>
+				Create media store file for given media store
+
+				<example>
+					<title>Add MediaStore File Request  </title>
+					<programlisting>
+		            <![CDATA[
+			       <AddMediaStoreFileRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+			       </AddMediaStoreFileRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Add MediaStore File Response  </title>
+					<programlisting>
+		            <![CDATA[
+			       <AddMediaStoreFileResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+				   </AddMediaStoreFileResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>		
+		<section>
+			<title>Update Media Profile </title>
+			<para>
+				Create media store file for given media store if the media store
+				file not exists. Updates given profile in media store and media
+				stream and mark the	media status as BUSY.
+				<example>
+					<title>Update Media Profile Request  </title>
+					<programlisting>
+		            <![CDATA[
+			       <UpdateMediaProfileRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+				   </UpdateMediaProfileRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Update Media Profile Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpdateMediaProfileResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</UpdateMediaProfileResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Update Media PlayLength </title>
+			<para>
+				Update Media Playlenght and Size in media store file and media stream file
+				and mark the Media status as Ready. Updates the media dirsize also.
+				<example>
+					<title>Update Media PlayLength Request  </title>
+					<programlisting>
+		            <![CDATA[
+			       <UpdateMediaPlayLengthRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</UpdateMediaPlayLengthRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Update Media PlayLength Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpdateMediaPlayLengthResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</UpdateMediaPlayLengthResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Update Media Status </title>
+			<para>
+				Update Media status in media store and media stream file.
+				<example>
+					<title>Update Media Status Request  </title>
+					<programlisting>
+		            <![CDATA[
+				    <UpdateMediaStatusRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</UpdateMediaStatusRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Update Media Status Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpdateMediaStatusResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</UpdateMediaStatusResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Update Media MetaData </title>
+			<para>
+				Update Media MetaData in media store and media stream file.
+				<example>
+					<title>Update Media MetaData Request  </title>
+					<programlisting>
+		            <![CDATA[
+				    <UpdateMediaMetaDataRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</UpdateMediaMetaDataRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Update Media MetaData Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpdateMediaMetaDataResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</UpdateMediaMetaDataResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>		
+		<section>
+			<title>Delete Media Store File  </title>
+			<para>
+				Move the  Media Store File from media store directory to trash directory.
+				From Trash directory streaming server deletes when there is no active streams are there. 
+				<example>
+					<title>Delete Media Store File Request  </title>
+					<programlisting>
+		            <![CDATA[
+					<DeleteMediaStoreFileRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</DeleteMediaStoreFileRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Delete Media Store File  Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<DeleteMediaStoreFileResponseData>
+						<MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</DeleteMediaStoreFileResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Upgrade Media </title>
+			<para>
+				Upgrade older version media file to currently installed version
+				<example>
+					<title>Upgrade Media Request  </title>
+					<programlisting>
+		            <![CDATA[
+				    <UpgradeMediaRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</UpgradeMediaRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Upgrade Media Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpgradeMediaResponseData>
+					    <MediaStreamFileResourceNID/>
+					    <MediaStoreFileNID/>
+						<ResponseXML/>
+					</UpgradeMediaResponseData>
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>		
+		<section>
+			<title>Repair Media  </title>
+			<para>
+				Repair the media and mark it as Ready 
+				<example>
+					<title>Repair Media Request  </title>
+					<programlisting>
+		            <![CDATA[
+					<RepairMediaRequestData>
+						<MediaStoreFileNID/>
+						<MediaStreamFileResourceNID/>
+						<MediaStreamDirResourceNID/>
+						<ActionData/>  
+					</RepairMediaRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Repair Media Response  </title>
+					<programlisting>
+		            <![CDATA[
+				<RepairMediaResponseData>
+				    <MediaStreamFileResourceNID/>
+				    <MediaStoreFileNID/>
+					<ResponseXML/>
+				</RepairMediaResponseData>  ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+		<section>
+			<title>Upgrade MediaStore Dir </title>
+			<para>
+				Upgrade the media store directory to latest installed version.
+				If Upgrade File options specifieds upgrade the media store files to
+				latest version
+				<example>
+					<title>Upgrade MediaStore Dir Request  </title>
+					<programlisting>
+		            <![CDATA[
+				    <UpgradeMediaStoreDirRequestData>	
+						<MediaStreamDirResourceNID/>
+						<UpgradeMediaStreamFiles>false</UpgradeMediaStreamFiles>	  
+						<ActionData/>  
+					</UpgradeMediaStoreDirRequestData>
+		            ]]>
+		          </programlisting>
+				</example>
+				<example>
+					<title>Upgrade MediaStore Dir Response  </title>
+					<programlisting>
+		            <![CDATA[
+					<UpgradeMediaStoreDirResponseData/>	
+		            ]]>
+		          </programlisting>
+				</example>
+			</para>
+		</section>
+	</chapter>
+</book>

@@ -1,0 +1,105 @@
+
+
+v2dtx.c -- Networking state machine for Transmitting video
+
+v2drx.c -- Networking state machine for Receiving video
+
+srd.c -- Frame parsing implementing the Slice Reduction algorithm
+
+tx.c -- Example code for Transmitting encoded video
+rx.cpp -- Example code for Receiving, Parsing and Decoding video
+
+
+Encoding:
+
+vframeencoder.cpp -- Main class for encoding frames. 
+
+An Encoder object is created by constructing an instance of class
+CVideoFrameEncoder. It internally creates an appropriate CSliceEncoder
+object depending on eEncodeFormat parameter (5th argument) 
+
+
+The eEncodeFormat enum values supported are:
+eYUV422P -- Used for Version 1 codec in 422 mode
+eYUV444S -- Used for Version 1 codec in static 444 mode
+eYUV444D -- Used for Version 1 codec in dynamic 444 mode
+eSVC -- Used for Version 2 codec
+eH264 -- Experimental code (used during prototyping) that should not be used
+
+The FrameEncoder is responsible for encoding a sequence for frames. It
+breaks the frames into slices and uses CSliceEncoder subclasses to
+encode a slice. It does frame differencing to figure out which slices
+need to be encoded in the next frame.
+
+The CSliceEncoder class is implemented in sliceencoder.cpp which
+implements common routines and uses subclasses for codec specific parts
+(CStandardSliceEncoder in standardslicencoder for version 1,  
+CSVCSliceEncoder svcsliceencoder for version 2,
+CH264SliceEncoder -- deprecated)
+
+The forward DCT method used during encoding is the CFDCT::FDCT()
+function in dct.cpp which calls CFDCT::FDCTReal(). The other dct
+methods in the file are slower methods that were inititally
+used. FDCTFixed() method is called (as the comments say) for unit
+testing (gtest test cases) since it produces the exact same results
+independent of compiler optimization level. Test code sets a variable
+m_bPassTests so that the results are predictable where necessary.
+
+
+Decoding
+
+The Decoding stack is similarly structured to the encoding stack.  The
+decoder object is created via a factory method that returns an
+appropriately created CVideoFrameDecoder object. It internally uses
+a CSliceDecoder subclass to do the actual decoding. H264 subclass
+can be ignored in the hierarchy.
+
+
+
+
+
+
+
+
+The packetizing is done currently by client application.  V2DLib does
+not provide an API to do this.
+
+We break the encoded bitstream into chunks of 1024 bytes. Then a
+header is slapped on in front which can be an RTP header (12 bytes) or
+our legacy header (16 bytes) depending on who connects.  We currently
+use RTP headers but support backwards compatibility if older clients
+connect. to begin with you can assume we will need only RTP headers.
+So each packet on the wire is 1036 (1024 + 12) bytes.
+
+The RTP header timestamp is plugged in using a millisecond
+resolution. It is incremented every packet (rather than every frame)
+using the current wallclock.  This happens currently for version 1
+codec. In version 2 codec we are planning on using more accurate
+timestamps derived from the bitstream.
+
+In our software Tx (screen scraper), we pad the last chunk with 0
+filled bytes to round up to 1024 bytes and so can put the frame on
+wire without waiting for the next frame to be encoded.
+
+In our hardware Tx, the FPGA fifo always keeps it filled up with the
+next frame so there is no need of padding (but adds latency).
+
+Our StreamingServer application implements the packetizing and is in
+the subversion module "strmsrv" (same SVN server where you currently
+find v2dlib) http://.../svn/svnroot/strmsrv/trunk
+
+The relevant screenscraper code is in fbrx.cpp in function
+CFBRx::ProcessEncodedPackets() at line 320.
+
+The relevant hardware code is in file fpgarx.cpp around in function
+int CFBRx::ProcessEncodedPackets() at line 552.
+
+Both these functions slap our legacy header and put it in a queue. A
+separate upstream module that does the networking stack (using
+Tx_Create) picks up the packets from the queue and inserts the real
+headers depending on who connects.  That relevant code can be seen
+file v2dtx.cpp in function ProcessSRDFrame(), line 1074 or in function
+ProcessVideoFrame(), line 925.
+
+In the future, we are also planning to get rid of the fixed 1024 bytes
+packetizing which currently adds significant padding and/or latency.

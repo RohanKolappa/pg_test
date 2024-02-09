@@ -1,0 +1,371 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Resource",
+    "resourcePath": "/Domain",
+	"apis":[
+		{
+			"path":"/Domain",
+			"operations":[
+				{
+					"method": "GET",
+                    "summary": "Get a Domain(available in EDP 1.2)",
+                    "notes": "As an Administrator i should be able to Get all Domains from SC",
+                    "responseClass": "DomainResponse",
+                    "nickname": "getDomain",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Domain+json",
+                        "application/vnd.barco.nimbus.Domain+xml"
+                    ],
+					"parameters":[
+						{
+							"name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+						},
+						{
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },                     
+                        {
+                            "name": "type",
+                            "description": "type",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+					],
+					"responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+					"deprecated":"false"
+				},
+				{
+                    "method": "POST",
+                    "summary": "Add a Domain(available in EDP 1.2)",
+                    "notes": "Add a Domain",
+                    "responseClass": "DomainResponse",
+                    "nickname": "addDomain",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Domain+json",
+                        "application/vnd.barco.nimbus.Domain+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Domain+json",
+                        "application/vnd.barco.nimbus.Domain+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },						
+                        {
+                            "name": "body",
+                            "description": "add a Domain",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddDomain",
+                            "paramType": "body"
+						}
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "DELETE",
+                    "summary": "Delete a Domain(available in EDP 1.2)",
+                    "notes": "Delete a Domain",
+                    "responseClass": "DomainResponse",
+                    "nickname": "deleteDomain",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "Domain nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "Domain title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Set a Domain(available in EDP 1.2)",
+                    "notes": "Set a Domain",
+                    "responseClass": "DomainResponse",
+                    "nickname": "SetDomain",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Domain+json",
+                        "application/vnd.barco.nimbus.Domain+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Domain+json",
+                        "application/vnd.barco.nimbus.Domain+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "Domain nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },                        
+						{
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "Domain",
+                            "paramType": "body"
+                        }
+						
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+				
+			]
+		}
+	],
+	"models": {
+		"Metadata": {
+            "id": "Metadata",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag" : {
+					"type": "array",
+					"items": {
+					"$ref": "TagAttr"
+					}
+				}
+            }
+        },
+        "DomainResponse": {
+            "id": "DomainResponse",
+            "description": "Domain Response",
+            "required": [
+               "Domain"
+            ],
+            "properties": {
+         "Domain": {
+          "$ref": "DomainResponseData"
+        }                
+            }
+        },
+        "DomainResponseData": {
+            "id": "DomainResponseData",
+            "description": "Domain Response Data",
+            "required": [
+                "@NID",
+                "Metadata",
+                "@title",
+                "@type",
+                "@description"
+            ],
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "@title": {
+                    "type": "string"
+                },
+                "@description": {
+                    "type": "string"
+                },
+                "Metadata": {
+					"$ref":"Metadata"
+				},
+				"@type": {
+                    "type": "string"
+                }
+                
+            }
+        },
+		
+        "TagAttr": {
+            "id": "TagAttr",
+            "properties": {
+               "@content": {
+                    "type": "string"
+                },
+				"@name": {
+                    "type": "string"
+                }
+            }
+        },
+		"AddDomain": {
+            "id": "AddDomain",
+            "description": "add a Domain request",
+            "required": [
+                "Domain"
+            ],
+            "properties": {
+                "Domain": {
+                    "$ref": "AddDomainReq"
+                }
+            }
+        },
+		"AddDomainReq":{
+			"id": "AddDomainReq",
+			"description": "A basic add Domain request",
+			"required": [
+				"@title",
+				"@description",
+				"@type",
+				"Metadata"
+			],
+			"properties": {
+				"@title": {					
+					"type": "string"
+				},
+				"@description": {
+					"type": "string"					
+				},
+			    "@type": {
+					"type": "string"					
+				},
+				"Metadata": {
+					"$ref":"Metadata"
+				}
+			}
+		},
+		"Domain": {
+            "id": "Domain",
+            "description": "set Domain request",
+            "required": [
+                "Domain"
+            ],
+            "properties": {
+                "Domain": {
+                    "$ref": "setDomainReq"
+                }
+            }
+        },
+        "setDomainReq": {
+            "id": "setDomainReq",
+            "description": "A basic set Domain request",
+            "required": [
+                "@title",
+				"@description",
+				"@type",
+				"Metadata"				
+            ],
+            "properties": {
+                "@title": {					
+					"type": "string"
+				},
+				"@description": {					
+					"type": "string"
+				},
+				"@type": {
+					"type": "string"					
+				},
+				"Metadata":{
+					"$ref":"Metadata"}
+            }
+        }
+	}
+}

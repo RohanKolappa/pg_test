@@ -1,0 +1,30 @@
+
+let $dirType := "_DIRTYPE_"
+let $requestedDirNID := "_REQUESTEDDIRNID_"
+let $dirList := (
+				for $child in #OBJ_MediaStreamDirResource_OBJ#
+					where $child[(//ParentMediaDirNID='NONE') and  
+	                 (//MediaStorePortResourceNIDList[MediaStorePortResourceNID/@readOnly != 'true' and  
+	                  MediaStorePortResourceNID/@priority and MediaStorePortResourceNID/@priority!='']) ]
+	   				order by $child/min(.//MediaStorePortResourceNIDList/MediaStorePortResourceNID[@priority!='']/@priority)
+   				return $child )   
+
+
+let $dirList := if ($requestedDirNID != '')  then  
+                   let $requestedDir := $dirList//MediaStreamDirResource[@NID=$requestedDirNID] 
+                   return $requestedDir
+			         	else 
+                   $dirList
+                      
+let $pvrdirList :=  if ($dirType = 'PVR') then
+                         let $parentDirNIDList := $dirList//MediaStreamDirResource/@NID/data(.)             
+                         let $pvrDirList := for $child in collection('ipvs.default.mediastreamdirresourcelist')/*[.//ParentMediaDirNID= $parentDirNIDList  and .//Title='PVR'] 
+                                            return $child
+                         return $pvrDirList
+                     else <PVRDirList/>
+
+
+let $resultList := for $dir in $dirList                        
+ 				   return  <Dir> {$dir} <PVRDir>{$pvrdirList//MediaStreamDirResource[.//ParentMediaDirNID= $dir/@NID/data(.)]}</PVRDir></Dir>
+			         
+return <DirList> {$resultList } </DirList>

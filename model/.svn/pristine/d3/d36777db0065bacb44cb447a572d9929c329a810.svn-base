@@ -1,0 +1,8 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="false">
+	<validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//MediaDir</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/MediaStreamDirResource/MediaStorePortResourceNID" action="delete"/>	
+  </validation>
+</CustomValidation>

@@ -1,0 +1,133 @@
+(: ------------------- Begin NATFilterApp.txt -------------------- :)
+
+declare function local:ruleKeyToXPath($ruleKey as xs:string)
+as xs:string 
+{
+(:
+	let $result := $ruleKey
+	return $result
+:)
+	let $toKey := 'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	let $fromKey :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+	let $to := "To"
+	let $from := "From"
+	let $empty := ""
+	return 
+		if($ruleKey = $toKey)
+		then $to
+		else if($ruleKey = $fromKey) then $from
+		else $empty
+};
+
+declare function local:ruleKeyFilterToXPath($ruleKeyFilter as element()*)
+as xs:string
+{
+	let $LHRuleKey := local:ruleKeyToXPath(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey))
+	let $LHTagName := data($ruleKeyFilter/RuleKeyLHTagName/TagName)
+	let $op := local:getOp(data($ruleKeyFilter/MatchOp))
+	let $RHRuleKey := local:ruleKeyToXPath(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey))
+	let $RHTagName := data($ruleKeyFilter/RuleKeyRHTagName/TagName)
+
+(: impl assuming there is no "and" in the TagNames
+	let $result := concat("//", $LHRuleKey, $LHTagName, $matchOp, "//", $RHRuleKey, $RHTagName)
+:)
+	let $lhtokens := tokenize($LHTagName, " and ")
+	let $rhtokens := tokenize($RHTagName, " and ")
+	let $result := concat("//", $LHRuleKey, $lhtokens[1], " and  " , "//", $RHRuleKey, $rhtokens[1],  "and  ", "//", $LHRuleKey, $lhtokens[2], $op, "//", $RHRuleKey, $rhtokens[2])
+	
+	return $result
+};
+
+declare function local:getOp($matchOp as xs:string)
+as xs:string
+{	
+	let $equal := "="
+	let $notequal := "!="
+	let $empty :=  ""
+	return 
+	if($matchOp = 'EqualTo') then $equal
+	else if($matchOp = 'NotEqualTo') then $notequal
+	else $empty
+};
+
+declare function local:getRegexp($regexp as xs:string)
+as xs:string
+{	
+	let $result := concat("'", $regexp, "'")
+	let $empty :=  ""
+	return 
+	if($regexp != '') then $result
+	else $empty
+};
+
+declare function local:filterNIDToXPath($filterNID as xs:string)
+as xs:string
+{
+	for $d in index-scan('IPVSi_nids_default', $filterNID, 'EQ')/..
+	return concat(data($d//LHTagName), local:getOp(data($d//MatchOp)), local:getRegexp(data($d//RHRegexp)))
+};
+
+declare function local:addXPath($a as xs:string, $b as xs:string)
+as xs:string 
+{
+	let $empty := ""
+	return
+		if($a = $empty) then $b
+		else if($b = $empty) then $a
+		else string-join(($a, $b), " and ")
+}; 
+
+declare function local:processNATFilter($natfilterdoc as element()*)
+as element()*
+{
+	let $toXPath := string-join ( 
+		(
+			for $d in $natfilterdoc//SrcFilter/MediaStreamResourceFilterNID
+			return local:filterNIDToXPath(data($d))
+		),
+		" or "
+	)
+	let $fromXPath := string-join ( 
+		(
+			for $d in $natfilterdoc//DstFilter/MediaStreamResourceFilterNID
+			return local:filterNIDToXPath(data($d))
+		),
+		" or "
+	)
+	let $ruleKeyXPath := string-join ( 
+		(
+			for $d in $natfilterdoc//RuleKeyTagFilter
+			return local:ruleKeyFilterToXPath($d)
+		),
+		" and "
+	)
+
+	let $xpath1 := local:addXPath($fromXPath, $toXPath)
+	let $xpath := local:addXPath($xpath1, $ruleKeyXPath)
+
+	let $nattableXPath := string-join ( 
+		(
+			for $d in $natfilterdoc//PVRFilter/MediaStreamResourceFilterNID
+			return local:filterNIDToXPath(data($d))
+		),
+		" or "
+	)
+(:
+	let $nattableXPath := ""
+:)
+	return <filter><filterxpath>{$xpath}</filterxpath><nattablexpath>{$nattableXPath}</nattablexpath></filter> 
+};
+
+declare function local:getNATFilterList()
+as element()*
+{
+	let $natfilterlist := (
+		for $d in index-scan('IPVSis_colnids_default', 'default.mediastreamfilterlist', 'EQ')/..
+		return local:processNATFilter($d)
+	)
+	return <result>{$natfilterlist}</result>
+};
+let $natfilterlistDoc := local:getNATFilterList()
+return $natfilterlistDoc
+
+(: ------------------- End NATFilterApp.txt -------------------- :)

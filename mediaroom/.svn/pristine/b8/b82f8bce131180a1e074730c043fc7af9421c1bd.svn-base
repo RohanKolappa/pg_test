@@ -1,0 +1,27 @@
+#common setup
+#------------
+set dummy 1
+source ./am_xml_scripts/hello.tcl
+doputs 1 "################# START ###################"
+
+if [setup_mediaroom_client] {
+	perror "Failed setting up client"
+	return
+}
+proc dummy_database_setup {msusername xmppresourcetitle servicedomain msuserid } {
+	upvar 1 $msuserid userid
+	dummy_database
+	pass_if [initialize_DB] "IntializeDB"
+	pass_if [login_setup $msusername $xmppresourcetitle $servicedomain userid] "LoginSetup $msusername"
+}
+
+proc dummy_database_teardown { msusername msuserid } {
+	pass_if [login_teardown $msuserid] "LoginTeardown $msusername"
+}
+
+source mr_scripts/room_test_utils.tcl
+if { $dummy } {
+	dummy_database_setup $g_msusername $g_xmppresourcetitle $g_servicedomain msuserid
+}
+#pass_if [login_setup $g_adminusername $g_xmppresourcetitle $g_servicedomain adminuserid] "LoginSetup $g_adminusername"
+

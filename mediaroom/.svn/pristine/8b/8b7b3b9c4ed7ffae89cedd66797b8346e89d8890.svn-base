@@ -1,0 +1,708 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<relaytrace>
+<AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.AssetRoot.AssetResourceList.lab1relay1" KeyElementRelativeXPath="Info/Title">
+  <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+  <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.AssetRoot.AssetResourceList.lab1relay1.Info">
+    <Groups>
+      <Tag Name="Location" Value="Stanford" />
+    </Groups>
+    <Title>lab1relay1</Title>
+    <Description>string</Description>
+    <Type>DMS-1000-Device</Type>
+    <DeviceNID>zzzz_122191671576859ae4526</DeviceNID>
+    <AssetPrivateKey>
+      <KeyScheme />
+      <KeyData />
+    </AssetPrivateKey>
+    <AssetPrivateData />
+  </Info>
+  <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.AssetRoot.AssetResourceList.lab1relay1.Contact">
+    <OwnerUserJID>srcrelayuser-miyertest1@192.168.1.209/lab1relay1</OwnerUserJID>
+    <Reachable>string</Reachable>
+  </Contact>
+  <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.AssetRoot.AssetResourceList.lab1relay1.State">
+    <StateFlag>Ready</StateFlag>
+    <StateMsg>string</StateMsg>
+  </State>
+</AssetResource>
+
+
+<info time='1222116537468'>SourceStreamAgent@srcrelayuser-miyertest1/zzzz_1222112354612b84a1356 > Request action=StartRequest</info>
+<SourceTable.createRelay>
+<SourceTable.GetProfileRelayInfo>
+<MediaRoomServiceUtils.GetRelayPort>
+<t.0.getData.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getPortNID(MediaRoomServiceUtils.java:85)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1133)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:138)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+]]></stacktrace>
+</t.0.getData.zzzz_1221916712899a842851>
+</MediaRoomServiceUtils.GetRelayPort>
+<T.0.MediaRoomServiceUtils.GetRelayPort/>
+<MediaRoomServiceUtils.GetPathForRelayPortToSourceConnection>
+<GetRelayListRequest>
+<GetDestGroups>
+<GetUserAndResourceGroups>
+<GetResource>
+<t.0.getDataBulk.zzzz_1221916715229ec90875a>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:575)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:738)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:79)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getRelayDestination(MediaRoomServiceUtils.java:517)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:102)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1157)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916715229ec90875a>
+</GetResource>
+<T.16.GetResource/>
+<GetUserForResourceContactJID>
+<t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.UserRoot.UserList>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getChildren(XMPPI.java:245)
+	com.ipvs.common.service.MRDB.getChildren(MRDB.java:303)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1579)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getRelayDestination(MediaRoomServiceUtils.java:517)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:102)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1157)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:138)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.UserRoot.UserList>
+<t.0.getDataBulk.zzzz_1221916714953ae1217bb>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1589)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getRelayDestination(MediaRoomServiceUtils.java:517)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:102)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916714953ae1217bb>
+</GetUserForResourceContactJID>
+<T.125.GetUserForResourceContactJID/>
+</GetUserAndResourceGroups>
+<T.172.GetUserAndResourceGroups/>
+</GetDestGroups>
+<T.172.GetDestGroups/>
+<GetSourceGroups>
+<t.0.getData.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getPortNID(MediaRoomServiceUtils.java:85)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSourceType(MediaRoomServiceUtils.java:107)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:674)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1157)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:138)
+]]></stacktrace>
+</t.0.getData.zzzz_1221916712899a842851>
+<GetUserAndResourceGroups>
+<GetResource>
+<t.0.getDataBulk.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:575)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:738)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:79)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1157)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916712899a842851>
+</GetResource>
+<T.16.GetResource/>
+<GetUserForResourceContactJID>
+<t.15.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.UserRoot.UserList>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getChildren(XMPPI.java:245)
+	com.ipvs.common.service.MRDB.getChildren(MRDB.java:303)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1579)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getProfileRelayInfo(MediaRoomServiceUtils.java:1157)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:138)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.15.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.UserRoot.UserList>
+<t.0.getDataBulk.zzzz_1221916714953ae1217bb>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1589)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916714953ae1217bb>
+<t.62.getDataBulk.zzzz_12219167174717749d2b1>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1589)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+]]></stacktrace>
+</t.62.getDataBulk.zzzz_12219167174717749d2b1>
+<t.0.getDataBulk.zzzz_1221916706809ea183570>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1589)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916706809ea183570>
+<t.0.getDataBulk.zzzz_12219167125952ed761f>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:1589)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:681)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_12219167125952ed761f>
+</GetUserForResourceContactJID>
+<T.109.GetUserForResourceContactJID/>
+</GetUserAndResourceGroups>
+<T.125.GetUserAndResourceGroups/>
+</GetSourceGroups>
+<T.141.GetSourceGroups/>
+<GetDestRelay>
+</GetDestRelay>
+<T.125.GetDestRelay/>
+<GetSourceRelay>
+<GetRelayFromAssetManagement>
+<doGet>
+<t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamPortResourceRoot.MediaStreamRelayPortResourceList>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getChildren(XMPPI.java:245)
+	com.ipvs.common.service.MRDB.getChildren(MRDB.java:303)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:935)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:440)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:619)
+]]></stacktrace>
+</t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamPortResourceRoot.MediaStreamRelayPortResourceList>
+<t.0.getDataBulk.zzzz_1221916715229ec90875a>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:949)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916715229ec90875a>
+<t.0.getDataBulk.zzzz_1221916715229ec90875a>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:960)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+]]></stacktrace>
+</t.0.getDataBulk.zzzz_1221916715229ec90875a>
+</doGet>
+<T.32.doGet/>
+</GetRelayFromAssetManagement>
+<T.62.GetRelayFromAssetManagement/>
+<GetRelayFromAssetManagement>
+<doGet>
+<t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamPortResourceRoot.MediaStreamRelayPortResourceList>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getChildren(XMPPI.java:245)
+	com.ipvs.common.service.MRDB.getChildren(MRDB.java:303)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:935)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:440)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:619)
+]]></stacktrace>
+</t.0.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamPortResourceRoot.MediaStreamRelayPortResourceList>
+<t.16.getDataBulk.zzzz_1221916715229ec90875a>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:949)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+]]></stacktrace>
+</t.16.getDataBulk.zzzz_1221916715229ec90875a>
+<t.15.getDataBulk.zzzz_1221916715229ec90875a>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:960)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:388)
+]]></stacktrace>
+</t.15.getDataBulk.zzzz_1221916715229ec90875a>
+</doGet>
+<T.31.doGet/>
+</GetRelayFromAssetManagement>
+<T.47.GetRelayFromAssetManagement/>
+<GetProfileFromAssetManagement>
+<doGet>
+<t.16.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamProfileList>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getChildren(XMPPI.java:245)
+	com.ipvs.common.service.MRDB.getChildren(MRDB.java:303)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:935)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:420)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getProfileFromAssetManagement(GetRelayListRequestHandler.java:414)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.generateRelayProfileElement(GetRelayListRequestHandler.java:573)
+]]></stacktrace>
+</t.16.getChildren.MEDIAROOM.SERVICE.DOMAIN.miyertest1.ServiceRoot.MediaRoot.MediaStreamProfileList>
+<t.15.getDataBulk.zzzz_1221916714409c276025f>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:949)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:420)
+]]></stacktrace>
+</t.15.getDataBulk.zzzz_1221916714409c276025f>
+<t.16.getDataBulk.zzzz_1221916714409c276025f>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_REQ_DEPTH(MRXMLDBUtils.java:2098)
+	com.ipvs.common.db.MRXMLDBUtils.readElements_NID_REQ_NodeDepth(MRXMLDBUtils.java:573)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:960)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:611)
+	com.ipvs.assetadminservice.handler.AssetManagementRequestHandler.getResponse(AssetManagementRequestHandler.java:162)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:235)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getAssetAdminResponse(MediaRoomServiceUtils.java:420)
+]]></stacktrace>
+</t.16.getDataBulk.zzzz_1221916714409c276025f>
+</doGet>
+<T.109.doGet/>
+</GetProfileFromAssetManagement>
+<T.141.GetProfileFromAssetManagement/>
+</GetSourceRelay>
+<T.375.GetSourceRelay/>
+<GetPathToSourceRelay>
+</GetPathToSourceRelay>
+<T.0.GetPathToSourceRelay/>
+</GetRelayListRequest>
+<T.813.GetRelayListRequest/>
+</MediaRoomServiceUtils.GetPathForRelayPortToSourceConnection>
+<T.828.MediaRoomServiceUtils.GetPathForRelayPortToSourceConnection/>
+</SourceTable.GetProfileRelayInfo>
+<T.844.SourceTable.GetProfileRelayInfo/>
+<CreateConnectionRequest>
+<Check_Source_Dest_Profile_Relay>
+<t.0.getData.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getPortNID(MediaRoomServiceUtils.java:85)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.sourceExists(MediaRoomServiceUtils.java:119)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:94)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+]]></stacktrace>
+</t.0.getData.zzzz_1221916712899a842851>
+<t.62.nodeExists.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_nodeExists(XMPPI.java:229)
+	com.ipvs.common.service.MRDB.objectExists(MRDB.java:283)
+	com.ipvs.common.db.MRXMLDBUtils.objectExists(MRXMLDBUtils.java:2341)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.sourceExists(MediaRoomServiceUtils.java:121)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:94)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+]]></stacktrace>
+</t.62.nodeExists.zzzz_1221916712899a842851>
+<t.0.nodeExists.zzzz_1221916714409c276025f>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_nodeExists(XMPPI.java:229)
+	com.ipvs.common.service.MRDB.objectExists(MRDB.java:283)
+	com.ipvs.common.db.MRXMLDBUtils.objectExists(MRXMLDBUtils.java:2341)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:104)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamURL(SourceTable.java:749)
+]]></stacktrace>
+</t.0.nodeExists.zzzz_1221916714409c276025f>
+</Check_Source_Dest_Profile_Relay>
+<T.62.Check_Source_Dest_Profile_Relay/>
+<Add_Room_Source_Stream>
+<AddMediaRoomRequest>
+<AddMediaRoomNode>
+<t.141.addNodeWithNodeIDBulk.zzzz_1222116538718ef53aa54>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_addNodeWithNodeID(XMPPI.java:309)
+	com.ipvs.common.service.MRDB.addObjectWithNodeID(MRDB.java:421)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal_BULK(MRXMLDBUtils.java:2255)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal(MRXMLDBUtils.java:1723)
+	com.ipvs.common.db.MRXMLDBUtils.addElement(MRXMLDBUtils.java:1148)
+	com.ipvs.mediaroomservice.handler.AddMediaRoomRequestHandler.getResponse(AddMediaRoomRequestHandler.java:67)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:160)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.141.addNodeWithNodeIDBulk.zzzz_1222116538718ef53aa54>
+</AddMediaRoomNode>
+<T.156.AddMediaRoomNode/>
+<AddTrackList>
+<t.328.addNodeWithNodeIDBulk.zzzz_1222116538718ef53aa54.systemtracklist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_addNodeWithNodeID(XMPPI.java:309)
+	com.ipvs.common.service.MRDB.addObjectWithNodeID(MRDB.java:421)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal_BULK(MRXMLDBUtils.java:2255)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal(MRXMLDBUtils.java:1723)
+	com.ipvs.common.db.MRXMLDBUtils.addElement(MRXMLDBUtils.java:1148)
+	com.ipvs.mediaroomservice.handler.AddMediaRoomRequestHandler.getResponse(AddMediaRoomRequestHandler.java:81)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:160)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.328.addNodeWithNodeIDBulk.zzzz_1222116538718ef53aa54.systemtracklist>
+</AddTrackList>
+<T.359.AddTrackList/>
+</AddMediaRoomRequest>
+<T.703.AddMediaRoomRequest/>
+<AddMediaSourceRequest>
+<t.0.nodeExists.zzzz_1222116538718ef53aa54.systemtracklist.StreamTrack>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_nodeExists(XMPPI.java:229)
+	com.ipvs.common.service.MRDB.objectExists(MRDB.java:283)
+	com.ipvs.common.db.MRXMLDBUtils.objectExists(MRXMLDBUtils.java:2341)
+	com.ipvs.mediaroomservice.handler.AddMediaSourceRequestHandler.getResponse(AddMediaSourceRequestHandler.java:72)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:182)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+]]></stacktrace>
+</t.0.nodeExists.zzzz_1222116538718ef53aa54.systemtracklist.StreamTrack>
+<GetSourceType>
+<t.0.getData.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getPortNID(MediaRoomServiceUtils.java:85)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSourceType(MediaRoomServiceUtils.java:107)
+	com.ipvs.mediaroomservice.handler.AddMediaSourceRequestHandler.getResponse(AddMediaSourceRequestHandler.java:77)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:182)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.0.getData.zzzz_1221916712899a842851>
+</GetSourceType>
+<T.16.GetSourceType/>
+<GetContactJID>
+<t.0.getData.zzzz_1221916712899a842851>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getPortNID(MediaRoomServiceUtils.java:85)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getContactJID(MediaRoomServiceUtils.java:170)
+	com.ipvs.mediaroomservice.handler.AddMediaSourceRequestHandler.getResponse(AddMediaSourceRequestHandler.java:83)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:182)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.0.getData.zzzz_1221916712899a842851>
+<t.16.getDataBulk.zzzz_1221916712899a842851.Contact>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:285)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:391)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_BULK_NID_NO_REQ_DEPTH(MRXMLDBUtils.java:2065)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:484)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ_NodeDepth(MRXMLDBUtils.java:474)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ(MRXMLDBUtils.java:464)
+	com.ipvs.common.db.MRXMLDBUtils.readElement_NID_NO_REQ(MRXMLDBUtils.java:454)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:1165)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getContactJID(MediaRoomServiceUtils.java:194)
+]]></stacktrace>
+</t.16.getDataBulk.zzzz_1221916712899a842851.Contact>
+</GetContactJID>
+<T.16.GetContactJID/>
+<AddMediaSourceNode>
+<t.172.addNodeWithNodeIDBulk.zzzz_1222116539453521123e4>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_addNodeWithNodeID(XMPPI.java:309)
+	com.ipvs.common.service.MRDB.addObjectWithNodeID(MRDB.java:421)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal_BULK(MRXMLDBUtils.java:2255)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal(MRXMLDBUtils.java:1723)
+	com.ipvs.common.db.MRXMLDBUtils.addElement(MRXMLDBUtils.java:1148)
+	com.ipvs.mediaroomservice.handler.AddMediaSourceRequestHandler.getResponse(AddMediaSourceRequestHandler.java:98)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:182)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.172.addNodeWithNodeIDBulk.zzzz_1222116539453521123e4>
+</AddMediaSourceNode>
+<T.172.AddMediaSourceNode/>
+</AddMediaSourceRequest>
+<T.204.AddMediaSourceRequest/>
+<AddStreamRequest>
+<GetMediaSource>
+<t.296.getData.zzzz_1222116539453521123e4>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:116)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:205)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+]]></stacktrace>
+</t.296.getData.zzzz_1222116539453521123e4>
+</GetMediaSource>
+<T.296.GetMediaSource/>
+<GetDestType>
+</GetDestType>
+<T.0.GetDestType/>
+<AddStreamNode>
+<t.156.addNodeWithNodeIDBulk.zzzz_122211653995343313b7>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_addNodeWithNodeID(XMPPI.java:309)
+	com.ipvs.common.service.MRDB.addObjectWithNodeID(MRDB.java:421)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal_BULK(MRXMLDBUtils.java:2255)
+	com.ipvs.common.db.MRXMLDBUtils.addElementInternal(MRXMLDBUtils.java:1723)
+	com.ipvs.common.db.MRXMLDBUtils.addElement(MRXMLDBUtils.java:1148)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:218)
+	com.ipvs.mediaroomservice.handler.CreateConnectionRequestHandler.getResponse(CreateConnectionRequestHandler.java:205)
+	com.ipvs.mediaroomservice.impl.SourceTable.createRelayRoom(SourceTable.java:172)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:239)
+]]></stacktrace>
+</t.156.addNodeWithNodeIDBulk.zzzz_122211653995343313b7>
+</AddStreamNode>
+<T.156.AddStreamNode/>
+<info time='1222116540109'>AddStreamRequestHandler@srcrelayuser-miyertest1/zzzz_122211653995343313b7 > WATCH Message to DestStreamAgent@srcrelayuser-miyertest1</info>
+</AddStreamRequest>
+<T.484.AddStreamRequest/>
+</Add_Room_Source_Stream>
+<T.1438.Add_Room_Source_Stream/>
+</CreateConnectionRequest>
+<T.1516.CreateConnectionRequest/>
+<info time='1222116540125'>SourceTable::createRelayRoom@srcrelayuser-miyertest1@192.168.1.209/lab1relay1 roomNID=zzzz_1222116538718ef53aa54</info>
+</SourceTable.createRelay>
+<T.2391.SourceTable.createRelay/>
+<SourceTable.startRelayStream>
+<AddStreamActionRequest>
+<GetStreamDataDoc>
+<t.140.getData.zzzz_122211653995343313b7>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:109)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:56)
+	com.ipvs.common.XMPPI.PubSub_getData(XMPPI.java:118)
+	com.ipvs.common.service.MRDB.getObjectData(MRDB.java:253)
+	com.ipvs.common.db.MRXMLDBUtils.getObjectData(MRXMLDBUtils.java:2334)
+	com.ipvs.mediaroomservice.handler.AddStreamActionRequestHandler.getResponse(AddStreamActionRequestHandler.java:218)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.requestStreamAction(MediaRoomServiceUtils.java:1257)
+	com.ipvs.mediaroomservice.impl.SourceTable.createInput(SourceTable.java:246)
+	com.ipvs.mediaroomservice.impl.SourceTable.getInstanceElement(SourceTable.java:468)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamElement(SourceTable.java:540)
+	com.ipvs.mediaroomservice.impl.SourceTable.getStreamURL(SourceTable.java:749)
+]]></stacktrace>
+</t.140.getData.zzzz_122211653995343313b7>
+</GetStreamDataDoc>
+<T.140.GetStreamDataDoc/>
+<info time='1222116540281'>AddStreamActionRequestHandler@srcrelayuser-miyertest1/zzzz_122211653995343313b7 > NOTIFY Message to DestStreamAgent@srcrelayuser-miyertest1</info>
+</AddStreamActionRequest>
+<T.156.AddStreamActionRequest/>
+</SourceTable.startRelayStream>
+<T.156.SourceTable.startRelayStream/>
+<info time='1222116540343'>AddDeviceInstance User=srcrelayuser-miyertest1@192.168.1.209/lab1relay1 Type=RELAY  NID=zzzz_122191671576859ae4526.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2001</info>
+<info time='1222116540484'>AddDeviceInstance User=srcrelayuser-miyertest1@192.168.1.209/lab1relay1 Type=STREAM  NID=zzzz_122191671576859ae4526.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2002</info>
+<info time='1222116540500'>UpdateStreamInstance User=srcrelayuser-miyertest1@192.168.1.209/lab1relay1  StreamNID=zzzz_1222112354612b84a1356</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1" NID="zzzz_122191671576859ae4526">
+  <Instance NID="zzzz_1221916712899a842851.SHARED" instanceType="SHARED">
+    <Input ssInstanceID="2001" inputType="RELAY" sourceNID="zzzz_1221916712899a842851" offset="0" roomNID="zzzz_1222116538718ef53aa54" streamNID="zzzz_122211653995343313b7" startTime="1222116540421" startTimecode="0" NID="zzzz_122191671576859ae4526.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2001" />
+    <MediaSource NID="zzzz_1222112354386887c8c6b" mediaSourceType="ENCODER" startTimecode="0">
+      <Stream NID="zzzz_1222112354612b84a1356" ownerUser="roomuser-miyertest1" roomNID="zzzz_1222112353770decd6493" state="1">
+        <Output ssInstanceID="2002" outputType="STREAM" destNID="" streamURL="http://10.1.5.151/mpeg4/1/media.sdp" NID="zzzz_122191671576859ae4526.DeviceStatus.ServiceElementsStatus.StreamingServiceStatus.InstanceList.2002" />
+      </Stream>
+    </MediaSource>
+  </Instance>
+</SourceTable>
+
+
+<info time='1222116540531'>SourceStreamAgent@srcrelayuser-miyertest1/zzzz_1222112354612b84a1356 > Response action=Start to DestStreamAgent@roomuser-miyertest1</info>
+<info time='1222116540531'>ServiceClient@srcrelayuser-miyertest1@192.168.1.209/lab1relay1 DELAY=3078 agentName=srcrelayuser-miyertest1/com.ipvs.mediaroomservice.impl.SourceStreamAgent action=StartRequest</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<DestTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1">
+  <Instance NID="zzzz_122211653995343313b7" sourceAgentJID="deviceuser-miyertest1@192.168.1.209/lab1tx1" ownerUser="srcrelayuser-miyertest1" roomNID="zzzz_1222116538718ef53aa54" state="0" />
+</DestTable>
+
+
+<info time='1222116541562'>DestStreamAgent@srcrelayuser-miyertest1/zzzz_122211653995343313b7 > request action=StartRequest to SourceStreamAgent@deviceuser-miyertest1</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<DestTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1">
+  <Instance NID="zzzz_122211653995343313b7" sourceAgentJID="deviceuser-miyertest1@192.168.1.209/lab1tx1" ownerUser="srcrelayuser-miyertest1" roomNID="zzzz_1222116538718ef53aa54" state="4" />
+</DestTable>
+
+
+<info time='1222116541734'>AddStreamActionRequestHandler@srcrelayuser-miyertest1/zzzz_122211653995343313b7 > NOTIFY Message to srcrelayuser-miyertest1/Operator@srcrelayuser-miyertest1</info>
+<info time='1222116541984'>SourceTable@srcrelayuser-miyertest1 processing relayInpuStreamStarted streamNID=zzzz_122211653995343313b7</info>
+<info time='1222116542031'>srcrelayuser-miyertest1@192.168.1.209/lab1relay1 SourceStreamAgent:updateSSRelayInput ssInstanceID=2001 with URL=http://10.1.5.151/mpeg4/1/media.sdp</info>
+<info time='1222116542031'>SourceStreamAgent@srcrelayuser-miyertest1/zzzz_1222112354612b84a1356 > SourceEvent Message action=SourceEvent to DestStreamAgent@roomuser-miyertest1</info>
+<info time='1222116542031'>DestStreamAgent@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Start streamNID=zzzz_122211653995343313b7</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<DestTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1">
+  <Instance NID="zzzz_122211653995343313b7" sourceAgentJID="deviceuser-miyertest1@192.168.1.209/lab1tx1" ownerUser="srcrelayuser-miyertest1" roomNID="zzzz_1222116538718ef53aa54" state="1" />
+</DestTable>
+
+
+<info time='1222116562968'>DestStreamAgent@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:handleRoomUnavailable roomNID=zzzz_1222112353770decd6493</info>
+<info time='1222116562968'>SourceTable@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:handleRoomUnavailable roomNID=zzzz_1222112353770decd6493</info>
+
+<info time='1222116563125'>srcrelayuser-miyertest1@192.168.1.209/lab1relay1:SourceTable:deleteInput Started shutdown of Relay roomNID=zzzz_1222116538718ef53aa54</info>
+<info time='1222116563125'>SourceTable@srcrelayuser-miyertest1:deleteRelayRoom roomNID=zzzz_1222116538718ef53aa54</info>
+<info time='1222116563250'>DeleteMediaRoomRequestHandler:getResponse: done deleteChatRoom</info>
+
+<info time='1222116563437'>DeleteMediaRoomRequestHandler:getResponse: done deleteMediaRoomNode</info>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1" NID="zzzz_122191671576859ae4526" />
+
+
+<info time='1222116563828'>DestStreamAgent@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:handleRoomUnavailable roomNID=zzzz_1222116538718ef53aa54</info>
+<info time='1222116563828'>DestStreamAgent@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:handleUnwatchStream Removing streamNID from watchList streamNID=zzzz_122211653995343313b7</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<DestTable userJID="srcrelayuser-miyertest1@192.168.1.209/lab1relay1" />
+
+
+<info time='1222116563828'>SourceTable@srcrelayuser-miyertest1@192.168.1.209/lab1relay1:handleRoomUnavailable roomNID=zzzz_1222116538718ef53aa54</info>

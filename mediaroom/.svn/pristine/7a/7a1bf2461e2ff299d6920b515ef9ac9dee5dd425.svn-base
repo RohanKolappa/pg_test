@@ -1,0 +1,46 @@
+	let $userJID := '_USERJID_'
+	let $detail := '_DETAIL_'
+	let $userName := tokenize($userJID, "@")[1]
+	let $resourceTitle := tokenize($userJID, "/")[2]
+	let $userDoc := (
+		for $user in #OBJ_User_OBJ# 
+		where $user/Username = $userName	
+		return $user
+	)
+	let $user := if (count($userDoc) = 0 ) then ''
+	             else <User NID='{data($userDoc/@NID)}' userName='{data($userDoc/Username)}' externalAuthentication='{data($userDoc/ExternalAuthentication)}'>
+		              {$userDoc/UserPrivateData}
+         		      {$userDoc/Groups}
+	 </User>
+	let $assetDoc := ( 
+			for $resource in #OBJ_AssetResource_OBJ# 
+			where $resource/Info/Title = $resourceTitle	
+		return $resource
+	)	
+
+	let $asset := if (count($assetDoc) = 0 ) then '' 
+	              else  <Asset NID='{data($assetDoc/@NID)}' title='{data($assetDoc//Title)}' 
+					state='{data($assetDoc//StateFlag)}' presence='{data($assetDoc//Presence)}'
+					type='{data($assetDoc//Type)}'>
+				    {$assetDoc//AssetPrivateKey}
+				    {$assetDoc//AssetPrivateData}			  
+			      	{$assetDoc//Groups}
+					<FeatureList>{
+					  for $feature in $assetDoc//FeatureList/Feature 
+					   where $feature/@Name!='' 
+					   return <Feature name='{data($feature/@Name)}'>{data($feature)}</Feature> }
+					</FeatureList>
+			       </Asset>
+	
+	let $assetResourceNID := if (count($assetDoc) = 0 ) then ''
+							 else data($assetDoc/@NID)
+    let $deviceDoc := (for $device in #OBJ_Device_OBJ# 
+			where $device/AssetResourceNID = $assetResourceNID	
+		return $device
+	) 
+	
+	let $ports := local:getPortList($assetResourceNID)
+	let $device := local:getDeviceConfigInfo($deviceDoc, $detail) 	
+	
+	return 
+		 <GetServiceClient> {$user} {$asset} {$ports} {$device} </GetServiceClient>

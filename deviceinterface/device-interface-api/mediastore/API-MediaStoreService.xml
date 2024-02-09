@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>MediaStoreService API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.0.1</revnumber>
+				
+				<date>8 Jan 2013</date>
+				<revremark>First Version of Media Store Agent Service API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+		<glossentry>
+			<glossterm>Device Interface</glossterm>
+			<glossdef>
+				<para>
+					This represents the external interface to a device.
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>Device Interface API</glossterm>
+			<glossdef>
+				<para>
+					The API accepted by the device on its external interface
+				</para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>MediaStoreService API</glossterm>
+			<glossdef>
+				<para>
+					The API accepted by the device on its external interface for MediaStoreService
+				</para>
+			</glossdef>
+		</glossentry>
+
+	</glossary>
+	<preface>
+		<title>Introduction</title>
+		<para>
+			This document contains the description of the device interface API for medisstore services
+		</para>
+	</preface>
+	<chapter>
+		<title>Dir API</title>
+		<para>
+			API Calls used to Upgrade Directory
+		</para>
+		<section>
+			<title>UpgradeDir</title>
+			<para>Upgrade the media store dir to current version</para>
+			<example>
+				<title>UpgradeDirRequest</title>
+				<itemizedlist>
+					<listitem>
+						<para>
+							<parameter>upgradeFiles: if true upgrades all media in the directory to latest version. </parameter>
+						</para>
+					</listitem>
+				</itemizedlist>
+				<programlisting>
+          <![CDATA[  
+   <UpgradeDirRequest byNID='' byUUID='' upgradeFiles='true/false'/>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>UpgradeDirResponse</title>
+				<programlisting>
+          <![CDATA[  
+   <UpgradeDirResponse/>
+]]>
+        </programlisting>
+			</example>
+		</section>
+	</chapter>
+	<chapter>
+		<title>File API</title>
+		<para>
+			API Calls used to Add/Delete/Set/Upgrade/Import/Export of File
+		</para>
+
+		<section>
+			<title>AddFile</title>
+			<para> API call used to add mediastore file in blob </para>
+			<example>
+				<title>AddFileRequest</title>
+				<programlisting>
+          <![CDATA[  
+   	<AddFileRequest byDirNID='' byDirID='' NID='' type='' uuid='' title=''  description='' streamType=''>
+	   <MetaData>
+	      <Tag Name=''/>
+	   </MetaData>		
+	   <MediaStreamProfileInfo/>	
+	</AddFileRequest>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>AddFileResponse</title>
+				<programlisting>
+          <![CDATA[  
+   	<AddFileResponse storeRevision='' NID=''/>
+]]>
+        </programlisting>
+			</example>
+		</section>
+		<section>
+			<title>SetFile</title>
+			<para> API call used to update mediastore file information in blob</para>
+			<example>
+				<title>SetFileRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	<SetFileRequest byDirNID='' byDirID=''>
+  		<File fileNID='' title='' description='' bypassAutoStorageRules=''>
+	   		<MetaData>
+	      		<Tag Name=''/>
+	   		</MetaData>			   	
+	   	</File>
+	</SetFileRequest>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>SetFileResponse</title>
+				<programlisting>
+          <![CDATA[  
+   	<SetFileResponse>
+   	   <File NID=''  storeRevision=''/>
+   	   <File NID=''  storeRevision=''/>
+   	   <File NID=''  storeRevision=''/>   	   
+   	</SetFileResponse>
+]]>
+        </programlisting>
+			</example>		
+		</section>
+		<section>
+			<title>SetFilePlaylengthAndSize</title>
+			<para> API call used to update file size and length in store. Sends request to appserver to update size and length in database</para>
+			<example>
+				<title>SetFilePlaylengthAndSizeRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	<SetFilePlaylengthAndSizeRequest byDirNID='' byDirID='' byUUID='' size='' length=''/>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>SetFilePlaylengthAndSizeResponse</title>
+				<programlisting>
+          <![CDATA[  
+   	<SetFilePlaylengthAndSizeResponse/>
+]]>
+        </programlisting>
+			</example>		
+		</section>
+		<section>
+			<title>DeleteFile</title>
+			<para> API call used to Delete mediastore file information in blob. If purge files true deletes immediately. </para>
+			<example>
+				<title>DeleteFileRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	  <DeleteFileRequest byDirNID='' byDirID='' purgeFiles='true/false'>
+  	     <File NID='' byUUID=''  storeRevision=''/>
+  	     <File NID='' byUUID=''  storeRevision=''/>
+  	     <File NID='' byUUID=''  storeRevision=''/>
+  	  </DeleteFileRequest>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>DeleteFileResponse</title>
+				<programlisting>
+          <![CDATA[  
+   	<DeleteFileResponse>
+   	   <File NID=''/>
+   	   <File NID=''/>
+   	</DeleteFileResponse>
+]]>
+        </programlisting>
+			</example>		
+		</section>
+		<section>
+			<title>UpgradeFile</title>
+			<para> API call used to Upgrade mediastore file to latest service version</para>
+			<example>
+				<title>UpgradeFileRequest</title>
+				<programlisting>
+          <![CDATA[  
+  	  <UpgradeFileRequest byDirNID='' byDirID=''>
+	  	   <File NID='' byUUID=''type='' uuid='' title=''  description='' streamType=''>
+			   <MetaData>
+			      <Tag Name=''/>
+			   </MetaData>		
+			   <MediaStreamProfileInfo/>
+		   </File>
+		   <File NID='' byUUID=''type='' uuid='' title=''  description='' streamType=''>
+			   <MetaData>
+			      <Tag Name=''/>
+			   </MetaData>		
+			   <MediaStreamProfileInfo/>
+		   </File>	   	   
+  	  </UpgradeFileRequest>
+]]>
+        </programlisting>
+			</example>
+			<example>
+				<title>UpgradeFileResponse</title>
+				<programlisting>
+          <![CDATA[  
+	   	<UpgradeFileResponse>
+	   	   <File NID=''  storeRevision=''/>
+	   	   <File NID=''  storeRevision=''/>
+	   	</UpgradeFileResponse>
+]]>
+        </programlisting>
+			</example>		
+		</section>
+	</chapter>	
+</book>
+	

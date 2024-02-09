@@ -1,0 +1,44 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Layout - Top/Over]]></name>
+  <icon><![CDATA[images/prototypes/layout-over.gif]]></icon>
+  <description><![CDATA[2 top-over-bottom panes in an adaptive layout grid.]]></description>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+    <strings jsxname="layoutRows" jsxrows="26,70,*" jsxwidth="100%" jsxheight="100%"></strings>
+    <dynamics jsxbgcolor="P3BG"></dynamics>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxheight="30"></variants>
+      <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="11" jsxtop="6" jsxfontsize="13"></variants>
+        <strings jsxname="label" jsxtext="Display Profile" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="16" jsxheight="16" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxenabled="0"></variants>
+        <strings jsxname="imagebutton" jsxtext="" jsximage="images/buttons/btnHelpOff.png" jsxoverimage="images/buttons/btnHelpOn.png" jsxdownimage="images/buttons/btnHelpOn.png" jsxonimage="images/buttons/btnHelpOn.png" jsxdisabledimage="images/buttons/btnHelpOff.png" jsxmargin="0 20 0 0"></strings>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxheight="50"></variants>
+      <strings jsxname="blkAssetClientCanvasProfile" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="10 8 8 8"></strings>
+      <dynamics jsxborder="@Outset Bottom"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12" jsxheight="18"></variants>
+        <strings jsxname="label" jsxtext="Choose a Display Profile for this device:" jsxtextalign="right" jsxcolor="#555555" jsxpadding="2 8 0 0"></strings>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="180" jsxheight="18" jsxxmlasync="0"></variants>
+        <strings jsxname="selDisplayProfileList" jsxmargin="0 4 0 0" jsxdefaulttext="Select Display Profile" jsxvalue="NONE"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+        <strings jsxname="label" jsxtext="Any additional changes made here will be applied to the device only.   &amp;nbsp;&amp;nbsp;To make permanent changes to the profile you will need to edit it from the Profiles section." jsxwidth="100%" jsxcolor="" jsxmargin="6 0 0 0" jsxtextalign="left" jsxclassname="helpText"></strings>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"></variants>
+      <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"></strings>
+      <include src="components/assets/profileDisplaySettings.xml" async="false"></include>
+    </object>
+  </object>
+</serialization>

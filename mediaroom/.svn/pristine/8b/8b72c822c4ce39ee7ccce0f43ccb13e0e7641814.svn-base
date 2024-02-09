@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileSMActionList>
+		<!-- EXPORT ACTIONS --> 	
+				
+		<FileSMAction action="handle_export_pack"  desc="Packaging file" 
+			ok="export_pack_trans_ok" resume="export_pack_trans_resume" error="export_pack_trans_error"/>
+		
+		<FileSMAction action="handle_export_fileTransfer"  desc="Downloading file" 
+			ok="export_fileTransfer_trans_ok" resume="export_fileTransfer_trans_resume" error="export_fileTransfer_trans_error"/>
+		
+		<!-- IMPORT ACTIONS --> 	
+		
+		<FileSMAction action="handle_import_fileTransfer"  desc="Transfering file from client" 
+			ok="import_fileTransfer_trans_ok" resume="import_fileTransfer_trans_resume" error="import_fileTransfer_trans_error"/>
+
+		 <FileSMAction action="handle_import_unpack"  desc="Unpacking files" 
+			ok="import_unpack_trans_ok" ok_2dot4="import_unpack_2dot4_trans_ok" resume="import_unpack_trans_resume" error="import_unpack_trans_error" />
+
+		<FileSMAction action="handle_unpack_recvd"  desc="Unpacking files" 
+			ok="import_fileTransfer_trans_ok" resume="import_fileTransfer_trans_resume" error="import_fileTransfer_trans_error"/>
+
+		<!--<FileSMAction action="handle_import_db"  desc="Initializing database import" 
+			ok="import_db_trans_ok" resume="import_db_trans_resume" error="import_db_trans_error"/>
+
+		<FileSMAction action="handle_import_cleanupMediaFile"  desc="Deleting media file" 
+			ok="import_cleanupMediaFile_trans_ok" resume="import_cleanupMediaFile_trans_resume" error="import_cleanupMediaFile_trans_error"/>
+
+		<FileSMAction action="handle_import_cleanupTempFiles"  desc="Deleting temp files" 
+			ok="import_cleanupTempFiles_trans_ok" resume="import_cleanupTempFiles_trans_resume" error="import_cleanupTempFiles_trans_error"/> --> 
+			
+		<!-- OFFLOAD ACTIONS --> 	
+		<FileSMAction action="handle_offload_pack"  desc="Packaging files" 
+			ok="offload_pack_trans_ok" resume="offload_pack_trans_resume" error="offload_pack_trans_error"/>
+		<FileSMAction action="handle_offload_fileTransfer"  desc="Transferring file to NAS" 
+			ok="offload_fileTransfer_trans_ok" resume="offload_fileTransfer_trans_resume" error="offload_fileTransfer_trans_error"/>
+		
+		<!-- common -->
+
+  		<FileSMAction action="handle_queue" desc="Queued" 
+			ok="queue_trans_ok" error="queue_trans_error" resume="queue_trans_resume"/>
+
+		<FileSMAction action="handle_ready"  desc="Initializing"  
+			ok="ready_trans_ok" resume="ready_trans_resume" error="ready_trans_error" 
+		 	export_ok="export_ready_trans_ok" import_ok="import_ready_trans_ok" offload_ok="offload_ready_trans_ok"/>
+
+		<FileSMAction action="handle_completed"  desc="Completed"  
+			ok="completed_trans_ok" resume="completed_trans_resume" error="completed_trans_error"/>
+
+
+		<FileSMAction action="error_resume"  desc="Retry queue"
+			ok="trans_ok" error="trans_error" resume="trans_resume"/>
+
+		<FileSMAction action="handle_error"  desc="Error"  
+			ok="trans_ok" error="trans_error" resume="trans_resume"/>
+		
+		<!-- todo -->
+		<FileSMAction action="handle_checkStatus"  desc="Checking time out"  
+			ok="checkStatus_trans_ok" resume="checkStatus_trans_resume" error="checkStatus_trans_error"/> 
+
+		<FileSMAction action="handle_dmsStatus"  desc="Checking time out"  
+			ok="dmsStatus_trans_ok" resume="dmsStatus_trans_resume" error="dmsStatus_trans_error" />
+		
+
+</FileSMActionList>

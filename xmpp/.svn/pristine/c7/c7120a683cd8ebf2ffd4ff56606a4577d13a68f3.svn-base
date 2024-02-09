@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir=".." default="build" name="mscomponent">
+    <description>
+    	IPVS MS Component build script.
+    </description>
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${basedir}/build/ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+	<!-- ======================================================================================= -->
+    <!-- GLOBAL PROPERTIES                                                                       -->
+    <!-- ======================================================================================= -->
+
+	<property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	
+	<property name="build.dir" value="${basedir}/build/lib" />
+	<property name="target.mediaroomplugin.dir" value="${basedir}/mscomponent" />
+	<property name="target.dir" value="${basedir}/target/mscomponent" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="src.java.dir" value="${src.dir}/java" />
+	<property name="src.bin.dir" value="${src.dir}/bin" />
+	<property name="src.conf.dir" value="${src.dir}/conf" />
+	<property name="plugin.xml" value="${src.dir}/java/plugin.xml" />
+
+	<property name="mediaroom.project.debug" value="${basedir}/../mediaroom"/>
+	<property name="model.project.debug" value="${basedir}/../model"/>
+	
+	<property name="ipvscomponent.project" value="${basedir}/../IPVSServComponent"/>
+	<property name="mediaroom.project" value="${basedir}/../../mediaroom"/>
+	<property name="model.project" value="${basedir}/../../model"/>
+
+	
+	<property name="mediaroom.3rdpartylib" value="${mediaroom.project}/3rdpartylib"/>
+	<property name="mediaroom.dist" value="${mediaroom.project}/dist"/>
+	<property name="ipvscomponent.targetlib" value="${ipvscomponent.project}/target/home/onair/ipvscomponent/lib"/>
+	 
+	<property name="ipvscomponent.jar.path" value="${ipvscomponent.targetlib}/ipvscomponent.jar"/>
+	<property name="mediaroom.jar.path" value="${mediaroom.dist}/mediaroom.jar"/>
+	<property name="mediaroom.3rdparty.jar.path" value="${mediaroom.project}/3rdpartylib"/>
+	<property name="model.jar.path" value="${model.project}/objectxml.jar"/>
+	<property name="debug" value="false"/>
+    <!-- ======================================================================================= -->
+    <!-- PATHs / PATTERNSETs / FILTERSETs                                                        -->
+    <!-- ======================================================================================= -->
+	<path id="mediaroomplugin.classpath">
+	   <fileset dir="${mediaroom.3rdpartylib}">
+	      <include name="*.jar"/>
+	      <exclude name="*-1.4.jar"/>
+	   </fileset>
+	   <fileset dir="${mediaroom.dist}">
+		   <include name="*.jar"/>
+		</fileset>
+		<fileset dir="${model.project}">
+		   <include name="*.jar"/>
+		</fileset>			
+		<fileset dir="${ipvscomponent.targetlib}">
+		   <include name="*.jar"/>
+		</fileset>			
+	</path>
+ 
+	
+
+    <!-- ======================================================================================= -->
+    <!-- TARGETs                                                                                 -->
+    <!-- ======================================================================================= -->
+
+    <!-- init ================================================================================== -->
+    <target name="init" depends="copyfiles" >
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="${src.java.dir}" excludes="**/*.launch, **/*.java"/>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="${build.dir}" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    	<delete dir="target"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project,build-release" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <!-- <echo message="${ant.project.name}: ${ant.file}"/> -->
+    	<echo level="info">set class path ${build.dir} = ${mediaroom.3rdpartylib} </echo>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="mediaroomplugin.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="${build.dir}"/>
+            <classpath refid="mediaroomplugin.classpath"/>
+        </javac>
+    </target>
+
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	
+	<!-- compile =============================================================================== -->
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+
+ 	<path id="classpath">
+		<fileset dir="Jars">
+			<include name="*.jar" />
+		</fileset>			
+	</path>
+ 
+
+	<path id="build-classpath">
+	   <fileset dir="${build.dir}">
+		  <include name="*.jar"/>
+	   </fileset>
+	</path>
+	<manifestclasspath property="lib.list" jarfile="${build.dir}/${jar.file}">
+		   <classpath refid="build-classpath" />
+	</manifestclasspath>	
+
+	<target name="copyfiles">
+			<!--  check if ipvscomponent project exists and it has target/lib/ipvscomponent.jar -->
+			<available file="${ipvscomponent.jar.path}"  property="ipvscomponent.jar.found"/>
+			<if>
+	            <equals arg1="${ipvscomponent.jar.found}" arg2="true"/>
+	            <then>	
+	            	<echo level="info">ipvscomponent copy '${ipvscomponent.jar.path}'= '${build.dir}/ipvscomponent.jar' </echo>
+	            	<!--
+	            	<copy file="${ipvscomponent.jar.path}" tofile="${build.dir}/ipvscomponent.jar" failonerror="${ipvscomponent.jar.exist}"/>
+	            	-->
+	            </then>
+	             <else><echo level="info">ipvscomponent project or  ipvscomponent.jar  not found ${ipvscomponent.jar.path}</echo></else>
+	        </if>
+			
+			<!--  check if mediaroom project exists and it has dist/mediaroom.jar -->
+			<available file="${mediaroom.jar.path}"  property="mediaroom.jar.found"/>
+			<if>
+	            <equals arg1="${mediaroom.jar.found}" arg2="true"/>
+	            <then>	
+	            	<echo level="info">mediaroom copy '${mediaroom.jar.path}'= '${build.dir}/mediaroom.jar' </echo>
+	            	<!--
+	        		<copy file="${mediaroom.jar.path}" tofile="${build.dir}/mediaroom.jar" failonerror="${mediaroom.jar.exist}"/>
+	            	-->
+					<!--	            	
+	        		<copy file="${mediaroom.jar.path}" tofile="${target.mediaroomplugin.dir}/lib/mediaroom.jar" failonerror="${mediaroom.jar.exist}"/>
+	        		-->
+	            </then>
+	             <else><echo level="info">mediaroom project or mediaroom.jar  not found ${mediaroom.jar.path}</echo></else>
+	        </if>			
+	
+			<!--  check if model project exists and it has objectxml.jar -->
+			<available file="${model.jar.path}"  property="model.jar.found"/>
+			<if>
+	            <equals arg1="${model.jar.found}" arg2="true"/>
+	            <then>	
+	            	<!--
+	        		<copy file="${model.jar.path}" tofile="${target.mediaroomplugin.dir}/lib/objectxml.jar" failonerror="${mediaroom.jar.exist}"/>
+	        		-->
+	            </then>
+	             <else><echo level="info">model project or model.jar not found ${model.jar.path}</echo></else>
+	        </if>			
+			 
+			<!--  check if mediaroom project exists and it has 3rd party jars exists -->
+			<available file="${mediaroom.3rdparty.jar.path}"  property="mediaroom.3rdparty.jar.path.found"/>
+			<if>
+	            <equals arg1="${mediaroom.3rdparty.jar.path.found}" arg2="true"/>
+	            <then>	
+	            	<!--
+	            	<copy todir="${target.mediaroomplugin.dir}/lib">
+	            	  <fileset dir="${mediaroom.3rdparty.jar.path}">
+	            	    <include name="**/*.jar"/>
+	            	    <include name="**/*.xml"/>
+	            	    <include name="**/*.xsl"/>
+	            	    <include name="**/*.properties"/>
+	            	  </fileset>
+	            	</copy>
+	            	-->
+	            </then>
+	             <else><echo level="info">mediaroom project or 3rd party jars   not found ${target.mediaroomplugin.dir}/lib</echo></else>
+	        </if>	
+	</target>	
+	
+	<target name="build-release" depends="copyfiles"  description="mediaroomplugin.jar">
+	    <mkdir dir="${target.dir}/lib"/>
+	    <mkdir dir="${target.dir}/bin"/>
+		<mkdir dir="${target.dir}/conf"/>
+ 		<jar destfile="${target.dir}/lib/mscomponent.jar">
+			<manifest>
+				<attribute name="Main-Class" value="com.ipvs.mediaroom.plugin.MediaroomPlugin"/>
+				<attribute name="Class-Path" value=".  ${lib.list}"/>
+			</manifest>	    
+			<zipfileset dir="bin" includes="**/*.class" />
+	        <zipfileset dir="bin" includes="**/*.xsd" />
+	        <zipfileset dir="bin" includes="**/*.xml" />
+	    	<zipfileset dir="bin" includes="**/*.properties" />
+	    </jar>
+	    <copy file="${plugin.xml}" todir="${target.dir}"/>     	
+		<copy todir="${target.dir}/bin">
+        	  <fileset dir="${src.bin.dir}">
+        	    <include name="**"/>
+        	  </fileset>
+		</copy>
+		<copy todir="${target.dir}/conf">
+        	  <fileset dir="${src.conf.dir}">
+        	    <include name="**"/>
+        	  </fileset>
+		</copy>
+	</target>
+</project>

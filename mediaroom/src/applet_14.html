@@ -1,0 +1,34 @@
+<html>
+<!-- saved from url=(0016)http://localhost -->
+<script>
+  //alert("call applet_14");
+  var appletHandle = null;
+  var appletInitXML = null;
+  function handleInit(messageXML) {
+    document.ServiceApplet.style.width = '0';
+    document.ServiceApplet.style.height = '0';
+    appletHandle = document.getElementById("ServiceApplet");
+    appletHandle.setCallback("handleMessage");
+    appletInitXML = messageXML;
+  }
+
+  var appletCallbackFunction = null;
+  function setCallback(CallbackFunctionStr) {
+    appletCallbackFunction = eval(CallbackFunctionStr);
+    return appletInitXML;
+  }
+
+  function handleMessage(messageXML) {
+    if (appletCallbackFunction != null) {
+      appletCallbackFunction(messageXML);
+    }
+  }
+</script>
+
+<applet id="ServiceApplet" 
+        style="width: 1px; height: 1px; float: left;"
+        code="com.ipvs.app.IPVSClientApplet.class"
+        archive ="smack-1.4.jar, smackx-1.4.jar, su-smack-1.2.jar, commons-logging.jar, plugin.jar, dom4j.jar, jaxen.jar, ipvsclient.jar, xpp3.jar"
+        mayscript>
+</applet>
+</html>

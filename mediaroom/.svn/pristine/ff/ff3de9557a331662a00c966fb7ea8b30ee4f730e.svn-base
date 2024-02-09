@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TrackStateMachine>
+<Transition beginstate="STARTED_CURRENT" trackaction="Pause" endstate="STOPPED_CURRENT" sourceaction="StopOutput"/>
+<Transition beginstate="STARTED_CURRENT" trackaction="PauseAt" endstate="STOPPED_CURRENT" sourceaction="StopOutput"/>
+<Transition beginstate="STARTED_CURRENT" trackaction="ResumeFrom" endstate="STARTED_LOOKBACK" sourceaction="SwitchLookback"/>
+<Transition beginstate="STARTED_CURRENT" trackaction="Resume" endstate="STARTED_LOOKBACK" sourceaction="SwitchLookback"/>
+<Transition beginstate="STOPPED_CURRENT" trackaction="Resume" endstate="STARTED_LOOKBACK" sourceaction="SwitchLookback"/>
+<Transition beginstate="STOPPED_CURRENT" trackaction="ResumeFrom" endstate="STARTED_LOOKBACK" sourceaction="SwitchLookback"/>
+<Transition beginstate="STOPPED_CURRENT" trackaction="Catchup" endstate="STARTED_CURRENT" sourceaction="StartOutput"/>
+<Transition beginstate="STARTED_LOOKBACK" trackaction="Pause" endstate="STOPPED_LOOKBACK" sourceaction="StopOutput"/>
+<Transition beginstate="STARTED_LOOKBACK" trackaction="PauseAt" endstate="STOPPED_LOOKBACK" sourceaction="StopOutput"/>
+<Transition beginstate="STARTED_LOOKBACK" trackaction="ResumeFrom" endstate="STARTED_LOOKBACK" sourceaction="UpdateOffset"/>
+<Transition beginstate="STARTED_LOOKBACK" trackaction="Resume" endstate="STARTED_LOOKBACK" sourceaction="UpdateOffset"/>
+<Transition beginstate="STARTED_LOOKBACK" trackaction="Catchup" endstate="STARTED_CURRENT" sourceaction="SwitchCurrent"/>
+<Transition beginstate="STOPPED_LOOKBACK" trackaction="Resume" endstate="STARTED_LOOKBACK" sourceaction="UpdateOffset"/>
+<Transition beginstate="STOPPED_LOOKBACK" trackaction="ResumeFrom" endstate="STARTED_LOOKBACK" sourceaction="UpdateOffset"/>
+<Transition beginstate="STOPPED_LOOKBACK" trackaction="Catchup" endstate="STARTED_CURRENT" sourceaction="SwitchCurrent"/>
+</TrackStateMachine>

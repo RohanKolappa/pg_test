@@ -1,0 +1,561 @@
+DB_SERVER_DESC="IPVS-XML-DB"
+DATABASE_DESC="Database"
+
+# arguments to sedna executives 
+START_IPVSDB_SERVER_PARAMS=""
+CREATE_DATABASE_PARAMS=""
+START_DATABASE_PARAMS=""
+
+# sedna installation folders 
+_FOLDER_IPVSDB_SERVER_BIN="/home/onair/sedna/bin"
+_FILE_IPVSDB_SERVER_CFG="${_FOLDER_IPVSDB_SERVER_DATA}/cfg/${DATABASE_NAME}_cfg.xml"
+_FILE_IPVSDB_VMM_DAT="${_FOLDER_IPVSDB_SERVER_DATA}/data/vmm.dat"
+_IPVS_XMLDB_UTILS=/etc/scripts/ipvsxmldbutils.sh
+
+_CHECK_INSLATION_LIB="${_FOLDER_IPVSDB_SERVER_BIN}/se_gov"
+_EXIST_TO_SEDNA_DB_IMPORT_SCRIPT="/etc/scripts/xsl/exist_to_sedna_import_xq.sh"
+
+native_isDatabaseInstallationValid() {
+    if [ ! -d ${_FOLDER_IPVS_DB_BACKUP_STATUS} ] ; then
+        /bin/mkdir -p ${_FOLDER_IPVS_DB_BACKUP_STATUS}
+    fi
+
+    # Is native_isDatabaseInstallationValid??
+    if [ ! -f ${_CHECK_INSLATION_LIB} ] ; then
+        logprint "ERROR: ${DB_SERVER_DESC} is not installed on this system!!"
+        return 1
+    fi
+    return 0
+}
+
+native_export_db(){
+    export_folder=$1 
+    logprint "export_folder = ${export_folder}"             
+    local ipvsdb_log="${_FOLDER_IPVS_DB_BACKUP_STATUS}/native_export_db.log"
+    /bin/rm -f $ipvsdb_log
+
+    ${_FOLDER_IPVSDB_SERVER_BIN}/se_exp export ${DATABASE_NAME} ${export_folder}  > $ipvsdb_log 2>&1
+    if [ "x$?" != "x0" ]; then
+        logprint "ERROR: Failed to backup database. ${backup_print} "
+        result=`cat $ipvsdb_log 2>&1`
+        logprint "${result}"
+        /bin/rm -f $ipvsdb_log
+        return 1
+    fi
+    if [ ! -f  ${export_folder}/create_indexes.xquery ] ; then
+        logprint "ERROR: Invalid database file '${db_tgz}'."
+        return 1
+    fi
+    #todo:remove after testing
+    #result=`cat $ipvsdb_log 2>&1`
+    #logprint "${result}"
+    /bin/rm -f $ipvsdb_log
+
+    # Before taring this up, fix a bug in sedna export of indexes
+    modify_index "${export_folder}/create_indexes.xquery" 
+    mv ${export_folder}/export_log.txt  ${export_folder}/export_log2.txt      
+    cat ${export_folder}/export_log2.txt | sed -e 's/Sedna/IPVSDB/' > ${export_folder}/export_log.txt
+    rm -f ${export_folder}/export_log2.txt
+    return 0
+}
+
+native_restore_db() {
+    local restore_folder=$1 
+
+    info_txt="${restore_folder}/../db/info.txt"
+    local backupAppVersion=`findPropertyInFile_withDefault $info_txt backupAppVersion 1`
+    local serviceVersion=`findPropertyInFile_withDefault $info_txt serviceVersion 1.4`
+    local backupDBServer=`findPropertyInFile_withDefault $info_txt DBServer sedna_native`
+    local backupAppVersion=`expr $backupAppVersion + 0`	
+    if [ "$backupDBServer" = "sedna_native" -o "$backupDBServer" = "sedna_xmldb" ] ; then
+        logprint "restoring from sedna_native backup: backupAppVersion=${backupAppVersion} serviceVersion=${serviceVersion} backupDBServer=${backupDBServer} DBServer=${DB_SERVER}" 
+        modify_index "${restore_folder}/create_indexes.xquery" 
+        ${_FOLDER_IPVSDB_SERVER_BIN}/se_exp restore ${DATABASE_NAME} ${restore_folder}
+    elif [ "$backupDBServer" = "exist_xmldb" ] ; then	
+        logprint "restoring from exist_xmldb backup: backupAppVersion=${backupAppVersion} serviceVersion=${serviceVersion} backupDBServer=${backupDBServer} DBServer=${DB_SERVER}" 
+        $_IPVS_XMLDB_UTILS existToSedna_sedna_native ${restore_folder}
+        ${_FOLDER_IPVSDB_SERVER_BIN}/se_exp restore ${DATABASE_NAME} ${restore_folder}
+    else
+        logprint "ERROR: Failed to import unknown backupDBServer (${backupDBServer}). From file '${CREATE_DB_SRC_TGZ}' file."
+        return 1
+    fi
+
+    isRestored="x$?" 
+    if [ "${isRestored}" != "x0" ]; then
+        logprint "ERROR: Failed to import ${DATABASE_DESC} from '${CREATE_DB_SRC_TGZ}' file."
+        #/bin/rm -rf ${temp_folder}
+        return 1
+    fi
+
+    #/bin/rm -rf ${temp_folder}
+    return 0
+}
+
+native_check_database() {
+    /bin/rm -rf $_FILE_IPVSDB_SERVER_CFG
+    /bin/rm -rf $_FOLDER_IPVSDB_SERVER_MSDB
+
+    logprint "Creating empty database \"${DATABASE_NAME}\". Please wait... this may take a while."
+    ${_FOLDER_IPVSDB_SERVER_BIN}/se_cdb ${CREATE_DATABASE_PARAMS} ${DATABASE_NAME}
+    if [ "x$?" != "x0" ]; then
+        logprint "WARNING: Failed trying to create empty database."
+    fi
+
+    se_cdb_in_progress
+    return 0
+}
+
+native_cleanup_database(){
+    /bin/rm -rf $_FILE_IPVSDB_SERVER_CFG
+    /bin/rm -rf $_FOLDER_IPVSDB_SERVER_MSDB
+    #some cases existence of this file does not allow creation of new db
+    /bin/rm -rf $_FILE_IPVSDB_VMM_DAT
+    /bin/rm -rf $_FOLDER_IPVSDB_SERVER_DATA_EXIST_XMLDB
+    return 0
+}
+
+
+native_schedule_createdbIfEmpty() {
+    if [ ! -f $_FILE_IPVSDB_SERVER_CFG ] ; then
+        return 1
+    fi
+    if [ ! -d $_FOLDER_IPVSDB_SERVER_MSDB ] ; then
+        return 1
+    fi
+    return 0    
+}      
+
+native_stopIfRunning() {
+    getCountOfRunningProcess "se_gov"
+    if [  "x$?" = "x1" ]; then
+        logshow "WARNING: ${DB_SERVER_DESC} server is already running. "
+        native_XMLDB_Stop 
+    fi
+}
+
+
+############## start/stop se_* ##############
+
+native_XMLDB_Start() {
+
+    getCountOfRunningProcess  "se_gov"
+    if [ "x$?" != "x0" ]; then
+        return 0  
+    fi
+
+    ipvsdb_log="${_FOLDER_IPVS_DB_BACKUP_STATUS}/ipvsdb_gov_start.log"
+    /bin/rm -f $ipvsdb_log
+
+    ${_FOLDER_IPVSDB_SERVER_BIN}/se_gov  ${START_IPVSDB_SERVER_PARAMS} > $ipvsdb_log 2>&1 &
+    if [ "x$?" != "x0" ]; then
+        logprint "WARNING: Failed during starting ${DB_SERVER_DESC} governor."
+    fi
+
+    local err=0
+    count=0
+    timout=60
+    while(true); do
+        count=`expr ${count} + 1`
+        getCountOfRunningProcess "se_gov"
+        if [ "x$?" != "x0" ]; then
+            grep "GOVERNOR has been started" $ipvsdb_log > /dev/null 2>&1
+            if [ "x$?" = "x0" ]; then
+                break
+            fi
+        fi
+        if [ $count -gt $timout ]; then
+            err=1
+            break
+        fi
+        logprint "Waiting to start ${DB_SERVER_DESC} governor. [${count}/${timout}]"
+        sleep 1
+    done
+
+    result=`cat $ipvsdb_log 2>&1`
+    logprint "${result}"
+    /bin/rm -f $ipvsdb_log
+
+    if [ "$err" = "1" ] ; then
+        logprint "ERROR: Could not start ${DB_SERVER_DESC} governor."
+        return 1
+    fi
+
+    return 0
+}
+
+native_XMLDB_SM_Start() {
+    logshow "Starting ${DB_SERVER_DESC} ${DATABASE_DESC}."
+
+    getCountOfRunningProcess  "se_sm"
+    if [ "x$?" != "x0" ]; then
+        logshow "${DB_SERVER_DESC} ${DATABASE_DESC} is already running."
+        return 0 
+    fi
+
+    ipvsdb_log="${_FOLDER_IPVS_DB_BACKUP_STATUS}/ipvsdb_dbstart.log"
+    /bin/rm -f $ipvsdb_log
+
+    ${_FOLDER_IPVSDB_SERVER_BIN}/se_sm ${START_DATABASE_PARAMS} ${DATABASE_NAME}  > $ipvsdb_log 2>&1 &
+    if [ "x$?" != "x0" ]; then
+        logprint "WARNING: Failed during starting ${DB_SERVER_DESC} ${DATABASE_DESC}."
+    fi
+
+    local err=0
+    count=0
+    timout=60
+    while(true); do
+        count=`expr ${count} + 1`
+        getCountOfRunningProcess "se_sm"
+        if [ "x$?" != "x0" ]; then
+            grep "SM has been started" $ipvsdb_log > /dev/null 2>&1
+            if [ "x$?" = "x0" ]; then
+                break
+            fi
+        fi
+
+        if [ $count -gt $timout ]; then
+            err=1
+            break
+        fi
+        logprint "Waiting to start ${DB_SERVER_DESC} ${DATABASE_DESC}. [${count}/${timout}]"
+        sleep 1
+    done
+
+    result=`cat $ipvsdb_log 2>&1`
+    logprint "${result}"
+    /bin/rm -f $ipvsdb_log
+
+    if [ "$err" = "1" ] ; then
+        logprint "ERROR: Could not start ${DB_SERVER_DESC} ${DATABASE_DESC}."
+        return 1
+    fi
+
+    return 0
+}
+
+native_XMLDB_Stop() {
+
+    getCountOfRunningProcess  "se_gov"
+    if [ "x$?" = "x0" ]; then
+        getCountOfRunningProcess  "se_sm"
+        if [ "x$?" = "x0" ]; then
+            return 0  
+        fi
+    fi
+
+    #make sure the se_stop is not already running 
+    getCountOfRunningProcess  "se_stop"
+    if [ "x$?" = "x0" ]; then
+    #first stop database
+        native_XMLDB_SM_Stop
+
+        ipvsdb_log="${_FOLDER_IPVS_DB_BACKUP_STATUS}/ipvsdb_gov_start.log"
+        /bin/rm -f $ipvsdb_log
+
+        ${_FOLDER_IPVSDB_SERVER_BIN}/se_stop   > $ipvsdb_log 2>&1 &
+        if [ "x$?" != "x0" ]; then
+            logprint "WARNING: Failed during stopping ${DB_SERVER_DESC} governor."
+        fi
+
+        local err=0
+        count=0
+        timout=90
+        while(true); do
+            count=`expr ${count} + 1`
+            getCountOfRunningProcess "se_stop"
+            if [ "x$?" = "x0" ]; then
+                break
+            fi
+            if [ $count -gt $timout ]; then
+                err=1
+                break
+            fi
+            logprint "Waiting to stop ${DB_SERVER_DESC} governor. [${count}/${timout}]"
+            sleep 1
+        done
+
+        result=`cat $ipvsdb_log 2>&1`
+        logprint "${result}"
+        /bin/rm -f $ipvsdb_log
+
+    fi
+
+
+    #se_trn get stuck some times.
+    #if the stop gets hanged than need to delete the db 
+    #and restore from backup ? may be will be taken care at next start up
+    #killall se_trn se_sm se_gov 
+    if [ "$err" = "1" ] ; then
+        logprint "ERROR: Could not stop ${DB_SERVER_DESC} server."
+        killall se_rcv; killall se_trn; killall se_cdb; killall se_sm;  killall se_gov; killall se_stop; killall se_smsd; 
+        err=0
+        count=0
+        timout=60
+        while(true); do
+            count=`expr ${count} + 1`
+            getCountOfRunningProcess "se_gov"
+            if [ "x$?" = "x0" ]; then
+                break  
+            fi
+            if [ $count -gt $timout ]; then
+                err=1
+                break
+            fi
+            logprint "Waiting to stop ${DB_SERVER_DESC} server. [${count}/${timout}]"
+            sleep 1
+        done
+    fi
+
+    #wait before kill se_trn and se_rcv
+    #se_trn hangs ..
+    getCountOfRunningProcess "se_trn"
+    if [ "x$?" != "x0" ]; then
+        err=0
+        count=0
+        timout=60
+        while(true); do
+            count=`expr ${count} + 1`
+            getCountOfRunningProcess "se_trn"
+            if [ "x$?" = "x0" ]; then
+                break  
+            fi
+            if [ $count -gt $timout ]; then
+                err=1
+                break
+            fi
+            logprint "Waiting to stop ${DB_SERVER_DESC} server (se_trn). [${count}/${timout}]"
+            sleep 1
+        done
+    fi
+
+    #wait before kill se_trn and se_rcv
+    #se_rcv hangs ..
+    getCountOfRunningProcess "se_rcv"
+    if [ "x$?" != "x0" ]; then
+        err=0
+        count=0
+        timout=60
+        while(true); do
+            count=`expr ${count} + 1`
+            getCountOfRunningProcess "se_rcv"
+            if [ "x$?" = "x0" ]; then
+                break  
+            fi
+            if [ $count -gt $timout ]; then
+                err=1
+                break
+            fi
+            logprint "Waiting to stop ${DB_SERVER_DESC} server (se_rcv). [${count}/${timout}]"
+            sleep 1
+        done
+    fi
+
+
+    if [ "$err" = "1" ] ; then
+        logprint "ERROR: failed to stop ${DB_SERVER_DESC} server."
+        #se_trn hangs .. use kill -9 ... next sedna 3.2 version has 'se_stop -hard' which abandons transactions.
+        getCountOfRunningProcess "se_trn"
+        if [ "x$?" != "x0" ]; then
+            kill_pid=`pidof se_trn`
+            if [ ! -z ${kill_pid} ] ; then
+                logprint "kill -9 se_trn pid=${kill_pid} ."
+                kill -9 ${kill_pid}
+            fi
+        fi
+        getCountOfRunningProcess "se_rcv"
+        if [ "x$?" != "x0" ]; then
+            kill_pid=`pidof se_rcv`
+            if [ ! -z ${kill_pid} ] ; then
+                logprint "kill -9 se_rcv pid=${kill_pid} ."
+                kill -9 ${kill_pid}
+            fi
+        fi
+        return 1
+    fi
+
+    return 0
+}
+
+
+
+native_XMLDB_SM_Stop() {
+
+    getCountOfRunningProcess  "se_sm"
+    if [ "x$?" = "x0" ]; then
+        return 0  
+    fi
+
+    #no need to call again if se_smsd is already running
+    getCountOfRunningProcess  "se_smsd"
+    if [ "x$?" != "x0" ]; then
+        logprint "WARNING: stopping ${DB_SERVER_DESC} ${DATABASE_DESC} is aleady in progess."
+        return 0
+    fi
+
+    ipvsdb_log="${_FOLDER_IPVS_DB_BACKUP_STATUS}/process_dbstop.log"
+    /bin/rm -f $ipvsdb_log
+
+    ${_FOLDER_IPVSDB_SERVER_BIN}/se_smsd  ${DATABASE_NAME} > $ipvsdb_log 2>&1 &
+    if [ "x$?" != "x0" ]; then
+        logprint "WARNING: Failed during stopping ${DB_SERVER_DESC} ${DATABASE_DESC}."
+    fi
+
+    local err=0
+    count=0
+    timout=60
+    while(true); do
+        count=`expr ${count} + 1`
+        getCountOfRunningProcess "se_sm"
+        if [ "x$?" = "x0" ]; then
+            break
+        fi
+        if [ $count -gt $timout ]; then
+            err=1
+            break
+        fi
+        logprint "Waiting to stop ${DB_SERVER_DESC} ${DATABASE_DESC}. [${count}/${timout}]"
+        sleep 1
+    done
+
+    result=`cat $ipvsdb_log 2>&1`
+    logprint "${result}"
+    /bin/rm -f $ipvsdb_log
+
+
+    if [ "$err" = "1" ] ; then
+        logprint "ERROR: Could not stop ${DB_SERVER_DESC} ${DATABASE_DESC}."
+        return 1
+    fi
+
+    return 0
+}
+
+se_cdb_in_progress() {
+    # do not try to read while se_cdb is running.. that results in database corruption
+    getCountOfRunningProcess  "se_cdb"
+    count=0
+    timout=60
+    if [ "x$?" != "x0" ]; then
+        while(true); do
+            count=`expr ${count} + 1`
+            getCountOfRunningProcess "se_cdb"
+            if [ "x$?" != "x1" ]; then
+                break  
+            fi
+            if [ $count -gt $timout ]; then
+                err=1
+                break
+            fi
+            logprint "Waiting to complete ${DB_SERVER_DESC} ${DATABASE_DESC} creation. [${count}/${timout}]"
+            sleep 1
+        done
+
+        if [ "$err" = "1" ] ; then
+            logprint "${DB_SERVER_DESC} ${DATABASE_DESC} creation is in progress."
+            return 1
+        fi
+    fi
+    return 0
+}
+
+############## start/stop se_* ##############
+
+
+########## check status if db is accessible and running ##########
+
+native_serviceVerFromDB() {
+    local XQUERY="for \$b in doc('service.version')/Service return \$b/@Ver/data()" 
+    local result=` ${_FOLDER_IPVSDB_SERVER_BIN}/se_term "-query" "$XQUERY" "${DATABASE_NAME}" `
+    local len=`echo -n $result | wc -c`
+    if [ $len -lt 1 ]; then
+        logprint "ERROR: Failed to read from database '${resultFile}'. " 
+        return 1
+    fi
+    echo $result
+    return 0
+} 
+
+native_isSCol() {
+    #local XQUERY="for \$b in doc('$collections')/collections/collection[@name='IPVSc_default'] return \$b/@name/data()" 
+    #local result=` ${_FOLDER_IPVSDB_SERVER_BIN}/se_term "-query" "$XQUERY" "${DATABASE_NAME}" `
+    #local len=`echo -n $result | wc -c`
+    #if [ $len -lt 1 ]; then
+    #    logprint "ERROR: Failed to read from database '${resultFile}'. " 
+    #    echo 'false'
+    #    return 1
+    #fi
+    echo 'true'
+    return 0
+} 
+
+native_isDBAccessible() {
+    #this function is not working properly...todo implement create file from component..
+    # if se_cdb is running and do not read
+    #getCountOfRunningProcess "se_cdb"
+    #if [ "x$?" != "x0"  ]; then
+    #       logprint "ERROR: ${DB_SERVER_DESC} ${DATABASE_DESC} server process is creating empty database." 
+    #       return 2
+    #fi
+
+    # if se_stop is running and do not read
+    #getCountOfRunningProcess "se_stop"
+    #if [ "x$?" != "x0"  ]; then
+    #       logprint "ERROR: ${DB_SERVER_DESC} ${DATABASE_DESC} server process is being stopped." 
+    #       return 2
+    #fi
+
+    XQUERY="for \$b in document('\$collections') return \$b/*/name()" 
+    result=` ${_FOLDER_IPVSDB_SERVER_BIN}/se_term "-query" "$XQUERY" "${DATABASE_NAME}" `
+    if [ "x$?" != "x0" ]; then
+        logprint "ERROR: Failed to read from database '${result}'." 
+        return 1
+    fi
+
+    if [ "x${result}" != "xcollections" ]; then
+        logprint "ERROR: Failed to read from database '${result}'." 
+        return 1
+    fi
+
+    # if se_sm was running and got killed
+    getCountOfRunningProcess "se_sm"
+    if [ "x$?" = "x0"  ]; then
+        logprint "ERROR: ${DB_SERVER_DESC} ${DATABASE_DESC} server process is dead." 
+        return 1
+    fi
+
+    return 0
+} 
+
+status_implementation() {
+    getCountOfRunningProcess "se_sm"
+    if [ "x$?" = "x0"  ]; then
+        echo "DEAD" 
+        return 2
+    fi
+    return 0
+}  
+
+modify_index() {
+    create_indexes=$1
+    /bin/sed -i -e 's/descendant::sub\/attribute::name BY /\/sub\/@name BY ./' ${temp_folder}/${DB_FOLDER}/create_indexes.xquery 
+
+    #old index 
+    #/bin/sed -i -e 's/descendant-attr::NID BY /\/@NID BY ./' ${temp_folder}/${DB_FOLDER}/create_indexes.xquery 
+    #/bin/sed -i -e 's/descendant-attr::parentNID BY /\/@parentNID BY ./' ${temp_folder}/${DB_FOLDER}/create_indexes.xquery 
+
+    #/bin/sed -i -e 's/child::\*\/attribute::NID BY /\/@NID BY ./' $create_indexes
+    #/bin/sed -i -e 's/child::\*\/attribute::parentNID BY  /\/@parentNID BY ./' $create_indexes
+
+    #/bin/sed -i -e 's/descendant::sub\/attribute::name BY /\/sub\/@name BY ./' ${temp_folder}/${DB_FOLDER}/create_indexes.xquery 
+
+    #new index 
+    /bin/sed -i -e 's/descendant-attr::NID BY /*\/@NID BY ./' $create_indexes
+    /bin/sed -i -e 's/descendant-attr::parentNID BY /*\/@parentNID BY ./' $create_indexes
+
+    /bin/sed -i -e 's/child::\*\/attribute::NID BY /*\/@NID BY ./' $create_indexes
+    /bin/sed -i -e 's/child::\*\/attribute::parentNID BY /*\/@parentNID BY ./' $create_indexes
+
+    /bin/sed -i -e 's/\/\/@NID BY /\/*\/@NID BY / ' $create_indexes
+    /bin/sed -i -e 's/\/\/@parentNID BY /\/*\/@parentNID BY / ' $create_indexes
+}
+

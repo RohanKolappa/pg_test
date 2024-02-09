@@ -1,0 +1,26 @@
+HKCR
+{
+	IPVSAxAuthor.ProjectManager.1 = s 'ProjectManager Class'
+	{
+		CLSID = s '{680311A9-C4F1-40E0-867F-D4768A363EE7}'
+	}
+	IPVSAxAuthor.ProjectManager = s 'ProjectManager Class'
+	{
+		CLSID = s '{680311A9-C4F1-40E0-867F-D4768A363EE7}'
+		CurVer = s 'IPVSAxAuthor.ProjectManager.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {680311A9-C4F1-40E0-867F-D4768A363EE7} = s 'ProjectManager Class'
+		{
+			ProgID = s 'IPVSAxAuthor.ProjectManager.1'
+			VersionIndependentProgID = s 'IPVSAxAuthor.ProjectManager'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{EF37E5D7-C645-4EA1-B419-3326868986E3}'
+		}
+	}
+}

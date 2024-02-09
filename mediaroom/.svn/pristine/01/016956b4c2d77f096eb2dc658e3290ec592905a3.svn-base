@@ -1,0 +1,213 @@
+<html>
+<head>
+<title>Player</title>
+
+<script type="text/javascript" src="jquery-1.7.1.js"></script>
+
+<script type="text/javascript" src="sessionapi.js"></script>
+
+<script language="JavaScript">
+
+<!-- creates and sets the callbacks for the Session -->
+
+var sessionInstance = null;
+
+function startPlay(mediaURL) {
+	document.getElementById('player').innerHTML='Playing : ' + mediaURL;
+	document.forms['form1'].elements['Server'].value=mediaURL
+	Play();
+}
+
+function stopPlay(txt) {
+	document.getElementById('player').innerHTML=txt
+	Stop();
+}
+
+function handleStartedCallback(response) {
+	mediaURL = response.mediaURL;
+	//alert("mediaURL=" + mediaURL);
+	document.getElementById('stop').disabled=false;
+	document.getElementById('send').disabled=false;
+	startPlay(mediaURL);
+}
+
+function handleResponseCallback(response) {
+	// alert("handleResponseCallback:" + response.requestName + ":" + response.type + ":" + response.data);
+}
+
+function handleEventCallback(response) {
+	// alert("handleEventCallback:" + response.requestName + ":" + response.type + ":" + response.data);
+}
+
+function handleErrorCallback(response) {
+	errorCode = response.errorCode;
+	errorData = response.data;
+	// alert("Error " + errorCode + ":" + errorData);
+	document.getElementById('stop').disabled=true;
+	document.getElementById('send').disabled=true;
+	stopPlay("Error " + errorCode + ":" + errorData);
+}
+
+<!-- Functions handling user interaction -->
+function handleStart() {
+	var controlURL = document.getElementById('controlURL').value;
+
+	if(sessionInstance == null) {
+		sessionInstance = new Session(	handleStartedCallback, 
+										handleResponseCallback, 
+										handleEventCallback,
+										handleErrorCallback);
+	}
+
+	sessionInstance.doStart(controlURL);
+	stopPlay('Connecting to server ...');
+}
+
+function handleSendRequest() {
+	var request = document.getElementById('request').value;
+	var requestParam = document.getElementById('requestParam').value;
+	// alert("sendRequest:" + request);
+	sessionInstance.sendSessionRequest(request, requestParam);
+}
+
+function handleStop() {
+	sessionInstance.doStop();
+	document.getElementById('stop').disabled=true;
+	document.getElementById('send').disabled=true;
+	document.getElementById('player').innerHTML='Player'
+}
+</script>
+
+        <SCRIPT type="text/javascript">
+            function Init()
+            {
+                if ( IPVideoPlayer.PlayState == undefined )
+                {
+                    alert("Player activex not loaded.");
+                }
+            }
+          
+            function Play()
+            {
+                var strServer  = document.getElementById("Server").value;
+                strServer      = strServer.replace(/^\s*|\s*$/g,"");
+                
+                if (strServer.search(/^http/) >= 0) 
+                {
+                    IPVideoPlayer.Filename = strServer;
+                    IPVideoPlayer.AVMode = document.getElementById("AVMode").value;
+                }
+                else if (strServer.search(/^udp/) >= 0)
+                {
+                    IPVideoPlayer.Filename = strServer;
+                    IPVideoPlayer.AVMode = document.getElementById("AVMode").value;
+                }
+                else if (strServer.search(/^v2dfile/) >= 0)
+                {
+                    var Fps = parseInt(document.getElementById("Fps").value);
+
+                    IPVideoPlayer.Filename = strServer;
+                    IPVideoPlayer.AVMode = document.getElementById("AVMode").value;
+                    IPVideoPlayer.Fps = Fps;
+                }
+                else if (strServer.search(/^v2d/) >= 0)
+                {
+                    var Fps = parseInt(document.getElementById("Fps").value);
+                    var BandWidth = document.getElementById("BandWidth").value;
+                    
+                    IPVideoPlayer.Filename = strServer;
+                    IPVideoPlayer.ServerPort = document.getElementById("ServerPort").value;
+                    IPVideoPlayer.MaxBandwidth = parseInt(BandWidth);
+                    IPVideoPlayer.AVMode = document.getElementById("AVMode").value;
+                    IPVideoPlayer.Fps = Fps;
+                    IPVideoPlayer.Multicast = 0;
+                    IPVideoPlayer.useHTTP = 0;  
+                }
+
+                IPVideoPlayer.Play();
+            }
+
+        function Stop()
+        {
+            IPVideoPlayer.Stop();
+        }
+
+      </SCRIPT>
+
+</head>
+<body>
+<body>
+<table border="1" align="center">
+<tr><td>
+<form id="f1" name="f1">
+  URL: <input name="URL" id="controlURL" type="text" size="50" value="http://10.51.48.190/controller/session?requestName=View&SrcPort.portTitle=rtp_tx1&userJID=proxyuser@localhost/proxypc&DstPort.portTitle=udp_rx1">
+
+  <input id='start' value="Start" type="button" onclick='JavaScript:handleStart()'>
+  <input id='stop' value="Stop" type="button" onclick='JavaScript:handleStop()' disabled='true'>
+  Request: <input name="Request" id="request" type="text" size="5" value="">
+  Param: <input name="Param" id="requestParam" type="text" size="5" value="">
+  <input id='send' value="Send" type="button" onclick='JavaScript:handleSendRequest()' disabled='true'>
+</form>
+</td></tr>
+
+
+<tr><td>
+<label id='player'>Player
+</td></tr>
+<tr><td>
+                <OBJECT ID = IPVideoPlayer CODEBASE = IPVPlayerCtrl.cab#Version=3,8,0,0 CLASSID=CLSID:A2A6189E-44F4-4D69-9CE4-8329312D2E3A VIEWASTEXT>
+                    <PARAM NAME="BackColor" VALUE="7874560">
+                    <PARAM NAME="BorderColor" VALUE="0">
+                    <PARAM NAME="AutoSize" VALUE="0">
+                    <PARAM NAME="AutoStart" VALUE="0">
+                    <PARAM NAME="SessionId" VALUE="0">
+                </OBJECT>
+</td></tr>
+<tr><td>
+                <FORM name="form1">
+                    <INPUT SIZE = 12  ID = "Server" VALUE = "v2d://" NAME="server" TABINDEX = "1">
+
+                    <LABEL>Port:</LABEL>
+                    <INPUT SIZE = 2 ID = "ServerPort" NAME = "ServerPort" VALUE = "6060" TABINDEX = "1">
+
+                    <LABEL>A/V</LABEL>
+                    <SELECT NAME="AVMode" id="AVMode" >
+                        <OPTION VALUE = 1> Video </OPTION>
+                        <OPTION VALUE = 2> Audio </OPTION>
+                        <OPTION VALUE = 3> Both </OPTION>
+                    </SELECT>
+                    <LABEL>BW</LABEL>
+                    <INPUT SIZE = 2 NAME="BandWidth" ID = "BandWidth" VALUE = "5120">
+
+                    <LABEL>FPS</LABEL>
+                    <INPUT SIZE = 1 NAME = "Fps" ID = "Fps" VALUE = "5">
+
+                    <INPUT TYPE = "button" ID = "btnPlay" NAME = "btnPlay" VALUE = ">" OnClick = "Play();">
+                    <INPUT TYPE = "button" ID = "btnStop" NAME = "btnStop" VALUE = "||" OnClick = "Stop();">
+                </FORM>
+</td></tr>
+<tr><td>
+<label id='help'>
+Troubleshooting: proxyuser@localhost/proxypc has to be logged in over xmpp and udp_rx1 has to be pre-configured)
+<br>Parameters required by GetFile  selectFormat="EXTENDEDURL" dstPortTitle="udp_rx1" expiryTime="1000000"
+<!--
+<br>Translation of Session API requests to Request/Param
+<br>e.g. &ltSkipBack sessionId='123' skipOffset='1000'/&gt ---------
+  Request: <input name="Request" id="request" type="text" size="6" value="SkipBack" readonly="true">
+  Param: <input name="Param" id="requestParam" type="text" size="25" value="SkipBack.skipOffset=10000" readonly="true">
+<br>e.g. &ltSkipBack sessionId='123' skipOffset='1000' xyz='123'/&gt 
+  Request: <input name="Request" id="request" type="text" size="6" value="SkipBack" readonly="true">
+  Param: <input name="Param" id="requestParam" type="text" size="25" value="SkipBack.skipOffset=10000&SkipBack.xyz=123" readonly="true">
+
+<br>Playback URL 
+http://10.51.48.190/clients/player?requestName=Playback&amp;SrcFile.fileNID=default.mediastreamfileresourcelist.msfrl_98edbe36-2ac9-4963-897e-75ba18d91ccf&amp;userJID=proxyuser@localhost/proxypc&amp;timestamp=1352850849009&amp;apiKey=4932097760302987284&amp;signature=18f8e39c0669fcebdef48941f54b6420&amp;DstPort.portNID=default.mediastreamdstportresourcelist.msdprl_bcfd3971-8a99-4f1c-9d7b-046358f95e43<label id='player'>Player</label>
+-->
+</td></tr>
+<tr><td>
+http://10.51.48.190/clients/player?requestName=Playback&amp;SrcFile.fileNID=default.mediastreamfileresourcelist.msfrl_74c024df-119b-464e-8520-c1d480eb9559&amp;userJID=proxyuser@localhost/proxypc&amp;timestamp=1352944039051&amp;apiKey=4932097760302987284&amp;signature=41ea318993b324278e415a2aa2da5f3e&amp;DstPort.portNID=default.mediastreamdstportresourcelist.msdprl_bcfd3971-8a99-4f1c-9d7b-046358f95e43</td></tr>
+</table>
+</body>
+</html>
+
+  
+              

@@ -1,0 +1,55 @@
+<ipvs>
+	<tagMappings>
+		<xml>tagMappings.xml</xml>
+	</tagMappings>
+	<!-- variables are always saved to folder -->
+    <global_system_variables path="/data/dbmigration/workarea/global_system_variables.xml">
+	    <variable name="serviceVersion" description="current migration service version"/>
+	    <variable name="DBMigrationFolder" description="migration folder e.g. /etc/migration/1.0/database"/>
+	    <variable name="DBMigrationWorkareaFolder" description="work folder e.g. /data/dbmigration/workarea/1.0/migration"/>
+	    <variable name="DBMigrationWorkareaTempFolder" description="work temp folder e.g. /data/dbmigration/workarea/1.0/migration/temp"/>
+	    <variable name="DBMigrationWorkareaBackupFolder" description="work backup folder e.g. /data/dbmigration/workarea/1.0/pre_migration_bck_db"/>
+	    <variable name="servicedomain" description="servicedomain - e.g. default"/>
+	    <variable name="ipvs_collection" description="for current servicedomain - collection name e.g. IPVSc_default"/>
+	    <variable name="ipvs_colindex" description="for current servicedomain - col index name e.g. IPVSis_colnids_default"/>
+	    <variable name="ipvs_nodeindex" description="for current servicedomain - node index name e.g. IPVSi_nids_default"/>
+	    <variable name="serviceVersion_db" description="current database service version"/>
+	    <variable name="serviceVersion_software" description="current software service version"/>
+	    <variable name="aftermigration_serviceVersion" description="after migration service version">2.19</variable> 
+	</global_system_variables>    
+ 
+	<DBMigrationTaskSequence>
+		<vendor>sedna</vendor>
+		<priorityLevels>10</priorityLevels>
+		<numberOfLoops>1</numberOfLoops>
+		<initialDelay>0</initialDelay>
+		<delay>1</delay>
+		<delayUnit>SECONDS</delayUnit>
+		<corePoolSize>1</corePoolSize>
+		<maximumPoolSize>1</maximumPoolSize>
+		<keepAliveTime>60</keepAliveTime>
+		<loopEndlessly>false</loopEndlessly>
+	 
+	 
+	  	<DBMigrationTasks enable="true" name="tasks_createsnapshot" priority="1" completBeforeStartNext="true">
+			<DBMigrationTask enable="true" name="task_createsnapshot" priority="1">
+				 <ipvstag_CreateDBSnapshot />	
+			</DBMigrationTask>
+		</DBMigrationTasks>
+		
+ 		<DBMigrationTasks enable="true" name="tasks_preMigrationXQuery1" priority="2" completBeforeStartNext="true">
+			<DBMigrationTask enable="true" name="task_updateDocs1" priority="1">
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/*[@parentNID='${servicedomain}.devicelist']" >
+						<xsl_transform xsl="../xsl/Device.xsl"/>
+				</ipvstag_UpdateDocs>				
+			</DBMigrationTask>	
+		</DBMigrationTasks>
+		
+ 		<DBMigrationTasks enable="true" name="tasks_postMigrationXquery1" priority="5" completBeforeStartNext="true">
+				<DBMigrationTask enable="true" name="task_Xquery1" priority="1">
+					<ipvstag_XQuery file="xquery/update_attr_servicever.xquery"/>
+				</DBMigrationTask>
+		</DBMigrationTasks>
+ 
+	</DBMigrationTaskSequence>
+</ipvs>

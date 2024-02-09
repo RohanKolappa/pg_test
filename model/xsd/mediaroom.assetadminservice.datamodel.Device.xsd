@@ -1,0 +1,2322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Profile.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      - SDP params for SD-RTP stream output
+      - add RTP camera element (+ its instance config - will be composite of rtpencode + one rtpstreamrx instance)
+      - clean up use of sequence - fix min/max
+    </xs:documentation>
+  </xs:annotation>
+  <xs:element name="DeviceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Device" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="RAIDTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RAID-0" />
+      <xs:enumeration value="RAID-1" />
+      <xs:enumeration value="RAID-10" />
+      <xs:enumeration value="RAID-50" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Device" type="DeviceType" />
+  <xs:complexType name="DeviceType" abstract="true">
+    <xs:sequence>
+      <xs:element name="AssetResourceNID" type="xs:string" />
+      <xs:element name="ManagementMode">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Central" />
+            <xs:enumeration value="Local" />
+            <xs:enumeration value="UnManaged" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="All-Device" type="All-DeviceType" />
+  <xs:complexType name="All-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="All-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="All-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="All-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="All-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.8" name="Ver" type="xs:double" use="required" />
+        <!-- 07/12/2011 Please remove ClientDownloadServiceStatus and ClientDownloadServiceConfig elements 
+        when you modify device.xsd and other xsds next time as we are not using these elements. -->
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="All-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStoreResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamRelayPortResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamSrcPortResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamDstPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="All-DeviceConfig" type="All-DeviceConfigType" />
+  <xs:complexType name="All-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="All-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="All-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="All-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="All-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="All-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="All-DeviceStatus" type="All-DeviceStatusType" />
+  <xs:complexType name="All-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="All-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="All-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="All-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="All-AVCodecElementsStatusType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="All-DeviceCommand" type="All-DeviceCommandType" />
+  <xs:complexType name="All-DeviceCommandType">
+    <xs:all>
+      <xs:element name="SystemElementsCommand" type="SystemElementsCommandType" />
+      <xs:element name="ServiceElementsCommand" type="ServiceElementsCommandType" />
+      <xs:element name="NetworkElementsCommand" type="NetworkElementsCommandType" />
+      <xs:element name="StorageElementsCommand" type="StorageElementsCommandType" />
+      <xs:element name="AVCodecElementsCommand" type="AVCodecElementsCommandType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="SystemElementsConfigType">
+    <xs:sequence>
+      <xs:element name="SoftwareImageConfig" type="SoftwareImageElementConfigType" />
+      <xs:element name="LicenseConfig" type="LicenseElementConfigType" />
+      <xs:element name="AdminServiceConfig" type="AdminServiceElementConfigType" />
+      <xs:element name="LoginBannerConfig" type="LoginBannerElementConfigType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SystemElementsStatusType">
+    <xs:sequence minOccurs="0">
+      <xs:element name="SoftwareImageStatus" type="SoftwareImageElementStatusType" />
+      <xs:element name="LicenseStatus" type="LicenseElementStatusType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="All-SystemElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsConfigType">
+        <xs:sequence>
+          <xs:element name="CPUConfig" type="CPUElementConfigType" />
+          <xs:element name="MemoryConfig" type="MemoryElementConfigType" />
+          <xs:element name="SystemHWConfig" type="SystemHWElementConfigType" />
+          <xs:element name="FrontPanelConfig" type="FrontPanelElementConfigType" />
+          <xs:element name="SystemClockConfig" type="SystemClockElementConfigType" />
+          <xs:element name="FirmwareImageConfig" type="FirmwareImageElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="All-SystemElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="CPUStatus" type="CPUElementStatusType" />
+          <xs:element name="MemoryStatus" type="MemoryElementStatusType" />
+          <xs:element name="SystemHWStatus" type="SystemHWElementStatusType" />
+          <xs:element name="FrontPanelStatus" type="FrontPanelElementStatusType" />
+          <xs:element name="SystemClockStatus" type="SystemClockElementStatusType" />
+          <xs:element name="FirmwareImageStatus" type="FirmwareImageElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SystemElementsCommandType">
+    <xs:sequence minOccurs="0">
+      <xs:element name="RebootCommand" type="RebootCommandType" />
+      <xs:element name="ShutdownCommand" type="ShutdownCommandType" />
+      <xs:element name="SystemClockCommand" type="SystemClockCommandType" />
+      <xs:element name="SaveToFlashCommand" type="SaveToFlashCommandType" />
+      <xs:element name="UpgradeSoftwareCommand" type="UpgradeSoftwareCommandType" />
+      <xs:element name="RevertToDefaultsCommand" type="RevertToDefaultsCommandType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ServiceElementsConfigType" />
+  <xs:complexType name="ServiceElementsStatusType">
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="ServiceElementsCommandType" />
+  <xs:complexType name="All-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="LinkLocalXMPPAgentServiceConfig" type="All-LinkLocalXMPPAgentServiceElementConfigType" />
+          <xs:element name="XMPPAgentServiceConfig" type="All-XMPPAgentServiceElementConfigType" />
+          <xs:element name="HTTPServiceConfig" type="HTTPServiceElementConfigType" />
+          <xs:element name="SSHServiceConfig" type="SSHServiceElementConfigType" />
+          <xs:element name="TelnetServiceConfig" type="TelnetServiceElementConfigType" />
+          <xs:element name="TFTPServiceConfig" type="TFTPServiceElementConfigType" />
+          <xs:element name="DHCPServiceConfig" type="DHCPServiceElementConfigType" />
+          <xs:element name="NTPServiceConfig" type="NTPServiceElementConfigType" />
+          <xs:element name="SecureTunnelClientServiceConfig" type="SecureTunnelClientServiceElementConfigType" />
+          <xs:element name="ClientDownloadServiceConfig" type="ClientDownloadServiceElementConfigType" />
+          <xs:element name="XMPPServiceConfig" type="XMPPServiceElementConfigType" />
+          <xs:element name="StreamingServiceConfig" type="All-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="All-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="XMPPAgentServiceStatus" type="All-XMPPAgentServiceElementStatusType" />
+          <xs:element name="HTTPServiceStatus" type="HTTPServiceElementStatusType" />
+          <xs:element name="SSHServiceStatus" type="SSHServiceElementStatusType" />
+          <xs:element name="TelnetServiceStatus" type="TelnetServiceElementStatusType" />
+          <xs:element name="SecureTunnelClientServiceStatus" type="SecureTunnelClientServiceElementStatusType" />
+          <xs:element name="ClientDownloadServiceStatus" type="ClientDownloadServiceElementStatusType" />
+          <xs:element name="XMPPServiceStatus" type="XMPPServiceElementStatusType" />
+          <xs:element name="StreamingServiceStatus" type="All-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="BaseNetworkElementsConfigType" abstract="true"/>
+  <xs:complexType name="BaseNetworkElementsStatusType" abstract="true">
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+ 
+  <xs:complexType name="NetworkElementsConfigType">
+    <xs:complexContent>
+      <xs:extension base="BaseNetworkElementsConfigType">
+	    <xs:sequence>
+	      <xs:element name="DNSClientConfig" type="DNSClientElementConfigType" />
+	      <xs:element name="RouteTableConfig" type="RouteTableElementConfigType" />
+	      <xs:element name="HostTableConfig" type="HostTableElementConfigType" />
+	      <xs:element name="NATZoneTableConfig" type="NATZoneTableElementConfigType" />
+	    </xs:sequence>
+    </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NetworkElementsStatusType">
+    <xs:complexContent>
+      <xs:extension base="BaseNetworkElementsStatusType">
+    	<xs:sequence minOccurs="0">
+      		<xs:element name="DNSClientStatus" type="DNSClientElementStatusType" />
+      		<xs:element name="RouteTableStatus" type="RouteTableElementStatusType" />
+      		<xs:element name="HostTableStatus" type="HostTableElementStatusType" />
+      		<xs:element name="NATZoneTableStatus" type="NATZoneTableElementStatusType" />
+	    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NetworkElementsCommandType" />
+  <xs:complexType name="All-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPort2Config" type="EthernetPortElementConfigType" />
+          <xs:element name="EthernetPort3Config" type="EthernetPortElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StorageElementsConfigType" />
+  <xs:complexType name="StorageElementsStatusType">
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="StorageElementsCommandType" />
+  <xs:complexType name="All-StorageElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MountTableConfig" type="MountTableElementConfigType" />
+          <xs:element name="CFDriveConfig" type="CFDriveElementConfigType" />
+          <xs:element name="HardDiskTableConfig" type="HardDiskTableElementConfigType" />
+          <xs:element name="NASConfig" type="NASElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="All-StorageElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="MountTableStatus" type="MountTableElementStatusType" />
+          <xs:element name="CFDriveStatus" type="CFDriveElementStatusType" />
+          <xs:element name="HardDiskTableStatus" type="HardDiskTableElementStatusType" />
+          <xs:element name="NASStatus" type="NASElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AVCodecElementsConfigType" />
+  <xs:complexType name="AVCodecElementsStatusType">
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="AVCodecElementsCommandType" />
+  <xs:complexType name="All-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MPEGEncoderConfig" type="MPEGEncoderElementConfigType" />
+          <xs:element name="MPEGDecoderConfig" type="MPEGDecoderElementConfigType" />
+          <xs:element name="UDPEncoderConfig" type="UDPEncoderElementConfigType" />
+          <xs:element name="UDPDecoderConfig" type="UDPDecoderElementConfigType" />
+          <xs:element name="V2DEncoderConfig" type="V2DEncoderElementConfigType" />
+          <xs:element name="V2DDecoderConfig" type="V2DDecoderElementConfigType" />
+          <xs:element name="V2DSoftDecoderConfig" type="V2DSoftDecoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="All-AVCodecElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="MPEGEncoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="MPEGDecoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="UDPEncoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="UDPDecoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="V2DEncoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="V2DDecoderStatus" type="AVCodecElementStatusType" />
+          <xs:element name="V2DSoftDecoderStatus" type="AVCodecElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CPUElementType">
+    <xs:all>
+      <xs:element ref="CPUConfig" />
+      <xs:element ref="CPUStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="CPUConfig" type="CPUElementConfigType" />
+  <xs:complexType name="CPUElementConfigType">
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="CPUStatus" type="CPUElementStatusType" />
+  <xs:complexType name="CPUElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="MemoryElementType">
+    <xs:all>
+      <xs:element ref="MemoryConfig" />
+      <xs:element ref="MemoryStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="MemoryConfig" type="MemoryElementConfigType" />
+  <xs:complexType name="MemoryElementConfigType">
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="MemoryStatus" type="MemoryElementStatusType" />
+  <xs:complexType name="MemoryElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="SystemHWElementType">
+    <xs:all>
+      <xs:element ref="SystemHWConfig" />
+      <xs:element ref="SystemHWStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SystemHWConfig" type="SystemHWElementConfigType" />
+  <xs:complexType name="SystemHWElementConfigType">
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="SystemHWStatus" type="SystemHWElementStatusType" />
+  <xs:complexType name="SystemHWElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="FrontPanelElementType">
+    <xs:all>
+      <xs:element ref="FrontPanelConfig" />
+      <xs:element ref="FrontPanelStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="FrontPanelConfig" type="FrontPanelElementConfigType" />
+  <xs:complexType name="FrontPanelElementConfigType">
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="FrontPanelStatus" type="FrontPanelElementStatusType" />
+  <xs:complexType name="FrontPanelElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="SystemClockElementType">
+    <xs:all>
+      <xs:element ref="SystemClockConfig" />
+      <xs:element ref="SystemClockStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SystemClockConfig" type="SystemClockElementConfigType" />
+  <xs:complexType name="SystemClockElementConfigType">
+    <xs:all>
+      <xs:element name="EnableNTPClient" type="xs:string" />
+      <xs:element name="NTPServerIP" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="SystemClockStatus" type="SystemClockElementStatusType" />
+  <xs:complexType name="SystemClockElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="SoftwareImageElementType">
+    <xs:all>
+      <xs:element ref="SoftwareImageConfig" />
+      <xs:element ref="SoftwareImageStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SoftwareImageConfig" type="SoftwareImageElementConfigType" />
+  <xs:complexType name="SoftwareImageElementConfigType">
+    <xs:all>
+      <xs:element name="RootPassword" type="xs:string" />
+      <xs:element name="NewImageName" type="xs:string" />
+      <xs:element name="NewVersion" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="SoftwareImageStatus" type="SoftwareImageElementStatusType" />
+  <xs:complexType name="SoftwareImageElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="FirmwareImageElementType">
+    <xs:all>
+      <xs:element ref="FirmwareImageConfig" />
+      <xs:element ref="FirmwareImageStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="FirmwareImageConfig" type="FirmwareImageElementConfigType" />
+  <xs:complexType name="FirmwareImageElementConfigType">
+    <xs:all>
+      <xs:element name="NewImageName" type="xs:string" />
+      <xs:element name="NewVersion" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="FirmwareImageStatus" type="FirmwareImageElementStatusType" />
+  <xs:complexType name="FirmwareImageElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="LicenseElementType">
+    <xs:all>
+      <xs:element ref="LicenseConfig" />
+      <xs:element ref="LicenseStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="LicenseConfig" type="LicenseElementConfigType" />
+  <xs:complexType name="LicenseElementConfigType">
+    <xs:all>
+      <xs:element name="NewLicenseKey" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="LicenseStatus" type="LicenseElementStatusType" />
+  <xs:complexType name="LicenseElementStatusType">
+    <xs:all>
+      <xs:element name="LicenseInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ProductID" type="xs:string" />
+            <xs:element name="Company" type="xs:string" />
+            <xs:element name="Key" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="LicensePack">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Name" type="xs:string" />
+            <xs:element name="ValidUntil" type="xs:string" />
+            <xs:element name="Value" type="xs:string" />
+            <xs:element name="Key" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="EthernetPortElementType">
+    <xs:all>
+      <xs:element ref="EthernetPortConfig" />
+      <xs:element ref="EthernetPortStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="EthernetPortTableConfig" type="EthernetPortTableElementConfigType" />
+  <xs:complexType name="EthernetPortTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="EthernetPortConfig" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="EthernetPortTableStatus" type="EthernetPortTableElementStatusType" />
+  <xs:complexType name="EthernetPortTableElementStatusType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="EthernetPortStatus" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="EthernetPortConfig" type="EthernetPortElementConfigType" />
+  <xs:complexType name="EthernetPortElementConfigType">
+    <xs:all>
+      <xs:element name="PortID" type="xs:integer" />
+      <xs:element name="EnableInterface" type="xs:boolean" />
+      <xs:element name="IsPrimary" type="xs:boolean" />
+      <xs:element name="EnableMulticast" type="xs:boolean" />
+      <xs:element name="MTU" type="xs:string" />
+      <xs:element name="IPConfig" type="IPConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="PrimaryEthernetPortStatus" type="EthernetPortElementStatusType" />
+  <xs:element name="SecondaryEthernetPortStatus" type="EthernetPortElementStatusType" />
+  <xs:element name="AuxiliaryEthernetPortStatus" type="EthernetPortElementStatusType" />
+  <xs:element name="EthernetPortStatus" type="EthernetPortElementStatusType" />
+  <xs:complexType name="EthernetPortElementStatusType">
+    <xs:sequence>
+      <xs:element ref="ParametersList" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="IPConfig" type="IPConfigType" />
+  <xs:complexType name="IPConfigType">
+    <xs:sequence>
+      <xs:element name="UseDHCP" type="xs:boolean" />
+      <xs:element name="IPAddress" type="xs:string" />
+      <xs:element name="Netmask" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RouteTableElementType">
+    <xs:all>
+      <xs:element ref="RouteTableConfig" />
+      <xs:element ref="RouteTableStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="RouteTableConfig" type="RouteTableElementConfigType" />
+  <xs:complexType name="RouteTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="RouteEntry" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="RouteTableStatus" type="RouteTableElementStatusType" />
+  <xs:complexType name="RouteTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="ParametersList" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="RouteEntry" type="RouteEntryType" />
+  <xs:complexType name="RouteEntryType">
+    <xs:sequence>
+      <xs:element name="Destination" type="xs:string" />
+      <xs:element name="Netmask" type="xs:string" />
+      <xs:element name="Gateway" type="xs:string" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="HostTableConfig" type="HostTableElementConfigType" />
+  <xs:complexType name="HostTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="HostEntry" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="HostTableStatus" type="HostTableElementStatusType" />
+  <xs:complexType name="HostTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="ParametersList" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="HostEntry" type="HostEntryType" />
+  <xs:complexType name="HostEntryType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="IPAddress" type="xs:string" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="NATZoneTableConfig" type="NATZoneTableElementConfigType" />
+  <xs:complexType name="NATZoneTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="NATZoneEntry" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="NATZoneTableStatus" type="NATZoneTableElementStatusType" />
+  <xs:complexType name="NATZoneTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="ParametersList" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="NATZoneEntry" type="NATZoneEntryType" />
+  <xs:complexType name="NATZoneEntryType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="IPAddress" type="xs:string" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="DNSClientConfig" type="DNSClientElementConfigType" />
+  <xs:complexType name="DNSClientElementConfigType">
+    <xs:all>
+      <xs:element name="HostName" type="xs:string" />
+      <xs:element name="DNSDomain" type="xs:string" />
+      <xs:element name="DNSServerIP" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="DNSClientStatus" type="DNSClientElementStatusType" />
+  <xs:complexType name="DNSClientElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="HTTPServiceElementType">
+    <xs:all>
+      <xs:element ref="HTTPServiceConfig" />
+      <xs:element ref="HTTPServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="LoginBannerConfig" type="LoginBannerElementConfigType" />
+  <xs:complexType name="LoginBannerElementConfigType">
+    <xs:all>
+      <xs:element name="Banner" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="AdminServiceConfig" type="AdminServiceElementConfigType" />
+  <xs:complexType name="AdminServiceElementConfigType">
+    <xs:all>
+      <xs:element name="Password" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="RebootCommand" type="RebootCommandType" />
+  <xs:complexType name="RebootCommandType" />
+  <xs:element name="ShutdownCommand" type="ShutdownCommandType" />
+  <xs:complexType name="ShutdownCommandType" />
+  <xs:element name="SystemClockCommand" type="SystemClockCommandType" />
+  <xs:complexType name="SystemClockCommandType">
+    <xs:all>
+      <xs:element name="Hour" type="xs:int" />
+      <xs:element name="Minute" type="xs:int" />
+      <xs:element name="Seconds" type="xs:int" />
+      <xs:element name="Month" type="xs:int" />
+      <xs:element name="Day" type="xs:int" />
+      <xs:element name="Year" type="xs:int" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="RevertToDefaultsCommand" type="RevertToDefaultsCommandType" />
+  <xs:complexType name="RevertToDefaultsCommandType" />
+  <xs:element name="UpgradeSoftwareCommand" type="UpgradeSoftwareCommandType" />
+  <xs:complexType name="UpgradeSoftwareCommandType">
+    <xs:all>
+      <xs:element name="UpgradeURL" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SaveToFlashCommand" type="SaveToFlashCommandType" />
+  <xs:complexType name="SaveToFlashCommandType" />
+  <xs:element name="HTTPServiceConfig" type="HTTPServiceElementConfigType" />
+  <xs:complexType name="HTTPServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableHTTP" type="xs:boolean" />
+      <xs:element name="HTTPPort" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="HTTPServiceStatus" type="HTTPServiceElementStatusType" />
+  <xs:complexType name="HTTPServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="SSHServiceElementType">
+    <xs:all>
+      <xs:element ref="SSHServiceConfig" />
+      <xs:element ref="SSHServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SSHServiceConfig" type="SSHServiceElementConfigType" />
+  <xs:complexType name="SSHServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableSSH" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="SSHServiceStatus" type="SSHServiceElementStatusType" />
+  <xs:complexType name="SSHServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="SecureTunnelClientServiceElementType">
+    <xs:all>
+      <xs:element ref="SecureTunnelClientServiceConfig" />
+      <xs:element ref="SecureTunnelClientServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="SecureTunnelClientServiceConfig" type="SecureTunnelClientServiceElementConfigType" />
+  <xs:complexType name="SecureTunnelClientServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableSecureTunnel" type="xs:boolean" />
+      <xs:element name="TunnelRemoteIP" type="xs:string" />
+      <xs:element name="TunnelUsername" type="xs:string" />
+      <xs:element name="TunnelPassword" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="SecureTunnelClientServiceStatus" type="SecureTunnelClientServiceElementStatusType" />
+  <xs:complexType name="SecureTunnelClientServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="ClientDownloadServiceElementType">
+    <xs:all>
+      <xs:element ref="ClientDownloadServiceConfig" />
+      <xs:element ref="ClientDownloadServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="ClientDownloadServiceConfig" type="ClientDownloadServiceElementConfigType" />
+  <xs:complexType name="ClientDownloadServiceElementConfigType">
+    <xs:all>
+      <xs:element name="AdminClientURL" type="xs:string" />
+      <xs:element name="MediaClientURL" type="xs:string" />
+      <xs:element name="ClientDefaultGroups" type="TagList" />
+      <xs:element name="ClientBaseAgentID" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="ClientDownloadServiceStatus" type="ClientDownloadServiceElementStatusType" />
+  <xs:complexType name="ClientDownloadServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="XMPPServiceElementType">
+    <xs:all>
+      <xs:element ref="XMPPServiceConfig" />
+      <xs:element ref="XMPPServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="XMPPServiceConfig" type="XMPPServiceElementConfigType" />
+  <xs:complexType name="XMPPServiceElementConfigType">
+    <xs:all>
+      <xs:element name="XMPPServer">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="XMPPServerEnable" type="xs:boolean" />
+            <xs:element name="XMPPServerPort" type="xs:string" />
+            <xs:element name="XMPPServerLDAPAuth">
+              <xs:complexType>
+                <xs:sequence>
+					<xs:element name="Enable" type="xs:boolean" />
+					<xs:element name="Host" type="xs:string" />
+					<xs:element name="AdminDN" type="xs:string" />
+					<xs:element name="AdminPassword" type="xs:string" />
+					<xs:element name="BaseDN" type="xs:string" />
+					<xs:element name="UsernameField" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="DeviceDiscovery">
+      			<xs:complexType>
+      				<xs:sequence>
+      					<xs:element name="Enable" type="xs:boolean" />
+      				</xs:sequence>
+      			</xs:complexType>
+      		</xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServicePreferences">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Login">
+            	<xs:complexType>
+              		<xs:sequence>
+          		  		<xs:element name="MaxMediaClients" type="xs:int" />
+          			</xs:sequence>
+    		  	</xs:complexType>
+  			</xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IPVSAuthService">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="SuperUserDefaults">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element default="superuser" name="UserName" type="xs:string" />
+                  <xs:element default="superuser" name="Password" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IPVSDBService">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Backup">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="DailyBackup" type="xs:boolean" />
+                  <xs:element name="BackupTime" type="xs:integer" />
+                  <xs:element name="EnableExport" type="xs:boolean" />
+                  <xs:element name="ExportURL" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Restore">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="RecoveryMode">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="Factory" />
+                        <xs:enumeration value="LastBackup" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Cluster">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="ClusterPort" type="xs:int" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPServiceStatus" type="XMPPServiceElementStatusType" />
+  <xs:complexType name="XMPPServiceElementStatusType">
+    <xs:all>
+      <xs:element name="XMPPServerStatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Parameters" />
+          </xs:sequence>
+          <xs:attributeGroup ref="Queryable" />
+          <xs:attributeGroup ref="State" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="IPVSDBServiceStatus">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Parameters" />
+          </xs:sequence>
+          <xs:attributeGroup ref="Queryable" />
+          <xs:attributeGroup ref="State" />
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="XMPPAgentServiceElementType">
+    <xs:all>
+      <xs:element ref="XMPPAgentServiceConfig" />
+      <xs:element ref="XMPPAgentServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceAdminAgentConfig" type="XMPPAgentServiceAdminAgentConfigType" />
+  <xs:complexType name="XMPPAgentServiceAdminAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceAdminAgentStatus" type="XMPPAgentServiceAdminAgentStatusType" />
+  <xs:complexType name="XMPPAgentServiceAdminAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceConfigAgentConfig" type="XMPPAgentServiceConfigAgentConfigType" />
+  <xs:complexType name="XMPPAgentServiceConfigAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceConfigAgentStatus" type="XMPPAgentServiceConfigAgentStatusType" />
+  <xs:complexType name="XMPPAgentServiceConfigAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceDestinationAgentConfig" type="XMPPAgentServiceDestinationAgentConfigType" />
+  <xs:complexType name="XMPPAgentServiceDestinationAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceDestinationAgentStatus" type="XMPPAgentServiceDestinationAgentStatusType" />
+  <xs:complexType name="XMPPAgentServiceDestinationAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceSourceAgentConfig" type="XMPPAgentServiceSourceAgentConfigType" />
+  <xs:complexType name="XMPPAgentServiceSourceAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceSourceAgentStatus" type="XMPPAgentServiceSourceAgentStatusType" />
+  <xs:complexType name="XMPPAgentServiceSourceAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceXAuthAgentConfig" type="XMPPAgentServiceXAuthAgentConfigType" />
+  <xs:complexType name="XMPPAgentServiceXAuthAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="XAuthServer" type="xs:string" />
+      <xs:element name="XAuthServerPort" type="xs:string" />
+      <xs:element name="XAuthKeepAliveInterval" type="xs:int" />
+      <xs:element name="XAuthKeepAliveTimeout" type="xs:int" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceXAuthAgentStatus" type="XMPPAgentServiceXAuthAgentStatusType" />
+  <xs:complexType name="XMPPAgentServiceXAuthAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServicePortCtrlAgentConfig" type="XMPPAgentServicePortCtrlAgentConfigType" />
+  <xs:complexType name="XMPPAgentServicePortCtrlAgentConfigType">
+    <xs:all>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element ref="TargetPortTableConfig" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="XMPPAgentServicePortCtrlAgentStatus" type="XMPPAgentServicePortCtrlAgentStatusType" />
+  <xs:complexType name="XMPPAgentServicePortCtrlAgentStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="LinkLocalXMPPAgentServiceConfig" type="LinkLocalXMPPAgentServiceElementConfigType" />
+  <xs:complexType name="LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:complexType name="All-LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LinkLocalXMPPAgentServiceStatus" type="LinkLocalXMPPAgentServiceElementStatusType" />
+  <xs:complexType name="LinkLocalXMPPAgentServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="All-LinkLocalXMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceConfig" type="XMPPAgentServiceElementConfigType" />
+  <xs:complexType name="XMPPAgentServiceElementConfigType">
+    <xs:sequence>
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="XMPPServer" type="xs:string" />
+      <xs:element name="XMPPServerPort" type="xs:string" />
+      <xs:element name="DeviceName" type="xs:string" />
+      <xs:element name="DevicePassword" type="xs:string" />
+      <xs:element name="Domain" type="xs:string" />
+      <xs:element name="ServiceDomain" type="xs:string" />
+      <xs:element name="EnableLinkLocalXMPP" type="xs:boolean" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:complexType name="All-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentConfig" />
+                <xs:element ref="XMPPAgentServiceSourceAgentConfig" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentConfig" />
+                <xs:element ref="XMPPAgentServicePortCtrlAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="XMPPAgentServiceStatus" type="XMPPAgentServiceElementStatusType" />
+  <xs:complexType name="XMPPAgentServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="All-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentStatus" />
+                <xs:element ref="XMPPAgentServiceSourceAgentStatus" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TelnetServiceElementType">
+    <xs:all>
+      <xs:element ref="TelnetServiceConfig" />
+      <xs:element ref="TelnetServiceStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="TelnetServiceConfig" type="TelnetServiceElementConfigType" />
+  <xs:complexType name="TelnetServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableTelnet" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="TFTPServiceConfig" type="TFTPServiceElementConfigType" />
+  <xs:complexType name="TFTPServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableTFTP" type="xs:boolean" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="DHCPServiceConfig" type="DHCPServiceElementConfigType" />
+  <xs:complexType name="DHCPServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableDHCPServer" type="xs:boolean" />
+      <xs:element name="DHCPStartIP" type="xs:string" />
+      <xs:element name="DHCPEndIP" type="xs:string" />
+      <xs:element name="PublishDNSServer" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="NTPServiceConfig" type="NTPServiceElementConfigType" />
+  <xs:complexType name="NTPServiceElementConfigType">
+    <xs:all>
+      <xs:element name="EnableNTPServer" type="xs:boolean" />
+      <xs:element name="NTPServerIP" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="TelnetServiceStatus" type="TelnetServiceElementStatusType" />
+  <xs:complexType name="TelnetServiceElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="StreamingServiceElementType" abstract="true" />
+  <xs:complexType name="All-StreamingServiceElementType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementType">
+        <xs:sequence>
+          <xs:element name="Config" type="All-StreamingServiceElementConfigType" />
+          <xs:element name="Status" type="All-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StreamingServiceElementConfigType" abstract="true">
+    <xs:sequence>
+      <xs:element name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:complexType name="All-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="StreamsTxConfig" />
+          <xs:element ref="V2DStreamsTxConfig" />
+          <xs:element ref="MPEGTSStreamsTxConfig" />
+          <xs:element ref="UDPStreamsTxConfig" />
+          <xs:element ref="RTPStreamsTxConfig" />
+          <xs:element ref="V2DStreamsRxConfig" />
+          <xs:element ref="MPEGTSStreamsRxConfig" />
+          <xs:element ref="UDPStreamsRxConfig" />
+          <xs:element ref="RTPStreamsRxConfig" />
+          <xs:element ref="StreamsReaderConfig" />
+          <xs:element ref="StreamsWriterConfig" />
+          <xs:element ref="V2DStreamsEncodeConfig" />
+          <xs:element ref="V2DStreamsDecodeConfig" />
+          <xs:element ref="MPEGStreamsEncodeConfig" />
+          <xs:element ref="MPEGStreamsDecodeConfig" />
+          <xs:element ref="UDPStreamsEncodeConfig" />
+          <xs:element ref="UDPStreamsDecodeConfig" />
+          <xs:element ref="RTPRAWtreamsTxConfig" />
+          <xs:element ref="RTPRAWStreamsEncodeConfig" />
+          <xs:element ref="RTPRAWtreamsRxConfig" />
+          <xs:element ref="RTPRAWStreamsDecodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StreamingServiceElementStatusType" abstract="true">
+    <xs:sequence>
+      <xs:element name="CurrentStreamInstanceCount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Total" type="xs:int" />
+            <xs:element minOccurs="0" name="Transmit" type="xs:int" />
+            <xs:element minOccurs="0" name="Receive" type="xs:int" />
+            <xs:element minOccurs="0" name="Read" type="xs:int" />
+            <xs:element minOccurs="0" name="Write" type="xs:int" />
+            <xs:element minOccurs="0" name="Encode" type="xs:int" />
+            <xs:element minOccurs="0" name="Decode" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="All-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="All-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StreamingServiceInstanceListType" abstract="true" />
+  <xs:complexType name="All-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:element ref="V2DStreamTxInstance" />
+          <xs:element ref="MPEGTSStreamTxInstance" />
+          <xs:element ref="UDPStreamTxInstance" />
+          <xs:element ref="RTPStreamTxInstance" />
+          <xs:element ref="V2DStreamRxInstance" />
+          <xs:element ref="MPEGTSStreamRxInstance" />
+          <xs:element ref="UDPStreamRxInstance" />
+          <xs:element ref="RTPStreamRxInstance" />
+          <xs:element ref="StreamReaderInstance" />
+          <xs:element ref="StreamWriterInstance" />
+          <xs:element ref="V2DEncoderInstance" />
+          <xs:element ref="V2DDecoderInstance" />
+          <xs:element ref="MPEGEncoderInstance" />
+          <xs:element ref="MPEGDecoderInstance" />
+          <xs:element ref="UDPEncoderInstance" />
+          <xs:element ref="UDPDecoderInstance" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTPRAWtreamsTxConfig" type="RTPRAWtreamsTxConfigType" />
+  <xs:complexType name="RTPRAWtreamsTxConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="TxCtrlPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPRAWtreamsRxConfig" type="RTPRAWtreamsRxConfigType" />
+  <xs:complexType name="RTPRAWtreamsRxConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="RxMediaPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPRAWStreamsEncodeConfig" type="RTPRAWStreamsEncodeConfigType" />
+  <xs:complexType name="RTPRAWStreamsEncodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPRAWStreamsDecodeConfig" type="RTPRAWStreamsDecodeConfigType" />
+  <xs:complexType name="RTPRAWStreamsDecodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreamsTxConfig" type="StreamingServiceTransmitConfigType" />
+  <xs:complexType name="StreamingServiceTransmitConfigType">
+    <xs:sequence>
+      <xs:element name="MulticastIpAddressRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:string" />
+            <xs:element name="To" type="xs:string" />
+            <xs:element name="MulticastTTL" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreamsReaderConfig" type="StreamingServiceReaderConfigType" />
+  <xs:complexType name="StreamingServiceReaderConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreamsWriterConfig" type="StreamingServiceWriterConfigType" />
+  <xs:complexType name="StreamingServiceWriterConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamsTxConfig" type="StreamingServiceV2DTransmitConfigType" />
+  <xs:complexType name="StreamingServiceV2DTransmitConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="TxCtrlPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamsRxConfig" type="StreamingServiceV2DReceiveConfigType" />
+  <xs:complexType name="StreamingServiceV2DReceiveConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="RxMediaPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamsTxConfig" type="StreamingServiceMPEGTSTransmitConfigType" />
+  <xs:complexType name="StreamingServiceMPEGTSTransmitConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamsRxConfig" type="StreamingServiceMPEGTSReceiveConfigType" />
+  <xs:complexType name="StreamingServiceMPEGTSReceiveConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="RxMediaPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPStreamsTxConfig" type="StreamingServiceUDPTransmitConfigType" />
+  <xs:complexType name="StreamingServiceUDPTransmitConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPStreamsRxConfig" type="StreamingServiceUDPReceiveConfigType" />
+  <xs:complexType name="StreamingServiceUDPReceiveConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="RxMediaPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPStreamsTxConfig" type="StreamingServiceRTPTransmitConfigType" />
+  <xs:complexType name="StreamingServiceRTPTransmitConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element maxOccurs="unbounded" name="SDPTemplate" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTPStreamsRxConfig" type="StreamingServiceRTPReceiveConfigType" />
+  <xs:complexType name="StreamingServiceRTPReceiveConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+      <xs:element name="RxMediaPortRange">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="From" type="xs:int" />
+            <xs:element name="To" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamsEncodeConfig" type="StreamingServiceV2DEncodeConfigType" />
+  <xs:complexType name="StreamingServiceV2DEncodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamsDecodeConfig" type="StreamingServiceV2DDecodeConfigType" />
+  <xs:complexType name="StreamingServiceV2DDecodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGStreamsEncodeConfig" type="StreamingServiceMPEGEncodeConfigType" />
+  <xs:complexType name="StreamingServiceMPEGEncodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGStreamsDecodeConfig" type="StreamingServiceMPEGDecodeConfigType" />
+  <xs:complexType name="StreamingServiceMPEGDecodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPStreamsEncodeConfig" type="StreamingServiceUDPEncodeConfigType" />
+  <xs:complexType name="StreamingServiceUDPEncodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPStreamsDecodeConfig" type="StreamingServiceUDPDecodeConfigType" />
+  <xs:complexType name="StreamingServiceUDPDecodeConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxStreamInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamInstanceType">
+    <xs:sequence>
+      <xs:element name="SSInstanceID" type="xs:int" />
+      <xs:element name="QID" type="xs:int" />
+      <xs:element name="ReferenceCount" type="xs:int" />
+      <xs:element name="InstanceStatus" type="StatusParametersType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamTxInstance" type="V2DStreamTxInstanceType" />
+  <xs:complexType name="V2DStreamTxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="V2DStreamTxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DStreamRxInstance" type="V2DStreamRxInstanceType" />
+  <xs:complexType name="V2DStreamRxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="V2DStreamRxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamTxInstance" type="MPEGTSStreamTxInstanceType" />
+  <xs:complexType name="MPEGTSStreamTxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="MPEGTSStreamTxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamRxInstance" type="MPEGTSStreamRxInstanceType" />
+  <xs:complexType name="MPEGTSStreamRxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="MPEGTSStreamRxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDPStreamTxInstance" type="UDPStreamTxInstanceType" />
+  <xs:complexType name="UDPStreamTxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="UDPStreamTxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDPStreamRxInstance" type="UDPStreamRxInstanceType" />
+  <xs:complexType name="UDPStreamRxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="UDPStreamRxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTPStreamTxInstance" type="RTPStreamTxInstanceType" />
+  <xs:complexType name="RTPStreamTxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="RTPStreamTxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTPStreamRxInstance" type="RTPStreamRxInstanceType" />
+  <xs:complexType name="RTPStreamRxInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="RTPStreamRxInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StreamReaderInstance" type="StreamReaderInstanceType" />
+  <xs:complexType name="StreamReaderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="StreamReaderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StreamWriterInstance" type="StreamWriterInstanceType" />
+  <xs:complexType name="StreamWriterInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="StreamWriterInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DEncoderInstance" type="V2DEncoderInstanceType" />
+  <xs:complexType name="V2DEncoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="V2DEncoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DDecoderInstance" type="V2DDecoderInstanceType" />
+  <xs:complexType name="V2DDecoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="V2DDecoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGEncoderInstance" type="MPEGEncoderInstanceType" />
+  <xs:complexType name="MPEGEncoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="MPEGEncoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGDecoderInstance" type="MPEGDecoderInstanceType" />
+  <xs:complexType name="MPEGDecoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="MPEGDecoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDPEncoderInstance" type="UDPEncoderInstanceType" />
+  <xs:complexType name="UDPEncoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="UDPEncoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDPDecoderInstance" type="UDPDecoderInstanceType" />
+  <xs:complexType name="UDPDecoderInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">
+        <xs:sequence>
+          <xs:element ref="UDPDecoderInstanceConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ImageWriterInstance" type="ImageWriterInstanceType" />
+  <xs:complexType name="ImageWriterInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceType">       
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StreamInstanceConfigType">
+    <xs:sequence>
+      <xs:element name="TxCtrlIpAddress" type="xs:string" />
+      <xs:element name="MulticastTTL" type="xs:int" />
+      <xs:element name="MulticastIpAddress" type="xs:string" />
+      <xs:element name="RxMediaIpAddress" type="xs:string" />
+      <xs:element name="RxMediaPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DStreamTxInstanceConfig" type="V2DStreamInstanceConfigType" />
+  <xs:element name="V2DStreamRxInstanceConfig" type="V2DStreamInstanceConfigType" />
+  <xs:complexType name="V2DStreamInstanceConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceConfigType">
+        <xs:sequence>
+          <xs:element name="TxCtrlPort" type="xs:int" />
+          <xs:element ref="V2DStreamConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGTSStreamTxInstanceConfig" type="MPEGTSStreamInstanceConfigType" />
+  <xs:element name="MPEGTSStreamRxInstanceConfig" type="MPEGTSStreamInstanceConfigType" />
+  <xs:complexType name="MPEGTSStreamInstanceConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceConfigType">
+        <xs:sequence>
+          <xs:element ref="MPEGTSStreamConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDPStreamTxInstanceConfig" type="UDPStreamInstanceConfigType" />
+  <xs:element name="UDPStreamRxInstanceConfig" type="UDPStreamInstanceConfigType" />
+  <xs:complexType name="UDPStreamInstanceConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceConfigType">
+        <xs:sequence>
+          <xs:element ref="UDPStreamConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTPStreamTxInstanceConfig" type="RTPStreamInstanceConfigType" />
+  <xs:element name="RTPStreamRxInstanceConfig" type="RTPStreamInstanceConfigType" />
+  <xs:complexType name="RTPStreamInstanceConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamInstanceConfigType">
+        <xs:sequence>
+          <xs:element ref="RTPStreamConfig" />
+          <xs:element name="SDP" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StreamReaderInstanceConfig" type="StreamReaderInstanceConfigType" />
+  <xs:complexType name="StreamReaderInstanceConfigType">
+    <xs:sequence>
+      <xs:element name="StartOffset" type="xs:string" />
+      <xs:element name="FFTrackReadSelection" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StreamWriterInstanceConfig" type="StreamWriterInstanceConfigType" />
+  <xs:complexType name="StreamWriterInstanceConfigType">
+    <xs:sequence>
+      <xs:element name="Append" type="xs:boolean" />
+      <xs:element name="Overwrite" type="xs:boolean" />
+      <xs:element name="FFTrackWriteSelection" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DEncoderInstanceConfig" type="V2DEncoderInstanceConfigType" />
+  <xs:complexType name="V2DEncoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="V2DEncoderInstanceAuthorizationEntryConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="V2DDecoderInstanceConfig" type="V2DDecoderInstanceConfigType" />
+  <xs:complexType name="V2DDecoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="V2DDecoderInstanceConnectionEntryConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGEncoderInstanceConfig" type="MPEGEncoderInstanceConfigType" />
+  <xs:complexType name="MPEGEncoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="MPEGEncoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGDecoderInstanceConfig" type="MPEGDecoderInstanceConfigType" />
+  <xs:complexType name="MPEGDecoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="MPEGDecoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPEncoderInstanceConfig" type="UDPEncoderInstanceConfigType" />
+  <xs:complexType name="UDPEncoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="UDPEncoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UDPDecoderInstanceConfig" type="UDPDecoderInstanceConfigType" />
+  <xs:complexType name="UDPDecoderInstanceConfigType">
+    <xs:sequence>
+      <xs:element ref="UDPDecoderParameterConfig" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MountTableElementType">
+    <xs:all>
+      <xs:element ref="MountTableConfig" />
+      <xs:element ref="MountTableStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="MountTableConfig" type="MountTableElementConfigType" />
+  <xs:complexType name="MountTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MountEntry" type="MountEntryType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="MountTableStatus" type="MountTableElementStatusType" />
+  <xs:complexType name="MountTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="MountEntry" type="MountEntryType" />
+  <xs:complexType name="MountEntryType">
+    <xs:sequence>
+      <xs:element name="DevPath" type="xs:boolean" />
+      <xs:element name="MountPoint" type="xs:string" />
+      <xs:element name="MountArgs" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CFDriveElementType">
+    <xs:all>
+      <xs:element ref="CFDriveConfig" />
+      <xs:element ref="CFDriveStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="CFDriveConfig" type="CFDriveElementConfigType" />
+  <xs:complexType name="CFDriveElementConfigType">
+    <xs:all>
+      <xs:element name="DeviceName" type="xs:string" />
+      <xs:element name="MountPoint" type="xs:string" />
+    </xs:all>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="CFDriveStatus" type="CFDriveElementStatusType" />
+  <xs:complexType name="CFDriveElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="HardDiskTableElementType">
+    <xs:all>
+      <xs:element ref="HardDiskTableConfig" />
+      <xs:element ref="HardDiskTableStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="HardDiskTableConfig" type="HardDiskTableElementConfigType" />
+  <xs:complexType name="HardDiskTableElementConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="HardDiskEntry" type="HardDiskEntryType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="HardDiskTableStatus" type="HardDiskTableElementStatusType" />
+  <xs:complexType name="HardDiskTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="HardDiskEntry" type="HardDiskEntryType" />
+  <xs:complexType name="HardDiskEntryType">
+    <xs:sequence>
+      <xs:element name="DeviceName" type="xs:string" />
+      <xs:element name="MountPoint" type="xs:string" />
+      <xs:element minOccurs="0" name="RAIDArrayEntry" type="RAIDArrayEntryType" />
+      <xs:element ref="MediaStore" />
+      <xs:element ref="SystemStore" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:complexType name="RAIDDiskTableElementType">
+    <xs:all>
+      <xs:element ref="RAIDDiskTableConfig" />
+      <xs:element ref="RAIDDiskTableStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="RAIDDiskTableConfig" type="RAIDDiskTableElementConfigType" />
+  <xs:complexType name="RAIDDiskTableElementConfigType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RAIDDiskEntry" type="RAIDDiskEntryType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="RAIDDiskTableStatus" type="RAIDDiskTableElementStatusType" />
+  <xs:complexType name="RAIDDiskTableElementStatusType">
+    <xs:sequence>
+      <xs:element ref="Parameters" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="RAIDDiskEntry" type="RAIDDiskEntryType" />
+  <xs:complexType name="RAIDDiskEntryType">
+    <xs:sequence>
+      <xs:element name="Port" type="xs:string" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="RAIDArrayEntry" type="RAIDArrayEntryType" />
+  <xs:complexType name="RAIDArrayEntryType">
+    <xs:sequence>
+      <xs:element name="Controller" type="xs:string" />
+      <xs:element name="Unit" type="xs:string" />
+      <xs:element name="RAIDType" type="RAIDTypeEnumType" />
+      <xs:element name="RAIDDiskTableConfig" type="RAIDDiskTableElementConfigType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:complexType name="NASElementType">
+    <xs:all>
+      <xs:element ref="NASConfig" />
+      <xs:element ref="NASStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="NASConfig" type="NASElementConfigType" />
+  <xs:complexType name="NASElementConfigType">
+    <xs:sequence>
+      <xs:element name="NASTable">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" ref="NASEntry" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="NASEntry" type="NASEntryType" />
+  <xs:complexType name="NASEntryType">
+    <xs:sequence>
+      <xs:element name="Server" type="xs:string" />
+      <xs:element name="RemoteDirectory" type="xs:string" />
+      <xs:element name="Enable" type="xs:boolean" />
+      <xs:element name="ReadOnly" type="xs:boolean" />
+      <xs:element ref="MediaStore" />
+      <xs:element ref="SystemStore" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="MediaStore" type="MediaStoreElementType" />
+  <xs:complexType name="MediaStoreElementType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="RootDirPath" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SystemStore" type="SystemStoreElementType" />
+  <xs:complexType name="SystemStoreElementType">
+    <xs:sequence>
+      <xs:element name="SystemReservation" type="SystemStoreReservationType" />
+      <xs:element name="ThumbnailReservation" type="SystemStoreReservationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SystemStoreReservationType">
+    <xs:sequence>
+      <xs:element name="RootDirPath" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="Size" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:element name="NASStatus" type="NASElementStatusType" />
+  <xs:complexType name="NASElementStatusType">
+    <xs:sequence>
+      <xs:element ref="ParametersList" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Queryable" />
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="AVCodecElementType">
+    <xs:all>
+      <xs:element ref="AVCodecConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="AVCodecConfig" type="AVCodecElementConfigType" />
+  <xs:complexType name="AVCodecElementConfigType" abstract="true">
+    <xs:sequence>
+      <xs:element name="PortID" type="xs:string" />
+      <xs:element name="MaxElementInstanceCount" type="xs:int" />
+    </xs:sequence>
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="AVCodecStatus" type="AVCodecElementStatusType" />
+  <xs:complexType name="AVCodecElementStatusType">
+    <xs:sequence>
+      <xs:element name="PortID" type="xs:string" />
+      <xs:element name="InstanceInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="PortInstance">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="ID" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="V2DEncoderElementType">
+    <xs:all>
+      <xs:element ref="V2DEncoderElementConfig" />
+      <xs:element ref="V2DEncoderElementStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="V2DEncoderElementConfig" type="V2DEncoderElementConfigType" />
+  <xs:complexType name="V2DEncoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element ref="V2DEncoderVideoConfig" />
+          <xs:element ref="V2DEncoderPortKbmConfig" />
+          <xs:element ref="V2DEncoderPortRFBConfig" />
+          <xs:element ref="V2DEncoderSerialConfig" />
+          <xs:element ref="V2DEncoderSplashParametersConfig" />
+          <xs:element ref="V2DCodecVideoLookupTable" />
+          <xs:element ref="V2DEncoderElementAdvancedVideoConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DEncoderElementStatus" type="V2DEncoderElementStatusType" />
+  <xs:complexType name="V2DEncoderElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementStatusType">
+        <xs:sequence>
+          <xs:element ref="V2DEncoderVideoStatus" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DDecoderElementType">
+    <xs:all>
+      <xs:element ref="V2DDecoderElementConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="V2DDecoderElementConfig" type="V2DDecoderElementConfigType" />
+  <xs:complexType name="V2DDecoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element ref="V2DDecoderVideoConfig" />
+          <xs:element ref="V2DDecoderSerialConfig" />
+          <xs:element ref="V2DDecoderSplashParametersConfig" />
+          <xs:element ref="V2DDecoderVideoLookupTable" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DSoftDecoderElementType">
+    <xs:all>
+      <xs:element ref="V2DSoftDecoderElementConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="V2DSoftDecoderElementConfig" type="V2DSoftDecoderElementConfigType" />
+  <xs:complexType name="V2DSoftDecoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="V2DXP200ElementType">
+    <xs:all>
+      <xs:element ref="V2DXP200ElementConfig" />
+      <xs:element ref="V2DXP200ElementStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="V2DXP200ElementConfig" type="V2DXP200ElementConfigType" />
+  <xs:complexType name="V2DXP200ElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element name="Configurable" type="xs:boolean" />
+                <xs:element name="PortIOType" type="PortIOTypeEnumType" />
+                <xs:element name="MaxEncoderInstanceCount" type="xs:int" />
+              </xs:sequence>
+              <xs:attributeGroup ref="Dirty" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element ref="V2DEncoderVideoConfig" />
+          <xs:element ref="V2DEncoderPortKbmConfig" />
+          <xs:element ref="V2DEncoderPortRFBConfig" />
+          <xs:element ref="V2DXP200SerialConfig" />
+          <xs:element ref="V2DEncoderSplashParametersConfig" />          
+          <xs:element ref="V2DDecoderSplashParametersConfig" />
+          <xs:element ref="V2DCodecVideoLookupTable" />
+          <xs:element ref="V2DEncoderThumbnailParametersConfig" />
+          <xs:element ref="V2DDisplayOverrideTable" />
+          <xs:element ref="V2DEncoderElementAdvancedVideoConfig" />
+          <xs:element ref="V2DDecoderVideoConfig" />
+          <xs:element ref="XP200DecoderPortKbmConfig" />
+          <xs:element ref="XP200InputVideoConfig" />
+          <xs:element ref="XP200DisplayConfig" />
+          <xs:element ref="XP200AudioMixerConfig" />
+          <xs:element ref="XP200KBMSConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DXP200ElementStatus" type="V2DXP200ElementStatusType" />
+  <xs:complexType name="V2DXP200ElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementStatusType">
+        <xs:sequence>
+          <xs:element ref="V2DEncoderVideoStatus" />
+          <xs:element ref="XP200DisplayStatus" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGEncoderElementType">
+    <xs:all>
+      <xs:element ref="MPEGEncoderConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="MPEGEncoderConfig" type="MPEGEncoderElementConfigType" />
+  <xs:complexType name="MPEGEncoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="2" name="StreamType">
+                  <xs:simpleType>
+                    <xs:restriction base="StreamTypeEnumType">
+                      <xs:enumeration value="RTP" />
+                      <xs:enumeration value="MPEGTS" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Platform">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="WIS" />
+                      <xs:enumeration value="Axis" />
+                      <xs:enumeration value="QVidium" />
+                      <xs:enumeration value="VBrick-Src" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element ref="MPEGEncoderParameterConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGDecoderElementType">
+    <xs:all>
+      <xs:element ref="MPEGDecoderConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="MPEGDecoderConfig" type="MPEGDecoderElementConfigType" />
+  <xs:complexType name="MPEGDecoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="MPEGTS" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element fixed="RTP" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element name="Platform">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="IPVSPlayer" />
+                      <xs:enumeration value="VLC" />
+                      <xs:enumeration value="WMP-Elecard" />
+                      <xs:enumeration value="Quicktime" />
+                      <xs:enumeration value="Amino-110" />
+                      <xs:enumeration value="Amino-120" />
+                      <xs:enumeration value="Amino-130" />
+                      <xs:enumeration value="VBrick-Dst" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element ref="MPEGDecoderParameterConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDPEncoderElementType">
+    <xs:all>
+      <xs:element ref="UDPEncoderConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="UDPEncoderConfig" type="UDPEncoderElementConfigType" />
+  <xs:complexType name="UDPEncoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="UDP" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element name="Platform">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="DIS-Src" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element ref="UDPEncoderParameterConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDPDecoderElementType">
+    <xs:all>
+      <xs:element ref="UDPDecoderConfig" />
+      <xs:element ref="AVCodecStatus" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="UDPDecoderConfig" type="UDPDecoderElementConfigType" />
+  <xs:complexType name="UDPDecoderElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="UDP" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element name="Platform">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="DIS-Dst" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element ref="UDPDecoderParameterConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="V2DEncoderElementAdvancedVideoConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AutoPhaseAdjustID" type="xs:int" />
+        <xs:element name="Phase" type="xs:int" />
+        <xs:element name="SlicePerFrame" type="xs:float" />
+        <xs:element name="VideoLookupOptimizationQQQ" type="xs:string" />
+        <xs:element name="NoiseOptimization" type="NoiseType" />
+        <xs:element name="V2DEncoderPortMinimumSliceRateConfig">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Phase" type="xs:int" />
+              <xs:element name="LowerBound" type="xs:int" />
+              <xs:element name="UpperBound" type="xs:int" />
+              <xs:element name="Median" type="xs:int" />
+              <xs:element name="SlicePerFrame" type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="Dirty" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderInstanceAuthorizationEntryConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AuthorizationID" type="xs:string" />
+        <xs:element name="EnableRule" type="xs:boolean" />
+        <xs:element name="Network" type="xs:string" />
+        <xs:element name="Netmask" type="xs:string" />
+        <xs:element name="BurstRatio" type="xs:float" />
+        <xs:element name="BurstDuration" type="xs:int" />
+        <xs:element name="MaxBandwidth" type="xs:string" />
+        <xs:element name="Compression" type="HiLoType" />
+        <xs:element name="Unicast" type="xs:boolean" />
+        <xs:element name="UnicastPreemptible" type="xs:boolean" />
+        <xs:element name="MulticastInit" type="xs:boolean" />
+        <xs:element name="MulticastJoin" type="xs:boolean" />
+        <xs:element name="AllowRemoteKBMSControl" type="xs:boolean" />
+        <xs:element name="FrameRateDivider" type="xs:int" />
+        <xs:element name="ColorSampling" type="ColorSamplingType" />
+        <xs:element name="IFrameInterval" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DDecoderInstanceConnectionEntryConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="IPAddress" type="xs:string" />
+        <xs:element name="Port" type="xs:int" />
+        <xs:element name="ConnectionID" type="xs:int" />
+        <xs:element name="TransmitterName" type="xs:string" />
+        <xs:element name="Bandwidth" type="xs:string" />
+        <xs:element name="IsMulticast" type="xs:boolean" />
+        <xs:element name="AVOption" type="xs:string" />
+        <xs:element name="SampleRate" type="xs:string" />
+        <xs:element name="SampleSize" type="xs:string" />
+        <xs:element name="MonoStereo" type="xs:string" />
+        <xs:element name="AllowRemoteKBMSControl" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DEncoderInstanceStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Client" type="xs:string" />
+        <xs:element name="Status" type="xs:string" />
+        <xs:element name="LUT" type="xs:string" />
+        <xs:element name="MaximumBandwidth" type="xs:string" />
+        <xs:element name="VideoBandwidth" type="xs:string" />
+        <xs:element name="AudioBandwidth" type="xs:string" />
+        <xs:element name="VideoBytes" type="xs:string" />
+        <xs:element name="AudioBytes" type="xs:string" />
+        <xs:element name="VerticalFrequency" type="xs:string" />
+        <xs:element name="HorizontalFrequency" type="xs:string" />
+        <xs:element name="HorizontalLines" type="xs:string" />
+        <xs:element name="Stereo" type="xs:string" />
+        <xs:element name="Frames" type="xs:string" />
+        <xs:element name="Slices" type="xs:string" />
+        <xs:element name="FrameRate" type="xs:string" />
+        <xs:element name="SliceRate" type="xs:string" />
+        <xs:element name="KBBytes" type="xs:string" />
+        <xs:element name="MSBytes" type="xs:string" />
+        <xs:element name="KBDropped" type="xs:string" />
+        <xs:element name="MSDropped" type="xs:string" />
+        <xs:element name="SerialBytesIn" type="xs:string" />
+        <xs:element name="SerialBytesOut" type="xs:string" />
+        <xs:element name="Timestamp" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="V2DDecoderInstanceStatus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Server" type="xs:string" />
+        <xs:element name="Status" type="xs:string" />
+        <xs:element name="LUT" type="xs:string" />
+        <xs:element name="CurrentBandwidth" type="xs:string" />
+        <xs:element name="VideoBandwidth" type="xs:string" />
+        <xs:element name="AudioBandwidth" type="xs:string" />
+        <xs:element name="VideoBytes" type="xs:string" />
+        <xs:element name="AudioBytes" type="xs:string" />
+        <xs:element name="VideoPackets" type="xs:string" />
+        <xs:element name="AudioPackets" type="xs:string" />
+        <xs:element name="VideoLost" type="xs:string" />
+        <xs:element name="AudioLost" type="xs:string" />
+        <xs:element name="VideoOutOfOrder" type="xs:string" />
+        <xs:element name="AudioOutOfOrder" type="xs:string" />
+        <xs:element name="VideoDropped" type="xs:string" />
+        <xs:element name="AudioDropped" type="xs:string" />
+        <xs:element name="Frames" type="xs:string" />
+        <xs:element name="Slices" type="xs:string" />
+        <xs:element name="FrameRate" type="xs:string" />
+        <xs:element name="SliceRate" type="xs:string" />
+        <xs:element name="KBBytes" type="xs:string" />
+        <xs:element name="MSBytes" type="xs:string" />
+        <xs:element name="KBDropped" type="xs:string" />
+        <xs:element name="MSDropped" type="xs:string" />
+        <xs:element name="SerialBytesIn" type="xs:string" />
+        <xs:element name="SerialBytesOut" type="xs:string" />
+        <xs:element name="Timestamp" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,195 @@
+declare function local:getUri($NID as xs:string)
+as xs:string
+{
+	let $uri1 := replace($NID, '\.', '/')
+  	let $context := replace($uri1, "default/", "/db/ipvs.default.")
+	return $context
+};
+
+declare function local:getCollection($listName as xs:string)
+as xs:string
+{
+	let $context := concat("ipvs.",$listName)
+	return $context
+};
+
+declare function local:handleReadError($type as xs:string, $data as xs:string) 
+as element(*)
+{
+	let $result := <error><type>{$type}</type><data>{$data}</data></error>
+	return $result
+};
+
+declare function local:handleReadDBByNID($resourceNID as xs:string) 
+as element(*)
+{
+	let $resource := (
+	
+	    (: MIYE removing sedna code :)
+		(: for $b in index-scan('IPVSi_nids_default', $resourceNID, 'EQ')/.. :)
+		for $b in doc(local:getUri($resourceNID))/*
+		
+		return $b
+	)
+	return if (empty($resource))
+		then local:handleReadError("NID", $resourceNID)
+		else $resource
+};
+
+
+declare function local:handleReadDBByTitleDebug($listName as xs:string, $resourceTitle as xs:string) 
+as element(*)
+{
+	let $resource := <resource><listName>{$listName}</listName><title>{$resourceTitle}</title></resource>
+	return $resource
+};
+
+declare function local:handleReadDBByTitle($listName as xs:string, $resourceTitle as xs:string) 
+as element(*)
+{
+	let $resource := (
+	
+	    (: MIYE removing sedna code :)
+		(: for $b in index-scan('IPVSis_colnids_default', $listName, 'EQ')/.. :) 
+		for $b in collection(local:getCollection($listName))
+		
+		where $b[(.//Info[Title=$resourceTitle])] 
+		return $b/*
+	)
+	let $c := count($resource)
+(:	let $countOfTitle := 'countOfTitle={$c}' :)
+	let $countOfTitle := concat("countOfTitle=", string($c))
+	return if ($c = 0)
+		then local:handleReadError("title", $resourceTitle)
+		else if ($c > 1)
+			then local:handleReadError($countOfTitle, $resourceTitle)
+			else $resource
+};
+
+declare function local:handleReadDstPort($resourceTitle as xs:string) 
+as element(*)
+{
+	let $ioListName := "default.mediastreamioportresourcelist"
+	let $dstListName := "default.mediastreamdstportresourcelist"
+	let $resource := local:handleReadDBByTitle($dstListName, $resourceTitle)
+	return if($resource/name() = "error")
+		then local:handleReadDBByTitle($ioListName, $resourceTitle)
+		else $resource
+};
+
+declare function local:handleReadSrcPort($resourceTitle as xs:string) 
+as element(*)
+{
+	let $ioListName := "default.mediastreamioportresourcelist"
+	let $srcListName := "default.mediastreamsrcportresourcelist"
+	let $resource := local:handleReadDBByTitle($srcListName, $resourceTitle)
+	return if($resource/name() = "error")
+		then local:handleReadDBByTitle($ioListName, $resourceTitle)
+		else $resource
+};
+
+declare function local:handleReadFile($resourceTitle as xs:string) 
+as element(*)
+{
+	let $listName := "default.mediastreamfileresourcelist"
+	let $resource := local:handleReadDBByTitle($listName, $resourceTitle)
+	return $resource
+};
+
+declare function local:handleReadDir($queryitem as element(*), $resourceTitle as xs:string) 
+as element(*)
+{
+	let $archiverTitle := data($queryitem/@archiverTitle)
+	let $listName := "default.mediastreamdirresourcelist"
+	let $resource := local:handleReadDBByTitle($listName, $resourceTitle)
+	return $resource
+};
+
+declare function local:handleReadByTitle($queryitem as element(*), $type as xs:string, $resourceTitle as xs:string) 
+as element(*)
+{
+	let $dstPort := "DstPort"
+	let $srcPort := "SrcPort"
+	let $plyFile := "PlyFile"
+	let $recFile := "RecFile"
+	let $dir := "Dir"
+	return if($type = $dstPort)
+		then local:handleReadDstPort($resourceTitle)
+		else if($type = $srcPort)
+			then local:handleReadSrcPort($resourceTitle)
+			else if($type = $plyFile)
+				then local:handleReadFile($resourceTitle)
+				else if($type = $recFile)
+					then local:handleReadFile($resourceTitle)
+					else if($type = $dir)
+						then local:handleReadDir($queryitem, $resourceTitle)
+						else local:handleReadError("name", $type)
+};
+
+declare function local:readAssetResource($queryitem as element(*))
+{
+  	let $userJID := data($queryitem/@resourceJID)
+    let $resourceTitle := if(not(contains($userJID, '/'))) then ''
+                          else tokenize($userJID, "/")[2]
+	  let $resourceDoc :=  if($resourceTitle = '') then  <NoResource/>
+	                       else for $resource in  collection('/db/ipvs.default.assetresourcelist')/*[@parentNID='default.assetresourcelist']
+				    	                   where $resource/Info/Title = $resourceTitle	
+					                    return $resource
+					                         
+			return $resourceDoc
+
+};
+
+
+declare function local:getUser($resourceDoc as element(*),$resourceJID as xs:string) 
+{
+	let $userJID := data($resourceDoc//OwnerUserJID)	
+  let $userName := if($userJID = '' and $resourceJID='') then ''
+                   else if($userJID != '') then tokenize($userJID, "@")[1]
+                   else if($resourceJID!='') then tokenize($resourceJID, "@")[1]
+                   else ''
+	let $userDoc :=  if($userName = '') then <NoUser/>
+	                 else for $user in  collection('/db/ipvs.default.userlist')/*[@parentNID='default.userlist']
+			    	               where $user//Username = $userName	
+				                return $user
+	 return $userDoc
+};
+
+declare function local:getResource($queryitem as element(*), $type as xs:string, $resourceNID as xs:string, $resourceTitle as xs:string)
+{
+	let $empty := ""
+	let $operator := "Operator"	
+	return if($type = $operator) 
+	       then local:readAssetResource($queryitem)
+	       else if($resourceNID = $empty)
+		   then local:handleReadByTitle($queryitem, $type, $resourceTitle)
+		   else local:handleReadDBByNID($resourceNID)
+};
+
+declare function local:handleQueryItem($queryitem as element(*))
+as element(*)
+{
+	let $resourceNID := data($queryitem/@resourceNID)
+	let $resourceTitle := data($queryitem/@resourceTitle)
+	let $type := data($queryitem/@type)
+	let $userJID := data($queryitem/@resourceJID)
+	let $elementName := data($queryitem/@elementName)
+	let $resource := local:getResource($queryitem, $type, $resourceNID, $resourceTitle)
+	let $user := if(count($resource) = 0) then <NoUser/> 
+	             else local:getUser($resource,$userJID)
+	let $resultitem := <resultitem elementName='{$elementName}' type='{$type}'  resourceNID='{$resourceNID}' resourceTitle='{$resourceTitle}'><User>{$user}</User><Resource>{$resource}</Resource></resultitem>
+	return $resultitem 
+};
+
+declare function local:handleQuery($q as element(*))
+as element(*)
+{				   
+
+	let $result := (
+		for $d in $q/*
+		let $r := local:handleQueryItem($d)
+		return $r
+	)
+	
+	return <result>{$result}</result>
+};

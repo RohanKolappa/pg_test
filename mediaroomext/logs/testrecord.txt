@@ -1,0 +1,59 @@
+<iq id='123' type='get'><query xmlns='com.ipvs.session'>
+
+
+<Record sessionId="proxy_test_1320363776" sessionName="proxy_test_1320363776"	id="proxy_test_1320363776" name="proxy_test_1320363776" srcEntityId=""
+				profileId="" resetTimeline="false">
+<Profile id="" profileNID="" profileTitle="" />
+<SrcPort id="" portNID="" portTitle="AHH Lab 1" />
+<DstFile id="" fileTitle="proxy_test_1320363776_1" dirNID=""
+					grpFileId="" dirId="" key="Title" action="Append"
+					keyMetaDataTagName="">
+					<MetaData>
+						<Tag Name="ID">1320363776</Tag>
+						<Tag Name="Hospital">hospital</Tag>
+						<Tag Name="Lab">AHH Lab 1_1320363776</Tag>
+						<Tag Name="Physician">physician</Tag>
+						<Tag Name="Patient">hosptial/AHH Lab 1_1320363776</Tag>
+						<Tag Name="PatientID">MD001</Tag>
+						<Tag Name="PatientDOB">01/24/1977</Tag>
+						<Tag Name="PatientSex">M</Tag>
+						<Tag Name="ProcedureType">AVOR</Tag>
+						<Tag Name="Notes" />
+					</MetaData>
+	</DstFile>
+</Record>
+
+
+</query></iq>
+
+<iq id='123' type='get'><query xmlns='com.ipvs.session'>
+<GetSession/>
+</query></iq>
+
+<iq id='123' type='get'><query xmlns='com.ipvs.session'>
+<StopSessionRequest sessionId="proxy_test_1320363776"/>
+</query></iq>
+
+
+<iq id='123' type='get'><query xmlns='com.ipvs.session'> 
+<RecordRequest sessionId="1031026379" id="recfile123" resetTimeline="false"> 
+<Profile/> 
+<SrcPort id='src1' portTitle="tx1"/> 
+<DstFile action="Append" key="MetaData" keyMetaDataTagName="ID"> 
+<MetaData> 
+      <Tag Name="ID">1031026379</Tag> 
+      <Tag Name="PatientName">Manual OCP Recording</Tag> 
+      <Tag Name="PatientID"></Tag> 
+      <Tag Name="PatientDOB"></Tag> 
+      <Tag Name="PatientSex"></Tag> 
+      <Tag Name="ProcedureType">EP_Right Atrium</Tag> 
+      <Tag Name="Physician">Dr. Simology</Tag> 
+      <Tag Name="Notes">OCP recording started at Lab Time: 11/08/11, 12:50:41</Tag> 
+</MetaData> 
+</DstFile> 
+</RecordRequest> 
+</query> </iq> 
+
+<iq id='123' type='get'><query xmlns='com.ipvs.session'>
+<StopSessionRequest sessionId="1031026379"/>
+</query></iq>

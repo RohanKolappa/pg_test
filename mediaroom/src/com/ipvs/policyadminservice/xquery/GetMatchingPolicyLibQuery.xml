@@ -1,0 +1,79 @@
+
+(: ------------------- Begin GetMatchingPolicyLib.xml -------------------- :)
+
+
+(:Create the request document for GetDir :)
+
+declare function
+local:createRequestDoc()as element()* {
+	let $userJID := '_USERJID_'
+	let $dstNID := '_DSTNID_'
+	let $srcNID := '_SRCNID_'
+	let $roleAction := '_ROLEACTION_'
+	let $userName := tokenize($userJID, "@")[1]
+	let $resourceTitle := tokenize($userJID, "/")[2]
+	let $userDoc := (
+			for $user in #OBJ_User_OBJ#
+			where $user/Username = $userName
+			return $user
+	)
+	let $resourceDoc := (
+			for $resource in #OBJ_AssetResource_OBJ#
+			where $resource/Info/Title = $resourceTitle
+			return $resource
+	)
+	
+	let $dstResource := doc(concat('/db/ipvs.default.',  
+								  substring-before( substring-after( $dstNID, 'default.') , '.'  ) , '/', 
+								  substring-after( substring-after( $dstNID, 'default.'),'.')))/*[@NID=$dstNID]	
+	
+	
+	let $dstUserOwnerJID := data($dstResource//OwnerUserJID)
+	let $dstuserDoc :=  if ($dstUserOwnerJID  != '')  then
+	                        let $dstUserName := tokenize($dstUserOwnerJID, "@")[1]
+							let $userDoc := for $user in collection('ipvs.default.userlist')/*
+												where $user/Username = $dstUserName
+										    return $user
+				            return  $userDoc
+						 else 
+						    ''	
+ 						 
+ 	let $srcResource := doc(concat('/db/ipvs.default.',  
+								  substring-before( substring-after( $srcNID, 'default.') , '.'  ) , '/', 
+								  substring-after( substring-after( $srcNID, 'default.'),'.')))/*[@NID=$srcNID]	
+	
+	let $srcUserOwnerJID := data($srcResource//OwnerUserJID)
+	let $srcuserDoc :=  if ($srcUserOwnerJID  != '')  then
+	                        let $srcUserName := tokenize($srcUserOwnerJID, "@")[1]
+							let $userDoc := for $user in collection('ipvs.default.userlist')/*
+												where $user/Username = $srcUserName
+										    return $user
+				            return  $userDoc
+						 else 
+						    ''
+	return
+		<RequestData>
+			<RoleAction>{$roleAction}</RoleAction>
+			<Operator> 
+		      <User> {$userDoc} </User>
+		      <Resource>{$resourceDoc} </Resource>
+		    </Operator>
+			<Destination>
+			  <User>
+				 {$dstuserDoc} 
+			  </User>
+			  <Resource>
+		         {$dstResource} 
+			  </Resource>
+			</Destination>
+			<Source>
+			  <User> {$srcuserDoc} </User>
+			  <Resource> {$srcResource} </Resource>
+		    </Source>
+		</RequestData>	
+ };
+(: ------------------- End GetMatchingPolicyLib.xml -------------------- :)
+
+
+let $requestDoc := local:createRequestDoc()
+return $requestDoc

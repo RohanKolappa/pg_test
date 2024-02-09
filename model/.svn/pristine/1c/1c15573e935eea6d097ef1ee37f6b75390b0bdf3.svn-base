@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+
+  <xs:simpleType name="PresenceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="" />
+      <xs:enumeration value="available" />
+      <xs:enumeration value="unavailable" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- 
+  <xs:simpleType name="ConnectionStateType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SetupError" />
+      <xs:enumeration value="Stoppped" />
+      <xs:enumeration value="XAuthAgentUnavailable" />
+      <xs:enumeration value="XAuthStarted" />
+      <xs:enumeration value="Started" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConnectionStatusType">
+    <xs:sequence>
+      <xs:element name="state" type="ConnectionStateType" />
+      <xs:element name="exceptionCode" type="xs:int" />
+      <xs:element name="exceptionDescription" type="xs:string" />
+      <xs:element name="relayStatusList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="relayStatus" type="RelayStatusType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="RelayStatusType">
+    <xs:attribute name="relayAgentJID" type="xs:string" />
+    <xs:attribute name="presence" type="PresenceType" />
+    <xs:attribute name="relayState" type="xs:int" />
+  </xs:complexType>
+  <xs:complexType name="EntityStatusType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="presence" type="PresenceType" />
+  </xs:complexType>
+  <xs:complexType name="CollaborationStatusType">
+    <xs:sequence>
+      <xs:element name="EntityStatusList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="EntityStatus" type="EntityStatusType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectionStatusList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="ConnectionStatus" type="ConnectionStatusType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+-->
+
+  <xs:element name="MediaRoom" type="MediaRoomType" />
+  <xs:complexType name="MediaRoomType">
+    <xs:all>
+      <xs:element name="systemtracklist">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="StreamTrack" type="TrackType" />
+            <xs:element name="RecordTrack" type="TrackType" />
+            <xs:element name="PVRTrack" type="TrackType" />
+          </xs:all>
+          <xs:attributeGroup ref="AutoNID" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="data" type="MediaRoomDataType" />
+    </xs:all>
+    <xs:attributeGroup ref="AutoNID" />
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="2.2" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="InfoType">
+    <xs:sequence>
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="Groups" type="TagList" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MediaRoomDataType">
+    <xs:sequence>
+      <xs:element name="roomType" type="xs:string" />
+      <xs:element name="creationWallClock" type="xs:long" />
+      <xs:element name="roomOwnerJID" type="xs:string" />
+      <xs:element name="Info" type="InfoType" />
+    </xs:sequence>
+  </xs:complexType>
+    
+  <xs:complexType name="TrackType">
+    <xs:all>
+      <xs:element name="mediasourcelist">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaSource" type="MediaSourceType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="mediadestlist">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaDest" type="MediaDestType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="mediarelaylist">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaRelay" type="MediaRelayType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="streamlist">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Stream" type="StreamType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="data" type="TrackDataType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="TrackDataType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="syncdata" type="xs:anyType" />
+      <!-- 
+      <xs:element name="startWallClock" type="xs:string" />
+      <xs:element name="lastAction" type="xs:string" />
+      <xs:element name="lastActionWallClock" type="xs:string" />
+      <xs:element name="lastTrackOffset" type="xs:string" />
+      <xs:element name="trackState" type="xs:string" />
+       -->
+      <xs:element name="pvrEnabled" type="xs:boolean" />
+      <xs:element name="TrackMediaTimeline" type="MediaTimelineType"/>
+    </xs:sequence>
+  </xs:complexType>
+	<xs:element name="MediaSource" type="MediaSourceType" />
+   <!-- xsd for MediaSourceInstance 
+    - roomNID,sourceNID,startOffset are passed by request . 
+    - startTimecode is set to trackStartWallClock if this is a live source in User Room, carried forward when creating relay.
+    - userRoomMediaSourceNID is set by the relay when creating upstream connections to media .
+    - sourceType,sourcePortNID,deviceElementID,sourceAgentJID,streamType, streamURL,streamProfile read from db and cached .
+    - set the trackNID based on whether it is Stream/PVR/Recording .
+    - set streamTrackMediaSourceNID in the PVR/Record Track mediaSource when a pvr/recording is setup based on a streamTrack mediaSource.
+    - pvrEnabled,lookbackSourceNID,lookbackSourceAgentJID,lookbackSourceFileUUID,lookbackSourceFileParentDirNID updated in the 
+         streamTrack mediasource when a pvr is setup for LIVE mediaSource OR set at creationTime for Playback mediaSource
+   -->
+  <xs:complexType name="MediaSourceType">
+    <xs:sequence>
+      <xs:element name="data" type="MediaSourceDataType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="presence" type="PresenceType" />
+  </xs:complexType>
+  <xs:complexType name="MediaSourceDataType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="sourceNID" type="xs:string" />
+      <xs:element name="startOffset" type="xs:long" />
+      <xs:element name="startTimecode" type="xs:long" />
+      <xs:element name="userRoomMediaSourceNID" type="xs:string" />
+      <xs:element name="sourceType" type="xs:string" />
+      <xs:element name="sourcePortNID" type="xs:string" />
+      <xs:element name="sourcePortElementID" type="xs:string" />
+      <xs:element name="sourceAgentJID" type="xs:string" />
+      <xs:element name="streamType" type="xs:string" />
+      <xs:element name="streamURL" type="xs:string" />
+      <xs:element name="streamProfile" type="xs:string" />
+      <xs:element name="trackNID" type="xs:string" />
+      <xs:element name="streamTrackMediaSourceNID" type="xs:string" />
+      <xs:element name="pvrEnabled" type="xs:boolean" />
+      <xs:element name="lookbackSourceNID" type="xs:string" />
+      <xs:element name="lookbackSourceAgentJID" type="xs:string" />
+      <xs:element name="lookbackSourceFileUUID" type="xs:string" />
+      <xs:element name="lookbackSourceFileParentDirNID" type="xs:string" />  
+      <xs:element name="lookbackSourceFilePlayLength" type="xs:string" /> 
+      <xs:element name="lookbackSourceFileStartTC" type="xs:string" /> 
+      <xs:element name="xAuthAgentJID" type="xs:string" />
+      <xs:element name="monitorAgentJID" type="xs:string" />  
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MediaDest" type="MediaDestType" />
+  <!-- xsd for MediaDest
+   		- roomNID ,destNID,destPortNID,destIP,destUDPStartPort are passed from the request .
+   		- destAgentJID is read from the db and cached .
+    -->
+  <xs:complexType name="MediaDestType">
+    <xs:sequence>
+      <xs:element name="data" type="MediaDestDataType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="presence" type="PresenceType" />
+  </xs:complexType>
+  <xs:complexType name="MediaDestDataType">
+	<xs:sequence>
+		<xs:element name="roomNID" type="xs:string" />
+		<xs:element name="destNID" type="xs:string" />
+		<xs:element name="destType" type="xs:string" />
+		<xs:element name="destPortNID" type="xs:string" />
+		<xs:element name="destIP" type="xs:string" />
+		<xs:element name="destUDPStartPort" type="xs:int" />
+		<xs:element name="callbackPort" type="xs:int" />		
+		<xs:element name="destAgentJID" type="xs:string" />
+		<xs:element name="destFileUUID" type="xs:string" />
+		<xs:element name="destFileParentDirNID" type="xs:string" />
+		<xs:element name="destFileRelayNID" type="xs:int" />
+		<xs:element name="destPortElementID" type="xs:string" />
+		<xs:element name="destAssetType" type="xs:string" />
+		<xs:element name="destStreamURL" type="xs:int" />
+		<xs:element name="trimLength" type="xs:string" />
+		<xs:element name="trickPlay" type="xs:boolean" />
+		<xs:element name="FileInfo" type="MediaRoomFileInfoType"/>
+	</xs:sequence>
+  </xs:complexType>
+	<xs:complexType name="MediaRoomFileInfoType">
+		<xs:sequence>
+			<xs:element name="MetaData" type="MetaDataType" />
+			<xs:element name="GroupInfo">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MetaData" type="MetaDataType" />		
+					</xs:sequence>
+					<xs:attribute name='title' type="xs:string" />					
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name='title' type="xs:string" />
+		<xs:attribute name='clipId' type="xs:string" />
+		<xs:attribute name='mediaGroupId' type="xs:string" />
+	</xs:complexType>		 
+  <xs:element name="MediaRelay" type="MediaRelayType" />
+  <!-- xsd for MediaRelay
+   		- roomNID ,relayNID,relayPortNID are passed from the request .
+   		- relayAgentJID is read from the db and cached .
+    -->
+  <xs:complexType name="MediaRelayType">
+    <xs:sequence>
+      <xs:element name="data" type="MediaRelayDataType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="presence" type="PresenceType" />
+  </xs:complexType>
+  <xs:complexType name="MediaRelayDataType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="relayNID" type="xs:string" />
+      <xs:element name="relayPortNID" type="xs:string" />
+      <xs:element name="relayAgentJID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Stream" type="StreamType" />
+  <xs:complexType name="StreamType">
+    <xs:all>
+      <xs:element name="data" type="StreamDataType" />
+      <xs:element name="Status" type="StreamStatusType" />
+    </xs:all>
+    <xs:attributeGroup ref="AutoNID" />
+    <xs:attribute name="id" type="xs:string" />   
+  </xs:complexType>
+   <!-- xsd for Stream
+  		- roomNID,mediaSourceNID,mediaDestNID,profileNID,profileXML,relayNID,mediaRelayNID are passed bye the request .
+  		- destNID,destIP,destUDPStartPort,destAgentJID are read from the MediaDest and cached.
+  		- destFileUUID ,destFileParentDirNID are used only for recording .
+  		- callbackPort,deviceElementID,destType,streamType,streamURL are read from the db and cached.
+  		- sourceNID is read from MediaDest and cached.
+  		- xAuthAgentJID is set by the AppServer .
+  		- Status is set by the appserver in response to events .
+   -->
+  <xs:complexType name="StreamDataType">
+    <xs:sequence>
+	  <xs:element name="context">
+	        <xs:complexType>
+	          <xs:attribute name="roomId" type="xs:string" />
+	          <xs:attribute name="id" type="xs:string" />
+	        </xs:complexType>
+	  </xs:element>
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="mediaSourceNID" type="xs:string" />
+      <xs:element name="mediaDestNID" type="xs:string" />
+      <xs:element name="profileNID" type="xs:string" />
+      <xs:element name="profileXML" type="xs:anyType" />
+      <xs:element name="relayNID" type="xs:string" />
+      <xs:element name="mediarelayNID" type="xs:string" />
+      <xs:element name="destNID" type="xs:string" />
+      <xs:element name="destPortNID" type="xs:string" />
+      <xs:element name="destIP" type="xs:string" />
+      <xs:element name="destUDPStartPort" type="xs:int" />
+      <xs:element name="destAgentJID" type="xs:string" />
+      <!-- Only for recording  -->
+      <xs:element name="destFileUUID" type="xs:string" />
+      <xs:element name="destFileParentDirNID" type="xs:string" />    
+      <!-- read from db for unmanaged ports -->
+      <xs:element name="callbackPort" type="xs:int" />
+      <xs:element name="destStreamURL" type="xs:string" />
+      <xs:element name="sourceNID" type="xs:string" />
+      <xs:element name="sourcePortNID" type="xs:string" />
+      <xs:element name="xAuthAgentJID" type="xs:string" />     
+      <xs:element name="streamGroups" type="TagList" />
+      <xs:element name="streamOwnerUserJID" type="xs:string" />
+      <xs:element name="streamURLType" type="xs:string" />
+      <xs:element name="sourceAgentJID" type="xs:string" />
+      <xs:element name="startWallClock" type="xs:long" />
+      <xs:element name="trimLength" type="xs:string" />
+      <!-- 
+      <xs:element name="MediaTimeline" type="MediaTimelineType" />
+       -->
+      <xs:element name="trackStateAtStart" type="xs:string" />
+      <xs:element name="trackOffsetAtStart" type="xs:long" />
+      <xs:element name="sourceNetworkAddressRule" type="xs:anyType" />
+      <xs:element name="destNetworkAddressRule" type="xs:anyType" />
+      <xs:element name="publishedSourceIP" type="xs:string" />
+      <xs:element name="publishedDestIP" type="xs:string" />
+      <xs:element name="resolvedSourceIP" type="xs:string" />
+      <xs:element name="resolvedDestIP" type="xs:string" />
+      <xs:element name="destPortElementID" type="xs:string" />
+      <xs:element name="destType" type="xs:string" />
+      <xs:element name="streamType" type="xs:string" />
+      <xs:element name="streamURL" type="xs:string" />
+      <xs:element name="windowId" type="xs:string"/>
+      <xs:element name="canvasId" type="xs:string"/>
+      <xs:element name="trickPlay" type="xs:boolean"/>
+      
+      <xs:element name="FileInfo" type="MediaRoomFileInfoType"/>
+      
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="StreamStatusType">
+    <xs:sequence>
+      <xs:element name="state" type="xs:int" />
+      <xs:element name="lastEventData" type="xs:anyType" />
+      <xs:element name="relayData">
+        <xs:complexType>
+          <xs:attribute name="relayRoomNID" type="xs:string" />
+          <xs:attribute name="relayStreamNID" type="xs:string" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MediaTimeline" type="MediaTimelineType"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="MediaTimelineType">
+      <xs:sequence>
+      <xs:element name="Start">
+        <xs:complexType>
+          <xs:attribute name="WC" type="xs:string"></xs:attribute>
+          <xs:attribute name="Offset" type="xs:string"></xs:attribute>
+          <xs:attribute name="TC" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Last">
+        <xs:complexType>
+          <xs:attribute name="WC" type="xs:string"></xs:attribute>
+          <xs:attribute name="Offset" type="xs:string"></xs:attribute>
+          <xs:attribute name="TC" type="xs:string"></xs:attribute>
+          <xs:attribute name="TimeScale" type="xs:string"></xs:attribute>
+          <xs:attribute name="action" type="xs:string"></xs:attribute>
+          <xs:attribute name="lastState" type="xs:string"></xs:attribute>
+          <xs:attribute name="requestedAction" type="xs:string"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"></xs:attribute>
+  </xs:complexType>
+  
+  <xs:element name="Action" type="StreamActionType" />
+  <xs:complexType name="StreamActionType">
+    <xs:sequence>
+      <xs:element name="data" type="StreamActionDataType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+
+  <xs:complexType name="StreamActionDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="profileNID" type="xs:string" />
+      <xs:element name="profileXML" type="xs:anyType" />
+      <xs:element name="updateAction">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Stop" />
+            <xs:enumeration value="Start" />
+            <xs:enumeration value="Restart" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="TrackAction" type="TrackActionType" />
+  <xs:complexType name="TrackActionType">
+    <xs:sequence>
+      <xs:element name="data" type="TrackActionDataType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="TrackActionDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="updateAction">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Pause" />
+            <xs:enumeration value="PauseAt" />
+            <xs:enumeration value="Resume" />
+            <xs:enumeration value="ResumeFrom" />
+            <xs:enumeration value="Catchup" />
+            <xs:enumeration value="SkipForward" />
+            <xs:enumeration value="SkipBackward" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="actiondata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

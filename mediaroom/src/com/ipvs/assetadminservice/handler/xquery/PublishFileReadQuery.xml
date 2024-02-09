@@ -1,0 +1,23 @@
+let $filelist :=   for $file in collection('ipvs.default.mediastreamfileresourcelist')/*[(@parentNID='default.mediastreamfileresourcelist')]  
+                    where $file _FILE_XPATH_
+				 return $file
+let $groupFiles :=   for $file in collection('ipvs.default.mediastreamfileresourcelist')/*[(@parentNID='default.mediastreamfileresourcelist')]  
+                    where $file [.//Type='MediaGroup' _MEDIAGROUPID_XPATH_]
+				 return $file
+let $dirList := for $b  in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]   
+      where $b  _DIR_XPATH_
+ return $b
+ 
+ let $bookmarklist :=   for $bookmark in collection('ipvs.default.bookmarklist')/*[(@parentNID='default.bookmarklist')]  
+                    where $bookmark _BOOKMARK_XPATH_
+				 return $bookmark
+                    
+return 
+      <ResourceInfo>
+          <FileList>{$filelist}</FileList>
+          <BookmarkList>{$bookmarklist}</BookmarkList>
+          <GroupList>{$groupFiles}</GroupList>
+          <DirList>{$dirList}</DirList>          
+      </ResourceInfo>
+
+

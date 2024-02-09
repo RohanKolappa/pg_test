@@ -1,0 +1,168 @@
+# -*-Shell-script-*-
+
+# 
+# This file contains all the variables/functions to be used by
+# device check scripts
+# 
+
+# Exit script unless we are on a generic device
+ensure_generic_device() {
+    DEVICE=xxx
+    if [ -f /etc/config/hw_profile_generic.txt ] ; then
+        DEVICE=Generic
+    else
+        echo "ERROR: Not on a Generic system."
+        exit 1
+    fi
+}
+
+# Display list of supported device types
+display_dms_device_list() {
+    echo "MS, DMS-100, DMS-200, DMS-1200, DMS-1500, DMS-1500-R2"
+    echo "MS-25, DMS-25, DMS-100-R2, DMS-200-R2"
+    echo "DMS-1600, DMS-1700"
+}
+
+display_v2d_device_list() {
+    echo "V2D-Tx, V2D-Rx, V2D-XP200, V2D-XP220,"
+    echo "V2D-XP200S, V2D-XP220S,  V2D-XP100"
+}
+display_orb_device_list() {
+    echo "ORB-500"
+}
+
+# Get device type from command line
+get_device_type() {
+    if [ x$1 = "x" ] ; then
+        echo "Provide device type as an argument."
+        echo 
+        echo "List of supported device types:"
+        display_dms_device_list
+        exit 1
+    else
+        DEVICE=$1
+    fi
+}
+
+
+# Load hardware profile file
+load_hardware_profile() {
+    local hwprofile=/etc/config/hwprofiles/${DEVICE}.profile
+    if [ -f ${hwprofile} ] ; then
+        . ${hwprofile}
+    else 
+        echo "Error: Did not find hardware profile file ${hwprofile}"
+        exit 1
+    fi
+}
+
+# Check last command's exit status and abort on error
+exit_on_error() {
+    if [ x$? != "x0" ] ; then
+        echo
+        echo "ERROR: ${1}."
+        echo "Aborting..."
+        exit 1
+    fi
+}
+
+timer_start() {
+    TIMER_START_TIME=$(date +%s)
+}
+
+timer_stop() {
+    local end_time=$(date +%s)
+    TIME_TAKEN=$(( $end_time - $TIMER_START_TIME ))
+}
+
+# Display given string as a banner
+display_banner() {
+    local display_string="${1}"
+    echo
+    echo "*****    ${display_string}    *****"
+    echo
+}
+
+# Initializes test run
+prepare_tests() {
+    TESTS_FAILED_COUNT=0
+    TESTS_PASSED_COUNT=0
+    TESTS_TOTAL_COUNT=0
+
+    RES_COL=60
+    if [ x"$NOCOLOR" != x1 ] ; then
+        MOVE_TO_COL="echo -en \\033[${RES_COL}G"
+        SETCOLOR_SUCCESS="echo -en \\033[0;32m"
+        SETCOLOR_FAILURE="echo -en \\033[0;31m"
+        SETCOLOR_WARNING="echo -en \\033[0;33m"
+        SETCOLOR_NORMAL="echo -en \\033[0;39m"
+    else
+        MOVE_TO_COL="echo -ne  \t\t\t" 
+        SETCOLOR_SUCCESS=
+        SETCOLOR_FAILURE=
+        SETCOLOR_WARNING=
+        SETCOLOR_NORMAL=
+    fi
+
+    if [ -f ${TEST_RESULTS_FILE} ] ; then
+        /bin/rm ${TEST_RESULTS_FILE}
+    fi
+
+    echo -n "Test run on " > ${TEST_RESULTS_FILE}
+    /bin/date >> ${TEST_RESULTS_FILE}
+    echo -n "Device Type: " >> ${TEST_RESULTS_FILE}
+    echo ${DEVICE} >> ${TEST_RESULTS_FILE}
+    echo -n "Software Version: " >> ${TEST_RESULTS_FILE}
+    cat /home/onair/server.version >> ${TEST_RESULTS_FILE}
+    echo "" >> ${TEST_RESULTS_FILE}
+}
+
+print_passed_result_string() {
+    result="$@"
+    printf "${result}"
+    $MOVE_TO_COL
+    $SETCOLOR_SUCCESS
+    echo -n "PASSED"
+    $SETCOLOR_NORMAL
+    echo
+    printf "PASSED\t\t${result}\n" >> ${TEST_RESULTS_FILE}
+}
+
+print_failed_result_string() {
+    result="$@"
+    printf "${result}"
+    $MOVE_TO_COL
+    $SETCOLOR_FAILURE
+    echo -n "FAILED"
+    $SETCOLOR_NORMAL
+    echo
+    printf "FAILED\t\t${result}\n" >> ${TEST_RESULTS_FILE}
+}
+
+# Show a string and also send to result file
+print_result_string() {
+    result="$@"
+    echo ${result}
+    echo ${result} >> ${TEST_RESULTS_FILE}
+}
+
+
+# Prints test summary and exits
+print_test_summary() {
+    print_result_string ""
+    printf "Total \t\t\t%d\n" ${TESTS_TOTAL_COUNT}
+    printf "Total \t\t\t%d\n" ${TESTS_TOTAL_COUNT} >> ${TEST_RESULTS_FILE}
+
+    printf "Passed \t\t\t%d\n" ${TESTS_PASSED_COUNT}
+    printf "Passed \t\t\t%d\n" ${TESTS_PASSED_COUNT} >> ${TEST_RESULTS_FILE}
+    
+    if [ x${TESTS_FAILED_COUNT} != "x0" ] ; then
+        printf "Failed \t\t\t%d\n" ${TESTS_FAILED_COUNT}
+        printf "Failed \t\t\t%d\n" ${TESTS_FAILED_COUNT} >> ${TEST_RESULTS_FILE}
+        print_result_string ""
+        print_result_string "ERROR: Some device tests failed."
+        exit 1
+    fi
+    
+    exit 0
+}

@@ -1,0 +1,190 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>IPVS StoreAgent API</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.1"><style type="text/css">
+body { background-image: url('http://docbook.sourceforge.net/release/images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }</style></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" title="IPVS StoreAgent API"><div class="titlepage"><div><div><h1 class="title"><a name="id569204"></a>IPVS StoreAgent API</h1></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.0.1</td><td align="left">19 Jun 2012</td></tr><tr><td align="left" colspan="2">First Version of Store Agent API</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="glossary"><a href="#id569232">Glossary</a></span></dt><dt><span class="preface"><a href="#id569294">Introduction</a></span></dt><dt><span class="chapter"><a href="#id569304">1. Startup API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569314">External API</a></span></dt><dt><span class="section"><a href="#id569325">Internal API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569334">GetPublishInfo</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#id569372">2. Sync API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569381">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569391">SyncDBWithStoreDir</a></span></dt></dl></dd><dt><span class="section"><a href="#id569427">Internal API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569436">SyncDir</a></span></dt><dt><span class="section"><a href="#id569471">SyncFile</a></span></dt><dt><span class="section"><a href="#id569506">SetDirState</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#id569543">3. Dir API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569553">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569562">UpgardeDir</a></span></dt><dt><span class="section"><a href="#id569597">UnRegisterDir</a></span></dt><dt><span class="section"><a href="#id569632">RegisterDir</a></span></dt></dl></dd><dt><span class="section"><a href="#id569668">Internal API</a></span></dt></dl></dd><dt><span class="chapter"><a href="#id569680">4. File API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569690">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569699">AddFile</a></span></dt><dt><span class="section"><a href="#id569735">SetFile</a></span></dt><dt><span class="section"><a href="#id569772">DeleteFile</a></span></dt><dt><span class="section"><a href="#id569808">UpgradeFile</a></span></dt><dt><span class="section"><a href="#id569843">ImportFile</a></span></dt><dt><span class="section"><a href="#id569878">ExportFile</a></span></dt></dl></dd><dt><span class="section"><a href="#id569914">Internal API</a></span></dt></dl></dd></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>1.1. <a href="#id569344">GetPublishInfoRequest</a></dt><dt>1.2. <a href="#id569356">GetPublishInfoResponse</a></dt><dt>2.1. <a href="#id569400">SyncDBWithStoreDirRequest</a></dt><dt>2.2. <a href="#id569412">SyncDBWithStoreDirResponse</a></dt><dt>2.3. <a href="#id569446">SyncDirRequest</a></dt><dt>2.4. <a href="#id569458">SyncDirResponse</a></dt><dt>2.5. <a href="#id569481">SyncFileRequest</a></dt><dt>2.6. <a href="#id569493">SyncFileResponse</a></dt><dt>2.7. <a href="#id569516">SetDirStateRequest</a></dt><dt>2.8. <a href="#id569528">SetDirStateResponse</a></dt><dt>3.1. <a href="#id569572">UpgradeDirRequest</a></dt><dt>3.2. <a href="#id569584">UpgradeDirResponse</a></dt><dt>3.3. <a href="#id569607">UnRegisterDirRequest</a></dt><dt>3.4. <a href="#id569619">UnRegisterDirResponse</a></dt><dt>3.5. <a href="#id569642">RegisterDirRequest</a></dt><dt>3.6. <a href="#id569654">RegisterDirResponse</a></dt><dt>4.1. <a href="#id569709">AddFileRequest</a></dt><dt>4.2. <a href="#id569721">AddFileResponse</a></dt><dt>4.3. <a href="#id569746">SetFileRequest</a></dt><dt>4.4. <a href="#id569758">SetFileResponse</a></dt><dt>4.5. <a href="#id569783">DeleteFileRequest</a></dt><dt>4.6. <a href="#id569795">DeleteFileResponse</a></dt><dt>4.7. <a href="#id569818">UpgradeFileRequest</a></dt><dt>4.8. <a href="#id569830">UpgradeFileResponse</a></dt><dt>4.9. <a href="#id569853">ImportFileRequest</a></dt><dt>4.10. <a href="#id569865">ImportFileResponse</a></dt><dt>4.11. <a href="#id569888">ExportFileRequest</a></dt><dt>4.12. <a href="#id569900">ExportFileResponse</a></dt></dl></div><div class="glossary" title="Glossary"><div class="titlepage"><div><div><h2 class="title"><a name="id569232"></a>Glossary</h2></div></div></div><dl><dt>AppController</dt><dd><p>
+					AppController running on managementserver. Controller will manage all modules of the system.
+        </p></dd><dt>StoreManager</dt><dd><p>
+					StoreManager Running on Appserver. Manager will do policy check of Store agent requests and send the requests to StoreAgent
+        </p></dd><dt>StoreAgent</dt><dd><p>
+					DeviceAdminAgent Running on Device. Handles the Request from StoreManager or Internal StoreServer.
+        </p></dd><dt>StoreServer</dt><dd><p>
+					StoreServer Running on Device. Which will handle the storage mount or unmount commands and broadcast storage updates 
+        </p></dd></dl></div><div class="preface" title="Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="id569294"></a>Introduction</h2></div></div></div><p>
+			This document contains the IPVS Store Agent API. Agent will accept requests from AppController or internal StoreServer
+    </p></div><div class="chapter" title="Chapter 1. Startup API"><div class="titlepage"><div><div><h2 class="title"><a name="id569304"></a>Chapter 1. Startup API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id569314">External API</a></span></dt><dt><span class="section"><a href="#id569325">Internal API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569334">GetPublishInfo</a></span></dt></dl></dd></dl></div><p>
+			API Calls which used on start up store agent
+    </p><div class="section" title="External API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569314"></a>External API</h2></div></div></div><p> Requests Received from StoreManager or Clients</p></div><div class="section" title="Internal API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569325"></a>Internal API</h2></div></div></div><p> Requests Received from DeviceClient</p><div class="section" title="GetPublishInfo"><div class="titlepage"><div><div><h3 class="title"><a name="id569334"></a>GetPublishInfo</h3></div></div></div><p> Returns the Directory information Which needs to be published to appserver </p><div class="example"><a name="id569344"></a><p class="title"><b>Example 1.1. GetPublishInfoRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+   &lt;GetPublishInfo/&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569356"></a><p class="title"><b>Example 1.2. GetPublishInfoResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+    &lt;GetPublishInfo&gt;
+		&lt;Dir uuid='' revision='' serviceVersion=''/&gt;	
+		&lt;Dir uuid='' revision='' serviceVersion=''/&gt;
+	&lt;/GetPublishInfo&gt;
+
+        </pre></div></div><br class="example-break"></div></div></div><div class="chapter" title="Chapter 2. Sync API"><div class="titlepage"><div><div><h2 class="title"><a name="id569372"></a>Chapter 2. Sync API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id569381">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569391">SyncDBWithStoreDir</a></span></dt></dl></dd><dt><span class="section"><a href="#id569427">Internal API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569436">SyncDir</a></span></dt><dt><span class="section"><a href="#id569471">SyncFile</a></span></dt><dt><span class="section"><a href="#id569506">SetDirState</a></span></dt></dl></dd></dl></div><p>
+			API Calls used on Store sync
+       </p><div class="section" title="External API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569381"></a>External API</h2></div></div></div><p> Requests Received from StoreManager</p><div class="section" title="SyncDBWithStoreDir"><div class="titlepage"><div><div><h3 class="title"><a name="id569391"></a>SyncDBWithStoreDir</h3></div></div></div><p> API call used to sync the database with store.
+					Which is used to remove the files from db if the blob does not have store file.
+					Store give the response with the list of files which does not
+					exist</p><div class="example"><a name="id569400"></a><p class="title"><b>Example 2.1. SyncDBWithStoreDirRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+   &lt;SyncDBWithStoreDir byNID='' byUUID=''&gt;
+			&lt;Media byUUID='' byNID=''/&gt;
+   &lt;/SyncDBWithStoreDir&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569412"></a><p class="title"><b>Example 2.2. SyncDBWithStoreDirResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SyncDBWithStoreDir NID='' UUID=''&gt;
+	&lt;Media UUID='' NID=''/&gt;
+  &lt;/SyncDBWithStoreDir&gt;
+
+        </pre></div></div><br class="example-break"></div></div><div class="section" title="Internal API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569427"></a>Internal API</h2></div></div></div><p> Requests Received from StoreServer/DeviceClient</p><div class="section" title="SyncDir"><div class="titlepage"><div><div><h3 class="title"><a name="id569436"></a>SyncDir</h3></div></div></div><p> API call used when StoreAgent received Status update from StoreServer (example Mount/umounted of NAS)</p><div class="example"><a name="id569446"></a><p class="title"><b>Example 2.3. SyncDirRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+   &lt;SyncDir&gt;
+		&lt;Dir byNID='' byUUID='' revision='' serviceVersion='' state='Ready/Offline/Error' /&gt;
+   &lt;/SyncDir&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569458"></a><p class="title"><b>Example 2.4. SyncDirResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SyncDir&gt;
+	&lt;Dir NID='' dbRevision='' /&gt;
+  &lt;/SyncDir&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="SyncFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569471"></a>SyncFile</h3></div></div></div><p> API Call is used in response to SyncDir call if the Dir out of synch </p><div class="example"><a name="id569481"></a><p class="title"><b>Example 2.5. SyncFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SyncFile from='' total='' countToFetch='25'&gt;
+	&lt;File byNID='' byUUID=''&gt;
+		&lt;MediaStoreFile serviceVer="" Ver="1.6" Rev="1"&gt;
+			&lt;MetaData&gt;
+				&lt;Tag Name=""&gt;&lt;/Tag&gt;
+			&lt;/MetaData&gt;
+
+			&lt;Type&gt;MediaClip&lt;/Type&gt;
+			&lt;MediaGroupID ClipID=""&gt;&lt;/MediaGroupID&gt;
+			&lt;Title&gt;&lt;/Title&gt;
+			&lt;Description&gt;&lt;/Description&gt;
+			&lt;StreamType&gt;&lt;/StreamType&gt;
+			&lt;State&gt;&lt;/State&gt;
+			&lt;DateCreated&gt;&lt;/DateCreated&gt;
+			&lt;DateModified&gt;&lt;/DateModified&gt;
+
+			&lt;MediaClip&gt;
+				&lt;PlayLength&gt;&lt;/PlayLength&gt;
+
+				&lt;MediaStreamProfileInfo&gt;
+					&lt;!-- Profile Info --&gt;
+				&lt;/MediaStreamProfileInfo&gt;
+			&lt;/MediaClip&gt;
+		&lt;/MediaStoreFile&gt;
+	&lt;/File&gt;
+ &lt;/SyncFile&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569493"></a><p class="title"><b>Example 2.6. SyncFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SyncFile  from='' total='' countToFetch=''/&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="SetDirState"><div class="titlepage"><div><div><h3 class="title"><a name="id569506"></a>SetDirState</h3></div></div></div><p> API call used when StoreAgent received Status update from StoreServer (example Mount/umounted of NAS)</p><div class="example"><a name="id569516"></a><p class="title"><b>Example 2.7. SetDirStateRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+   &lt;SetDirState&gt;
+		&lt;Dir byNID='' byUUID='' state='Ready/Offline/Error' /&gt;
+   &lt;/SetDirState&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569528"></a><p class="title"><b>Example 2.8. SetDirStateResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  &lt;SyncDir/&gt;
+
+        </pre></div></div><br class="example-break"></div></div></div><div class="chapter" title="Chapter 3. Dir API"><div class="titlepage"><div><div><h2 class="title"><a name="id569543"></a>Chapter 3. Dir API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id569553">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569562">UpgardeDir</a></span></dt><dt><span class="section"><a href="#id569597">UnRegisterDir</a></span></dt><dt><span class="section"><a href="#id569632">RegisterDir</a></span></dt></dl></dd><dt><span class="section"><a href="#id569668">Internal API</a></span></dt></dl></div><p>
+			API Calls used to Upgrade/Register/UnRegister Directory
+       </p><div class="section" title="External API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569553"></a>External API</h2></div></div></div><p> Requests Received from StoreManager</p><div class="section" title="UpgardeDir"><div class="titlepage"><div><div><h3 class="title"><a name="id569562"></a>UpgardeDir</h3></div></div></div><p> Upgrade the media store dir to current version</p><div class="example"><a name="id569572"></a><p class="title"><b>Example 3.1. UpgradeDirRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	  &lt;UpgradeDir byNID='' byUUID='' upgradeFiles='true/false'/&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569584"></a><p class="title"><b>Example 3.2. UpgradeDirResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+       &lt;UpgradeDir/&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="UnRegisterDir"><div class="titlepage"><div><div><h3 class="title"><a name="id569597"></a>UnRegisterDir</h3></div></div></div><p> UnRegister the directory from Management Server</p><div class="example"><a name="id569607"></a><p class="title"><b>Example 3.3. UnRegisterDirRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	  &lt;UnRegisterDir byNID='' byUUID=''/&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569619"></a><p class="title"><b>Example 3.4. UnRegisterDirResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+       &lt;UnRegisterDir/&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="RegisterDir"><div class="titlepage"><div><div><h3 class="title"><a name="id569632"></a>RegisterDir</h3></div></div></div><p> Register the unregister directory to Management Server</p><div class="example"><a name="id569642"></a><p class="title"><b>Example 3.5. RegisterDirRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	  &lt;RegisterDir byNID='' byUUID=''/&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569654"></a><p class="title"><b>Example 3.6. RegisterDirResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+       &lt;RegisterDir/&gt;
+
+        </pre></div></div><br class="example-break"></div></div><div class="section" title="Internal API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569668"></a>Internal API</h2></div></div></div><p> Requests Received from DeviceClient </p></div></div><div class="chapter" title="Chapter 4. File API"><div class="titlepage"><div><div><h2 class="title"><a name="id569680"></a>Chapter 4. File API</h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id569690">External API</a></span></dt><dd><dl><dt><span class="section"><a href="#id569699">AddFile</a></span></dt><dt><span class="section"><a href="#id569735">SetFile</a></span></dt><dt><span class="section"><a href="#id569772">DeleteFile</a></span></dt><dt><span class="section"><a href="#id569808">UpgradeFile</a></span></dt><dt><span class="section"><a href="#id569843">ImportFile</a></span></dt><dt><span class="section"><a href="#id569878">ExportFile</a></span></dt></dl></dd><dt><span class="section"><a href="#id569914">Internal API</a></span></dt></dl></div><p>
+			API Calls used to Add/Delete/Set/Upgrade/Import/Export of File
+       </p><div class="section" title="External API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569690"></a>External API</h2></div></div></div><p> Requests Received from StoreManager</p><div class="section" title="AddFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569699"></a>AddFile</h3></div></div></div><p> API call used to add mediastore file in blob</p><div class="example"><a name="id569709"></a><p class="title"><b>Example 4.1. AddFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	 &lt;AddFile dirNID='' dirUUID='' NID='' type='' uuid='' title=''  description='' streamType=''&gt;
+	   &lt;MetaData&gt;
+	      &lt;Tag Name=''/&gt;
+	   &lt;/MetaData&gt;		
+	   &lt;MediaStreamProfileInfo/&gt;	
+	&lt;/AddFile&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569721"></a><p class="title"><b>Example 4.2. AddFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;AddFile /&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="SetFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569735"></a>SetFile</h3></div></div></div><p> API call used to update mediastore file information in blob</p><div class="example"><a name="id569746"></a><p class="title"><b>Example 4.3. SetFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+ 	&lt;SetFile dirNID='' dirUUID='' byUUID='' NID='' title='' description=''&gt;
+	   &lt;MetaData&gt;
+	      &lt;Tag Name=''/&gt;
+	   &lt;/MetaData&gt;		
+	   &lt;MediaStreamProfileInfo/&gt;	
+	&lt;/SetFile&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569758"></a><p class="title"><b>Example 4.4. SetFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;SetFile /&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="DeleteFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569772"></a>DeleteFile</h3></div></div></div><p> API call used to update mediastore file information in blob</p><div class="example"><a name="id569783"></a><p class="title"><b>Example 4.5. DeleteFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+ 	&lt;DeleteFile dirNID=''  byUUID='' nid='' /&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569795"></a><p class="title"><b>Example 4.6. DeleteFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;DeleteFile /&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="UpgradeFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569808"></a>UpgradeFile</h3></div></div></div><p> API call used to upgrade media store file</p><div class="example"><a name="id569818"></a><p class="title"><b>Example 4.7. UpgradeFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+ 	&lt;UpgradeFile dirNID=''  byUUID='' nid='' /&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569830"></a><p class="title"><b>Example 4.8. UpgradeFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;UpgradeFile /&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="ImportFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569843"></a>ImportFile</h3></div></div></div><p> API call used to upgrade media store file</p><div class="example"><a name="id569853"></a><p class="title"><b>Example 4.9. ImportFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+ 	&lt;ImportFile dirNID=''  byUUID='' nid='' /&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569865"></a><p class="title"><b>Example 4.10. ImportFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;ImportFile /&gt;
+
+        </pre></div></div><br class="example-break"></div><div class="section" title="ExportFile"><div class="titlepage"><div><div><h3 class="title"><a name="id569878"></a>ExportFile</h3></div></div></div><p> API call used to upgrade media store file</p><div class="example"><a name="id569888"></a><p class="title"><b>Example 4.11. ExportFileRequest</b></p><div class="example-contents"><pre class="programlisting">
+            
+ 	&lt;ExportFile dirNID=''  byUUID='' nid='' /&gt;
+
+        </pre></div></div><br class="example-break"><div class="example"><a name="id569900"></a><p class="title"><b>Example 4.12. ExportFileResponse</b></p><div class="example-contents"><pre class="programlisting">
+            
+  	&lt;ExportFile /&gt;
+
+        </pre></div></div><br class="example-break"></div></div><div class="section" title="Internal API"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id569914"></a>Internal API</h2></div></div></div><p> Requests Received from DeviceAdminServer</p></div></div></div></body></html>

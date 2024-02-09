@@ -1,0 +1,72 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2014 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###                                                                         ###
+### This is an auto-generated file.                                         ###
+### Please consult the "JBS" docs to understand its content.                ###
+###                                                                         ###
+###############################################################################
+
+target-type	:=	exe
+target-stripped	:=	yes
+ifneq "$(JBS_PLATFORM)" "WIN32"
+target-profile	:=	no
+endif
+target-debug	:=	no
+target-name	:=	qui2vui
+target-ver-maj	:=	1
+target-ver-med	:=	0
+target-ver-min	:=	1
+target-sources	:=	*.cpp *.h
+target-mocs	:=
+target-guis	:=
+target-deps	:=
+target-docdir	:=	# Doc		# Base folder for documentation.
+target-doxydir	:=	# Classes	# Auto-gen. files go to ./Doc/Classes
+target-doxyimg	:=	# Images	# User images go to ./Doc/Images
+
+jbs_all_qt_libs	:=	QtCore QtGui QtXml QtNetwork Qt3Support
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+target-incldirs	:=	$(QTDIR)/include
+target-cxxdefs	:=	QT_DLL QT_THREAD_SUPPORT QT3_SUPPORT _CRT_SECURE_NO_DEPRECATE
+target-libs	:=	QtCore4 QtGui4 QtXml4 QtNetwork4 Qt3Support4
+target-libdirs	:=	$(QTDIR)/lib
+
+else
+
+target-cxxstring	:=	-Wno-non-virtual-dtor
+target-pkgdep	:=	$(jbs_all_qt_libs)
+
+endif
+
+target-cxxdefs	+=	JBS_QT=0x040000 JBS_USE_QT4=1
+
+###############################################################################
+
+target-uuid	:=	2eee4f43-5cd6-4c86-bd9e-0f22b421c222
+
+########################################################################

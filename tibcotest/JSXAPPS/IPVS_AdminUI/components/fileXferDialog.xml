@@ -1,0 +1,88 @@
+<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="780" jsxheight="600" jsxzindex="5000" jsxwindowstate="1" jsxleft="0" jsxtop="0"></variants>
+    <strings jsxname="dlgFileXfers"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowXfersTitle" jsxtext="Import/Export Files" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H1BG.png);" jsxcolor="#fff;"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnClose"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+      <dynamics jsxbgcolor="P3"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxwidth="740" jsxleft="16" jsxtop="17" jsxheight="500" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxname="blkFileXferContainer" jsxborder="solid 1px #999999;"></strings>
+          <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+          <object type="jsx3.gui.Matrix">
+            <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+            <strings jsxname="mtxFileXferList" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxsorttype="text" jsxsortdirection="descending"></strings>
+            <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+            <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="30"></variants>
+              <strings jsxname="mcXferID" jsxtext="ID" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxid" jsxdisplay="none"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxwidth="*" jsxname="mcLocalFileName" jsxtext="File" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLocalFileName" jsxdisplay=""></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="80"></variants>
+              <strings jsxname="mcXferMode" jsxtext="XferMode" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxXferMode"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="85"></variants>
+              <strings jsxname="mcXferCompleted" jsxtext="% Completed" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxXferCompleted"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="85"></variants>
+              <strings jsxname="mcXferStatus" jsxtext="Status" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxXferStatus" jsxdisplay="none"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+        <dynamics jsxborder="@Inset Top"></dynamics>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+          <strings jsxname="btnCancel" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/Images/admin/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="TagList" type="TagList" />
+  <xs:complexType name="TagList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tag" type="NVPair" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NVPair">
+    <xs:attribute name="Name" type="xs:string" use="required" />
+    <xs:attribute name="Value" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="MetaDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tag" type="MetaDataTagType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MetaDataTagType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="DisplayTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Local" />
+      <xs:enumeration value="Remote" />
+      <xs:enumeration value="Overlay" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OverlayTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Manual" />
+      <xs:enumeration value="Auto" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OverrideEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Monitor" />
+      <xs:enumeration value="List" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="OverrideColorEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Black" />
+      <xs:enumeration value="White" />
+      <xs:enumeration value="Gray" />
+      <xs:enumeration value="Red" />
+      <xs:enumeration value="Green" />
+      <xs:enumeration value="Blue" />
+      <xs:enumeration value="Yellow" />
+      <xs:enumeration value="Magenta" />
+      <xs:enumeration value="Cyan" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AspectEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Auto" />
+      <xs:enumeration value="Horizontal" />
+      <xs:enumeration value="Vertical" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TransformationEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Size" />
+      <xs:enumeration value="Scale Source" />
+      <xs:enumeration value="Scale Monitor" />
+    </xs:restriction>
+  </xs:simpleType>
+   <xs:simpleType name="HorizontalLocationEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Left" />
+      <xs:enumeration value="Middle" />
+      <xs:enumeration value="Right" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="VerticalLocationEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Top" />
+      <xs:enumeration value="Center" />
+      <xs:enumeration value="Bottom" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PositionEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Location" />
+      <xs:enumeration value="Offset" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StreamURLTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V2D" />
+      <xs:enumeration value="MPEGTS" />
+      <xs:enumeration value="UDP" />
+      <xs:enumeration value="RTP-HTTP" />
+      <xs:enumeration value="RTP-SDP" />
+      <xs:enumeration value="RTP-RTSP" />
+      <xs:enumeration value="VNC" />
+      <xs:enumeration value="FileXfer" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MediaTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MediaClip" />
+      <xs:enumeration value="PVRMediaClip" />
+      <xs:enumeration value="Playlist" />
+      <xs:enumeration value="MediaGroup" />
+      <xs:enumeration value="MediaImage" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StreamTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V2D" />
+      <xs:enumeration value="MPEGTS" />
+      <xs:enumeration value="UDP" />
+      <xs:enumeration value="RTP" />
+      <xs:enumeration value="VNC" />
+      <xs:enumeration value="FileXfer" />
+      <xs:enumeration value="RTP-RAW" />
+      <xs:enumeration value="RTP-PCM" />
+      <xs:enumeration value="RFB" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EntityAssetType">
+    <xs:attribute name="resourceNID" type="xs:string" />
+    <xs:attribute name="resourceTitle" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="ReportEnumType" >
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="Audit" />
+      	<xs:enumeration value="Policy" />      
+      </xs:restriction>
+  </xs:simpleType>   
+  <xs:simpleType name="ReportStateEnumType" >
+     <xs:restriction base="xs:string" >
+     	<xs:enumeration value="SUCCESS" />
+     	<xs:enumeration value="FAILURE" />      
+     </xs:restriction>
+  </xs:simpleType>
+  
+  	<xs:simpleType name='OperationTypeEnum'>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Add" />
+			<xs:enumeration value="Delete" />
+			<xs:enumeration value="Update" />
+		</xs:restriction>
+	</xs:simpleType>
+  <xs:element name="Parameter" type="StatusParameterType" />
+  <xs:complexType name="StatusParameterType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="type" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="String" />
+              <xs:enumeration value="Boolean" />
+              <xs:enumeration value="Integer" />
+              <xs:enumeration value="UnsignedInteger" />
+              <xs:enumeration value="Long" />
+              <xs:enumeration value="UnsignedLong" />
+              <xs:enumeration value="Float" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="units" type="xs:string" />
+        <xs:attribute name="source" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+</xs:schema>

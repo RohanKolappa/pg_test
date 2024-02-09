@@ -1,0 +1,835 @@
+// ============================================================================
+//
+// Copyright (c) 2003-2014 Barco N.V.
+//
+// ============================================================================
+//
+// This file is part of "BFC".
+//
+// "BFC" is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// "BFC" is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with "BFC"; if not, write to:
+//                          Free Software Foundation
+//                          59 Temple Place, Suite 330
+//                          Boston, MA 02111-1307 USA
+//
+// ============================================================================
+//
+// Filename:
+//	BFC.Crypto.Whirl.cpp
+//
+// Description:
+//	...
+//
+// Author(s):
+//	Jean-Francois GOBBERS
+//
+// ============================================================================
+
+#include "BFC.Base.Utils.h"
+
+#include "BFC.Crypto.HashRegisterer.h"
+#include "BFC.Crypto.Whirl.h"
+
+// ============================================================================
+
+using namespace BFC;
+
+// ============================================================================
+
+BFC_PTR_IMPL_NS( Crypto, Whirl )
+
+// ============================================================================
+
+const DL::TypeCPtr & Crypto::Whirl::getClassType() {
+
+	static DL::TypeCPtr i = new DL::Type(
+		UUId( "acdb0b09-6e03-4114-abf4-818c9665b673" ),
+		"BFC.Crypto.Whirl",
+		Crypto::Hash::getClassType(),
+		new HashDescriptor(
+			DL::Descr(
+				"whirlpool",
+				"Hash",
+				"Whirlpool Hash" ),
+			64,
+			64 ) );
+
+	return i;
+
+}
+
+// ============================================================================
+
+Crypto::Whirl::Whirl() :
+
+	Hash( getClassType() ) {
+
+	init();
+
+}
+
+// ============================================================================
+
+void Crypto::Whirl::init() {
+
+	msgBuf.kill();
+	msgLen = 0;
+
+	for ( Uint32 i = 0 ; i < 8 ; i++ ) {
+		state[ i ] = 0;
+	}
+
+}
+
+void Crypto::Whirl::process(
+	const	Buffer &	pData ) {
+
+	msgBuf += pData;
+	msgLen += pData.getLength();
+
+	while ( msgBuf.getLength() >= 64 ) {
+		compress( msgBuf.getCstPtr() );
+		msgBuf = msgBuf( 64 );
+	}
+
+}
+
+void Crypto::Whirl::done(
+		Buffer &	out ) {
+
+	msgLen <<= 3;
+	msgBuf += ( Uchar )0x80;
+
+	if ( msgBuf.getLength() > 32 ) {
+		msgBuf += Buffer::chars( 128 - msgBuf.getLength(), 0x00 );
+	}
+	else {
+		msgBuf += Buffer::chars( 64 - msgBuf.getLength(), 0x00 );
+	}
+
+	STORE64H( msgLen, msgBuf.getVarPtr() + msgBuf.getLength() - 8 );
+
+	while ( msgBuf.getLength() >= 64 ) {
+		compress( msgBuf.getCstPtr() );
+		msgBuf = msgBuf( 64 );
+	}
+
+	if ( out.getLength() != 64 ) {
+		out.resize( 64 );
+	}
+
+	Uchar * ptr = out.getVarPtr();
+
+	for ( Uint32 i = 0 ; i < 8 ; i++ ) {
+		STORE64H( state[ i ], ptr + 8 * i );
+	}
+
+}
+
+// ============================================================================
+
+void Crypto::Whirl::test() {
+
+	static const struct {
+		Uint32	len;
+		Uchar	msg[128], hash[64];
+	} tests[] = {
+		/* NULL Message */
+		{
+		0,
+		{ 0x00 },
+		{ 0x19, 0xFA, 0x61, 0xD7, 0x55, 0x22, 0xA4, 0x66, 0x9B, 0x44, 0xE3, 0x9C, 0x1D, 0x2E, 0x17, 0x26,
+			0xC5, 0x30, 0x23, 0x21, 0x30, 0xD4, 0x07, 0xF8, 0x9A, 0xFE, 0xE0, 0x96, 0x49, 0x97, 0xF7, 0xA7,
+			0x3E, 0x83, 0xBE, 0x69, 0x8B, 0x28, 0x8F, 0xEB, 0xCF, 0x88, 0xE3, 0xE0, 0x3C, 0x4F, 0x07, 0x57,
+			0xEA, 0x89, 0x64, 0xE5, 0x9B, 0x63, 0xD9, 0x37, 0x08, 0xB1, 0x38, 0xCC, 0x42, 0xA6, 0x6E, 0xB3 }
+		},
+		/* 448-bits of 0 bits */
+		{
+		56,
+		{ 0x00 },
+		{ 0x0B, 0x3F, 0x53, 0x78, 0xEB, 0xED, 0x2B, 0xF4, 0xD7, 0xBE, 0x3C, 0xFD, 0x81, 0x8C, 0x1B, 0x03,
+			0xB6, 0xBB, 0x03, 0xD3, 0x46, 0x94, 0x8B, 0x04, 0xF4, 0xF4, 0x0C, 0x72, 0x6F, 0x07, 0x58, 0x70,
+			0x2A, 0x0F, 0x1E, 0x22, 0x58, 0x80, 0xE3, 0x8D, 0xD5, 0xF6, 0xED, 0x6D, 0xE9, 0xB1, 0xE9, 0x61,
+			0xE4, 0x9F, 0xC1, 0x31, 0x8D, 0x7C, 0xB7, 0x48, 0x22, 0xF3, 0xD0, 0xE2, 0xE9, 0xA7, 0xE7, 0xB0 }
+		},
+		/* 520-bits of 0 bits */
+		{
+		65,
+		{ 0x00 },
+		{ 0x85, 0xE1, 0x24, 0xC4, 0x41, 0x5B, 0xCF, 0x43, 0x19, 0x54, 0x3E, 0x3A, 0x63, 0xFF, 0x57, 0x1D,
+			0x09, 0x35, 0x4C, 0xEE, 0xBE, 0xE1, 0xE3, 0x25, 0x30, 0x8C, 0x90, 0x69, 0xF4, 0x3E, 0x2A, 0xE4,
+			0xD0, 0xE5, 0x1D, 0x4E, 0xB1, 0xE8, 0x64, 0x28, 0x70, 0x19, 0x4E, 0x95, 0x30, 0xD8, 0xD8, 0xAF,
+			0x65, 0x89, 0xD1, 0xBF, 0x69, 0x49, 0xDD, 0xF9, 0x0A, 0x7F, 0x12, 0x08, 0x62, 0x37, 0x95, 0xB9 }
+		},
+		/* 512-bits, leading set */
+		{
+		64,
+		{ 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+		{ 0x10, 0x3E, 0x00, 0x55, 0xA9, 0xB0, 0x90, 0xE1, 0x1C, 0x8F, 0xDD, 0xEB, 0xBA, 0x06, 0xC0, 0x5A,
+			0xCE, 0x8B, 0x64, 0xB8, 0x96, 0x12, 0x8F, 0x6E, 0xED, 0x30, 0x71, 0xFC, 0xF3, 0xDC, 0x16, 0x94,
+			0x67, 0x78, 0xE0, 0x72, 0x23, 0x23, 0x3F, 0xD1, 0x80, 0xFC, 0x40, 0xCC, 0xDB, 0x84, 0x30, 0xA6,
+			0x40, 0xE3, 0x76, 0x34, 0x27, 0x1E, 0x65, 0x5C, 0xA1, 0x67, 0x4E, 0xBF, 0xF5, 0x07, 0xF8, 0xCB }
+		},
+		/* 512-bits, leading set of second byte */
+		{
+		64,
+		{ 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+		{ 0x35, 0x7B, 0x42, 0xEA, 0x79, 0xBC, 0x97, 0x86, 0x97, 0x5A, 0x3C, 0x44, 0x70, 0xAA, 0xB2, 0x3E,
+			0x62, 0x29, 0x79, 0x7B, 0xAD, 0xBD, 0x54, 0x36, 0x5B, 0x54, 0x96, 0xE5, 0x5D, 0x9D, 0xD7, 0x9F,
+			0xE9, 0x62, 0x4F, 0xB4, 0x22, 0x66, 0x93, 0x0A, 0x62, 0x8E, 0xD4, 0xDB, 0x08, 0xF9, 0xDD, 0x35,
+			0xEF, 0x1B, 0xE1, 0x04, 0x53, 0xFC, 0x18, 0xF4, 0x2C, 0x7F, 0x5E, 0x1F, 0x9B, 0xAE, 0x55, 0xE0 }
+		},
+		/* 512-bits, leading set of last byte */
+		{
+		64,
+		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80 },
+		{ 0x8B, 0x39, 0x04, 0xDD, 0x19, 0x81, 0x41, 0x26, 0xFD, 0x02, 0x74, 0xAB, 0x49, 0xC5, 0x97, 0xF6,
+			0xD7, 0x75, 0x33, 0x52, 0xA2, 0xDD, 0x91, 0xFD, 0x8F, 0x9F, 0x54, 0x05, 0x4C, 0x54, 0xBF, 0x0F,
+			0x06, 0xDB, 0x4F, 0xF7, 0x08, 0xA3, 0xA2, 0x8B, 0xC3, 0x7A, 0x92, 0x1E, 0xEE, 0x11, 0xED, 0x7B,
+			0x6A, 0x53, 0x79, 0x32, 0xCC, 0x5E, 0x94, 0xEE, 0x1E, 0xA6, 0x57, 0x60, 0x7E, 0x36, 0xC9, 0xF7 }
+		}
+	};
+
+	Buffer tmp;
+
+	for ( Uint32 i = 0 ; i < ( Uint32 )( sizeof( tests ) / sizeof( tests[ 0 ] ) ) ; i++ ) {
+		init();
+		process( Buffer( tests[ i ].msg, tests[ i ].len ) );
+		done( tmp );
+		Buffer exp( tests[i].hash, 64 );
+		if ( tmp != exp ) {
+			throw InternalError( "Step " + Buffer( i ) + "\n"
+				"exp: " + Utils::toHex( exp ) + "\n"
+				"got: " + Utils::toHex( tmp ) );
+		}
+	}
+
+}
+
+// ============================================================================
+
+void Crypto::Whirl::compress(
+	const	Uchar *		buf ) {
+
+	Uint64	K[2][8], T[3][8];
+	Uint32	x, y;
+
+	for (x = 0; x < 8; x++) {
+		K[0][x] = state[x];
+		T[0][x] = LOAD64H(buf + (8 * x));
+		T[2][x]  = T[0][x];
+		T[0][x] ^= K[0][x];
+	}
+
+	for (x = 0; x < 10; x += 2) {
+		/* odd round */
+		/* apply main transform to K[0] into K[1] */
+		for (y = 0; y < 8; y++) {
+			K[1][y] = theta_pi_gamma(K[0], y);
+		}
+		/* xor the constant */
+		K[1][0] ^= cont[x];
+
+		/* apply main transform to T[0] into T[1] */
+		for (y = 0; y < 8; y++) {
+			T[1][y] = theta_pi_gamma(T[0], y) ^ K[1][y];
+		}
+
+		/* even round */
+		/* apply main transform to K[1] into K[0] */
+		for (y = 0; y < 8; y++) {
+			K[0][y] = theta_pi_gamma(K[1], y);
+		}
+		/* xor the constant */
+		K[0][0] ^= cont[x+1];
+
+		/* apply main transform to T[1] into T[0] */
+		for (y = 0; y < 8; y++) {
+			T[0][y] = theta_pi_gamma(T[1], y) ^ K[0][y];
+		}
+	}
+
+	/* store state */
+	for (x = 0; x < 8; x++) {
+		state[x] ^= T[0][x] ^ T[2][x];
+	}
+
+}
+
+// ============================================================================
+
+const Uint64 Crypto::Whirl::sbox0[] = {
+CU64(0x18186018c07830d8), CU64(0x23238c2305af4626), CU64(0xc6c63fc67ef991b8), CU64(0xe8e887e8136fcdfb),
+CU64(0x878726874ca113cb), CU64(0xb8b8dab8a9626d11), CU64(0x0101040108050209), CU64(0x4f4f214f426e9e0d),
+CU64(0x3636d836adee6c9b), CU64(0xa6a6a2a6590451ff), CU64(0xd2d26fd2debdb90c), CU64(0xf5f5f3f5fb06f70e),
+CU64(0x7979f979ef80f296), CU64(0x6f6fa16f5fcede30), CU64(0x91917e91fcef3f6d), CU64(0x52525552aa07a4f8),
+CU64(0x60609d6027fdc047), CU64(0xbcbccabc89766535), CU64(0x9b9b569baccd2b37), CU64(0x8e8e028e048c018a),
+CU64(0xa3a3b6a371155bd2), CU64(0x0c0c300c603c186c), CU64(0x7b7bf17bff8af684), CU64(0x3535d435b5e16a80),
+CU64(0x1d1d741de8693af5), CU64(0xe0e0a7e05347ddb3), CU64(0xd7d77bd7f6acb321), CU64(0xc2c22fc25eed999c),
+CU64(0x2e2eb82e6d965c43), CU64(0x4b4b314b627a9629), CU64(0xfefedffea321e15d), CU64(0x575741578216aed5),
+CU64(0x15155415a8412abd), CU64(0x7777c1779fb6eee8), CU64(0x3737dc37a5eb6e92), CU64(0xe5e5b3e57b56d79e),
+CU64(0x9f9f469f8cd92313), CU64(0xf0f0e7f0d317fd23), CU64(0x4a4a354a6a7f9420), CU64(0xdada4fda9e95a944),
+CU64(0x58587d58fa25b0a2), CU64(0xc9c903c906ca8fcf), CU64(0x2929a429558d527c), CU64(0x0a0a280a5022145a),
+CU64(0xb1b1feb1e14f7f50), CU64(0xa0a0baa0691a5dc9), CU64(0x6b6bb16b7fdad614), CU64(0x85852e855cab17d9),
+CU64(0xbdbdcebd8173673c), CU64(0x5d5d695dd234ba8f), CU64(0x1010401080502090), CU64(0xf4f4f7f4f303f507),
+CU64(0xcbcb0bcb16c08bdd), CU64(0x3e3ef83eedc67cd3), CU64(0x0505140528110a2d), CU64(0x676781671fe6ce78),
+CU64(0xe4e4b7e47353d597), CU64(0x27279c2725bb4e02), CU64(0x4141194132588273), CU64(0x8b8b168b2c9d0ba7),
+CU64(0xa7a7a6a7510153f6), CU64(0x7d7de97dcf94fab2), CU64(0x95956e95dcfb3749), CU64(0xd8d847d88e9fad56),
+CU64(0xfbfbcbfb8b30eb70), CU64(0xeeee9fee2371c1cd), CU64(0x7c7ced7cc791f8bb), CU64(0x6666856617e3cc71),
+CU64(0xdddd53dda68ea77b), CU64(0x17175c17b84b2eaf), CU64(0x4747014702468e45), CU64(0x9e9e429e84dc211a),
+CU64(0xcaca0fca1ec589d4), CU64(0x2d2db42d75995a58), CU64(0xbfbfc6bf9179632e), CU64(0x07071c07381b0e3f),
+CU64(0xadad8ead012347ac), CU64(0x5a5a755aea2fb4b0), CU64(0x838336836cb51bef), CU64(0x3333cc3385ff66b6),
+CU64(0x636391633ff2c65c), CU64(0x02020802100a0412), CU64(0xaaaa92aa39384993), CU64(0x7171d971afa8e2de),
+CU64(0xc8c807c80ecf8dc6), CU64(0x19196419c87d32d1), CU64(0x494939497270923b), CU64(0xd9d943d9869aaf5f),
+CU64(0xf2f2eff2c31df931), CU64(0xe3e3abe34b48dba8), CU64(0x5b5b715be22ab6b9), CU64(0x88881a8834920dbc),
+CU64(0x9a9a529aa4c8293e), CU64(0x262698262dbe4c0b), CU64(0x3232c8328dfa64bf), CU64(0xb0b0fab0e94a7d59),
+CU64(0xe9e983e91b6acff2), CU64(0x0f0f3c0f78331e77), CU64(0xd5d573d5e6a6b733), CU64(0x80803a8074ba1df4),
+CU64(0xbebec2be997c6127), CU64(0xcdcd13cd26de87eb), CU64(0x3434d034bde46889), CU64(0x48483d487a759032),
+CU64(0xffffdbffab24e354), CU64(0x7a7af57af78ff48d), CU64(0x90907a90f4ea3d64), CU64(0x5f5f615fc23ebe9d),
+CU64(0x202080201da0403d), CU64(0x6868bd6867d5d00f), CU64(0x1a1a681ad07234ca), CU64(0xaeae82ae192c41b7),
+CU64(0xb4b4eab4c95e757d), CU64(0x54544d549a19a8ce), CU64(0x93937693ece53b7f), CU64(0x222288220daa442f),
+CU64(0x64648d6407e9c863), CU64(0xf1f1e3f1db12ff2a), CU64(0x7373d173bfa2e6cc), CU64(0x12124812905a2482),
+CU64(0x40401d403a5d807a), CU64(0x0808200840281048), CU64(0xc3c32bc356e89b95), CU64(0xecec97ec337bc5df),
+CU64(0xdbdb4bdb9690ab4d), CU64(0xa1a1bea1611f5fc0), CU64(0x8d8d0e8d1c830791), CU64(0x3d3df43df5c97ac8),
+CU64(0x97976697ccf1335b), CU64(0x0000000000000000), CU64(0xcfcf1bcf36d483f9), CU64(0x2b2bac2b4587566e),
+CU64(0x7676c57697b3ece1), CU64(0x8282328264b019e6), CU64(0xd6d67fd6fea9b128), CU64(0x1b1b6c1bd87736c3),
+CU64(0xb5b5eeb5c15b7774), CU64(0xafaf86af112943be), CU64(0x6a6ab56a77dfd41d), CU64(0x50505d50ba0da0ea),
+CU64(0x45450945124c8a57), CU64(0xf3f3ebf3cb18fb38), CU64(0x3030c0309df060ad), CU64(0xefef9bef2b74c3c4),
+CU64(0x3f3ffc3fe5c37eda), CU64(0x55554955921caac7), CU64(0xa2a2b2a2791059db), CU64(0xeaea8fea0365c9e9),
+CU64(0x656589650fecca6a), CU64(0xbabad2bab9686903), CU64(0x2f2fbc2f65935e4a), CU64(0xc0c027c04ee79d8e),
+CU64(0xdede5fdebe81a160), CU64(0x1c1c701ce06c38fc), CU64(0xfdfdd3fdbb2ee746), CU64(0x4d4d294d52649a1f),
+CU64(0x92927292e4e03976), CU64(0x7575c9758fbceafa), CU64(0x06061806301e0c36), CU64(0x8a8a128a249809ae),
+CU64(0xb2b2f2b2f940794b), CU64(0xe6e6bfe66359d185), CU64(0x0e0e380e70361c7e), CU64(0x1f1f7c1ff8633ee7),
+CU64(0x6262956237f7c455), CU64(0xd4d477d4eea3b53a), CU64(0xa8a89aa829324d81), CU64(0x96966296c4f43152),
+CU64(0xf9f9c3f99b3aef62), CU64(0xc5c533c566f697a3), CU64(0x2525942535b14a10), CU64(0x59597959f220b2ab),
+CU64(0x84842a8454ae15d0), CU64(0x7272d572b7a7e4c5), CU64(0x3939e439d5dd72ec), CU64(0x4c4c2d4c5a619816),
+CU64(0x5e5e655eca3bbc94), CU64(0x7878fd78e785f09f), CU64(0x3838e038ddd870e5), CU64(0x8c8c0a8c14860598),
+CU64(0xd1d163d1c6b2bf17), CU64(0xa5a5aea5410b57e4), CU64(0xe2e2afe2434dd9a1), CU64(0x616199612ff8c24e),
+CU64(0xb3b3f6b3f1457b42), CU64(0x2121842115a54234), CU64(0x9c9c4a9c94d62508), CU64(0x1e1e781ef0663cee),
+CU64(0x4343114322528661), CU64(0xc7c73bc776fc93b1), CU64(0xfcfcd7fcb32be54f), CU64(0x0404100420140824),
+CU64(0x51515951b208a2e3), CU64(0x99995e99bcc72f25), CU64(0x6d6da96d4fc4da22), CU64(0x0d0d340d68391a65),
+CU64(0xfafacffa8335e979), CU64(0xdfdf5bdfb684a369), CU64(0x7e7ee57ed79bfca9), CU64(0x242490243db44819),
+CU64(0x3b3bec3bc5d776fe), CU64(0xabab96ab313d4b9a), CU64(0xcece1fce3ed181f0), CU64(0x1111441188552299),
+CU64(0x8f8f068f0c890383), CU64(0x4e4e254e4a6b9c04), CU64(0xb7b7e6b7d1517366), CU64(0xebeb8beb0b60cbe0),
+CU64(0x3c3cf03cfdcc78c1), CU64(0x81813e817cbf1ffd), CU64(0x94946a94d4fe3540), CU64(0xf7f7fbf7eb0cf31c),
+CU64(0xb9b9deb9a1676f18), CU64(0x13134c13985f268b), CU64(0x2c2cb02c7d9c5851), CU64(0xd3d36bd3d6b8bb05),
+CU64(0xe7e7bbe76b5cd38c), CU64(0x6e6ea56e57cbdc39), CU64(0xc4c437c46ef395aa), CU64(0x03030c03180f061b),
+CU64(0x565645568a13acdc), CU64(0x44440d441a49885e), CU64(0x7f7fe17fdf9efea0), CU64(0xa9a99ea921374f88),
+CU64(0x2a2aa82a4d825467), CU64(0xbbbbd6bbb16d6b0a), CU64(0xc1c123c146e29f87), CU64(0x53535153a202a6f1),
+CU64(0xdcdc57dcae8ba572), CU64(0x0b0b2c0b58271653), CU64(0x9d9d4e9d9cd32701), CU64(0x6c6cad6c47c1d82b),
+CU64(0x3131c43195f562a4), CU64(0x7474cd7487b9e8f3), CU64(0xf6f6fff6e309f115), CU64(0x464605460a438c4c),
+CU64(0xacac8aac092645a5), CU64(0x89891e893c970fb5), CU64(0x14145014a04428b4), CU64(0xe1e1a3e15b42dfba),
+CU64(0x16165816b04e2ca6), CU64(0x3a3ae83acdd274f7), CU64(0x6969b9696fd0d206), CU64(0x09092409482d1241),
+CU64(0x7070dd70a7ade0d7), CU64(0xb6b6e2b6d954716f), CU64(0xd0d067d0ceb7bd1e), CU64(0xeded93ed3b7ec7d6),
+CU64(0xcccc17cc2edb85e2), CU64(0x424215422a578468), CU64(0x98985a98b4c22d2c), CU64(0xa4a4aaa4490e55ed),
+CU64(0x2828a0285d885075), CU64(0x5c5c6d5cda31b886), CU64(0xf8f8c7f8933fed6b), CU64(0x8686228644a411c2)
+};
+
+const Uint64 Crypto::Whirl::sbox1[] = {
+CU64(0xd818186018c07830), CU64(0x2623238c2305af46), CU64(0xb8c6c63fc67ef991), CU64(0xfbe8e887e8136fcd),
+CU64(0xcb878726874ca113), CU64(0x11b8b8dab8a9626d), CU64(0x0901010401080502), CU64(0x0d4f4f214f426e9e),
+CU64(0x9b3636d836adee6c), CU64(0xffa6a6a2a6590451), CU64(0x0cd2d26fd2debdb9), CU64(0x0ef5f5f3f5fb06f7),
+CU64(0x967979f979ef80f2), CU64(0x306f6fa16f5fcede), CU64(0x6d91917e91fcef3f), CU64(0xf852525552aa07a4),
+CU64(0x4760609d6027fdc0), CU64(0x35bcbccabc897665), CU64(0x379b9b569baccd2b), CU64(0x8a8e8e028e048c01),
+CU64(0xd2a3a3b6a371155b), CU64(0x6c0c0c300c603c18), CU64(0x847b7bf17bff8af6), CU64(0x803535d435b5e16a),
+CU64(0xf51d1d741de8693a), CU64(0xb3e0e0a7e05347dd), CU64(0x21d7d77bd7f6acb3), CU64(0x9cc2c22fc25eed99),
+CU64(0x432e2eb82e6d965c), CU64(0x294b4b314b627a96), CU64(0x5dfefedffea321e1), CU64(0xd5575741578216ae),
+CU64(0xbd15155415a8412a), CU64(0xe87777c1779fb6ee), CU64(0x923737dc37a5eb6e), CU64(0x9ee5e5b3e57b56d7),
+CU64(0x139f9f469f8cd923), CU64(0x23f0f0e7f0d317fd), CU64(0x204a4a354a6a7f94), CU64(0x44dada4fda9e95a9),
+CU64(0xa258587d58fa25b0), CU64(0xcfc9c903c906ca8f), CU64(0x7c2929a429558d52), CU64(0x5a0a0a280a502214),
+CU64(0x50b1b1feb1e14f7f), CU64(0xc9a0a0baa0691a5d), CU64(0x146b6bb16b7fdad6), CU64(0xd985852e855cab17),
+CU64(0x3cbdbdcebd817367), CU64(0x8f5d5d695dd234ba), CU64(0x9010104010805020), CU64(0x07f4f4f7f4f303f5),
+CU64(0xddcbcb0bcb16c08b), CU64(0xd33e3ef83eedc67c), CU64(0x2d0505140528110a), CU64(0x78676781671fe6ce),
+CU64(0x97e4e4b7e47353d5), CU64(0x0227279c2725bb4e), CU64(0x7341411941325882), CU64(0xa78b8b168b2c9d0b),
+CU64(0xf6a7a7a6a7510153), CU64(0xb27d7de97dcf94fa), CU64(0x4995956e95dcfb37), CU64(0x56d8d847d88e9fad),
+CU64(0x70fbfbcbfb8b30eb), CU64(0xcdeeee9fee2371c1), CU64(0xbb7c7ced7cc791f8), CU64(0x716666856617e3cc),
+CU64(0x7bdddd53dda68ea7), CU64(0xaf17175c17b84b2e), CU64(0x454747014702468e), CU64(0x1a9e9e429e84dc21),
+CU64(0xd4caca0fca1ec589), CU64(0x582d2db42d75995a), CU64(0x2ebfbfc6bf917963), CU64(0x3f07071c07381b0e),
+CU64(0xacadad8ead012347), CU64(0xb05a5a755aea2fb4), CU64(0xef838336836cb51b), CU64(0xb63333cc3385ff66),
+CU64(0x5c636391633ff2c6), CU64(0x1202020802100a04), CU64(0x93aaaa92aa393849), CU64(0xde7171d971afa8e2),
+CU64(0xc6c8c807c80ecf8d), CU64(0xd119196419c87d32), CU64(0x3b49493949727092), CU64(0x5fd9d943d9869aaf),
+CU64(0x31f2f2eff2c31df9), CU64(0xa8e3e3abe34b48db), CU64(0xb95b5b715be22ab6), CU64(0xbc88881a8834920d),
+CU64(0x3e9a9a529aa4c829), CU64(0x0b262698262dbe4c), CU64(0xbf3232c8328dfa64), CU64(0x59b0b0fab0e94a7d),
+CU64(0xf2e9e983e91b6acf), CU64(0x770f0f3c0f78331e), CU64(0x33d5d573d5e6a6b7), CU64(0xf480803a8074ba1d),
+CU64(0x27bebec2be997c61), CU64(0xebcdcd13cd26de87), CU64(0x893434d034bde468), CU64(0x3248483d487a7590),
+CU64(0x54ffffdbffab24e3), CU64(0x8d7a7af57af78ff4), CU64(0x6490907a90f4ea3d), CU64(0x9d5f5f615fc23ebe),
+CU64(0x3d202080201da040), CU64(0x0f6868bd6867d5d0), CU64(0xca1a1a681ad07234), CU64(0xb7aeae82ae192c41),
+CU64(0x7db4b4eab4c95e75), CU64(0xce54544d549a19a8), CU64(0x7f93937693ece53b), CU64(0x2f222288220daa44),
+CU64(0x6364648d6407e9c8), CU64(0x2af1f1e3f1db12ff), CU64(0xcc7373d173bfa2e6), CU64(0x8212124812905a24),
+CU64(0x7a40401d403a5d80), CU64(0x4808082008402810), CU64(0x95c3c32bc356e89b), CU64(0xdfecec97ec337bc5),
+CU64(0x4ddbdb4bdb9690ab), CU64(0xc0a1a1bea1611f5f), CU64(0x918d8d0e8d1c8307), CU64(0xc83d3df43df5c97a),
+CU64(0x5b97976697ccf133), CU64(0x0000000000000000), CU64(0xf9cfcf1bcf36d483), CU64(0x6e2b2bac2b458756),
+CU64(0xe17676c57697b3ec), CU64(0xe68282328264b019), CU64(0x28d6d67fd6fea9b1), CU64(0xc31b1b6c1bd87736),
+CU64(0x74b5b5eeb5c15b77), CU64(0xbeafaf86af112943), CU64(0x1d6a6ab56a77dfd4), CU64(0xea50505d50ba0da0),
+CU64(0x5745450945124c8a), CU64(0x38f3f3ebf3cb18fb), CU64(0xad3030c0309df060), CU64(0xc4efef9bef2b74c3),
+CU64(0xda3f3ffc3fe5c37e), CU64(0xc755554955921caa), CU64(0xdba2a2b2a2791059), CU64(0xe9eaea8fea0365c9),
+CU64(0x6a656589650fecca), CU64(0x03babad2bab96869), CU64(0x4a2f2fbc2f65935e), CU64(0x8ec0c027c04ee79d),
+CU64(0x60dede5fdebe81a1), CU64(0xfc1c1c701ce06c38), CU64(0x46fdfdd3fdbb2ee7), CU64(0x1f4d4d294d52649a),
+CU64(0x7692927292e4e039), CU64(0xfa7575c9758fbcea), CU64(0x3606061806301e0c), CU64(0xae8a8a128a249809),
+CU64(0x4bb2b2f2b2f94079), CU64(0x85e6e6bfe66359d1), CU64(0x7e0e0e380e70361c), CU64(0xe71f1f7c1ff8633e),
+CU64(0x556262956237f7c4), CU64(0x3ad4d477d4eea3b5), CU64(0x81a8a89aa829324d), CU64(0x5296966296c4f431),
+CU64(0x62f9f9c3f99b3aef), CU64(0xa3c5c533c566f697), CU64(0x102525942535b14a), CU64(0xab59597959f220b2),
+CU64(0xd084842a8454ae15), CU64(0xc57272d572b7a7e4), CU64(0xec3939e439d5dd72), CU64(0x164c4c2d4c5a6198),
+CU64(0x945e5e655eca3bbc), CU64(0x9f7878fd78e785f0), CU64(0xe53838e038ddd870), CU64(0x988c8c0a8c148605),
+CU64(0x17d1d163d1c6b2bf), CU64(0xe4a5a5aea5410b57), CU64(0xa1e2e2afe2434dd9), CU64(0x4e616199612ff8c2),
+CU64(0x42b3b3f6b3f1457b), CU64(0x342121842115a542), CU64(0x089c9c4a9c94d625), CU64(0xee1e1e781ef0663c),
+CU64(0x6143431143225286), CU64(0xb1c7c73bc776fc93), CU64(0x4ffcfcd7fcb32be5), CU64(0x2404041004201408),
+CU64(0xe351515951b208a2), CU64(0x2599995e99bcc72f), CU64(0x226d6da96d4fc4da), CU64(0x650d0d340d68391a),
+CU64(0x79fafacffa8335e9), CU64(0x69dfdf5bdfb684a3), CU64(0xa97e7ee57ed79bfc), CU64(0x19242490243db448),
+CU64(0xfe3b3bec3bc5d776), CU64(0x9aabab96ab313d4b), CU64(0xf0cece1fce3ed181), CU64(0x9911114411885522),
+CU64(0x838f8f068f0c8903), CU64(0x044e4e254e4a6b9c), CU64(0x66b7b7e6b7d15173), CU64(0xe0ebeb8beb0b60cb),
+CU64(0xc13c3cf03cfdcc78), CU64(0xfd81813e817cbf1f), CU64(0x4094946a94d4fe35), CU64(0x1cf7f7fbf7eb0cf3),
+CU64(0x18b9b9deb9a1676f), CU64(0x8b13134c13985f26), CU64(0x512c2cb02c7d9c58), CU64(0x05d3d36bd3d6b8bb),
+CU64(0x8ce7e7bbe76b5cd3), CU64(0x396e6ea56e57cbdc), CU64(0xaac4c437c46ef395), CU64(0x1b03030c03180f06),
+CU64(0xdc565645568a13ac), CU64(0x5e44440d441a4988), CU64(0xa07f7fe17fdf9efe), CU64(0x88a9a99ea921374f),
+CU64(0x672a2aa82a4d8254), CU64(0x0abbbbd6bbb16d6b), CU64(0x87c1c123c146e29f), CU64(0xf153535153a202a6),
+CU64(0x72dcdc57dcae8ba5), CU64(0x530b0b2c0b582716), CU64(0x019d9d4e9d9cd327), CU64(0x2b6c6cad6c47c1d8),
+CU64(0xa43131c43195f562), CU64(0xf37474cd7487b9e8), CU64(0x15f6f6fff6e309f1), CU64(0x4c464605460a438c),
+CU64(0xa5acac8aac092645), CU64(0xb589891e893c970f), CU64(0xb414145014a04428), CU64(0xbae1e1a3e15b42df),
+CU64(0xa616165816b04e2c), CU64(0xf73a3ae83acdd274), CU64(0x066969b9696fd0d2), CU64(0x4109092409482d12),
+CU64(0xd77070dd70a7ade0), CU64(0x6fb6b6e2b6d95471), CU64(0x1ed0d067d0ceb7bd), CU64(0xd6eded93ed3b7ec7),
+CU64(0xe2cccc17cc2edb85), CU64(0x68424215422a5784), CU64(0x2c98985a98b4c22d), CU64(0xeda4a4aaa4490e55),
+CU64(0x752828a0285d8850), CU64(0x865c5c6d5cda31b8), CU64(0x6bf8f8c7f8933fed), CU64(0xc28686228644a411)
+};
+
+const Uint64 Crypto::Whirl::sbox2[] = {
+CU64(0x30d818186018c078), CU64(0x462623238c2305af), CU64(0x91b8c6c63fc67ef9), CU64(0xcdfbe8e887e8136f),
+CU64(0x13cb878726874ca1), CU64(0x6d11b8b8dab8a962), CU64(0x0209010104010805), CU64(0x9e0d4f4f214f426e),
+CU64(0x6c9b3636d836adee), CU64(0x51ffa6a6a2a65904), CU64(0xb90cd2d26fd2debd), CU64(0xf70ef5f5f3f5fb06),
+CU64(0xf2967979f979ef80), CU64(0xde306f6fa16f5fce), CU64(0x3f6d91917e91fcef), CU64(0xa4f852525552aa07),
+CU64(0xc04760609d6027fd), CU64(0x6535bcbccabc8976), CU64(0x2b379b9b569baccd), CU64(0x018a8e8e028e048c),
+CU64(0x5bd2a3a3b6a37115), CU64(0x186c0c0c300c603c), CU64(0xf6847b7bf17bff8a), CU64(0x6a803535d435b5e1),
+CU64(0x3af51d1d741de869), CU64(0xddb3e0e0a7e05347), CU64(0xb321d7d77bd7f6ac), CU64(0x999cc2c22fc25eed),
+CU64(0x5c432e2eb82e6d96), CU64(0x96294b4b314b627a), CU64(0xe15dfefedffea321), CU64(0xaed5575741578216),
+CU64(0x2abd15155415a841), CU64(0xeee87777c1779fb6), CU64(0x6e923737dc37a5eb), CU64(0xd79ee5e5b3e57b56),
+CU64(0x23139f9f469f8cd9), CU64(0xfd23f0f0e7f0d317), CU64(0x94204a4a354a6a7f), CU64(0xa944dada4fda9e95),
+CU64(0xb0a258587d58fa25), CU64(0x8fcfc9c903c906ca), CU64(0x527c2929a429558d), CU64(0x145a0a0a280a5022),
+CU64(0x7f50b1b1feb1e14f), CU64(0x5dc9a0a0baa0691a), CU64(0xd6146b6bb16b7fda), CU64(0x17d985852e855cab),
+CU64(0x673cbdbdcebd8173), CU64(0xba8f5d5d695dd234), CU64(0x2090101040108050), CU64(0xf507f4f4f7f4f303),
+CU64(0x8bddcbcb0bcb16c0), CU64(0x7cd33e3ef83eedc6), CU64(0x0a2d050514052811), CU64(0xce78676781671fe6),
+CU64(0xd597e4e4b7e47353), CU64(0x4e0227279c2725bb), CU64(0x8273414119413258), CU64(0x0ba78b8b168b2c9d),
+CU64(0x53f6a7a7a6a75101), CU64(0xfab27d7de97dcf94), CU64(0x374995956e95dcfb), CU64(0xad56d8d847d88e9f),
+CU64(0xeb70fbfbcbfb8b30), CU64(0xc1cdeeee9fee2371), CU64(0xf8bb7c7ced7cc791), CU64(0xcc716666856617e3),
+CU64(0xa77bdddd53dda68e), CU64(0x2eaf17175c17b84b), CU64(0x8e45474701470246), CU64(0x211a9e9e429e84dc),
+CU64(0x89d4caca0fca1ec5), CU64(0x5a582d2db42d7599), CU64(0x632ebfbfc6bf9179), CU64(0x0e3f07071c07381b),
+CU64(0x47acadad8ead0123), CU64(0xb4b05a5a755aea2f), CU64(0x1bef838336836cb5), CU64(0x66b63333cc3385ff),
+CU64(0xc65c636391633ff2), CU64(0x041202020802100a), CU64(0x4993aaaa92aa3938), CU64(0xe2de7171d971afa8),
+CU64(0x8dc6c8c807c80ecf), CU64(0x32d119196419c87d), CU64(0x923b494939497270), CU64(0xaf5fd9d943d9869a),
+CU64(0xf931f2f2eff2c31d), CU64(0xdba8e3e3abe34b48), CU64(0xb6b95b5b715be22a), CU64(0x0dbc88881a883492),
+CU64(0x293e9a9a529aa4c8), CU64(0x4c0b262698262dbe), CU64(0x64bf3232c8328dfa), CU64(0x7d59b0b0fab0e94a),
+CU64(0xcff2e9e983e91b6a), CU64(0x1e770f0f3c0f7833), CU64(0xb733d5d573d5e6a6), CU64(0x1df480803a8074ba),
+CU64(0x6127bebec2be997c), CU64(0x87ebcdcd13cd26de), CU64(0x68893434d034bde4), CU64(0x903248483d487a75),
+CU64(0xe354ffffdbffab24), CU64(0xf48d7a7af57af78f), CU64(0x3d6490907a90f4ea), CU64(0xbe9d5f5f615fc23e),
+CU64(0x403d202080201da0), CU64(0xd00f6868bd6867d5), CU64(0x34ca1a1a681ad072), CU64(0x41b7aeae82ae192c),
+CU64(0x757db4b4eab4c95e), CU64(0xa8ce54544d549a19), CU64(0x3b7f93937693ece5), CU64(0x442f222288220daa),
+CU64(0xc86364648d6407e9), CU64(0xff2af1f1e3f1db12), CU64(0xe6cc7373d173bfa2), CU64(0x248212124812905a),
+CU64(0x807a40401d403a5d), CU64(0x1048080820084028), CU64(0x9b95c3c32bc356e8), CU64(0xc5dfecec97ec337b),
+CU64(0xab4ddbdb4bdb9690), CU64(0x5fc0a1a1bea1611f), CU64(0x07918d8d0e8d1c83), CU64(0x7ac83d3df43df5c9),
+CU64(0x335b97976697ccf1), CU64(0x0000000000000000), CU64(0x83f9cfcf1bcf36d4), CU64(0x566e2b2bac2b4587),
+CU64(0xece17676c57697b3), CU64(0x19e68282328264b0), CU64(0xb128d6d67fd6fea9), CU64(0x36c31b1b6c1bd877),
+CU64(0x7774b5b5eeb5c15b), CU64(0x43beafaf86af1129), CU64(0xd41d6a6ab56a77df), CU64(0xa0ea50505d50ba0d),
+CU64(0x8a5745450945124c), CU64(0xfb38f3f3ebf3cb18), CU64(0x60ad3030c0309df0), CU64(0xc3c4efef9bef2b74),
+CU64(0x7eda3f3ffc3fe5c3), CU64(0xaac755554955921c), CU64(0x59dba2a2b2a27910), CU64(0xc9e9eaea8fea0365),
+CU64(0xca6a656589650fec), CU64(0x6903babad2bab968), CU64(0x5e4a2f2fbc2f6593), CU64(0x9d8ec0c027c04ee7),
+CU64(0xa160dede5fdebe81), CU64(0x38fc1c1c701ce06c), CU64(0xe746fdfdd3fdbb2e), CU64(0x9a1f4d4d294d5264),
+CU64(0x397692927292e4e0), CU64(0xeafa7575c9758fbc), CU64(0x0c3606061806301e), CU64(0x09ae8a8a128a2498),
+CU64(0x794bb2b2f2b2f940), CU64(0xd185e6e6bfe66359), CU64(0x1c7e0e0e380e7036), CU64(0x3ee71f1f7c1ff863),
+CU64(0xc4556262956237f7), CU64(0xb53ad4d477d4eea3), CU64(0x4d81a8a89aa82932), CU64(0x315296966296c4f4),
+CU64(0xef62f9f9c3f99b3a), CU64(0x97a3c5c533c566f6), CU64(0x4a102525942535b1), CU64(0xb2ab59597959f220),
+CU64(0x15d084842a8454ae), CU64(0xe4c57272d572b7a7), CU64(0x72ec3939e439d5dd), CU64(0x98164c4c2d4c5a61),
+CU64(0xbc945e5e655eca3b), CU64(0xf09f7878fd78e785), CU64(0x70e53838e038ddd8), CU64(0x05988c8c0a8c1486),
+CU64(0xbf17d1d163d1c6b2), CU64(0x57e4a5a5aea5410b), CU64(0xd9a1e2e2afe2434d), CU64(0xc24e616199612ff8),
+CU64(0x7b42b3b3f6b3f145), CU64(0x42342121842115a5), CU64(0x25089c9c4a9c94d6), CU64(0x3cee1e1e781ef066),
+CU64(0x8661434311432252), CU64(0x93b1c7c73bc776fc), CU64(0xe54ffcfcd7fcb32b), CU64(0x0824040410042014),
+CU64(0xa2e351515951b208), CU64(0x2f2599995e99bcc7), CU64(0xda226d6da96d4fc4), CU64(0x1a650d0d340d6839),
+CU64(0xe979fafacffa8335), CU64(0xa369dfdf5bdfb684), CU64(0xfca97e7ee57ed79b), CU64(0x4819242490243db4),
+CU64(0x76fe3b3bec3bc5d7), CU64(0x4b9aabab96ab313d), CU64(0x81f0cece1fce3ed1), CU64(0x2299111144118855),
+CU64(0x03838f8f068f0c89), CU64(0x9c044e4e254e4a6b), CU64(0x7366b7b7e6b7d151), CU64(0xcbe0ebeb8beb0b60),
+CU64(0x78c13c3cf03cfdcc), CU64(0x1ffd81813e817cbf), CU64(0x354094946a94d4fe), CU64(0xf31cf7f7fbf7eb0c),
+CU64(0x6f18b9b9deb9a167), CU64(0x268b13134c13985f), CU64(0x58512c2cb02c7d9c), CU64(0xbb05d3d36bd3d6b8),
+CU64(0xd38ce7e7bbe76b5c), CU64(0xdc396e6ea56e57cb), CU64(0x95aac4c437c46ef3), CU64(0x061b03030c03180f),
+CU64(0xacdc565645568a13), CU64(0x885e44440d441a49), CU64(0xfea07f7fe17fdf9e), CU64(0x4f88a9a99ea92137),
+CU64(0x54672a2aa82a4d82), CU64(0x6b0abbbbd6bbb16d), CU64(0x9f87c1c123c146e2), CU64(0xa6f153535153a202),
+CU64(0xa572dcdc57dcae8b), CU64(0x16530b0b2c0b5827), CU64(0x27019d9d4e9d9cd3), CU64(0xd82b6c6cad6c47c1),
+CU64(0x62a43131c43195f5), CU64(0xe8f37474cd7487b9), CU64(0xf115f6f6fff6e309), CU64(0x8c4c464605460a43),
+CU64(0x45a5acac8aac0926), CU64(0x0fb589891e893c97), CU64(0x28b414145014a044), CU64(0xdfbae1e1a3e15b42),
+CU64(0x2ca616165816b04e), CU64(0x74f73a3ae83acdd2), CU64(0xd2066969b9696fd0), CU64(0x124109092409482d),
+CU64(0xe0d77070dd70a7ad), CU64(0x716fb6b6e2b6d954), CU64(0xbd1ed0d067d0ceb7), CU64(0xc7d6eded93ed3b7e),
+CU64(0x85e2cccc17cc2edb), CU64(0x8468424215422a57), CU64(0x2d2c98985a98b4c2), CU64(0x55eda4a4aaa4490e),
+CU64(0x50752828a0285d88), CU64(0xb8865c5c6d5cda31), CU64(0xed6bf8f8c7f8933f), CU64(0x11c28686228644a4)
+};
+
+const Uint64 Crypto::Whirl::sbox3[] = {
+CU64(0x7830d818186018c0), CU64(0xaf462623238c2305), CU64(0xf991b8c6c63fc67e), CU64(0x6fcdfbe8e887e813),
+CU64(0xa113cb878726874c), CU64(0x626d11b8b8dab8a9), CU64(0x0502090101040108), CU64(0x6e9e0d4f4f214f42),
+CU64(0xee6c9b3636d836ad), CU64(0x0451ffa6a6a2a659), CU64(0xbdb90cd2d26fd2de), CU64(0x06f70ef5f5f3f5fb),
+CU64(0x80f2967979f979ef), CU64(0xcede306f6fa16f5f), CU64(0xef3f6d91917e91fc), CU64(0x07a4f852525552aa),
+CU64(0xfdc04760609d6027), CU64(0x766535bcbccabc89), CU64(0xcd2b379b9b569bac), CU64(0x8c018a8e8e028e04),
+CU64(0x155bd2a3a3b6a371), CU64(0x3c186c0c0c300c60), CU64(0x8af6847b7bf17bff), CU64(0xe16a803535d435b5),
+CU64(0x693af51d1d741de8), CU64(0x47ddb3e0e0a7e053), CU64(0xacb321d7d77bd7f6), CU64(0xed999cc2c22fc25e),
+CU64(0x965c432e2eb82e6d), CU64(0x7a96294b4b314b62), CU64(0x21e15dfefedffea3), CU64(0x16aed55757415782),
+CU64(0x412abd15155415a8), CU64(0xb6eee87777c1779f), CU64(0xeb6e923737dc37a5), CU64(0x56d79ee5e5b3e57b),
+CU64(0xd923139f9f469f8c), CU64(0x17fd23f0f0e7f0d3), CU64(0x7f94204a4a354a6a), CU64(0x95a944dada4fda9e),
+CU64(0x25b0a258587d58fa), CU64(0xca8fcfc9c903c906), CU64(0x8d527c2929a42955), CU64(0x22145a0a0a280a50),
+CU64(0x4f7f50b1b1feb1e1), CU64(0x1a5dc9a0a0baa069), CU64(0xdad6146b6bb16b7f), CU64(0xab17d985852e855c),
+CU64(0x73673cbdbdcebd81), CU64(0x34ba8f5d5d695dd2), CU64(0x5020901010401080), CU64(0x03f507f4f4f7f4f3),
+CU64(0xc08bddcbcb0bcb16), CU64(0xc67cd33e3ef83eed), CU64(0x110a2d0505140528), CU64(0xe6ce78676781671f),
+CU64(0x53d597e4e4b7e473), CU64(0xbb4e0227279c2725), CU64(0x5882734141194132), CU64(0x9d0ba78b8b168b2c),
+CU64(0x0153f6a7a7a6a751), CU64(0x94fab27d7de97dcf), CU64(0xfb374995956e95dc), CU64(0x9fad56d8d847d88e),
+CU64(0x30eb70fbfbcbfb8b), CU64(0x71c1cdeeee9fee23), CU64(0x91f8bb7c7ced7cc7), CU64(0xe3cc716666856617),
+CU64(0x8ea77bdddd53dda6), CU64(0x4b2eaf17175c17b8), CU64(0x468e454747014702), CU64(0xdc211a9e9e429e84),
+CU64(0xc589d4caca0fca1e), CU64(0x995a582d2db42d75), CU64(0x79632ebfbfc6bf91), CU64(0x1b0e3f07071c0738),
+CU64(0x2347acadad8ead01), CU64(0x2fb4b05a5a755aea), CU64(0xb51bef838336836c), CU64(0xff66b63333cc3385),
+CU64(0xf2c65c636391633f), CU64(0x0a04120202080210), CU64(0x384993aaaa92aa39), CU64(0xa8e2de7171d971af),
+CU64(0xcf8dc6c8c807c80e), CU64(0x7d32d119196419c8), CU64(0x70923b4949394972), CU64(0x9aaf5fd9d943d986),
+CU64(0x1df931f2f2eff2c3), CU64(0x48dba8e3e3abe34b), CU64(0x2ab6b95b5b715be2), CU64(0x920dbc88881a8834),
+CU64(0xc8293e9a9a529aa4), CU64(0xbe4c0b262698262d), CU64(0xfa64bf3232c8328d), CU64(0x4a7d59b0b0fab0e9),
+CU64(0x6acff2e9e983e91b), CU64(0x331e770f0f3c0f78), CU64(0xa6b733d5d573d5e6), CU64(0xba1df480803a8074),
+CU64(0x7c6127bebec2be99), CU64(0xde87ebcdcd13cd26), CU64(0xe468893434d034bd), CU64(0x75903248483d487a),
+CU64(0x24e354ffffdbffab), CU64(0x8ff48d7a7af57af7), CU64(0xea3d6490907a90f4), CU64(0x3ebe9d5f5f615fc2),
+CU64(0xa0403d202080201d), CU64(0xd5d00f6868bd6867), CU64(0x7234ca1a1a681ad0), CU64(0x2c41b7aeae82ae19),
+CU64(0x5e757db4b4eab4c9), CU64(0x19a8ce54544d549a), CU64(0xe53b7f93937693ec), CU64(0xaa442f222288220d),
+CU64(0xe9c86364648d6407), CU64(0x12ff2af1f1e3f1db), CU64(0xa2e6cc7373d173bf), CU64(0x5a24821212481290),
+CU64(0x5d807a40401d403a), CU64(0x2810480808200840), CU64(0xe89b95c3c32bc356), CU64(0x7bc5dfecec97ec33),
+CU64(0x90ab4ddbdb4bdb96), CU64(0x1f5fc0a1a1bea161), CU64(0x8307918d8d0e8d1c), CU64(0xc97ac83d3df43df5),
+CU64(0xf1335b97976697cc), CU64(0x0000000000000000), CU64(0xd483f9cfcf1bcf36), CU64(0x87566e2b2bac2b45),
+CU64(0xb3ece17676c57697), CU64(0xb019e68282328264), CU64(0xa9b128d6d67fd6fe), CU64(0x7736c31b1b6c1bd8),
+CU64(0x5b7774b5b5eeb5c1), CU64(0x2943beafaf86af11), CU64(0xdfd41d6a6ab56a77), CU64(0x0da0ea50505d50ba),
+CU64(0x4c8a574545094512), CU64(0x18fb38f3f3ebf3cb), CU64(0xf060ad3030c0309d), CU64(0x74c3c4efef9bef2b),
+CU64(0xc37eda3f3ffc3fe5), CU64(0x1caac75555495592), CU64(0x1059dba2a2b2a279), CU64(0x65c9e9eaea8fea03),
+CU64(0xecca6a656589650f), CU64(0x686903babad2bab9), CU64(0x935e4a2f2fbc2f65), CU64(0xe79d8ec0c027c04e),
+CU64(0x81a160dede5fdebe), CU64(0x6c38fc1c1c701ce0), CU64(0x2ee746fdfdd3fdbb), CU64(0x649a1f4d4d294d52),
+CU64(0xe0397692927292e4), CU64(0xbceafa7575c9758f), CU64(0x1e0c360606180630), CU64(0x9809ae8a8a128a24),
+CU64(0x40794bb2b2f2b2f9), CU64(0x59d185e6e6bfe663), CU64(0x361c7e0e0e380e70), CU64(0x633ee71f1f7c1ff8),
+CU64(0xf7c4556262956237), CU64(0xa3b53ad4d477d4ee), CU64(0x324d81a8a89aa829), CU64(0xf4315296966296c4),
+CU64(0x3aef62f9f9c3f99b), CU64(0xf697a3c5c533c566), CU64(0xb14a102525942535), CU64(0x20b2ab59597959f2),
+CU64(0xae15d084842a8454), CU64(0xa7e4c57272d572b7), CU64(0xdd72ec3939e439d5), CU64(0x6198164c4c2d4c5a),
+CU64(0x3bbc945e5e655eca), CU64(0x85f09f7878fd78e7), CU64(0xd870e53838e038dd), CU64(0x8605988c8c0a8c14),
+CU64(0xb2bf17d1d163d1c6), CU64(0x0b57e4a5a5aea541), CU64(0x4dd9a1e2e2afe243), CU64(0xf8c24e616199612f),
+CU64(0x457b42b3b3f6b3f1), CU64(0xa542342121842115), CU64(0xd625089c9c4a9c94), CU64(0x663cee1e1e781ef0),
+CU64(0x5286614343114322), CU64(0xfc93b1c7c73bc776), CU64(0x2be54ffcfcd7fcb3), CU64(0x1408240404100420),
+CU64(0x08a2e351515951b2), CU64(0xc72f2599995e99bc), CU64(0xc4da226d6da96d4f), CU64(0x391a650d0d340d68),
+CU64(0x35e979fafacffa83), CU64(0x84a369dfdf5bdfb6), CU64(0x9bfca97e7ee57ed7), CU64(0xb44819242490243d),
+CU64(0xd776fe3b3bec3bc5), CU64(0x3d4b9aabab96ab31), CU64(0xd181f0cece1fce3e), CU64(0x5522991111441188),
+CU64(0x8903838f8f068f0c), CU64(0x6b9c044e4e254e4a), CU64(0x517366b7b7e6b7d1), CU64(0x60cbe0ebeb8beb0b),
+CU64(0xcc78c13c3cf03cfd), CU64(0xbf1ffd81813e817c), CU64(0xfe354094946a94d4), CU64(0x0cf31cf7f7fbf7eb),
+CU64(0x676f18b9b9deb9a1), CU64(0x5f268b13134c1398), CU64(0x9c58512c2cb02c7d), CU64(0xb8bb05d3d36bd3d6),
+CU64(0x5cd38ce7e7bbe76b), CU64(0xcbdc396e6ea56e57), CU64(0xf395aac4c437c46e), CU64(0x0f061b03030c0318),
+CU64(0x13acdc565645568a), CU64(0x49885e44440d441a), CU64(0x9efea07f7fe17fdf), CU64(0x374f88a9a99ea921),
+CU64(0x8254672a2aa82a4d), CU64(0x6d6b0abbbbd6bbb1), CU64(0xe29f87c1c123c146), CU64(0x02a6f153535153a2),
+CU64(0x8ba572dcdc57dcae), CU64(0x2716530b0b2c0b58), CU64(0xd327019d9d4e9d9c), CU64(0xc1d82b6c6cad6c47),
+CU64(0xf562a43131c43195), CU64(0xb9e8f37474cd7487), CU64(0x09f115f6f6fff6e3), CU64(0x438c4c464605460a),
+CU64(0x2645a5acac8aac09), CU64(0x970fb589891e893c), CU64(0x4428b414145014a0), CU64(0x42dfbae1e1a3e15b),
+CU64(0x4e2ca616165816b0), CU64(0xd274f73a3ae83acd), CU64(0xd0d2066969b9696f), CU64(0x2d12410909240948),
+CU64(0xade0d77070dd70a7), CU64(0x54716fb6b6e2b6d9), CU64(0xb7bd1ed0d067d0ce), CU64(0x7ec7d6eded93ed3b),
+CU64(0xdb85e2cccc17cc2e), CU64(0x578468424215422a), CU64(0xc22d2c98985a98b4), CU64(0x0e55eda4a4aaa449),
+CU64(0x8850752828a0285d), CU64(0x31b8865c5c6d5cda), CU64(0x3fed6bf8f8c7f893), CU64(0xa411c28686228644)
+};
+
+const Uint64 Crypto::Whirl::sbox4[] = {
+CU64(0xc07830d818186018), CU64(0x05af462623238c23), CU64(0x7ef991b8c6c63fc6), CU64(0x136fcdfbe8e887e8),
+CU64(0x4ca113cb87872687), CU64(0xa9626d11b8b8dab8), CU64(0x0805020901010401), CU64(0x426e9e0d4f4f214f),
+CU64(0xadee6c9b3636d836), CU64(0x590451ffa6a6a2a6), CU64(0xdebdb90cd2d26fd2), CU64(0xfb06f70ef5f5f3f5),
+CU64(0xef80f2967979f979), CU64(0x5fcede306f6fa16f), CU64(0xfcef3f6d91917e91), CU64(0xaa07a4f852525552),
+CU64(0x27fdc04760609d60), CU64(0x89766535bcbccabc), CU64(0xaccd2b379b9b569b), CU64(0x048c018a8e8e028e),
+CU64(0x71155bd2a3a3b6a3), CU64(0x603c186c0c0c300c), CU64(0xff8af6847b7bf17b), CU64(0xb5e16a803535d435),
+CU64(0xe8693af51d1d741d), CU64(0x5347ddb3e0e0a7e0), CU64(0xf6acb321d7d77bd7), CU64(0x5eed999cc2c22fc2),
+CU64(0x6d965c432e2eb82e), CU64(0x627a96294b4b314b), CU64(0xa321e15dfefedffe), CU64(0x8216aed557574157),
+CU64(0xa8412abd15155415), CU64(0x9fb6eee87777c177), CU64(0xa5eb6e923737dc37), CU64(0x7b56d79ee5e5b3e5),
+CU64(0x8cd923139f9f469f), CU64(0xd317fd23f0f0e7f0), CU64(0x6a7f94204a4a354a), CU64(0x9e95a944dada4fda),
+CU64(0xfa25b0a258587d58), CU64(0x06ca8fcfc9c903c9), CU64(0x558d527c2929a429), CU64(0x5022145a0a0a280a),
+CU64(0xe14f7f50b1b1feb1), CU64(0x691a5dc9a0a0baa0), CU64(0x7fdad6146b6bb16b), CU64(0x5cab17d985852e85),
+CU64(0x8173673cbdbdcebd), CU64(0xd234ba8f5d5d695d), CU64(0x8050209010104010), CU64(0xf303f507f4f4f7f4),
+CU64(0x16c08bddcbcb0bcb), CU64(0xedc67cd33e3ef83e), CU64(0x28110a2d05051405), CU64(0x1fe6ce7867678167),
+CU64(0x7353d597e4e4b7e4), CU64(0x25bb4e0227279c27), CU64(0x3258827341411941), CU64(0x2c9d0ba78b8b168b),
+CU64(0x510153f6a7a7a6a7), CU64(0xcf94fab27d7de97d), CU64(0xdcfb374995956e95), CU64(0x8e9fad56d8d847d8),
+CU64(0x8b30eb70fbfbcbfb), CU64(0x2371c1cdeeee9fee), CU64(0xc791f8bb7c7ced7c), CU64(0x17e3cc7166668566),
+CU64(0xa68ea77bdddd53dd), CU64(0xb84b2eaf17175c17), CU64(0x02468e4547470147), CU64(0x84dc211a9e9e429e),
+CU64(0x1ec589d4caca0fca), CU64(0x75995a582d2db42d), CU64(0x9179632ebfbfc6bf), CU64(0x381b0e3f07071c07),
+CU64(0x012347acadad8ead), CU64(0xea2fb4b05a5a755a), CU64(0x6cb51bef83833683), CU64(0x85ff66b63333cc33),
+CU64(0x3ff2c65c63639163), CU64(0x100a041202020802), CU64(0x39384993aaaa92aa), CU64(0xafa8e2de7171d971),
+CU64(0x0ecf8dc6c8c807c8), CU64(0xc87d32d119196419), CU64(0x7270923b49493949), CU64(0x869aaf5fd9d943d9),
+CU64(0xc31df931f2f2eff2), CU64(0x4b48dba8e3e3abe3), CU64(0xe22ab6b95b5b715b), CU64(0x34920dbc88881a88),
+CU64(0xa4c8293e9a9a529a), CU64(0x2dbe4c0b26269826), CU64(0x8dfa64bf3232c832), CU64(0xe94a7d59b0b0fab0),
+CU64(0x1b6acff2e9e983e9), CU64(0x78331e770f0f3c0f), CU64(0xe6a6b733d5d573d5), CU64(0x74ba1df480803a80),
+CU64(0x997c6127bebec2be), CU64(0x26de87ebcdcd13cd), CU64(0xbde468893434d034), CU64(0x7a75903248483d48),
+CU64(0xab24e354ffffdbff), CU64(0xf78ff48d7a7af57a), CU64(0xf4ea3d6490907a90), CU64(0xc23ebe9d5f5f615f),
+CU64(0x1da0403d20208020), CU64(0x67d5d00f6868bd68), CU64(0xd07234ca1a1a681a), CU64(0x192c41b7aeae82ae),
+CU64(0xc95e757db4b4eab4), CU64(0x9a19a8ce54544d54), CU64(0xece53b7f93937693), CU64(0x0daa442f22228822),
+CU64(0x07e9c86364648d64), CU64(0xdb12ff2af1f1e3f1), CU64(0xbfa2e6cc7373d173), CU64(0x905a248212124812),
+CU64(0x3a5d807a40401d40), CU64(0x4028104808082008), CU64(0x56e89b95c3c32bc3), CU64(0x337bc5dfecec97ec),
+CU64(0x9690ab4ddbdb4bdb), CU64(0x611f5fc0a1a1bea1), CU64(0x1c8307918d8d0e8d), CU64(0xf5c97ac83d3df43d),
+CU64(0xccf1335b97976697), CU64(0x0000000000000000), CU64(0x36d483f9cfcf1bcf), CU64(0x4587566e2b2bac2b),
+CU64(0x97b3ece17676c576), CU64(0x64b019e682823282), CU64(0xfea9b128d6d67fd6), CU64(0xd87736c31b1b6c1b),
+CU64(0xc15b7774b5b5eeb5), CU64(0x112943beafaf86af), CU64(0x77dfd41d6a6ab56a), CU64(0xba0da0ea50505d50),
+CU64(0x124c8a5745450945), CU64(0xcb18fb38f3f3ebf3), CU64(0x9df060ad3030c030), CU64(0x2b74c3c4efef9bef),
+CU64(0xe5c37eda3f3ffc3f), CU64(0x921caac755554955), CU64(0x791059dba2a2b2a2), CU64(0x0365c9e9eaea8fea),
+CU64(0x0fecca6a65658965), CU64(0xb9686903babad2ba), CU64(0x65935e4a2f2fbc2f), CU64(0x4ee79d8ec0c027c0),
+CU64(0xbe81a160dede5fde), CU64(0xe06c38fc1c1c701c), CU64(0xbb2ee746fdfdd3fd), CU64(0x52649a1f4d4d294d),
+CU64(0xe4e0397692927292), CU64(0x8fbceafa7575c975), CU64(0x301e0c3606061806), CU64(0x249809ae8a8a128a),
+CU64(0xf940794bb2b2f2b2), CU64(0x6359d185e6e6bfe6), CU64(0x70361c7e0e0e380e), CU64(0xf8633ee71f1f7c1f),
+CU64(0x37f7c45562629562), CU64(0xeea3b53ad4d477d4), CU64(0x29324d81a8a89aa8), CU64(0xc4f4315296966296),
+CU64(0x9b3aef62f9f9c3f9), CU64(0x66f697a3c5c533c5), CU64(0x35b14a1025259425), CU64(0xf220b2ab59597959),
+CU64(0x54ae15d084842a84), CU64(0xb7a7e4c57272d572), CU64(0xd5dd72ec3939e439), CU64(0x5a6198164c4c2d4c),
+CU64(0xca3bbc945e5e655e), CU64(0xe785f09f7878fd78), CU64(0xddd870e53838e038), CU64(0x148605988c8c0a8c),
+CU64(0xc6b2bf17d1d163d1), CU64(0x410b57e4a5a5aea5), CU64(0x434dd9a1e2e2afe2), CU64(0x2ff8c24e61619961),
+CU64(0xf1457b42b3b3f6b3), CU64(0x15a5423421218421), CU64(0x94d625089c9c4a9c), CU64(0xf0663cee1e1e781e),
+CU64(0x2252866143431143), CU64(0x76fc93b1c7c73bc7), CU64(0xb32be54ffcfcd7fc), CU64(0x2014082404041004),
+CU64(0xb208a2e351515951), CU64(0xbcc72f2599995e99), CU64(0x4fc4da226d6da96d), CU64(0x68391a650d0d340d),
+CU64(0x8335e979fafacffa), CU64(0xb684a369dfdf5bdf), CU64(0xd79bfca97e7ee57e), CU64(0x3db4481924249024),
+CU64(0xc5d776fe3b3bec3b), CU64(0x313d4b9aabab96ab), CU64(0x3ed181f0cece1fce), CU64(0x8855229911114411),
+CU64(0x0c8903838f8f068f), CU64(0x4a6b9c044e4e254e), CU64(0xd1517366b7b7e6b7), CU64(0x0b60cbe0ebeb8beb),
+CU64(0xfdcc78c13c3cf03c), CU64(0x7cbf1ffd81813e81), CU64(0xd4fe354094946a94), CU64(0xeb0cf31cf7f7fbf7),
+CU64(0xa1676f18b9b9deb9), CU64(0x985f268b13134c13), CU64(0x7d9c58512c2cb02c), CU64(0xd6b8bb05d3d36bd3),
+CU64(0x6b5cd38ce7e7bbe7), CU64(0x57cbdc396e6ea56e), CU64(0x6ef395aac4c437c4), CU64(0x180f061b03030c03),
+CU64(0x8a13acdc56564556), CU64(0x1a49885e44440d44), CU64(0xdf9efea07f7fe17f), CU64(0x21374f88a9a99ea9),
+CU64(0x4d8254672a2aa82a), CU64(0xb16d6b0abbbbd6bb), CU64(0x46e29f87c1c123c1), CU64(0xa202a6f153535153),
+CU64(0xae8ba572dcdc57dc), CU64(0x582716530b0b2c0b), CU64(0x9cd327019d9d4e9d), CU64(0x47c1d82b6c6cad6c),
+CU64(0x95f562a43131c431), CU64(0x87b9e8f37474cd74), CU64(0xe309f115f6f6fff6), CU64(0x0a438c4c46460546),
+CU64(0x092645a5acac8aac), CU64(0x3c970fb589891e89), CU64(0xa04428b414145014), CU64(0x5b42dfbae1e1a3e1),
+CU64(0xb04e2ca616165816), CU64(0xcdd274f73a3ae83a), CU64(0x6fd0d2066969b969), CU64(0x482d124109092409),
+CU64(0xa7ade0d77070dd70), CU64(0xd954716fb6b6e2b6), CU64(0xceb7bd1ed0d067d0), CU64(0x3b7ec7d6eded93ed),
+CU64(0x2edb85e2cccc17cc), CU64(0x2a57846842421542), CU64(0xb4c22d2c98985a98), CU64(0x490e55eda4a4aaa4),
+CU64(0x5d8850752828a028), CU64(0xda31b8865c5c6d5c), CU64(0x933fed6bf8f8c7f8), CU64(0x44a411c286862286)
+};
+
+const Uint64 Crypto::Whirl::sbox5[] = {
+CU64(0x18c07830d8181860), CU64(0x2305af462623238c), CU64(0xc67ef991b8c6c63f), CU64(0xe8136fcdfbe8e887),
+CU64(0x874ca113cb878726), CU64(0xb8a9626d11b8b8da), CU64(0x0108050209010104), CU64(0x4f426e9e0d4f4f21),
+CU64(0x36adee6c9b3636d8), CU64(0xa6590451ffa6a6a2), CU64(0xd2debdb90cd2d26f), CU64(0xf5fb06f70ef5f5f3),
+CU64(0x79ef80f2967979f9), CU64(0x6f5fcede306f6fa1), CU64(0x91fcef3f6d91917e), CU64(0x52aa07a4f8525255),
+CU64(0x6027fdc04760609d), CU64(0xbc89766535bcbcca), CU64(0x9baccd2b379b9b56), CU64(0x8e048c018a8e8e02),
+CU64(0xa371155bd2a3a3b6), CU64(0x0c603c186c0c0c30), CU64(0x7bff8af6847b7bf1), CU64(0x35b5e16a803535d4),
+CU64(0x1de8693af51d1d74), CU64(0xe05347ddb3e0e0a7), CU64(0xd7f6acb321d7d77b), CU64(0xc25eed999cc2c22f),
+CU64(0x2e6d965c432e2eb8), CU64(0x4b627a96294b4b31), CU64(0xfea321e15dfefedf), CU64(0x578216aed5575741),
+CU64(0x15a8412abd151554), CU64(0x779fb6eee87777c1), CU64(0x37a5eb6e923737dc), CU64(0xe57b56d79ee5e5b3),
+CU64(0x9f8cd923139f9f46), CU64(0xf0d317fd23f0f0e7), CU64(0x4a6a7f94204a4a35), CU64(0xda9e95a944dada4f),
+CU64(0x58fa25b0a258587d), CU64(0xc906ca8fcfc9c903), CU64(0x29558d527c2929a4), CU64(0x0a5022145a0a0a28),
+CU64(0xb1e14f7f50b1b1fe), CU64(0xa0691a5dc9a0a0ba), CU64(0x6b7fdad6146b6bb1), CU64(0x855cab17d985852e),
+CU64(0xbd8173673cbdbdce), CU64(0x5dd234ba8f5d5d69), CU64(0x1080502090101040), CU64(0xf4f303f507f4f4f7),
+CU64(0xcb16c08bddcbcb0b), CU64(0x3eedc67cd33e3ef8), CU64(0x0528110a2d050514), CU64(0x671fe6ce78676781),
+CU64(0xe47353d597e4e4b7), CU64(0x2725bb4e0227279c), CU64(0x4132588273414119), CU64(0x8b2c9d0ba78b8b16),
+CU64(0xa7510153f6a7a7a6), CU64(0x7dcf94fab27d7de9), CU64(0x95dcfb374995956e), CU64(0xd88e9fad56d8d847),
+CU64(0xfb8b30eb70fbfbcb), CU64(0xee2371c1cdeeee9f), CU64(0x7cc791f8bb7c7ced), CU64(0x6617e3cc71666685),
+CU64(0xdda68ea77bdddd53), CU64(0x17b84b2eaf17175c), CU64(0x4702468e45474701), CU64(0x9e84dc211a9e9e42),
+CU64(0xca1ec589d4caca0f), CU64(0x2d75995a582d2db4), CU64(0xbf9179632ebfbfc6), CU64(0x07381b0e3f07071c),
+CU64(0xad012347acadad8e), CU64(0x5aea2fb4b05a5a75), CU64(0x836cb51bef838336), CU64(0x3385ff66b63333cc),
+CU64(0x633ff2c65c636391), CU64(0x02100a0412020208), CU64(0xaa39384993aaaa92), CU64(0x71afa8e2de7171d9),
+CU64(0xc80ecf8dc6c8c807), CU64(0x19c87d32d1191964), CU64(0x497270923b494939), CU64(0xd9869aaf5fd9d943),
+CU64(0xf2c31df931f2f2ef), CU64(0xe34b48dba8e3e3ab), CU64(0x5be22ab6b95b5b71), CU64(0x8834920dbc88881a),
+CU64(0x9aa4c8293e9a9a52), CU64(0x262dbe4c0b262698), CU64(0x328dfa64bf3232c8), CU64(0xb0e94a7d59b0b0fa),
+CU64(0xe91b6acff2e9e983), CU64(0x0f78331e770f0f3c), CU64(0xd5e6a6b733d5d573), CU64(0x8074ba1df480803a),
+CU64(0xbe997c6127bebec2), CU64(0xcd26de87ebcdcd13), CU64(0x34bde468893434d0), CU64(0x487a75903248483d),
+CU64(0xffab24e354ffffdb), CU64(0x7af78ff48d7a7af5), CU64(0x90f4ea3d6490907a), CU64(0x5fc23ebe9d5f5f61),
+CU64(0x201da0403d202080), CU64(0x6867d5d00f6868bd), CU64(0x1ad07234ca1a1a68), CU64(0xae192c41b7aeae82),
+CU64(0xb4c95e757db4b4ea), CU64(0x549a19a8ce54544d), CU64(0x93ece53b7f939376), CU64(0x220daa442f222288),
+CU64(0x6407e9c86364648d), CU64(0xf1db12ff2af1f1e3), CU64(0x73bfa2e6cc7373d1), CU64(0x12905a2482121248),
+CU64(0x403a5d807a40401d), CU64(0x0840281048080820), CU64(0xc356e89b95c3c32b), CU64(0xec337bc5dfecec97),
+CU64(0xdb9690ab4ddbdb4b), CU64(0xa1611f5fc0a1a1be), CU64(0x8d1c8307918d8d0e), CU64(0x3df5c97ac83d3df4),
+CU64(0x97ccf1335b979766), CU64(0x0000000000000000), CU64(0xcf36d483f9cfcf1b), CU64(0x2b4587566e2b2bac),
+CU64(0x7697b3ece17676c5), CU64(0x8264b019e6828232), CU64(0xd6fea9b128d6d67f), CU64(0x1bd87736c31b1b6c),
+CU64(0xb5c15b7774b5b5ee), CU64(0xaf112943beafaf86), CU64(0x6a77dfd41d6a6ab5), CU64(0x50ba0da0ea50505d),
+CU64(0x45124c8a57454509), CU64(0xf3cb18fb38f3f3eb), CU64(0x309df060ad3030c0), CU64(0xef2b74c3c4efef9b),
+CU64(0x3fe5c37eda3f3ffc), CU64(0x55921caac7555549), CU64(0xa2791059dba2a2b2), CU64(0xea0365c9e9eaea8f),
+CU64(0x650fecca6a656589), CU64(0xbab9686903babad2), CU64(0x2f65935e4a2f2fbc), CU64(0xc04ee79d8ec0c027),
+CU64(0xdebe81a160dede5f), CU64(0x1ce06c38fc1c1c70), CU64(0xfdbb2ee746fdfdd3), CU64(0x4d52649a1f4d4d29),
+CU64(0x92e4e03976929272), CU64(0x758fbceafa7575c9), CU64(0x06301e0c36060618), CU64(0x8a249809ae8a8a12),
+CU64(0xb2f940794bb2b2f2), CU64(0xe66359d185e6e6bf), CU64(0x0e70361c7e0e0e38), CU64(0x1ff8633ee71f1f7c),
+CU64(0x6237f7c455626295), CU64(0xd4eea3b53ad4d477), CU64(0xa829324d81a8a89a), CU64(0x96c4f43152969662),
+CU64(0xf99b3aef62f9f9c3), CU64(0xc566f697a3c5c533), CU64(0x2535b14a10252594), CU64(0x59f220b2ab595979),
+CU64(0x8454ae15d084842a), CU64(0x72b7a7e4c57272d5), CU64(0x39d5dd72ec3939e4), CU64(0x4c5a6198164c4c2d),
+CU64(0x5eca3bbc945e5e65), CU64(0x78e785f09f7878fd), CU64(0x38ddd870e53838e0), CU64(0x8c148605988c8c0a),
+CU64(0xd1c6b2bf17d1d163), CU64(0xa5410b57e4a5a5ae), CU64(0xe2434dd9a1e2e2af), CU64(0x612ff8c24e616199),
+CU64(0xb3f1457b42b3b3f6), CU64(0x2115a54234212184), CU64(0x9c94d625089c9c4a), CU64(0x1ef0663cee1e1e78),
+CU64(0x4322528661434311), CU64(0xc776fc93b1c7c73b), CU64(0xfcb32be54ffcfcd7), CU64(0x0420140824040410),
+CU64(0x51b208a2e3515159), CU64(0x99bcc72f2599995e), CU64(0x6d4fc4da226d6da9), CU64(0x0d68391a650d0d34),
+CU64(0xfa8335e979fafacf), CU64(0xdfb684a369dfdf5b), CU64(0x7ed79bfca97e7ee5), CU64(0x243db44819242490),
+CU64(0x3bc5d776fe3b3bec), CU64(0xab313d4b9aabab96), CU64(0xce3ed181f0cece1f), CU64(0x1188552299111144),
+CU64(0x8f0c8903838f8f06), CU64(0x4e4a6b9c044e4e25), CU64(0xb7d1517366b7b7e6), CU64(0xeb0b60cbe0ebeb8b),
+CU64(0x3cfdcc78c13c3cf0), CU64(0x817cbf1ffd81813e), CU64(0x94d4fe354094946a), CU64(0xf7eb0cf31cf7f7fb),
+CU64(0xb9a1676f18b9b9de), CU64(0x13985f268b13134c), CU64(0x2c7d9c58512c2cb0), CU64(0xd3d6b8bb05d3d36b),
+CU64(0xe76b5cd38ce7e7bb), CU64(0x6e57cbdc396e6ea5), CU64(0xc46ef395aac4c437), CU64(0x03180f061b03030c),
+CU64(0x568a13acdc565645), CU64(0x441a49885e44440d), CU64(0x7fdf9efea07f7fe1), CU64(0xa921374f88a9a99e),
+CU64(0x2a4d8254672a2aa8), CU64(0xbbb16d6b0abbbbd6), CU64(0xc146e29f87c1c123), CU64(0x53a202a6f1535351),
+CU64(0xdcae8ba572dcdc57), CU64(0x0b582716530b0b2c), CU64(0x9d9cd327019d9d4e), CU64(0x6c47c1d82b6c6cad),
+CU64(0x3195f562a43131c4), CU64(0x7487b9e8f37474cd), CU64(0xf6e309f115f6f6ff), CU64(0x460a438c4c464605),
+CU64(0xac092645a5acac8a), CU64(0x893c970fb589891e), CU64(0x14a04428b4141450), CU64(0xe15b42dfbae1e1a3),
+CU64(0x16b04e2ca6161658), CU64(0x3acdd274f73a3ae8), CU64(0x696fd0d2066969b9), CU64(0x09482d1241090924),
+CU64(0x70a7ade0d77070dd), CU64(0xb6d954716fb6b6e2), CU64(0xd0ceb7bd1ed0d067), CU64(0xed3b7ec7d6eded93),
+CU64(0xcc2edb85e2cccc17), CU64(0x422a578468424215), CU64(0x98b4c22d2c98985a), CU64(0xa4490e55eda4a4aa),
+CU64(0x285d8850752828a0), CU64(0x5cda31b8865c5c6d), CU64(0xf8933fed6bf8f8c7), CU64(0x8644a411c2868622)
+};
+
+const Uint64 Crypto::Whirl::sbox6[] = {
+CU64(0x6018c07830d81818), CU64(0x8c2305af46262323), CU64(0x3fc67ef991b8c6c6), CU64(0x87e8136fcdfbe8e8),
+CU64(0x26874ca113cb8787), CU64(0xdab8a9626d11b8b8), CU64(0x0401080502090101), CU64(0x214f426e9e0d4f4f),
+CU64(0xd836adee6c9b3636), CU64(0xa2a6590451ffa6a6), CU64(0x6fd2debdb90cd2d2), CU64(0xf3f5fb06f70ef5f5),
+CU64(0xf979ef80f2967979), CU64(0xa16f5fcede306f6f), CU64(0x7e91fcef3f6d9191), CU64(0x5552aa07a4f85252),
+CU64(0x9d6027fdc0476060), CU64(0xcabc89766535bcbc), CU64(0x569baccd2b379b9b), CU64(0x028e048c018a8e8e),
+CU64(0xb6a371155bd2a3a3), CU64(0x300c603c186c0c0c), CU64(0xf17bff8af6847b7b), CU64(0xd435b5e16a803535),
+CU64(0x741de8693af51d1d), CU64(0xa7e05347ddb3e0e0), CU64(0x7bd7f6acb321d7d7), CU64(0x2fc25eed999cc2c2),
+CU64(0xb82e6d965c432e2e), CU64(0x314b627a96294b4b), CU64(0xdffea321e15dfefe), CU64(0x41578216aed55757),
+CU64(0x5415a8412abd1515), CU64(0xc1779fb6eee87777), CU64(0xdc37a5eb6e923737), CU64(0xb3e57b56d79ee5e5),
+CU64(0x469f8cd923139f9f), CU64(0xe7f0d317fd23f0f0), CU64(0x354a6a7f94204a4a), CU64(0x4fda9e95a944dada),
+CU64(0x7d58fa25b0a25858), CU64(0x03c906ca8fcfc9c9), CU64(0xa429558d527c2929), CU64(0x280a5022145a0a0a),
+CU64(0xfeb1e14f7f50b1b1), CU64(0xbaa0691a5dc9a0a0), CU64(0xb16b7fdad6146b6b), CU64(0x2e855cab17d98585),
+CU64(0xcebd8173673cbdbd), CU64(0x695dd234ba8f5d5d), CU64(0x4010805020901010), CU64(0xf7f4f303f507f4f4),
+CU64(0x0bcb16c08bddcbcb), CU64(0xf83eedc67cd33e3e), CU64(0x140528110a2d0505), CU64(0x81671fe6ce786767),
+CU64(0xb7e47353d597e4e4), CU64(0x9c2725bb4e022727), CU64(0x1941325882734141), CU64(0x168b2c9d0ba78b8b),
+CU64(0xa6a7510153f6a7a7), CU64(0xe97dcf94fab27d7d), CU64(0x6e95dcfb37499595), CU64(0x47d88e9fad56d8d8),
+CU64(0xcbfb8b30eb70fbfb), CU64(0x9fee2371c1cdeeee), CU64(0xed7cc791f8bb7c7c), CU64(0x856617e3cc716666),
+CU64(0x53dda68ea77bdddd), CU64(0x5c17b84b2eaf1717), CU64(0x014702468e454747), CU64(0x429e84dc211a9e9e),
+CU64(0x0fca1ec589d4caca), CU64(0xb42d75995a582d2d), CU64(0xc6bf9179632ebfbf), CU64(0x1c07381b0e3f0707),
+CU64(0x8ead012347acadad), CU64(0x755aea2fb4b05a5a), CU64(0x36836cb51bef8383), CU64(0xcc3385ff66b63333),
+CU64(0x91633ff2c65c6363), CU64(0x0802100a04120202), CU64(0x92aa39384993aaaa), CU64(0xd971afa8e2de7171),
+CU64(0x07c80ecf8dc6c8c8), CU64(0x6419c87d32d11919), CU64(0x39497270923b4949), CU64(0x43d9869aaf5fd9d9),
+CU64(0xeff2c31df931f2f2), CU64(0xabe34b48dba8e3e3), CU64(0x715be22ab6b95b5b), CU64(0x1a8834920dbc8888),
+CU64(0x529aa4c8293e9a9a), CU64(0x98262dbe4c0b2626), CU64(0xc8328dfa64bf3232), CU64(0xfab0e94a7d59b0b0),
+CU64(0x83e91b6acff2e9e9), CU64(0x3c0f78331e770f0f), CU64(0x73d5e6a6b733d5d5), CU64(0x3a8074ba1df48080),
+CU64(0xc2be997c6127bebe), CU64(0x13cd26de87ebcdcd), CU64(0xd034bde468893434), CU64(0x3d487a7590324848),
+CU64(0xdbffab24e354ffff), CU64(0xf57af78ff48d7a7a), CU64(0x7a90f4ea3d649090), CU64(0x615fc23ebe9d5f5f),
+CU64(0x80201da0403d2020), CU64(0xbd6867d5d00f6868), CU64(0x681ad07234ca1a1a), CU64(0x82ae192c41b7aeae),
+CU64(0xeab4c95e757db4b4), CU64(0x4d549a19a8ce5454), CU64(0x7693ece53b7f9393), CU64(0x88220daa442f2222),
+CU64(0x8d6407e9c8636464), CU64(0xe3f1db12ff2af1f1), CU64(0xd173bfa2e6cc7373), CU64(0x4812905a24821212),
+CU64(0x1d403a5d807a4040), CU64(0x2008402810480808), CU64(0x2bc356e89b95c3c3), CU64(0x97ec337bc5dfecec),
+CU64(0x4bdb9690ab4ddbdb), CU64(0xbea1611f5fc0a1a1), CU64(0x0e8d1c8307918d8d), CU64(0xf43df5c97ac83d3d),
+CU64(0x6697ccf1335b9797), CU64(0x0000000000000000), CU64(0x1bcf36d483f9cfcf), CU64(0xac2b4587566e2b2b),
+CU64(0xc57697b3ece17676), CU64(0x328264b019e68282), CU64(0x7fd6fea9b128d6d6), CU64(0x6c1bd87736c31b1b),
+CU64(0xeeb5c15b7774b5b5), CU64(0x86af112943beafaf), CU64(0xb56a77dfd41d6a6a), CU64(0x5d50ba0da0ea5050),
+CU64(0x0945124c8a574545), CU64(0xebf3cb18fb38f3f3), CU64(0xc0309df060ad3030), CU64(0x9bef2b74c3c4efef),
+CU64(0xfc3fe5c37eda3f3f), CU64(0x4955921caac75555), CU64(0xb2a2791059dba2a2), CU64(0x8fea0365c9e9eaea),
+CU64(0x89650fecca6a6565), CU64(0xd2bab9686903baba), CU64(0xbc2f65935e4a2f2f), CU64(0x27c04ee79d8ec0c0),
+CU64(0x5fdebe81a160dede), CU64(0x701ce06c38fc1c1c), CU64(0xd3fdbb2ee746fdfd), CU64(0x294d52649a1f4d4d),
+CU64(0x7292e4e039769292), CU64(0xc9758fbceafa7575), CU64(0x1806301e0c360606), CU64(0x128a249809ae8a8a),
+CU64(0xf2b2f940794bb2b2), CU64(0xbfe66359d185e6e6), CU64(0x380e70361c7e0e0e), CU64(0x7c1ff8633ee71f1f),
+CU64(0x956237f7c4556262), CU64(0x77d4eea3b53ad4d4), CU64(0x9aa829324d81a8a8), CU64(0x6296c4f431529696),
+CU64(0xc3f99b3aef62f9f9), CU64(0x33c566f697a3c5c5), CU64(0x942535b14a102525), CU64(0x7959f220b2ab5959),
+CU64(0x2a8454ae15d08484), CU64(0xd572b7a7e4c57272), CU64(0xe439d5dd72ec3939), CU64(0x2d4c5a6198164c4c),
+CU64(0x655eca3bbc945e5e), CU64(0xfd78e785f09f7878), CU64(0xe038ddd870e53838), CU64(0x0a8c148605988c8c),
+CU64(0x63d1c6b2bf17d1d1), CU64(0xaea5410b57e4a5a5), CU64(0xafe2434dd9a1e2e2), CU64(0x99612ff8c24e6161),
+CU64(0xf6b3f1457b42b3b3), CU64(0x842115a542342121), CU64(0x4a9c94d625089c9c), CU64(0x781ef0663cee1e1e),
+CU64(0x1143225286614343), CU64(0x3bc776fc93b1c7c7), CU64(0xd7fcb32be54ffcfc), CU64(0x1004201408240404),
+CU64(0x5951b208a2e35151), CU64(0x5e99bcc72f259999), CU64(0xa96d4fc4da226d6d), CU64(0x340d68391a650d0d),
+CU64(0xcffa8335e979fafa), CU64(0x5bdfb684a369dfdf), CU64(0xe57ed79bfca97e7e), CU64(0x90243db448192424),
+CU64(0xec3bc5d776fe3b3b), CU64(0x96ab313d4b9aabab), CU64(0x1fce3ed181f0cece), CU64(0x4411885522991111),
+CU64(0x068f0c8903838f8f), CU64(0x254e4a6b9c044e4e), CU64(0xe6b7d1517366b7b7), CU64(0x8beb0b60cbe0ebeb),
+CU64(0xf03cfdcc78c13c3c), CU64(0x3e817cbf1ffd8181), CU64(0x6a94d4fe35409494), CU64(0xfbf7eb0cf31cf7f7),
+CU64(0xdeb9a1676f18b9b9), CU64(0x4c13985f268b1313), CU64(0xb02c7d9c58512c2c), CU64(0x6bd3d6b8bb05d3d3),
+CU64(0xbbe76b5cd38ce7e7), CU64(0xa56e57cbdc396e6e), CU64(0x37c46ef395aac4c4), CU64(0x0c03180f061b0303),
+CU64(0x45568a13acdc5656), CU64(0x0d441a49885e4444), CU64(0xe17fdf9efea07f7f), CU64(0x9ea921374f88a9a9),
+CU64(0xa82a4d8254672a2a), CU64(0xd6bbb16d6b0abbbb), CU64(0x23c146e29f87c1c1), CU64(0x5153a202a6f15353),
+CU64(0x57dcae8ba572dcdc), CU64(0x2c0b582716530b0b), CU64(0x4e9d9cd327019d9d), CU64(0xad6c47c1d82b6c6c),
+CU64(0xc43195f562a43131), CU64(0xcd7487b9e8f37474), CU64(0xfff6e309f115f6f6), CU64(0x05460a438c4c4646),
+CU64(0x8aac092645a5acac), CU64(0x1e893c970fb58989), CU64(0x5014a04428b41414), CU64(0xa3e15b42dfbae1e1),
+CU64(0x5816b04e2ca61616), CU64(0xe83acdd274f73a3a), CU64(0xb9696fd0d2066969), CU64(0x2409482d12410909),
+CU64(0xdd70a7ade0d77070), CU64(0xe2b6d954716fb6b6), CU64(0x67d0ceb7bd1ed0d0), CU64(0x93ed3b7ec7d6eded),
+CU64(0x17cc2edb85e2cccc), CU64(0x15422a5784684242), CU64(0x5a98b4c22d2c9898), CU64(0xaaa4490e55eda4a4),
+CU64(0xa0285d8850752828), CU64(0x6d5cda31b8865c5c), CU64(0xc7f8933fed6bf8f8), CU64(0x228644a411c28686)
+};
+
+const Uint64 Crypto::Whirl::sbox7[] = {
+CU64(0x186018c07830d818), CU64(0x238c2305af462623), CU64(0xc63fc67ef991b8c6), CU64(0xe887e8136fcdfbe8),
+CU64(0x8726874ca113cb87), CU64(0xb8dab8a9626d11b8), CU64(0x0104010805020901), CU64(0x4f214f426e9e0d4f),
+CU64(0x36d836adee6c9b36), CU64(0xa6a2a6590451ffa6), CU64(0xd26fd2debdb90cd2), CU64(0xf5f3f5fb06f70ef5),
+CU64(0x79f979ef80f29679), CU64(0x6fa16f5fcede306f), CU64(0x917e91fcef3f6d91), CU64(0x525552aa07a4f852),
+CU64(0x609d6027fdc04760), CU64(0xbccabc89766535bc), CU64(0x9b569baccd2b379b), CU64(0x8e028e048c018a8e),
+CU64(0xa3b6a371155bd2a3), CU64(0x0c300c603c186c0c), CU64(0x7bf17bff8af6847b), CU64(0x35d435b5e16a8035),
+CU64(0x1d741de8693af51d), CU64(0xe0a7e05347ddb3e0), CU64(0xd77bd7f6acb321d7), CU64(0xc22fc25eed999cc2),
+CU64(0x2eb82e6d965c432e), CU64(0x4b314b627a96294b), CU64(0xfedffea321e15dfe), CU64(0x5741578216aed557),
+CU64(0x155415a8412abd15), CU64(0x77c1779fb6eee877), CU64(0x37dc37a5eb6e9237), CU64(0xe5b3e57b56d79ee5),
+CU64(0x9f469f8cd923139f), CU64(0xf0e7f0d317fd23f0), CU64(0x4a354a6a7f94204a), CU64(0xda4fda9e95a944da),
+CU64(0x587d58fa25b0a258), CU64(0xc903c906ca8fcfc9), CU64(0x29a429558d527c29), CU64(0x0a280a5022145a0a),
+CU64(0xb1feb1e14f7f50b1), CU64(0xa0baa0691a5dc9a0), CU64(0x6bb16b7fdad6146b), CU64(0x852e855cab17d985),
+CU64(0xbdcebd8173673cbd), CU64(0x5d695dd234ba8f5d), CU64(0x1040108050209010), CU64(0xf4f7f4f303f507f4),
+CU64(0xcb0bcb16c08bddcb), CU64(0x3ef83eedc67cd33e), CU64(0x05140528110a2d05), CU64(0x6781671fe6ce7867),
+CU64(0xe4b7e47353d597e4), CU64(0x279c2725bb4e0227), CU64(0x4119413258827341), CU64(0x8b168b2c9d0ba78b),
+CU64(0xa7a6a7510153f6a7), CU64(0x7de97dcf94fab27d), CU64(0x956e95dcfb374995), CU64(0xd847d88e9fad56d8),
+CU64(0xfbcbfb8b30eb70fb), CU64(0xee9fee2371c1cdee), CU64(0x7ced7cc791f8bb7c), CU64(0x66856617e3cc7166),
+CU64(0xdd53dda68ea77bdd), CU64(0x175c17b84b2eaf17), CU64(0x47014702468e4547), CU64(0x9e429e84dc211a9e),
+CU64(0xca0fca1ec589d4ca), CU64(0x2db42d75995a582d), CU64(0xbfc6bf9179632ebf), CU64(0x071c07381b0e3f07),
+CU64(0xad8ead012347acad), CU64(0x5a755aea2fb4b05a), CU64(0x8336836cb51bef83), CU64(0x33cc3385ff66b633),
+CU64(0x6391633ff2c65c63), CU64(0x020802100a041202), CU64(0xaa92aa39384993aa), CU64(0x71d971afa8e2de71),
+CU64(0xc807c80ecf8dc6c8), CU64(0x196419c87d32d119), CU64(0x4939497270923b49), CU64(0xd943d9869aaf5fd9),
+CU64(0xf2eff2c31df931f2), CU64(0xe3abe34b48dba8e3), CU64(0x5b715be22ab6b95b), CU64(0x881a8834920dbc88),
+CU64(0x9a529aa4c8293e9a), CU64(0x2698262dbe4c0b26), CU64(0x32c8328dfa64bf32), CU64(0xb0fab0e94a7d59b0),
+CU64(0xe983e91b6acff2e9), CU64(0x0f3c0f78331e770f), CU64(0xd573d5e6a6b733d5), CU64(0x803a8074ba1df480),
+CU64(0xbec2be997c6127be), CU64(0xcd13cd26de87ebcd), CU64(0x34d034bde4688934), CU64(0x483d487a75903248),
+CU64(0xffdbffab24e354ff), CU64(0x7af57af78ff48d7a), CU64(0x907a90f4ea3d6490), CU64(0x5f615fc23ebe9d5f),
+CU64(0x2080201da0403d20), CU64(0x68bd6867d5d00f68), CU64(0x1a681ad07234ca1a), CU64(0xae82ae192c41b7ae),
+CU64(0xb4eab4c95e757db4), CU64(0x544d549a19a8ce54), CU64(0x937693ece53b7f93), CU64(0x2288220daa442f22),
+CU64(0x648d6407e9c86364), CU64(0xf1e3f1db12ff2af1), CU64(0x73d173bfa2e6cc73), CU64(0x124812905a248212),
+CU64(0x401d403a5d807a40), CU64(0x0820084028104808), CU64(0xc32bc356e89b95c3), CU64(0xec97ec337bc5dfec),
+CU64(0xdb4bdb9690ab4ddb), CU64(0xa1bea1611f5fc0a1), CU64(0x8d0e8d1c8307918d), CU64(0x3df43df5c97ac83d),
+CU64(0x976697ccf1335b97), CU64(0x0000000000000000), CU64(0xcf1bcf36d483f9cf), CU64(0x2bac2b4587566e2b),
+CU64(0x76c57697b3ece176), CU64(0x82328264b019e682), CU64(0xd67fd6fea9b128d6), CU64(0x1b6c1bd87736c31b),
+CU64(0xb5eeb5c15b7774b5), CU64(0xaf86af112943beaf), CU64(0x6ab56a77dfd41d6a), CU64(0x505d50ba0da0ea50),
+CU64(0x450945124c8a5745), CU64(0xf3ebf3cb18fb38f3), CU64(0x30c0309df060ad30), CU64(0xef9bef2b74c3c4ef),
+CU64(0x3ffc3fe5c37eda3f), CU64(0x554955921caac755), CU64(0xa2b2a2791059dba2), CU64(0xea8fea0365c9e9ea),
+CU64(0x6589650fecca6a65), CU64(0xbad2bab9686903ba), CU64(0x2fbc2f65935e4a2f), CU64(0xc027c04ee79d8ec0),
+CU64(0xde5fdebe81a160de), CU64(0x1c701ce06c38fc1c), CU64(0xfdd3fdbb2ee746fd), CU64(0x4d294d52649a1f4d),
+CU64(0x927292e4e0397692), CU64(0x75c9758fbceafa75), CU64(0x061806301e0c3606), CU64(0x8a128a249809ae8a),
+CU64(0xb2f2b2f940794bb2), CU64(0xe6bfe66359d185e6), CU64(0x0e380e70361c7e0e), CU64(0x1f7c1ff8633ee71f),
+CU64(0x62956237f7c45562), CU64(0xd477d4eea3b53ad4), CU64(0xa89aa829324d81a8), CU64(0x966296c4f4315296),
+CU64(0xf9c3f99b3aef62f9), CU64(0xc533c566f697a3c5), CU64(0x25942535b14a1025), CU64(0x597959f220b2ab59),
+CU64(0x842a8454ae15d084), CU64(0x72d572b7a7e4c572), CU64(0x39e439d5dd72ec39), CU64(0x4c2d4c5a6198164c),
+CU64(0x5e655eca3bbc945e), CU64(0x78fd78e785f09f78), CU64(0x38e038ddd870e538), CU64(0x8c0a8c148605988c),
+CU64(0xd163d1c6b2bf17d1), CU64(0xa5aea5410b57e4a5), CU64(0xe2afe2434dd9a1e2), CU64(0x6199612ff8c24e61),
+CU64(0xb3f6b3f1457b42b3), CU64(0x21842115a5423421), CU64(0x9c4a9c94d625089c), CU64(0x1e781ef0663cee1e),
+CU64(0x4311432252866143), CU64(0xc73bc776fc93b1c7), CU64(0xfcd7fcb32be54ffc), CU64(0x0410042014082404),
+CU64(0x515951b208a2e351), CU64(0x995e99bcc72f2599), CU64(0x6da96d4fc4da226d), CU64(0x0d340d68391a650d),
+CU64(0xfacffa8335e979fa), CU64(0xdf5bdfb684a369df), CU64(0x7ee57ed79bfca97e), CU64(0x2490243db4481924),
+CU64(0x3bec3bc5d776fe3b), CU64(0xab96ab313d4b9aab), CU64(0xce1fce3ed181f0ce), CU64(0x1144118855229911),
+CU64(0x8f068f0c8903838f), CU64(0x4e254e4a6b9c044e), CU64(0xb7e6b7d1517366b7), CU64(0xeb8beb0b60cbe0eb),
+CU64(0x3cf03cfdcc78c13c), CU64(0x813e817cbf1ffd81), CU64(0x946a94d4fe354094), CU64(0xf7fbf7eb0cf31cf7),
+CU64(0xb9deb9a1676f18b9), CU64(0x134c13985f268b13), CU64(0x2cb02c7d9c58512c), CU64(0xd36bd3d6b8bb05d3),
+CU64(0xe7bbe76b5cd38ce7), CU64(0x6ea56e57cbdc396e), CU64(0xc437c46ef395aac4), CU64(0x030c03180f061b03),
+CU64(0x5645568a13acdc56), CU64(0x440d441a49885e44), CU64(0x7fe17fdf9efea07f), CU64(0xa99ea921374f88a9),
+CU64(0x2aa82a4d8254672a), CU64(0xbbd6bbb16d6b0abb), CU64(0xc123c146e29f87c1), CU64(0x535153a202a6f153),
+CU64(0xdc57dcae8ba572dc), CU64(0x0b2c0b582716530b), CU64(0x9d4e9d9cd327019d), CU64(0x6cad6c47c1d82b6c),
+CU64(0x31c43195f562a431), CU64(0x74cd7487b9e8f374), CU64(0xf6fff6e309f115f6), CU64(0x4605460a438c4c46),
+CU64(0xac8aac092645a5ac), CU64(0x891e893c970fb589), CU64(0x145014a04428b414), CU64(0xe1a3e15b42dfbae1),
+CU64(0x165816b04e2ca616), CU64(0x3ae83acdd274f73a), CU64(0x69b9696fd0d20669), CU64(0x092409482d124109),
+CU64(0x70dd70a7ade0d770), CU64(0xb6e2b6d954716fb6), CU64(0xd067d0ceb7bd1ed0), CU64(0xed93ed3b7ec7d6ed),
+CU64(0xcc17cc2edb85e2cc), CU64(0x4215422a57846842), CU64(0x985a98b4c22d2c98), CU64(0xa4aaa4490e55eda4),
+CU64(0x28a0285d88507528), CU64(0x5c6d5cda31b8865c), CU64(0xf8c7f8933fed6bf8), CU64(0x86228644a411c286)
+};
+
+const Uint64 Crypto::Whirl::cont[] = {
+	CU64(0x1823c6e887b8014f),
+	CU64(0x36a6d2f5796f9152),
+	CU64(0x60bc9b8ea30c7b35),
+	CU64(0x1de0d7c22e4bfe57),
+	CU64(0x157737e59ff04ada),
+	CU64(0x58c9290ab1a06b85),
+	CU64(0xbd5d10f4cb3e0567),
+	CU64(0xe427418ba77d95d8),
+	CU64(0xfbee7c66dd17479e),
+	CU64(0xca2dbf07ad5a8333),
+	CU64(0x6302aa71c81949d9),
+};
+
+// ============================================================================
+
+static Crypto::HashRegisterer< Crypto::Whirl > whirlRegisterer;
+
+// ============================================================================
+

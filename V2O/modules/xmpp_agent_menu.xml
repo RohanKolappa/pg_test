@@ -1,0 +1,86 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>XMPPAgent</Title>
+   <Description>XMPP Agent</Description>
+   <Access>xmpp_agent</Access>
+   <ConfigFile>xmppconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>XMPP Enable</Label>
+        <Help>Enable Device Agent</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+
+      <Item>
+        <Name>serverip</Name>
+        <Type>string</Type>
+        <Label>XMPP Server IP/Name</Label>
+        <Help>IP Address/Name of Management Server</Help>
+        <FieldLength>45</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>devicename</Name>
+        <Type>string</Type>
+        <Label>Device Name</Label>
+        <Help>Name for this device</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>DeviceName</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>password</Name>
+        <Type>password</Type>
+        <Label>Password</Label>
+        <Help>Password to Connect to Management Server</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>secret</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>port</Name>
+        <Type>integer</Type>
+        <Label>XMPP Server Port</Label>
+        <Help>Port for the XMPP Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>5222</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>servicedomain</Name>
+        <Type>string</Type>
+        <Label>XMPP Service Domain</Label>
+        <Help>Policy Domain for the Agent</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>default</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

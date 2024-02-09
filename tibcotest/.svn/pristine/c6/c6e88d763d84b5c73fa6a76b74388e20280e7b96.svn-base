@@ -1,0 +1,227 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="750" jsxheight="500" jsxzindex="5000" jsxwindowstate="1" jsxleft="9" jsxtop="10" jsxmodal="1"></variants>
+    <strings jsxname="dlgPvrExport" jsxbgcolor="#e5e5e5"></strings>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Export PVR Media"></strings>
+      <dynamics jsxcolor="@Light" jsxbg="Dialog Titlebar" jsxbgcolor="P2"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsxtip="jsx3.gui.Dialog.close" jsximage="@Close Icon"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxloadtype="1"></variants>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%" jsxdisplay=""></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxborder="@Outset Bottom" jsxpadding="@8Pixel"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="62" jsxtop="27"></variants>
+            <strings jsxname="label" jsxtext="Select the destination folder you would like to export the media to:" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="16" jsxtop="106"></variants>
+            <strings jsxname="label" jsxtext="" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="137" jsxtop="57" jsxwidth="350" jsxreadonly="1"></variants>
+            <strings jsxname="txtFolderPath" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="18" jsxwidth="60" jsxrelativeposition="0" jsxleft="497" jsxtop="57"></variants>
+            <strings jsxname="btnMediaExportBrowse" jsxtext="Browse" jsxmargin="0 20 0 0" jsxclassname="btnOk"></strings>
+            <dynamics jsxborder="Basic Border"></dynamics>
+            <events jsxexecute=""></events>
+          </object>
+          <object type="jsx3.gui.BlockX">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxwidth="0" jsxheight="0" jsxxmlasync="1" jsxxslasync="1"></variants>
+            <strings jsxname="HiddenBlockForCDF" jsxdisplay="none" jsxxmlid="mtxExportListDoc"></strings>
+            <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"></dynamics>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="17" jsxtop="90" jsxwidth="700" jsxheight="250" jsxoverflow="3" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkPvrSlider" jsxtextalign="left"></strings>
+            <object type="com.ipvs.gui.PvrRecordSlider">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkSessionSlider" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+              <dynamics jsxcursor="@Default"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="24" jsxtop="152"></variants>
+                <strings jsxname="label" jsxtext="Available PVR:" jsxdisplay="" jsxcolor="#454545"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxleft="120" jsxtop="150" jsxfontsize="12" jsxreadonly="1"></variants>
+                <strings jsxname="txtAvailablePvr" jsxmargin="0 4 0 0" jsxdisplay="" jsxborder="solid 1px #bbbbbb" jsxfontweight="bold" jsxbgcolor="#efefef" jsxpadding="2 4 2 4" jsxvalue="" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="24" jsxtop="192"></variants>
+                <strings jsxname="label" jsxtext="Selected PVR:" jsxdisplay="" jsxcolor="#454545"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxleft="118" jsxtop="190" jsxfontsize="12" jsxreadonly="1"></variants>
+                <strings jsxname="txtSelectedDuration" jsxmargin="0 4 0 0" jsxdisplay="" jsxborder="solid 1px #bed152" jsxfontweight="bold" jsxbgcolor="#efefef" jsxtextalign="left" jsxpadding="2 4 2 4" jsxcolor="#252525" jsxvalue=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxleft="0" jsxtop="220" jsxfontsize="12" jsxreadonly="1" jsxenabled="0"></variants>
+                <strings jsxname="txtHiddenStartOffset" jsxmargin="0 4 0 0" jsxdisplay="none" jsxborder="solid 1px #9375d9" jsxvalue="9999" jsxfontweight="bold" jsxbgcolor="#efefef" jsxtextalign="left" jsxpadding="2 4 2 4" jsxcolor="#6805ef"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxleft="220" jsxtop="220" jsxfontsize="12" jsxreadonly="1" jsxenabled="0"></variants>
+                <strings jsxname="txtHiddenEndOffset" jsxmargin="0 4 0 0" jsxdisplay="none" jsxborder="solid 1px #9375d9" jsxvalue="9999" jsxfontweight="bold" jsxbgcolor="#efefef" jsxtextalign="left" jsxpadding="2 4 2 4" jsxcolor="#6805ef"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxleft="57" jsxtop="0" jsxwidth="600" jsxheight="90" jsxoverflow="1" jsxrelativeposition="0" jsxzindex="10"></variants>
+                <strings jsxname="blkTooltipCnt"></strings>
+                <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="12" jsxwidth="130" jsxheight="75" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                  <strings jsxname="blkSliderTimeThumbNail" jsxdisplay="none"></strings>
+                  <object type="jsx3.gui.Image">
+                    <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="24" jsxtop="45"></variants>
+                    <strings jsxname="image" jsxsrc="../../addins/ipvsCommon/images/pvr/tooltipbg.png" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="37" jsxtop="49"></variants>
+                    <strings jsxname="lblSliderTimeThumbNail" jsxdisplay=""></strings>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="150" jsxrelativeposition="0" jsxleft="11" jsxtop="0" jsxwidth="700"></variants>
+                <strings jsxname="block" jsxdisplay=""></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxwidth="105" jsxheight="80" jsxrelativeposition="0" jsxleft="1" jsxtop="62"></variants>
+                  <strings jsxname="blkTimeCodeContainer" jsxtextalign="center" jsxcursor="default" jsxpadding="5 0 0 0" jsxdisplay=""></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="10" jsxleft="0" jsxtop="4" jsxwidth="105" jsxheight="16"></variants>
+                    <strings jsxname="lblTimeTypeInfoTip" jsxtext="PVR Length" jsxcolor="#333333" jsxdisplay="none" jsxpadding="2 2 2 2" jsxbgcolor="#d5d5d5"></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="12" jsxheight="12" jsxrelativeposition="0" jsxleft="0" jsxtop="26" jsxprefetch="1" jsxtype="1" jsxstate="0"></variants>
+                    <strings jsxname="btnPvrTimeType" jsximage="../../addins/ipvsCommon/images/buttons/btcClockSmallUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btcClockSmallOver.png" jsxdisplay="none" jsxtext="PVR time type" jsxtip="PVR time type" jsxonimage="../../addins/ipvsCommon/images/buttons/btcClockSmallOver.png"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="13" jsxtop="25" jsxwidth="60"></variants>
+                    <strings jsxname="lblTimeCode" jsxcolor="#454545" jsxdisplay="none" jsxtextalign="center"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxwidth="500" jsxrelativeposition="0" jsxleft="94" jsxtop="0" jsxheight="120"></variants>
+                  <strings jsxname="blkSliderContainer" jsxborder="0px solid ;0px solid #353535 ;0px solid ;0px solid #000000" jsxdisplay=""></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxheight="120" jsxrelativeposition="0" jsxoverflow="2" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="blkSlider" jsxwidth="100%" jsxdisplay="" jsxbgcolor=""></strings>
+                    <object type="jsx3.gui.Slider">
+                      <variants jsxvalue="0" jsxrelativeposition="0" jsxorientation="0" jsxpainttrack="1" jsxtrackclick="1" jsxleft="0" jsxtop="0" jsxzindex="20" jsxenabled="1"></variants>
+                      <strings jsxname="sliderPointer" jsxlength="100%" jsxdisplay="none" jsxtip="" jsxborder="none"></strings>
+                      <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                      <events jsxchange="this.onSelect(fpVALUE,fpPREVIOUS);" jsxincchange="this.onDrag(fpVALUE);"></events>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxleft="0" jsxtop="88" jsxheight="30" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="10"></variants>
+                      <strings jsxwidth="100%" jsxname="blkMarkerContainer"></strings>
+                      <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxleft="0" jsxtop="0" jsxwidth="16" jsxheight="30" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="6" jsxmove="1"></variants>
+                        <strings jsxname="blkInPointMarker" jsxdisplay=""></strings>
+                        <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                        <object type="jsx3.gui.Image">
+                          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxwidth="16" jsxheight="30"></variants>
+                          <strings jsxname="imgInPointMarker" jsxsrc="../../addins/ipvsCommon/images/pvr/markerLeft.png" jsxdisplay=""></strings>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxleft="484" jsxtop="0" jsxwidth="16" jsxheight="30" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="6" jsxmove="1"></variants>
+                        <strings jsxname="blkOutPointMarker" jsxdisplay=""></strings>
+                        <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                        <object type="jsx3.gui.Image">
+                          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxwidth="16" jsxheight="30"></variants>
+                          <strings jsxname="imgOutPointMarker" jsxsrc="../../addins/ipvsCommon/images/pvr/markerRight.png" jsxdisplay=""></strings>
+                        </object>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxtop="88" jsxheight="15" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="5" jsxleft="NaN"></variants>
+                      <strings jsxname="sliderTrackContainer" jsxwidth="100%" jsxdisplay=""></strings>
+                      <object type="jsx3.gui.LayoutGrid">
+                        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+                        <strings jsxname="layoutCols" jsxcols="14,*,14" jsxwidth="100%" jsxheight="100%"></strings>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2"></variants>
+                          <strings jsxname="blkSpacer" jsxwidth="100%" jsxheight="100%"></strings>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2"></variants>
+                          <strings jsxname="blkTrackBG" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #aaaaaa" jsxbgcolor="#efefef" jsxcolor="" jsxtextalign="left"></strings>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxtop="0" jsxheight="13" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="5"></variants>
+                            <strings jsxleft="0%" jsxwidth="0%" jsxname="sliderPvrSelectTrack" jsxbgcolor="#cfe35d" jsxcolor="" jsxdisplay=""></strings>
+                          </object>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxheight="14" jsxtop="0" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="1" jsxdrop="1"></variants>
+                            <strings jsxleft="0%" jsxwidth="0%" jsxname="sliderTrackProgress" jsxdisplay="" jsxcolor="" jsxbg="background-image:url(JSXAPPS/IPVS_Viewer/images/slider/progressBg.png);" jsxbgcolor="#66cc66"></strings>
+                          </object>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2"></variants>
+                          <strings jsxname="blkSpacer" jsxwidth="100%" jsxheight="100%"></strings>
+                        </object>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxtop="88" jsxheight="15" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="10" jsxleft="NaN" jsxspy="1"></variants>
+                      <strings jsxname="sliderCoverForOnMouseOver" jsxwidth="100%" jsxdisplay=""></strings>
+                      <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                    </object>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxwidth="80" jsxheight="40" jsxrelativeposition="0" jsxleft="595" jsxtop="82"></variants>
+                  <strings jsxname="blkTimeLengthContainer" jsxtextalign="center" jsxborder="0px solid ;0px solid ;0px solid ;0px solid #111111" jsxcursor="default" jsxpadding="5 0 0 0" jsxdisplay=""></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"></variants>
+                    <strings jsxname="lblTimeLength" jsxclassname="liveOff" jsxcolor="#454545"></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="45" jsxheight="18" jsxrelativeposition="0" jsxleft="4" jsxtop="3" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                    <strings jsxname="imagebutton" jsximage="images/buttons/btnLiveUp.png" jsxoverimage="images/buttons/btnLiveOver.png" jsxonimage="images/buttons/btnLiveOver.png" jsxdisabledimage="images/buttons/btnLiveUp.png" jsxdisplay="none"></strings>
+                    <events jsxexecute="alert('Execute');"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxborder="@Outset Top"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="20" jsxwidth="80"></variants>
+            <strings jsxname="btnMediaExportCancel" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxclassname="btnOk"></strings>
+            <dynamics jsxborder="Basic Border"></dynamics>
+            <events jsxexecute="alert('hello');"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="20" jsxwidth="80" jsxenabled="1"></variants>
+            <strings jsxname="btnMediaExportOk" jsxtext="Export" jsxmargin="8 8 0 0" jsxclassname="btnOk"></strings>
+            <dynamics jsxborder="Basic Border"></dynamics>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

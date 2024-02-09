@@ -1,0 +1,270 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>IP Video Systems Media Store Service API</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.1"><style type="text/css">
+body { background-image: url('http://docbook.sourceforge.net/release/images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }</style></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" title="IP Video Systems Media Store Service API"><div class="titlepage"><div><div><h1 class="title"><a name="id105285"></a>IP Video Systems Media Store Service API</h1></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 0.1</td><td align="left">19 Oct 2009</td></tr><tr><td align="left" colspan="2">Media Store API</td></tr></table></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="#id362900">1. Media Store Synch calls </a></span></dt><dd><dl><dt><span class="section"><a href="#id362877">Synch MediaStore Dir</a></span></dt><dt><span class="section"><a href="#id362582">Get Media Stream File Max Revision </a></span></dt></dl></dd><dt><span class="chapter"><a href="#id357064">2. Media Store API calls </a></span></dt><dd><dl><dt><span class="section"><a href="#id364848">Add MediaStore File</a></span></dt><dt><span class="section"><a href="#id364884">Update Media Profile </a></span></dt><dt><span class="section"><a href="#id364926">Update Media PlayLength </a></span></dt><dt><span class="section"><a href="#id364975">Update Media Status </a></span></dt><dt><span class="section"><a href="#id365011">Update Media MetaData </a></span></dt><dt><span class="section"><a href="#id365046">Delete Media Store File  </a></span></dt><dt><span class="section"><a href="#id365101">Upgrade Media </a></span></dt><dt><span class="section"><a href="#id365158">Repair Media  </a></span></dt><dt><span class="section"><a href="#id365207">Upgrade MediaStore Dir </a></span></dt></dl></dd></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>1.1. <a href="#id362728">Synch MediaStore Dir Request  </a></dt><dt>1.2. <a href="#id362538">Get Media Stream File Max Revision Request  </a></dt><dt>1.3. <a href="#id354852">Get Media Stream File Max Revision Response  </a></dt><dt>2.1. <a href="#id364859">Add MediaStore File Request  </a></dt><dt>2.2. <a href="#id364870">Add MediaStore File Response  </a></dt><dt>2.3. <a href="#id364893">Update Media Profile Request  </a></dt><dt>2.4. <a href="#id364912">Update Media Profile Response  </a></dt><dt>2.5. <a href="#id364935">Update Media PlayLength Request  </a></dt><dt>2.6. <a href="#id364954">Update Media PlayLength Response  </a></dt><dt>2.7. <a href="#id364986">Update Media Status Request  </a></dt><dt>2.8. <a href="#id364997">Update Media Status Response  </a></dt><dt>2.9. <a href="#id365020">Update Media MetaData Request  </a></dt><dt>2.10. <a href="#id365032">Update Media MetaData Response  </a></dt><dt>2.11. <a href="#id365061">Delete Media Store File Request  </a></dt><dt>2.12. <a href="#id365087">Delete Media Store File  Response  </a></dt><dt>2.13. <a href="#id365112">Upgrade Media Request  </a></dt><dt>2.14. <a href="#id365138">Upgrade Media Response  </a></dt><dt>2.15. <a href="#id365168">Repair Media Request  </a></dt><dt>2.16. <a href="#id365187">Repair Media Response  </a></dt><dt>2.17. <a href="#id365221">Upgrade MediaStore Dir Request  </a></dt><dt>2.18. <a href="#id365240">Upgrade MediaStore Dir Response  </a></dt></dl></div><div class="chapter" title="Chapter 1. Media Store Synch calls"><div class="titlepage"><div><div><h2 class="title"><a name="id362900"></a>Chapter 1. Media Store Synch calls </h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id362877">Synch MediaStore Dir</a></span></dt><dt><span class="section"><a href="#id362582">Get Media Stream File Max Revision </a></span></dt></dl></div><p>
+			The following requests are used in media store sync process
+		</p><div class="section" title="Synch MediaStore Dir"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id362877"></a>Synch MediaStore Dir</h2></div></div></div><p>
+				Synch the media store directory with media stream dir stored in
+				database. Handles the following States
+				</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							<em class="parameter"><code>Dir Available</code></em>
+						</p></li><li class="listitem"><p>
+							<em class="parameter"><code>Dir UnAvailable</code></em>
+						</p></li><li class="listitem"><p>
+							<em class="parameter"><code>Dir Delete</code></em>
+						</p></li><li class="listitem"><p>
+							<em class="parameter"><code>Dir State Updates</code></em>
+						</p></li></ul></div><p>
+				</p><div class="example"><a name="id362728"></a><p class="title"><b>Example 1.1. Synch MediaStore Dir Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			        &lt;SynchMediaStoreDirRequestData&gt;	
+						&lt;DirName/&gt;	 
+						&lt;State/&gt;	 
+					&lt;/SynchMediaStoreDirRequestData&gt;
+		            
+		          </pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>DirName</code></em>
+								<code class="option">/data1 or /data2</code>
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>State</code></em>
+								<code class="option">Available/UnAvailable/Delete/State Update</code>
+							</p></li></ul></div></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Get Media Stream File Max Revision"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id362582"></a>Get Media Stream File Max Revision </h2></div></div></div><p>
+				Media store agent send GetMediaStreamFileMaxRevision Request to
+				appserver. In response to this call on media store will start media
+				stream file	synch process
+				</p><div class="example"><a name="id362538"></a><p class="title"><b>Example 1.2. Get Media Stream File Max Revision Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			          &lt;GetMediaStreamFileMaxRevisionRequestData&gt;
+					       &lt;MediaStoreRevision/&gt;
+					       &lt;MediaStreamDirNID/&gt;
+					  &lt;/GetMediaStreamFileMaxRevisionRequestData&gt;
+		            
+		          </pre><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+								<em class="parameter"><code>MediaStoreRevision</code></em>
+								<code class="option">media store revision stored in blob dir
+									MediastoreInfo.xml file</code>
+							</p></li><li class="listitem"><p>
+								<em class="parameter"><code>MediaStreamDirNID</code></em>
+								<code class="option">dir nid which trying to synch</code>
+							</p></li></ul></div></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id354852"></a><p class="title"><b>Example 1.3. Get Media Stream File Max Revision Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			          &lt;GetMediaStreamFileMaxRevisionResponseData&gt;
+					       &lt;MediaStoreRevision/&gt;
+					       &lt;MediaStreamFileMaxRevision/&gt;
+					       &lt;MediaStreamDirNID/&gt;
+					  &lt;/GetMediaStreamFileMaxRevisionResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div></div><div class="chapter" title="Chapter 2. Media Store API calls"><div class="titlepage"><div><div><h2 class="title"><a name="id357064"></a>Chapter 2. Media Store API calls </h2></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id364848">Add MediaStore File</a></span></dt><dt><span class="section"><a href="#id364884">Update Media Profile </a></span></dt><dt><span class="section"><a href="#id364926">Update Media PlayLength </a></span></dt><dt><span class="section"><a href="#id364975">Update Media Status </a></span></dt><dt><span class="section"><a href="#id365011">Update Media MetaData </a></span></dt><dt><span class="section"><a href="#id365046">Delete Media Store File  </a></span></dt><dt><span class="section"><a href="#id365101">Upgrade Media </a></span></dt><dt><span class="section"><a href="#id365158">Repair Media  </a></span></dt><dt><span class="section"><a href="#id365207">Upgrade MediaStore Dir </a></span></dt></dl></div><p>
+			The following requests are media store api calls
+		</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					<em class="parameter"><code>MediaStoreFileNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>MediaStreamFileResourceNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>MediaStreamDirResourceNID</code></em>
+					[<span class="optional">Required</span>]
+				</p></li><li class="listitem"><p>
+					<em class="parameter"><code>ActionData</code></em>
+					[<span class="optional">optional</span>]
+				</p></li></ul></div><div class="section" title="Add MediaStore File"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364848"></a>Add MediaStore File</h2></div></div></div><p>
+				Create media store file for given media store
+
+				</p><div class="example"><a name="id364859"></a><p class="title"><b>Example 2.1. Add MediaStore File Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			       &lt;AddMediaStoreFileRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+			       &lt;/AddMediaStoreFileRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id364870"></a><p class="title"><b>Example 2.2. Add MediaStore File Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			       &lt;AddMediaStoreFileResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+				   &lt;/AddMediaStoreFileResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Update Media Profile"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364884"></a>Update Media Profile </h2></div></div></div><p>
+				Create media store file for given media store if the media store
+				file not exists. Updates given profile in media store and media
+				stream and mark the	media status as BUSY.
+				</p><div class="example"><a name="id364893"></a><p class="title"><b>Example 2.3. Update Media Profile Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			       &lt;UpdateMediaProfileRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+				   &lt;/UpdateMediaProfileRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id364912"></a><p class="title"><b>Example 2.4. Update Media Profile Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpdateMediaProfileResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/UpdateMediaProfileResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Update Media PlayLength"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364926"></a>Update Media PlayLength </h2></div></div></div><p>
+				Update Media Playlenght and Size in media store file and media stream file
+				and mark the Media status as Ready. Updates the media dirsize also.
+				</p><div class="example"><a name="id364935"></a><p class="title"><b>Example 2.5. Update Media PlayLength Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+			       &lt;UpdateMediaPlayLengthRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/UpdateMediaPlayLengthRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id364954"></a><p class="title"><b>Example 2.6. Update Media PlayLength Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpdateMediaPlayLengthResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/UpdateMediaPlayLengthResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Update Media Status"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id364975"></a>Update Media Status </h2></div></div></div><p>
+				Update Media status in media store and media stream file.
+				</p><div class="example"><a name="id364986"></a><p class="title"><b>Example 2.7. Update Media Status Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+				    &lt;UpdateMediaStatusRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/UpdateMediaStatusRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id364997"></a><p class="title"><b>Example 2.8. Update Media Status Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpdateMediaStatusResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/UpdateMediaStatusResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Update Media MetaData"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365011"></a>Update Media MetaData </h2></div></div></div><p>
+				Update Media MetaData in media store and media stream file.
+				</p><div class="example"><a name="id365020"></a><p class="title"><b>Example 2.9. Update Media MetaData Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+				    &lt;UpdateMediaMetaDataRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/UpdateMediaMetaDataRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id365032"></a><p class="title"><b>Example 2.10. Update Media MetaData Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpdateMediaMetaDataResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/UpdateMediaMetaDataResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Delete Media Store File"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365046"></a>Delete Media Store File  </h2></div></div></div><p>
+				Move the  Media Store File from media store directory to trash directory.
+				From Trash directory streaming server deletes when there is no active streams are there. 
+				</p><div class="example"><a name="id365061"></a><p class="title"><b>Example 2.11. Delete Media Store File Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;DeleteMediaStoreFileRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/DeleteMediaStoreFileRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id365087"></a><p class="title"><b>Example 2.12. Delete Media Store File  Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;DeleteMediaStoreFileResponseData&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/DeleteMediaStoreFileResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Upgrade Media"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365101"></a>Upgrade Media </h2></div></div></div><p>
+				Upgrade older version media file to currently installed version
+				</p><div class="example"><a name="id365112"></a><p class="title"><b>Example 2.13. Upgrade Media Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+				    &lt;UpgradeMediaRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/UpgradeMediaRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id365138"></a><p class="title"><b>Example 2.14. Upgrade Media Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpgradeMediaResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/UpgradeMediaResponseData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Repair Media"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365158"></a>Repair Media  </h2></div></div></div><p>
+				Repair the media and mark it as Ready 
+				</p><div class="example"><a name="id365168"></a><p class="title"><b>Example 2.15. Repair Media Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;RepairMediaRequestData&gt;
+						&lt;MediaStoreFileNID/&gt;
+						&lt;MediaStreamFileResourceNID/&gt;
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;ActionData/&gt;  
+					&lt;/RepairMediaRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id365187"></a><p class="title"><b>Example 2.16. Repair Media Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;RepairMediaResponseData&gt;
+					    &lt;MediaStreamFileResourceNID/&gt;
+					    &lt;MediaStoreFileNID/&gt;
+						&lt;ResponseXML/&gt;
+					&lt;/RepairMediaResponseData&gt;			
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div><div class="section" title="Upgrade MediaStore Dir"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id365207"></a>Upgrade MediaStore Dir </h2></div></div></div><p>
+				Upgrade the media store directory to latest installed version.
+				If Upgrade File options specifieds upgrade the media store files to
+				latest version
+				</p><div class="example"><a name="id365221"></a><p class="title"><b>Example 2.17. Upgrade MediaStore Dir Request  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+				    &lt;UpgradeMediaStoreDirRequestData&gt;	
+						&lt;MediaStreamDirResourceNID/&gt;
+						&lt;UpgradeMediaStreamFiles&gt;false&lt;/UpgradeMediaStreamFiles&gt;	  
+						&lt;ActionData/&gt;  
+					&lt;/UpgradeMediaStoreDirRequestData&gt;
+		            
+		          </pre></div></div><p><br class="example-break">
+				</p><div class="example"><a name="id365240"></a><p class="title"><b>Example 2.18. Upgrade MediaStore Dir Response  </b></p><div class="example-contents"><pre class="programlisting">
+		            
+					&lt;UpgradeMediaStoreDirResponseData/&gt;	
+		            
+		          </pre></div></div><p><br class="example-break">
+			</p></div></div></div></body></html>

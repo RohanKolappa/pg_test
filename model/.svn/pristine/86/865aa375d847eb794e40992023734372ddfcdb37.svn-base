@@ -1,0 +1,13 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+<validation enable="true" validationID="UserName" methodName="validateDuplicateUser_add" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//Username" />
+<validation validationID="Password" methodName="validateNameLength" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/User/Password" />  
+<validation validationID="Name" methodName="validateNameLength" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/User/Name" />
+<validation enable="true" validationID="UserName" methodName="validateUserNameForSpecialCharacters" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//Username"  />
+<validation enable="true" validationID="UserName" methodName="validateUserNameForSpecialCharacters" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//Username"  />
+</CustomValidation>

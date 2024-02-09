@@ -1,0 +1,1542 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>XEP-xxxx: XEP Template</title><link rel="stylesheet" type="text/css" href="../xmpp.css" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><meta name="DC.Title" content="XEP Template" /><meta name="DC.Creator" content="Peter Saint-Andre" /><meta name="DC.Description" content="This specification provides an example of the format for XMPP Extension Protocols (XEPs)." /><meta name="DC.Publisher" content="XMPP Standards Foundation" /><meta name="DC.Contributor" content="XMPP Extensions Editor" /><meta name="DC.Date" content="2001-09-14" /><meta name="DC.Type" content="XMPP Extension Protocol" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="XEP-xxxx" /><meta name="DC.Language" content="en" /><meta name="DC.Rights" content="This XMPP Extension Protocol is copyright (c) 1999 - 2008 by the XMPP Standards Foundation (XSF)." /></head><body><h1>XEP-xxxx: XEP Template</h1><p>This specification provides an example of the format for XMPP Extension Protocols (XEPs).</p><hr /><p style="color:red">WARNING: This document has not yet been accepted for consideration or approved in any official manner by the XMPP Standards Foundation, and this document must not be referred to as an XMPP Extension Protocol (XEP). If this document is accepted as a XEP by the XMPP Council, it will be published at &lt;<a href="http://www.xmpp.org/extensions/">http://www.xmpp.org/extensions/</a>&gt; and announced on the &lt;standards@xmpp.org&gt; mailing list.</p><hr /><h2>Document Information</h2><p class="indent">
+            Series: <a href="http://www.xmpp.org/extensions/">XEP</a><br />
+            Number: xxxx<br />
+            Publisher: <a href="/xsf/">XMPP Standards Foundation</a><br />
+            Status: 
+            <a href="http://www.xmpp.org/extensions/xep-0001.html#states-ProtoXEP">ProtoXEP</a><br />
+            Type:
+            <a href="http://www.xmpp.org/extensions/xep-0001.html#types-Standards Track">Standards Track</a><br />
+            Version: 0.0.1<br />
+            Last Updated: 2001-09-14<br />
+                Approving Body: <a href="http://www.xmpp.org/council/">XMPP Council</a><br />Dependencies: XMPP Core, XEP-0001, Etc.<br />
+                Supersedes: None<br />
+                Superseded By: None<br />
+            Short Name: NOT_YET_ASSIGNED<br /></p><hr /><h2>Author Information</h2><div class="indent"><h3>Peter Saint-Andre</h3><p class="indent">
+        Email:
+        <a href="mailto:stpeter@jabber.org">stpeter@jabber.org</a><br />
+        JabberID: 
+        <a href="xmpp:stpeter@jabber.org">stpeter@jabber.org</a><br /></p></div><hr /><h2>Legal Notices</h2><div class="indent"><h3>Copyright</h3>This XMPP Extension Protocol is copyright (c) 1999 - 2008 by the XMPP Standards Foundation (XSF).<h3>Permissions</h3>Permission is hereby granted, free of charge, to any person obtaining a copy of this specification (the "Specification"), to make use of the Specification without restriction, including without limitation the rights to implement the Specification in a software program, deploy the Specification in a network service, and copy, modify, merge, publish, translate, distribute, sublicense, or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the condition that the foregoing copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification. Unless separate permission is granted, modified works that are redistributed shall not contain misleading information regarding the authors, title, number, or publisher of the Specification, and shall not claim endorsement of the modified works by the authors, any organization or project to which the authors belong, or the XMPP Standards Foundation.<h3>Disclaimer of Warranty</h3><span style="font-weight: bold">## NOTE WELL: This Specification is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. In no event shall the XMPP Standards Foundation or the authors of this Specification be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Specification or the implementation, deployment, or other use of the Specification. ##</span><h3>Limitation of Liability</h3>In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall the XMPP Standards Foundation or any author of this Specification be liable for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising out of the use or inability to use the Specification (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if the XMPP Standards Foundation or such author has been advised of the possibility of such damages.<h3>IPR Conformance</h3>
+        This XMPP Extension Protocol has been contributed in full conformance with the XSF's Intellectual Property Rights Policy (a copy of which may be found at &lt;<a href="http://www.xmpp.org/extensions/ipr-policy.shtml">http://www.xmpp.org/extensions/ipr-policy.shtml</a>&gt; or obtained by writing to XSF, P.O. Box 1641, Denver, CO 80201 USA).
+      </div><hr /><h2>Discussion Venue</h2><p class="indent">The preferred venue for discussion of this document is the Standards discussion list: &lt;<a href="http://mail.jabber.org/mailman/listinfo/standards">http://mail.jabber.org/mailman/listinfo/standards</a>&gt;.</p><p class="indent">Errata may be sent to &lt;<a href="mailto:editor@xmpp.org">editor@xmpp.org</a>&gt;.</p><h2>Relation to XMPP</h2><p class="indent">The Extensible Messaging and Presence Protocol (XMPP) is defined in the XMPP Core (RFC 3920) and XMPP IM (RFC 3921) specifications contributed by the XMPP Standards Foundation to the Internet Standards Process, which is managed by the Internet Engineering Task Force in accordance with RFC 2026. Any protocol defined in this document has been developed outside the Internet Standards Process and is to be understood as an extension to XMPP rather than as an evolution, development, or modification of XMPP itself.</p><h2>Conformance Terms</h2><p class="indent">The following keywords as used in this document are to be interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>: "MUST", "SHALL", "REQUIRED"; "MUST NOT", "SHALL NOT"; "SHOULD", "RECOMMENDED"; "SHOULD NOT", "NOT RECOMMENDED"; "MAY", "OPTIONAL".</p><hr /><h2>Table of Contents</h2><div class="indent"><p><br />1.  <a href="#intro">Introduction</a><br />2.  <a href="#reqs">Requirements</a><br />3.  <a href="#glossary">Glossary</a><br />4.  <a href="#objectmodel">Object Model</a><br />   
+      4.1.  <a href="#sect-id114516">User</a><br />   
+      4.2.  <a href="#sect-id111242">Asset(AssetResource + Device)</a><br />   
+      4.3.  <a href="#sect-id111249">MediaStreamPortResources(Src/Dst/Relay)</a><br />   
+      4.4.  <a href="#sect-id111256">MediaStorePortResources</a><br />   
+      4.5.  <a href="#sect-id111262">Media(MediaStreamDirResource/MediaStreamFileResource/Bookmark)</a><br />   
+      4.6.  <a href="#sect-id111270">MediaStreamProfile</a><br />5.  <a href="#policymodel">Policy Model</a><br />   
+      5.1.  <a href="#sect-id111285">Tag/TagDef</a><br />   
+      5.2.  <a href="#sect-id111291">Filter</a><br />   
+      5.3.  <a href="#sect-id111298">Rule</a><br />      
+      5.3.1.  <a href="#sect-id111305">Object Access Rules</a><br />      
+      5.3.2.  <a href="#sect-id111328">Media Stream Rules</a><br />      
+      5.3.3.  <a href="#sect-id111376">Media Routing/PVR Rules</a><br />6.  <a href="#sessionmodel">Session Model</a><br />   
+      6.1.  <a href="#sect-id111409">Session Objects</a><br />      
+      6.1.1.  <a href="#sect-id111416">Profile</a><br />      
+      6.1.2.  <a href="#sect-id111460">PVRBuffer</a><br />      
+      6.1.3.  <a href="#sect-id111529">Route</a><br />      
+      6.1.4.  <a href="#sect-id111581">SyncMedia</a><br />      
+      6.1.5.  <a href="#sect-id111614">Entity</a><br />      
+      6.1.6.  <a href="#sect-id123257">Connection</a><br />      
+      6.1.7.  <a href="#sect-id123303">Auth</a><br />      
+      6.1.8.  <a href="#sect-id123335">ConnGroup</a><br />7.  <a href="#usecases">Use Cases</a><br />   
+      7.1.  <a href="#sect-id123438">Service Discovery</a><br />   
+      7.2.  <a href="#sect-id123466">Service Message Overview</a><br />      
+      7.2.1.  <a href="#sect-id123474">Request/Response/Error</a><br />      
+      7.2.2.  <a href="#sect-id123535">Notification</a><br />   
+      7.3.  <a href="#sect-id123544">Service Client Use Cases</a><br />      
+      7.3.1.  <a href="#sect-id123551">Startup Operations</a><br />        
+      7.3.1.1.  <a href="#sect-id123558">ServiceLogin</a><br />        
+      7.3.1.2.  <a href="#sect-id123575">Get Server Time</a><br />      
+      7.3.2.  <a href="#sect-id123591">Session Info Operations</a><br />        
+      7.3.2.1.  <a href="#sect-id123599">Get SessionList</a><br />        
+      7.3.2.2.  <a href="#sect-id123617">Get InviteList</a><br />        
+      7.3.2.3.  <a href="#sect-id123635">Get Session SrcList</a><br />        
+      7.3.2.4.  <a href="#sect-id123650">Get Session DstList</a><br />        
+      7.3.2.5.  <a href="#sect-id123674">Get Session ProfileList</a><br />        
+      7.3.2.6.  <a href="#sect-id123700">Get Session RouteList</a><br />      
+      7.3.3.  <a href="#sect-id123728">Status Operations</a><br />   
+      7.4.  <a href="#sect-id123761">Room Operator Use Cases</a><br />      
+      7.4.1.  <a href="#sect-id123822">Session Setup/Edit Operations</a><br />        
+      7.4.1.1.  <a href="#sect-id123830">View</a><br />        
+      7.4.1.2.  <a href="#sect-id123850">Playback</a><br />        
+      7.4.1.3.  <a href="#sect-id123872">SyncPlayback</a><br />        
+      7.4.1.4.  <a href="#sect-id123907">Record</a><br />        
+      7.4.1.5.  <a href="#sect-id123928">SyncRecord</a><br />        
+      7.4.1.6.  <a href="#sect-id123964">Chat</a><br />        
+      7.4.1.7.  <a href="#sect-id123982">Invite</a><br />        
+      7.4.1.8.  <a href="#sect-id123999">Kick</a><br />        
+      7.4.1.9.  <a href="#sect-id124013">Create</a><br />        
+      7.4.1.10.  <a href="#sect-id124030">Destroy</a><br />        
+      7.4.1.11.  <a href="#sect-id124050">Publish</a><br />        
+      7.4.1.12.  <a href="#sect-id124078">SwitchSrc</a><br />        
+      7.4.1.13.  <a href="#sect-id124095">SwitchDst</a><br />        
+      7.4.1.14.  <a href="#sect-id124113">SwitchProfile</a><br />      
+      7.4.2.  <a href="#sect-id124132">Options for Setup/Edit Operations</a><br />        
+      7.4.2.1.  <a href="#sect-id124164">Profile Spec</a><br />        
+      7.4.2.2.  <a href="#sect-id124220">ConnGroup Spec</a><br />        
+      7.4.2.3.  <a href="#sect-id124243">OffsetMode/Range Spec</a><br />        
+      7.4.2.4.  <a href="#sect-id124265">StartMode Spec</a><br />        
+      7.4.2.5.  <a href="#sect-id124287">PVR Spec</a><br />        
+      7.4.2.6.  <a href="#sect-id124314">Route Spec</a><br />      
+      7.4.3.  <a href="#sect-id124344">Options for Entity Spec</a><br />        
+      7.4.3.1.  <a href="#sect-id124368">Entity Id Reference</a><br />        
+      7.4.3.2.  <a href="#sect-id124388">Entity ID Scope</a><br />        
+      7.4.3.3.  <a href="#sect-id124408">Entity Resource By Title</a><br />      
+      7.4.4.  <a href="#sect-id124431">Session PVR Operations</a><br />        
+      7.4.4.1.  <a href="#sect-id124549">Start</a><br />        
+      7.4.4.2.  <a href="#sect-id124562">Stop</a><br />        
+      7.4.4.3.  <a href="#sect-id124579">Pause</a><br />        
+      7.4.4.4.  <a href="#sect-id124595">Resume</a><br />        
+      7.4.4.5.  <a href="#sect-id124612">Catchup</a><br />        
+      7.4.4.6.  <a href="#sect-id124628">SkipTo</a><br />        
+      7.4.4.7.  <a href="#sect-id124655">PauseAt</a><br />        
+      7.4.4.8.  <a href="#sect-id124671">ResumeFrom</a><br />      
+      7.4.5.  <a href="#sect-id124690">Scope for PVR Operations</a><br />        
+      7.4.5.1.  <a href="#sect-id124712">Session Scope</a><br />        
+      7.4.5.2.  <a href="#sect-id124730">ConnGroup Scope</a><br />        
+      7.4.5.3.  <a href="#sect-id124747">Connection Scope</a><br />      
+      7.4.6.  <a href="#sect-id124767">Options for PVR Operations</a><br />        
+      7.4.6.1.  <a href="#sect-id124785">Effective WC</a><br />      
+      7.4.7.  <a href="#sect-id124825">Bookmark Operations</a><br />        
+      7.4.7.1.  <a href="#sect-id124832">AddBookmark</a><br />        
+      7.4.7.2.  <a href="#sect-id124852">UpdateBookmark</a><br />        
+      7.4.7.3.  <a href="#sect-id124872">DeleteBookmark</a><br />        
+      7.4.7.4.  <a href="#sect-id124891">GetBookmark</a><br />      
+      7.4.8.  <a href="#sect-id124911">Session Notifications</a><br />        
+      7.4.8.1.  <a href="#sect-id124918">AuthRequest</a><br />        
+      7.4.8.2.  <a href="#sect-id124938">Presence Notification</a><br />        
+      7.4.8.3.  <a href="#sect-id124955">ConnState Notification</a><br />        
+      7.4.8.4.  <a href="#sect-id124994">TimeLine Notification</a><br />   
+      7.5.  <a href="#sect-id125048">Room Participant Entity Use Cases</a><br />      
+      7.5.1.  <a href="#sect-id125055">Operations</a><br />        
+      7.5.1.1.  <a href="#sect-id125062">Join</a><br />        
+      7.5.1.2.  <a href="#sect-id125096">Leave</a><br />        
+      7.5.1.3.  <a href="#sect-id125113">Auth</a><br />   
+      7.6.  <a href="#sect-id125132">Room IO Entity Use Cases</a><br />      
+      7.6.1.  <a href="#sect-id125140">Setup Response(Join/ACK/Leave)</a><br />      
+      7.6.2.  <a href="#sect-id125147">Action Response</a><br />      
+      7.6.3.  <a href="#sect-id125155">Event</a><br />      
+      7.6.4.  <a href="#sect-id125162">In-Band Protocol Message</a><br />   
+      7.7.  <a href="#sect-id125171">App Server Use Cases</a><br />      
+      7.7.1.  <a href="#sect-id125178">Setup Request(Invite/Start/Update/End/Kick)</a><br />   
+      7.8.  <a href="#sect-id125187">Administrator Use Cases</a><br />      
+      7.8.1.  <a href="#sect-id125195">Add Object</a><br />      
+      7.8.2.  <a href="#sect-id125327">Delete Object</a><br />      
+      7.8.3.  <a href="#sect-id125334">Get Object</a><br />      
+      7.8.4.  <a href="#sect-id125475">Edit Object</a><br />   
+      7.9.  <a href="#sect-id125483">Direct DB Access Use Cases</a><br />      
+      7.9.1.  <a href="#sect-id125947">Subscribe Unsubscribe</a><br />      
+      7.9.2.  <a href="#sect-id125967">DB Change Notification</a><br />8.  <a href="#rules">Business Rules</a><br />9.  <a href="#impl">Implementation Notes</a><br />10.  <a href="#access">Accessibility Considerations</a><br />11.  <a href="#i18n">Internationalization Considerations</a><br />12.  <a href="#security">Security Considerations</a><br />13.  <a href="#iana">IANA Considerations</a><br />14.  <a href="#registrar">XMPP Registrar Considerations</a><br />15.  <a href="#schema">XML Schema</a><br />   
+      15.1.  <a href="#sect-id126189">Object Schema</a><br />   
+      15.2.  <a href="#sect-id126213">App Message Schema</a><br />   
+      15.3.  <a href="#sect-id126237">MediaRoom Message Schema</a><br />   
+      15.4.  <a href="#sect-id126262">Admin Message Schema</a><br /><a href="#notes">Notes</a><br /><a href="#revs">Revision History</a></p></div><hr /><h2>1.
+       <a name="intro" id="intro">Introduction</a></h2>
+    <p class="" style="">This is a template for use in writing XMPP Extension Protocol specifications (XEPs). For detailed information about the XSF's standards process and how to write a XEP, refer to "XEP-0001: XMPP Extension Protocols" and "XEP-0143: Guidelines for Authors of XMPP Extension Protocols".</p>
+  <h2>2.
+       <a name="reqs" id="reqs">Requirements</a></h2>
+    <p class="" style="">STRONGLY RECOMMENDED.</p>
+  <h2>3.
+       <a name="glossary" id="glossary">Glossary</a></h2>
+    <p class="" style="">OPTIONAL.</p>
+  <h2>4.
+       <a name="objectmodel" id="objectmodel">Object Model</a></h2>
+    <div class="indent"><h3>4.1 <a name="sect-id114516" id="sect-id114516">User</a></h3></div>
+    <div class="indent"><h3>4.2 <a name="sect-id111242" id="sect-id111242">Asset(AssetResource + Device)</a></h3></div>
+    <div class="indent"><h3>4.3 <a name="sect-id111249" id="sect-id111249">MediaStreamPortResources(Src/Dst/Relay)</a></h3></div>
+    <div class="indent"><h3>4.4 <a name="sect-id111256" id="sect-id111256">MediaStorePortResources</a></h3></div>
+    <div class="indent"><h3>4.5 <a name="sect-id111262" id="sect-id111262">Media(MediaStreamDirResource/MediaStreamFileResource/Bookmark)</a></h3></div>
+    <div class="indent"><h3>4.6 <a name="sect-id111270" id="sect-id111270">MediaStreamProfile</a></h3></div>
+  <h2>5.
+       <a name="policymodel" id="policymodel">Policy Model</a></h2>
+    <div class="indent"><h3>5.1 <a name="sect-id111285" id="sect-id111285">Tag/TagDef</a></h3></div>
+    <div class="indent"><h3>5.2 <a name="sect-id111291" id="sect-id111291">Filter</a></h3></div>
+    <div class="indent"><h3>5.3 <a name="sect-id111298" id="sect-id111298">Rule</a></h3>
+      <div class="indent"><h3>5.3.1 <a name="sect-id111305" id="sect-id111305">Object Access Rules</a></h3>
+        <ul class="" style="">
+          <li class="" style="">Add/Delete/Get/Edit</li>
+        </ul>
+      </div>
+      <div class="indent"><h3>5.3.2 <a name="sect-id111328" id="sect-id111328">Media Stream Rules</a></h3>
+        <ul class="" style="">
+          <li class="" style="">Operate(Start/Stop - OnDemand/Scheduled)</li>
+          <li class="" style="">Participate</li>
+          <li class="" style="">StreamSend</li>
+          <li class="" style="">StreamRcv</li>
+        </ul>
+      </div>
+      <div class="indent"><h3>5.3.3 <a name="sect-id111376" id="sect-id111376">Media Routing/PVR Rules</a></h3>
+        <ul class="" style="">
+          <li class="" style="">StreamRelay(w/ PVRBuffer)</li>
+        </ul>
+      </div>
+    </div>
+  <h2>6.
+       <a name="sessionmodel" id="sessionmodel">Session Model</a></h2>
+    <div class="indent"><h3>6.1 <a name="sect-id111409" id="sect-id111409">Session Objects</a></h3>
+      <div class="indent"><h3>6.1.1 <a name="sect-id111416" id="sect-id111416">Profile</a></h3>
+        <p class="" style="">One entry for each profile used for connections in the session.
+        The simplest form is a reference to an existing Profile by NID.
+        Or a custom ProfileInfo element can be specified - by itself or as overrides to an existing Profile</p>
+        <p class="" style="">Eventually Profiles in the DB will be a "range" spec and this will be the values in use currently</p>
+        <p class="caption"><a name="example-1" id="example-1"></a>Example 1. Profile</p><div class="indent"><pre>
+          
+            &lt;Profile id='' name='' profileNID=''&gt;
+              &lt;ProfileInfo/&gt;
+            &lt;/Profile&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.2 <a name="sect-id111460" id="sect-id111460">PVRBuffer</a></h3>
+        <p class="" style="">
+          PVR spec that can be attached to a Src that does not natively support an offset other than "LIVE".
+          More that one Src can share the same PVR Spec. 
+          The actual PVR file name will be a combination of the "name" attribute and the Src "name".
+        </p>
+        <p class="" style="">More generically:</p>
+        <ul class="" style="">
+          <li class="" style="">multiple PVR specs - for different offset ranges - can be attached to the same Src</li>
+          <li class="" style="">the PVR spec can be attached to any leg of a route which can be used as a Src or Dst Route spec.</li>
+        </ul>
+        <p class="caption"><a name="example-2" id="example-2"></a>Example 2. PVR Buffer</p><div class="indent"><pre>
+          
+            &lt;PVRBuffer id='' name='' bufferLength=''&gt;
+              &lt;PVRFile id='' dir='xxx/yyy'/&gt;
+            &lt;/PVRBuffer&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.3 <a name="sect-id111529" id="sect-id111529">Route</a></h3>
+        <p class="" style="">
+          Ordered list of relay Ports (along with relayProfiles for each leg)
+          Can be attached as a src or dst route to specify explicit routing.
+          Any one leg can have a PVRBuffer spec attached to it.
+        </p>
+        <p class="" style="">Currently only a dstRoute with one leg is supported for PVR purposes</p>
+        <p class="caption"><a name="example-3" id="example-3"></a>Example 3. Route</p><div class="indent"><pre>
+          
+            &lt;Route id='' name='' startMode='AUTO'&gt;
+              &lt;RelayPort id='' resourceNID=''/&gt;
+              &lt;RelayPort id='' resourceNID='' profileId='' pvrBufferId=''/&gt;
+              &lt;RelayPort id='' resourceNID='' profileId=''/&gt;
+            &lt;/Route&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.4 <a name="sect-id111581" id="sect-id111581">SyncMedia</a></h3>
+        <p class="" style="">
+          Media clip group file for Sync Recording / Playback
+        </p>
+        <p class="caption"><a name="example-4" id="example-4"></a>Example 4. Sync Media Group</p><div class="indent"><pre>
+          
+            &lt;SyncMedia id='' name=''&gt;
+              &lt;GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/&gt;
+            &lt;/SyncMedia&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.5 <a name="sect-id111614" id="sect-id111614">Entity</a></h3>
+        <p class="" style="">
+          All Instances of Resources used in Connections are considered "entities".
+          Types: Src/Dst/IO Ports, Clients, AuthClients, Files(standalone/ clips part of a sync media group)
+          Entity spec includes pvr, src/dst route specs. 
+          This allows for specifying "auto start" for these "secondary connections" without specifying a "Connection"
+        </p>
+        <ul class="" style="">
+          <li class="" style="">Issues:</li>
+          <li class="" style="">id/name/assignmentBy(user/system)/uniqueness</li>
+          <li class="" style="">Mode: Exclusive, Shared, VirtualResource</li>
+          <li class="" style="">File - Create/Overwrite</li>
+          <li class="" style="">Client/Operator/Participant/Auth</li>
+          
+        </ul>
+        <p class="caption"><a name="example-5" id="example-5"></a>Example 5. IO Port Entity</p><div class="indent"><pre>
+          
+          &lt;Entity id='' name='' presence='' streamType=''&gt;
+            &lt;IOPort id='' resourceNID='' instanceId='' routeId=''/&gt;
+          &lt;/Entity&gt;
+           
+         </pre></div>
+        <p class="caption"><a name="example-6" id="example-6"></a>Example 6. Media Client Entity</p><div class="indent"><pre>
+          
+          &lt;Entity id='' name='' presence='' streamType=''&gt;
+            &lt;Client id='' userJID='' resourceNID='' instanceId='' routeId=''/&gt;
+          &lt;/Entity&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-7" id="example-7"></a>Example 7. Auth Client Entity</p><div class="indent"><pre>
+          
+          &lt;Entity id='' name='' presence='' streamType=''&gt;
+            &lt;AuthClient id='' userJID='' resourceNID='' instanceId=''/&gt;
+          &lt;/Entity&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-8" id="example-8"></a>Example 8. File Entity</p><div class="indent"><pre>
+          
+          &lt;Entity id='' name='' presence='' streamType=''&gt;
+            &lt;File id='' resourceNID=''/&gt;
+            &lt;StorePort id='' resourceNID=''  instanceId='' routeId=''/&gt;
+          &lt;/Entity&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-9" id="example-9"></a>Example 9. Sync File Clip Entity</p><div class="indent"><pre>
+          
+          &lt;Entity id='' name='' presence='' streamType=''&gt;
+            &lt;ClipFile id='' resourceNID='' syncMediaId=''/&gt;
+            &lt;StorePort id='' resourceNID=''  instanceId='' routeId=''/&gt;
+          &lt;/Entity&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.6 <a name="sect-id123257" id="sect-id123257">Connection</a></h3>
+        <p class="" style="">
+          One entry for each connection.
+          Includes a SrcEntity, DstEntity, profile and pvr offset spec.
+          Optionally includes a route spec and/or pvr spec.
+          Can be tagged as part of a connection group.
+          offsetMode=ABSOLUTE attribute specifies that the start date of the conn = EPOCH and all offsets will be relative to that
+          Entities can be fully qualified id (ie sessionId:entityId) to allow x-session connections
+        </p>
+        <p class="caption"><a name="example-10" id="example-10"></a>Example 10. Connections w/ Options</p><div class="indent"><pre>
+          
+            &lt;Connection id='' connGroupId='' srcEntityId='' dstEntityId='' profileId='' offsetMode='ABSOLUTE' offsetRange='' startMode='ONDEMAND'/&gt;
+            &lt;Connection id='' srcEntityId='' srcRouteId='' dstRouteId='' dstEntityId='' profileId='' timeMode='ABSOLUTE' offsetRange='' authId='' startMode='ONDEMAND'/&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.7 <a name="sect-id123303" id="sect-id123303">Auth</a></h3>
+        <p class="" style="">
+          One entry for each authentication required by policy
+        </p>
+        <p class="caption"><a name="example-11" id="example-11"></a>Example 11. Auth</p><div class="indent"><pre>
+          
+            &lt;Auth id='' state='REQUEST/ALLOW/DENY/REVOKE/CANCEL' connGrpId='' connId='' authEntityId=''/&gt;
+          
+        </pre></div>
+      </div>
+      <div class="indent"><h3>6.1.8 <a name="sect-id123335" id="sect-id123335">ConnGroup</a></h3>
+        <p class="" style="">
+          A group id that can be attached to any set of connections.
+          Hierarchical ConnGroups can be spec'd by attaching group id to another ConnGroup
+          Specs attached to the conn group apply as defaults for the connections 
+          (can be overridden by the connection)
+        </p>
+        <ul class="" style="">
+          <li class="" style="">TBD: Default conn group for recordings</li>
+          <li class="" style="">TBD: everything in one default conngroup = sessionid - for PVR at session scope</li>
+        </ul>
+        <p class="caption"><a name="example-12" id="example-12"></a>Example 12. Basic ConnGroup</p><div class="indent"><pre>
+          
+          &lt;ConnGroup id=''/&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-13" id="example-13"></a>Example 13. Hierarchical ConnGroup</p><div class="indent"><pre>
+          
+          &lt;ConnGroup id='' connGrpId=''/&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-14" id="example-14"></a>Example 14. ConnGroup w/ attributes</p><div class="indent"><pre>
+          
+          &lt;ConnGroup id='' pvrId=''/&gt;
+          &lt;ConnGroup id='' recordId=''/&gt;
+          &lt;ConnGroup id='' srcRouteId='' dstRouteId='' routeId=''/&gt;
+          &lt;ConnGroup id='' offsetMode='ABSOLUTE' offsetRange='' startMode='ONDEMAND/&gt;
+          
+        </pre></div>
+      </div>
+    </div>
+  <h2>7.
+       <a name="usecases" id="usecases">Use Cases</a></h2>
+    <p class="" style="">Use cases are split into groups for convinience only. The seperation does not carry any other semantics. 
+    The set of operations needed to implement a collection of end-user functionality will most likely be a mix</p>
+    <div class="indent"><h3>7.1 <a name="sect-id123438" id="sect-id123438">Service Discovery</a></h3>
+      <p class="" style="">The following is an example of the response to a Service Discovery query</p>
+      <p class="caption"><a name="example-15" id="example-15"></a>Example 15. Service Discovery Response</p><div class="indent"><pre>
+        
+        &lt;identity category="collaboration" type="ipvscollab"/&gt;
+        &lt;feature var="jabber:iq:ipvscollab"/&gt;
+    
+      </pre></div>
+    </div>
+    <div class="indent"><h3>7.2 <a name="sect-id123466" id="sect-id123466">Service Message Overview</a></h3>
+      <div class="indent"><h3>7.2.1 <a name="sect-id123474" id="sect-id123474">Request/Response/Error</a></h3>
+        <p class="caption"><a name="example-16" id="example-16"></a>Example 16. Request</p><div class="indent"><pre>
+          
+          &lt;message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'&gt;
+            &lt;AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.OperatorRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state=""&gt;
+              &lt;RequestData&gt;
+                
+                              
+              &lt;/RequestData&gt;
+            &lt;/AgentMessage&gt;
+          &lt;/message&gt;
+          
+        </pre></div>
+        <p class="caption"><a name="example-17" id="example-17"></a>Example 17. Operator Response</p><div class="indent"><pre>
+          
+            
+            
+        </pre></div>
+        <p class="" style="">If there is an error, the service MUST return an error to the user:</p>
+        <p class="caption"><a name="example-18" id="example-18"></a>Example 18. MediaRoom Service returns Error</p><div class="indent"><pre>
+          
+            
+            
+        </pre></div>
+      </div>
+      <div class="indent"><h3>7.2.2 <a name="sect-id123535" id="sect-id123535">Notification</a></h3>
+
+      </div>
+    </div>
+    <div class="indent"><h3>7.3 <a name="sect-id123544" id="sect-id123544">Service Client Use Cases</a></h3>
+      <div class="indent"><h3>7.3.1 <a name="sect-id123551" id="sect-id123551">Startup Operations</a></h3>
+        <div class="indent"><h3>7.3.1.1 <a name="sect-id123558" id="sect-id123558">ServiceLogin</a></h3>
+          <p class="caption"><a name="example-19" id="example-19"></a>Example 19. Service Login</p><div class="indent"><pre>
+            
+            &lt;ServiceLogin clientVersion=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.1.2 <a name="sect-id123575" id="sect-id123575">Get Server Time</a></h3>
+          <p class="caption"><a name="example-20" id="example-20"></a>Example 20. Get Server Time</p><div class="indent"><pre>
+            
+            &lt;GetServerTime/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.3.2 <a name="sect-id123591" id="sect-id123591">Session Info Operations</a></h3>
+        <div class="indent"><h3>7.3.2.1 <a name="sect-id123599" id="sect-id123599">Get SessionList</a></h3>
+          <p class="caption"><a name="example-21" id="example-21"></a>Example 21. Get SessionList Request</p><div class="indent"><pre>
+            
+            &lt;GetSessionList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetSessionList&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.2.2 <a name="sect-id123617" id="sect-id123617">Get InviteList</a></h3>
+          <p class="caption"><a name="example-22" id="example-22"></a>Example 22. Get InviteList Request</p><div class="indent"><pre>
+            
+            &lt;GetInviteList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetInviteList&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.2.3 <a name="sect-id123635" id="sect-id123635">Get Session SrcList</a></h3>
+          <p class="caption"><a name="example-23" id="example-23"></a>Example 23. Get Session SrcList Request</p><div class="indent"><pre>
+            
+            &lt;GetSessionSrcList sessionId=''&gt;
+              &lt;DstList&gt;
+                &lt;dstEntityId/&gt;
+              &lt;/DstList&gt;
+              &lt;ProfileList&gt;
+                &lt;profileId/&gt;
+              &lt;/ProfileList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetSessionSrcList&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.2.4 <a name="sect-id123650" id="sect-id123650">Get Session DstList</a></h3>
+          <p class="caption"><a name="example-24" id="example-24"></a>Example 24. Get Session DstList Request</p><div class="indent"><pre>
+            
+            &lt;GetSessionDstList sessionId=''&gt;
+              &lt;SrcList&gt;
+                &lt;srcEntityId/&gt;
+              &lt;/SrcList&gt;
+              &lt;ProfileList&gt;
+                &lt;profileId/&gt;
+              &lt;/ProfileList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetSessionDstList&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.2.5 <a name="sect-id123674" id="sect-id123674">Get Session ProfileList</a></h3>
+          <p class="caption"><a name="example-25" id="example-25"></a>Example 25. Get Session ProfileList Request</p><div class="indent"><pre>
+            
+            &lt;GetSessionProfileList sessionId=''&gt;
+              &lt;SrcList&gt;
+                &lt;dstEntityId/&gt;
+              &lt;/SrcList&gt;
+              &lt;DstList&gt;
+                &lt;dstEntityId/&gt;
+              &lt;/DstList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetSessionProfileList&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.3.2.6 <a name="sect-id123700" id="sect-id123700">Get Session RouteList</a></h3>
+          <p class="caption"><a name="example-26" id="example-26"></a>Example 26. Get Session RouteList Request</p><div class="indent"><pre>
+            
+            &lt;GetSessionRouteList sessionId=''&gt;
+              &lt;SrcList&gt;
+                &lt;srcEntityId/&gt;
+              &lt;/SrcList&gt;
+              &lt;DstList&gt;
+                &lt;dstEntityId/&gt;
+              &lt;/DstList&gt;
+              &lt;ProfileList&gt;
+                &lt;profileId/&gt;
+              &lt;/ProfileList&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetSessionRouteList&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.3.3 <a name="sect-id123728" id="sect-id123728">Status Operations</a></h3>
+        <p class="caption"><a name="example-27" id="example-27"></a>Example 27. Get Status Request</p><div class="indent"><pre>
+          
+          &lt;GetPortStatus&gt;
+            &lt;Port type='SRC/DST/IO/RELAY/STORE'/&gt;
+          &lt;/GetPortStatus&gt;
+          &lt;GetMediaStatus&gt;
+            &lt;Media type='DIR/FILE'/&gt;
+          &lt;/GetMediaStatus&gt;
+          &lt;GetUserStatus&gt;
+            &lt;User jid=''/&gt;
+          &lt;/GetUserStatus&gt;
+          &lt;GetAssetStatus&gt;
+            &lt;Asset NID=''/&gt;
+          &lt;/GetAssetStatus&gt;
+          &lt;GetDeviceStatus&gt;
+            &lt;DeviceElement ='SYSTEM/SERVICES/PORTS'/&gt;
+          &lt;/GetDeviceStatus&gt;
+          
+        </pre></div>
+      </div>
+    </div>
+    <div class="indent"><h3>7.4 <a name="sect-id123761" id="sect-id123761">Room Operator Use Cases</a></h3>
+      <ul class="" style="">
+        <li class="" style="">An "Operator" is the "Entity" that is responsible for setting up, modifying and deleting Rooms</li>
+        <li class="" style="">An "Operator" is also the "Initiator" of all actions during the Room</li>
+        <li class="" style="">All Room operations are responded to by the "App Server" entity</li>
+        <li class="" style="">"Action Request" operations are responded to by the other entities in the Room</li>
+        <li class="" style="">There may be multiple "Operator" entities in one Room</li>
+      </ul>
+      <div class="indent"><h3>7.4.1 <a name="sect-id123822" id="sect-id123822">Session Setup/Edit Operations</a></h3>
+        <div class="indent"><h3>7.4.1.1 <a name="sect-id123830" id="sect-id123830">View</a></h3>
+          <p class="caption"><a name="example-28" id="example-28"></a>Example 28. View Request</p><div class="indent"><pre>
+            
+            &lt;View sessionId='' connId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.2 <a name="sect-id123850" id="sect-id123850">Playback</a></h3>
+          <p class="caption"><a name="example-29" id="example-29"></a>Example 29. Playback Request</p><div class="indent"><pre>
+            
+            &lt;Playback sessionId='' connId=''&gt;
+              &lt;SrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/Playback&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.3 <a name="sect-id123872" id="sect-id123872">SyncPlayback</a></h3>
+          <p class="caption"><a name="example-30" id="example-30"></a>Example 30. SyncPlayback Request</p><div class="indent"><pre>
+            
+            &lt;SyncMedia id='' name=''&gt;
+              &lt;GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/&gt;
+            &lt;/SyncMedia&gt;
+            &lt;SyncPlayback sessionId='' connId=''&gt;
+              &lt;SyncSrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date='' syncMediaClipId=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/SyncPlayback&gt;
+            &lt;SyncPlayback sessionId='' connId=''&gt;
+              &lt;SyncSrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date='' syncMediaClipId=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/SyncPlayback&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.4 <a name="sect-id123907" id="sect-id123907">Record</a></h3>
+          <p class="caption"><a name="example-31" id="example-31"></a>Example 31. Record Request</p><div class="indent"><pre>
+            
+            &lt;Record sessionId='' connId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstFile id='' dir='xxx/yyy' name='' date='' storePortResourceNID=''/&gt;
+            &lt;/Record&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.5 <a name="sect-id123928" id="sect-id123928">SyncRecord</a></h3>
+          <p class="caption"><a name="example-32" id="example-32"></a>Example 32. SyncRecord Request</p><div class="indent"><pre>
+            
+            &lt;SyncMedia id='' name=''&gt;
+              &lt;GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/&gt;
+            &lt;/SyncMedia&gt;
+            &lt;SyncRecord sessionId='' connId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;SyncDstFile id='' dir='xxx/yyy' name='' date='' syncMediaClipId='' storePortResourceNID=''/&gt;
+            &lt;/SyncRecord&gt;
+            &lt;SyncRecord sessionId='' connId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;SyncDstFile id='' dir='xxx/yyy' name='' date='' syncMediaClipId='' storePortResourceNID=''/&gt;
+            &lt;/SyncRecord&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.6 <a name="sect-id123964" id="sect-id123964">Chat</a></h3>
+          <p class="caption"><a name="example-33" id="example-33"></a>Example 33. Chat Request</p><div class="indent"><pre>
+            
+            &lt;Chat sessionId='' connGroupId='' connId=''&gt;
+              &lt;User id='' userJID=''/&gt;
+            &lt;/Chat&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.7 <a name="sect-id123982" id="sect-id123982">Invite</a></h3>
+          <p class="caption"><a name="example-34" id="example-34"></a>Example 34. Invite Request</p><div class="indent"><pre>
+            
+            &lt;Invite sessionId='' id='' jid='' userNID='' resourceNID=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.8 <a name="sect-id123999" id="sect-id123999">Kick</a></h3>
+          <p class="caption"><a name="example-35" id="example-35"></a>Example 35. Kick Request</p><div class="indent"><pre>
+            
+            &lt;Kick sessionId='' id='' jid='' userNID='' resourceNID=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.9 <a name="sect-id124013" id="sect-id124013">Create</a></h3>
+          <p class="caption"><a name="example-36" id="example-36"></a>Example 36. Create Request</p><div class="indent"><pre>
+            
+            &lt;Create sessionId='' collaborationConfigNID='' mode='RECORD/PLAYBACK'/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.10 <a name="sect-id124030" id="sect-id124030">Destroy</a></h3>
+          <p class="caption"><a name="example-37" id="example-37"></a>Example 37. Destroy Request</p><div class="indent"><pre>
+            
+            &lt;Destroy sessionId=''/&gt;
+            &lt;Destroy sessionId='' connGroupId=''/&gt;
+            &lt;Destroy sessionId='' connGroupId='' connId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.11 <a name="sect-id124050" id="sect-id124050">Publish</a></h3>
+          <p class="" style="">By default sessions are "InviteOnly".
+          Use publish to allow others to Join w/o invites</p>
+          <p class="caption"><a name="example-38" id="example-38"></a>Example 38. Publish Request</p><div class="indent"><pre>
+            
+            &lt;Publish sessionId='' tagName='' tagValue=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.12 <a name="sect-id124078" id="sect-id124078">SwitchSrc</a></h3>
+          <p class="caption"><a name="example-39" id="example-39"></a>Example 39. SwitchSrc Request</p><div class="indent"><pre>
+            
+            &lt;SwitchSrc sessionId='' connId='' newSrcEntityId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.13 <a name="sect-id124095" id="sect-id124095">SwitchDst</a></h3>
+          <p class="caption"><a name="example-40" id="example-40"></a>Example 40. SwitchDst Request</p><div class="indent"><pre>
+            
+            &lt;SwitchDst sessionId='' connId='' newDstEntityId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.1.14 <a name="sect-id124113" id="sect-id124113">SwitchProfile</a></h3>
+          <p class="caption"><a name="example-41" id="example-41"></a>Example 41. SwitchProfile Request</p><div class="indent"><pre>
+            
+            &lt;SwitchProfile sessionId='' connId='' newProfileId=''/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.2 <a name="sect-id124132" id="sect-id124132">Options for Setup/Edit Operations</a></h3>
+        <p class="" style="">The above operations are shown in their "Basic" form.  
+        They can be enhanced with more information using the following options</p>
+        <p class="caption"><a name="example-42" id="example-42"></a>Example 42. View Request w/o any options</p><div class="indent"><pre>
+            
+            &lt;View sessionId='' connId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        <div class="indent"><h3>7.4.2.1 <a name="sect-id124164" id="sect-id124164">Profile Spec</a></h3>
+          <p class="caption"><a name="example-43" id="example-43"></a>Example 43. View Request w/ referenced Profile spec</p><div class="indent"><pre>
+            
+            &lt;Profile id='' profileNID=''/&gt;
+            &lt;View sessionId='' connId='' profileId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+          <p class="caption"><a name="example-44" id="example-44"></a>Example 44. View Request w/ inline Profile spec</p><div class="indent"><pre>
+            
+            &lt;Profile id=''&gt;
+              &lt;ProfileInfo/&gt;
+            &lt;/Profile&gt;
+            &lt;View sessionId='' connId='' profileId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+          <p class="caption"><a name="example-45" id="example-45"></a>Example 45. View Request w/ inline Profile override</p><div class="indent"><pre>
+            
+            &lt;Profile id='' profileNID=''&gt;
+              &lt;ProfileInfo/&gt;
+            &lt;/Profile&gt;
+            &lt;View sessionId='' connId='' profileId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.2.2 <a name="sect-id124220" id="sect-id124220">ConnGroup Spec</a></h3>
+          <p class="caption"><a name="example-46" id="example-46"></a>Example 46. View Request w/ ConnGroup spec</p><div class="indent"><pre>
+            
+            &lt;ConnGroup sessionId='' id=''/&gt;
+            &lt;View sessionId='' connGroupId='' connId='' profileId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.2.3 <a name="sect-id124243" id="sect-id124243">OffsetMode/Range Spec</a></h3>
+          <p class="caption"><a name="example-47" id="example-47"></a>Example 47. View Request w/ OffsetMode/Range spec</p><div class="indent"><pre>
+            
+            &lt;View sessionId='' connId='' offsetMode='ABSOLUTE' offsetRange=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.2.4 <a name="sect-id124265" id="sect-id124265">StartMode Spec</a></h3>
+          <p class="caption"><a name="example-48" id="example-48"></a>Example 48. View Request w/ StartMode spec</p><div class="indent"><pre>
+            
+            &lt;View sessionId='' connId='' startMode='AUTOSTART'&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.2.5 <a name="sect-id124287" id="sect-id124287">PVR Spec</a></h3>
+          <p class="caption"><a name="example-49" id="example-49"></a>Example 49. View Request w/ PVR spec</p><div class="indent"><pre>
+            
+            &lt;PVR sessionId='' id='' bufferLength=''&gt;
+              &lt;PVRFile id='' dir='xxx/yyy' name='' pvrPortResourceNID='' profileNID=''/&gt;
+            &lt;/PVR&gt; 
+            &lt;View sessionId='' connGroupId='' connId='' profileId='' pvrId=''&gt;
+              &lt;SrcPort id='' srcResourceNID=''/&gt;
+              &lt;DstPort id='' dstResourceNID=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.2.6 <a name="sect-id124314" id="sect-id124314">Route Spec</a></h3>
+          <p class="caption"><a name="example-50" id="example-50"></a>Example 50. View Request w/ Route spec</p><div class="indent"><pre>
+            
+            &lt;Route sessionId='' id=''&gt;
+              &lt;RelayPort id='' relayResourceNID=''/&gt;
+              &lt;RelayPort id='' relayResourceNID=''/&gt;
+            &lt;/Route&gt;          
+            &lt;View sessionId='' connGroupId='' connId='' profileId='' routeId=''&gt;
+              &lt;SrcPort id='' srcResourceNID='' srcRouteId=''/&gt;
+              &lt;DstPort id='' dstResourceNID='' dstRouteId=''/&gt;
+            &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.3 <a name="sect-id124344" id="sect-id124344">Options for Entity Spec</a></h3>
+        <p class="" style="">
+          By default operations fully specify the entities they involve and will result in unique entity/conection Ids
+          If another operation needs to reference an existing entity in the session they can do so by referencing their IDs in operation attributes
+        </p>
+        <div class="indent"><h3>7.4.3.1 <a name="sect-id124368" id="sect-id124368">Entity Id Reference</a></h3>
+          <p class="caption"><a name="example-51" id="example-51"></a>Example 51. View an existing Src</p><div class="indent"><pre>
+            
+              &lt;View sessionId='' srcId=''&gt;
+                &lt;DstPort id='' dstResourceNID=''/&gt;
+              &lt;/View&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.3.2 <a name="sect-id124388" id="sect-id124388">Entity ID Scope</a></h3>
+          <p class="caption"><a name="example-52" id="example-52"></a>Example 52. View an existing Src from a different Session</p><div class="indent"><pre>
+            
+              &lt;View sessionId='' srcId='sessionId:srcId'&gt;
+                &lt;DstPort id='' dstResourceNID=''/&gt;
+              &lt;/View&gt;
+              
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.3.3 <a name="sect-id124408" id="sect-id124408">Entity Resource By Title</a></h3>
+          <p class="caption"><a name="example-53" id="example-53"></a>Example 53. View an existing Src from a different Session</p><div class="indent"><pre>
+            
+              &lt;View sessionId=''&gt;
+                &lt;SstPort id='' dstResourceTitle=''/&gt;
+                &lt;DstPort id='' dstResourceTitle=''/&gt;
+              &lt;/View&gt;
+              
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.4 <a name="sect-id124431" id="sect-id124431">Session PVR Operations</a></h3>
+        <p class="" style="">
+          The intent of the operator when issuing a PVR Action is to "do a certain action from or at a certain point in time".
+          <br />go to a certain "Offset"
+          <br />- this is the time since the start of the Connection (or Connection Group).
+          <br />- depending on the "offsetMode" the connection (group) start date will be either NOW or the EPOCH date.
+          <br />- "LIVE" connections will use an "ABSOLUTE" offsetMode = startTime = EPOCH.
+          <br />- "Playback in Sync Mode" should also use ABSOLUTE mode if you want times/offsets to be in terms of the original recording time.
+          <br />with reference to a certain "Wall Clock"
+          <br />- "Wall Clock" is the "real time" when the command was/should be effective
+          <br />- It is specified in Notifications to qualify "when" a certain "offset" was achieved on the Server side (thus making the system independant of message xmit delays)
+          <br />- Succesive PVR Actions can use this value to qualify when the requested "Offset" should be achieved on the server side
+          <br />- This allows precise time control without requiring the Client to be NTP Time Sync'd with the Servers
+          <br />and Stop or Play with a certain Speed (called Timescale) at/from/to that position.
+        </p>
+        <p class="" style="">
+          These parameters are packaged into a "TimeLine" [WC, Offset, Timescale].
+          <br />All PVR actions are in essence a request to "achieve" a certain "Timeline".
+        </p>
+        <p class="" style="">
+          The default scope for these actions is the Session
+          <br />ConnGroup scopes should be used for implementing StartRec/StopRec like operations
+        </p>
+        <div class="indent"><h3>7.4.4.1 <a name="sect-id124549" id="sect-id124549">Start</a></h3>
+          <p class="caption"><a name="example-54" id="example-54"></a>Example 54. Start Request</p><div class="indent"><pre>
+            
+            &lt;Start sessionId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.2 <a name="sect-id124562" id="sect-id124562">Stop</a></h3>
+          <p class="caption"><a name="example-55" id="example-55"></a>Example 55. Stop Request</p><div class="indent"><pre>
+            
+            &lt;Stop sessionId=''/&gt;             
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.3 <a name="sect-id124579" id="sect-id124579">Pause</a></h3>
+          <p class="caption"><a name="example-56" id="example-56"></a>Example 56. Pause Request</p><div class="indent"><pre>
+            
+            &lt;Pause sessionId=''/&gt;             
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.4 <a name="sect-id124595" id="sect-id124595">Resume</a></h3>
+          <p class="caption"><a name="example-57" id="example-57"></a>Example 57. Resume Request</p><div class="indent"><pre>
+            
+            &lt;Resume sessionId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.5 <a name="sect-id124612" id="sect-id124612">Catchup</a></h3>
+          <p class="caption"><a name="example-58" id="example-58"></a>Example 58. Catchup Request</p><div class="indent"><pre>
+            
+            &lt;Catchup sessionId=''/&gt;             
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.6 <a name="sect-id124628" id="sect-id124628">SkipTo</a></h3>
+          <p class="caption"><a name="example-59" id="example-59"></a>Example 59. SkipFwd Request</p><div class="indent"><pre>
+            
+            &lt;SkipTo sessionId='' offsetDelta='10'/&gt;             
+            
+          </pre></div>
+          <p class="caption"><a name="example-60" id="example-60"></a>Example 60. SkipBack Request</p><div class="indent"><pre>
+            
+            &lt;SkipTo sessionId=''offsetDelta='-10'/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.7 <a name="sect-id124655" id="sect-id124655">PauseAt</a></h3>
+          <p class="caption"><a name="example-61" id="example-61"></a>Example 61. PauseAt Request</p><div class="indent"><pre>
+            
+            &lt;PauseAt sessionId='' Offset=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.4.8 <a name="sect-id124671" id="sect-id124671">ResumeFrom</a></h3>
+          <p class="caption"><a name="example-62" id="example-62"></a>Example 62. ResumeFrom Request</p><div class="indent"><pre>
+            
+            &lt;ResumeFrom sessionId='' Offset=''/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.5 <a name="sect-id124690" id="sect-id124690">Scope for PVR Operations</a></h3>
+        <p class="" style="">
+          PVR/Action Operations are qualified by their scope.
+          <br />Scope could be at the Session, ConnGroup, or Connection level
+        </p>
+        <div class="indent"><h3>7.4.5.1 <a name="sect-id124712" id="sect-id124712">Session Scope</a></h3>
+          <p class="caption"><a name="example-63" id="example-63"></a>Example 63. Start Request w/ Session scope</p><div class="indent"><pre>
+            
+            &lt;Start sessionId='' WC=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.5.2 <a name="sect-id124730" id="sect-id124730">ConnGroup Scope</a></h3>
+          <p class="caption"><a name="example-64" id="example-64"></a>Example 64. Start Request w/ ConnGroup scope</p><div class="indent"><pre>
+            
+            &lt;Start sessionId='' connGroupId='' WC=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.5.3 <a name="sect-id124747" id="sect-id124747">Connection Scope</a></h3>
+          <p class="caption"><a name="example-65" id="example-65"></a>Example 65. Start Request w/ Connection scope</p><div class="indent"><pre>
+            
+            &lt;Start sessionId='' connGroupId='' connId='' WC=''/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.6 <a name="sect-id124767" id="sect-id124767">Options for PVR Operations</a></h3>
+        <p class="" style="">
+          PVR/Action Operations are enhanced by the following options.
+        </p>
+        <div class="indent"><h3>7.4.6.1 <a name="sect-id124785" id="sect-id124785">Effective WC</a></h3>
+          <p class="" style="">
+            This specifies a WC at which time the operation should be effective (as opposed to "ASAP").
+            <br />"ASAP": when the WC when the App Server happens to recieve/process the operation.
+            <br />By default operations are in ASAP mode.
+          </p>
+          <p class="caption"><a name="example-66" id="example-66"></a>Example 66. Start Request w/ Effective WC option</p><div class="indent"><pre>
+            
+            &lt;Start sessionId='' WC=''/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.7 <a name="sect-id124825" id="sect-id124825">Bookmark Operations</a></h3>
+        <div class="indent"><h3>7.4.7.1 <a name="sect-id124832" id="sect-id124832">AddBookmark</a></h3>
+          <p class="caption"><a name="example-67" id="example-67"></a>Example 67. AddBookmark Request</p><div class="indent"><pre>
+            
+            &lt;AddBookmark sessionId='' connGroupId='' connId='' fileEntityId=''/&gt;
+              &lt;AddRequest/&gt;
+            &lt;/AddBookmark&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.7.2 <a name="sect-id124852" id="sect-id124852">UpdateBookmark</a></h3>
+          <p class="caption"><a name="example-68" id="example-68"></a>Example 68. UpdateBookmark Request</p><div class="indent"><pre>
+            
+            &lt;UpdateBookmark fileEntityId=''&gt;
+              &lt;UpdateRequest/&gt;
+            &lt;/UpdateBookmark&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.7.3 <a name="sect-id124872" id="sect-id124872">DeleteBookmark</a></h3>
+          <p class="caption"><a name="example-69" id="example-69"></a>Example 69. DeleteBookmark Request</p><div class="indent"><pre>
+            
+            &lt;DeleteBookmark fileEntityId=''&gt;
+              &lt;DeleteRequest/&gt;
+            &lt;/DeleteBookmark&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.7.4 <a name="sect-id124891" id="sect-id124891">GetBookmark</a></h3>
+          <p class="caption"><a name="example-70" id="example-70"></a>Example 70. GetBookmark Request</p><div class="indent"><pre>
+            
+            &lt;GetBookmark fileEntityId=''&gt;
+              &lt;GetRequest/&gt;
+            &lt;/GetBookmark&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+      <div class="indent"><h3>7.4.8 <a name="sect-id124911" id="sect-id124911">Session Notifications</a></h3>
+        <div class="indent"><h3>7.4.8.1 <a name="sect-id124918" id="sect-id124918">AuthRequest</a></h3>
+          <p class="caption"><a name="example-71" id="example-71"></a>Example 71. AuthRequest Notification</p><div class="indent"><pre>
+            
+            &lt;Auth id='' state='REQUEST' sessionId='' connGroupId='' connId='' authEntityId=''/&gt;
+            &lt;Auth id='' state='CANCEL'/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.8.2 <a name="sect-id124938" id="sect-id124938">Presence Notification</a></h3>
+          <p class="caption"><a name="example-72" id="example-72"></a>Example 72. Presence Notification</p><div class="indent"><pre>
+            
+            &lt;Presence jid='' value=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.8.3 <a name="sect-id124955" id="sect-id124955">ConnState Notification</a></h3>
+          <p class="" style="">If value is Error - then code and msg are valid</p>
+          <p class="caption"><a name="example-73" id="example-73"></a>Example 73. ConnState Notification: CONNECTED</p><div class="indent"><pre>
+            
+            &lt;ConnState sessionId='' connId='' value='CONNECTED'/&gt;
+            
+          </pre></div>
+          <p class="caption"><a name="example-74" id="example-74"></a>Example 74. ConnState Notification: Error</p><div class="indent"><pre>
+            
+            &lt;ConnState sessionId='' connId='' value='ERROR' code='NNNN' msg='This is the error message'/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.4.8.4 <a name="sect-id124994" id="sect-id124994">TimeLine Notification</a></h3>
+          <p class="" style="">
+            Timelines exist for:
+            <br />- the session, all connection groups, all connections, all entities.
+            <br />PVR actions specify a new "target" Timeline for the scope they are issued at
+            <br />When the entites involved achieve this "timeline" - they will send timeline update notifications into the session
+          </p>
+          <p class="caption"><a name="example-75" id="example-75"></a>Example 75. TimeLine Notification</p><div class="indent"><pre>
+            
+            &lt;Timeline sessionId='' connGroupId='' connId='' offsetMode='ABSOLUTE/RELATIVE'&gt;
+              &lt;Start WC="2341234" Offset="0" TimeScale="1(Play)"/&gt;
+              &lt;Last WC="7444674" Offset="9678687" TimeScale="0(Pause)"/&gt;
+            &lt;/Timeline&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="indent"><h3>7.5 <a name="sect-id125048" id="sect-id125048">Room Participant Entity Use Cases</a></h3>
+      <div class="indent"><h3>7.5.1 <a name="sect-id125055" id="sect-id125055">Operations</a></h3>
+        <div class="indent"><h3>7.5.1.1 <a name="sect-id125062" id="sect-id125062">Join</a></h3>
+          <p class="" style="">Join is once per session (not per role) w/ or w/o invite.</p>
+          <p class="caption"><a name="example-76" id="example-76"></a>Example 76. Join Request w/o invite</p><div class="indent"><pre>
+            
+            &lt;Join sessionId=''/&gt;
+            
+          </pre></div>
+          <p class="caption"><a name="example-77" id="example-77"></a>Example 77. Join Request w/ invite</p><div class="indent"><pre>
+            
+            &lt;Join sessionId='' inviteId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.5.1.2 <a name="sect-id125096" id="sect-id125096">Leave</a></h3>
+          <p class="caption"><a name="example-78" id="example-78"></a>Example 78. Leave Operation</p><div class="indent"><pre>
+            
+            &lt;Leave sessionId='' kickId=''/&gt;
+            
+          </pre></div>
+        </div>
+        <div class="indent"><h3>7.5.1.3 <a name="sect-id125113" id="sect-id125113">Auth</a></h3>
+          <p class="caption"><a name="example-79" id="example-79"></a>Example 79. AuthResponse Operation</p><div class="indent"><pre>
+            
+            &lt;Auth id='' state='ALLOW/DENY/REVOKE'/&gt;
+            
+          </pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="indent"><h3>7.6 <a name="sect-id125132" id="sect-id125132">Room IO Entity Use Cases</a></h3>
+      <div class="indent"><h3>7.6.1 <a name="sect-id125140" id="sect-id125140">Setup Response(Join/ACK/Leave)</a></h3></div>
+      <div class="indent"><h3>7.6.2 <a name="sect-id125147" id="sect-id125147">Action Response</a></h3></div>
+      <div class="indent"><h3>7.6.3 <a name="sect-id125155" id="sect-id125155">Event</a></h3></div>
+      <div class="indent"><h3>7.6.4 <a name="sect-id125162" id="sect-id125162">In-Band Protocol Message</a></h3></div>
+    </div>
+    <div class="indent"><h3>7.7 <a name="sect-id125171" id="sect-id125171">App Server Use Cases</a></h3>
+      <div class="indent"><h3>7.7.1 <a name="sect-id125178" id="sect-id125178">Setup Request(Invite/Start/Update/End/Kick)</a></h3></div>
+    </div>
+    <div class="indent"><h3>7.8 <a name="sect-id125187" id="sect-id125187">Administrator Use Cases</a></h3>
+      <div class="indent"><h3>7.8.1 <a name="sect-id125195" id="sect-id125195">Add Object</a></h3>
+        <p class="" style="">The following are some examples of Add Object Requests</p>
+        <p class="caption"><a name="example-80" id="example-80"></a>Example 80. Add Object</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;addrequest xmlns='ipvs:mediaroom:assetadminservice'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+      &lt;data xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/addrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-81" id="example-81"></a>Example 81. Add partial XML under an Object by NID</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;addrequest xmlns='ipvs:mediaroom:assetadminservice'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+      &lt;parentNID&gt;zzzz_123455566667777&lt;/parentNID&gt;
+      &lt;data xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/addrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-82" id="example-82"></a>Example 82. Add partial XML under an Object by Where XPath</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;addrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+      &lt;parentWhereXPath&gt;/*[//Title='tx1']&lt;/parentWhereXPath&gt;
+      &lt;data xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/addrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="" style="">If there is an error, the service MUST return an error to the user:</p>
+        <p class="caption"><a name="example-83" id="example-83"></a>Example 83. MediaRoom Service returns Error</p><div class="indent"><pre>
+          
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='error'&gt;
+  &lt;error type='auth' code='2001'&gt;
+    &lt;not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/&gt;
+    &lt;log xmlns='ipvs:mediaroom:service'&gt;
+      No permissions to add node
+    &lt;/log&gt;
+  &lt;/error&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="" style="">Otherwise, the service MUST inform the user that the request was successfully executed:</p>
+        <p class="caption"><a name="example-84" id="example-84"></a>Example 84. MediaRoom Service informs User that request has been processed</p><div class="indent"><pre>
+          
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'&gt;
+  &lt;response xmlns='ipvs:mediaroom:service'&gt;
+    &lt;addresponse&gt;
+      &lt;nid xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/addresponse&gt;
+  &lt;/response&gt;
+&lt;/ip&gt;
+    
+        </pre></div>
+      </div>
+      <div class="indent"><h3>7.8.2 <a name="sect-id125327" id="sect-id125327">Delete Object</a></h3></div>
+      <div class="indent"><h3>7.8.3 <a name="sect-id125334" id="sect-id125334">Get Object</a></h3>
+        <p class="" style="">The following are some examples of Get Object Requests</p>
+        <p class="caption"><a name="example-85" id="example-85"></a>Example 85. Get Object by NID</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+      &lt;objNID&gt;zzzz_1234555666677777&lt;/objNID&gt;
+    &lt;/getrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-86" id="example-86"></a>Example 86. Get Object List</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+    &lt;/getrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-87" id="example-87"></a>Example 87. Get Object (List) by Where XPath</p><div class="indent"><pre>
+          
+&lt;iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'&gt;
+  &lt;request xmlns='ipvs:mediaroom:service'&gt;
+    &lt;getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'&gt;
+      &lt;whereXPath&gt;/*[//Groups[/Name='Location' &amp;&amp; /Value='Sunnyvale']]&lt;/whereXPath&gt;
+    &lt;/getrequest&gt;
+  &lt;/request&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="" style="">If there is an error, the service MUST return an error to the user:</p>
+        <p class="caption"><a name="example-88" id="example-88"></a>Example 88. MediaRoom Service returns Error</p><div class="indent"><pre>
+          
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='error'&gt;
+  &lt;error type='cancel' code='1001'&gt;
+    &lt;item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/&gt;
+    &lt;log xmlns='ipvs:mediaroom:service'&gt;
+      Item not found
+    &lt;/log&gt;
+  &lt;/error&gt;
+&lt;/iq&gt;
+    
+        </pre></div>
+        <p class="" style="">
+          Otherwise, the service MUST inform the user that the request was successfully executed.
+          If the request was a List request or a where Xpath based request, and no matching results were found,
+          the request is considered a sucess and a getresponse with no child nodes should be returned.
+          :
+        </p>
+        <p class="caption"><a name="example-89" id="example-89"></a>Example 89. MediaRoom Service returns requested nodes</p><div class="indent"><pre>
+          
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'&gt;
+  &lt;response xmlns='ipvs:mediaroom:service'&gt;
+    &lt;getresponse&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/getresponse&gt;
+  &lt;/response&gt;
+&lt;/ip&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-90" id="example-90"></a>Example 90. MediaRoom Service returns without any nodes</p><div class="indent"><pre>
+          
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'&gt;
+  &lt;response xmlns='ipvs:mediaroom:service'&gt;
+    &lt;getresponse&gt;
+    &lt;/getresponse&gt;
+  &lt;/response&gt;
+&lt;/ip&gt;
+    
+        </pre></div>
+      </div>
+      <div class="indent"><h3>7.8.4 <a name="sect-id125475" id="sect-id125475">Edit Object</a></h3></div>
+    </div>
+    <div class="indent"><h3>7.9 <a name="sect-id125483" id="sect-id125483">Direct DB Access Use Cases</a></h3>
+      <p class="" style="">
+        Direct DB access is only used by IPVS App Service Agent
+        All DB operations are done in the context of an "Xquery".
+        No convinience functions are provided as this interface is not expected to be used by API clients.
+        The types of operations are:
+      </p>
+      <ol start="" class="" style="">
+        <li class="" style="">'Get' queries - executions in the DB that return a result (set) of elements</li>
+        <li class="" style="">'Update' queries - executions that update data in the DB</li>
+      </ol>
+      <p class="" style="">
+        To start with all executions will happen within a seperate transaction and all the results will be sent back in one result.
+        Later we will introduce the notion of a transaction that stays open and the getNext is driven from the requestors side.
+      </p>
+      <p class="" style="">The following are some examples of DB Xquery Requests</p>
+      <p class="caption"><a name="example-91" id="example-91"></a>Example 91. Xquery - get</p><div class="indent"><pre>
+        
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='ipvsdb.company.com'
+    type='get'&gt;
+  &lt;xquery xmlns='ipvs:mediaroom:ipvsdb'
+          autoreply='true'
+          autosubscribe='true'
+          jid='hag66@shakespeare.lit/pda'&gt;
+    &lt;execute&gt;for $d in document('xxxx', 'cccc')/* return $d&lt;/execute&gt;
+  &lt;/xquery&gt;
+&lt;/iq&gt;
+  
+      </pre></div>
+      <p class="caption"><a name="example-92" id="example-92"></a>Example 92. Xquery - update</p><div class="indent"><pre>
+        
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='ipvsdb.company.com'
+    type='set'&gt;
+  &lt;xquery xmlns='ipvs:mediaroom:ipvsdb'
+          autoreply='false'
+          autosubscribe='true'
+          jid='hag66@shakespeare.lit/pda'&gt;
+    &lt;execute&gt;UPDATE replace &lt;aaa&gt;&lt;/aaa&gt; in document('xxxx', 'cccc')/*&lt;/execute&gt;
+  &lt;/xquery&gt;
+&lt;/iq&gt;
+  
+      </pre></div>
+      <p class="" style="">If there is an error, the service MUST return an error to the user:</p>
+      <p class="caption"><a name="example-93" id="example-93"></a>Example 93. MediaRoom Service returns Error</p><div class="indent"><pre>
+        
+&lt;iq from='ipvsdb.company.com'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='error'&gt;
+  &lt;error type='modify' code='1001'&gt;
+    &lt;bad-request xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/&gt;
+    &lt;log xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      Xquery execute error log here
+    &lt;/log&gt;
+  &lt;/error&gt;
+&lt;/iq&gt;
+    
+      </pre></div>
+      <p class="" style="">
+        Otherwise, the service MUST inform the user that the request was successfully executed.
+        If no matching results were found,
+        the request is considered a sucess and a response with no child nodes should be returned.
+        :
+      </p>
+      <p class="caption"><a name="example-94" id="example-94"></a>Example 94. MediaRoom Service returns requested nodes directly to user - autoreply</p><div class="indent"><pre>
+        
+&lt;iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'&gt;
+  &lt;xquery xmlns='ipvs:mediaroom:ipvsdb'&gt;
+    &lt;result&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+      &lt;node xmlns='ipvs:mediaroom:datamodel'/&gt;
+    &lt;/result&gt;
+  &lt;/xquery&gt;
+&lt;/ip&gt;
+    
+      </pre></div>
+      <p class="caption"><a name="example-95" id="example-95"></a>Example 95. MediaRoom Service returns blank result to App Server - no autoreply</p><div class="indent"><pre>
+        
+&lt;iq from='ipvsdb.company.com'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='result'&gt;
+  &lt;xquery xmlns='ipvs:mediaroom:ipvsdb'&gt;
+    &lt;result/&gt;
+  &lt;/xquery&gt;
+&lt;/ip&gt;
+    
+      </pre></div>
+      <div class="indent"><h3>7.9.1 <a name="sect-id125947" id="sect-id125947">Subscribe Unsubscribe</a></h3>
+        <p class="" style="">
+          Typically this can be handled by using the autosubscribe=true attribute during DB operations.
+          If explicit subscriptions are needed they are done using the following messages:
+        </p>
+        <p class="" style="">The following are some examples of DB Subscribe/Unsubscribe Requests</p>
+        <p class="caption"><a name="example-96" id="example-96"></a>Example 96. Subscribe to an Object List</p><div class="indent"><pre>
+          
+  &lt;message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'&gt;
+    &lt;subscribe xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'/&gt;
+      &lt;sub jid='witch44@shakespeare.lit/pda'
+           objtype='devicelist'/&gt;
+    &lt;/subscribe&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-97" id="example-97"></a>Example 97. Subscribe to an Object by NID</p><div class="indent"><pre>
+          
+  &lt;message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'&gt;
+    &lt;subscribe xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_12347125311945283'/&gt;
+      &lt;sub jid='witch44@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_74935864306735496'/&gt;
+    &lt;/subscribe&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-98" id="example-98"></a>Example 98. UnSubscribe JID from all nodes</p><div class="indent"><pre>
+          
+  &lt;message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'&gt;
+    &lt;unsubscribe xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub jid='hag66@shakespeare.lit/pda /&gt;
+    &lt;/unsubscribe&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-99" id="example-99"></a>Example 99. UnSubscribe JID from Object List</p><div class="indent"><pre>
+          
+  &lt;message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'&gt;
+    &lt;unsubscribe xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'/&gt;
+    &lt;/unsubscribe&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-100" id="example-100"></a>Example 100. UnSubscribe JID from Object by NID</p><div class="indent"><pre>
+          
+  &lt;message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'&gt;
+    &lt;unsubscribe xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_67598345702334545'/&gt;
+    &lt;/unsubscribe&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="" style="">
+          There is no need for a response if the operation succeeds.
+          However, if there is an error, the service MUST return an error to the user:
+        </p>
+        <p class="caption"><a name="example-101" id="example-101"></a>Example 101. DB Service returns Error</p><div class="indent"><pre>
+          
+&lt;message from='ipvsdb.company.com'
+        id='reg2'
+        to='ipvscollab.company.com'
+        type='error'&gt;
+  &lt;error type='cancel' code='1001'&gt;
+    &lt;item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/&gt;
+    &lt;log xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      Xquery execute error log here
+    &lt;/log&gt;
+  &lt;/error&gt;
+&lt;/message&gt;
+    
+        </pre></div>
+      </div>
+      <div class="indent"><h3>7.9.2 <a name="sect-id125967" id="sect-id125967">DB Change Notification</a></h3>
+        <p class="" style="">
+          Based on either auto subscription or explicit Subscribe/Unsubscribe requests
+          the DB service will notify the subscribed JID when the resp nodes in the DB are modified.
+        </p>
+        <p class="" style="">The following are some examples of DB Change Notification messages</p>
+        <p class="caption"><a name="example-102" id="example-102"></a>Example 102. DB Change Notification - List add</p><div class="indent"><pre>
+          
+  &lt;message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'&gt;
+    &lt;notification xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub objtype='assetresourcelist'/&gt;
+      &lt;payload update='add'&gt;
+        &lt;node xmlns='ipvs:mediaroom:datamodel'&gt;
+      &lt;/payload&gt;
+    &lt;/notification&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-103" id="example-103"></a>Example 103. DB Change Notification - List delete</p><div class="indent"><pre>
+          
+  &lt;message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'&gt;
+    &lt;notification xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub objtype='assetresourcelist'/&gt;
+      &lt;payload update='delete'&gt;
+        &lt;objNID xmlns='ipvs:mediaroom:datamodel'&gt;
+      &lt;/payload&gt;
+    &lt;/notification&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+        <p class="caption"><a name="example-104" id="example-104"></a>Example 104. DB Change Notification - Object change</p><div class="indent"><pre>
+          
+  &lt;message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'&gt;
+    &lt;notification xmlns='ipvs:mediaroom:ipvsdb'&gt;
+      &lt;sub objtype='assetresourcelist'
+           objNID='zzzz_74935864306735496'/&gt;
+      &lt;payload update='replace'&gt;
+        &lt;node xmlns='ipvs:mediaroom:datamodel'&gt;
+      &lt;/payload&gt;
+    &lt;/notification&gt;
+  &lt;/message&gt;
+    
+        </pre></div>
+      </div>
+    </div>
+  <h2>8.
+       <a name="rules" id="rules">Business Rules</a></h2>
+    <p class="" style="">OPTIONAL.</p>
+  <h2>9.
+       <a name="impl" id="impl">Implementation Notes</a></h2>
+    <p class="" style="">OPTIONAL.</p>
+  <h2>10.
+       <a name="access" id="access">Accessibility Considerations</a></h2>
+    <p class="" style="">OPTIONAL.</p>
+  <h2>11.
+       <a name="i18n" id="i18n">Internationalization Considerations</a></h2>
+    <p class="" style="">OPTIONAL.</p>
+  <h2>12.
+       <a name="security" id="security">Security Considerations</a></h2>
+    <p class="" style="">REQUIRED.</p>
+  <h2>13.
+       <a name="iana" id="iana">IANA Considerations</a></h2>
+    <p class="" style="">REQUIRED.</p>
+  <h2>14.
+       <a name="registrar" id="registrar">XMPP Registrar Considerations</a></h2>
+    <p class="" style="">REQUIRED.</p>
+  <h2>15.
+       <a name="schema" id="schema">XML Schema</a></h2>
+    <div class="indent"><h3>15.1 <a name="sect-id126189" id="sect-id126189">Object Schema</a></h3>
+      <p class="" style="">
+        <a href="../xsd/mediaroom.service.datamodel.xsd">Object Datamodel</a>
+      </p>
+    </div>
+    <div class="indent"><h3>15.2 <a name="sect-id126213" id="sect-id126213">App Message Schema</a></h3>
+      <p class="" style="">
+        <a href="../xsd/mediaroom.service.xsd">App Message Schema</a>
+      </p>
+    </div>
+    <div class="indent"><h3>15.3 <a name="sect-id126237" id="sect-id126237">MediaRoom Message Schema</a></h3>
+      <p class="" style="">
+        <a href="../xsd/mediaroom.mediaroomservice.xsd">MediaRoom Message Schema</a>
+      </p>
+    </div>
+    <div class="indent"><h3>15.4 <a name="sect-id126262" id="sect-id126262">Admin Message Schema</a></h3>
+      <p class="" style="">
+        <a href="../xsd/mediaroom.assetadminservice.xsd">Asset Admin Message Schema</a>
+      </p>
+      <p class="" style="">
+        <a href="../xsd/mediaroom.policyadminservice.xsd">Policy Admin Message Schema</a>
+      </p>
+    </div>
+  <hr /><h2><a name="notes" id="notes"></a>Notes</h2><div class="indent"></div><hr /><h2><a name="revs" id="revs"></a>Revision History</h2><div class="indent"><h4>Version 0.0.1 (2001-09-14)</h4><div class="indent">
+        <p class="" style="">First draft.</p>
+       (psa)
+    </div></div><hr /><p>END</p></body></html>

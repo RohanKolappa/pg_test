@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipvsdbservice>
+    <!-- enum type = DeleteDB, DeleteMedia -->
+    <request DBCallTimeOut="" domain="" type="deleteMedia" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  deleteDB or deleteMediaDir -->
+        <deleteMediaDir>
+            <params>
+                <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+            </params>
+            <!--  optional  -->
+            <scriptFilePath>deleteDB_media.xml</scriptFilePath>
+            <zipFolderPath>/data/mediadir/deletedb</zipFolderPath>
+        </deleteMediaDir>
+        <!--  or  -->
+        <deleteDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </deleteDB>
+    </request>
+
+    <response  DBCallTimeOut="" domain="" type="deleteMedia" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  deleteDB or deleteMediaDir -->
+        <DBResp>
+            <deleteMediaDir>
+                <params>
+                    <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+                </params>
+            </deleteMediaDir>
+            <!--  or  -->
+            <deleteDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </deleteDB>
+        </DBResp>
+    </response>
+</ipvsdbservice>

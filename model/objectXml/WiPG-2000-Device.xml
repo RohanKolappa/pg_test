@@ -1,0 +1,496 @@
+<?xml version="1.0"?>
+<WiPG-2000-Device serviceVer="" Ver="2.5" Rev="1" NID=""
+	parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+	<ManagementMode>Central</ManagementMode>
+
+	<ResourcePointers>
+		<MediaStreamDstPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamDstPortResourceNID>
+		<MediaStreamSrcPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamSrcPortResourceNID>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<SoftwareImageConfig Dirty="CLEAN">
+				<RootPassword></RootPassword>
+				<NewImageName></NewImageName>
+				<NewVersion></NewVersion>
+			</SoftwareImageConfig>
+
+			<LicenseConfig Dirty="CLEAN">
+				<NewLicenseKey></NewLicenseKey>
+			</LicenseConfig>
+
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password>admin</Password>
+			</AdminServiceConfig>
+
+			<LoginBannerConfig Dirty="CLEAN">
+				<Banner></Banner>
+			</LoginBannerConfig>
+
+			<CPUConfig Dirty="CLEAN"></CPUConfig>
+			<MemoryConfig Dirty="CLEAN"></MemoryConfig>
+			<SystemHWConfig Dirty="CLEAN"></SystemHWConfig>
+
+			<!-- specific to WiPG -->
+			<DeviceSetupConfig>
+				<Resolution></Resolution>
+				<CodeConfig>
+					<EnableCode>false</EnableCode>
+					<Mode>Random/Specific</Mode>
+					<Code></Code>
+				</CodeConfig>
+			</DeviceSetupConfig>
+
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+				<TimeZone />
+			</SystemClockConfig>
+
+			<OSDServiceConfig Dirty="CLEAN">
+				<DisplayOptions>
+					<DeviceInfo>ShowAll</DeviceInfo> <!-- ShowAll/HideAll -->
+					<User-List>
+						<Enable>true</Enable>
+					</User-List>
+					<ConnectionInfo>
+						<Enable>true</Enable>
+					</ConnectionInfo>
+					<FontColor></FontColor>
+					<FontSize></FontSize>
+					<ScreenSaver>
+						<Enable>true</Enable>
+						<IdleTime>5</IdleTime>
+					</ScreenSaver>
+				</DisplayOptions>
+			</OSDServiceConfig>
+
+			<FirmwareImageConfig Dirty="CLEAN">
+				<NewImageName></NewImageName>
+				<NewVersion></NewVersion>
+			</FirmwareImageConfig>
+			<!-- Log Levels TRACE, DEBUG, INFO, WARN, ERROR -->
+			<SystemLogConfig Dirty="CLEAN">
+	      		<Level>INFO</Level>
+	   		</SystemLogConfig>
+		</SystemElementsConfig>
+
+		<ServiceElementsConfig>
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+				<HTTPPort></HTTPPort>
+			</HTTPServiceConfig>
+
+
+			<SNMPServiceConfig Dirty="CLEAN">
+				<EnableSNP>false</EnableSNP>
+				<Username>false</Username>
+				<AuthPassword>false</AuthPassword>
+				<PrivatePassword>false</PrivatePassword>
+				<TrapDestination></TrapDestination>
+			</SNMPServiceConfig>
+
+			<WebSlidesServiceConfig>
+				<AutoRefreshInterval>Manual</AutoRefreshInterval> <!-- 10/20/30/45/60/90 -->
+				<AccessPassword>
+					<Enable>false</Enable>
+					<Mode>SameAsCode</Mode>
+					<Code></Code>
+				</AccessPassword>
+			</WebSlidesServiceConfig>
+
+			<SSHServiceConfig Dirty="CLEAN">
+				<EnableSSH>true</EnableSSH>
+			</SSHServiceConfig>
+
+
+			<EDPAgentServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<EDPMessageBusInfo>0.0.0.0</EDPMessageBusInfo>
+				<DeviceName>UserId</DeviceName>
+				<DevicePassword>secret</DevicePassword>
+				<Domain>default</Domain>
+				<ServiceDomain>default</ServiceDomain>
+
+				<AgentList>
+					<AgentServiceConfigAgentConfig Dirty="CLEAN">
+						<Enable>true</Enable>
+						<DeviceServiceInfo></DeviceServiceInfo>
+					</AgentServiceConfigAgentConfig>
+
+					<AgentServiceSourceAgentConfig Dirty="CLEAN">
+						<Enable></Enable>
+						<StreamServiceInfo></StreamServiceInfo>
+					</AgentServiceSourceAgentConfig>
+
+					<AgentServiceDestinationAgentConfig
+						Dirty="CLEAN">
+						<Enable></Enable>
+						<StreamServiceInfo></StreamServiceInfo>
+					</AgentServiceDestinationAgentConfig>
+
+				</AgentList>
+			</EDPAgentServiceConfig>
+
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName>WiPG2000</HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP>0.0.0.0</DNSServerIP>
+				<UseAsWifiName></UseAsWifiName>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway>192.168.1.254</Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+
+			<HostTableConfig Dirty="CLEAN">
+				<HostEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</HostEntry>
+			</HostTableConfig>
+
+			<NATZoneTableConfig Dirty="CLEAN">
+				<NATZoneEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</NATZoneEntry>
+			</NATZoneTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+			<WiFiConfig>
+				<Enable>false</Enable>
+				<ModeConfig>
+					<Mode>AccessPoint</Mode> <!-- AccessPoint/Station/Both -->
+					<AccessPointMode>
+						<SSID>WiPG-2000-04E</SSID>
+						<Region>WORLDWIDE</Region>
+						<EnableSSIDBroadCast>true</EnableSSIDBroadCast>
+						<Mode>802.11 B/G/N mixed</Mode>
+						<Channel>Auto</Channel>
+						<Encryption></Encryption>
+						<Key></Key>
+						<ChannelBandwidth>Auto</ChannelBandwidth>
+					</AccessPointMode>
+
+					<StationMode>
+						<ConnectToSSID>WiPG-2000-04E</ConnectToSSID>
+						<Encryption></Encryption>
+						<Key></Key>
+					</StationMode>
+
+				</ModeConfig>
+
+			</WiFiConfig>
+		</NetworkElementsConfig>
+
+		<AVCodecElementsConfig>
+			<WiPGPortConfig Dirty="CLEAN">
+				<PortID>1</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+
+				<Info Dirty="CLEAN">
+					<StreamType>MirrorOp</StreamType>
+					<Configurable></Configurable>
+					<PortIOType>StreamDst</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+
+				<MirrorOpDecoderVideoConfig Dirty="CLEAN" /> <!-- TBD -->
+
+			</WiPGPortConfig>
+			<WiPGPortConfig Dirty="CLEAN">
+				<PortID>2</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+
+				<Info Dirty="CLEAN">
+					<StreamType>MirrorOp</StreamType>
+					<Configurable></Configurable>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+
+				<MirrorOpEncoderVideoConfig Dirty="CLEAN">
+					<DemandScale>false</DemandScale>
+					<CodecType>auto</CodecType>
+					<AspectRatioType></AspectRatioType>
+					<DeOverscanWidth></DeOverscanWidth>
+					<PreBufTime></PreBufTime>
+					<AudioProjection></AudioProjection>
+					<JpegQuality>85</JpegQuality>
+					<MaxFPS>30</MaxFPS>
+					<ChangeColorDepth>false</ChangeColorDepth>
+					<ImageScaler>soft</ImageScaler>
+					<IgnoreNCC>false</IgnoreNCC>
+					<CapLayer>false</CapLayer>
+					<DisableAccel>false</DisableAccel>
+					<ChangeDisplay>false</ChangeDisplay>
+					<RotationAngle>0</RotationAngle>
+					<DeviceDiscover>false</DeviceDiscover>
+					<LoginCode>1234</LoginCode>
+					<LogLevel>FATAL</LogLevel>
+					<LogAppend>false</LogAppend>
+					<AudioProjectionSampleRate>44100</AudioProjectionSampleRate>
+					<AudioProjectionChannelNum>2</AudioProjectionChannelNum>
+					<AudioProjectionBitsPerSample>2</AudioProjectionBitsPerSample>
+					<ExtendedDesktop>0</ExtendedDesktop>
+				</MirrorOpEncoderVideoConfig>
+
+			</WiPGPortConfig>
+		</AVCodecElementsConfig>
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<SystemElementsStatus State="OK">
+			<SoftwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SoftwareImageStatus>
+
+			<LicenseStatus>
+				<LicenseInfo>
+					<ProductID></ProductID>
+					<Company></Company>
+					<Key></Key>
+				</LicenseInfo>
+
+				<LicensePack>
+					<Name></Name>
+					<ValidUntil></ValidUntil>
+					<Value></Value>
+					<Key></Key>
+				</LicensePack>
+			</LicenseStatus>
+
+			<CPUStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</CPUStatus>
+
+			<MemoryStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</MemoryStatus>
+
+			<SystemHWStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemHWStatus>
+
+			<SystemClockStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemClockStatus>
+
+			<FirmwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</FirmwareImageStatus>
+			<IdentifyStatus>
+			<Parameters>
+				<Parameter name="identifying"></Parameter>
+			</Parameters>
+		</IdentifyStatus>
+		</SystemElementsStatus>
+
+		<ServiceElementsStatus State="OK">
+			<HTTPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HTTPServiceStatus>
+
+			<SSHServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SSHServiceStatus>
+
+			<WebSlideServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</WebSlideServiceStatus>
+
+			<SNMPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SNMPServiceStatus>
+
+			<EDPAgentServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+
+				<AgentList>
+					<AgentServiceConfigAgentStatus
+						Queryable="true">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</AgentServiceConfigAgentStatus>
+
+					<AgentServiceSourceAgentStatus
+						Queryable="true" State="OK">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</AgentServiceSourceAgentStatus>
+
+					<AgentServiceXAuthAgentStatus
+						Queryable="true" State="OK">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</AgentServiceXAuthAgentStatus>
+				</AgentList>
+			</EDPAgentServiceStatus>
+		</ServiceElementsStatus>
+
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+			<WiFiStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</WiFiStatus>
+		</NetworkElementsStatus>
+
+		<AVCodecElementsStatus State="OK">
+			<WiPGPortStatus State="OK">
+				<PortID>1</PortID>
+
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+
+				<MirrorOpDecoderrVideoStatus>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</MirrorOpDecoderrVideoStatus>
+
+
+			</WiPGPortStatus>
+			<WiPGPortStatus State="OK">
+				<PortID>2</PortID>
+
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+
+				<MirrorOpEncoderVideoStatus>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</MirrorOpEncoderVideoStatus>
+
+
+			</WiPGPortStatus>
+		</AVCodecElementsStatus>
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<SaveToFlashCommand></SaveToFlashCommand>
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</WiPG-2000-Device>

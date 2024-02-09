@@ -1,0 +1,95 @@
+(: #include XQueryLib.xml :)
+(: ------------------- Begin TargetObjectLib.xml -------------------- :)
+
+
+(:Create the request document for target object :)
+declare function local:createRequestDoc() 
+as element()* {
+let $userJID := '_USERJID_'
+let $userName := tokenize($userJID, "@")[1]
+let $resourceTitle := tokenize($userJID, "/")[2]
+let $userDoc := (
+	for $user in index-scan('IPVSis_colnids_default', 'default.userlist', 'EQ')/..
+	where $user/Username = $userName	
+	return $user
+)
+let $resourceDoc := ( 
+        for $resource in index-scan('IPVSis_colnids_default', 'default.assetresourcelist', 'EQ')/..
+    	where $resource/Info/Title = $resourceTitle	
+	return $resource
+)
+
+return 
+   <TargetRequestDoc>
+    <Operator> 
+      <User> {$userDoc} </User>
+      <Resource>{$resourceDoc} </Resource>
+    </Operator>
+   </TargetRequestDoc>
+ };
+
+
+(: Convert the given policy into xPath format :)
+declare function local:getPolicyRule($assetPolicyRule as element()*,$objectFilterList as element()*,$roleObjectList as element()*) as element()* {
+	  let $operatorXpath := local:getOperatorXpath($assetPolicyRule/ServiceOperatorFilterSet)
+	  let $operatorUserXpath := local:getUserOrResourceXpath($assetPolicyRule/ServiceOperatorFilterSet/ServiceOperatorFilter/UserFilterNID,'User')
+	  let $operatorResourceXpath := local:getUserOrResourceXpath($assetPolicyRule/ServiceOperatorFilterSet/ServiceOperatorFilter/ResourceFilterNID,'Resource')
+	  let $targetXpath := local:getTargetXpath($objectFilterList)
+	  let $operatorRuleKeyXpath := local:getOperatorOrSourceOrDestinationRuleKeyXpath($assetPolicyRule/RuleKeyTagFilterSet,"Operator")
+	  let $operatorXpath := local:addRuleKeyXPathWithOp($operatorXpath,$operatorRuleKeyXpath," and ")
+	  let $finalOperatorXpath := if ($operatorXpath = '' )  then '' 
+		                  else concat("//Operator[",$operatorXpath,"]") 
+	  let $targetRuleKeyList := local:getTargetRuleKeyList($assetPolicyRule/RuleKeyTagFilterSet)
+      return <PolicyRule>
+			<OperatorXpath> {$finalOperatorXpath} </OperatorXpath> 	
+			<OperatorUserXpath> {$operatorUserXpath} </OperatorUserXpath>
+			<OperatorResourceXpath> {$operatorResourceXpath} </OperatorResourceXpath>
+			<RoleList> {$roleObjectList} </RoleList> 
+			<Target>
+			    <XPath>{$targetXpath}</XPath>
+				{$targetRuleKeyList}
+			</Target>			  
+		   </PolicyRule>
+};
+
+declare function local:getUserOrResourceXpath($filerList as element()*,$objectType as xs:string)
+as xs:string  {	
+	let $empty :=""
+	let $xPath := string-join (  
+		            (for $filter in $filerList
+					    let $filterXPath :=  local:filterNIDToXPath($filter)
+				     where $filterXPath!= ''
+					 return concat('(',$filterXPath,')')
+		            )
+		            , " or " )  		
+	 let $xPath :=  concat("//" , local:generateResourceXpath($objectType,$xPath))
+	return 
+		$xPath
+};
+
+
+(:Returns the target xPath which applies on requested target object:)
+declare function local:getTargetXpath($objectFilterList as element()*)
+as xs:string  {
+	let $xPath := string-join (  
+		            (for $objectFilter in $objectFilterList
+					  let $targetXpath := local:filterNIDToXPath(data($objectFilter))
+		             where $targetXpath!='' 
+					 return concat("(",$targetXpath,")"))
+		            , " or " )  		
+	return 
+		$xPath
+};
+
+
+(: Returns the list of target rule key xpath.
+   if the rule key contains the Enum as SERVICE_RULE_TARGET_OBJECT return list else return empty :)
+declare function local:getTargetRuleKeyList($ruleKeyFilterSet as element()*)
+as element()*
+{
+	let $targetObjectFilter :=  'SERVICE_RULE_TARGET_OBJECT'
+	let $ruleKeyXpath := local:getRuleKeyList($ruleKeyFilterSet,$targetObjectFilter,'')
+	return <RuleKeyList> { $ruleKeyXpath } </RuleKeyList>
+}; 
+
+(: ------------------- End TargetObjectLib.xml -------------------- :)

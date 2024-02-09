@@ -1,0 +1,130 @@
+declare function local:getFileInfo( $b as element()*, $dir_list as element()*, $detail as xs:string)
+as element ()*
+{
+   let $fileInfo :=   <File NID='{ data($b/@NID) }'
+				          title='{ data($b//Info/Title) }'
+				          fileType='{ data($b//MediaStoreFileInfo/Type) }' 
+				          streamType='{ data($b//Info/StreamTypeList/StreamType) }' 
+				          size='{ data($b//Size) }' 
+				          playlength ='{ data($b//PlayLength) }'
+				          state='{ data($b//State/StateFlag) }'
+				          dateCreated='{ data($b/Info/Properties/DateCreated) }'
+				          dateModified='{ data($b/Info/Properties/DateModified) }'
+				          readOnly='{if (data($b/Info/Properties/Permissions/Write) = 'true') then 'false' else 'true'}'
+				          mediaGroupID='{ data($b//MediaStoreFileInfo/MediaGroupID) }' 
+				          clipID='{ data($b//MediaGroupID/@ClipID) }'
+				          sessionConfigNID='{ data($b//RecInfo/@SessionConfigNID) }'
+				      >   
+						 { if ($detail = 'EXTENDED') then
+						          <description>{ data($b//Info/Description) }</description> 
+							else  ''
+						 }
+					
+						 { if ($detail = 'EXTENDED') then
+						          $b//Info/MediaStoreFileInfo/MetaData
+							else  ''
+						  }
+						  { if ($detail = 'EXTENDED') then
+						           <Dir NID='{data($b//ParentMediaDirNID)}' dirTitle = '{$dir_list[@NID=$b//ParentMediaDirNID]//Title}' />
+							else  ''
+						  }
+					     {$b//Info/Groups}
+				     </File> 
+   return $fileInfo
+};
+ 
+declare function local:geOrphanFilesInfo( $b as element()*,$mediaGroupID as xs:string, $dir_list as element()*,$detail as xs:string)
+as element ()*
+{
+ 
+   let $mediaGroupInfo := <File NID='' 
+								 title='ORPHANED_MEDIA_GROUP_FILE' 
+								 fileType='MediaGroup' 
+								 streamType='' 
+								 size='0' 
+								 playlength ='0'
+								 state='Ready' 
+								 dateCreated='' 
+								 dateModified='' 
+								 readOnly='false' 
+								 mediaGroupID='{$mediaGroupID}' 
+								 clipID=''
+								 sessionConfigNID=''
+						   >          
+						  {
+								 if ($detail = 'EXTENDED') then
+										  <description></description> 
+								 else  ''
+							   }
+
+							   { 
+								 if ($detail = 'EXTENDED') then
+										  <MetaData/>
+								 else  ''
+							   }
+							   { if ($detail = 'EXTENDED') then
+									   <Dir NID='' dirTitle = '' />
+								 else  ''
+							   }
+							  <FileList>{ 
+												for $file in $b//MediaStreamFileResource where 
+													 $file//MediaGroupID=$mediaGroupID
+												return local:getFileInfo($file, $dir_list, $detail) 
+										}
+							  </FileList>
+						  </File> 
+  return $mediaGroupInfo
+  
+};
+ 
+declare function local:getList()
+as element()*
+{
+ 	
+    (: find list of media groups id from the existing media groups:)
+   let $group_id_in_the_system := distinct-values ( 
+									   for $b in   #OBJ_MediaStreamFileResource_OBJ#  
+									   where $b[  ( Info/MediaStoreFileInfo/Type='MediaGroup')]  
+									   return $b/Info/MediaStoreFileInfo/MediaGroupID ) 
+
+	(: find list of media clips where media group id's are not matching with media group id's  :) 
+   let $list2 := for $b in  #OBJ_MediaStreamFileResource_OBJ#       
+					   where $b[  (.//MediaStoreFileInfo/Type = 'MediaClip') 
+					            and not(Info/MediaStoreFileInfo/MediaGroupID='') 					            
+								and  not (Info/MediaStoreFileInfo/MediaGroupID=$group_id_in_the_system  _FILEXPATH_)  
+					  ]       
+					  order by  ($b//DateCreated/number(.)) descending    return $b    
+
+   let $unique_mg_id := distinct-values ($list2//MediaStoreFileInfo//MediaGroupID)
+ 
+  	  
+   let $file_list :=  for $mediaGroupID in $unique_mg_id 
+                          return <MediaGroup id='{$mediaGroupID}'>
+						          {for $file in $list2
+								    where $file//MediaGroupID=$mediaGroupID
+								   return $file}
+								 </MediaGroup>
+   return $file_list
+};
+ 
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+ let $item := $b
+ return $item
+};
+ 
+declare function local:formatList($b as element()*, $detail as xs:string) {
+ 
+ let $unique_mg_id := distinct-values ($b//MediaStoreFileInfo//MediaGroupID)
+ 
+ let $dir_list :=  if ($detail = 'EXTENDED') then 
+					  let $dir_nid_list := if (count($b) = 0 ) then ''
+					 					   else  distinct-values($b//ParentMediaDirNID)
+										   return 
+										   for $dir in  #OBJ_MediaStreamDirResource_OBJ# 
+											  where $dir/@NID=$dir_nid_list  return $dir 
+	              else 
+				     <DirList/>		  
+ let $file_list :=    for $mediaGroupID in $unique_mg_id 
+                      return local:geOrphanFilesInfo($b, $mediaGroupID,$dir_list, $detail)    			  
+ return $file_list
+};

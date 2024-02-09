@@ -1,0 +1,149 @@
+﻿<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkNASTable" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkNASTable" jsxmargin="0 4 0 0" jsxvalue="" jsxdisplay="none" jsxcdfattribute="DirtyBitblkNASTable"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="blkLayout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <dynamics jsxbgcolor="P4BG"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.WindowBar">
+          <variants jsxbartype="1"></variants>
+          <strings jsxname="windowBar" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H1BG.png);"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="5" jsxtop="6"></variants>
+            <strings jsxname="lblNASTable" jsxtext="NAS Config" jsxdisplay="" jsxfontweight="bold" jsxcolor="#fff;"></strings>
+            <dynamics jsxfontsize="SmallText"></dynamics>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxbgcolor=""></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="20" jsxtop="40" jsxheight="300" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxwidth="90%" jsxname="blkNAS" jsxbgcolor="" jsxborder="solid 1px #a9a9a9;"></strings>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="layout (--)" jsxrows="24,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H2BG.png);" jsxbgcolor="" jsxborder="border-bottom: solid 1px #a9a9a9;" jsxtextalign="right"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="4" jsxfontsize="12"></variants>
+                <strings jsxname="label" jsxtext="NAS Config Table" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="20" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="1"></variants>
+                <strings jsxname="imgbtnAddNASEntry" jsxtext="" jsximage="images/buttons/add.png" jsxoverimage="images/buttons/add.png" jsxdownimage="images/buttons/add.png" jsxonimage="images/buttons/add.png" jsxdisabledimage="" jsxtip="Add"></strings>
+                <events jsxexecute="alert('Execute');"></events>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="20" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="1"></variants>
+                <strings jsxname="imgbtnDeleteNASEntry" jsxtext="" jsximage="images/buttons/del.png" jsxoverimage="images/buttons/del.png" jsxdownimage="images/buttons/del.png" jsxonimage="images/buttons/del.png" jsxdisabledimage="" jsxtip="Delete"></strings>
+                <events jsxexecute="alert('Execute');"></events>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkNASList" jsxwidth="100%" jsxheight="100%"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppressvscroll="1"></variants>
+                <strings jsxname="mtxNASTable" jsxbgcolor="#f5f5f5" jsxfocusstyle="font-weight:bold;"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="70"></variants>
+                  <strings jsxname="jsxDirtyBit" jsxtext="State" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxDirtyBit"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="40"></variants>
+                  <strings jsxname="jsxListIndex" jsxtext="ListIndex" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxListIndex" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="75"></variants>
+                  <strings jsxname="jsxMediaStoreName" jsxtext="ID" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxMediaStoreName" jsxdisplay=""></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxMediaStoreName" jsxdisplay="none"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="45"></variants>
+                  <strings jsxname="jsxEnable" jsxtext="Enable" jsxpath="jsxEnable" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="jsxEnable" jsxtext="" jsxcdfattribute="jsxEnable"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxServer" jsxwidth="*" jsxtext="NFS Server IP Address" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxServer"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxServer" jsxdisplay="none"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxRemoteDir" jsxwidth="*" jsxtext="NFS Mount Path" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxRemoteDir"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxRemoteDir" jsxdisplay="none"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="63"></variants>
+                  <strings jsxname="jsxReadOnly" jsxtext="ReadOnly" jsxpath="jsxReadOnly" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="jsxReadOnly" jsxtext="" jsxcdfattribute="jsxReadOnly"></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxMediaStoreRootDirPath" jsxwidth="*" jsxtext="MediaStore RootDir Path" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxMediaStoreRootDirPath" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxMediaStoreRootDirPath" jsxdisplay="none"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants></variants>
+              <strings jsxname="blkNASFooter" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf;" jsxborder="border-top: solid 1px #a9a9a9;" jsxpadding="6 0 0 8"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                <strings jsxname="label" jsxtext="The fields are editable. You can edit the field values by clicking on them." jsxdisplay=""></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,43 @@
+<GetDynamicDeviceStatusRequest>
+	<GetDynamicDeviceStatusRequestData>
+		<GetDynamicDeviceStatus selectFormat='RAW'/>
+	</GetDynamicDeviceStatusRequestData>
+	<GetDynamicDeviceStatusResponseData>
+		<GetDynamicDeviceStatus>
+			<DeviceStatus Dirty="CLEAN">
+				<SystemElementsStatus Dirty="CLEAN">
+					<!-- Choice of device specific System Status -->
+				</SystemElementsStatus>
+				<ServiceElementsStatus Dirty="CLEAN">
+					<!-- Choice of device specific Services status -->
+				</ServiceElementsStatus>
+				<NetworkElementsStatus Dirty="CLEAN">
+					<NATZoneTableStatus Queryable="true" State="OK">
+						<ParametersList>
+							<Parameters>
+								<Parameter name="" type="Float" units="" source=""></Parameter>
+							</Parameters>
+						</ParametersList>
+					</NATZoneTableStatus>
+					<EthernetPortTableStatus>
+						<EthernetPortStatus Queryable="true" State="OK">
+							<ParametersList>
+								<Parameters>
+									<Parameter name="" type="Float" units="" source=""></Parameter>
+								</Parameters>
+							</ParametersList>
+						</EthernetPortStatus>
+					</EthernetPortTableStatus>
+					<!-- Network Status Common for all devices -->
+				</NetworkElementsStatus>
+				<StorageElementsStatus Dirty="CLEAN">
+					<!-- Common for all DMS and MS Devices -->
+				</StorageElementsStatus>
+				<AVCodecElementsStatus Dirty="CLEAN">
+					<!-- Choice of device specific AVCodec Elements -->
+				</AVCodecElementsStatus>
+			</DeviceStatus>
+		</GetDynamicDeviceStatus>
+	</GetDynamicDeviceStatusResponseData>
+	<GetDynamicDeviceStatusExceptionCodes />
+</GetDynamicDeviceStatusRequest>

@@ -1,0 +1,302 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/deviceinterface",
+    "resourcePath": "DeviceInit",
+    "apis": [
+        {
+            "path": "/DeviceInit",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Give the current SC initialization settings on the device",
+                    "notes": "Give the current SC initialization settings on the device",
+                    "responseClass": "EDPInitResponse",
+                    "nickname": "getDeviceInit",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        }
+						
+						
+                        
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Update the current SC initialization settings on the device",
+                    "notes": "Update the current SC initialization settings on the device",
+                    "responseClass": "SetDeviceInitResponseData",
+                    "nickname": "setDeviceInit",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+					"consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },						
+                        {
+                            "name": "body",
+                            "description": "update a DeviceInit settings of EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetDeviceInit",
+                            "paramType": "body"
+                        }
+                        
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+			]
+		}
+	],
+	"models": 
+    {
+			"SetDeviceInit": {
+                "id": "SetDeviceInit",
+                "description": "Set a DeviceInit body",
+                "required": [
+                    "SetDeviceInit"
+                ],
+                "properties": {
+                    "SetDeviceInit": {
+                        "$ref": "SetDeviceInitReq"
+                    }
+                }
+            },
+            "EDPInitResponse": {
+                "id": "EDPInitResponse",
+                "description": "Response body of EDPInit",
+                "required": [
+                    "DeviceInit"
+                ],
+                "properties": {
+                    "DeviceInit": {
+                        "$ref": "DeviceInit"
+                    }
+                }
+            },
+            "SetDeviceInitResponseData": {
+                "id": "SetDeviceInitResponseData",
+                "description": "Response of SetDeviceInit",
+                "required": [
+                    "SetDeviceInitResponseData"
+                ],
+                "properties": {
+                   "SetDeviceInitResponseData": {
+                    "type": "string"
+                }
+                }
+            },
+            "SetDeviceInitReq": {
+                "id": "SetDeviceInitReq",
+                "description": "A basic set DeviceInit request",
+                "required": [
+                   
+                    "DeviceInit"
+                ],
+                "properties": {
+                    
+                    "DeviceInit": {
+                          "$ref": "DeviceInit"
+                    }
+                }
+            },
+			"DeviceInit": {
+                "id": "DeviceInit",
+                "description": "Set a DeviceInit request",
+                "required": [
+                    "NetworkConfig",
+					"RegionalSettings",
+					"NTPSettings",
+					"HASettings",
+					"@enableHttpMode",
+					"@deviceName",
+					"@password",
+					"KeyboardConfig",
+					"@autoRegister"
+					
+					
+                ],
+                "properties": {
+                    "NetworkConfig": {
+                        "$ref": "NetworkConfig"
+                    },
+					"RegionalSettings":{
+						"$ref":"RegionalSettings"
+					},
+					"HASettings":{
+						"$ref":"HASettings"
+					},
+					"NTPSettings": {
+                        "$ref": "NTPSettings"
+                    },
+					"@enableHttpMode": {
+                        "type": "boolean"
+                    },
+					"@deviceName": {
+                        "type": "string"
+                    }
+                    ,
+					"@password": {
+                        "type": "string"
+                    },
+					"KeyboardConfig":{
+						"$ref":"KeyboardConfig"
+					},
+					"@autoRegister": {
+                        "type": "boolean"
+                    }
+                }
+            },
+			"NetworkConfig": {
+                "id": "NetworkConfig",
+                "description": "a NetworkConfig request",
+                "required": [
+                    "@netmask",
+					"@useDHCP",
+					"@gateway",
+					"@ipAddress"					
+                ],
+                "properties": {
+                    "@netmask": {
+                        "type": "string"
+                    },
+					"@useDHCP": {
+                        "type": "boolean"
+                    },
+					"@gateway": {
+                        "type": "string"
+                    },
+					"@ipAddress": {
+                        "type": "string"
+                    }
+                }
+            },
+			"RegionalSettings": {
+                "id": "RegionalSettings",
+                "description": "a RegionalSettings request",
+                "required": [
+                    "@locale",
+					"@timezone"					
+                ],
+                "properties": {
+                    "@locale": {
+                        "type": "string"
+                    },
+					"@timezone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "HASettings": {
+                "id": "HASettings",
+                "description": "an HASettings request",
+                "required": [
+                    "@enableHA",
+					"@peerName",					
+					"@peerIP",
+					"@virtualIP"
+                ],
+                "properties": {
+                    "@enableHA": {
+                        "type": "string"
+                    },
+					"@peerName": {
+                        "type": "string"
+                    },
+                    "@peerIP": {
+                        "type": "string"
+                    },
+                    "@virtualIP": {
+                        "type": "string"
+                    }
+                }
+            },
+			"NTPSettings": {
+                "id": "NTPSettings",
+                "description": "a NTPSettings request",
+                "required": [
+                   
+					"@enableNTP",
+					"@ntpServerIp"
+					
+                ],
+                "properties": {
+                   	"@enableNTP": {
+                        "type": "boolean"
+                    },
+					"@ntpServerIp": {
+                        "type": "string"
+                    }
+                }
+            },
+			"KeyboardConfig": {
+                "id": "KeyboardConfig",
+                "description": "a KeyboardConfig request",
+                "required": [
+                   
+					"@variant",
+					"@layout"
+					
+                ],
+                "properties": {
+                   	"@variant": {
+                        "type": "string"
+                    },
+					"@layout": {
+                        "type": "string"
+                    }
+                }
+            }
+			
+	}
+}

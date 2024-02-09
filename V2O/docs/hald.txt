@@ -1,0 +1,151 @@
+The HALD daemon for XP100/XP200/XP220 
+=====================================
+
+WHAT IS HALD
+------------
+
+Hald is the daemon that monitors video and configuration
+changes on the XP100/XP200/XP220.  It is started on boot up 
+as part of the initialization scripts. It wakes up every 
+second and checks whether any of the following changed:
+
+    1. connection status,
+    2. audio and video queue limit, 
+    3. DVI mode configuration,
+    4. on TX, settings for optimize latency and I frame 
+       interval,
+    5. on RX, settings for sync polarity, keyboard icon
+       configuration, display configuration and chromakey
+       configuration,
+    6. input video to the TX and RX,
+    7. remote video on the RX,
+    8. board temperature on XP100s.
+
+Hald will then take appropriate actions when a change is 
+detected, e.g. turn on or off the LEDs on the front panel,
+reconfigure the FPGA or change fan speed.
+
+WHY DO WE NEED HALD
+-------------------
+
+Hald replaces the add- and drop-side processes that are part 
+of the I50 FPGA driver since devices such as the SII1178 DVI
+transmitter and the AD9988 analog video interface are accessed
+through the I2C bus and I2C drivers are implemented in user
+space on the XPs. As a result, all configuration changes that
+affect video or audio processing are also moved to hald to avoid 
+the need to coordinate changes among multiple processes (or
+between the kernel and a user process).
+
+HOW TO START AND STOP HALD
+--------------------------
+
+To start:
+
+    hald -b bno [-F] [-h]
+
+The -b option specifies the board number (0 or 1) for hald. The
+-F option, if present, runs hald in foreground. The -h option
+prints the help message.
+
+At the moment, the only way to stop the program is to send a
+SIGINT, SIGQUIT, SIGTERM or SIGKILL signal. The SIGPIPE and
+SIGHUP signals are ignored. The program exits immediately 
+after receiving SIGINT, SIGQUIT, SIGTERM or SIGKILL. No cleanup
+is done. So a reboot or some external action e.g. de-activating
+and re-activating the FPGA driver is necessary to clean up e.g.
+locks on add or dropside LUTs.
+
+
+DETAILS OF HALD OPERATION
+-------------------------
+
+When the XP100/200/220 system boots up, hald is started by the
+initialization scripts. It first determines if the system is
+an XP, if so, it does the following:
+
+On TX
+ 
+  . Initialize the connection LED to match the settings in
+    the driver,
+
+  . Check for changes in audio/video queue limit, I-frame 
+    interval, DVI mode, settings for optimize video latency
+    and output video sync polarities. Re-configures these
+    parameters in the driver if necessary.
+
+  . Check if input video changed, i.e. whether the following
+    bits are set in `FPGA_ISREG`: `AMHREG_CHANGE_BIT`,
+    `AMVREG_CHANGE_BIT`, `AMLREG_CHANGE_BIT`, `AMTREG_CHANGE_BIT`,
+    `AMDVIHREG_CHANGE_BIT`, `AMDVIVREG_CHANGE_BIT`, 
+    `AMDVILREG_CHANGE_BIT` and `AMDVITREG_CHANGE_BIT`. If so, 
+    .. Disable video output from the SII1178 and the FPGA,
+    .. If input is DVI, configure the board for dual- or single-
+       link to match the input,
+    .. If input is analog, configure the AD9888 to HV, SOG or
+       composite sync to match the input,
+    .. Do a lookup table match. 
+       ... If there's no LUT change, reset addside video DCM then 
+           take it out of reset. This will cause the video on the 
+           RX to be temporarily blacked out but will allow us to
+           recover from any of the video defects caused by the 
+           glitch on the input leading to the interrupt.
+       ... If a new LUT is found, re-program the SII1178 with the 
+           new pixel clock, and call the `FPGA_IOC_RESET_ADDSIDE` 
+           ioctl to reconfigure the addside video registers for
+           the new LUT.
+       ... If no matching LUT is found, reconfigure the addside
+           video registers for no video.
+    .. Re-enable video output from the SII1178 and the FPGA. The
+       disabling and re-enabling of video when the SII1178 and 
+       the FPGA is reconfigured ensures no un-stable video 
+       will be output during the process.
+
+  . On XP100, check for temperature change, decide if fan speed should
+    be changed. If so, set fan to new speed.
+
+On RX
+ 
+  . Check for changes in overlay and override parameters, settings
+    for audio/video queue limit, output sync polarities, keyboard/
+    mouse mode and keyboard/mouse icon. Re-configure these parameters
+    in the driver if necessary.
+
+  . Check if input video changed, i.e. whether the following
+    bits are set in `FPGA_ISREG`: `RXAMHREG_CHANGE_BIT`,
+    `RXAMVREG_CHANGE_BIT`, `RXAMLREG_CHANGE_BIT`, 
+    `RXAMTREG_CHANGE_BIT`, `RXAMDVIHREG_CHANGE_BIT`, 
+    `RXAMDVIVREG_CHANGE_BIT`, `RXAMDVILREG_CHANGE_BIT` and 
+    `RXAMDVITREG_CHANGE_BIT`. If so, 
+    .. Do a lookup table match. 
+       ... If there's no LUT change, do nothing,
+       ... If a new LUT is found, reconfigure overlay parameters, 
+           reconfigure genlock and stereo parameters if display
+           is configured as remote, re-program the SII1178 to 
+           the new pixel clock, turn off frame sync for 2 seconds,
+           turn off `LOCALRESET` in the driver and call the 
+           `FPGA_IOC_RESET_DROPSIDE` to reconfigure the FPGA.
+       ... If no matching LUT is found, switch to remote mode,
+           reconfigure overlay parameters, reconfigure genlock
+           and stereo parameters, re-program the SII1178 
+           to the new pixel clock, turn on frame sync for
+           2 seconds, turn on `LOCALRESET` in the driver and 
+           call the `FPGA_IOC_RESET_DROPSIDE` to reconfigure 
+           the FPGA.
+
+  . Check if dropside video changed, i.e. whether the 
+    `current_dropside_lut` variable in the driver is pointing to
+    a new LUT entry and if display is in remote mode, whether 
+    genlock mode and stereo settings changed. If so,
+    .. Re-compute overlay and/or override parameters,
+    .. If display is in local or overlay mode, turn off 
+       `LOCALRESET` in the driver and call the 
+       `FPGA_IOC_RESET_DROPSIDE` to reconfigure the FPGA.
+    .. If display is in remote mode, re-program the SII1178 
+       to the new pixel clock, turn off frame sync for 2 seconds, 
+       turn on `LOCALRESET` in the driver and call the 
+       `FPGA_IOC_RESET_DROPSIDE` to reconfigure the FPGA.
+
+  . On XP100, check for temperature change, decide if fan speed should
+    be changed. If so, set fan to new speed.
+

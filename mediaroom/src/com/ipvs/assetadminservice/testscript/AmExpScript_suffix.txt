@@ -1,0 +1,48 @@
+
+if { $dummy } {
+	dummy_database_teardown $g_msusername $msuserid
+}
+doputs 1 "################# END ###################"
+#pass_if [mediaroom_login_teardown $adminuserid] "LoginTeardown $g_deviceusername"
+
+
+#foreach { hashKey hashValue } [array get masterTable ] {
+#	puts "hashKey   '$hashKey'  $hashValue "  
+#}
+
+
+#
+#set userid "parvin"
+#set requestActionID "AR.Add_BASE_ALL_3"
+#
+#set valdidateResult "must_success"
+#set checkResponseName "case_name_pass_1"
+#set adminuserid $userid
+#executeRequestAction_fromFile  $xmlScript_AssetResource $requestActionID  $adminuserid  $valdidateResult $checkResponseName gblVariableList functVariableList XpathDefList 
+
+#puts "\n########## gblVariableList"
+#foreach { hashKey hashValue } [array get gblVariableList ] {
+#	#puts "\n gblVariableList  read $hashKey = $hashValue"
+#	if { [ isResolveVarNeeded $hashValue  ] == 1 } {
+#		set value [ resolveVar  $hashValue gblVariableList functVariableList  ]
+#		#set ret [ getVar $debugKey $ret gblVariableList $level ]
+#		puts "resolveVar   '$value'  $hashValue "  
+#	}
+#}
+#
+#return 
+
+#set use_dummy_database 1
+#set username "miyertest"
+#doLogin $use_dummy_database $username $username userid rootNID
+#executeXmlScript2 "mytestscirpt1" $xmlScript_AssetResource $userid $rootNID
+
+
+
+
+
+
+
+
+
+after 1000

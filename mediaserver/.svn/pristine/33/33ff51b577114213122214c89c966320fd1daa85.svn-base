@@ -1,0 +1,24 @@
+
+$ModLoad imklog
+$ConsoleLogLevel 6
+
+# Watchdogpipe will monitor anything at LOG_EMERG
+*.=emerg				|/tmp/watchdogpipe
+
+# Alertpipe will monitor LOG_ALERT,LOG_CRIT,LOG_ERR,LOG_WARN
+#*.warn:*.!emerg				|/tmp/alertpipe
+*.=crit					|/tmp/alertpipe
+
+# Archive anything of level LOG_NOTICE or higher - this will get rotated
+*.notice				/var/log/messages
+local7.debug				/var/log/messages
+kern.debug				/var/log/messages
+
+# In addition system software messages are presisted on the system
+local6.notice				/var/log/persistmessages
+
+# Statpipe will monitor anything at LOG_INFO
+*.=info					|/tmp/statpipe
+
+# Everything goes to debugpipe
+*.*					|/tmp/debugpipe

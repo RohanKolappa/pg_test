@@ -1,0 +1,108 @@
+
+
+KERNEL_DIR := /home/rahul/arm-linux/linux-2.4.19
+
+#INCLUDE := -I ${KERNEL_DIR}/include -I /usr/local/arm-linux/include
+INCLUDE := -isystem ${KERNEL_DIR}/include
+UTIL_INCLUDE := -I /usr/local/arm-linux/include
+
+WARNFLAGS    := -Wall -Wstrict-prototypes -Wmissing-prototypes
+OPTFLAGS     := -Os
+ARMFLAGS     := -fno-strict-aliasing -fno-common -Uarm -pipe -mapcs-32 -march=armv4 -mtune=strongarm110 -mshort-load-bytes -msoft-float ${HARDWAREFLAGS}
+DEFFLAGS := -DMODULE -D__KERNEL__
+
+MOD_FLAGS  := ${DEFFLAGS} ${WARNFLAGS} ${OPTFLAGS} ${ARMFLAGS} ${INCLUDE}
+UTIL_FLAGS  :=  ${WARNFLAGS} ${OPTFLAGS} ${ARMFLAGS} ${INCLUDE} ${UTIL_INCLUDE}
+
+
+
+CROSS = arm-linux-
+CC = $(CROSS)gcc
+AR = $(CROSS)ar
+LD = $(CROSS)ld
+STRIP = $(CROSS)strip
+
+OBJS    := ${patsubst %.c, %.o, ${wildcard *.c}}
+
+MOD_OBJS := 	fpga.o \
+	    	fpga_control.o \
+	    	led_control.o \
+	    	log_control.o \
+	    	ad9852dds.o \
+		fpga_interrupt.o \
+		ad9888vif.o \
+		lut_table.o \
+		id18125fifo.o \
+		eeprom.o \
+		flan.o \
+		pm5315framer.o
+
+MOD_SRCS    := ${patsubst %.o, %.c, ${MOD_OBJS}}
+
+UTIL_OBJS :=	vmain.o \
+		loadlut.o \
+		loadnet.o \
+		custmenu.o \
+		configureLUT.o \
+		configureDrivers.o \
+		configureSystem.o \
+		configureNetwork.o \
+		dreg.o \
+		vlog.o \
+		menuutils.o \
+		mtdutils.o \
+		commonutils.o
+
+
+UTIL_SRCS    := ${patsubst %.o, %.c, ${UTIL_OBJS}}
+
+.PHONY: clean
+
+all:  fpga_module.o vutils
+
+fpga_module.o: ${MOD_OBJS}
+	${LD} -r -o $@ ${MOD_OBJS} -L /home/rahul/arm-linux/libfloat -lfloat
+#	${LD} -r -o $@ ${MOD_OBJS} -L /usr/local/lib/gcc-lib/arm-linux/2.95.3/ -lgcc
+
+vutils: ${UTIL_OBJS}
+	${CC} --static -o $@ ${UTIL_OBJS} -L /home/rahul/arm-linux/libfloat -lfloat -lmenu -lform -lcdk -lncurses -lm
+	${STRIP} $@
+clean:
+	/bin/rm -f ${MOD_OBJS} ${UTIL_OBJS} fpga_module.o vutils
+
+distclean: clean
+	/bin/rm -f TAGS *~ tut *.bak
+
+tags:
+	etags ${MOD_SRCS} ${UTIL_SRCS}
+
+${MOD_OBJS} ${UTIL_OBJS}: Makefile
+
+${MOD_OBJS}: %.o: %.c
+	${CC} ${MOD_FLAGS} -c -o $@ $< 
+
+${UTIL_OBJS}: %.o: %.c
+	${CC} ${UTIL_FLAGS} -c -o $@ $< 
+
+
+#MODDIR := ../modules
+#ROOTFSDIR := /home/rahul/arm-linux/root-fs/config
+#BINDIR := ../bin
+
+#install: ${MODDIR}/fpga_module.o ${BINDIR}/vutils
+
+#${MODDIR}/fpga_module.o: fpga_module.o
+#	cp -f fpga_module.o ${MODDIR}
+#	cp -f fpga_module.o ${ROOTFSDIR}
+
+#${BINDIR}/vutils: vutils
+#	cp -f vutils ${BINDIR}
+#	cp -f vutils ${ROOTFSDIR}
+
+depend: 
+	mkdep ${MOD_FLAGS} ${MOD_SRCS}
+	mkdep -a ${UTIL_FLAGS} ${UTIL_SRCS}
+.depend:
+	touch .depend
+
+include .depend

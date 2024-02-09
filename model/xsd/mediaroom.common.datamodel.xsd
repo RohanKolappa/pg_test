@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.public.xsd" />
+  <xs:element name="TBD">
+    <xs:complexType>
+      <xs:anyAttribute />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="PropertiesType">
+    <xs:sequence>
+      <xs:element name="Owner" type="XMPPBareJID" />
+      <xs:element name="DateCreated" type="xs:dateTime" />
+      <xs:element name="DateModified" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PermissionsType">
+    <xs:sequence>
+      <xs:element name="Read" type="xs:boolean" />
+      <xs:element name="Write" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NIDListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NIDItem">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="NIDValue" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NIDType">
+    <xs:sequence>
+      <xs:element name="NIDValue" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="EscapeCharEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Esc" />
+      <xs:enumeration value="Tab" />
+      <xs:enumeration value="CapsLock" />
+      <xs:enumeration value="LShift" />
+      <xs:enumeration value="LCtrl" />
+      <xs:enumeration value="LMeta" />
+      <xs:enumeration value="LAlt" />
+      <xs:enumeration value="RShift" />
+      <xs:enumeration value="RCtrl" />
+      <xs:enumeration value="RAlt" />
+      <xs:enumeration value="Insert" />
+      <xs:enumeration value="Delete" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="IconColorEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Black" />
+      <xs:enumeration value="White" />
+      <xs:enumeration value="Gray" />
+      <xs:enumeration value="Red" />
+      <xs:enumeration value="Green" />
+      <xs:enumeration value="Blue" />
+      <xs:enumeration value="Yellow" />
+      <xs:enumeration value="Magenta" />
+      <xs:enumeration value="Cyan" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StreamTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V2D" />
+      <xs:enumeration value="MPEGTS" />
+      <xs:enumeration value="UDP" />
+      <xs:enumeration value="RTP" />
+      <xs:enumeration value="VNC" />
+      <xs:enumeration value="FileXfer" />
+      <xs:enumeration value="DVI" />
+      <xs:enumeration value="RTP-RAW" />
+      <xs:enumeration value="RTP-PCM" />
+      <xs:enumeration value="RFB" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BasebandTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DP" />
+      <xs:enumeration value="DVI" />
+       <xs:enumeration value="HDSDI" />
+        <xs:enumeration value="ANA" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PortIOTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="StreamSrc" />
+      <xs:enumeration value="StreamDst" />
+      <xs:enumeration value="StreamIO" />
+      <xs:enumeration value="StreamRelay" />
+      <xs:enumeration value="StreamGroup" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DVIModeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Auto" />
+      <xs:enumeration value="LUT" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="KBMModeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Remote" />
+      <xs:enumeration value="Local" />
+      <xs:enumeration value="Control" />
+    </xs:restriction>
+  </xs:simpleType> 
+  <xs:simpleType name="MRNIDType">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:attributeGroup name="AutoNID">
+    <xs:attribute name="NID" type="xs:string" use="required" />
+    <xs:attribute name="parentNID" type="xs:string" use="required" />
+  </xs:attributeGroup>
+  <xs:attributeGroup name="DomainRootNID">
+    <xs:attribute fixed="MEDIAROOM.SERVICE.DOMAIN.KEYVAL" name="NIDScheme" type="xs:string" use="required" />
+    <xs:attribute name="NID" type="xs:string" use="required" />
+  </xs:attributeGroup>
+  <xs:attributeGroup name="Dirty">
+    <xs:attribute name="Dirty" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ERROR" />
+          <xs:enumeration value="ADD" />
+          <xs:enumeration value="UPDATE" />
+          <xs:enumeration value="DELETE" />
+          <xs:enumeration value="CLEAN" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="State">
+    <xs:attribute name="State" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="OK" />
+          <xs:enumeration value="ERRORS" />
+          <xs:enumeration value="FAILED" />
+          <xs:enumeration value="INACTIVE" />
+          <xs:enumeration value="ACTIVE" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="Queryable">
+    <xs:attribute fixed="true" name="Queryable" type="xs:boolean" use="required" />
+  </xs:attributeGroup>
+  <xs:attributeGroup name="ListIndex">
+    <xs:attribute name="ListIndex" type="xs:int" use="required" />
+  </xs:attributeGroup>
+  <xs:attributeGroup name="Device-Revision">
+    <xs:attribute name="Rev" type="xs:int" use="required" />
+    <xs:attribute default="false" name="Synched" type="xs:boolean" />
+  </xs:attributeGroup>
+  <xs:simpleType name="XMPPDisplayName">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:simpleType name="XMPPFullJID">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:simpleType name="XMPPBareJID">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:simpleType name="XMPPResource">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:simpleType name="XMPPPresenceEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="available" />
+      <xs:enumeration value="unavailable" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TargetPortTableConfig" type="TargetPortTableElementConfigType" />
+  <xs:complexType name="TargetPortTableElementConfigType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" ref="TargetPortEntry" />
+    </xs:sequence>
+    <xs:attribute name="Configurable" type="xs:boolean" />
+    <xs:attributeGroup ref="Dirty" />
+  </xs:complexType>
+  <xs:element name="TargetPortEntry" type="TargetPortEntryType" />
+  <xs:complexType name="TargetPortEntryType">
+    <xs:attribute name="Title" type="xs:string" />
+    <xs:attributeGroup ref="Dirty" />
+    <xs:attributeGroup ref="ListIndex" />
+  </xs:complexType>
+  <xs:element name="ParametersList" type="StatusParametersListType" />
+  <xs:complexType name="StatusParametersListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="Parameters" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Parameters" type="StatusParametersType" />
+  <xs:complexType name="StatusParametersType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="Parameter" />
+    </xs:sequence>
+  </xs:complexType>
+ 
+</xs:schema>
+

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- TEST line -->
+<project basedir="." default="build" name="objectxml">
+	<property name="output" value="objectxml.jar"/>
+    <target name="clean">
+        <delete dir="build"/>
+        <delete file="migration.tar"/>
+        <delete file="objectxml.jar"/>
+    	<delete dir="work"/>
+    </target>
+
+    <target depends="clean" name="cleanall"/>
+
+    <target name="init" depends="clean">
+        <mkdir dir="build/com/ipvs/xsd/objectXml"/>
+    	<mkdir dir="build/factorydb.sedna"/>
+    	<mkdir dir="build/factorydb.exist"/>
+    	<mkdir dir="build/factorydb.exist.psg"/>
+    </target>
+	
+	<target name="build" depends="init, build-project" description="objectxml.jar"/>
+	
+	<target name="build-project" description="Build project only copies files if modified with no cleaning and making dirs and files">
+    	<copy todir="build/factorydb.sedna">
+    	    <fileset dir="factorydb.sedna"/>
+            <fileset dir="objectXml" includes="**/service.version"/>
+    	</copy>
+    	<copy todir="build/factorydb.exist">
+    	    <fileset dir="factorydb.exist"/>
+            <fileset dir="objectXml" includes="**/service.version"/>
+    	</copy>
+		
+		<copy todir="build/factorydb.exist.psg">
+	    	    <fileset dir="factorydb.exist.psg"/>
+	            <fileset dir="objectXml" includes="**/service.version"/>
+	    </copy>
+    	
+        <copy includeemptydirs="false" todir="build/com/ipvs/xsd/objectXml">
+            <fileset dir="objectXml" includes="**/*.xml"/>
+            <fileset dir="objectXml" includes="**/*.version"/>
+        </copy>
+    	
+        <copy includeemptydirs="false" todir="build/com/ipvs/xsd/objectXml">
+            <fileset dir="mediaroomXML/com/ipvs/common/service" includes="**/MRSchema.xml"/>
+        </copy>
+    	
+    	<copy includeemptydirs="true" todir="build">
+            <fileset dir="mediaroomXML" includes="**/*.*"/>
+        </copy>
+    	
+        <copy includeemptydirs="false" todir="build/com/ipvs/migration">
+            <fileset dir="migration" includes="**/*.xsl"/>
+            <fileset dir="migration" includes="**/*.sh"/>
+        	<fileset dir="migration" includes="**/*.xquery"/>
+        	<fileset dir="migration" includes="**/*.xupdate"/>
+        	<fileset dir="migration" includes="**/*.xml"/>
+        	<fileset dir="migration" includes="**/*.sh"/>
+        	<fileset dir="migration" includes="**/*.jar"/>
+        </copy>
+
+
+    <!--    <copy includeemptydirs="false" todir="build/com/ipvs/xsd">
+            <fileset dir="xsd" includes="**/*.xsd"/>
+        </copy> -->
+    	
+    	
+    	
+    	<!-- todo: find recursive and eclipse/linux method to apply xsl -->
+    	
+		<echo message="Now updating service version in objects" level="info"/>
+
+		<exec dir="objectXml" executable="../updateServiceVersion.sh" os="Linux" failonerror="true">
+			<arg value="../build"/>
+			<arg value="service.version"/>
+		</exec>
+    	
+
+		<dirname property="dir" file="${output}"/>
+		<mkdir dir="${dir}"/>
+        <jar destfile="${output}">
+        	<fileset dir="build" includes="com/ipvs/**/**">
+        		  <exclude name="**/migration/**"/>
+        		  <exclude name="xsd/*.xsd"/>
+        	</fileset>
+        </jar>
+        <tar destfile="migration.tar">
+            <zipfileset dir="build/com/ipvs" includes="migration/**"/>
+        </tar>
+
+        </target>
+</project>

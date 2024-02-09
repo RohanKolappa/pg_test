@@ -1,0 +1,769 @@
+<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="963" jsxheight="846" jsxzindex="5000" jsxwindowstate="1" jsxleft="3" jsxtop="2"></variants>
+    <strings jsxname="dialog"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Stream Filter"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnClose"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1" jsxloadtype="1"></variants>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxstyleoverride="overflow-x:hidden;"></strings>
+          <dynamics jsxbgcolor="P3"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Basic Information" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxheight="60"></variants>
+            <strings jsxname="blkFormRowTextBox" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Stream Filter Name:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxheight="100%" jsxname="blkFormField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="8 2 2 20"></strings>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxfontsize="12"></variants>
+                <strings jsxwidth="90%" jsxname="textbox" jsxmargin="6 0 6 0" jsxvalue="Remote Connection" jsxfontweight="bold" jsxcolor="#666"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Policy Actions" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="80"></variants>
+            <strings jsxname="blkFormRowPolicyActions" jsxwidth="100%" jsxrelativeposition="1" jsxborder="border-bottom:solid 1px #cccccc"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Policy Actions:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="65"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.RadioButton">
+                  <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"></variants>
+                  <strings jsxname="radio" jsxtext="Allow" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxfontweight="bold"></strings>
+                  <events jsxselect=""></events>
+                </object>
+                <object type="jsx3.gui.RadioButton">
+                  <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
+                  <strings jsxname="radio" jsxtext="Deny" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxfontweight="bold"></strings>
+                  <events jsxselect=""></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="117" jsxtop="2"></variants>
+                  <strings jsxname="label" jsxtext="the following actions:" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="24" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="Add" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="60" jsxtop="24" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="Modify" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="120" jsxtop="24" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="Delete" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="47" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="Create" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="60" jsxtop="47" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="Start" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="120" jsxtop="47" jsxfontsize="9" jsxchecked="1"></variants>
+                  <strings jsxname="checkbox" jsxtext="View" jsxmargin="0 4 0 10" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Media" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="170"></variants>
+            <strings jsxname="blkFormRowSourceFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Source Media:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay=""></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxchecked="0"></variants>
+                  <strings jsxname="checkbox" jsxtext="Any source can be used (don't filter)" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+                  <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="224" jsxtop="31"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Resources" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Resources&quot;,&quot;Resource&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="170"></variants>
+            <strings jsxname="blkFormRowDestFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Destination Media:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay=""></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxchecked="0"></variants>
+                  <strings jsxname="checkbox" jsxtext="Any destination can be used (don't filter)" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+                  <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="224" jsxtop="31"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Resources" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Resources&quot;,&quot;Resource&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Connection" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="150"></variants>
+            <strings jsxname="blkFormRowProfileFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Profiles:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="4 0 0 0"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="170"></variants>
+            <strings jsxname="blkFormRowRelayFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Relay Filters:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="4 0 0 0"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+                  <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="224" jsxtop="31"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Resources" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Resources&quot;,&quot;Resource&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Player Controls and Recording" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="170"></variants>
+            <strings jsxname="blkFormRowProfileFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="PVR:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay=""></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxchecked="0"></variants>
+                  <strings jsxname="checkbox" jsxtext="Include all PVR functions (don't filter)" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+                  <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="224" jsxtop="31"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Resources" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Resources&quot;,&quot;Resource&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="30"></variants>
+            <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="14" jsxleft="11" jsxtop="6"></variants>
+              <strings jsxname="label" jsxtext="Advanced Filtering (Optional)" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxwidth="16" jsxheight="16"></variants>
+              <strings jsxname="image" jsxsrc="images/icons/icon_help.png" jsxmargin="0 20 0 0"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="170"></variants>
+            <strings jsxname="blkFormRowProfileFilter" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+              <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="16 0 0 0"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="PVR:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="12 6 6 20"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay=""></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxchecked="0"></variants>
+                  <strings jsxname="checkbox" jsxtext="Include all PVR functions (don't filter)" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="0" jsxtop="32"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Users" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select User Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Users&quot;,&quot;User&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+                  <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1" jsxleft="224" jsxtop="31"></variants>
+                  <strings jsxwidth="40%" jsxname="selStreamFilterSrc_Resources" jsxxmlurl="" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="Select Resource Filter" jsxxmlid=""></strings>
+                  <events jsxselect="checkAddForFilter(&quot;selStreamFilterSrc_Resources&quot;,&quot;Resource&quot;);"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="1" jsxleft="434" jsxtop="30"></variants>
+                  <strings jsxname="btnAddStreamFilterSrc" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxtextalign="center" jsxstyleoverride="background-image: url(images/buttons/btnBG.jpg);" jsxdisplay=""></strings>
+                  <events jsxexecute="AddFilterToMatrix('selStreamFilterSrc_Users','selStreamFilterSrc_Resources','mtxStreamSourceFilterSel');"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="80"></variants>
+                <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="0" jsxtop="56" jsxheight="90" jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+                  <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                    <strings jsxname="mtxStreamSourceFilterSel" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxStreamSourceFilterSelDoc"></strings>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilter" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="textColumn" jsxtext="@" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxAt"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_UserFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilterNID" jsxtext="" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwoNID" jsxdisplay="none"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="mcStreamFilterSrc_ResourceFilter" jsxwidth="*" jsxtext="Resource Filters" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtextTwo"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20"></variants>
+                      <strings jsxname="mcStreamFilterSourcesDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                        <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                        <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxborder="@Outset"></dynamics>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

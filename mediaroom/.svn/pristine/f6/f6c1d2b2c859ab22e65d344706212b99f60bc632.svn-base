@@ -1,0 +1,162 @@
+<html>
+<script>
+function setServiceDomain() {
+var requestXML = '<Request serviceVer="' + document.mrform.version.value + '" Ver="1.1">\
+  <header>\
+    <servicename>systemservice</servicename>\
+    <requestname>SetServiceDomainRequest</requestname>\
+    <loglevel>0</loglevel>\
+    <clientdata>Request_jsx_y</clientdata>\
+  </header>\
+  <data>\
+    <SetServiceDomainRequestData>\
+    	<domain>default</domain>\
+    	<AssetPrivateKeyData>dcpc1</AssetPrivateKeyData>\
+    	<ServiceVersion>' + document.mrform.version.value +	'</ServiceVersion>\
+    	<IPAddress></IPAddress>\
+    </SetServiceDomainRequestData>\
+  </data>\
+</Request>';
+  userjid = document.mrform.userjid.value;
+  service.sendRequest(userjid, requestXML);
+}
+
+function writeResult(xml) {
+  document.rform.result.value = xml;
+}
+
+function generateIQ() {
+  var requestXML = "<iq id='123' type='get'><query xmlns='com.ipvs.session'>\n</query></iq>"
+  document.mrform.request.value = requestXML;
+}
+
+function generateStreamTableRequest() {
+  var deviceid = document.mrform.deviceid.value;
+  var requestXML = '<AgentMessage> \
+  <agentmessageheader> \
+  				<agentJID>' + deviceid + '@localhost/' + deviceid + '</agentJID>\
+        		<agent>com.ipvs.common.service.DeviceAdminServerAgent</agent> \
+           		<agentmessagetype>Request</agentmessagetype>  \
+    </agentmessageheader> \
+    <agentmessagedata>  \
+        <Request serviceVer=""> \
+            <header> \
+                <servicename>systemservice</servicename> \
+                <requestname>DeviceStatusRequest</requestname> \
+                <loglevel>0</loglevel> \
+                <clientdata>RequestToken3</clientdata> \
+            </header> \
+            <data> \
+                <DeviceStatusRequestData> \
+                    <RequestXPath>//XMPPAgentServiceSourceAgentStatus</RequestXPath> \
+                </DeviceStatusRequestData> \
+            </data> \
+        </Request> \
+     </agentmessagedata> \
+  </AgentMessage>';
+  document.mrform.request.value = requestXML;
+}
+function sendRequest(userjid,requestXML) {
+  service.sendRequest(userjid, requestXML);
+}
+
+function getXmlDoc(xml) {
+  if(window.DOMParser) {
+    parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xml, "text/xml");
+  }
+  else { // IE
+    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+    xmlDoc.async="false";
+    xmlDoc.loadXML(xml);
+  }
+  return xmlDoc;
+}
+
+function handleMessage(responseXML) {
+  responseXML=responseXML.replace(/amp;/g, "");
+  writeResult(responseXML);
+}
+function handleInit(response) {
+  writeResult(response);
+  document.mrform.log.value += response;
+  var xmlDoc = getXmlDoc(response);
+  var version = xmlDoc.getElementsByTagName("Version").item(0).text;
+  document.mrform.version.value = version;
+}
+function login(user,password,resource,server, version) {
+  var userjid = user + '@localhost/' + resource
+  document.mrform.userjid.value = userjid
+  var requestXML = "<Request serviceVer='" + version + "' Ver='1.1'><header><servicename>xmpp</servicename><requestname>LoginRequest</requestname><loglevel>0</loglevel><clientdata>Request_jsx_y</clientdata></header><data><LoginRequestData><user>" + user + "</user><password>" + password + "</password><resource>" + resource + "</resource><server>" + server + "</server><port>5222</port></LoginRequestData></data></Request>";
+  service.sendRequest(userjid, requestXML);
+}
+</script>
+
+<table border="1">
+<tr><td>
+
+<table>
+<tr><td>
+<form name="mrform">
+<table>
+<tr><td>UserJID</td><td><input type="text" name="userjid" value="proxyuser@localhost/proxypc" size="30" readonly/></td></tr>
+<tr><td>User</td><td><input type="text" name="user" value="proxyuser" size="10"/></td></tr>
+<tr><td>Password</td><td><input type="text" name="password" value="Device123" size="10"/></td></tr>
+<tr><td>Resource</td><td><input type="text" name="resource" value="proxypc" size="10"/></td></tr>
+<tr><td>Server</td><td><input type="text" name="server" value="10.51.48.190" size="10"/></td></tr>
+<tr><td>Version</td><td><input type="text" name="version" value="" size="10"/></td></tr>
+<tr><td><a href="javascript:login(document.mrform.user.value,document.mrform.password.value,document.mrform.resource.value,document.mrform.server.value,document.mrform.version.value );">Login</a></td><td>
+<a href="javascript:setServiceDomain();">SetServiceDomain</a>
+</td></tr>
+</table>
+<br>
+<a href="javascript:generateIQ();">GenerateIQ</a>
+<a href="javascript:generateStreamTableRequest();">DeviceRequest</a>
+<input type="text" name="deviceid" value="tx1" size="10"/>
+<br/><br/>
+<textarea name="request" rows="10" cols="50">
+</textarea><br/><br/>
+<a href="javascript:sendRequest(document.mrform.userjid.value,document.mrform.request.value);">SEND >></a><br/><br/>
+Log<br/>
+<textarea name="log" rows="10" cols="50"></textarea><br/>
+</form>
+</td>
+<td>
+<form name="rform">
+<textarea name="result" rows="40" cols="50"></textarea><br/>
+</form>
+</td>
+</tr>
+</table>
+<applet id="service"
+code="com.ipvs.app.IPVSClientApplet.class"
+codebase="./"
+archive ="smack-1.4.jar, smackx-1.4.jar, su-smack-1.2.jar, commons-logging.jar, plugin.jar, dom4j.jar, jaxen.jar, objectxml.jar, ipvsclient.jar, xpp3.jar" MAYSCRIPT>
+</applet>
+<!--
+
+<Request serviceVer="2.15" Ver="1.1">
+  <header>
+    <servicename>systemservice</servicename>
+    <requestname>SetServiceDomainRequest</requestname>
+    <loglevel>0</loglevel>
+    <clientdata>Request_jsx_y</clientdata>
+  </header>
+  <data>
+    <SetServiceDomainRequestData>
+    	<domain>default</domain>
+    	<AssetPrivateKeyData>dcpc1</AssetPrivateKeyData>
+    	<ServiceVersion>2.15</ServiceVersion>
+    	<IPAddress></IPAddress>
+    </SetServiceDomainRequestData>
+  </data>
+</Request>
+
+<iq id='123' type='get'>
+  <query xmlns='com.ipvs.session'>
+  </query>
+</iq>
+
+
+-->
+</html>

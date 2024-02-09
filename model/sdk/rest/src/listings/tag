@@ -1,0 +1,431 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Policies",
+    "resourcePath": "/Tag",
+    "apis": [
+        {
+            "path": "/Tag",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get Tag (available in EDP 1.1)",
+                    "notes": "Get the list of Tag from EDP",
+                    "responseClass": "Tag",
+                    "nickname": "getTag",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Tag+json",
+                        "application/vnd.barco.nimbus.Tag+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "whereObjectType",
+                            "description": "Filter based on ObjectType",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Devices",
+                                    "Users",
+                                    "MediaRoom",
+                                    "Profiles",
+                                    "Ports",
+                                    "Media",
+                                    "ALL"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "Sort by Name or Value",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Name",
+									"Value"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "Sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+                                    "descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "StartFrom",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "Count to fetch",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereName",
+                            "description": "Filter based on Name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereNameTextSubString",
+                            "description": "Filter based on NameTextSubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                         {
+                            "name": "subscriptionID",
+                            "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereValueTextSubString",
+                            "description": "Filter based on Value Text SubString",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "Select format",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "NameList",
+                                    "NameValueList",
+                                    "NameValueTree"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Add tag (available in EDP 1.1)",
+                    "notes": "Add Tag to EDP",
+                    "responseClass": "Tag",
+                    "nickname": "addTag",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Tag+json",
+                        "application/vnd.barco.nimbus.Tag+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Tag+json",
+                        "application/vnd.barco.nimbus.Tag+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Add a Tag to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddTag",
+                            "paramType": "body"
+                        }
+						
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete Tag (available in EDP 1.1)",
+                    "notes": "Delete a Tag",
+                    "responseClass": "Tag",
+                    "nickname": "deleteTag",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "Tag nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "Tag name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Set tag (available in EDP 1.1)",
+                    "notes": "update existing Tag to EDP ",
+                    "responseClass": "Tag",
+                    "nickname": "setTag",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Tag+json",
+                        "application/vnd.barco.nimbus.Tag+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Tag+json",
+                        "application/vnd.barco.nimbus.Tag+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "name",
+                            "description": "tag name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "update a tag to EDP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetTag",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Tag": {
+            "id": "Tag",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag": {
+                    "$ref": "TagAttr"
+                }
+            }
+        },
+        "TagAttr": {
+            "id": "TagAttr",
+            "properties": {
+                "@name": {
+                    "type": "string"
+                },
+                "@Value": {
+                    "type": "String"
+                },
+                "@NID": {
+                    "type": "string"
+                },
+                "@objectType": {
+                    "type": "string"
+                }
+            }
+        },
+        "AddTag": {
+            "id": "AddTag",
+            "description": "add a tag request",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag": {
+                    "$ref": "AddTagReq"
+                }
+            }
+        },
+        "AddTagReq": {
+            "id": "AddTagReq",
+            "description": "A basic add tag request",
+            "required": [
+                "@name",
+                "@objectType",
+                "Value"
+            ],
+            "properties": {
+                "@name": {
+                    "type": "Location",
+                    "description": ""
+                },
+                "@objectType": {
+                    "type": "Devices/Users/MediaRoom/Profiles/Ports/Media/ALL",
+                    "description": "[Required]"
+                },
+                "Value": {
+                    "type": "array",
+						"items":{"$ref":"Value"}
+                }
+            }
+        },
+        "SetTag": {
+            "id": "SetTag",
+            "description": "Set a tag request",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag": {
+                    "$ref": "SetTagReq"
+                }
+            }
+        },
+        "SetTagReq": {
+            "id": "SetTagReq",
+            "description": "A basic set tag request",
+            "required": [
+                "@objectType",
+                "Value"
+            ],
+            "properties": {
+                "@objectType": {
+                    "type": "Devices/Users/MediaRoom/Profiles/Ports/Media/ALL",
+                    "description": "[Required]"
+                },
+                "Value": {
+                    "type": "array",
+					"items":{"$ref":"Value"}
+                }
+            }
+        }
+    }
+}

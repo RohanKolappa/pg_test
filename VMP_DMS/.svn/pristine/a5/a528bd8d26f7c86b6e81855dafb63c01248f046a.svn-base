@@ -1,0 +1,28 @@
+.jbs/BFC.Image.ConverterManagerPtr.o:  \
+ Src/BFC.Image.ConverterManagerPtr.cpp \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SPtrImpl.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Light.DLL.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.Buffer.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Mem.DataSharer.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.FastCS.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.Types.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Mem.AllocatorPtr.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SPtrDecl.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SPtrHub.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.Exception.h \
+  Src/BFC.Image.ConverterManager.h Src/BFC.Image.DLL.h \
+  Src/BFC.Image.ConverterManagerPtr.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SPtrDecl.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.FastCS.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SObject.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.List.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.Array.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SPtrTmpl.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.ArrayBase.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.Base.SObject.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.CompArray.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.ListTmpl.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.ListBase.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.ListCell.h \
+  /home/nightly/workarea/VMP_DMS/BFC_Light/Src/BFC.TL.Matrix.h \
+  Src/BFC.Image.ConverterPtr.h Src/BFC.Image.ConverterStrategyPtr.h

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.common.xsd" />
+	<xs:include schemaLocation="mediaroom.mediaroomservice.datamodel.xsd" />
+	<!-- Media Store file Request -->
+	<xs:element name="AddMediaStoreFileRequestData" type="MediaStoreFileRequestDataType" />
+	<xs:element name="UpdateMediaStoreFileRequestData" type="MediaStoreFileRequestDataType" />
+	<xs:element name="DeleteMediaStoreFileRequestData" type="MediaStoreFileRequestDataType" />
+	<xs:element name="MediaStoreAddBookmarkRequestData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="MediaStoreUpdateBookmarkRequestData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="MediaStoreDeleteBookmarkRequestData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="GetMediaStoreFileTrackRequestData" type="MediaStoreFileRequestDataType" />
+	<xs:element name="UpgradeMediaRequestData" type="MediaStoreFileRequestDataType" />	
+	<xs:complexType name="MediaStoreFileRequestDataType">
+		<xs:sequence>			
+			<xs:element name="MediaStoreFileNID" type="MRNIDType" />
+			<xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+			<xs:element name="ActionData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<!-- Media Store File Response -->
+	<xs:element name="AddMediaStoreFileResponseData" type="MediaStoreFileResponseDataType" />
+	<xs:element name="UpdateMediaStoreFileResponseData" type="MediaStoreFileResponseDataType" />
+	<xs:element name="DeleteMediaStoreFileResponseData" type="MediaStoreFileResponseDataType" />		
+	<xs:element name="MediaStoreAddBookmarkResponseData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="MediaStoreUpdateBookmarkResponseData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="MediaStoreDeleteBookmarkResponseData" type="MediaStoreFileRequestDataType" />	
+	<xs:element name="GetMediaStoreFileTrackResponseData" type="MediaStoreFileResponseDataType" />
+	<xs:element name="UpgradeMediaResponseData" type="MediaStoreFileResponseDataType" />		
+	<xs:complexType name="MediaStoreFileResponseDataType">
+		<xs:sequence>					
+		    <xs:element name="MediaStreamFileResourceNID" type="MRNIDType"/>
+			<xs:element name="MediaStoreFileNID" type="MRNIDType"/>					
+			<xs:element name="ResponseXML">		
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<!-- Media Store Dir Request -->
+	<xs:element name="UpgradeMediaStoreDirRequestData" type="MediaStoreDirRequestDataType" />	
+	<xs:complexType name="MediaStoreDirRequestDataType">
+		<xs:sequence>
+			<xs:element name="MediaStreamDirResourceNID" type="MRNIDType" />
+			<xs:element name="UpgradeMediaStreamFiles" type="xs:boolean" />
+			<xs:element name="ActionData">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Media Store Dir Response -->	
+	<xs:element name="UpgradeMediaStoreDirResponseData" type="MediaStoreDirResponseDataType" />	
+	<xs:complexType name="MediaStoreDirResponseDataType"/>
+	
+
+</xs:schema>

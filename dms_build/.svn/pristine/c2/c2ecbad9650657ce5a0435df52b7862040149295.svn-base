@@ -1,0 +1,87 @@
+
+
+# This is a developer Makefile to compile all StreamingServer related
+# modules from one place
+
+# This Makefile is supposed to be called from your work area
+# (that is would be one level above this directory).
+
+COMPILABLE_MODULES = V2O v2dlib mediaindex rfbproto strmsrv
+
+PARRELLELOPTS = -j 4
+CC= 
+#PATH=/home/siyer/buildroot/output/host/usr/bin
+#export ${PATH}
+
+ifeq ($(MAKECMDGOALS),arm)
+CC= CROSS_COMPILE=arm-none-linux-gnueabi- ARCH=arm
+COMPILABLE_MODULES = xpidrivers V2O v2dlib mediaindex rfbproto strmsrv
+XPIDRV=xpidrivers/driver
+endif	
+
+
+all : ${COMPILABLE_MODULES}
+arm : ${COMPILABLE_MODULES}
+
+
+etags :
+	rm -f TAGS
+	@for i in V2O mediaindex v2dlib strmsrv ; do \
+		echo "Running etags on files in $$i"; \
+		find $$i -name "*.cpp " -o -name "*.hh" -o -name "*.[ch]" | \
+			xargs etags --append; \
+	done
+
+
+clean:
+	${MAKE} -C strmsrv clean
+	${MAKE} -C v2dlib clean
+	${MAKE} -C mediaindex clean
+	${MAKE} -C V2O clean
+	${MAKE} -C rfbproto clean
+
+buildclean:
+	${MAKE} ${CC}  -C strmsrv clean
+	${MAKE} ${CC} -C v2dlib clean
+	${MAKE} ${CC} -C mediaindex clean
+	${MAKE} ${CC} -C V2O clean
+	${MAKE} ${CC} -C rfbproto clean
+	${MAKE} ${CC} -C xpidrivers/driver clean
+
+
+mediaindex:
+	${MAKE} ${CC} ${PARRELLELOPTS} -C $@
+
+v2dlib:
+	${MAKE} ${CC} ${PARRELLELOPTS} -C $@
+
+rfbproto:
+	${MAKE} ${CC} ${PARRELLELOPTS} -C $@
+
+V2O:
+	${MAKE} ${CC}  ${PARRELLELOPTS} -C $@
+
+strmsrv:
+	${MAKE} ${CC}  ${PARRELLELOPTS} -C $@
+
+xpidrivers:	
+	${MAKE} ${CC}  ${PARRELLELOPTS} -C $@/driver
+
+
+docs:
+	for i in strmsrv ; do \
+		${MAKE} -C $$i docs; \
+		rm -rf ~/public_html/docs/$$i; \
+		cp -a $$i/docs/html ~/public_html/docs/$$i; \
+	done
+
+
+
+wisdrv:
+	if [ ! -f wisdrv/Sw/Lib/libVideoCapture.a ]; then \
+	   ${MAKE} -C $@/Sw ; \
+	fi
+
+
+
+.PHONY: ${COMPILABLE_MODULES}

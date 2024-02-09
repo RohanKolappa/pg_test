@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuditEventToObjectMapping>
+
+	<!-- change set operation on device to device once we moved all the device config updates to appserver -->
+	<EventMapping action='ReplaceRequest' objectType='Device' eventType='Device' eventName='Modify' targetXPath='//Device/@title' >
+		<RequestList>
+			<Request>SetDeviceInfoRequest</Request>
+		</RequestList>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Device/@type' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='Device' eventType='Device' eventName='Delete' targetXPath='//Device/@title'>
+		<RequestList>
+			<Request>DeleteDeviceRequest</Request>
+		</RequestList>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Device/@type' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='AddRequest' objectType='Device' eventType='Device' eventName='Add' targetXPath='//Device/@title'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Device/@type' />
+		</DescriptionTextList>
+		<RequestList>
+			<Request>AddDeviceRequest</Request>
+		</RequestList>
+	</EventMapping>
+
+
+	<EventMapping action='AddRequest' objectType='User' eventType='User' eventName='Add' targetXPath='//Username' />
+	<EventMapping action='ReplaceRequest' objectType='User' eventType='User' eventName='Modify' targetXPath='//Username'>
+		<RequestList>
+			<Request>SetUserPasswordRequest</Request>
+		</RequestList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='User' eventType='User' eventName='Delete' targetXPath='//Username' />
+
+
+
+	<EventMapping action='ReplaceRequest' objectType='MediaStreamFileResource' eventType='Media' eventName='Modify' targetXPath='//Info/Title'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//MediaStoreFileInfo/Type' />
+		</DescriptionTextList>
+		<RequestList>
+			<Request>UpdateMediaStreamFileResourceInfoRequest</Request>
+			<Request>UpdateMediaStreamFileResourceStoreInfoRequest</Request>
+		</RequestList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='MediaStreamFileResource' eventType='Media' eventName='Delete' targetXPath='//Info/Title'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//MediaStoreFileInfo/Type' />
+		</DescriptionTextList>
+	</EventMapping>
+
+
+	<EventMapping action='AddRequest' objectType='MediaStreamProfile' eventType='Profile' eventName='Add' targetXPath='//Title'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//StreamType' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='ReplaceRequest' objectType='MediaStreamProfile' eventType='Profile' eventName='Modify' targetXPath='//Title'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//StreamType' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='MediaStreamProfile' eventType='Profile' eventName='Delete' targetXPath='//Title'>
+	</EventMapping>
+
+
+	<EventMapping action='AddRequest' objectType='V2DMediaStreamProfile' eventType='Profile' eventName='Add' targetXPath='//Title' descriptionText='V2D' />
+	<EventMapping action='ReplaceRequest' objectType='V2DMediaStreamProfile' eventType='Profile' eventName='Modify' targetXPath='//Title' descriptionText='V2D' />
+	<EventMapping action='DeleteRequest' objectType='V2DMediaStreamProfile' eventType='Profile' eventName='Delete' targetXPath='//Title' descriptionText='V2D' />
+
+
+	<EventMapping action='AddRequest' objectType='RTPMediaStreamProfile' eventType='Profile' eventName='Add' targetXPath='//Title' descriptionText='RTP' />
+	<EventMapping action='ReplaceRequest' objectType='RTPMediaStreamProfile' eventType='Profile' eventName='Modify' targetXPath='//Title' descriptionText='RTP' />
+	<EventMapping action='DeleteRequest' objectType='RTPMediaStreamProfile' eventType='Profile' eventName='Delete' targetXPath='//Title' descriptionText='RTP' />
+
+	<EventMapping action='AddRequest' objectType='UDPMediaStreamProfile' eventType='Profile' eventName='Add' targetXPath='//Title' descriptionText='UDP' />
+	<EventMapping action='ReplaceRequest' objectType='UDPMediaStreamProfile' eventType='Profile' eventName='Modify' targetXPath='//Title' descriptionText='UDP' />
+	<EventMapping action='DeleteRequest' objectType='UDPMediaStreamProfile' eventType='Profile' eventName='Delete' targetXPath='//Title' descriptionText='UDP' />
+
+	<EventMapping action='AddRequest' objectType='MPEGTSMediaStreamProfile' eventType='Profile' eventName='Add' targetXPath='//Title' descriptionText='MPEGTS' />
+	<EventMapping action='ReplaceRequest' objectType='MPEGTSMediaStreamProfile' eventType='Profile' eventName='Modify' targetXPath='//Title' descriptionText='MPEGTS' />
+	<EventMapping action='DeleteRequest' objectType='MPEGTSMediaStreamProfile' eventType='Profile' eventName='Delete' targetXPath='//Title' descriptionText='MPEGTS' />
+
+
+
+	<EventMapping action='AddRequest' objectType='GroupTagDef' eventType='Tag' eventName='Add' targetXPath='//TagName'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//TagName' name='TagName - ' />
+			<DescriptionText xPath='//TagValue' name='TagValue - ' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='ReplaceRequest' objectType='GroupTagDef' eventType='Tag' eventName='Modify' targetXPath='//TagName'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//TagName' name='TagName - ' />
+			<DescriptionText xPath='//TagValue' name='TagValue - ' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='GroupTagDef' eventType='Tag' eventName='Delete' targetXPath='//TagName' />
+
+
+
+	<EventMapping action='AddRequest' objectType='TagObjectFilter' eventType='Filter' eventName='Add' targetXPath='//Name' />
+	<EventMapping action='ReplaceRequest' objectType='TagObjectFilter' eventType='Filter' eventName='Modify' targetXPath='//Name' />
+	<EventMapping action='DeleteRequest' objectType='TagObjectFilter' eventType='Filter' eventName='Delete' targetXPath='//Name' />
+
+
+
+	<EventMapping action='AddRequest' objectType='AssetAdminPolicyRule' xPath="//RoleAction[.='ViewFrom' or .='StreamTo']" eventType='Policy' eventName='Add' targetXPath='//rulename'
+		descriptionText='Sources and Destination Ports' />
+	<EventMapping action='ReplaceRequest' objectType='AssetAdminPolicyRule' xPath="//RoleAction[.='ViewFrom' or .='StreamTo']" eventType='Policy' eventName='Modify' targetXPath='//rulename'
+		descriptionText='Sources and Destination Ports' />
+	<EventMapping action='DeleteRequest' objectType='AssetAdminPolicyRule' xPath="//RoleAction[.='ViewFrom' or .='StreamTo']" eventType='Policy' eventName='Delete' targetXPath='//rulename'
+		descriptionText='Sources and Destination Ports' />
+
+
+
+	<EventMapping action='AddRequest' objectType='AssetAdminPolicyRule' xPath="//RoleObject[.='SessionConfig']" eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Configure Sessions' />
+	<EventMapping action='ReplaceRequest' objectType='AssetAdminPolicyRule' xPath="//RoleObject[.='SessionConfig']" eventType='Policy' eventName='Modify' targetXPath='//rulename'
+		descriptionText='Configure Sessions' />
+	<EventMapping action='DeleteRequest' objectType='AssetAdminPolicyRule' xPath="//RoleObject[.='SessionConfig']" eventType='Policy' eventName='Delete' targetXPath='//rulename'
+		descriptionText='Configure Sessions' />
+
+
+
+	<EventMapping action='AddRequest' objectType='AssetAdminPolicyRule' xPath="//AssetAdminObjectRole[RoleObject!='SessionConfig' and (RoleAction[.='Add' or .='Replace' or .='Delete'])]"
+		eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Manage Devices or Profiles' />
+	<EventMapping action='ReplaceRequest' objectType='AssetAdminPolicyRule' xPath="//AssetAdminObjectRole[RoleObject!='SessionConfig' and (RoleAction[.='Add' or .='Modify' or .='Delete'])]"
+		eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Manage Devices and Profiles' />
+	<EventMapping action='DeleteRequest' objectType='AssetAdminPolicyRule' xPath="//AssetAdminObjectRole[RoleObject!='SessionConfig' and (RoleAction[.='Add' or .='Modify' or .='Delete'])]"
+		eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Manage Devices and Profiles' />
+
+
+
+	<EventMapping action='AddRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Record']" eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Recording to Directory' />
+	<EventMapping action='ReplaceRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Record']" eventType='Policy' eventName='Modify' targetXPath='//rulename'
+		descriptionText='Recording to Directory' />
+	<EventMapping action='DeleteRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Record']" eventType='Policy' eventName='Delete' targetXPath='//rulename'
+		descriptionText='Recording to Directory' />
+
+
+
+	<EventMapping action='AddRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Playback']" eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Playback Files' />
+	<EventMapping action='ReplaceRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Playback']" eventType='Policy' eventName='Modify' targetXPath='//rulename'
+		descriptionText='Playback Files' />
+	<EventMapping action='DeleteRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Playback']" eventType='Policy' eventName='Delete' targetXPath='//rulename'
+		descriptionText='Playback Files' />
+
+
+
+	<EventMapping action='AddRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Modify' or .='Delete' or .='Import' or .='Export']" eventType='Policy' eventName='Add'
+		targetXPath='//rulename' descriptionText='Manage Media' />
+	<EventMapping action='ReplaceRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Modify' or .='Delete' or .='Import' or .='Export']" eventType='Policy' eventName='Modify'
+		targetXPath='//rulename' descriptionText='Manage Media' />
+	<EventMapping action='DeleteRequest' objectType='MediaStoreAdminPolicyRule' xPath="//RoleAction[.='Modify' or .='Delete' or .='Import' or .='Export']" eventType='Policy' eventName='Delete'
+		targetXPath='//rulename' descriptionText='Manage Media' />
+
+
+
+	<EventMapping action='AddRequest' objectType='UserAdminPolicyRule' eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Manage Users' />
+	<EventMapping action='ReplaceRequest' objectType='UserAdminPolicyRule' eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Manage Users' />
+	<EventMapping action='DeleteRequest' objectType='UserAdminPolicyRule' eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Manage Users' />
+
+
+	<EventMapping action='AddRequest' objectType='PolicyAdminPolicyRule' eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Manage System' />
+	<EventMapping action='ReplaceRequest' objectType='PolicyAdminPolicyRule' eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Manage System' />
+	<EventMapping action='DeleteRequest' objectType='PolicyAdminPolicyRule' eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Manage System' />
+
+
+	<EventMapping action='AddRequest' objectType='NetworkAddressRule' eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Network Address Translation' />
+	<EventMapping action='ReplaceRequest' objectType='NetworkAddressRule' eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Network Address Translation' />
+	<EventMapping action='DeleteRequest' objectType='NetworkAddressRule' eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Network Address Translation' />
+
+
+	<EventMapping action='AddRequest' objectType='MediaStreamFilter' eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Routing' />
+	<EventMapping action='ReplaceRequest' objectType='MediaStreamFilter' eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Routing' />
+	<EventMapping action='DeleteRequest' objectType='MediaStreamFilter' eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Routing' />
+
+
+	<EventMapping action='AddRequest' objectType='MediaRoomPolicyRule' eventType='Policy' eventName='Add' targetXPath='//rulename' descriptionText='Connection Policy' />
+	<EventMapping action='ReplaceRequest' objectType='MediaRoomPolicyRule' eventType='Policy' eventName='Modify' targetXPath='//rulename' descriptionText='Connection Policy' />
+	<EventMapping action='DeleteRequest' objectType='MediaRoomPolicyRule' eventType='Policy' eventName='Delete' targetXPath='//rulename' descriptionText='Connection Policy' />
+
+
+	<EventMapping action='AddRequest' objectType='SessionConfig' eventType='Session' eventName='Add' targetXPath='//Title' />
+	<EventMapping action='ReplaceRequest' objectType='SessionConfig' eventType='Session' eventName='Modify' targetXPath='//Title' />
+	<EventMapping action='DeleteRequest' objectType='SessionConfig' eventType='Session' eventName='Delete' targetXPath='//Title' />
+
+
+	<EventMapping action='AddRequest' objectType='Report' eventType='Report' eventName='Add' targetXPath='//Report/@name'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Report/@type' />
+		</DescriptionTextList>
+		<RequestList>
+			<Request>AddReportRequest</Request>
+		</RequestList>
+	</EventMapping>
+	<EventMapping action='ReplaceRequest' objectType='Report' eventType='Report' eventName='Modify' targetXPath='//Report/@name'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Report/@type' />
+		</DescriptionTextList>
+		<RequestList>
+			<Request>SetReportRequest</Request>
+		</RequestList>
+	</EventMapping>
+	<EventMapping action='DeleteRequest' objectType='Report' eventType='Report' eventName='Delete' targetXPath='//Report/@name'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Report/@type' />
+		</DescriptionTextList>
+		<RequestList>
+			<Request>DeleteReportRequest</Request>
+		</RequestList>
+	</EventMapping>
+
+	<EventMapping action='Download' objectType='Report' eventType='Report' eventName='Download' targetXPath='//Name'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Type' />
+		</DescriptionTextList>
+	</EventMapping>
+	<EventMapping action='FTP' objectType='Report' eventType='Report' eventName='FTP' targetXPath='//Name'>
+		<DescriptionTextList>
+			<DescriptionText xPath='//Type' />
+		</DescriptionTextList>
+	</EventMapping>
+	
+	
+	<EventMapping action='SwitchSrc' objectType='Session' eventType='Switch' eventName='Source' targetXPath='//Log/@newSource'>
+		<DescriptionTextList>
+				<DescriptionText xPath='//Log/@sessionName'/>
+				<DescriptionText xPath='//Log/@destinationDescString'/>
+				<DescriptionText xPath='//Log/@previousSource' name='Previous - '/>
+		</DescriptionTextList>
+		<RequestList>
+			<Request>SwitchSrcRequest</Request>
+		</RequestList>
+	</EventMapping>
+	
+	<EventMapping eventType='System' eventName='Login'>		
+		<RequestList>
+			<Request>SetServiceDomainRequest</Request>
+		</RequestList>
+	</EventMapping>
+	
+</AuditEventToObjectMapping>

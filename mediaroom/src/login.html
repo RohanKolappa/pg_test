@@ -1,0 +1,49 @@
+<html>
+<script>
+function doLogin() {
+  var user = document.loginform.name.value;
+  var password = document.loginform.password.value;
+  var domain = document.loginform.domain.value;
+  var resource = document.loginform.resource.value;
+  var server = document.loginform.server.value;
+  var port = document.loginform.port.value;
+  var clientdata = document.loginform.clientdata.value;
+  var request = "<Request>" +
+		"<header>" +
+  		"<servicename>xmpp</servicename>" +
+  		"<requestname>LoginRequest</requestname>" +
+  		"<loglevel>0</loglevel>" +
+  		"<clientdata>" + clientdata + "</clientdata>" +
+		"</header>" +
+		"<data>" +
+		"<LoginRequestData>" +
+  		"<user>" + user + "</user>" +
+  		"<password>" + password + "</password>" +
+  		"<domain>" + domain + "</domain>" +
+  		"<resource>" + resource + "</resource>" +
+  		"<server>" + server + "</server>" +
+  		"<port>" + port + "</port>" +
+		"</LoginRequestData>" +
+		"</data>" +
+  		"</Request>";
+  alert(request);
+  var response = parent.applet.document.test.sendRequest("", request);
+  alert(response);
+  self.location = "setServiceDomain.html";
+}
+function handleMessage(messageXML) {
+}
+</script>
+<form name="loginform">
+<table>
+<tr><td>User Name</td><td> <input type="text" name="name" value="miyertest" size=20></td></tr>
+<tr><td>Password</td><td> <input type="text" name="password" value="miyertest" size=20></td></tr>
+<tr><td>Domain</td><td> <input type="text" name="domain" value="192.168.1.209" size=20></td></tr>
+<tr><td>Resource</td><td> <input type="text" name="resource" value="callcenter" size=20></td></tr>
+<tr><td>Server</td><td> <input type="text" name="server" value="192.168.1.209" size=20></td></tr>
+<tr><td>Port</td><td> <input type="text" name="port" value="5222" size=20></td></tr>
+<tr><td>ClientData</td><td> <input type="text" name="clientdata" value="ClientData" size=20></td></tr>
+</table>
+<a href="javascript:doLogin();">Login</a><br>
+</form>
+</html>

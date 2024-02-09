@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+<xs:schema xmlns:ipvsdb="ipvs:mediaroom:ipvsdbservice" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="ipvs:mediaroom:ipvsdbservice">
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!--   Request  -->
+    <xs:element name="request" type="DBRequestType">
+	</xs:element>
+
+	<xs:complexType name="DBRequestType">
+		<xs:choice>
+			<xs:element name="readList" type="readListRequestType" />
+			<xs:element name="readSingle" type="readSingleRequestType" />
+			<xs:element name="isObjectExist" type="isObjectExistRequestType" />
+			<xs:element name="getChildren" type="getChildrenRequestType" />
+			<xs:element name="replace" type="replaceRequestType" />
+			<xs:element name="add" type="addRequestType" />
+			<xs:element name="delete" type="deleteRequestType" />
+			<xs:element name="subscribe" type="subscribeRequestType" />
+			<xs:element name="unsubscribe" type="unsubscribeRequestType" />
+			<xs:element name="readQuery" type="readQueryRequestType" />
+			<xs:element name="createDomain" type="createDomainType" />
+			<xs:element name="deleteDomain" type="deleteDomainType" />
+            <xs:element name="exportDB" type="exportDBRequestType" />
+            <xs:element name="importDB" type="importDBRequestType" />
+            <xs:element name="deleteDB" type="deleteDBRequestType" />
+		</xs:choice>
+		<xs:attribute name="domain" type="xs:string" use="required" />
+		<xs:attribute name="nodeID" type="xs:string" use="optional" />
+		<xs:attribute name="subscribeJID" type="xs:string" use="optional" />
+		<xs:attribute name="objectType" type="xs:string" use="optional" />
+		<xs:attribute name="listName" type="xs:string" use="optional" />
+		<xs:attribute name="childXPath" type="xs:string" use="optional" />
+		<xs:attribute name="DBCallTimeOut" type="xs:string" use="optional" />
+        <xs:attribute name="type" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="exportMediaDir" />
+              <xs:enumeration value="exportMediaFile" />
+              <xs:enumeration value="importMediaDir" />
+              <xs:enumeration value="importMediaFile" />
+              <xs:enumeration value="deleteMediaDir" />
+              <!-- todo -->
+              <xs:enumeration value="exportDB" />
+              <xs:enumeration value="saveDB" />
+              <xs:enumeration value="createSnapshotDB" />
+              <xs:enumeration value="importDB" />
+              <xs:enumeration value="restoreDB" />
+              <xs:enumeration value="restoreLastbackupDB" />
+              <xs:enumeration value="restoreFactoryDB" />
+              <xs:enumeration value="deleteDB" />
+            </xs:restriction>
+          </xs:simpleType>        
+          </xs:attribute>  
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+	</xs:complexType>
+	
+
+
+	<xs:complexType name="isObjectExistRequestType">
+		<xs:sequence>
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="getChildrenRequestType">
+		<xs:sequence>
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="replaceRequestType">
+		<xs:sequence>
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="data" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="addRequestType">
+		<xs:sequence>
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="data" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="deleteRequestType">
+		<xs:sequence>
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="createDomainType">
+	</xs:complexType>
+
+	<xs:complexType name="deleteDomainType">
+	</xs:complexType>
+	
+	<xs:complexType name="subscribeRequestType">
+	</xs:complexType>
+
+	<xs:complexType name="unsubscribeRequestType">
+	</xs:complexType>
+
+	<xs:complexType name="readSingleRequestType">
+		<xs:sequence>
+			<xs:element name="sortOrder" type="xs:string" />
+			<xs:element name="selectXML" type="xs:string" />
+			<xs:element name="sortByXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="readListRequestType">
+		<xs:sequence>
+			<xs:element name="startFrom" type="xs:int" />
+			<xs:element name="countToFetch" type="xs:int" />
+			<xs:element name="sortOrder" type="xs:string" />
+			<xs:element name="selectXML" type="xs:string" />
+			<xs:element name="sortByXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="whereXPath" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="readQueryRequestType">
+		<xs:sequence>
+			<xs:element name="query" type="xs:string" />
+			<xs:element name="queryXPath" type="readQueryXPathRequestType"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="queryNID" type="readQueryNIDRequestType"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="readQueryXPathRequestType">
+		<xs:all>
+			<xs:element name="queryXPath" type="xs:string" />
+		</xs:all>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="readQueryNIDRequestType">
+		<xs:all>
+			<xs:element name="queryNID" type="xs:string" />
+		</xs:all>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+    <xs:complexType name="exportDBRequestType">
+       <xs:choice>
+            <xs:element name="exportMediaDir" type="adminDBActionType" />
+            <xs:element name="exportMediaFile" type="adminDBActionType" />
+            <!-- todo -->	
+            <xs:element name="exportDB" type="adminDBActionType" />
+            <xs:element name="saveDB" type="adminDBActionType" />
+            <xs:element name="createSnapshotDB" type="adminDBActionType" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="importDBRequestType">
+       <xs:choice>
+            <xs:element name="importMediaDir" type="adminDBActionType" />
+            <xs:element name="importMediaFile" type="adminDBActionType" />
+            <!-- todo -->	
+            <xs:element name="importDB" type="adminDBActionType" />
+            <xs:element name="restoreDB" type="adminDBActionType" />
+            <xs:element name="restoreLastbackupDB" type="adminDBActionType" />
+            <xs:element name="restoreFactoryDB" type="adminDBActionType" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="deleteDBRequestType">
+       <xs:choice>
+            <xs:element name="deleteMediaDir" type="adminDBActionType" />
+            <!-- todo -->	
+            <xs:element name="deleteDB" type="adminDBActionType" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="adminDBActionType">
+        <xs:sequence>
+            <xs:element name="params" type="DBParamsType"/>
+            <xs:element name="scriptFilePath" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="zipFolderPath" type="xs:string" minOccurs="0" maxOccurs="1" />            
+        </xs:sequence>
+    </xs:complexType>
+    
+	<xs:complexType name="DBParamsType" >
+		<xs:sequence>
+			<xs:any/>
+		</xs:sequence>
+	</xs:complexType> 
+
+	<!--  response  -->
+	<xs:element name="response" type="DBResponseType">
+	</xs:element>
+ 
+	
+	<xs:complexType name="DBResponseType">
+		<xs:choice>
+			<xs:element name="readList" type="readListResponseType" />
+			<xs:element name="readSingle" type="readSingleResponseType" />
+			<xs:element name="isObjectExist" type="isObjectExistResponseType" />
+			<xs:element name="getChildren" type="isObjectExistResponseType" />
+			<xs:element name="replace" type="replaceResponseType" />
+			<xs:element name="add" type="addResponseType" />
+			<xs:element name="delete" type="deleteResponseType" />
+			<xs:element name="createDomain" type="createDomainResponseType" />
+			<xs:element name="deleteDomain" type="deleteDomainResponseType" />
+			<xs:element name="subscribe" type="subscribeResponseType" />
+			<xs:element name="unsubscribe" type="unsubscribeResponseType" />
+			<xs:element name="readQuery" type="readQueryResponseType" />
+            <xs:element name="exportDB" type="exportDBResponseType" />
+            <xs:element name="importDB" type="importDBResponseType" />
+            <xs:element name="deleteDB" type="deleteDBResponseType" />
+		</xs:choice>
+		<xs:attribute name="id" type="xs:string" use="optional" />
+		<xs:attribute name="domain" type="xs:string" use="optional" />
+		<xs:attribute name="nodeID" type="xs:string" use="optional" />
+		<xs:attribute name="subscribeJID" type="xs:string" use="optional" />
+		<xs:attribute name="objectType" type="xs:string" use="optional" />
+		<xs:attribute name="listName" type="xs:string" use="optional" />
+		<xs:attribute name="childXPath" type="xs:string" use="optional" />
+		<xs:attribute name="DBCallTimeOut" type="xs:string" use="optional" />
+        <xs:attribute name="type" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="exportMediaDir" />
+              <xs:enumeration value="exportMediaFile" />
+              <xs:enumeration value="importMediaDir" />
+              <xs:enumeration value="importMediaFile" />
+              <xs:enumeration value="deleteMediaDir" />
+              <!-- todo -->
+              <xs:enumeration value="exportDB" />
+              <xs:enumeration value="saveDB" />
+              <xs:enumeration value="createSnapshotDB" />
+              <xs:enumeration value="importDB" />
+              <xs:enumeration value="restoreDB" />
+              <xs:enumeration value="restoreLastbackupDB" />
+              <xs:enumeration value="restoreFactoryDB" />
+              <xs:enumeration value="deleteDB" />
+            </xs:restriction>
+          </xs:simpleType>        
+        </xs:attribute>          
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+	</xs:complexType>
+
+	
+	<xs:complexType name="isObjectExistResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="replaceResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="addResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="deleteResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+   <xs:complexType name="createDomainResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="deleteDomainResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="subscribeResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="unsubscribeResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="readSingleResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+ 
+	<xs:complexType name="DBRespType" >
+		<xs:sequence>
+			<xs:any/>
+		</xs:sequence>
+	</xs:complexType> 
+
+	<xs:complexType name="readListResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="readQueryResponseType">
+		<xs:sequence>
+			<xs:element name="DBResp" type="DBRespType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+    <xs:complexType name="exportDBResponseType">
+        <xs:sequence>
+            <xs:element name="DBResp" type="DBRespType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="importDBResponseType">
+        <xs:sequence>
+            <xs:element name="DBResp" type="DBRespType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="deleteDBResponseType">
+        <xs:sequence>
+            <xs:element name="DBResp" type="DBRespType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+	<!--  event  -->
+	<xs:element name="updateEvent" type="DBPublishEventType">
+	</xs:element>
+ 
+	
+	<xs:complexType name="DBPublishEventType">
+		<xs:sequence>
+			<xs:element name="eventData" type="DBEventDataType" />	
+		</xs:sequence>
+ 		<xs:attribute name="type" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="add" />
+              <xs:enumeration value="replace" />
+              <xs:enumeration value="delete" />
+              <xs:enumeration value="createDomain" />
+              <xs:enumeration value="deleteDomain" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>		
+		<xs:attribute name="revision" type="xs:string" use="required" />
+		<xs:attribute name="nodeID" type="xs:string" use="required" />
+		<xs:attribute name="domain" type="xs:string" use="required" />
+		<xs:attribute name="JID" type="xs:string" use="required" />
+		<xs:attribute name="childXPath" type="xs:string" use="optional" />
+		<xs:attribute name="objectType" type="xs:string" use="optional" />
+		<xs:attribute name="listName" type="xs:string" use="optional" />
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.1" name="Ver" type="xs:double" use="required" />
+	</xs:complexType>
+	
+ 	<xs:complexType name="DBEventDataType" >
+		<xs:sequence>
+			<xs:any/>
+		</xs:sequence>
+	</xs:complexType> 
+
+</xs:schema>

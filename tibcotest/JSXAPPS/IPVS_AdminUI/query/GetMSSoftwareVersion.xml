@@ -1,0 +1,13 @@
+﻿<query>
+   <![CDATA["
+let $serviceResource := for $b in #OBJ_ServiceResource_OBJ# return $b 
+let $assetResourceNID := if(data($serviceResource/HA/Primary/@MSAssetResourceNID) != ''  and data($serviceResource/HA/Primary/@state)='active') then
+                            data($serviceResource/HA/Primary/@MSAssetResourceNID)
+                        else
+                            data($serviceResource/AssetResourceNID)
+ 
+let $deviceDoc := for $b in #OBJ_Device_OBJ#  where $b/AssetResourceNID=$assetResourceNID return $b
+
+return <result> <data jsxid='jsxroot'> <record> {data($deviceDoc/DeviceStatus/SystemElementsStatus/SoftwareImageStatus/Parameters/Parameter[@name='Version'])}</record> </data></result> 
+   "]]>
+ </query>

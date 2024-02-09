@@ -1,0 +1,11 @@
+(: #include TargetObjectLibQuery.xml :)
+let $mediaStorePolicyRuleAfterConvertingintoXpath := ( 
+	    for $policyRule in index-scan('IPVSis_colnids_default', 'default.mediastoreadminpolicyrulelist', 'EQ')/..
+	    where $policyRule/valid = "true"
+	    order by $policyRule/order	
+		return <MediaStoreAdminPolicyRule> {local:getPolicyRule($policyRule,$policyRule/MediaStoreAdminObjectFilterSet/MediaStoreAdminObjectFilterNID,$policyRule/MediaStoreAdminRoleSet)}</MediaStoreAdminPolicyRule> 
+	)
+return <MediaStoreAdminPolicyRuleList>{$mediaStorePolicyRuleAfterConvertingintoXpath}</MediaStoreAdminPolicyRuleList>
+
+	
+	

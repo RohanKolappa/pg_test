@@ -1,0 +1,456 @@
+(: ------------------- Begin XQueryLib.xml -------------------- :)
+
+declare function local:ruleKeyToXPath($ruleKey as xs:string)
+as xs:string 
+{
+(:
+	let $result := $ruleKey
+	return $result
+:)
+	let $srcResourceKey := 'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	let $destResourceKey :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+	let $fromResourceKey :=  'NETWORKADDRESS_RULE_LOCAL_NETWORKRESOURCE'
+	let $toResourceKey :=  'NETWORKADDRESS_RULE_REMOTE_NETWORKRESOURCE'
+	
+	let $srcResourceXPath := "//Src/Resource/"
+	let $destResourceXPath := "//Dest/Resource/"
+	let $fromResourceXPath := "//From/Resource/"
+	let $toResourceXPath := "//To/Resource/"
+	
+	let $empty := ""
+	return 
+		if($ruleKey = $srcResourceKey)
+		then $srcResourceXPath
+		else if($ruleKey = $destResourceKey) then $destResourceXPath
+		else if($ruleKey = $fromResourceKey) then $fromResourceXPath
+		else if($ruleKey = $toResourceKey) then $toResourceXPath
+		else $empty
+};
+
+declare function local:tagNameToXPath($tagName as xs:string)
+as xs:string
+{
+(: Convert  "//Groups/Tag/@Name='Location' and //Groups/Tag/@Value" TO //Groups/Tag[@Name='Location]/@Value :)
+	let $result := concat(".",replace(tokenize($tagName, " and ")[1], concat("/","@"), "[@"), "]/@Value ")
+	let $empty :=  ""
+	return 
+	if($tagName != $empty) then $result
+	else $empty
+};
+
+declare function local:ruleKeyFilterToXPath($ruleKeyFilter as element()*)
+as xs:string
+{
+	let $LHRuleKey := local:ruleKeyToXPath(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey))
+	let $LHTagName := data($ruleKeyFilter/RuleKeyLHTagName/TagName)
+	let $op := local:getOp(data($ruleKeyFilter/MatchOp))
+	let $RHRuleKey := local:ruleKeyToXPath(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey))
+	let $RHTagName := data($ruleKeyFilter/RuleKeyRHTagName/TagName)
+	
+	let $lh := local:tagNameToXPath($LHTagName)
+	let $rh := local:tagNameToXPath($RHTagName)
+	let $result := concat($LHRuleKey, $lh, $op ,  $RHRuleKey, $rh)
+
+	let $empty :=  ""
+	return 
+	if($result = $op) then $empty
+	else $result
+
+	
+};
+
+declare function local:getOp($matchOp as xs:string)
+as xs:string
+{	
+	let $equal := "="
+	let $notequal := "!="
+	return 
+	if($matchOp = 'EqualTo') then $equal
+	else if($matchOp = 'NotEqualTo') then $notequal
+	else $matchOp
+};
+
+declare function local:getRegexp($regexp as xs:string)
+as xs:string
+{	
+	let $result := concat("'", $regexp, "'")
+	let $empty :=  ""
+	return 
+	if($regexp != $empty) then $result
+	else $empty
+};
+
+declare function local:filterNIDToXPath($filterNID as xs:string)
+as xs:string
+{
+	 let $filterDoc := doc(concat('/db/ipvs.default.',  
+								  substring-before( substring-after( $filterNID, 'default.') , '.'  ) , '/', 
+								  substring-after( substring-after( $filterNID, 'default.'),'.')))/*[@NID=$filterNID]
+
+			let $filterXPath := if ( $filterDoc//AttrFilterSet != '') then 
+								let $xpath := string-join ( 	 
+												 (for $d in $filterDoc//AttrFilter
+													let $lh := data($d//LHObjectRelativeXPath)
+													let $rh :=  data($d//RHRegexp)
+													let $temp := if (data($rh) = "*") then 
+																	$lh
+													  			 else 
+																	concat($lh, local:getOp(data($d//MatchOp)),$rh) 
+												  return $temp
+												 ),
+												 " or ")	
+									return $xpath
+								else 
+								let $xpath :=  string-join ( 
+												(for $d in $filterDoc//TagFilter
+													let $LHTagName := data($d//LHTagName)
+													let $lh := local:tagNameToXPath($LHTagName)
+													let $rh :=  local:getRegexp(data($d//RHRegexp))
+													let $temp := concat($lh, local:getOp(data($d//MatchOp)),$rh)		
+												return $temp
+												),
+												" and ")
+
+								return $xpath
+
+	
+	return $filterXPath
+	
+
+	
+};
+
+declare function local:addXPath($a as xs:string, $b as xs:string)
+as xs:string 
+{
+	let $empty := ""
+	return
+		if($a = $empty) then $b
+		else if($b = $empty) then $a
+		else string-join((concat('(', $a,")") , concat('(', $b,")")), " and ")
+}; 
+
+declare function local:prefixIfNotEmpty($prefix as xs:string, $xpath as xs:string)
+as xs:string
+{
+	let $empty := ""
+	return
+		if($xpath = $empty) then $empty
+		else concat($prefix, $xpath)
+};
+
+declare function local:streamFilterToXPath($streamfilterdoc as element()*)
+as xs:string
+{
+	let $srcResourceXPath := local:ruleKeyToXPath("MEDIAROOM_RULE_STREAM_SRC_RESOURCE")
+	let $destResourceXPath := local:ruleKeyToXPath("MEDIAROOM_RULE_STREAM_DST_RESOURCE")
+	let $srcXPath := string-join ( 
+		(
+			for $d in $streamfilterdoc//SrcFilter/MediaStreamResourceFilterNID
+			return local:prefixIfNotEmpty($srcResourceXPath, local:filterNIDToXPath(data($d)))
+		),
+		" or "
+	)
+	let $destXPath := string-join ( 
+		(
+			for $d in $streamfilterdoc//DstFilter/MediaStreamResourceFilterNID
+			return local:prefixIfNotEmpty($destResourceXPath, local:filterNIDToXPath(data($d)))
+		),
+		" or "
+	)
+	let $ruleKeyXPath := string-join ( 
+		(
+			for $d in $streamfilterdoc//RuleKeyTagFilter
+			return local:ruleKeyFilterToXPath($d)
+		),
+		" and "
+	)
+
+
+	let $xpath1 := local:addXPath($srcXPath, $destXPath)
+	let $xpath := local:addXPath($xpath1, $ruleKeyXPath)
+
+	return $xpath
+};
+
+
+declare function local:addXPathWithOp($a as xs:string, $b as xs:string, $operator as xs:string)
+as xs:string 
+{
+	let $empty := ''
+	return
+		if($a = $empty) then $b
+		else if($b = $empty) then $a
+		else string-join(($a , $b), $operator)
+}; 
+
+declare function local:addRuleKeyXPathWithOp($a as xs:string, $b as xs:string, $operator as xs:string)
+as xs:string 
+{
+	let $empty := ''
+	return
+		if($a = $empty) then $b
+		else if($b = $empty) then $a
+		else string-join( (concat('(',$a,')'), concat('(',$b,')')), $operator)
+}; 
+
+declare function local:generateResourceXpath($prefix as xs:string, $xpath as xs:string)
+as xs:string
+{
+	let $empty := ''
+	return
+		if($xpath = $empty) then $prefix
+		else concat($prefix, "[",$xpath,"]")
+};
+
+(: This xPath is applied on Operator element of user request document <Operator><User/><Resource/></Operator>:)
+declare function local:getOperatorXpath($operatorFilterList as element()*)
+as xs:string  {	
+	let $empty :=""
+	let $xPath := string-join (  
+		            (for $operatorFilter in $operatorFilterList/ServiceOperatorFilter
+					  let $userFilterXpath := local:filterNIDToXPath($operatorFilter/UserFilterNID)
+					  let $userXpath :=  local:generateResourceXpath("User",$userFilterXpath)
+					  let $resourceFilterXpath := local:filterNIDToXPath($operatorFilter/ResourceFilterNID)
+					  let $resourceXpath :=  local:generateResourceXpath("Resource",$resourceFilterXpath)
+					  let $userResourceXpath := local:addXPathWithOp($userXpath,$resourceXpath," and ")		              
+   		              return if($userResourceXpath = $empty) then $empty
+		                     else concat('(', $userResourceXpath,")")
+		            )
+		            , " or " )  
+		
+	return 
+		$xPath
+};
+
+declare function local:getSrcOrDstFilterXpath($filterList as element()*)
+as xs:string  {	
+	let $empty :=""
+	let $xPath := string-join (  
+		            (for $filter in $filterList
+					  let $userFilterXpath := local:filterNIDToXPath($filter/UserFilterNID)
+					  let $userXpath :=  local:generateResourceXpath("User",$userFilterXpath)
+					  let $resourceFilterXpath := local:filterNIDToXPath($filter/MediaStreamResourceFilterNID)
+					  let $resourceXpath :=  local:generateResourceXpath("Resource",$resourceFilterXpath)
+					  let $filterResourceXpath := local:addXPathWithOp($userXpath,$resourceXpath," and ")		
+   		              return if($filterResourceXpath = $empty) then $empty
+		                     else concat('(', $filterResourceXpath,')')
+		            )
+		            , " or " )  
+		
+	return 
+		$xPath
+};
+
+declare function local:getRuleKeyXpathPrefix($ruleKey as xs:string)
+as xs:string  {
+	let $operatorUserKey := 'SERVICE_RULE_OPER_USER'
+	let $operatorResourceKey :=  'SERVICE_RULE_OPER_RESOURCE'
+	let $confCreateUserKey := 'MEDIAROOM_RULE_CONFCREATE_USER'
+	let $confStartUserKey :=  'MEDIAROOM_RULE_CONFSTART_USER'
+	let $srcUserKey := 'MEDIAROOM_RULE_STREAM_SRC_USER'
+	let $srcResourceKey :=  'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	let $dstUserKey := 'MEDIAROOM_RULE_STREAM_DST_USER'
+	let $dstResourceKey :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+
+	
+	let $operatorUserXPath := "User"
+	let $operatorResourceXPath := "Resource"
+	let $empty := ''
+	let $xpath := if($ruleKey = $operatorUserKey or $ruleKey = $confCreateUserKey or $ruleKey = $confStartUserKey  or $ruleKey = $srcUserKey  or $ruleKey = $dstUserKey)  then  
+										let $xpath := concat('//',local:getRuleKeyPrefix($ruleKey),'/',$operatorUserXPath,'/')
+										return $xpath
+		else if(($ruleKey = $operatorResourceKey) or ($ruleKey = $srcResourceKey) or ($ruleKey = $dstResourceKey)) then 
+										let $xpath := concat('//',local:getRuleKeyPrefix($ruleKey),'/',$operatorResourceXPath,'/')
+										return $xpath		
+		else $empty
+	return 
+		$xpath
+};
+
+declare function local:getRuleKeyPrefix($ruleKey as xs:string)
+as xs:string  {
+	let $operatorUserKey := 'SERVICE_RULE_OPER_USER'
+	let $operatorResourceKey :=  'SERVICE_RULE_OPER_RESOURCE'
+	let $confCreateUserKey := 'MEDIAROOM_RULE_CONFCREATE_USER'
+	let $confStartUserKey :=  'MEDIAROOM_RULE_CONFSTART_USER'
+	let $srcUserKey := 'MEDIAROOM_RULE_STREAM_SRC_USER'
+	let $srcResourceKey :=  'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	let $dstUserKey := 'MEDIAROOM_RULE_STREAM_DST_USER'
+	let $dstResourceKey :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+
+	
+	let $operator := "Operator"
+	let $source := "Source"
+	let $destination := "Destination"
+	let $empty := ''
+	return 
+		if(($ruleKey = $operatorUserKey) or ($ruleKey = $operatorResourceKey) or ($ruleKey = $confCreateUserKey) or ($ruleKey = $confStartUserKey))	then $operator
+		else if(($ruleKey = $srcUserKey) or ($ruleKey = $srcResourceKey))	then $source
+		else if(($ruleKey = $dstUserKey) or ($ruleKey = $dstResourceKey)) then $destination
+		else $empty
+};
+
+
+(:Generate the rule key xPath for operator Enums.
+  if the rule key contains operator_user and operator_resource else return empty :)
+declare function local:getRuleKeyXpath($ruleKeyFilterSet as element()*)
+as xs:string
+{
+	let $operatorFilterRuleKeyXpath := string-join ( 
+			(
+				for $ruleKeyFilter in $ruleKeyFilterSet/RuleKeyTagFilter
+				let $LHRuleKey := local:getRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey))
+				let $LHTagName := data($ruleKeyFilter/RuleKeyLHTagName/TagName)
+				let $op := local:getOp(data($ruleKeyFilter/MatchOp))
+				let $RHRuleKey := local:getRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey))
+				let $RHTagName := data($ruleKeyFilter/RuleKeyRHTagName/TagName)
+				
+				let $lh := local:tagNameToXPath($LHTagName)
+				let $rh := local:tagNameToXPath($RHTagName)
+				let $empty := ''
+				where ($LHRuleKey!=$empty and $LHTagName!=$empty and $op!=$empty and $RHRuleKey!=$empty and $RHTagName!=$empty)
+				return 
+				  concat("(",$LHRuleKey,$lh, $op , $RHRuleKey,$rh,")")
+			)
+		, " and "
+	  )
+	  return $operatorFilterRuleKeyXpath
+};
+
+declare function local:generateRuleKeyXML($lhKey as xs:string,$lhTagExp as xs:string,$op as xs:string,$rhTagExp as xs:string) 
+as element()* {
+	let $empty:=""
+	return 
+		if ($lhTagExp = $empty or $op = $empty or $rhTagExp = $empty) then $empty 
+		else 
+		<RuleKey>
+		    <LHKey>{$lhKey}</LHKey>
+		    <LHTagXpath>{$lhTagExp}</LHTagXpath>
+    		<Operator>{$op}</Operator>
+		    <RHTagXpath>{$rhTagExp}</RHTagXpath>
+		</RuleKey> 
+};
+
+declare function local:getRuleKeyList($ruleKeyFilterSet as element()*, $targetObjectFilter as xs:string, $targetObjectFilterPrefix as xs:string)
+as element()* 
+{
+	let $ruleKeyXpath := (
+		for $ruleKeyFilter in $ruleKeyFilterSet/RuleKeyTagFilter
+				let $LHRuleKey := data($ruleKeyFilter/RuleKeyLHTagName/RuleKey)
+				let $LHTagName := data($ruleKeyFilter/RuleKeyLHTagName/TagName)
+				let $op := local:getOp(data($ruleKeyFilter/MatchOp))
+				let $RHRuleKey := data($ruleKeyFilter/RuleKeyRHTagName/RuleKey)
+				let $RHTagName := data($ruleKeyFilter/RuleKeyRHTagName/TagName)
+				
+				let $lh := local:tagNameToXPath($LHTagName)
+				let $rh := local:tagNameToXPath($RHTagName)		
+	    where $LHRuleKey=$targetObjectFilter or  $RHRuleKey= $targetObjectFilter
+		return 
+				if($LHRuleKey = $targetObjectFilter) then 
+					local:generateRuleKeyXML($targetObjectFilterPrefix,$lh,$op,concat(local:getRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey)),$rh))
+				else if($RHRuleKey = $targetObjectFilter) then
+					local:generateRuleKeyXML($targetObjectFilterPrefix,$rh,$op,concat(local:getRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey)),$lh))
+				else ""
+	) 
+
+	return  $ruleKeyXpath  
+};
+
+
+
+(:   Generate the rule key xPath for source Enums.
+     if the rule key contains source_user and source_resource else return empty. 
+    Use This methid when you know the both RH or LH as Operator/Source/Destination (Knowm Values):)
+
+declare function local:getOperatorOrSourceOrDestinationRuleKeyXpath($ruleKeyFilterSet as element()*, $generateXPathfor as xs:string)
+as xs:string
+{
+	let $operatorFilterRuleKeyXpath := string-join ( 
+			(
+				for $ruleKeyFilter in $ruleKeyFilterSet/RuleKeyTagFilter
+				let $LHRuleKey :=  if ($generateXPathfor = "Operator") then
+				                        local:getOperatorRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey)) 
+				                   else if ($generateXPathfor = "Source") then
+ 				                        local:getSourceRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey))
+   								   else if ($generateXPathfor = "Destination") then
+ 				                        local:getDestinationRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyLHTagName/RuleKey))
+								   else  ''
+
+
+				let $LHTagName := data($ruleKeyFilter/RuleKeyLHTagName/TagName)
+				let $op := local:getOp(data($ruleKeyFilter/MatchOp))
+				let $RHRuleKey := if ($generateXPathfor = "Operator") then
+				                        local:getOperatorRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey)) 
+				                   else if ($generateXPathfor = "Source") then
+ 				                        local:getSourceRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey))
+   								   else if ($generateXPathfor = "Destination") then
+ 				                        local:getDestinationRuleKeyXpathPrefix(data($ruleKeyFilter/RuleKeyRHTagName/RuleKey))
+								   else  ''
+				
+				let $RHTagName := data($ruleKeyFilter/RuleKeyRHTagName/TagName)
+				
+				let $lh := local:tagNameToXPath($LHTagName)
+				let $rh := local:tagNameToXPath($RHTagName)
+				let $empty := ''
+				where ($LHRuleKey!=$empty and $LHTagName!=$empty and $op!=$empty and $RHRuleKey!=$empty and $RHTagName!=$empty)
+				return 
+				  concat("(",$LHRuleKey,"/",$lh, $op , $RHRuleKey,"/",$rh,")")
+			)
+		, " and "
+	  )
+	  return $operatorFilterRuleKeyXpath
+};
+
+declare function local:getSourceRuleKeyXpathPrefix($ruleKey as xs:string)
+as xs:string  {
+	let $sourceUserKey := 'MEDIAROOM_RULE_STREAM_SRC_USER'
+	let $sourceResourceKey :=  'MEDIAROOM_RULE_STREAM_SRC_RESOURCE'
+	
+	
+	let $sourceUserXPath := "User"
+	let $sourceResourceXPath := "Resource"
+	let $empty := ''
+	let $xpath := if($ruleKey = $sourceUserKey) then $sourceUserXPath
+		else if($ruleKey = $sourceResourceKey) then $sourceResourceXPath
+		else $empty
+	return 
+		$xpath
+};
+
+
+declare function local:getDestinationRuleKeyXpathPrefix($ruleKey as xs:string)
+as xs:string  {
+	let $destinationUserKey := 'MEDIAROOM_RULE_STREAM_DST_USER'
+	let $destinationResourceKey :=  'MEDIAROOM_RULE_STREAM_DST_RESOURCE'
+	
+	
+	let $destinationUserXPath := "User"
+	let $destinationResourceXPath := "Resource"
+	let $empty := ''
+	let $xpath := if($ruleKey = $destinationUserKey) then $destinationUserXPath
+		else if($ruleKey = $destinationResourceKey) then $destinationResourceXPath
+		else $empty
+	return 
+		$xpath
+};
+
+declare function local:getOperatorRuleKeyXpathPrefix($ruleKey as xs:string)
+as xs:string  {
+	let $operatorUserKey := 'SERVICE_RULE_OPER_USER'
+	let $operatorResourceKey :=  'SERVICE_RULE_OPER_RESOURCE'
+	
+	
+	let $operatorUserXPath := "User"
+	let $operatorResourceXPath := "Resource"
+	let $empty := ''
+	let $xpath := if($ruleKey = $operatorUserKey) then $operatorUserXPath
+		else if($ruleKey = $operatorResourceKey) then $operatorResourceXPath
+		else $empty
+	return 
+		$xpath
+};
+
+
+(: ------------------- End XQueryLib.xml -------------------- :)
+

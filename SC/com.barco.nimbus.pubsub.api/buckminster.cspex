@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspecExtension xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<cs:artifacts>
+		<cs:public name="os" path="os/"/>
+		<cs:public name="lib" path="lib/"/>
+		<cs:private name="services" path="META-INF/services/"/>
+	</cs:artifacts>
+	
+	<cs:actions>
+        <cs:public name="bin-jar" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+                <cs:property key="targets" value="create.zip"/>
+            </cs:actorProperties>
+            <cs:prerequisites alias="action.requirements">
+                <cs:attribute name="bin-filter"/>  
+                <cs:attribute name="services"/>  
+                <cs:attribute name="os"/>  
+            </cs:prerequisites>
+            <cs:products alias="action.output" base="pkg/">
+                <cs:path path="${buckminster.component}.jar"/>
+            </cs:products>
+        </cs:public>
+  
+        <cs:public name="bin-test-jar" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+                <cs:property key="targets" value="create.zip"/>
+            </cs:actorProperties>
+            <cs:prerequisites alias="action.requirements">
+                <cs:attribute name="bin-test-filter"/>  
+                <cs:attribute name="services"/> 
+		<cs:attribute name="os"/> 
+            </cs:prerequisites>
+            <cs:products alias="action.output" base="pkg/">
+                <cs:path path="${buckminster.component}-test.jar"/>
+            </cs:products>
+        </cs:public>
+    <cs:public name="bin-integration-test-jar" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+                <cs:property key="targets" value="create.zip"/>
+            </cs:actorProperties>
+            <cs:prerequisites alias="action.requirements">
+                <cs:attribute name="bin-integration-test-filter"/>  
+                <cs:attribute name="services"/> 
+		<cs:attribute name="os"/> 
+            </cs:prerequisites>
+            <cs:products alias="action.output" base="pkg/">
+                <cs:path path="lib/${buckminster.component}-integration-test.jar"/>
+            </cs:products>
+        </cs:public>
+    <cs:private name="bin-filter" actor="eclipse.build">
+            <cs:prerequisites >
+            <cs:attribute name="eclipse.build"/>  
+             </cs:prerequisites>
+        	<cs:products base="${buckminster.home}/bin/">
+                <cs:path path="."/>
+            </cs:products>
+        </cs:private>
+        <cs:private name="bin-test-filter" actor="eclipse.build">
+            <cs:prerequisites >
+            <cs:attribute name="eclipse.build"/>  
+             </cs:prerequisites>
+        	<cs:products base="${buckminster.home}/bin-test/">
+                <cs:path path="."/>
+            </cs:products>
+        </cs:private>
+           <cs:private name="bin-integration-test-filter" actor="eclipse.build">
+            <cs:prerequisites >
+            <cs:attribute name="eclipse.build"/>  
+             </cs:prerequisites>
+        	<cs:products base="${buckminster.home}/bin-integration-test/">
+                <cs:path path="."/>
+            </cs:products>
+        </cs:private>
+    </cs:actions>
+</cs:cspecExtension>

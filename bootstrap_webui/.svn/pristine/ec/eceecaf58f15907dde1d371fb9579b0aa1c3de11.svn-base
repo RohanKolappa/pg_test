@@ -1,0 +1,547 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,IE=11,IE=EmulateIE11">
+  <title>Barco NGS-D200 Setup</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+  <script src="/js/libs/jquery-1.9.1.js"></script>
+  <script src="/js/libs/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
+  <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-nd.css" type="text/css">
+  <link rel="stylesheet" href="/css/barco-setup.css" type="text/css">
+</head>
+
+<body>
+
+<!-- =========================================================================== 
+Header 
+============================================================================ -->
+
+<!-- <div class="navbar navbar-fixed-top">  -->
+<div>
+  <div id="barcodotcom">
+    <div id="barcodotcomleft"><a href="/"><img src="/img/barco.com.gif" alt="barco.com"></a></div>
+    <div id="barcodotcomright"> </div>
+  </div>
+  <div class="topnav">
+    <p class="righttop" style="font-family:Verdana, Geneva, sans-serif;font-size:14px;">
+      NGS-D200 Setup
+    </p>
+  </div>
+</div>
+
+<!--
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner bg-header-red">
+    <div class="container-fluid">
+      <h2 class="pull-left" style="color: #fff;">NGS-D200 Setup</h3>
+      <img class="pull-right" style="margin-top:14px" src="/img/BarcoTextLogoWhite.png" />
+    </div>
+  </div>
+</div>
+-->
+
+<!-- =========================================================================== 
+Body Container
+============================================================================ -->    
+<div class="container" style="margin-top:20px;">
+  <!--  
+  Wizard breadcrumb
+  -->
+  <div class="row-fluid">
+    <div class="wizard">
+      <ul class="nav">
+        <li id="wiz1"><span class="badge">1</span><span class="hidden-phone">General Settings</span></li>
+        <li id="wiz2"><span class="badge">2</span><span class="hidden-phone">Set Password</span></li>
+        <li id="wiz3"><span class="badge">3</span><span class="hidden-phone">Network Connection</span></li>
+        <li id="wiz4"><span class="badge">4</span><span class="hidden-phone">Streaming&nbsp;&nbsp;</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end Wizard breadcrumb -->
+  <!-- Wizard Form _________________________________________________________ -->
+  <div class="row-fluid" style="margin-top:0px">
+    <div class="well">
+      <form class="form-horizontal" action='' method="POST">
+        <!-- Main Tab Container ____________________________________________ -->
+        <div id="myTabContent" class="tab-content">
+          <!-- Tab 1 General Setup _________________________________________ -->
+          <div class="tab-pane" id="general">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">General Settings</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middel Row -->
+            <div class="row-fluid" style="height:170px"><br>
+              <fieldset>
+                <input type="hidden" name="cli_dns_client" value="">
+                <div id="devicename" class="control-group">
+                  <label class="control-label">Device Name</label>
+                  <div class="controls">
+                    <input type="text" value="HOSTNAME" name="dns_client_hostname" placeholder=""
+                           tabindex="1" class="input-xlarge" data-toggle="popover"
+                           title="Device Name"
+                           data-content="The device name must be all lower case alpha-numeric characters and no spaces or special characters. Example:  display2b">
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+                <div id="devicetype" class="control-group">
+                  <label class="control-label">Device Type</label>
+                  <div class="controls">
+                    <input type="text" value="NGS-D200" name="readonly_version_hardware"
+                           placeholder="" class="input-xlarge" disabled>
+                  </div>
+                </div>
+                <div id="serial" class="control-group">
+                  <label class="control-label" for="password">Serial Number</label>
+                  <div class="controls">
+                    <input type="text" value="SERIAL"
+                           name="readonly_version_serialnumber" placeholder=""
+                           class="input-xlarge" disabled>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <!-- End Middle Row -->
+			
+			<div class="row-fluid" style="height:70px;">
+              <div class="section-title">Keyboard Settings</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:240px;">
+              <div class="span12">
+                <div class="span6">
+                  <fieldset>
+					<input type="hidden" name="cli_tx_kbm_layout" value="1">
+					<input type="hidden" name="tx_kbm_layout" value="ALL_KBM_LOCALES">
+					<input type="hidden" name="tx_kbm_layout_default_value" value="KBM_DEFAULT_VALUE">
+					
+					<div id="kbm_locale" class="control-group">
+					  <label class="control-label">Keyboard Locale</label>
+					  <div class="controls">
+						<select id="keyboard_locale" name="tx_kbm_layout_keyboard_layout">
+						</select>
+						<p class="error-msg hidden"></p>
+					  </div>
+					</div>
+                  </fieldset>
+                </div> <!-- end span6 -->
+              </div>  <!-- end span12 -->
+            </div>
+          </div>
+          <!-- End Tab 1 -->
+          <!-- Tab 2 Password ______________________________________________ -->
+          <div class="tab-pane" id="password">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Set Password</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:240px;"><br>
+              <fieldset>
+                <input type="hidden" name="cli_admin" value="">
+                <div id="adminusername" class="control-group">
+                  <label class="control-label">Admin Login</label>
+                  <div class="controls">
+                    <input type="text" value="admin" name="readonly_admin_username"
+                           placeholder="" class="input-xlarge" disabled>
+                  </div>
+                </div>
+                <div id="passwordinput" class="control-group">
+                  <label class="control-label">Password</label>
+                  <div class="controls">
+                    <input type="password" name="admin_password" placeholder=""
+                           tabindex="2" class="input-xlarge" data-toggle="popover"
+                           title="Password"
+                           data-content="The password must be at least 8 characters long, contain at least 1 uppercase letter and number, and no special characters.">
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+                <div id="passwordconfirm" class="control-group">
+                  <label class="control-label">Confirm</label>
+                  <div class="controls">
+                    <input type="password" name="readonly_admin_passwordconfirm"
+                           placeholder="" tabindex="3" class="input-xlarge">
+                    <p class="error-msg hidden"></p>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 2 -->
+          <!-- Tab 3 Network Setup _________________________________________ -->
+          <div class="tab-pane" id="network">
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Management Mode</div>
+            </div>
+            <div class="row-fluid" style="height:150px;">
+              <div class="span12">
+			  <p class="muted">Select whether you plan to manage the device via its local web interface (standalone) or through an IPVS Management Server. This option can always be changed later from the device's local web interface.</p>
+                
+				<div class="span6">
+                  <fieldset>
+                    <div class="area">
+                      <div id="managedmode" class="control-group">
+                        <label class="control-label">Management Mode</label>
+                        <div class="controls">
+                          <label class="radio inline">
+                            <input type="radio" name="mngmode" value="standalone" tabindex="1" STANDALONE>
+                            Standalone
+                          </label>
+                        </div>
+                        <div class="controls">
+                          <label class="radio inline">
+                            <input type="radio" name="mngmode" value="managed" tabindex="2" MANAGEDMD>
+                            Managed
+                          </label>
+                        </div>
+                      </div>
+                      <div id="scipaddress" class="control-group">
+                        <label class="control-label">Server IP Address</label>
+                        <div class="controls">
+                          <input type="text" value="XMPP_SERVER" name="xmpp_agent_serverip" placeholder="" tabindex="3" class="input-xlarge" XMPPDISABLED
+                                 data-toggle="popover" title="XMPP Server"
+                                 data-content="Enter the IP address or name of the XMPP server that will manage this device.">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                    </div> <!-- end area -->
+                  </fieldset>
+                </div> <!-- end span6 -->
+              </div>  <!-- end span12 -->
+            </div>
+            <!-- End Middle Row -->
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:70px;">
+              <div class="section-title">Network Connection</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" style="height:240px;">
+              <div class="span12">
+                <div class="span6">
+                  <fieldset>
+                    <input type="hidden" name="cli_if_list" value="">
+                    <input type="hidden" name="if_list_index" value="1">
+                    <input type="hidden" name="cli_route_entry" value="">
+                    <input type="hidden" name="route_entry_index" value="0">
+                    <input type="hidden" name="route_entry_mask" value="0.0.0.0">
+                    <input type="hidden" name="route_entry_dst" value="0.0.0.0">
+                    <input type="hidden" name="cli_ntp" value="">
+                    <div class="area">
+                      <div id="dhcp" class="control-group">
+                        <label class="control-label">Enable DHCP</label>
+                        <div class="controls">
+                          <input type="checkbox" value="on"
+                                 name="if_list_checkbox_usedhcp"
+                                 tabindex="4" class="input-xlarge">
+                        </div>
+                      </div>
+                      <div id="ipaddress" class="control-group">
+                        <label class="control-label">IP Address</label>
+                        <div class="controls">
+                          <input type="text" value="" name="if_list_ipaddress"
+                                 placeholder="" tabindex="5" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                      <div id="netmask" class="control-group">
+                        <label class="control-label">Subnet Mask</label>
+                        <div class="controls">
+                          <input type="text" value="" name="if_list_netmask"
+                                 placeholder="" tabindex="6" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                      <div id="gateway" class="control-group">
+                        <label class="control-label">Default Gateway</label>
+                        <div class="controls">
+                          <input type="text" value="" name="route_entry_gw"
+                                 placeholder="" tabindex="7" class="input-xlarge">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                      <div id="ntpip" class="control-group">
+                        <label class="control-label">NTP Server</label>
+                        <div class="controls">
+                          <input type="text" value="" name="ntp_ipaddress"
+                                 placeholder="" tabindex="8" class="input-xlarge"
+                                 data-toggle="popover" title="NTP Server"
+                                 data-content="Enter the IP address or name of the NTP server to use. Example: time.nist.gov">
+                          <p class="error-msg hidden"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div> <!-- end span6 -->
+              </div>  <!-- end span12 -->
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 3 -->
+          <!-- Tab 4 Video Setup ___________________________________________ -->
+          <div class="tab-pane" id="video">
+            <!-- Top Row -->
+            <div class="row-fluid" style="height:50px;">
+              <div class="section-title">Streaming</div>
+            </div>
+            <!-- End Top Row -->
+            <!-- Middle Row -->
+            <div class="row-fluid" >
+              <div class="control-group">
+                <label class="control-label">Streaming mode:</label>
+                <div class="controls">
+                  <input type="hidden" name="cli_board_info" value="">
+                  <div class="btn-group" data-toggle="buttons-radio">
+                    <a href="#StreamSrc" class="btn active" data-toggle="tab"> Encoder </a>
+                    <a href="#StreamDst" class="btn" data-toggle="tab"> Decoder </a>
+                  </div>
+                </div>
+              </div>
+              <!-- ENCODER BLOCK -->
+              <!-- Encoder-Decoder-Tabs -->
+              <div id="encoderDecoderTabs" class="tab-content">
+                <div class="tab-pane active" id="StreamSrc" style="padding: 20px;">
+                  <fieldset>
+                    <input type="hidden" name="v2d_streaming_profile_checkbox_enable_auth_table" value="off">
+                    <input type="hidden" name="cli_v2d_streaming_profile" value="">
+                    <input type="hidden" name="v2d_streaming_profile_channelNumber" value="1">
+                    <input type="hidden" name="v2d_streaming_profile_low_compression" value="6">
+					<input type="hidden" name="cli_multicast_parm" value="1">
+                    <div id="stream-type" class="control-group">
+                      <label class="control-label">Choose video profile:</label>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="vidprofile" value="desktop" tabindex="1" checked>
+                          Remote Desktop Interaction
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="vidprofile" value="hires" tabindex="2">
+                          High Resolution Graphics
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="vidprofile" value="video" tabindex="3">
+                          Full Motion Video
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="vidprofile" value="custom" tabindex="4">
+                          Custom
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <hr class="divider">
+                      </div>
+                    </div><!-- End radio buttons -->
+                    <div  id="bandwidth" class="control-group">
+                      <label class="control-label">Bandwidth:</label>
+                      <div class="controls">
+                        <div class="input-append">
+                          <input class="span3" name="v2d_streaming_profile_bandwidth"
+                                 placeholder="" tabindex="5" type="text" disabled>
+                          <span class="add-on">Mbps</span>
+                        </div>
+                        <p class="error-msg hidden"></p>
+                      </div>
+                    </div><!-- End bandwidth -->
+                    <div id="image-quality" class="control-group">
+                      <label class="control-label" style="vertical-align:middle;line-height:40px">
+                        Adjustments:
+                      </label>
+                      <div class="controls">
+                        <div style="width:300px;">
+                          <div style="padding-right:47px;">
+                            <p class="help-block" style="padding-bottom:5px">
+                              Picture Quality
+                              <span style="float:right">Smooth Video</span>
+                            </p>
+                          </div>
+                          <div style="float:left;width:250px;padding:0px 5px;">
+                            <div id="slider"></div>
+                          </div>
+                          <div style="display:none;float:left"><!-- removing from view temporarily until confirmed that it's not actually needed -->
+                            <input style="margin-top:-8px;" type="text" value="0"
+                                   placeholder="" name="v2d_streaming_profile_high_compression"
+                                   tabindex="20"  class="small-input" disabled>
+                          </div>
+                        </div>
+                      </div>
+                    </div> <!-- End slider -->
+                      <div class="controls">
+                        <hr class="divider">
+                      </div>
+                    <div id="encode-audio" class="control-group">
+                      <label class="control-label">Audio:</label>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="encode_audio_input"
+                                 value="Line" tabindex="6" checked>
+                          Line-In
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="encode_audio_input"
+                                 value="Mic" tabindex="7">
+                          Mic-In
+                        </label>
+                      </div>
+                      <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio" name="encode_audio_input"
+                                 value="None" tabindex="8">
+                          None
+                        </label>
+                      </div>
+                      <p class="error-msg hidden"></p>
+                    </div><!-- End Audio -->
+
+				  <div class="controls">
+                    <hr class="divider">
+                  </div> 
+				  
+				  <div id="multicast" class="control-group">
+					<label class="control-label">Multicast Address</label>
+					<div class="controls">
+					  <input type="text" value="MULTICAST_FROM" name="multicast_parm_multicast_from"
+							 placeholder="" tabindex="9" class="input-xlarge">
+					  <p class="muted">Important! Change this to a unique multicase address if you have multiple encoders</p>
+					  <p class="error-msg hidden"></p>
+					</div>
+				  </div>				  
+					
+                  </fieldset>
+                </div><!-- End Encoder tab -->
+                <!-- Decoder Tab Pane -->
+                <div class="tab-pane" id="StreamDst"><br>
+                  <fieldset>
+                    <div class="row-fluid">
+                      <div id="decode-audio" class="control-group">
+                        <label class="control-label">Audio:</label>
+                        <div class="controls">
+                          <label class="radio inline">
+                            <input type="radio" name="decode_audio_input"
+                                   value="Line" tabindex="1" checked>
+                            Line-In
+                          </label>
+                        </div>
+                        <div class="controls">
+                          <label class="radio inline">
+                            <input type="radio" name="decode_audio_input"
+                                   value="Mic" tabindex="2">
+                            Mic-In
+                          </label>
+                        </div>
+                        <div class="controls">
+                          <label class="radio inline">
+                            <input type="radio" name="decode_audio_input"
+                                   value="None" tabindex="3">
+                            None
+                          </label>
+                        </div>
+                        <p class="error-msg hidden"></p>
+                      </div><!-- End Audio -->
+                    </div> <!-- end row-fluid -->
+
+					  <div class="controls">
+						<hr class="divider">
+					  </div> 
+				  
+					  <div id="multicast" class="control-group">
+						<label class="control-label">Multicast Address</label>
+						<div class="controls">
+						  <input type="text" value="MULTICAST_FROM" name="multicast_parm_multicast_from"
+								 placeholder="" tabindex="4" class="input-xlarge">
+						  <p class="muted">Important! Change this to a unique multicase address if you have multiple encoders</p>
+					  	  <p class="error-msg hidden"></p>
+						</div>
+					  </div>
+                  <fieldset>
+                </div><!-- End decoder tab-->
+              </div><!-- End Encoder-Decoder-Tabs -->
+            </div>
+            <!-- End Middle Row -->
+          </div>
+          <!-- End Tab 4 -->
+        </div>
+        <!-- End Main Tabs Container -->
+        <!-- Pagination Buttons ____________________________________________ -->
+        <div class="row-fluid">
+          <hr >
+          <div class="control-group">
+            <div class="controls">
+              <a id="btn_previous" href="#" tabindex="11" class="btn" data-toggle="tab" style="width:60px;">Previous</a>
+              <a id="btn_next" href="#" tabindex="10" class="btn" data-toggle="tab" style="width:60px;margin-left:120px">Next</a>
+            </div>
+          </div>
+        </div>
+        <!-- End Pagination -->
+      </form>
+    </div><!-- end well -->
+  </div><!-- end row-fluid -->
+</div>
+<!--end body container-->
+
+<!-- =========================================================================== 
+Footer
+============================================================================ -->
+<!-- 
+<footer style="position: absolute; bottom:0px; margin-top:500px;background:red;">
+  <div>&copy; Barco 2013</div>
+</footer>
+-->
+<div class="barco-footer">
+  <span class="barco-footer-text">
+    Copyright © Barco
+  </span>
+  <div class="barco-footer-logo">
+    <img src="/img/Barco_logo_60.png">
+  </div>
+</div>
+<!--- end footer -->
+ 
+<!-- ===========================================================================
+Modal
+============================================================================ -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <div id="floatingCirclesG" style="float:left">
+      <div class="f_circleG" id="frotateG_01"></div>
+      <div class="f_circleG" id="frotateG_02"></div>
+      <div class="f_circleG" id="frotateG_03"></div>
+      <div class="f_circleG" id="frotateG_04"></div>
+      <div class="f_circleG" id="frotateG_05"></div>
+      <div class="f_circleG" id="frotateG_06"></div>
+      <div class="f_circleG" id="frotateG_07"></div>
+      <div class="f_circleG" id="frotateG_08"></div>
+    </div>
+    <h3 style="float:left">Setting up your device, one moment...</h3>
+  </div>
+</div>
+
+<script src="/js/libs/bootstrap.js"></script>
+<script src="/js/languages/barco-ngs-setup-wizard-en.js"></script>
+<script src="/js/barco-ngs-setup-wizard.js"></script>
+<script>
+  $(document).ready(barco_ngs_init);
+</script>
+
+</body>
+</html>

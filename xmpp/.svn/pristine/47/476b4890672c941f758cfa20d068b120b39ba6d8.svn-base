@@ -1,0 +1,70 @@
+#common setup
+#------------
+if [setup_mediaroom_client] {
+    perror "Failed setting up client"
+    return
+}
+
+
+#
+# Procedure to run command on Sentry Power Tower power switch
+# proc run_ps_command {ps_ip cmd} { global ps1Pw global timeout
+proc run_ps_command {ps_ip ps1Pw cmd} { 
+    verbose "Connecting to power switch $ps_ip" 1
+    spawn telnet $ps_ip
+    set ps_id $spawn_id
+
+    expect {
+	"Username: " {  }
+	eof { perror "Failed to connect to $ps_ip (EOF)"; exit 1 }
+	timeout { perror "Failed to connect to $ps_ip (timeout)"; exit 1 }
+    }
+
+    # Send login name "admn" 
+    send "admn\r"
+    set send_password 0
+    expect {
+        "Password: " { set send_password 1 }
+			timeout { perror "Failed to send power switch user name"; }
+    }
+
+    if {$send_password == 1} {
+       send "${ps1Pw}\r\r"
+       expect {
+           "Sentry: " { }
+	   			timeout { perror "Failed to send power switch password"; }
+       }
+    }
+
+    send "$cmd\r"
+
+    expect {
+        "Sentry: " { }
+        		timeout { perror "Failed to send command $cmd to $ps_ip"; }
+    }
+
+    send "exit\r"
+
+    expect {
+        "Session ended" { }
+        		timeout { perror "Failed to logout on $ps_ip"; }
+    }
+
+    return 1 
+}
+
+set DMS "10.1.5.171"
+set ps1IP "192.168.1.208"
+set ps1Pw "admn"
+
+puts "Start : Power OFF ${DMS} "
+
+pass_if [run_ps_command $ps1IP $ps1Pw  "off .A1"] "Power OFF ${DMS}"
+
+puts "Power ON ${DMS} sleep 30 sec "
+
+after 30000
+
+puts "Start : Power ON ${DMS} "
+pass_if [run_ps_command $ps1IP $ps1Pw "on .A1"] "Power ON ${DMS}"
+

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Media.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.CollaborationConfig.xsd" />
+  <xs:include schemaLocation="mediaroom.mediaroomservice.datamodel.xsd" />
+  <xs:complexType name="GroupListType">
+    <xs:sequence>
+      <xs:element name="GroupList" type="TagList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreamInfoType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ActionInfoType">
+    <xs:sequence>
+      <xs:element name="actionNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddDestFileRequestData" type="AddDestFileRequestDataType" />
+  <xs:complexType name="AddDestFileRequestDataType">
+    <xs:sequence>
+      <xs:element name="ClipType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="MediaClip" />
+            <xs:enumeration value="PVRMediaClip" />
+            <xs:enumeration value="MediaGroup" />
+            <xs:enumeration value="PlayList" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="MediaGroupFileResourceNID" type="MRNIDType"/>
+      <xs:element name="FileTitle" type="xs:string" minOccurs="0"/>
+      <xs:element name="FileDescription" type="xs:string" minOccurs="0" />
+      <xs:element name="Groups" type="TagList" minOccurs="0"/>
+      <xs:element name="MetaData" type="MetaDataType" minOccurs="0"/>
+      <xs:element name="Permissions" type="MediaPermissionsType" minOccurs="0"/>
+      <xs:element name="ParentMediaDirNID" type="MRNIDType" />
+      <xs:element name="MediaStorePortResourceNID" type="MRNIDType"/>    
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing AddDestFileResponseData -->
+  <xs:element name="UpdateDestFileMetaDataRequestData" type="UpdateDestFileMetaDataRequestDataType" />
+  <xs:complexType name="UpdateDestFileMetaDataRequestDataType">
+    <xs:sequence>
+      <xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+      <xs:element name="MetaData" type="TagList" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing UpdateDestFileResponseData -->
+  <!-- 
+  <xs:element name="DeleteDestFileRequestData" type="DeleteDestFileRequestDataType" />
+  <xs:complexType name="DeleteDestFileRequestDataType">
+    <xs:sequence>
+      <xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType> -->
+  <!-- Missing DeleteDestFileResponseData -->
+  <xs:element name="AddBookMarkRequestData" type="BookMarkRequestDataType" />
+  <xs:element name="UpdateBookMarkRequestData" type="BookMarkRequestDataType" />
+  <xs:element name="DeleteBookMarkRequestData" type="BookMarkRequestDataType" />
+  <xs:complexType name="BookMarkRequestDataType">
+    <xs:sequence>
+      <xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+      <xs:element name="Bookmark" type="BookmarkType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing AddBookMarkResponseData -->
+  <!-- Missing UpdateBookMarkResponseData -->
+  <!-- Missing DeleteBookMarkResponseData -->
+  <xs:element name="GetSrcMediaFileTrackRequestData" type="GetFileInfoRequestDataType" />
+  <xs:complexType name="GetFileInfoRequestDataType">
+    <xs:sequence>
+      <xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetSrcMediaFileTrackResponseData -->
+  <xs:element name="GetSourceListRequestData" type="GetSourceListRequestDataType" />
+  <xs:complexType name="GetSourceListRequestDataType">
+    <xs:sequence>
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="profileNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetSourceListResponseData" type="GetSourceListResponseDataType" />
+  <xs:complexType name="GetSourceListResponseDataType">
+    <xs:sequence>
+      <xs:element name="GetResponse" type="GetResponseType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetStreamProfileListRequestData" type="GetStreamProfileListRequestDataType" />
+  <xs:complexType name="GetStreamProfileListRequestDataType">
+    <xs:sequence>
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="profileName" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetStreamProfileListResponseData" type="GetStreamProfileListResponseDataType" />
+  <xs:complexType name="GetStreamProfileListResponseDataType">
+    <xs:sequence>
+      <xs:element name="GetResponse" type="GetResponseType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetDestinationListRequestData" type="GetDestListRequestDataType" />
+  <xs:complexType name="GetDestListRequestDataType">
+    <xs:sequence>
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="profileNID" type="MRNIDType" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetDestListResponseData" type="GetDestListResponseDataType" />
+  <xs:complexType name="GetDestListResponseDataType">
+    <xs:sequence>
+      <xs:element name="GetResponse" type="GetResponseType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetRelayListRequestData" type="GetRelayListRequestDataType" />
+  <xs:complexType name="GetRelayListRequestDataType">
+    <xs:sequence>
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetRelayListResponseData -->
+  <xs:element name="GetSrcMediaFileListRequestData" type="GetSrcMediaFileListRequestDataType" />
+  <xs:complexType name="GetSrcMediaFileListRequestDataType">
+    <xs:sequence>
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetSrcMediaFileListResponseData -->
+  <xs:element name="GetSrcMediaDirListRequestData" type="GetSrcMediaDirListRequestDataType" />
+  <xs:complexType name="GetSrcMediaDirListRequestDataType">
+    <xs:sequence>
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetSrcMediaDirListResponseData -->
+  <xs:element name="GetDestMediaDirListRequestData" type="GetDestMediaDirListRequestDataType" />
+  <xs:complexType name="GetDestMediaDirListRequestDataType">
+    <xs:sequence>
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetDestMediaDirListResponseData -->
+  <xs:element name="GetPVRDestMediaDirListRequestData" type="GetPVRDestMediaDirListRequestDataType" />
+  <xs:complexType name="GetPVRDestMediaDirListRequestDataType">
+    <xs:sequence>
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element minOccurs="0" name="title" type="xs:string" />
+      <xs:element name="GetRequest" type="GetRequestType" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Missing GetPVRDestMediaDirListResponseData -->
+  <xs:element name="CreateCollaborationRequestData" type="CollaborationConfigType" />
+  <xs:element name="CreateCollaborationResponseData" type="CreateCollaborationResponseDataType" />
+
+  <xs:complexType name="CreateCollaborationResponseDataType">
+    <xs:sequence>
+      <xs:element name="MediaRoom" type="MediaRoomType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreateConnectionRequestData" type="CreateConnectionRequestDataType" />
+  <xs:complexType name="CreateConnectionRequestDataType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="sourceNID" type="MRNIDType" />
+      <xs:element name="destNID" type="MRNIDType" />
+      <xs:element name="profileNID" type="MRNIDType" />
+      <xs:element name="profileXML">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="relayNID" type="MRNIDType" />
+      <xs:element name="group" type="TagList" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="startOffset" type="xs:double" />
+      <xs:element name="startTimecode" type="xs:double" />
+      <xs:element name="destIP" type="xs:string" />
+      <xs:element name="destUDPStartPort" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreateConnectionResponseData" type="CreateConnectionResponseDataType" />
+  <xs:complexType name="CreateConnectionResponseDataType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="MRNIDType" />
+      <xs:element name="streamNID" type="MRNIDType" />
+      <xs:element name="mediaSourceNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaRoomRequestData" type="AddMediaRoomRequestDataType" />
+  <xs:complexType name="AddMediaRoomRequestDataType">
+    <xs:sequence>
+      <xs:element name="CollaborationData" type="xs:anyType" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="roomType" type="xs:string" />
+      <xs:element name="syncData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaRoomResponseData" type="MediaRoomInfoType" />
+  <xs:complexType name="MediaRoomInfoType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaSourceRequestData" type="AddMediaSourceRequestDataType" />
+    <xs:complexType name="AddMediaSourceRequestDataType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="sourceNID" type="xs:string" />
+      <xs:element name="startTimeCode" type="xs:double" />
+      <xs:element name="startOffset" type="xs:double" />
+      <xs:element name="parentMediaSourceNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaSourceResponseData" type="MediaSourceInfoType" />
+  <xs:complexType name="MediaSourceInfoType">
+    <xs:sequence>
+      <xs:element name="mediaSourceNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaDestRequestData" type="AddMediaDestRequestDataType" />
+    <xs:complexType name="AddMediaDestRequestDataType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="destNID" type="xs:string" />
+      <xs:element name="destIP" type="xs:string" />
+      <xs:element name="destUDPStartPort" type="xs:int" />
+      <xs:element name="trimLength" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddMediaDestResponseData" type="MediaDestInfoType" />
+  <xs:complexType name="MediaDestInfoType">
+    <xs:sequence>
+      <xs:element name="mediaDestNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddStreamRequestData" type="AddStreamRequestDataType" />
+  <xs:complexType name="AddStreamRequestDataType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="mediaSourceNID" type="xs:string" />
+      <xs:element name="mediaDestNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="profileNID" type="xs:string" />
+      <xs:element name="profileXML" type="xs:string" />
+      <xs:element name="relayNID" type="xs:string" />
+      <xs:element name="destNID" type="xs:string" />
+      <xs:element name="destIP" type="xs:string" />
+      <xs:element name="destUDPStartPort" type="xs:int" />
+      <xs:element name="canvasId" type="xs:string" />
+      <xs:element name="windowId" type="xs:string" />
+      <xs:element name="xAuthAgentJID" type="xs:string" />
+   </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddStreamResponseData" type="StreamInfoType" />
+  <xs:element name="EditConnectionRequestData" type="EditConnectionRequestDataType" />
+  <xs:complexType name="EditConnectionRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="mediaSourceNID" type="xs:string" />
+      <xs:element name="description" type="xs:string" />
+      <xs:element name="profileNID" type="xs:string" />
+      <xs:element name="profileXML" type="xs:string" />
+      <xs:element name="relayNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EditConnectionResponseData" type="StreamInfoType" />
+  <xs:element name="AddStreamActionRequestData" type="StreamActionDataType" />
+  <xs:element name="AddStreamActionResponseData" type="ActionInfoType" />
+  <xs:element name="AddTrackActionRequestData" type="AddTrackActionRequestDataType" />
+  <xs:complexType name="AddTrackActionRequestDataType">
+    <xs:sequence>
+      <xs:element name="roomNID" type="xs:string" />
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="updateAction">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Pause" />
+            <xs:enumeration value="PauseAt" />
+            <xs:enumeration value="Resume" />
+            <xs:enumeration value="ResumeFrom" />
+            <xs:enumeration value="ResumeFromMediaTC" />
+            <xs:enumeration value="Catchup" />
+            <xs:enumeration value="SkipForward" />
+            <xs:enumeration value="SkipBackward" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="actiondata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddTrackActionResponseData" type="AddTrackActionResponseDataType" />
+  <xs:complexType name="AddTrackActionResponseDataType">
+    <xs:sequence>
+      <xs:element name="TrackData" type="TrackDataType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="GetNewBookmarkRequestData" type="GetNewBookmarkRequestDataType" /> 
+  <xs:complexType name="GetNewBookmarkRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetNewBookmarkResponseData" type="GetNewBookmarkResponseDataType" />
+  <xs:complexType name="GetNewBookmarkResponseDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="MRNIDType" />
+      <xs:element name="Bookmark" type="BookmarkType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetCurrentTimeStampRequestData" type="GetCurrentTimeStampRequestDataType" />
+  <xs:element name="GetCurrentTimeStampResponseData" type="GetCurrentTimeStampResponseDataType" />
+  <xs:complexType name="GetCurrentTimeStampResponseDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="TimeStamp" type="TimeStampType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TimeStampType">
+    <xs:sequence>
+      <xs:element name="StreamCurrentTimeStamp" type="xs:long" />
+      <xs:element name="SystemCurrentTimeStamp" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>   
+  <xs:complexType name="GetOffsetAtTimecodeRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="timecode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetOffsetAtTimecodeRequestData" type="GetOffsetAtTimecodeRequestDataType" />
+  <xs:element name="GetOffsetAtTimecodeResponseData" type="GetOffsetAtTimecodeResponseDataType" />
+  <xs:complexType name="GetOffsetAtTimecodeResponseDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="Offset" type="OffsetType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OffsetType">
+    <xs:sequence>
+      <xs:element name="StreamOffset" type="xs:long" />
+      <xs:element name="SystemCurrentTimeStamp" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+ 
+   <xs:element name="GetMediaRoomListRequestData" type="GetMediaRoomListRequestDataType" />
+  <xs:complexType name="GetCurrentTimeStampRequestDataType">
+    <xs:sequence>
+      <xs:element name="streamNID" type="xs:string" />
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="GetCurrentTimeStamp" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetMediaRoomListRequestDataType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string" />
+      <xs:element minOccurs="0" name="mediaSourceXPath" type="xs:string" />
+      <xs:element minOccurs="0" name="streamXPath" type="xs:string" />
+      <xs:element minOccurs="0" name="sourceXPath" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetMediaRoomListResponseData" type="GetMediaRoomListResponseDataType" />
+  <xs:complexType name="GetMediaRoomListResponseDataType">
+    <xs:sequence>
+      <xs:element name="GetResponse" type="GetResponseType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetMediaRoomRequestData" type="MediaRoomInfoType" />
+  <xs:element name="GetMediaRoomResponseData" type="GetMediaRoomResponseDataType" />  
+  <xs:complexType name="GetMediaRoomResponseDataType">
+    <xs:sequence>
+      <xs:element name="MediaRoom" type="MediaRoomType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeleteMediaRoomRequestData" type="MediaRoomInfoType" />
+  <xs:element name="DeleteMediaRoomResponseData" type="MediaRoomInfoType" />  
+
+ <!-- Update Media Group PlayLenght and Size -->
+ <xs:element name="UpdateMediaGroupPlayLenghtAndSizeRequestData" type="UpdateMediaGroupPlayLenghtAndSizeRequestType" />
+  <xs:complexType name="UpdateMediaGroupPlayLenghtAndSizeRequestType">
+    <xs:sequence>
+      <xs:element name="MediaStreamFileResourceNID" type="MRNIDType" />     
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

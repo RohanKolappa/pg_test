@@ -1,0 +1,117 @@
+declare function local:getGroupTags( $b as element()*)
+as element ()*
+{
+    let $tagName := data($b//TagName)
+    let $objectType := 'OBJECTTYPE'
+    let $groupTagobjectType := if ($objectType = 'Device') then
+    								"AssetResource"
+    							else if ($objectType = 'Users') then
+    								"User"
+    							else if ($objectType = 'MediaRoom') then
+    							   "MediaRoom"
+    							else if ($objectType = 'Profiles') then
+    							    "MediaStreamProfile"
+    							else if ($objectType = 'Ports') then
+    							  "Ports"
+    							else if ($objectType = 'Media') then
+    							  "Media" 
+    							 else 
+    							      "ALL"
+    let $list := if ($groupTagobjectType = 'ALL') then				    
+				     <GroupTagDef> {
+				          for $tagValue in $b//TagValue 
+				             return
+						  <TagValuePair>
+							  <Groups>
+						    	 <Tag Name='{data($tagName)}' Value='{data($tagValue)}' objectType='{data($objectType)}'/>
+							   </Groups>
+						   </TagValuePair>
+				          }
+						  </GroupTagDef>
+					else if ($groupTagobjectType = 'Ports') then
+					   <GroupTagDef> {
+				          for $tagValue in $b//TagValue 
+				            return
+				             for $tagObjectType in $b//TagObjectTypeList[TagObjectType='MediaStreamPortResource' or TagObjectType='MediaStorePortResource']
+				             return
+						  <TagValuePair>
+							  <Groups>
+						    	 <Tag Name='{data($tagName)}' Value='{data($tagValue)}' objectType='{data($objectType)}'/>
+							   </Groups>
+						   </TagValuePair>
+				          }
+						  </GroupTagDef>
+					
+					else if ($groupTagobjectType = 'Media') then
+					   <GroupTagDef> {
+				          for $tagValue in $b//TagValue 
+				            return
+				             for $tagObjectType in $b//TagObjectTypeList[TagObjectType='MediaStreamFileResource' or TagObjectType='MediaStreamDirResource']
+				             return
+						  <TagValuePair>
+							  <Groups>
+						    	 <Tag Name='{data($tagName)}' Value='{data($tagValue)}' objectType='{data($objectType)}'/>
+							   </Groups>
+						   </TagValuePair>
+				          }
+						  </GroupTagDef>
+						  
+    				else
+    				  <GroupTagDef> {
+				          for $tagValue in $b//TagValue 
+				            return
+				             for $tagObjectType in $b//TagObjectType where $tagObjectType = $groupTagobjectType
+				             return
+						  <TagValuePair>
+							  <Groups>
+						    	 <Tag Name='{data($tagName)}' Value='{data($tagValue)}' objectType='{data($objectType)}'/>
+							   </Groups>
+						   </TagValuePair>
+				          }
+						 </GroupTagDef>
+					     
+	return $list 
+};	                     
+  
+declare function local:getList() 
+as element()*
+{
+	let $list1 := 
+		for $b in  #OBJ_GroupTagDef_OBJ#  
+		let $groupTagRecord := local:getGroupTags($b)
+		where $groupTagRecord
+		return  
+		    for $tag in $groupTagRecord/TagValuePair
+		    where $tag _XPATHAND_
+		    return $tag/Groups/Tag
+	 let $list2 :=for $tag1 in $list1
+		         order by $tag1_SORTBY_ _SORTORDER_
+		         return $tag1 
+	 return  $list2
+};
+
+
+declare function local:formatList($b as element()*, $detail as xs:string) 
+as element ()*
+{
+    let $tagList := <TagList>{ $b } </TagList>
+    let $list := if ($detail ='NameList') then 
+					   for $tagName in distinct-values($tagList/Tag/@Name) 
+					   return <Tag Name='{data($tagName)}' objectType='{distinct-values(data($tagList/Tag/@objectType))}'/>
+		         else if ($detail ='NameValueTree') then 
+					   for $tagName in distinct-values($tagList/Tag/@Name) where $tagName!=""
+					   return <Tag Name='{data($tagName)}' objectType='{distinct-values(data($tagList/Tag/@objectType))}' >	
+								{for $tag in  distinct-values($tagList/Tag[@Name=$tagName]/@Value) where $tag!=""
+   									 return 
+    									<Value>{data($tag )} </Value>
+		                        }
+		                 </Tag>
+		          else 
+		          	 for $tag in $tagList/Tag where $tag[@Value!='' and @Name!='']
+		              return $tag
+    return $list
+};
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

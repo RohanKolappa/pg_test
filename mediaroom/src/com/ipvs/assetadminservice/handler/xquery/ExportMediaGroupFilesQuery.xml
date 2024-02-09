@@ -1,0 +1,33 @@
+declare function local:formatList() {
+let $mediaGroupIdList :=    distinct-values (for $file in collection('ipvs.default.mediastreamfileresourcelist')/*[(@parentNID='default.mediastreamfileresourcelist') and .//MediaGroupID!='']  
+                    where $file _FILE_XPATH_
+				 return $file//MediaGroupID)
+
+let $mediaGroupDoc := if ($mediaGroupIdList != '') then 
+	let $item := for $groupId in $mediaGroupIdList 
+   				 return local:getMediaGroupInfo($groupId)	
+	return <FileList>{$item}</FileList>	
+else
+	''
+
+return $mediaGroupDoc
+};	
+	
+	
+	
+declare function local:getMediaGroupInfo($groupId)
+as element ()* {
+let $MediaGroupfile := for $res in collection('/db/ipvs.default.mediastreamfileresourcelist')//MediaStreamFileResource[.//MediaGroupID= $groupId and .//Type='MediaGroup']
+                         return $res//MediaStreamFileResource
+
+ return <File fileName='{ concat(data($MediaGroupfile/@NID),".grp") }' 
+     fileNID= '{ data($MediaGroupfile/@NID) }'
+     title='{ data($MediaGroupfile/Title) }' 
+     dateCreated='{ data($MediaGroupfile/DateCreated) }' 
+     startOffset=''
+     endOffset =''>
+     </File>
+};
+	
+let $requestDoc := local:formatList()
+return $requestDoc	

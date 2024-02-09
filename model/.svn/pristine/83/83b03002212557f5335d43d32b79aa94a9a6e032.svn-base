@@ -1,0 +1,30 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="false">
+<validation validationID="IpAddressRangeFrom" methodName="validateIPAddress" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/StreamsTxConfig/MulticastIpAddressRange/From" />
+  
+  <validation validationID="IpAddressRangeTo" methodName="validateIPAddress" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/StreamsTxConfig/MulticastIpAddressRange/To" />
+  <validation validationID="TxCtrlPortRangeFrom" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsTxConfig/TxCtrlPortRange/From" />
+  <validation validationID="TxCtrlPortRangeTo" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsTxConfig/TxCtrlPortRange/To" />
+  <validation validationID="V2DStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsTxConfig/DefaultInstanceConfig" />  
+  <validation validationID="MPEGStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/MPEGTSStreamsTxConfig/DefaultInstanceConfig" />
+  <validation validationID="RTPStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/RTPStreamsTxConfig/DefaultInstanceConfig" />
+  <validation validationID="RxCtrlPortRangeFrom" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/RxAVPortRange/From" />
+  <validation validationID="RxCtrlPortRangeTo" methodName="validatePort" action="Add" validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/RxAVPortRange/To" />
+  <validation validationID="RxV2DStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsRxConfig/DefaultInstanceConfig" />  
+  <validation validationID="RxMPEGStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/MPEGTSStreamsRxConfig/DefaultInstanceConfig" />
+  <validation validationID="RxRTPStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/RTPStreamsRxConfig/DefaultInstanceConfig" />
+  <validation validationID="NetworkParameters" methodName="validateNetworkParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig//NetworkElementsConfig/PrimaryEthernetPortConfig/IPConfig" />
+  <validation validationID="RouteEntry" methodName="validateRouteEntry" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig/NetworkElementsConfig/RouteTableConfig/RouteEntry" />
+  <validation validationID="SecondaryNetworkParameters" methodName="validateNetworkParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig//NetworkElementsConfig/SecondaryEthernetPortConfig/IPConfig" />
+  <validation validationID="AuxiliaryNetworkParameters" methodName="validateNetworkParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/DMS-1000-Device/DeviceConfig//NetworkElementsConfig/AuxiliaryEthernetPortConfig/IPConfig" />
+  
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//DMS-1000-Device/ResourcePointers</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/DMS-1000-Device/AssetResourceNID" action="delete"/>	
+	<foreignKeyNID xpath="//ResponseXML/DMS-1000-Device/ResourcePointers/MediaStoreResourceNID/NIDValue" action="delete"/>	
+	<foreignKeyNID xpath="//ResponseXML/DMS-1000-Device/ResourcePointers/MediaStreamRelayPortResourceNID/NIDValue" action="delete"/>
+  </validation>   
+</CustomValidation>

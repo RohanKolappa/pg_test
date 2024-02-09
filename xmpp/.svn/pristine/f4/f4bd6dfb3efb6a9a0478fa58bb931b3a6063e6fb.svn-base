@@ -1,0 +1,179 @@
+<ipvs>
+	<query type="UpdateQuery" name="status_extracting_files" priority="1" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	<![CDATA[ 
+		(:
+		default.mediastreamdirresourcelist.msdrl_8f68c839-cdb1-444d-bc49-6c64c9f53bb1
+		:)
+		declare variable $MediaDirNID :='PARAM_mediaStreamDirResourceNID' ;
+
+		declare variable $ParentMediaDirNID := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..
+											 where $b/Info/Properties/ParentMediaDirNID=$MediaDirNID 
+											 or $b/@NID=$MediaDirNID return  data($b/@NID );
+		update replace $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$ParentMediaDirNID]//State
+		with
+		<State>wait_extract_zip_complete</State>
+		]]>
+	</query>
+	
+	<query type="ExtractZip" name="export"  priority="2" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+			 
+		<query type="UpdateQuery" name="status_extracted_files" priority="1" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<![CDATA[ 
+			declare variable $MediaDirNID :='PARAM_mediaStreamDirResourceNID' ;
+	
+			declare variable $ParentMediaDirNID := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..
+												 where $b/Info/Properties/ParentMediaDirNID=$MediaDirNID 
+												 or $b/@NID=$MediaDirNID return  data($b/@NID );
+			update replace $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$ParentMediaDirNID]//State
+			with
+			<State>wait_import_complete</State>
+			]]>
+		</query>
+
+	</query>
+		
+	<query type="DeleteQuery" name="deleting" priority="3" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	<![CDATA[ 
+		declare variable $param_mediaDirNID :='PARAM_mediaStreamDirResourceNID' ;
+		declare variable $arr_parentMediaDirNID := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..
+											 where $b/Info/Properties/ParentMediaDirNID=$param_mediaDirNID 
+											 or $b/@NID=$param_mediaDirNID return  data($b/@NID );
+		
+		declare function local:getFileList_withinGroup( $parent as element()*) as element()* { 
+		 let $fileList_withinGroup := ( 
+					for $child in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+					where  data($child//MediaStoreFileInfo/MediaGroupID) = data($parent//MediaGroupID)  
+					and  $child//MediaStoreFileInfo/Type!='MediaGroup'
+					and $child//Info/Properties/ParentMediaDirNID = $arr_parentMediaDirNID
+					return  <groupClip>{$child/@NID}</groupClip>
+				) 
+			 return $fileList_withinGroup 
+		}; 
+		declare function local:count_otherdir_clips_in_group( $parent as element()*) as xs:integer { 
+			let $co :=   count ( index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[
+					//MediaStoreFileInfo/MediaGroupID = $parent/MediaGroupID  
+					and  //MediaStoreFileInfo/Type != 'MediaGroup' 
+					and   not ( //Info/Properties/ParentMediaDirNID = $arr_parentMediaDirNID )]/@NID
+				)  
+ 
+			 return 
+			 if( $co=0 ) then
+				0
+			 else $co
+		};		
+		 
+		 
+		let $unique_media_group_ids := distinct-values ( for $b in
+			index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+			where $b[  Info/Properties[ParentMediaDirNID=$arr_parentMediaDirNID]  
+			and not  ( Info/MediaStoreFileInfo/MediaGroupID=''  )   ] 
+			return $b/Info/MediaStoreFileInfo/MediaGroupID )
+		 
+		let $fileClips := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+			where $b[ Info/Properties[ParentMediaDirNID=$arr_parentMediaDirNID] and Info/MediaStoreFileInfo/MediaGroupID='']
+			return 
+			<fileClip>
+			{$b/@NID}
+			</fileClip>		
+
+		let $fileGroupFiles := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+			 
+			where $b[ 
+			( Info/MediaStoreFileInfo/Type='MediaGroup' and   Info/MediaStoreFileInfo/MediaGroupID=$unique_media_group_ids) ]   
+			return 
+			<fileGroup>
+			{ 
+			if ($b/Info/Properties/ParentMediaDirNID=$arr_parentMediaDirNID ) then $b/@NID  
+			else if (($b/Info/Properties/ParentMediaDirNID =''or $b/Info/Properties/ParentMediaDirNID ='NONE') and local:count_otherdir_clips_in_group($b) = 0 ) then $b/@NID  
+			else if ( $b/Info/Properties/ParentMediaDirNID !=''  and $b/Info/Properties/ParentMediaDirNID != $arr_parentMediaDirNID )  then  ''
+			else ''
+			}
+			{ local:getFileList_withinGroup($b) }
+			{$b/Info/Properties/ParentMediaDirNID}
+			{$b/Info/MediaStoreFileInfo/MediaGroupID}
+			{$b/Info/MediaStoreFileInfo/Type}
+			</fileGroup>
+		 
+		 
+		
+		let $allFileNIDS := for $b in distinct-values($fileClips/@NID | $fileGroupFiles/@NID | $fileGroupFiles/groupClip/@NID  ) return data($b)
+		
+		
+		
+		
+		let $dirs := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..
+			where $b/Info/Properties/ParentMediaDirNID=$param_mediaDirNID 
+			(: or $b/@NID=$param_mediaDirNID :)
+			return  <dir>{ $b/@NID  }</dir>
+		
+		let $bookmarks := for $b in index-scan('IPVSis_colnids_default', 'default.bookmarklist', 'EQ')/..
+			where $b/MediaStreamFileResourceNID=$allFileNIDS 
+			return  <bookmark>{ $b/@NID  }</bookmark>
+
+		
+		let $col_name :="IPVSc_default"
+
+		for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$allFileNIDS]  
+			| index-scan('IPVSis_colnids_default', 'default.bookmarklist', 'EQ')/..[MediaStreamFileResourceNID=$allFileNIDS  ]
+			| index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[Info/Properties/ParentMediaDirNID=$param_mediaDirNID]
+		(:
+			return concat( "drop document ","'", document-uri(root($b)) , "'", " in collection ","'", $col_name  , "'" , "_NEW_LINE" )
+		:)
+		return  document-uri(root($b))
+		
+		 	
+ 	]]>		
+ 	</query>
+	<query type="ImportQuery" name="importing" priority="4" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	</query>
+	<query type="UpdateQuery" name="status_import_complete" priority="5" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<![CDATA[ 
+			declare variable $MediaDirNID :='PARAM_mediaStreamDirResourceNID' ;
+	
+			declare variable $ParentMediaDirNID := for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..
+												 where $b/Info/Properties/ParentMediaDirNID=$MediaDirNID 
+												 or $b/@NID=$MediaDirNID return  data($b/@NID );
+			update replace $b in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$ParentMediaDirNID]//State
+			with
+			<State>import_complete</State>
+		
+			]]>
+	</query>	
+	
+	
+	<query type="UpdateQuery" name="update_port_NID" priority="6" enable="false" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+		<![CDATA[ 
+
+			declare variable $param_mediaDirNID :='PARAM_mediaStreamDirResourceNID' ;
+			
+			
+			declare variable $assetResource := substring-after( 
+			index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$param_mediaDirNID]//Info/Properties/Owner,"/" );
+			
+			
+			declare variable $assetResourceNID := data(
+			index-scan('IPVSis_colnids_default', 'default.assetresourcelist', 'EQ')/..[//Title=$assetResource]/@NID );
+			
+			
+			declare variable $mediaStringPortResourceNID := data(
+			index-scan('IPVSis_colnids_default', 'default.mediastoreportresourcelist', 'EQ')/..[//AssetResourceNID=$assetResourceNID]/@NID );
+			
+			 
+			
+			declare variable $tag_MediaStorePortResourceNID := ( index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$param_mediaDirNID]//MediaStorePortResourceNID[1]/@*) ;
+			
+			
+			update replace $b 
+			in index-scan('IPVSis_colnids_default', 'default.mediastreamdirresourcelist', 'EQ')/..[@NID=$param_mediaDirNID  ]//MediaStorePortResourceNID
+			with
+			<MediaStorePortResourceNID>{$tag_MediaStorePortResourceNID}{$mediaStringPortResourceNID}</MediaStorePortResourceNID>
+			
+			
+
+
+
+		
+			]]>
+	</query>	
+		
+</ipvs>

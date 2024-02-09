@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.DMS.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+	    - DMS specific version of generic Device elements
+	</xs:documentation>
+  </xs:annotation>
+  <xs:element name="MS-Device" type="MS-DeviceType" />
+  <xs:element name="MS-25-Device" type="MS-DeviceType" />
+  <xs:complexType name="MS-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="MS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="MS-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="MS-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="MS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="ServiceResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MS-DeviceConfig" type="MS-DeviceConfigType" />
+  <xs:complexType name="MS-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="MS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="MS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="MS-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="MS-StorageElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="MS-DeviceStatus" type="MS-DeviceStatusType" />
+  <xs:complexType name="MS-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="MS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="MS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="MS-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="MS-StorageElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="MS-DeviceCommand" type="MS-DeviceCommandType" />
+  <xs:complexType name="MS-DeviceCommandType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsCommand" type="MS-SystemElementsCommandType" />
+      <xs:element name="ServiceElementsCommand" type="ServiceElementsCommandType" />
+      <xs:element name="NetworkElementsCommand" type="NetworkElementsCommandType" />
+      <xs:element name="StorageElementsCommand" type="StorageElementsCommandType" />
+      <xs:element name="AVCodecElementsCommand" type="AVCodecElementsCommandType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="HATakeoverCommand" type="HATakeoverCommandType" />
+  <xs:complexType name="HATakeoverCommandType" />
+  <xs:complexType name="MS-SystemElementsCommandType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsCommandType">
+        <xs:sequence>
+          <xs:element name="HATakeoverCommand" type="HATakeoverCommandType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:complexType name="MS-SystemElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsConfigType">
+        <xs:sequence>
+          <xs:element name="CPUConfig" type="CPUElementConfigType" />
+          <xs:element name="MemoryConfig" type="MemoryElementConfigType" />
+          <xs:element name="SystemHWConfig" type="SystemHWElementConfigType" />
+          <xs:element name="FrontPanelConfig" type="FrontPanelElementConfigType" />
+          <xs:element name="SystemClockConfig" type="SystemClockElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-SystemElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="CPUStatus" type="CPUElementStatusType" />
+          <xs:element name="MemoryStatus" type="MemoryElementStatusType" />
+          <xs:element name="SystemHWStatus" type="SystemHWElementStatusType" />
+          <xs:element name="FrontPanelStatus" type="FrontPanelElementStatusType" />
+          <xs:element name="SystemClockStatus" type="SystemClockElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="LinkLocalXMPPAgentServiceConfig" type="MS-LinkLocalXMPPAgentServiceElementConfigType" />
+          <xs:element name="XMPPAgentServiceConfig" type="MS-XMPPAgentServiceElementConfigType" />
+          <xs:element name="HTTPServiceConfig" type="HTTPServiceElementConfigType" />
+          <xs:element name="SSHServiceConfig" type="SSHServiceElementConfigType" />
+          <xs:element name="TelnetServiceConfig" type="TelnetServiceElementConfigType" />
+          <xs:element name="TFTPServiceConfig" type="TFTPServiceElementConfigType" />
+          <xs:element name="DHCPServiceConfig" type="DHCPServiceElementConfigType" />
+          <xs:element name="NTPServiceConfig" type="NTPServiceElementConfigType" />
+          <xs:element name="SecureTunnelClientServiceConfig" type="SecureTunnelClientServiceElementConfigType" />
+          <xs:element name="ClientDownloadServiceConfig" type="ClientDownloadServiceElementConfigType" />
+          <xs:element name="XMPPServiceConfig" type="XMPPServiceElementConfigType" />
+          <xs:element name="HAServiceConfig" type="HAServiceConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="LinkLocalXMPPAgentServiceStatus" type="MS-LinkLocalXMPPAgentServiceElementStatusType" />
+          <xs:element name="XMPPAgentServiceStatus" type="MS-XMPPAgentServiceElementStatusType" />
+          <xs:element name="HTTPServiceStatus" type="HTTPServiceElementStatusType" />
+          <xs:element name="SSHServiceStatus" type="SSHServiceElementStatusType" />
+          <xs:element name="TelnetServiceStatus" type="TelnetServiceElementStatusType" />
+          <xs:element name="SecureTunnelClientServiceStatus" type="SecureTunnelClientServiceElementStatusType" />
+          <xs:element name="ClientDownloadServiceStatus" type="ClientDownloadServiceElementStatusType" />
+          <xs:element name="XMPPServiceStatus" type="XMPPServiceElementStatusType" />
+          <xs:element name="HAServiceStatus" type="HAServiceStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="MS-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="MS-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-StorageElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MountTableConfig" type="MountTableElementConfigType" />
+          <xs:element name="CFDriveConfig" type="CFDriveElementConfigType" />
+          <xs:element name="HardDiskTableConfig" type="HardDiskTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-StorageElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="MountTableStatus" type="MountTableElementStatusType" />
+          <xs:element name="CFDriveStatus" type="CFDriveElementStatusType" />
+          <xs:element name="HardDiskStatus" type="HardDiskTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-LinkLocalXMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MS-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HAServiceConfig" type="HAServiceConfigType" />
+	<xs:complexType name="HAServiceConfigType">
+		<xs:sequence>
+			<xs:element name="HAServer">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HAServerEnable" type="xs:boolean" />
+						<xs:element name="DeadTime" type="xs:integer" />
+						<xs:element name="PeerIP" type="xs:string" />
+						<xs:element name="PeerName" type="xs:string" />
+						<xs:element name="Interface" type="xs:integer" />
+						<xs:element name="Port" type="xs:integer" />
+						<xs:element name="VirtualIPEnable" type="xs:boolean" />
+						<xs:element name="VirtualIP" type="xs:string" />
+						<xs:element name="VirtualIP2" type="xs:string" />
+						<xs:element name="Primary" type="xs:boolean" />
+						
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HADNSServer">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DNSServerEnable" type="xs:boolean" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+ 
+	<xs:element name="HAServiceStatus" type="HAServiceStatusType" />
+	<xs:complexType name="HAServiceStatusType">
+		<xs:sequence>
+			<xs:element name="HADNSServerStatus">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="Parameters" />
+					</xs:sequence>
+					<xs:attributeGroup ref="Queryable" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HAServerStatus">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="Parameters" />
+					</xs:sequence>
+					<xs:attributeGroup ref="Queryable" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+ </xs:schema>
+ 

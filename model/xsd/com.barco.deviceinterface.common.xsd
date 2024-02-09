@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="com.barco.deviceinterface.DeviceAdmin.xsd" />
+	<xs:include schemaLocation="com.barco.deviceinterface.Media.xsd"/>
+	
+	<!--  Request Format -->  
+	
+	<xs:element name="Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='Header' type='HeaderType'/>
+				<xs:element name='Data'>
+					<xs:complexType>		
+						<xs:choice minOccurs="0" maxOccurs="unbounded">							
+							<xs:element ref='GetDeviceRequestData'/>
+							<xs:element ref='GetDeviceConfigRequestData'/>
+							<xs:element ref='SetDeviceConfigRequestData'/>
+							<xs:element ref='GetDeviceStatusRequestData'/>
+							<xs:element ref='GetDeviceCommandRequestData'/>
+							<xs:element ref='PutDeviceConfigRequestData'/>
+							<xs:element ref='PostDeviceConfigRequestData'/>
+							<xs:element ref='DeleteDeviceConfigRequestData'/>
+							<xs:element ref='ExecuteDeviceCommandRequestData'/>
+							<xs:element ref='RebootRequestData'/>
+							<xs:element ref='UpgradeRequestData'/>
+							<xs:element ref='RevertToFactoryDefaultRequestData'/>
+							<xs:element ref='SaveConfigurationRequestData'/>
+							<xs:element ref='PUTCanvasRequestData'/>
+							<xs:element ref='PUTContentRequestData'/>
+							<xs:element ref='StartStreamRequestData'/>
+							<xs:element ref='StopStreamRequestData'/>
+							<xs:element ref='MediaPresence'/>												
+						</xs:choice>	
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>						    
+	</xs:element>
+	
+	
+	<!--  Response Format --> 
+	
+	<xs:element name="Response">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='Header'>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="HeaderType">
+								<xs:attribute name='state' type='StateEnumType'/>
+							</xs:extension>
+	 					</xs:complexContent>	
+					</xs:complexType>
+				</xs:element>
+				<xs:element name='Data'>
+					<xs:complexType>		
+						<xs:choice minOccurs="0" maxOccurs="unbounded">							
+							<xs:element ref='GetDeviceResponseData'/>
+							<xs:element ref='GetDeviceConfigResponseData'/>
+							<xs:element ref='SetDeviceConfigResponseData'/>
+							<xs:element ref='GetDeviceStatusResponseData'/>
+							<xs:element ref='GetDeviceCommandResponseData'/>
+							<xs:element ref='PutDeviceConfigResponseData'/>
+							<xs:element ref='PostDeviceConfigResponseData'/>
+							<xs:element ref='DeleteDeviceConfigResponseData'/>
+							<xs:element ref='ExecuteDeviceCommandResponseData'/>
+							<xs:element ref='RebootResponseData'/>
+							<xs:element ref='UpgradeResponseData'/>
+							<xs:element ref='RevertToFactoryDefaultResponseData'/>
+							<xs:element ref='SaveConfigurationResponseData'/>
+							<xs:element ref='PUTCanvasResponseData'/>
+							<xs:element ref='PUTContentResponseData'/>
+							<xs:element ref='StartStreamResponseData'/>	
+							<xs:element ref='StopStreamResponseData'/>
+							<xs:element ref='StreamUpdateEventData'/>
+							<xs:element ref='StreamStatusEventData'/>
+							<xs:element ref='error'/>				
+						</xs:choice>	
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>						    
+	</xs:element>
+	
+	<xs:complexType name="HeaderType">
+		<xs:sequence>
+			<xs:element name='ClientData' type='xs:string'/>
+			<xs:element name='ClientCallback' type='xs:string'/>
+		</xs:sequence>		
+		<xs:attribute name='serviceName' type='xs:string' />
+		<xs:attribute name='type' type='xs:string' />
+		<xs:attribute name='requestName' type='xs:string' />
+		<xs:attribute name='userJID' type='xs:string' />
+		<xs:attribute name='requestNID' type='xs:string' />
+	</xs:complexType>
+	
+	<xs:simpleType name="StateEnumType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0" /> 
+			<xs:enumeration value="200" /> 
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

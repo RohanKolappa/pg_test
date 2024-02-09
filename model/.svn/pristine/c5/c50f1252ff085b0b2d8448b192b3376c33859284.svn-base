@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.policyadminservice.datamodel.Rule.xsd" />
+  <xs:element name="MediaRoomPolicyRuleList" type="MediaRoomPolicyRuleListType" />
+  <xs:complexType name="MediaRoomPolicyRuleListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PolicyRule" type="MediaRoomPolicyRuleType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="MediaRoomPolicyRule" type="MediaRoomPolicyRuleType" />
+  <xs:complexType name="MediaRoomPolicyRuleType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServicePolicyRuleType">
+        <xs:sequence>
+          <xs:element name="MediaRoomRoleSet" type="MediaRoomRoleSetType" />
+          <xs:element name="MediaRoomObjectFilterSet" type="MediaRoomObjectFilterSetType" />
+          <xs:element minOccurs="0" name="SrcFilterSet" type="SrcFilterSetType" />
+          <xs:element minOccurs="0" name="DstFilterSet" type="DstFilterSetType" />
+          <xs:element minOccurs="0" name="MediaRoomStreamFilterSpec" type="MediaRoomStreamFilterSpecType" />
+          <xs:element name="RuleKeyTagFilterSet" type="MediaRoomRuleKeyTagFilterSetType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.4" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomStreamFilterSpecType">
+    <xs:sequence>
+      <xs:element name="MediaRoomStreamFilterListLookupMode">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="RestrictToList" />
+            <xs:enumeration value="ForceSequence" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="MediaRoomStreamFilterSet" type="MediaRoomStreamFilterSetType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomObjectFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MediaRoomObjectFilterNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomStreamFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MediaStreamFilterNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MediaStreamFilterList" type="MediaStreamFilterListType" />
+  <xs:complexType name="MediaStreamFilterListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MediaStreamFilter" type="MediaStreamFilterType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="MediaStreamFilter" type="MediaStreamFilterType" />
+  <xs:complexType name="MediaStreamFilterType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="FilterType">
+        <xs:sequence>
+          <xs:element name="SrcFilterSet" type="SrcFilterSetType" />
+          <xs:element name="DstFilterSet" type="DstFilterSetType" />
+          <xs:element name="RelayFlag">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="SrcRelay" />
+                <xs:enumeration value="DstRelay" />
+                <xs:enumeration value="DirectConnect" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="RelayFilterSet" type="RelayFilterSetType" />
+          <xs:element minOccurs="0" name="PVRFilterSet" type="PVRFilterSetType" />
+          <xs:element name="ProfileFilterSet" type="ProfileFilterSetType" />
+          <xs:element name="RuleKeyTagFilterSet" type="MediaRoomRuleKeyTagFilterSetType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SrcFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="SrcFilter" type="MediaStreamSrcDstFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DstFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="DstFilter" type="MediaStreamSrcDstFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RelayFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RelayFilter" type="MediaStreamSrcDstFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PVRFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="PVRFilter" type="MediaStreamSrcDstFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamSrcDstFilterType">
+    <xs:sequence>
+      <xs:sequence minOccurs="0">
+        <xs:element name="UserFilterNID" type="xs:string" />
+      </xs:sequence>
+      <xs:sequence>
+        <xs:element name="MediaStreamResourceFilterNID" type="xs:string" />
+      </xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ProfileFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="ProfileFilter" type="MediaStreamProfileFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamProfileFilterType">
+    <xs:sequence>
+      <xs:element name="MediaStreamProfileFilterNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomRoleSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MediaRoomObjectRole" type="MediaRoomObjectRoleType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomObjectRoleType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="ServiceObjectRoleType">
+        <xs:sequence>
+          <xs:element name="RoleObject">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="MediaRoom" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>          
+          <xs:element name="RoleAction">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="Add" />
+                <xs:enumeration value="Delete" />
+                <xs:enumeration value="Read" />
+                <xs:enumeration value="Modify" /> 
+                <xs:enumeration value="Action.ConfCreate" />
+                <xs:enumeration value="Action.ConfStart" />
+                <xs:enumeration value="Action.AddMedia" />
+                <xs:enumeration value="Action.AddStream" />
+                <xs:enumeration value="View" />
+                <xs:enumeration value="Playback" />
+                <xs:enumeration value="Record" />
+                <xs:enumeration value="PVR" />                
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomRuleKeyTagFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="RuleKeyTagFilter" type="MediaRoomRuleKeyTagFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomRuleKeyTagFilterType">
+    <xs:sequence>
+      <xs:element name="RuleKeyLHTagName" type="MediaRoomRuleKeyTagSpecType" />
+      <xs:element name="MatchOp" type="MatchOpEnumType" />
+      <xs:element name="RuleKeyRHTagName" type="MediaRoomRuleKeyTagSpecType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaRoomRuleKeyTagSpecType">
+    <xs:sequence>
+      <xs:element name="RuleKey" type="MediaRoomRuleKeyEnumType" />
+      <xs:element name="TagName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

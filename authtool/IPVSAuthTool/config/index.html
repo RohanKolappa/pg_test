@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="Player/pc.css" rel="stylesheet" type="text/css">
+<script language="javascript" SRC="Player/xmldom.js"></script>
+<script language="javascript">
+function Open(Sub) {
+  a = document.getElementById(Sub).style
+  if (a.display == 'block') {
+    a.display = 'none'
+  } else {
+    a.display = 'block'
+  }
+}
+
+function launchPlayer(streamtype, filepath, winName) {
+  if(streamtype == 2) {
+    objFSO = new ActiveXObject('Scripting.FileSystemObject');
+    q = window.location.pathname;   
+    var blobPath = q.substring(q.indexOf("/")+1, q.length); // strip the first / 
+    blobPath = blobPath.replace(/%20/g," ");
+    blobPath = blobPath.replace(/%26/g,"&");
+    parentFld = objFSO.GetParentFolderName(blobPath);
+    // Used for reading registry and calling vlc
+    var shell = new ActiveXObject("WScript.Shell");
+
+    // Find the default handler for MPEG .ts files
+    var key = "HKCR\\.ts\\";
+    try {
+    var tsplayer = shell.regRead(key);
+    }
+    catch(er) {
+      alert("Cannot play media. No application registeted for MPEG Transport Stream (Type .ts) files");
+      return;
+    }
+    if((tsplayer == "") || (tsplayer == null) || (tsplayer == undefined)) {
+      alert("Cannot play media. No application registeted for MPEG Transport Stream (Type .ts) files");
+      return;
+    }
+    // Find the command that will play this file
+    key = "HKCR\\" + tsplayer + "\\shell\\Play\\command\\";
+    var playercommand = shell.regRead(key);
+    playercommand = playercommand.substr(0, playercommand.lastIndexOf(" "));
+    // Quote the command if it is not already quoted ("Elecard" comes unquoted!)
+    if (playercommand.indexOf("\"") != 0) {
+      playercommand = "\"" + playercommand + "\"";
+    }
+    plPath = parentFld + "\\blob\\" + filepath + ".ts";
+    //commandLine = "\"" + playercommand + "\" \"" + plPath + "\"";
+    commandLine =  playercommand + " \"" + plPath + "\"";
+    try {
+    shell.run(commandLine); 
+  }
+    catch (er) {
+      alert("Cannot play media. No application registeted for MPEG Transport Stream (Type .ts) files");
+    }
+    objFSO = null;
+  }
+  else {
+    plPath = "Player/player-file.html?v2dfile:blob\\" + filepath;
+    window.open(plPath, winName, 'width=640,height=580,status=yes,scrollbars=no,resizable=yes,toolbar=no,menubar=no,location=no');
+  }
+}
+
+function fncLoad() {
+  var project = parseXML("Medialist.xml");
+  window.document.title = project.getElements("NAME")[0].getText();
+  document.getElementById("divTitle").innerText  = project.getElements("LOGOTITLE")[0].getText();
+  document.getElementById("logoImage").src  = "Player\\images\\" + project.getElements("LOGOFILE")[0].getText();
+  mediaList = project.getElements("MEDIA");
+  strListTable = "";
+  for(i=0; i<mediaList.length; i++) {
+    if(i%2 == 0) {
+	    cls = "class=row6";
+	  }
+	  else {
+	    cls = "class=row5";
+	  }
+    parentTitle = mediaList[i].getElements("TITLE")[0].getText();
+    fileTypeList = mediaList[i].getElements("FILETYPE");
+    if( fileTypeList.length > 0 && fileTypeList[0].getText() == "MKD" ) {
+       streamType = 1; //v2d
+       clipFname = parentTitle;
+       clipLength = mediaList[i].getElements("LENGTH")[0].getText();
+       size = mediaList[i].getElements("SIZE")[0].getText();
+       wName = "player_" + i;
+       strListTable += "<tr><td " + cls + " style='padding-left:20px' width='70%'>&nbsp;<a href=\"javascript://\" title='Play' onclick=\"launchPlayer(" + streamType + ", '" + clipFname + "', '" + wName + "')\"><font color='black'>" + parentTitle + "</font></a></td><td " + cls + " width='10%'>" + clipLength + "</td><td " + cls + " width='10%'>" + size + "</td><td " + cls + " width='10%'><a href=\"javascript://\" title='Play' onclick=\"launchPlayer(" + streamType + ", '" + clipFname + "', '" + wName + "')\"><img src=\"Player/images/playerBtnSmallPlay.gif\" border='0' width=19 height=19 alt='Play'></a></td></tr>";
+    }
+    else {
+      strListTable += "<tr><td " + cls + " colspan=4>";
+      strListTable += "<span id='open-" + i + "' class='link' onmouseover=\"this.className='link-over'\" onmouseout=\"this.className='link'\" onmousedown=\"return Open('sub-" + i + "')\"><img src='Player/images/btnProgram.gif' width='21' height='19' align='absmiddle'>" + parentTitle + "</span>";
+      strListTable += "</td></tr>";
+      strListTable += "<tr><td colspan='4'><div id='sub-" + i + "' class='subs'><table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+      clips = mediaList[i].getElements("CLIP");
+      for(j=0; j<clips.length; j++) {
+        streamType = parseInt(clips[j].getElements("TYPE")[0].getText());
+        clipFname = clips[j].getElements("FILENAME")[0].getText();
+        title = clips[j].getElements("TITLE")[0].getText();
+        size = parseInt(clips[j].getElements("SIZE")[0].getText());
+        size = Math.round((size/(1024*1024))*100)/100;
+        size += "&nbsp;GB";
+        lng = clips[j].getElements("CLIPLENGTH")[0].getText();
+        hr = parseInt(lng/3600);
+        mins = parseInt(lng/60);
+        mm = mins % 60;
+        ss = lng % 60;
+        if(hr<10)
+          hr = "0" + hr;
+        if(mm<10)
+          mm = "0" + mm;
+        if(ss<10)
+          ss = "0" + ss;
+        clipLength = hr + ":" + mm + ":" + ss;
+
+        wName = "player_" + i + "_" + j;
+        strListTable += "<tr><td " + cls + " style='padding-left:20px' width='70%'>&nbsp;<a href=\"javascript://\" title='Play' onclick=\"launchPlayer(" + streamType + ", '" + clipFname + "', '" + wName + "')\"><font color='black'>" + title + "</font></a></td><td " + cls + " width='10%'>" + clipLength + "</td><td " + cls + " width='10%'>" + size + "</td><td " + cls + " width='10%'><a href=\"javascript://\" title='Play' onclick=\"launchPlayer(" + streamType + ", '" + clipFname + "', '" + wName + "')\"><img src=\"Player/images/playerBtnSmallPlay.gif\" border='0' width=19 height=19 alt='Play'></a></td></tr>";
+      }
+      strListTable += "</table>";
+    }    
+  }
+  document.write(strListTable);
+}
+
+function parseXML(fPath) {
+  
+  objFSO = new ActiveXObject('Scripting.FileSystemObject');
+  
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+  q = window.location.pathname;   
+  var xmlPath = q.substring(q.indexOf("/")+1, q.length); // strip the first / 
+  xmlPath = xmlPath.replace(/%20/g," ");
+  xmlPath = xmlPath.replace(/%26/g,"&");
+  parentFld = objFSO.GetParentFolderName(xmlPath);
+  strContents = objFSO.OpenTextFile(parentFld + "\\" +fPath, 1).ReadAll();
+  strContents = strContents.replace(/ID=>/,"ID='0'>");
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null ) {
+    alert( "Could not parse xml data");
+    return null;
+  }
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null ) {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return null;
+  }
+  xmlDoc = null;
+  objFSO = null;
+  return root;
+}
+
+function xmlErr( e ) {
+  alert(e);
+}
+</script>
+</head>
+<body class="body">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+	<tr height="40">
+		<td class="H1">
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img id="logoImage" src="Player/images/logoClientHeader.gif" align="absmiddle" height="34"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50" id="divTitle"></div>
+		</td>
+  	<tr height="20">
+    	<td style="padding-left:20px" align="left" valign="top">
+			<!-- <div class="t1bmid" id="divTitle"></div>
+			<hr width="400"> -->
+		</td>
+	</tr>
+  <tr><td valign="top">
+    <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #23417d;filter:shadow(color:gray,strength:30, direction:135);">
+    <tr>
+    <td height="100%" align="left" valign="top" class="H4">Media Library</td>
+    </tr>
+    <tr>
+    <td height="100%" align="left" valign="top" bgcolor="#ebeff5">
+      <div id="divProgramsList" style="width:100%;height:100%;overflow:auto">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+        <td class="col3" width="70%">Name</td>
+        <td class="col3" width="10%">Length</td>
+        <td class="col3" width="10%">Size</td>
+        <td class="col3" width="10%">Action</td>
+        </tr>
+        <script language="javascript">
+        fncLoad();
+        </script>
+        </table>
+      </div>
+    </td>
+    </tr>
+    </table>
+</td></tr>
+<tr>
+	<td height="20" class="footer">
+		Copyright &copy 2006 IP Video Systems, Inc.
+	</td>
+</tr>
+</table>
+</body>
+</html>

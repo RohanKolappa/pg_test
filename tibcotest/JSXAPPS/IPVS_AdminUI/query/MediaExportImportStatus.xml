@@ -1,0 +1,44 @@
+<query>
+   <![CDATA["
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+
+let $list2 := for $b in #OBJ_ExportImportFileListItem_OBJ# 
+where $b_WHEREXPATH_    
+order by _SORTXPATH_  _SORTORDER_   
+return $b  
+let $list3 := subsequence($list2, $startFrom, $countToFetch) 
+let $list := for $b in  $list3 
+return 
+<record  
+jsxid='{ data($b/@NID) }'  
+mediaExportFunction='{ data($b/@type) }'  
+mediaExportFilename='{ data($b//Internal/@title\)  }'
+mediaExportClientPath='{ data($b//External/@folderPath\) }'  
+mediaExportMediaDir='{ data($b//Internal/@dirTitle\) }'  
+mediaExportRequestor='{ data($b//External/@JID\) }'  
+mediaExportFileStatus='{ data($b/@state_description)  }'
+mediaExportFileDate='{ data($b/@dateCreated) }'
+mediaExportQueuePriority='{ if (data($b/@priority) = 0) 
+                              then 'Prioritized' else
+                            if (data($b/@priority) = 1) 
+                              then 'High' else 
+                            if (data($b/@priority) = 2)
+                              then 'Medium' else 'Low' }'   
+selMediaQueuePriority='{ data($b/@priority) }'  
+mediaExportFileQueueState='{ data($b/@queue_state) }'
+mediaExportFileDateCompleted='{ data($b/@dateCompleted) }'
+mediaExportFileErrorCode='{ data($b//Exception/Code) }'
+mediaExportFileErrorDescription='{ data($b//Exception/Description) }' 
+ 
+> 
+</record> 
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

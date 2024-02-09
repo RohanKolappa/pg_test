@@ -1,0 +1,39 @@
+<GetReportRequest>
+	<GetReportRequestData>
+		<GetReport startFrom='1' countToFetch='50' sortBy='' sortOrder='' selectFormat='BASIC/EXTENDED' whereNID='' whereName='' whereType='' />		
+	</GetReportRequestData>
+	<GetReportResponseData>
+	    <!-- BASIC Output -->	
+	    <GetReport>
+      		<Report NID='' name='' description='' type='' format='' enableExport='' exportSchedule='' exportURL='' >
+      			<Status>
+      				<LastExportStatus date='' time='' state='' />
+      				<LastExported date='' time='' />
+				</Status>	
+      		</Report>
+      	</GetReport>  		
+	  	<!-- EXTENDED Output -->
+	  	<GetReport>
+	    	<Report NID='' name='' description='' type='Audit' format='' enableExport='' exportSchedule='' exportURL='' >
+	    		<Audit properties='' >                 
+                	<FormatXSL mode='' />  
+                </Audit>         
+	    		<Status>    
+	    			<LastExportStatus date='' time='' state='' />
+      				<LastExported date='' time='' />
+				</Status>        	                        
+   	      	</Report>	
+   	      	<Report NID='' name='' description='' type='Policy' format='' enableExport='' exportSchedule='' exportURL='' >
+   	      		<Policy properties='' permissions='' whereTarget='' whereTextSubStr='' whereTagExpr='' whereTagExprMode='' >   	      		                                
+                	<FormatXSL mode='' />      
+                </Policy>
+   	      		<Status>
+   	      			<LastExportStatus date='' time='' state='' />
+      				<LastExported date='' time='' />
+				</Status>            	             
+   	      	</Report>
+   	    </GetReport>
+	</GetReportResponseData>
+	<GetReportExceptionCodes>
+	</GetReportExceptionCodes>
+</GetReportRequest>

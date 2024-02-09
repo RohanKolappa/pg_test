@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="xml" indent="yes" encoding="UTF-8" />
+	<xsl:template match="/">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="GetPortDisplayStatus">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="XP200DisplayStatus/Parameters">
+		<Canvas>
+			<xsl:attribute name="hres">
+				  <xsl:value-of select="Parameter[@name='Max Horiz Res']"></xsl:value-of>
+				  <xsl:text>px</xsl:text>
+			    </xsl:attribute>
+			<xsl:attribute name="vres">
+				  <xsl:value-of select="Parameter[@name='Max Vert Res']"></xsl:value-of>
+				  <xsl:text>px</xsl:text>
+			 </xsl:attribute>
+			<Display id=''>
+				<xsl:attribute name="hres">
+				  <xsl:value-of select="Parameter[@name='Max Horiz Res']"></xsl:value-of>
+				  <xsl:text>px</xsl:text>
+			    </xsl:attribute>
+				<xsl:attribute name="vres">
+				  <xsl:value-of select="Parameter[@name='Max Vert Res']"></xsl:value-of>
+				  <xsl:text>px</xsl:text>
+			    </xsl:attribute>
+				<xsl:attribute name="lut">
+				  <xsl:value-of select="Parameter[@name='Display LUT']"></xsl:value-of>				  
+			    </xsl:attribute>
+			</Display>
+			<Background zIndex='0' content='LOCALVIDEO'>
+				<xsl:attribute name="enable">
+				      <xsl:if test="Parameter[@name='Source']='Remote'">
+				        <xsl:text>false</xsl:text>
+				      </xsl:if>	
+				      <xsl:if
+					test="Parameter[@name='Source']='Overlay'  or Parameter[@name='Source']='Local'">
+				        <xsl:text>true</xsl:text>
+				      </xsl:if>	
+			   </xsl:attribute>
+			</Background>
+			<Window id='' enable='true/false' zIndex='1' content='REMOTEVIDEO'>
+				<xsl:attribute name="enable">
+				      <xsl:if
+					test="Parameter[@name='Source']='Overlay'  or Parameter[@name='Source']='Remote' ">
+				        <xsl:text>true</xsl:text>
+				      </xsl:if>	
+				      <xsl:if test=" Parameter[@name='Source']='Local'">
+				        <xsl:text>false</xsl:text>
+				      </xsl:if>	
+			      </xsl:attribute>
+				<Geometry>
+					<xsl:attribute name="vpos">
+				     	<xsl:value-of select="Parameter[@name='Vert Offset']"></xsl:value-of>	
+				     	<xsl:text>px</xsl:text>			
+					</xsl:attribute>
+					<xsl:attribute name="hpos">
+				     	<xsl:value-of select="Parameter[@name='Horiz Offset']"></xsl:value-of>	
+				     	<xsl:text>px</xsl:text>		
+					</xsl:attribute>
+					<xsl:attribute name="vres">
+				     	<xsl:value-of select="Parameter[@name='Vert Res']"></xsl:value-of>
+				     	<xsl:text>px</xsl:text>										
+					</xsl:attribute>
+					<xsl:attribute name="hres">
+				        <xsl:value-of select="Parameter[@name='Horiz Res']"></xsl:value-of>	
+				        <xsl:text>px</xsl:text>							
+					</xsl:attribute>
+					<xsl:attribute name="transparency">
+				      <xsl:value-of select="Parameter[@name='Transparency']"></xsl:value-of>	
+				      <xsl:text>%</xsl:text>
+					</xsl:attribute>
+				</Geometry>
+				<Source>
+					<xsl:attribute name="hres">
+				     	<xsl:value-of select="Parameter[@name='Horiz Res']"></xsl:value-of>	
+				     	<xsl:text>px</xsl:text>			
+					</xsl:attribute>
+					<xsl:attribute name="vres">
+				     	<xsl:value-of select="Parameter[@name='Vert Res']"></xsl:value-of>	
+				     	<xsl:text>px</xsl:text>		
+					</xsl:attribute>
+					<xsl:attribute name="hscale">
+				     	<xsl:value-of select="Parameter[@name='Horiz Scale']"></xsl:value-of>
+				     	<xsl:text>%</xsl:text>										
+					</xsl:attribute>
+					<xsl:attribute name="vscale">
+				        <xsl:value-of select="Parameter[@name='Vert Scale']"></xsl:value-of>	
+				        <xsl:text>%</xsl:text>							
+					</xsl:attribute>
+					<xsl:attribute name="lut">
+				      <xsl:value-of select="Parameter[@name='Remote LUT']"></xsl:value-of>
+					</xsl:attribute>
+				</Source>
+			</Window>
+		</Canvas>
+	</xsl:template>
+</xsl:stylesheet>

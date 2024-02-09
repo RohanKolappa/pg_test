@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:include schemaLocation="mediaroom.sessionservice.public.xsd" />
+  
+  <!--  Set Device Config Request -->
+  
+  <xs:complexType name='SetDeviceConfigRequestType'>
+	<xs:sequence>
+		<xs:element name="DeviceConfig" type="DeviceConfigElementType"/>			
+	</xs:sequence>
+	<xs:attributeGroup ref="SetAttributeGroupType" />
+	<xs:attribute name='doNotSaveToFlash' type='xs:boolean'/>
+  </xs:complexType>
+  <!-- TBD: Add optional flag to device config schema. Use device config schema instead of this one -->
+	<xs:complexType name="DeviceConfigElementType">
+		<xs:sequence>
+			<xs:any />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:simpleType name="OpeartionAttributeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADD" />
+			<xs:enumeration value="UPDATELIST" />
+			<xs:enumeration value="DELETE" />
+		</xs:restriction>
+	</xs:simpleType>
+ 
+  
+    <!--  Set Device Config Response -->
+	<xs:complexType name='SetDeviceConfigResponseType'/>
+
+	<xs:complexType name='GetDeviceConfigRequestType'>
+		<xs:attributeGroup ref="SetAttributeGroupType" />
+	</xs:complexType>
+  
+	<xs:complexType name='GetDeviceConfigResponseType'>
+		<xs:sequence>
+			<xs:element name='Device'>		 
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element>
+							<xs:element name="DeviceConfig" type="DeviceConfigElementType" />
+						</xs:element>						
+					</xs:sequence>
+					<xs:attribute name='NID' type='xs:string' />
+					<xs:attribute name='title' type='xs:string' />
+					<xs:attribute name='type' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+  </xs:complexType>
+  
+ 	<!--  Get Subscribers Request -->
+  	<xs:complexType name="GetSubscribersRequestType">
+  		<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />			
+		<xs:attribute name="byNID" type="xs:string" />					
+	</xs:complexType>
+	
+	<!--  Get Subscribers Response -->
+	<xs:complexType name="GetSubscribersResponseType">
+  		<xs:sequence>
+			<xs:element name="Subscribers" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+  						<xs:element name="JIDInfo" minOccurs="0" maxOccurs="unbounded">
+  							<xs:complexType>
+  								<xs:sequence>
+  									<xs:element name="Topic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+  								</xs:sequence>
+  								<xs:attribute name="jid" type="xs:string"/>
+  							</xs:complexType>
+  						</xs:element>	
+  					</xs:sequence>
+  					<xs:attribute name="nid" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Get Subscriptions Request -->
+  	<xs:complexType name="GetSubscriptionsRequestType">
+  		<xs:attribute name="selectFormat" type="CustomObjectSelectFormatType" />			
+		<xs:attribute name="byJID" type="xs:string" />					
+	</xs:complexType>
+
+	<!--  Get Subscription Response -->
+    <xs:complexType name="GetSubscriptionsResponseType">
+  		<xs:sequence>
+			<xs:element name="Subscriptions" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+  						<xs:element name="NIDInfo" minOccurs="0" maxOccurs="unbounded">
+  							<xs:complexType>
+  								<xs:sequence>
+  									<xs:element name="Topic" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+  								</xs:sequence>
+  								<xs:attribute name="nid" type="xs:string"/>
+  							</xs:complexType>
+  						</xs:element>	
+  					</xs:sequence>
+  					<xs:attribute name="jid" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  Set BypassAutoStorageRules Request -->
+	<xs:complexType name="SetFileBypassAutoStorageRulesRequestType">
+  		<xs:attribute name="bypassAutoStorageRules" type="xs:boolean" />			
+		<xs:attribute name="byNID" type="xs:string" />					
+	</xs:complexType>
+	<!--  Set BypassAutoStorageRules Response -->
+	<xs:complexType name="SetFileBypassAutoStorageRulesResponseType">
+			<xs:sequence>
+					<xs:element name="File" minOccurs="0" maxOccurs="unbounded" type='FileResponseType'/>						
+			</xs:sequence>	
+	</xs:complexType>
+	
+
+	<xs:complexType name="StartDirCapacityManagementRulesRequestType">
+  		<xs:attribute name="byJID" type="xs:string" />					
+	</xs:complexType>
+
+	<!--  Start Dir Offload Response -->
+	<xs:complexType name="StartDirCapacityManagementRulesResponseType">
+  		<xs:sequence>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Set Dir Storage Config Request -->
+  
+    <xs:complexType name='SetDirStorageConfigRequestType'>
+	  <xs:sequence>
+		<xs:element name="DirSpanning" minOccurs="0" maxOccurs="unbounded">
+		  <xs:complexType>
+			<xs:sequence>
+  	  		  <xs:element minOccurs="0" name="PortInfo"> 
+	    	    <xs:complexType>
+		  		   <xs:sequence>
+		    		 <xs:element name="Port">
+			           <xs:complexType>
+			  	         <xs:simpleContent>
+			  	         	<xs:extension base="xs:string">
+			  		  		 <xs:attribute name="byNID" type="xs:string" />
+					  		 <xs:attribute name="priority" type="xs:string" />
+					  		</xs:extension>
+			  			</xs:simpleContent>	
+			 		  </xs:complexType> 
+		  			</xs:element>
+	      		 </xs:sequence>
+	    		</xs:complexType>
+       		  </xs:element>
+     		</xs:sequence>
+     	   <xs:attribute name="diskFullThreshold" type="xs:string" />
+     	  </xs:complexType>
+     	 </xs:element>
+		<xs:element name="CapacityManagement" minOccurs="0" maxOccurs="unbounded" >
+		  <xs:complexType>
+			<xs:sequence>
+  	  		  <xs:element name="ThresholdRule" type="ThresholdRuleType" />
+  	  		  <xs:element name="ILMRule" type="ILMRuleType" />  
+	      	</xs:sequence>
+	        <xs:attribute name="schedule" type="xs:string" />
+	      </xs:complexType>
+        </xs:element>
+     </xs:sequence>
+     <xs:attribute name="byNID" type="xs:string" />
+     <xs:attribute name="whereMode" type="ModeEnumType" />
+	</xs:complexType>
+     	
+    <!--  Set Dir Storage Config Response -->
+    
+	<xs:complexType name="SetDirStorageConfigResponseType" >
+		<xs:complexContent mixed="false">
+			<xs:extension base="GetObjectResponseType">
+				<xs:sequence>
+					<xs:element name="Dir" minOccurs="0" maxOccurs="unbounded" type="DirListType"/>									
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Auto start stream url 45751 -->   
+  <xs:complexType name="AutoStartStreamRequestType">
+    <xs:sequence>
+     	<xs:element name="AutoStart" type="AutoStartRequestType" />
+    </xs:sequence>
+  </xs:complexType>   
+  <xs:complexType name="AutoStartStreamResponseType">
+    <xs:sequence>
+      <xs:element name="AutoStart" type="AutoStartResponseType" />
+    </xs:sequence>
+  </xs:complexType>	
+  <xs:complexType name="SetPortAutoStartRequestType">  	
+    <xs:sequence>
+    	<xs:element name="SetPortAutoStart" type = "SetPortAutoStartRequestDataType"/>
+          
+    </xs:sequence>    
+  </xs:complexType> 	
+  <xs:complexType name="SetPortAutoStartResponseType">
+  	<xs:sequence>
+  	
+  		
+    	<xs:element name="SetPortAutoStart" type = "SetPortAutoStartResponseDataType"/>         
+    </xs:sequence>    
+  </xs:complexType>  
+  
+  <xs:complexType name="AutoStartRequestType"> 
+     <xs:attribute name="portNID" type="xs:string"/>    
+  </xs:complexType>
+  
+   <xs:complexType name="AutoStartResponseType" > 
+   	 <xs:attribute name="portNID" type="xs:string"/>    
+     <xs:attribute name="sessionId" type="xs:string"/>    
+  </xs:complexType>
+  
+  <xs:complexType name="SetPortAutoStartRequestDataType"> 
+	 <xs:sequence>
+	 	<xs:element name="ProfileXML"/> 
+	 </xs:sequence>
+	 <xs:attribute name="enable" type="xs:boolean"/>
+     <xs:attribute name="byNID" type="xs:string"/>
+     <xs:attribute name="byTitle" type="xs:string"/>    
+  </xs:complexType>
+  
+  <xs:complexType name="SetPortAutoStartResponseDataType"> 
+  <xs:sequence>
+  	<xs:element name ="Port" type ="GetPortResponseType"/>
+  </xs:sequence>
+  	<xs:attribute name="enable" type="xs:boolean"/>
+     <xs:attribute name="byNID" type="xs:string"/>
+     <xs:attribute name="byTitle" type="xs:string"/>    
+  </xs:complexType>
+	<!-- ServicePreferences Request -->
+	
+	<xs:complexType name="SetAutoDiscoveryRequestType">
+		<xs:sequence>
+			<xs:element name='Groups' type='TagList'/>
+		</xs:sequence>
+		<xs:attribute name='enable' type='xs:boolean' />
+	</xs:complexType>
+
+	
+	<!-- ServicePreferences Response -->
+	
+	<xs:complexType name="SetAutoDiscoveryResponseType"/>
+	
+	
+	
+	<!-- Device Commands Requests -->
+	
+	<!-- Upgrade -->
+	<xs:complexType name="UpgradeDeviceRequestType">
+		<xs:sequence>
+			<xs:element name='URL' type='xs:string'/>
+		</xs:sequence>
+		<xs:attributeGroup ref="DeviceCommandsWhereType" />
+	</xs:complexType>
+	
+	<xs:complexType name="UpgradeDeviceResponseType"/>
+	
+	
+	<!-- Generic device command requests and response -->
+	
+	
+	<xs:complexType name="DeviceCommandsRequestType">
+		<xs:attributeGroup ref="DeviceCommandsWhereType" />
+	</xs:complexType>
+	
+	<xs:complexType name="DeviceCommandResponseType"/>
+	
+	  <!-- DB Import Export Calls -->
+  	<xs:element name="BackupDatabaseRequestData" type="BackupdatabaseRequestDataType" />
+  	<xs:complexType name="BackupdatabaseRequestDataType">
+   	 <xs:sequence>
+      	<xs:element name="LocalFileName" type="xs:string" />
+   	 </xs:sequence>
+  	</xs:complexType>
+  	<xs:element name="BackupDatabaseResponseData" type="BackupDatabaseResponseDataType" />
+ 	 <xs:complexType name="BackupDatabaseResponseDataType">
+   	 <xs:sequence>
+     	 <xs:element name="BackupDatabase" type="BackupDatabaseType"/>
+   	 </xs:sequence>
+  	</xs:complexType>
+  	
+  	  <!-- BackupDatabase Config / Status Objects -->
+  	<xs:complexType name="BackupDatabaseType">
+   	 	<xs:sequence>
+      	 <xs:element name="ToFileName" type="xs:string" />
+      	 <xs:element name="URL" type="xs:string" />
+    	</xs:sequence>
+ 	 </xs:complexType>
+	
+	
+	<xs:element name="GetSubscribersRequest" type="GetSubscribersRequestType"/>
+	<xs:element name="GetSubscriptionsRequest" type="GetSubscriptionsRequestType"/>
+	<xs:element name="StartDirCapacityManagementRulesRequest" type="StartDirCapacityManagementRulesRequestType"/>
+	<xs:element name="StartDirCapacityManagementRulesResponse" type="StartDirCapacityManagementRulesResponseType"/>
+	<xs:element name="SetDirStorageConfigRequest" type="SetDirStorageConfigRequestType"/>
+	<xs:element name="SetDirStorageConfigResponse" type="SetDirStorageConfigResponseType"/>
+	<xs:element name="GetDeviceConfigRequest" type="GetDeviceConfigRequestType" />
+    <xs:element name="GetDeviceConfigResponse" type="GetDeviceConfigResponseType" />
+	<xs:element name="SetDeviceConfigRequest" type="SetDeviceConfigRequestType" />
+	<xs:element name="SetDeviceConfigResponse" type="SetDeviceConfigResponseType" />
+	<xs:element name="SetFileBypassAutoStorageRulesRequest" type="SetFileBypassAutoStorageRulesRequestType" />
+	<xs:element name="SetFileBypassAutoStorageRulesResponse" type="SetFileBypassAutoStorageRulesResponseType" />
+	<xs:element name="SetAutoDiscoveryRequest" type="SetAutoDiscoveryRequestType" />
+	<xs:element name="SetAutoDiscoveryResponse" type="SetAutoDiscoveryResponseType" />
+
+	<xs:element name="AutoStartStreamRequest" type="AutoStartStreamRequestType" />
+	<xs:element name="AutoStartStreamResponse" type="AutoStartStreamResponseType" />
+	<xs:element name="SetPortAutoStartRequest" type="SetPortAutoStartRequestType" />
+	<xs:element name="SetPortAutoStartResponse" type="SetPortAutoStartResponseType" />
+
+	
+	<xs:element name="UpgradeDeviceRequest" type="UpgradeDeviceRequestType" />
+	<xs:element name="UpgradeDeviceResponse" type="UpgradeDeviceResponseType" />
+	
+	<xs:element name="RebootDeviceRequest" type="DeviceCommandsRequestType" />
+	<xs:element name="RebootDeviceResponse" type="DeviceCommandResponseType" />
+	
+	<xs:element name="RevertToDefaultDeviceRequest" type="DeviceCommandsRequestType" />
+	<xs:element name="RevertToDefaultDeviceResponse" type="DeviceCommandResponseType" />
+	
+	<xs:element name="SaveConfigDeviceRequest" type="DeviceCommandsRequestType" />
+	<xs:element name="SaveConfigDeviceResponse" type="DeviceCommandResponseType" />
+	
+	<xs:element name="ShutdownDeviceRequest" type="DeviceCommandsRequestType" />
+	<xs:element name="ShutdownDeviceResponse" type="DeviceCommandResponseType" />
+
+		
+</xs:schema>

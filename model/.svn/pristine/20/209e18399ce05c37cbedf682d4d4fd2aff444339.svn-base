@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Resource.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Profile.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.DisplayProfile.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Media.public.xsd" />
+  <xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+  <xs:complexType name="MediaPropertiesType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="PropertiesType">
+        <xs:sequence>
+          <xs:element name="ParentMediaDirNID" type="xs:string" />
+          <xs:element name="Size" type="xs:int" />
+          <xs:element name="Permissions" type="MediaPermissionsType"/>        
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaDirPropertiesType">
+    <xs:complexContent mixed="false">
+     <xs:extension base="MediaPropertiesType">
+        <xs:sequence>
+           <xs:element name="SizeUsed" type="xs:int" />
+        </xs:sequence>
+     </xs:extension>
+   </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaPermissionsType">
+    <xs:complexContent>
+      <xs:extension base="PermissionsType">
+        <xs:sequence>
+          <xs:element name="Xfer" type="xs:boolean" />
+          <xs:element name="Stream" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ProfileInfoType">
+    <xs:sequence>
+      <xs:element name="ProfileNIDList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="ProfileNID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>  
+  <xs:complexType name="RelayInfoType">
+    <xs:sequence>
+      <xs:element name="UseRelay" type="xs:boolean" />
+      <xs:element name="UseRelayAndDirectConnect" type="xs:boolean" />
+      <xs:element name="RelayPortList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="MediaStreamRelayPortResourceNID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>	
+  <xs:complexType name="MediaStreamResourceType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ResourceType">
+        <xs:sequence>
+          <xs:element name="AssetResourceNID" type="xs:string" />
+          <xs:element minOccurs="0" name="ProfileInfo" type="ProfileInfoType" />
+          <xs:element minOccurs="0" name="PVRInfo" type="PVRInfoType" />
+          <xs:element minOccurs="0" name="RelayInfo" type="RelayInfoType" />
+          <xs:element minOccurs="0" name="ObserverInfo" type="ObserverInfoType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStreamSrcPortResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamSrcPortResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamSrcPortResource" type="MediaStreamSrcPortResourceType" />
+  <xs:complexType name="MediaStreamSrcPortResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamSrcPortResourceInfoType" />
+          <xs:element name="InstanceInfo" type="MediaStreamSrcPortResourceInstanceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.5" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStreamDstPortResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamDstPortResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamDstPortResource" type="MediaStreamDstPortResourceType" />
+  <xs:complexType name="MediaStreamDstPortResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamDstPortResourceInfoType" />
+          <xs:element name="InstanceInfo" type="MediaStreamDstPortResourceInstanceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStreamIOPortResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamIOPortResource" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamSrcPortResource" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamDstPortResource" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamIOPortResource" type="MediaStreamIOPortResourceType" />
+  <xs:complexType name="MediaStreamIOPortResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamIOPortResourceInfoType" />
+          <xs:element name="InstanceInfo" type="MediaStreamIOPortResourceInstanceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.5" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStreamRelayPortResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamRelayPortResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamRelayPortResource" type="MediaStreamRelayPortResourceType" />
+  <xs:complexType name="MediaStreamRelayPortResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamRelayPortResourceInfoType" />
+          <xs:element name="InstanceInfo" type="MediaStreamRelayPortResourceInstanceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.4" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamResourceInfoType" abstract="true">
+    <xs:sequence>
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="StreamTypeList">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element name="StreamType" type="StreamTypeEnumType" />
+            <xs:element minOccurs="0" name="StreamURLType" type="StreamURLTypeEnumType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamPortResourceInfoType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInfoType">
+        <xs:sequence>
+	    <xs:element name="DeviceElementID" type="xs:string" />
+		<xs:element name="FeatureList">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Feature" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:attribute name="Name" type="xs:string"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamSrcPortResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamPortResourceInfoType">
+        <xs:sequence>
+          <xs:element fixed="StreamSrc" name="Type" type="xs:string" />
+          <xs:element name="RemotelyOperatedMode" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamDstPortResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamPortResourceInfoType">
+        <xs:sequence>
+          <xs:element fixed="StreamDst" name="Type" type="xs:string" />
+          <xs:element name="RemotelyOperatedMode" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamIOPortResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamPortResourceInfoType">
+        <xs:sequence>
+          <xs:element name="Configurable" type="xs:boolean" />
+          <xs:element name="Type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="StreamSrc" />
+                <xs:enumeration value="StreamDst" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="RemotelyOperatedMode" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamRelayPortResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamPortResourceInfoType">
+        <xs:sequence>
+          <xs:element fixed="StreamRelay" name="Type" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStorePortResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStorePortResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStorePortResource" type="MediaStorePortResourceType" />
+  <xs:complexType name="MediaStorePortResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStorePortResourceInfoType" />
+          <xs:element name="InstanceInfo" type="MediaStorePortResourceInstanceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.5" name="Ver" type="xs:double" use="required" />
+       <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStorePortResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamPortResourceInfoType">
+        <xs:sequence>
+          <xs:element fixed="Both" name="Type" type="xs:string" />
+          <xs:element name="MediaStoreDeviceElementList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="MediaStoreDeviceElementID" type="xs:string" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStateType">
+    <xs:sequence>
+      <xs:element name="StateFlag" type="MediaStateEnumType" />
+      <xs:element maxOccurs="1" name="StateMsg" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStoreResourceType" abstract="true">
+    <xs:sequence>
+      <xs:element name="State" type="MediaStateType" />
+      <xs:element minOccurs="0" name="ProfileInfo" type="ProfileInfoType" />
+      <xs:element minOccurs="0" name="PVRInfo" type="PVRInfoType" />
+      <xs:element minOccurs="0" name="RelayInfo" type="RelayInfoType" />
+      <xs:element minOccurs="0" name="ObserverInfo" type="ObserverInfoType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="MediaStreamDirResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamDirResource" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamDirResource" type="MediaStreamDirResourceType" />
+  <xs:complexType name="MediaStreamDirResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStoreResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamDirResourceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.9" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamDirResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInfoType">
+        <xs:sequence>
+          <xs:element name="MediaDirStorageConfig" type="MediaDirStorageConfigType" />
+          <xs:element name="Properties" type="MediaDirPropertiesType" />
+          <xs:element name="UUID" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaDirStorageConfigType">
+  	<xs:sequence>
+    	<xs:element name="MediaDirSpanning" type="MediaDirSpanningType" />
+    	<xs:element name="CapacityManagement" type="CapacityManagementType" />
+    </xs:sequence>
+    <xs:attribute name="mode" type="ModeEnumType"/>
+  </xs:complexType>
+  <xs:complexType name="MediaDirSpanningType">
+  	<xs:sequence>
+          <xs:element name="MediaStorePortResourceNIDList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="MediaStorePortResourceNID">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                      	<xs:attribute name="deviceElementId" type="xs:string"/>
+						<xs:attribute name="readOnly" type="xs:string"/>
+						<xs:attribute name="priority" type="xs:int"/>
+						<xs:attribute name="presence" type="xs:string"/>
+					  </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="synchMediaStorePortResourceNID" type="MRNIDType"/>
+            </xs:complexType>            
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="diskFullThreshold" type="xs:int" />
+  </xs:complexType>
+  <xs:element name="MediaStreamFileResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MediaStreamFileResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MediaStreamFileResource" type="MediaStreamFileResourceType" />
+  <xs:complexType name="MediaStreamFileResourceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStoreResourceType">
+        <xs:sequence>
+          <xs:element name="Info" type="MediaStreamFileResourceInfoType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.5" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamFileResourceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInfoType">
+        <xs:sequence>
+          <xs:element name="Properties" type="MediaPropertiesType" />
+           <xs:element name="RecInfo">
+          <xs:complexType>
+            <xs:attribute name="SessionConfigNID" type="xs:string"/>
+            <xs:attribute name="SessionID" type="xs:string"/>
+          </xs:complexType>
+          </xs:element>
+          <xs:element name="UUID" type="xs:string" />          
+          <xs:element name="MediaStoreFileInfo">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="MediaStoreFileInfoType">
+                  <xs:attribute fixed="1.8" name="MediaStoreFile-Ver" type="xs:double" use="required" />
+                  <xs:attribute fixed="1" name="MediaStoreFile-Rev" type="xs:int" use="required" />
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:choice>
+            <xs:element name="MediaClip" type="MediaClipType" />
+            <xs:element name="PVRMediaClip" type="PVRMediaClipType" />
+            <xs:element name="Playlist" type="PlaylistType" />
+            <xs:element name="MediaGroup" type="MediaGroupType" />
+            <xs:element name="MediaImage" type="MediaImageType" />
+          </xs:choice>         
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MediaStoreInfo" type="MediaStoreInfoType" />
+  <xs:complexType name="MediaStoreInfoType">
+    <xs:sequence>
+      <xs:element name="Revision" type="xs:integer" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+  </xs:complexType>
+  <xs:element name="MediaStoreFile" type="MediaStoreFileType" />
+  <xs:complexType name="MediaStoreFileType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStoreFileInfoType">
+        <xs:sequence>
+          <xs:element name="Title" type="xs:string" />
+          <xs:element name="Description" type="xs:string" />
+          <xs:element name="StreamType" type="StreamTypeEnumType" />
+          <xs:element name="State" type="MediaStateEnumType" />
+          <xs:element name="DateCreated" type="xs:dateTime" />
+          <xs:element name="DateModified" type="xs:dateTime" />
+          <xs:choice>
+            <xs:element name="MediaClip" type="MediaClipType" />
+            <xs:element name="PVRMediaClip" type="PVRMediaClipType" />
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.9" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+	<xs:complexType name="MediaStoreFileInfoType">
+		<xs:sequence>
+			<xs:element name="MetaData" type="MetaDataType" />
+			<xs:element name="Type" type="MediaTypeEnumType" />
+			<xs:element minOccurs="0" name="MediaGroupID" type="MediaGroupIDType"/>
+			<xs:element name="BypassAutoStorageRules" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MediaGroupIDType">
+	   <xs:attribute name="ClipID" type="xs:string" />
+	</xs:complexType>  
+  <xs:element name="MediaSegmentInfo" type="MediaSegmentInfoType" />
+  <xs:complexType name="MediaSegmentInfoType">
+    <xs:sequence>
+      <xs:element name="MediaOffset" type="xs:string" />
+      <xs:element name="StartTC" type="xs:string" />
+      <xs:element name="EndTC" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:element name="BookmarkList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Bookmark" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Bookmark" type="BookmarkType" />
+  <xs:complexType name="BookmarkType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MediaStreamFileResourceNID" type="MRNIDType" />     
+      <xs:element name="AtTC" type="xs:string" />
+      <xs:element name="Offset" type="xs:string" />
+      <xs:element name="DateCreated" type="xs:dateTime" />
+      <xs:element name="DateModified" type="xs:dateTime" />
+      <xs:element name="AuthorUserID" type="XMPPBareJID" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Comment" type="xs:string" />
+      <xs:element name="MetaData" type="MetaDataType"/>
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.6" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="MediaFileType" abstract="true">
+    <xs:sequence>
+      <xs:element name="PlayLength" type="xs:time" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaClipType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaFileType">
+        <xs:sequence>
+          <xs:element ref="MediaStreamProfileInfo" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PVRMediaClipType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaClipType">
+        <xs:sequence>
+          <xs:element name="TrimLength" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:complexType name="FillerInfoType">
+    <xs:sequence>
+      <xs:element name="FillerMediaStreamFileNID" type="xs:string" />
+      <xs:element name="FillerMediaStartOffset" type="xs:string" />
+      <xs:element name="FillerMediaPlayLength" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PlaylistType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaFileType">
+        <xs:sequence>
+          <xs:element name="FillerInfo" type="FillerInfoType" />
+          <xs:element name="PlaylistEntries">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="PlaylistEntry" type="PlaylistEntryType" />
+              </xs:sequence>
+              <xs:attribute name="ID" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PlaylistEntryType">
+    <xs:sequence>
+      <xs:element name="PlayOrder" type="xs:int" />
+      <xs:element minOccurs="0"  name="PlaylistEntryStartOffset" type="xs:time" />
+      <xs:element name="PlaylistEntryPlayLength" type="xs:time" />
+      <xs:element name="MediaStreamFileNID" type="xs:string" />
+      <xs:element name="MediaStartOffset" type="xs:time" />
+      <xs:element name="MediaPlayLength" type="xs:time" />
+      <xs:element name="LoopCount" type="xs:int" /> 
+      <xs:element name="FillerInfo" type="FillerInfoType" />
+    </xs:sequence>
+    <xs:attribute name="ID" type="xs:string" use="required" />
+  </xs:complexType>
+  
+   <xs:complexType name="MediaImageType">
+        <xs:sequence>
+          <xs:element name="ImageType">
+             <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="JPG"/>
+                <xs:enumeration value="BMP"/>
+                <xs:enumeration value="PNG"/>
+                <xs:enumeration value="GIF"/>
+                <xs:enumeration value="TIF"/>                
+              </xs:restriction>
+             </xs:simpleType>
+          </xs:element>         
+        </xs:sequence>      
+  </xs:complexType>
+  <xs:complexType name="MediaGroupType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaFileType">
+        <xs:sequence>
+          <xs:element name="Sync" type="xs:boolean" />
+          <xs:element maxOccurs="unbounded" name="MediaStreamFileNID" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamResourceInstanceInfoAbstractType" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxInstanceCount" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamSrcPortResourceInstanceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceInfoAbstractType">
+        <xs:sequence>
+          <xs:element name="MediaStreamList" type="MediaStreamListType" />		  
+          <xs:element name="InstanceList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="Instance" type="MediaStreamSrcPortResourceInstanceType" />              
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamDstPortResourceInstanceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceInfoAbstractType">
+        <xs:sequence>
+          <xs:element name="MediaStreamList" type="MediaStreamListType" />
+          <xs:element name="InstanceList">
+            <xs:complexType>
+              <xs:sequence>
+              	<xs:element minOccurs="0" maxOccurs="unbounded" name="Instance" type="MediaStreamDstPortResourceInstanceType" />                              
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamIOPortResourceInstanceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceInfoAbstractType">
+        <xs:sequence>
+          <xs:element name="MediaStreamList" type="MediaStreamListType" />
+          <xs:element name="InstanceList">
+            <xs:complexType>
+              <xs:sequence>
+              	<xs:element minOccurs="0" maxOccurs="unbounded" name="Instance" type="MediaStreamIOPortResourceInstanceType" />	                           
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamRelayPortResourceInstanceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceInfoAbstractType">
+        <xs:sequence>
+          <xs:element name="MediaStreamList" type="MediaStreamListType" />
+          <xs:element name="InstanceList">
+            <xs:complexType>
+              <xs:sequence>
+                 <xs:element minOccurs="0" maxOccurs="unbounded" name="Instance" type="MediaStreamRelayPortResourceInstanceType" />                	               
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStorePortResourceInstanceInfoType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceInfoAbstractType">
+        <xs:sequence>
+          <xs:element name="MediaStreamList" type="MediaStreamListType" />
+          <xs:element name="InstanceList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="Instance" type="MediaStreamFileResourceInstanceType" />                	                   
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  <xs:complexType name="MediaStreamListType">
+	<xs:sequence>
+		<xs:element name="MediaStream" minOccurs="0" maxOccurs="unbounded">
+			<xs:complexType>
+				<xs:attribute name="NID" type="xs:string" />
+				<xs:attribute name="id" type="xs:string" />
+				<xs:attribute name="role" type="xs:string" />
+				<xs:attribute name="roomType" type="xs:string" />
+				<xs:attribute name="roomNID" type="xs:string" />
+				<xs:attribute name="roomID" type="xs:string" />
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+  </xs:complexType>  
+  <xs:complexType name="MediaStreamResourceInstanceAbstractType" abstract="true">
+    <xs:sequence>
+      <xs:element name="ResourceNID" type="xs:string" />
+      
+    </xs:sequence>
+    <xs:attribute name="mode" type="MediaModeEnumType" /> 
+    <xs:attribute name="sessionId" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="MediaStreamSrcPortResourceInstanceType">
+    
+    <xs:complexContent mixed="false">        
+      <xs:extension base="MediaStreamResourceInstanceAbstractType">
+        <xs:sequence>  
+          <xs:element minOccurs="0" name="MediaStreamInfo" type="MediaStreamPortInfoType" />
+          <xs:sequence minOccurs="0">
+            <xs:element name="DeviceStreamingServiceEncoderInstanceNID" type="xs:string" />
+            <xs:element name="DeviceStreamingServiceTransmitInstanceNID" type="xs:string" />
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />       
+      </xs:extension>      
+    </xs:complexContent> 
+      
+  </xs:complexType>
+  <xs:complexType name="MediaStreamDstPortResourceInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceAbstractType">     
+        <xs:sequence>
+          
+          <xs:element minOccurs="0" name="MediaStreamInfo" type="MediaStreamPortInfoType" />
+          <xs:sequence minOccurs="0">
+            <xs:element name="DeviceStreamingServiceReceiveInstanceNID" type="xs:string" />
+            <xs:element name="DeviceStreamingServiceDecoderInstanceNID" type="xs:string" />
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamIOPortResourceInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceAbstractType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MediaStreamInfo" type="MediaStreamPortInfoType" />
+          <xs:choice>
+            <xs:sequence minOccurs="0">
+              <xs:element name="DeviceStreamingServiceEncoderInstanceNID" type="xs:string" />
+              <xs:element name="DeviceStreamingServiceTransmitInstanceNID" type="xs:string" />
+            </xs:sequence>
+            <xs:sequence minOccurs="0">
+              <xs:element name="DeviceStreamingServiceReceiveInstanceNID" type="xs:string" />
+              <xs:element name="DeviceStreamingServiceDecoderInstanceNID" type="xs:string" />
+            </xs:sequence>
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamRelayPortResourceInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceAbstractType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="UpstreamMediaStreamInfo" type="MediaStreamPortInfoType" />
+          <xs:element minOccurs="0" name="DownstreamMediaStreamInfo" type="MediaStreamPortInfoType" />
+          <xs:sequence minOccurs="0">
+            <xs:element name="DeviceStreamingServiceReceiveInstanceNID" type="xs:string" />
+            <xs:element name="DeviceStreamingServiceTransmitInstanceNID" type="xs:string" />
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamFileResourceInstanceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="MediaStreamResourceInstanceAbstractType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MediaStreamInfo" type="MediaStreamInfoType" />
+          <xs:choice>
+            <xs:sequence minOccurs="0">
+              <xs:element name="DeviceStreamingServiceReaderInstanceNID" type="xs:string" />
+              <xs:element name="DeviceStreamingServiceTransmitInstanceNID" type="xs:string" />
+            </xs:sequence>
+            <xs:sequence minOccurs="0">
+              <xs:element name="DeviceStreamingServiceReceiveInstanceNID" type="xs:string" />
+              <xs:element name="DeviceStreamingServiceWriterInstanceNID" type="xs:string" />
+            </xs:sequence>
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamInfoType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MediaStreamURL" type="xs:string" />	    
+      <xs:element minOccurs="0" ref="MediaStreamProfileInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MediaStreamPortInfoType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MediaStreamURL" type="xs:string" />	    
+      <xs:element minOccurs="0" ref="MediaStreamPortProfileInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

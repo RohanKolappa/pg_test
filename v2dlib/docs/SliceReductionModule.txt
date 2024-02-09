@@ -1,0 +1,142 @@
+
+Slice Reduction Module
+======================
+Rahul Kale <rahul.kale@barco.com>
+:Author Initials: RKAL
+$Id: SliceReductionModule.txt 62968 2012-03-28 23:26:43Z rkale $
+
+Overview
+--------
+
+
+The Slice Reduction Module (SRM) is a video processing module that
+operates on IP Video System's proprietary video codec called V2D. It
+serves as a filter that can take an encoded V2D bitstream as input and
+produce another compliant V2D bitstream as an output. The module takes
+advantage of certain unique features of the V2D codec that allows the
+video processing to be achieved in a very efficient manner. 
+
+The module provides the following features:
+
+- Provides ability to reduce a high bandwidth video stream to a lower
+bandwidth stream. The module delivers the highest possible framerate
+at any configured bandwidth. This feature is used to efficiently serve
+lower bitrate video content to multiple clients simultaneously from a
+single live or prerecorded source which could be at a much higher
+bitrate.
+
+- Allows the output framerate of a video bitstream to be capped to a
+configurable upper limit. Thus a high framerate input bitstream can be
+reduced to a lower framerate output stream. This feature is used in
+software V2D decoder to limit the video display framerate for managing
+CPU resources used to scale and render decoded video frames.
+
+- Allows a fixed framerate bitstream to be extracted out video content
+encoded using V2D codec which inherently is a variable framerate
+codec. This feature is used for transcoding the V2D codec into other
+standard codecs that typically require a fixed video framerate.
+
+- Allows a full video frame to be extracted out of the bitstream at
+any point of time during normal processing of the video. The V2D codec
+bitstream does not typically contain a full video frame but only
+differences from previous frames. The video processing algorithm
+always builds up and has a handle to a complete video frame during its
+normal processing. This is used to serve a clean frame to decoder when
+streaming from prerecorded content.
+
+- Provides a way to maintain synchronization of Left/Right frames when
+processing bitstreams encoding stereo video content. V2D codec
+supports encoding of stereo video content. The processing of video
+needs to specifically account for the encoding of Left/Right frames in
+the bitstream such that the decoded video can be viewed correctly
+using stereoscopic optical devices.
+
+- Handles video content encoded with enhanced 4:4:4 chroma
+information. The V2D codec optionally carries higher quality 4:4:4
+information for static regions of the video. SRM accounts for this
+specially encoded information while performing bandwidth or framerate
+reduction such that a decoder can correctly render this content
+without loss of any information.
+
+- Allows controlling the quality or resolution of the output video
+while processing V2D bitstreams enhanced with SVC features. V2D codec
+can be optionally enhanced with scalable video features that
+partitions the bitstream into multiple sections carrying video content
+at varying granularity of detail. SRM uses this for delivering higher
+framerates to bandwidth limited clients in exchange for quality and/or
+resolution.
+
+V2D Codec Overview
+------------------
+
+The V2D codec has certain features that makes it possible to
+efficiently implement the video processing algorithms used within SRM.
+This section provides an overview of the V2D codec highlighting the
+features relevant to SRM.
+
+Each frame grabbed from a video source is encoded by the V2D codec
+into an output bitstream. The input video frame is divided into
+rectangular regions called slices that run from left to right, top to
+bottom. Each slice is encoded independently of other slices in the
+frame. Each encoded frame in the resultant bitstream consists of a
+sequence of encoded slices. If the rectangular region of a slice has
+not changed from the same region in the previous frame, the slice is
+not encoded and is absent (skipped) in the output sequence of encoded
+slices.  Any encoded frame typically has many skipped slices depending
+on the nature of video.
+
+Each slice is assigned a number that increments sequentially from the
+first slice (top left corner) to the last slice (bottom right corner)
+starting from zero. Each encoded slice encodes its slice number in the
+bitstream. The decoder can use the slice number along with its
+knowledge of frame and slice dimensions to determine the location of
+any slice in the frame and render it correctly in its output frame
+buffer. The decoder replaces missing slices in an encoded frame with
+the decoded content of the same slice in previous frame(s).
+
+Each encoded frame in the bitstream starts with a unique byte sequence
+termed Start of Frame (SOF). Similarly, each encoded slice starts with
+a special Start or Slice (SOS) byte sequence. These byte sequences are
+not expected to occur anywhere else in the bitstream. The encoded
+bitstream can thus be easily parsed by any video processor (such as
+SRM) to pick out individual frames along with individual slices
+therein.
+
+An encoded slice also encodes its slice number in its initial
+header. The SRM processor does not need to decode the whole slice and
+only needs the first few bytes of the encoded slice to efficiently
+extract out the slice number.
+
+For encoding stereo video, the V2D codec encodes the Left/Right frames
+independently. The encoded bitstream consists of consecutive Left
+frames and Right frames demarcated specially in the frame header. The
+frame differencing algorithm, that determines skipped slices, compares
+the content of each slice in a Left or Right frame with the contents
+of the same slice in the previous Left or Right frame respectively.
+The stereo encoding is such that, for example, a decoder can simply
+ignore all Right frames and will, in effect, render a mono video
+without any artifacts.
+
+The V2D codec can optionally enhance the bitstream with SVC encoding.
+In this case, an encoded slice is partitioned into layers. Each
+successive layer in a slice encodes more detail (higher resolution or
+quality) of the original slice image. A decoder can choose to ignore
+higher layers to re-create a lower resolution or quality of the
+original encoded video.
+
+Each layer encoded within a slice begins at a byte boundary and has a
+layer header that carries a layer identifier and the size in bytes of
+the layer. It is possible to efficiently extract individual layers of
+any slice from the bitstream without needing to fully decode the layer
+content. SRM uses this feature of the codec to efficiently strip off
+higher layers from certain slices for achieve desired functionality.
+
+Features
+--------
+
+- Frame Reduction Algorithm
+- Bandwidth Control
+- Framerate Control
+- Stereo Processing
+- Chroma Handling
+- Quality and Resolution 

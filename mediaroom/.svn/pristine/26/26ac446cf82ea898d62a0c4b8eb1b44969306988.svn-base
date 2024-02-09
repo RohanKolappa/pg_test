@@ -1,0 +1,86 @@
+
+# Enable Logging to LogRoot
+xmpp.server.agent.enable.logging=false
+
+
+# set Server Names. 
+#m.setTo(dstuser + "@localhost");
+xmpp.send.message.server.name=localhost
+# ce.setOwner(super.getSuperUser() + "@localhost");
+xmpp.create.node.server.name=localhost
+
+
+
+# enable = 0/1 or true/false
+####################### bulk ############################
+# if new.db.api.enable=false.  new API disabled 
+# than all other (read/add/update/delete) will be disabled.
+
+new.db.api.enable=true
+new.db.api.bulk.read.enable=true
+new.db.api.bulk.delete.enable=true
+new.db.api.bulk.addupdate.enable=true
+
+# todo 
+new.db.api.bulk.read.default.depth=20
+new.db.api.bulk.read.withSearch.enable=false
+
+####################### bulk ############################
+
+################# new pub sub ################# 
+new.pubsub.enable=true
+##used until publish is being implemented. during admin_Setup this should be on 
+new.pubsub.policy.cache.disable=false
+
+######## the new nid scheme to enable ##############
+######### all nids will be prefixed with domain + col + docid ######
+enable.nidscheme.with.prefix.domain.col.docid=true
+
+##only one implementation per type for now ###
+# MRXMLDBUtils.Pubsub.Impl.use =  MRXMLDBUtils.IpvsDB.Impl or MRXMLDBUtils.ExtComp.Impl or MRXMLDBUtils.IpvsDB.Impl
+#MRXMLDBUtils.Pubsub.Impl.use=MRXMLDBUtils.ExtComp.Impl
+MRXMLDBUtils.Pubsub.Impl.use=MRXMLDBUtils.IpvsDB.Impl
+
+MRXMLDBUtils.PubsubDB.Impl=com.ipvs.common.db.PubsubDBImpl
+MRXMLDBUtils.IpvsDB.Impl=com.ipvs.common.db.IpvsDBImpl
+MRXMLDBUtils.ExtComp.Impl=com.ipvs.xmpp.comp.IpvsExtCompDBImpl
+
+PubsubDB.pubsub.jid.prefix=pubsub
+IpvsDB.pubsub.jid.prefix=ipvs.pubsub
+ExtComp.pubsub.jid.prefix=ipvsext.pubsub
+################# new pub sub ################# 
+#ipvs.db.component.jid.prefix=ipvsdbservice
+#ipvs.openfire.user.component.jid.prefix=ipvsuserauthservice
+
+#ipvs.db.component.namespace=ipvs:mediaroom:ipvsdbservice
+ipvs.db.component.jid.prefix=ipvsdbservice
+ipvs.openfire.user.component.jid.prefix=ipvsuserauthservice
+ipvs.appserver.component.jid.prefix=managementserver
+
+############## max records to read from db ##############
+##############add list specific configuration, if list absent default will be used##############
+##############read.children.countToFetch.LIST_NAME_LOWERCASE for object specific##############
+##############read.children.countToFetch.devicelist for device specific##############
+read.children.countToFetch.default=50000
+read.children.countToFetch.devicelist=50000
+read.children.countToFetch.userlist=50000
+
+
+#xmpp client name
+xmpp.client.class=com.ipvs.xmpp.client.smack.IPVSSessionSmackImpl
+#xmpp.client.class=com.ipvs.xmpp.client.smack.SmackXmppClient
+#xmpp.client.class=com.ipvs.smack.XMPPUtils.IPVSSession
+
+
+
+IpvsDB.mediadir.export.dir=/data/mediadir/export
+IpvsDB.mediadir.import.dir=/data/mediadir/import
+IpvsDB.mediadir.export.file=/data/mediafile/export
+IpvsDB.mediadir.import.file=/data/mediafile/import
+IpvsDB.dms.mediadir.export.file=/data/dms/mediafile/export
+IpvsDB.dms.mediadir.import.file=/data/dms/mediafile/import
+
+IpvsDB.mediadir.export.file.lastAction_time_out_min=30
+IpvsDB.mediadir.export.file.lastAction_time_out_db_min=10
+
+IpvsDB.max.request.limit.error.retry.interval.sec=30

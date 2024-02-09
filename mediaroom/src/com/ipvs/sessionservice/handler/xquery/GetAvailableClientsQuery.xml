@@ -1,0 +1,32 @@
+    let $serviceResourceDoc := 	for $serviceResource in #OBJ_ServiceResource_OBJ#
+								   return $serviceResource
+								   
+    let $assetResourceNID := 	if ($serviceResourceDoc/HA/*/@state = 'active') then
+										   $serviceResourceDoc/HA/*[@state='active']/@MSAssetResourceNID
+						     	  else 
+		 								   $serviceResourceDoc/AssetResourceNID
+
+
+    let $deviceDoc := 	for $ms in #OBJ_Device_OBJ#
+	     					where $ms/AssetResourceNID = data($assetResourceNID)
+					    return $ms
+
+				
+	let $maxClientLogins := $deviceDoc//ServicePreferences/Login/MaxMediaClients
+		
+ 	let $numOfClientLogins := count(
+                	for $b in #OBJ_AssetResource_OBJ#
+                	where $b[(.//Type='IPVSClient-Device') and not (.//User[@appName='IPVSAdmin']) and (.//StateFlag[.='Ready' or .='NotReady'])]
+                	return $b)
+                	
+                    
+ 	let $availableLogins := concat($maxClientLogins, "-", $numOfClientLogins)
+ 	
+	return 
+	if($maxClientLogins != '') then 
+		 <AvailableLogins>{util:eval($availableLogins)}</AvailableLogins>
+	else <AvailableLogins/>
+
+	
+	       
+

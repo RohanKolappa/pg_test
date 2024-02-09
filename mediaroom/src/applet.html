@@ -1,0 +1,98 @@
+<html>
+<!-- saved from url=(0016)http://localhost -->
+<head>
+<script>
+  // ------------------ function definitions ----------------
+//  function getJavaVersion() {
+//    var usrAgt = navigator.userAgent.toLowerCase();
+//    var javaVersion = '1.6';
+//    if (usrAgt.indexOf("msie") >= 0) {
+//      var shell = null;
+//      //Enable the option 'Initialize and script ActiveX controls
+//      // Create WSH(WindowsScriptHost) shell, available on Windows only
+//      try{
+//        shell = new ActiveXObject("WScript.Shell");
+//        if (shell != null) {
+//          // Read JRE version from Window Registry
+//          javaVersion = shell.regRead("HKEY_LOCAL_MACHINE\\Software\\JavaSoft\\Java Runtime Environment\\CurrentVersion");
+//        }
+//      }
+//      catch (e) {
+//        alert("Could not verify Java version:\nPlease make sure you have installed JRE 1.6 or higher");
+//      }
+//      finally {
+//        shell = null;
+//      }
+//    }
+//    else if (usrAgt.indexOf('firefox') >= 0) {
+//      var plugins = navigator.plugins;
+//      for (var i = 0; i < plugins.length; i++) {
+//        var a = plugins[i].description;
+//        var b = plugins[i].name;
+//        if ((a.indexOf("Java Plug-in 1.6") >= 0)||(b.indexOf("Java(TM) Plug-in 1.6")>=0)) {
+//          javaVersion = '1.6';
+//        }
+//        else if ((a.indexOf("Java Plug-in 1.5") >= 0)||(b.indexOf("Java(TM) Plug-in 1.5")>=0)) {
+//          javaVersion = '1.5';
+//        }
+//        else if ((a.indexOf("Java Plug-in 1.4")>= 0)||(b.indexOf("Java(TM) Plug-in 1.4")>=0)) {
+//          //alert("plugins[i].description=" + a + "||plugins[i].name=" + plugins[i].name);
+//          javaVersion = '1.4';
+//        }
+//      }
+//    }
+//    return javaVersion;
+//  }
+//  function changeIframeSrc(id, url) {
+//    var elIFrame = parent.document.getElementById(id);
+//    if (elIFrame) {
+//      elIFrame.src = url;
+//      return true;
+//    }
+//    return false;
+//  }
+//  // ------------------ applet distribution -----------------
+//  var iframeURL = "";
+//  var javaVersion = getJavaVersion();
+//  var srcPath = "";
+//  var callerPath = parent.location.href;
+//  if ((callerPath.indexOf("IPVS_AdminUI") != -1) || (callerPath.indexOf("STX_ClientUI") != -1)) {
+//    srcPath = "../IPVS-Common/mediaroom";
+//  }
+//  else {
+//    srcPath = "JSXAPPS/IPVS-Common/mediaroom";
+//  }
+//  if (javaVersion == "1.6") {
+//    parent.document.getElementById("applet").src = srcPath+ "/applet_16.html";
+//  }
+//  else if (javaVersion == "1.4") {
+//    parent.document.getElementById("applet").src = srcPath + "/applet_14.html";
+  //  }
+  var srcPath = "";
+  var callerPath = parent.location.href;
+  if ((callerPath.indexOf("IPVS_AdminUI") != -1) || (callerPath.indexOf("STX_ClientUI") != -1)) {
+    srcPath = "../IPVS-Common/mediaroom";
+  }
+  else {
+    srcPath = "JSXAPPS/IPVS-Common/mediaroom";
+  }
+  if (getClientType() == "INSTALLED") {
+    parent.document.getElementById("applet").src = srcPath + "/applet_16.html";
+  }
+  else if (getClientType() == "WEB") {
+    parent.document.getElementById("applet").src = srcPath + "/applet_14.html";
+  }
+  function getClientType() {
+    if (window.location.href.indexOf("file:") != -1 || window.location.href.indexOf("http://localhost") != -1) {
+      return "INSTALLED";
+    }
+    else if (window.location.href.indexOf("http://") != -1) {
+      return "WEB";
+    }
+   
+  }
+ 
+</script>
+<!-- <META HTTP-EQUIV="refresh" CONTENT="0;URL=IPVSClient-Index.htm"> -->
+</head>
+</html>

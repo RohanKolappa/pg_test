@@ -1,0 +1,9 @@
+(: #include TargetObjectLibQuery.xml :)
+let $userPolicyRuleAfterConvertingintoXpath := ( 
+	    for $policyRule in index-scan('IPVSis_colnids_default', 'default.useradminpolicyrulelist', 'EQ')/..
+	    where $policyRule/valid = "true"
+	    order by $policyRule/order	
+		return <UserAdminPolicyRule> {local:getPolicyRule($policyRule,$policyRule/UserAdminObjectFilterSet/UserAdminObjectFilterNID,$policyRule/UserAdminRoleSet)}</UserAdminPolicyRule> 
+	)
+return <UserAdminPolicyRuleList>{$userPolicyRuleAfterConvertingintoXpath}</UserAdminPolicyRuleList>
+

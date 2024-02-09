@@ -1,0 +1,61 @@
+<html>
+
+<head>
+<script type="text/javascript"> 
+function addParamToURL()
+{	
+	//adds following params to the url
+	/*
+	*ProcedureType
+	*Patient
+	*Phycisian
+	*Hospital
+	*/
+    var form=document.getElementById('form_submit');
+    var action=new String();	
+    var title=document.getElementById('title');
+    var procedureType=document.getElementById('procedureType');
+    var patientIdValue=document.getElementById('pId');
+    var physicianName=document.getElementById('physicianName');
+    var hospitalName=document.getElementById('hospitalName');
+	//action = 'http://10.51.51.9/mediaapp/snapshot.php';
+	if(document.getElementById('urlName').value){
+		action = urlName.value;
+		action += ';title='+title.value+';ProcedureType='+procedureType.value+';Patient='+patientIdValue.value+';Physician='+physicianName.value+';Hospital='+hospitalName.value;	
+		form.action=action;
+	}
+	else{
+		alert("Please enter base URL");
+	}
+}
+</script>
+</head>
+<body>
+<label for="urlName" name="urlLabel" id=="urlLabel">*Enter Base URL </label>
+<input type="text" name="urlName" id="urlName" /></p>
+<form id="form_submit" action="" method="post" enctype="multipart/form-data" onsubmit= "addParamToURL()">
+<fieldset>
+<legend>Barco Patient Form </legend>
+<p><label  name="Title" id=="title">Title </label>
+<input type="text" name="title" id="title" /></p>
+
+<p><label  name="procedureTypeLabel" id=="procedureTypeLabel">Procedure Type </label>
+<input type="text" name="procedureType" id="procedureType" /></p>
+
+<p><label  name="pIdLabel" id=="pIdLabel">Patient ID </label>
+<input type="text" name="pId" id="pId" /></p>
+<p><label  name="physicianIdLabel" id="physicianIdLabel">Physician ID </label>
+<input type="text" name="physicianName" id="physicianName" /></p>
+<p><label  name="hospitalNameLabel" id="hospitalNameLabel">Hospityal Name </label>
+<input type="text" name="hospitalName" id="hospitalName" />
+</p>
+<label for="file" name="fileLabel">Filename:</label>
+<input type="file" name="file" id="file" />
+<br />
+<input type="submit" name="submit" value="Submit" />
+</fieldset>
+</form>
+
+</body> 
+
+</html>

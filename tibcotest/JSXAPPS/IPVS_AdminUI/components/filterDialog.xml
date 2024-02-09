@@ -1,0 +1,202 @@
+<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="lytDialogFrame" jsxrows="7,*,7" jsxwidth="100%" jsxheight="100%" jsxcols="7,*,7"></strings>
+      <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TL" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTL"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TOP" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTop"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TR" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTR"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="LEFT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogLeft"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"></variants>
+        <strings jsxname="dialogContent" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #fcfcfc"></strings>
+        <dynamics jsxbgcolor="P3BG"></dynamics>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="layout (--)" jsxrows="26,*,30" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogHeader" jsxtextalign="right" jsxpadding="4 4 4 4"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="4" jsxtop="4"></variants>
+              <strings jsxname="lblHeader" jsxtext="Filter" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+              <strings jsxname="btnFilterClose" jsxtext="" jsximage="images/buttons/btnClose.png" jsxoverimage="images/buttons/btnCloseOver.png" jsxdownimage="images/buttons/btnCloseDown.png" jsxonimage="images/buttons/btnCloseOn.png" jsxdisabledimage="images/buttons/btnClose.png" jsxtip="Close"></strings>
+              <events jsxexecute="alert('Execute');"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxrelativeposition="1"></variants>
+            <strings jsxheight="100%" jsxname="blkFilterForm" jsxwidth="100%" jsxstyleoverride="overflow-x:hidden;" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="90"></variants>
+              <strings jsxname="blkSearch" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+                <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="20 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                  <strings jsxname="label" jsxtext="Search:" jsxtextalign="right" jsxclassname="formLabel"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"></variants>
+                <strings jsxheight="100%" jsxname="blkFormField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="16 0 0 20"></strings>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="24" jsxfontsize="12"></variants>
+                  <strings jsxwidth="80%" jsxname="txtNameSearch" jsxvalue="By name or description..." jsxfontweight="normal" jsxcolor="#666" jsxborder="solid 1px #999999" jsxpadding="3 3 3 3"></strings>
+                  <dynamics jsxbgcolor="P4"></dynamics>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="2"></variants>
+                  <strings jsxname="spacer" jsxtext="" jsxwidth="15%"></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxdefaultchecked="0" jsxheight="18" jsxchecked="1"></variants>
+                  <strings jsxname="chkNameSearch" jsxtext="Name" jsxmargin="0 10 0 0"></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxdefaultchecked="0" jsxheight="18" jsxchecked="1"></variants>
+                  <strings jsxname="chkDescriptionSearch" jsxtext="Description" jsxmargin="0 10 0 0"></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxdefaultchecked="0" jsxheight="18" jsxchecked="0"></variants>
+                  <strings jsxname="chkBookmarksSearch" jsxtext="Bookmarks" jsxmargin="0 10 0 0"></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxdefaultchecked="0" jsxheight="18" jsxchecked="0"></variants>
+                  <strings jsxname="chkMetaDataSearch" jsxtext="MetaData" jsxmargin="0 4 0 0"></strings>
+                  <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="40"></variants>
+              <strings jsxname="blkTags" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+                <strings jsxheight="100%" jsxname="blkLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="2 0 0 0" jsxstyleoverride="vertical-align: top;" jsxtext="Tags:" jsxclassname="formLabel"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3"></variants>
+                <strings jsxheight="100%" jsxname="blkTagUI" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="0 0 0 20"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="320" jsxheight="100"></variants>
+                  <strings jsxname="blkTagList" jsxrelativeposition="1" jsxclassname="tagPanelBG"></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="3" jsxheight="100"></variants>
+                    <strings jsxname="blkTagOrg" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow" jsxdisplay="none"></strings>
+                    <dynamics jsxpadding="@8Pixel"></dynamics>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxheight="84" jsxwidth="100"></variants>
+                      <strings jsxname="blkTagName" jsxtextalign="right" jsxdisplay="" jsxpadding="0 8 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                        <strings jsxname="lblTagName" jsxtextalign="right" jsxclassname="formLabel"></strings>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2" jsxheight="90" jsxwidth="200"></variants>
+                      <strings jsxname="blkTagValue" jsxrelativeposition="1" jsxborder="1px solid #9898a5;1px solid #d8d8e5;1px solid #d8d8e5;1px solid #9898a5" jsxbgcolor="#efefff"></strings>
+                      <object type="jsx3.gui.Matrix">
+                        <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxheaderheight="0" jsxrowheight="16"></variants>
+                        <strings jsxname="mtxTagValues" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;"></strings>
+                        <dynamics jsxselectionbg="Matrix Selection BG"></dynamics>
+                        <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                        <xslparameters jsx_rowbg2="#efefff"></xslparameters>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxfontsize="11"></variants>
+                          <strings jsxname="jsxTagName" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagName" jsxdisplay="none"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxfontsize="11"></variants>
+                          <strings jsxname="jsxTagValue" jsxtext="Value" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagValue"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="6 0 0 0" jsxclassname="dialogFooter"></strings>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="80"></variants>
+              <strings jsxname="btnFilterCancel" jsxtext="Cancel" jsxmargin="0 12 0 0" jsxclassname="btnOk"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="80"></variants>
+              <strings jsxname="btnFilterApply" jsxtext="Apply" jsxmargin="0 4 0 0" jsxclassname="btnOk"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxfontsize="10" jsxrelativeposition="0" jsxleft="10" jsxtop="6"></variants>
+              <strings jsxname="btnFilterClearAll" jsxtext="&lt;u&gt;Clear all&lt;/u&gt;" jsxcolor="blue" jsxborder="none" jsxtip="Clear all selections"></strings>
+              <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="87" jsxtop="8"></variants>
+              <strings jsxname="btnFilterRefresh" jsxtext="" jsximage="images/buttons/btnPageRefreshUp.png" jsxonimage="images/buttons/btnPageRefreshUp.png" jsxdisabledimage="images/buttons/btnPageRefreshDsbl.png" jsxdisplay="" jsxtip="Refresh list"></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="21" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="85" jsxtop="6"></variants>
+              <strings jsxname="btnFilterRefreshSpinner" jsxtext="" jsximage="images/buttons/btnPageRefreshSpinner.gif" jsxonimage="images/images/buttons/btnPageRefreshSpinner.gif/btnPageRefreshUp.png" jsxdisabledimage="images/buttons/btnPageRefreshSpinner.gif" jsxdisplay="none" jsxoverimage="images/buttons/btnPageRefreshSpinner.gif" jsxdownimage="images/buttons/btnPageRefreshSpinner.gif"></strings>
+              <events jsxexecute="alert('Execute');"></events>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="30" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="80" jsxtop="6"></variants>
+              <strings jsxname="btnFilterRefreshNotify" jsxtext="" jsximage="images/buttons/btnPageRefreshNotify.png" jsxonimage="images/buttons/btnPageRefreshNotify.png" jsxdisplay="none"></strings>
+              <events jsxexecute="alert('Execute');"></events>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="RIGHT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogRight"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BL" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBL"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BOT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBot"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BR" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBR"></strings>
+      </object>
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,51 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>normal</SubType>
+   <Title>RxKBMParameters</Title>
+   <Description>Decoder Keyboard/Mouse Parameters</Description>
+   <Access>rx_kbm_parm</Access>
+   <ConfigFile>rxkbmconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+      <Item>
+        <Name>local_keyboard_type</Name>
+        <Type>string</Type>
+        <Label>Local Keyboard Type</Label>
+        <Help>Select Keyboard Type for Local Output</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>PC</DefaultValue>
+		<Validation>
+           <Type>enumeration</Type>
+           <Values>"PC", "SGI"</Values>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>local_mouse_type</Name>
+        <Type>string</Type>
+        <Label>Local Mouse Type</Label>
+        <Help>Select Mouse Type for Local Output</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>IMPS2</DefaultValue>
+		<Validation>
+           <Type>enumeration</Type>
+           <Values>"PS2", "IMPS2"</Values>
+        </Validation>
+      </Item>
+      <Item>
+        <Name>kbm_mode</Name>
+        <Type>string</Type>
+        <Label>KBM Mode</Label>
+        <Help>Set Keyboard/Mouse Mode to Remote or Local</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>Remote</DefaultValue>
+		<Validation>
+           <Type>enumeration</Type>
+           <Values>"Remote", "Local"</Values>
+        </Validation>
+      </Item>
+
+   </Items>
+
+</Menu>

@@ -1,0 +1,37 @@
+<Menu>
+    <Type>config</Type>
+	<SubType>normal</SubType>
+    <Title>LocalMousePointer</Title>
+    <Description>Rx Local Mouse Pointer Configuration</Description>
+    <Access>rx_local_mouse_pointer</Access>
+    <ConfigFile>rxlocalmousepointerconf</ConfigFile>
+    <BoardAccess>true</BoardAccess>
+
+       <Items>
+
+        <Item>
+            <Name>enable_mouse_pointer</Name>
+            <Type>boolean</Type>
+            <Label>Enable Local Pointer </Label>
+            <Help>Local Mouse Input</Help>
+            <FieldLength>3</FieldLength>
+            <DefaultValue>yes</DefaultValue>
+        </Item>
+
+        <Item>
+            <Name>timeout</Name>
+            <Type>integer</Type>
+            <Label>Timeout(secs)</Label>
+            <Help>Local timeout</Help>
+            <FieldLength>3</FieldLength>
+            <DefaultValue>3</DefaultValue>
+            <Validation>
+                <Type>range</Type>
+                <Min>1</Min>
+                <Max>60</Max>
+            </Validation>
+        </Item>
+
+
+    </Items>
+</Menu>

@@ -1,0 +1,32 @@
+declare function local:getObjectInfo( $b as element()*, $detail as xs:string)
+as element ()*
+{
+
+   let $objectInfo := if ($detail = 'NATIVE')
+   			then  $b
+			else  $b
+   return $objectInfo
+};
+
+
+
+declare function local:getList()
+as element()*
+{
+	let $list1 := 
+		for $b in  OBJECT_TYPE
+			where $b  _XPATHAND_ 
+			order by upper-case ($b_SORTBY_) _SORTORDER_    
+			return $b
+	return $list1
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $item := local:getObjectInfo($b, $detail)
+	return $item
+};
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

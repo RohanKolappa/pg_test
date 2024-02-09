@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmptyDirRequest>
+	<Request serviceVer="">
+		<Request serviceVer="">
+			<header>
+				<servicename>assetadminservice</servicename>
+				<requestname>EmptyDirRequest</requestname>
+				<loglevel>0</loglevel>
+				<clientdata>RequestToken4</clientdata>
+			</header>
+			<data>
+				<EmptyDirRequestData>
+					<MediaStreamDirNID>default.mediastreamdirresourcelist.msdrl_60829c11-9c5b-4251-b5f2-47aa8d11ffcf</MediaStreamDirNID>
+					<ActionRequest>Start/Stop</ActionRequest>
+				</EmptyDirRequestData>
+			</data>
+		</Request>
+	</Request>
+	<Response serviceVer="">
+		<Notification>
+			<notificationheader>
+				<notificationtype>AgentMessage</notificationtype>
+			</notificationheader>
+			<notificationdata>
+				<message id="1N332-109" to="adminuser@localhost" from="managementserver@localhost/managementserver">
+					<body>
+						<AgentMessage>
+							<agentmessageheader>
+								<fromagent>com.ipvs.mediaroomservice.impl.AppServerAgent</fromagent>
+								<agentJID>adminuser@localhost/adminpc</agentJID>
+								<agent>com.ipvs.client.MRClientAgent</agent>
+								<agentmessagetype>Response</agentmessagetype>
+							</agentmessageheader>
+							<agentmessagedata>
+								<Response serviceVer="">
+									<header>
+										<servicename>assetadminservice</servicename>
+										<requestname>EmptyDirRequest</requestname>
+										<userJID>adminuser@localhost/adminpc</userJID>
+										<requestNID>adminuser@localhost/adminpc/8561586</requestNID>
+										<state>8</state>
+										<clientdata>RequestToken6</clientdata>
+									</header>
+									<data>
+										<EmptyDirResponseData>
+											<ActionResponse>Started/Stopped</ActionResponse>
+											<MediaStreamDirNID>default.mediastreamdirresourcelist.msdrl_24aa5204-94fc-44ed-b392-8422533b00cf
+											</MediaStreamDirNID>
+										</EmptyDirResponseData>
+									</data>
+									<log />
+								</Response>
+							</agentmessagedata>
+						</AgentMessage>
+					</body>
+				</message>
+			</notificationdata>
+		</Notification>
+	</Response>
+	<AgentEvent>
+		<Notification>
+			<notificationheader>
+				<notificationtype>AgentMessage</notificationtype>
+			</notificationheader>
+			<notificationdata>
+				<message id="1N332-114" to="superuser-default@localhost" from="managementserver@localhost/managementserver">
+					<body>
+						<AgentMessage>
+							<agentmessageheader>
+								<fromagent />
+								<agentJID>superuser-default@localhost/callcenter</agentJID>
+								<agent>Operator</agent>
+								<agentmessagetype>AgentEvent</agentmessagetype>
+							</agentmessageheader>
+							<agentmessagedata>
+								<AgentEvent>
+									<header />
+									<data>
+										<MediaStreamDirNID>default.mediastreamdirresourcelist.msdrl_24aa5204-94fc-44ed-b392-8422533b00cf
+										</MediaStreamDirNID>
+										<action>EmptyDirProcess</action>
+										<eventCode>1001</eventCode>
+									</data>
+								</AgentEvent>
+							</agentmessagedata>
+						</AgentMessage>
+					</body>
+				</message>
+			</notificationdata>
+		</Notification>
+	</AgentEvent>
+</EmptyDirRequest>

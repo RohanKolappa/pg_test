@@ -1,0 +1,66 @@
+// ============================================================================
+// 
+// Copyright (c) 2003-2014 Barco N.V.
+// 
+// ============================================================================
+// 
+// This file is part of "BFC".
+// 
+// "BFC" is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+// 
+// "BFC" is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License
+// along with "BFC"; if not, write to:
+//                          Free Software Foundation
+//                          59 Temple Place, Suite 330
+//                          Boston, MA 02111-1307 USA
+// 
+// ============================================================================
+// 
+// Filename:
+//	BFC.Crypto.MAC.cpp
+// 
+// Description:
+//	...
+// 
+// Author(s):
+//	Jean-Francois GOBBERS
+// 
+// ============================================================================
+
+#include "BFC.Base.UUId.h"
+
+#include "BFC.Crypto.MAC.h"
+
+#include "BFC.DL.Type.h"
+
+// ============================================================================
+
+using namespace BFC;
+
+// ============================================================================
+
+BFC_PTR_IMPL_NS( Crypto, MAC )
+
+// ============================================================================
+
+const DL::TypeCPtr & Crypto::MAC::getClassType() {
+
+	static DL::TypeCPtr i = new DL::Type(
+		UUId( "f0cbce02-a1d2-4677-9fc4-1051f415cff1" ),
+		"BFC.Crypto.MAC",
+		DL::Object::getClassType() );
+
+	return i;
+
+}
+
+// ============================================================================
+

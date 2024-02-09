@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      - External unmanaged 3rd party device specific version of generic Device elements
+    </xs:documentation>
+  </xs:annotation>
+  <xs:element name="MPEGTS-Tx-Device" type="MPEGTS-Tx-DeviceType" />
+  <xs:complexType name="MPEGTS-Tx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Tx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="MPEGTS-Tx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDP-Tx-Device" type="UDP-Tx-DeviceType" />
+  <xs:complexType name="UDP-Tx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Tx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="UDP-Tx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTP-Tx-Device" type="RTP-Tx-DeviceType" />
+  <xs:complexType name="RTP-Tx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Tx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="RTP-Tx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="External-Tx-Device" type="External-Tx-DeviceType" />
+  <xs:complexType name="External-Tx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Tx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="External-Tx-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="External-Tx-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="External-DeviceCommandType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MPEGTS-Rx-Device" type="MPEGTS-Rx-DeviceType" />
+  <xs:complexType name="MPEGTS-Rx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Rx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="MPEGTS-Rx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UDP-Rx-Device" type="UDP-Rx-DeviceType" />
+  <xs:complexType name="UDP-Rx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Rx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="UDP-Rx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RTP-Rx-Device" type="RTP-Rx-DeviceType" />
+  <xs:complexType name="RTP-Rx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Rx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="RTP-Rx-DeviceConfigType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.7" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="External-Rx-Device" type="External-Rx-DeviceType" />
+  <xs:complexType name="External-Rx-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="External-Rx-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="External-Rx-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="External-Rx-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="External-DeviceCommandType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStreamSrcPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStreamDstPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MPEGTS-Tx-DeviceConfig" type="MPEGTS-Tx-DeviceConfigType" />
+  <xs:complexType name="MPEGTS-Tx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="MPEGTS-Tx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="RTP-Tx-DeviceConfig" type="RTP-Tx-DeviceConfigType" />
+  <xs:complexType name="RTP-Tx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="RTP-Tx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="UDP-Tx-DeviceConfig" type="UDP-Tx-DeviceConfigType" />
+  <xs:complexType name="UDP-Tx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="UDP-Tx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="External-Tx-DeviceConfig" type="External-Tx-DeviceConfigType" />
+  <xs:complexType name="External-Tx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="ServiceElementsConfig" type="External-Tx-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="External-Tx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="External-Tx-DeviceStatus" type="External-Tx-DeviceStatusType" />
+  <xs:complexType name="External-Tx-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="ServiceElementsStatus" type="External-Tx-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="NetworkElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="External-Tx-AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="MPEGTS-Rx-DeviceConfig" type="MPEGTS-Rx-DeviceConfigType" />
+  <xs:complexType name="MPEGTS-Rx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="MPEGTS-Rx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="UDP-Rx-DeviceConfig" type="UDP-Rx-DeviceConfigType" />
+  <xs:complexType name="UDP-Rx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="UDP-Rx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="RTP-Rx-DeviceConfig" type="RTP-Rx-DeviceConfigType" />
+  <xs:complexType name="RTP-Rx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="RTP-Rx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="External-Rx-DeviceConfig" type="External-Rx-DeviceConfigType" />
+  <xs:complexType name="External-Rx-DeviceConfigType">
+    <xs:all>
+      <xs:element name="ServiceElementsConfig" type="External-Rx-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="External-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="External-Rx-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="External-Rx-DeviceStatus" type="External-Rx-DeviceStatusType" />
+  <xs:complexType name="External-Rx-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="ServiceElementsStatus" type="External-Rx-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="NetworkElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="External-Rx-AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="External-Tx-DeviceCommand" type="External-DeviceCommandType" />
+  <xs:element name="External-Rx-DeviceCommand" type="External-DeviceCommandType" />
+  <xs:complexType name="External-DeviceCommandType">
+    <xs:all minOccurs="0">
+      <xs:element name="ServiceElementsCommand" type="ServiceElementsCommandType" />
+      <xs:element name="NetworkElementsCommand" type="NetworkElementsCommandType" />
+      <xs:element name="AVCodecElementsCommand" type="AVCodecElementsCommandType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="XMPPAgentServiceConfig" type="External-Tx-XMPPAgentServiceElementConfigType" />
+          <xs:element minOccurs="0" name="StreamingServiceConfig" type="External-Tx-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="XMPPAgentServiceStatus" type="External-Tx-XMPPAgentServiceElementStatusType" />
+          <xs:element name="StreamingServiceStatus" type="External-Tx-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="XMPPAgentServiceConfig" type="External-Rx-XMPPAgentServiceElementConfigType" />
+          <xs:element minOccurs="0" name="StreamingServiceConfig" type="External-Rx-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="XMPPAgentServiceStatus" type="External-Rx-XMPPAgentServiceElementStatusType" />
+          <xs:element name="StreamingServiceStatus" type="External-Rx-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseNetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="NATZoneTableConfig" type="NATZoneTableElementConfigType" />
+          <xs:element name="EthernetPortTableConfig" type="EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseNetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="NATZoneTableStatus" type="NATZoneTableElementStatusType" />
+          <xs:element name="EthernetPortTableStatus" type="EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGTS-Tx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MPEGEncoderConfig" type="MPEGEncoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RTP-Tx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MPEGEncoderConfig" type="MPEGEncoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDP-Tx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="UDPEncoderConfig" type="UDPEncoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="MPEGEncoderConfig" type="MPEGEncoderElementConfigType" />
+          <xs:element name="UDPEncoderConfig" type="UDPEncoderElementConfigType" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MPEGTS-Rx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MPEGDecoderConfig" type="MPEGDecoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RTP-Rx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MPEGDecoderConfig" type="MPEGDecoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UDP-Rx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="UDPDecoderConfig" type="UDPDecoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="MPEGDecoderConfig" type="MPEGDecoderElementConfigType" />
+          <xs:element name="UDPDecoderConfig" type="UDPDecoderElementConfigType" />
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-AVCodecElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsStatusType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ExternalEncoderStatus" type="AVCodecElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-AVCodecElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsStatusType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="ExternalDecoderStatus" type="AVCodecElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceSourceAgentConfig" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceXAuthAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" ref="XMPPAgentServiceConfigAgentStatus" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceSourceAgentStatus" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceXAuthAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceDestinationAgentConfig" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceXAuthAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" ref="XMPPAgentServiceConfigAgentStatus" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceDestinationAgentStatus" />
+                <xs:element minOccurs="0" ref="XMPPAgentServiceXAuthAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="StreamsTxConfig" />
+          <xs:element ref="MPEGTSStreamsTxConfig" />
+          <xs:element ref="RTPStreamsTxConfig" />
+          <xs:element ref="UDPStreamsTxConfig" />
+          <xs:element ref="MPEGStreamsEncodeConfig" />
+          <xs:element ref="UDPStreamsEncodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="MPEGTSStreamsRxConfig" />
+          <xs:element ref="RTPStreamsRxConfig" />
+          <xs:element ref="UDPStreamsRxConfig" />
+          <xs:element ref="MPEGStreamsDecodeConfig" />
+          <xs:element ref="UDPStreamsDecodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="External-Tx-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="External-Rx-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Tx-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="MPEGTSStreamTxInstance" />
+            <xs:element ref="RTPStreamTxInstance" />
+            <xs:element ref="UDPStreamTxInstance" />
+            <xs:element ref="MPEGEncoderInstance" />
+            <xs:element ref="UDPEncoderInstance" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="External-Rx-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="MPEGTSStreamRxInstance" />
+            <xs:element ref="RTPStreamRxInstance" />
+            <xs:element ref="UDPStreamRxInstance" />
+            <xs:element ref="MPEGDecoderInstance" />
+            <xs:element ref="UDPDecoderInstance" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

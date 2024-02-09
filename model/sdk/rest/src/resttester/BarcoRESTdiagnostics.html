@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Rest Tester</title>
+</head>
+<script type="text/javascript">
+function login(username, password, serverip, resource, service) {
+	var url = "http://" + serverip + "/controller/Service/Login";
+	var method = "POST";
+	var postData = "{\"ServiceLogin\": {\"clientPrivateKey\": \"\",\"clientTemplateTitle\": \"" + resource + "\",\"@clientVersion\": \""+ service +"\"	}}";
+	
+	// You REALLY want async = true.
+	// Otherwise, it'll block ALL execution waiting for server response.
+	var async = true;
+	
+	var request = new XMLHttpRequest();
+	
+	// Before we send anything, we first have to say what we will do when the
+	// server responds. This seems backwards (say how we'll respond before we send
+	// the request? huh?), but that's how Javascript works.
+	// This function attached to the XMLHttpRequest "onload" property specifies how
+	// the HTTP response will be handled. 
+	request.onload = function () {
+	
+	   // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
+	   // object declared above is available in this function even though this function
+	   // executes long after the request is sent and long after this function is
+	   // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
+	   // applications.
+	
+	   // You can get all kinds of information about the HTTP response.
+	   var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
+	   var data = request.responseText; // Returned data, e.g., an HTML document.
+     var resp = request.resonseXML;
+     
+     if (request.readyState == 4) {
+        if(request.status == 200) {
+          console.log("RECEIVED 200 OK for LOGIN. SENDING LONG POLL");
+          document.getElementById("response").value = request.responseText;
+          var longpoll = request.getResponseHeader("X-Barco-notification-channel");
+          console.log("LONG POLL: " + longpoll);
+          keep_alive(longpoll, username, password, resource);
+        }
+     }
+	}
+  
+  request.onerror = function () {
+     console.log("ERROR in Login : " + request.status + ": " + request.responseText);
+     document.getElementById("response").value = request.responseText;
+  }
+	
+	request.open(method, url, async);
+	
+  request = addHeaders(request, username, password, resource, "application/json");
+  
+  // Actually sends the request to the server.
+	request.send(postData);
+}
+
+
+function logout(username, password, serverip, resource) {
+
+  var url = "http://" + serverip + "/controller/Service/Logout";
+	var method = "POST";
+	var postData = "";
+	var async = true;
+	
+	var request = new XMLHttpRequest();
+
+	request.onload = function () {
+     var status = request.status; 
+     var data = request.responseText;
+     var resp = request.resonseXML;
+     
+     if (request.readyState == 4) {
+        if(request.status == 200) {
+          console.log(data);
+          document.getElementById("response").value = data;
+        }
+     }
+	}
+  
+  request.onerror = function () {
+     console.log("ERROR in Logout : " + request.status + ": " + request.responseText);
+     document.getElementById("response").value = request.responseText;
+  }
+	
+	request.open(method, url, async);
+  request = addHeaders(request, username, password, resource, "application/json");
+ 	request.send(postData);
+}
+
+function sendRequest(username, password, serverip, resource) {
+
+  var url = document.mrform.url.value;
+	var method = document.mrform.requestType.value;
+	var async = true;
+
+  var postData = "";
+  if(method == "POST" || method == "PUT") {
+      postData = document.mrform.request.value;
+  }
+    
+  var request = new XMLHttpRequest();
+
+	request.onload = function () {
+     var status = request.status; 
+     var data = request.responseText;
+     var resp = request.resonseXML;
+     
+     if (request.readyState == 4) {
+        if(request.status == 200 || request.status == 201 || request.status == 202) {
+          console.log(data);
+          document.getElementById("response").value = data;
+        }
+     }
+	}
+  
+  request.onerror = function () {
+     console.log("ERROR in request: " + request.status + ": " + request.responseText);
+     document.getElementById("response").value = request.responseText;
+  }
+	
+	request.open(method, url, async);
+  request = addHeaders(request, username, password, resource, document.mrform.accept.value);
+ 	request.send(postData);
+  
+}
+
+function keep_alive(longpoll, username, password, resource) {
+   var method = "GET";
+   var async = true;
+   console.log("KEEPALIVE: " + longpoll);
+   if(longpoll == null) {
+      console.log("KEEPALIVE: ENDED");
+      return;
+   }
+   var request = new XMLHttpRequest();
+   
+   request.onload = function () {
+      if (request.readyState == 4) {
+        if(request.status == 200) {
+          document.getElementById("notification").value += "\n------------------------ Notification------------------------"
+          document.getElementById("notification").value += "\n" + request.responseText;
+          document.getElementById("notification").value += "\n------------------------ End Notification---------------------"
+          
+          var longpoll = request.getResponseHeader("X-Barco-notification-channel");
+          //console.log("KEEPALIVE, CALLBACK WITH: " + longpoll);
+          keep_alive(longpoll, username, password, resource);
+        }
+     }
+   }
+   
+   request.onerror = function () {
+     console.log("KEEPALIVE ERROR: " + longpoll);
+   }
+   request.open(method, longpoll, async);
+   request = addHeaders(request, username, password, resource, "application/json");
+   
+   request.send();
+}
+
+function addHeaders(request, username, password,resource, accept) {
+   request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	 request.setRequestHeader("Accept", accept);
+	 request.setRequestHeader("X-Barco-resource", resource+"_"+username);
+   request.setRequestHeader("Authorization", "Basic " + Base64.encode(username+":"+password));
+   return request;
+}
+function showTable(inp) {
+  if(inp.options[inp.selectedIndex].value == "POST" || inp.options[inp.selectedIndex].value == "PUT") {
+     document.getElementById("table3").style.display = "";
+  } else {
+    document.getElementById("table3").style.display = "none";
+  }
+  
+}
+//---------------------------- utility functions for base64--------------------------------------------
+var Base64 = {
+// private property
+_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+// public method for encoding
+encode : function (input) {
+    var output = "";
+    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    var i = 0;
+
+    input = Base64._utf8_encode(input);
+
+    while (i < input.length) {
+
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+            enc4 = 64;
+        }
+
+        output = output +
+        Base64._keyStr.charAt(enc1) + Base64._keyStr.charAt(enc2) +
+        Base64._keyStr.charAt(enc3) + Base64._keyStr.charAt(enc4);
+
+    }
+
+    return output;
+},
+
+// public method for decoding
+decode : function (input) {
+    var output = "";
+    var chr1, chr2, chr3;
+    var enc1, enc2, enc3, enc4;
+    var i = 0;
+
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+    while (i < input.length) {
+
+        enc1 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc2 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc3 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc4 = Base64._keyStr.indexOf(input.charAt(i++));
+
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
+
+        output = output + String.fromCharCode(chr1);
+
+        if (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+        }
+        if (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+        }
+
+    }
+
+    output = Base64._utf8_decode(output);
+
+    return output;
+
+},
+
+// private method for UTF-8 encoding
+_utf8_encode : function (string) {
+    string = string.replace(/\r\n/g,"\n");
+    var utftext = "";
+
+    for (var n = 0; n < string.length; n++) {
+
+        var c = string.charCodeAt(n);
+
+        if (c < 128) {
+            utftext += String.fromCharCode(c);
+        }
+        else if((c > 127) && (c < 2048)) {
+            utftext += String.fromCharCode((c >> 6) | 192);
+            utftext += String.fromCharCode((c & 63) | 128);
+        }
+        else {
+            utftext += String.fromCharCode((c >> 12) | 224);
+            utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+            utftext += String.fromCharCode((c & 63) | 128);
+        }
+
+    }
+
+    return utftext;
+},
+
+// private method for UTF-8 decoding
+_utf8_decode : function (utftext) {
+    var string = "";
+    var i = 0;
+    var c = c1 = c2 = 0;
+
+    while ( i < utftext.length ) {
+
+        c = utftext.charCodeAt(i);
+
+        if (c < 128) {
+            string += String.fromCharCode(c);
+            i++;
+        }
+        else if((c > 191) && (c < 224)) {
+            c2 = utftext.charCodeAt(i+1);
+            string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+            i += 2;
+        }
+        else {
+            c2 = utftext.charCodeAt(i+1);
+            c3 = utftext.charCodeAt(i+2);
+            string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+            i += 3;
+        }
+
+    }
+    return string;
+}
+}
+
+//------------------------------------------------------------------------
+
+</script>
+<body>
+<form name="mrform">
+<table id="table1">
+
+<tr><td>IPaddress</td><td><input type="text" name="ipaddress" value="" size="10"/></td></tr>
+<tr><td>User</td><td><input type="text" name="user" value="" size="10"/></td></tr>
+<tr><td>Password</td><td><input type="text" name="password" value="" size="10"/></td></tr>
+<tr><td>Resource</td><td><input type="text" name="resource" value="" size="10"/></td></tr>
+<tr><td>Service Version</td><td><input type="text" name="service" value="2.31.12" size="10"/></td></tr>
+<tr><td><a href="javascript:login(document.mrform.user.value,document.mrform.password.value,document.mrform.ipaddress.value, document.mrform.resource.value, document.mrform.service.value);">Login</a><br/><br/></td>
+        <td><a href="javascript:logout(document.mrform.user.value,document.mrform.password.value,document.mrform.ipaddress.value, document.mrform.resource.value);">Logout</a><br/><br/></td>
+</tr>
+ 
+<tr><td>URL</td><td><input type="text" name="url" value="" size="150"/></td></tr>
+<tr><td>Accept Header</td><td><input type="text" name="accept" value="application/json" size="150"/></td></tr>
+</table>
+
+<table id="table2">
+<tr><td>HTTP Method</td><td><select name="requestType" onchange="showTable(this)">
+  <option value="GET">GET</option>
+  <option value="POST">POST</option>
+  <option value="PUT">PUT</option>
+  <option value="DELETE">DELETE</option>
+</select>
+</td></tr>
+<tr>
+<td><a href="javascript:sendRequest(document.mrform.user.value,document.mrform.password.value,document.mrform.ipaddress.value, document.mrform.resource.value);">SUBMIT >></a><br/><br/></td>
+<td></td></tr>
+</table>
+
+
+
+<table id="table3" style="display:none;">
+<tr><td></td>
+<td>
+<form name="cform">
+Request<br/>
+<textarea id="request" name="request" rows="15" cols="123"></textarea><br/>
+</td>  
+</form>
+</tr>
+</table>
+
+<table id="table4">
+<tr>
+<td>
+<form name="aform">
+Response<br/>
+<textarea id="response" name="response" rows="40" cols="60"></textarea><br/>
+</form>
+</td>
+
+<td>
+<form name="bform">
+Notifications<br/>
+<textarea id="notification" name="notification" rows="40" cols="60"></textarea><br/>
+</form>
+</td>
+</tr>
+</table>
+
+</form>
+</body>
+</html>

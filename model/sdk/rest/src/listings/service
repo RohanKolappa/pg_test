@@ -1,0 +1,407 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "http://{MSIP}/controller",
+    "resourcePath": "/Login",
+    "apis": [
+        {
+            "path": "/Service/Logout",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Service Logout Request",
+                    "notes": "This will make the user presence off-line and remove the user from the system's local cache.<br> This will cause the Long-Polling channel associated with the user to be terminated.<br> Clients that are long-pollingusing the URL in X-Barco-notification-channel, will see the poll requests failing and should handle them appropriately.",
+                    "responseClass": "ServiceLogout",
+                    "nickname": "Logout",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/Login",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Service Login Request",
+                    "notes": "The client version number can be obtained from the Version section of the API document corresponding to the client implementation.<br>Login API only supports a web client resource added in the system to used for clientTemplateTitle.e.g. web-client.<br>clientPrivateKey is an optional value in case the resource in the system has a password.<br><b> NOTE </b> - If all is well, the response will contain a Long Polling URL in the response headers.Client is required to keep polling the server with an HTTP GET on this URL X-Barco-notification-channel. This request requires the same set of headers as any other request. The server can send asynchronous notifications to the clientas response to this request. Every response comes back with a new URL in X-Barco-notification-channel response header. There may or may not be notifications in the notificationlist returned in response for thelong polling URL.",
+                    "responseClass": "ServiceLogin",
+                    "nickname": "Login",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Service Login Request body",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "ServiceLogin",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/AuditEvent",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Audit Event Request",
+                    "notes": "It is an event to log user actions. Each event is saved as a single line (newline characters are not supported in the request) in a file on the management server. This request is an input to audit report.",
+                    "responseClass": "AuditEvent",
+                    "nickname": "AuditEvent",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "AuditEvent Request body",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AuditEvent",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/ServiceClient",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get Service Client Request",
+                    "notes": "This will return the logged in client information",
+                    "responseClass": "GetServiceClient",
+                    "nickname": "GetServiceClient",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "whereContactJID",
+                            "description": "Filter based on value contact JID ",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "Filter by response formats",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/RegisterUser",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Register user",
+                    "notes": "Register user in database. Self Registration on the MS should be enabled to use this API. Use the bootstrap wizard available at http://{ms_ip_address} to enable self registration.",
+                    "responseClass": "RegisterUser",
+                    "nickname": "RegisterUser",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "add a device",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "RegisterUser",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "RegisterUser": {
+            "id": "RegisterUser",
+            "description": "a RegisterUser request",
+            "required": [
+                "User"
+            ],
+            "properties": {
+                "User": {
+                    "$ref": "User"
+                }
+            }
+        },
+        "User": {
+            "id": "User",
+            "description": "User",
+            "required": [
+                "@name",
+                "@password"
+            ],
+            "properties": {
+                "@name": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@password": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        },
+        "ServiceLogin": {
+            "id": "ServiceLogin",
+            "description": "ServiceLogin request",
+            "required": [
+                "ServiceLogin"
+            ],
+            "properties": {
+                "ServiceLogin": {
+                    "$ref": "ServiceLoginReq"
+                }
+            }
+        },
+        "ServiceLoginReq": {
+            "id": "ServiceLoginReq",
+            "description": "A ServiceLogin request",
+            "required": [
+                "clientPrivateKey",
+                "clientTemplateTitle",
+                "@clientVersion"
+            ],
+            "properties": {
+                "clientPrivateKey": {
+                    "type": "string"
+                },
+                "clientTemplateTitle": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@clientVersion": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        },
+        "AuditEvent": {
+            "id": "AuditEvent",
+            "description": "AuditEvent request",
+            "required": [
+                "AuditEvent"
+            ],
+            "properties": {
+                "AuditEvent": {
+                    "$ref": "AuditEventReq"
+                }
+            }
+        },
+        "AuditEventReq": {
+            "id": "AuditEventReq",
+            "description": "A AuditEvent request",
+            "required": [
+                "@name",
+                "Description",
+                "@target",
+                "@type",
+                "@status",
+                "@level"
+            ],
+            "properties": {
+                "@name": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "Description": {
+                    "type": "Description"
+                },
+                "@target": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@status": {
+                    "type": "string"
+                },
+                "@level": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "info",
+                        "debug",
+                        "trace"
+                    ]
+                }
+            }
+        },
+        "Description": {
+            "id": "Description",
+            "required": [
+                "@text"
+            ],
+            "properties": {
+                "@text": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        }
+    }
+}

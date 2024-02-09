@@ -1,0 +1,47 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>XpOverrideParameters</Title>
+   <Description>XP200 Override Parameters</Description>
+   <Access>xp_override_parm</Access>
+   <ConfigFile>overrideparamconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+      <Item>
+        <Name>ov_option</Name>
+        <Type>string</Type>
+        <Label>Override Mode</Label>
+        <Help>LUT Override Mode</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>None</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"None", "Auto", "Monitor"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>ov_color</Name>
+        <Type>string</Type>
+        <Label>Override Color</Label>
+        <Help>Override Color</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>Blue</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Black","White","Gray","Red","Green","Blue","Yellow","Magenta","Cyan"</Values>
+        </Validation>
+      </Item>
+
+	  <Item>
+	    <Name>ov_keepaspect</Name>
+        <Type>boolean</Type>
+        <Label>Keep Aspect</Label>
+        <Help>Keep aspect ratio?</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+   </Items>
+</Menu>

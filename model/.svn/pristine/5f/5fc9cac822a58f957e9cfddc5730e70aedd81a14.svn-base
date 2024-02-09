@@ -1,0 +1,398 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:include schemaLocation="mediaroom.common.xsd"/>
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd"/>
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Asset.public.xsd"/>
+   <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd"/>
+   <xs:element name="InitializeDBRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="RequestHeaderType"/>
+        <xs:element name="data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="rootNID" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="InitializeDBResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="header" type="ResponseHeaderType"/>
+        <xs:element name="data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="rootNID" type="MRNIDType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="log" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="SetServicePolicyRequestData" type="SetServicePolicyRequestDataType" />
+  <xs:complexType name="SetServicePolicyRequestDataType">
+    <xs:sequence>
+    	<xs:element name="Type"/>
+    	<xs:element name="Bandwidth"/>
+		<xs:element name="Relay"/>																																				    																																																											   
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SetServicePolicyResponseData" type="SetServicePolicyResponseDataType" />
+  <xs:complexType name="SetServicePolicyResponseDataType">
+  	<xs:sequence>
+    	<xs:element name="SetServicePolicy" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="XMPPUserRequestData" type="XMPPUserRequestDataType" />
+  <xs:complexType name="XMPPUserRequestDataType">
+    <xs:sequence>
+      <xs:element name="action">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="USERADD" />
+            <xs:enumeration value="USERDELETE" />
+            <xs:enumeration value="USERUPDATE" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="username" type="MRNIDType" />
+      <xs:element name="password" type="MRNIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="XMPPUserResponseData" type="XMPPUserResponseDataType" />
+  <xs:complexType name="XMPPUserResponseDataType">
+    <xs:sequence>
+      <xs:element name="user" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="GetServerTimeRequestData" type="xs:anyType" />
+  <xs:element name="GetServerTimeResponseData" type="GetServerTimeResponseDataType" />
+  <xs:complexType name="GetServerTimeResponseDataType">
+    <xs:sequence>
+      <xs:element name="serverTime" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- DB Import Export Calls -->
+  <xs:element name="ExportServiceDBRequestData" type="ExportServiceDBRequestDataType" />
+  <xs:complexType name="ExportServiceDBRequestDataType">
+    <xs:sequence>
+      <xs:element name="LocalFileName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExportServiceDBResponseData" type="ExportServiceDBResponseDataType" />
+  <xs:complexType name="ExportServiceDBResponseDataType">
+    <xs:sequence>
+      <xs:element name="FileXfer" type="FileXferType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ImportServiceDBRequestData" type="ImportServiceDBRequestDataType" />
+  <xs:complexType name="ImportServiceDBRequestDataType">
+    <xs:sequence>
+      <xs:element name="LocalFileName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ImportServiceDBResponseData" type="ImportServiceDBResponseDataType" />
+  <xs:complexType name="ImportServiceDBResponseDataType">
+    <xs:sequence>
+      <xs:element name="FileXfer" type="FileXferType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- FileXfer Client API  -->
+
+  <!-- FileXfer Config / Status Objects -->
+  <xs:complexType name="FileXferType">
+    <xs:sequence>
+      <xs:element name="fromAgentJID" type="xs:string" />
+      <xs:element name="fromFileName" type="xs:string" />
+      <xs:element name="toAgentJID" type="xs:string" />
+      <xs:element name="toFileName" type="xs:string" />
+      <xs:element name="url" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="FileXferStatusType">
+    <xs:sequence>
+      <xs:element name="percentageComplete" type="xs:long" />
+      <xs:element name="state" type="xs:int" />
+        <!-- States
+          0 - None
+          1 - WAIT_FOR_RECEIVER
+          2 - WAIT_FOR_SETUPRESPONSE
+          3 - WAIT_FOR_SENDER
+          4 - WAIT_FOR_STARTRESPONSE
+          5 - STARTED
+          6 - COMPLETE
+          7 - STOPPED
+          201 - REFUSED
+          202 - BADFILE
+          203 - UNKNOWN
+        -->
+      <xs:element name="checksum" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="FileXferEventTypeEnumType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="None" />
+		<xs:enumeration value="Started" />
+		<xs:enumeration value="FileInputError" />
+		<xs:enumeration value="FileOutputError" />
+		<xs:enumeration value="InProgress" />
+		<xs:enumeration value="Error" />
+		<xs:enumeration value="Complete" />
+		<xs:enumeration value="Stopped" />
+	</xs:restriction>
+  </xs:simpleType>
+
+  <!-- FileXfer Agent Messages Calls -->
+  <xs:element name="FileXferSetupRequestData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+        <xs:element name="FileXfer" type="FileXferType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="FileXferSetupResponseData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="FileXferStartRequestData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+        <xs:element name="fromFilename" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="FileXferStartResponseData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+        <xs:element name="FileXferStatus" type="FileXferStatusType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="FileXferStopRequestData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FileXferStopResponseData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="FileXferEventData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="FileXferID" type="xs:string" />
+        <xs:element name="FileXfer" type="FileXferType" />
+        <xs:element name="FileXferStatus" type="FileXferStatusType" />
+        <xs:element name="eventCode" type="FileXferEventTypeEnumType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+<!--  save db -->  
+  <xs:element name="SaveDBRequestData" />
+  
+  <xs:element name="SaveDBResponseData" type="SaveDBResponseDataType" />
+  <xs:complexType name="SaveDBResponseDataType">
+      <xs:sequence>
+        <xs:element ref="Parameters" />
+      </xs:sequence>
+  </xs:complexType>
+  
+  <!--  restore db -->  
+  <xs:element name="RestoreDBRequestData" type="RestoreDBRequestDataType" />
+  <xs:complexType name="RestoreDBRequestDataType">
+     <xs:sequence>
+       <xs:element name="RestoreFrom">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Factory" />
+            <xs:enumeration value="LastBackup" />
+            <xs:enumeration value="LastImported" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+     </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="RestoreDBResponseData" type="RestoreDBResponseDataType" />
+  <xs:complexType name="RestoreDBResponseDataType">
+	<xs:sequence>
+       <xs:element ref="Parameters" />
+     </xs:sequence>
+  </xs:complexType>
+
+<!--  service status -->  
+
+  <xs:element name="GetServiceStatusRequestData" />
+  
+  <xs:element name="GetServiceStatusResponseData" type="GetServiceStatusResponseDataType" />
+  <xs:complexType name="GetServiceStatusResponseDataType">
+	<xs:sequence>
+       <xs:element ref="Parameters" />
+     </xs:sequence>
+  </xs:complexType>
+  
+ <!--  service configuration get -->  
+
+  
+  <xs:element name="GetServiceConfigRequestData" type="SetServiceConfigRequestDataType" />
+
+ <!--  service configuration set -->  
+  <xs:element name="SetServiceConfigRequestData" type="SetServiceConfigRequestDataType" />
+  <xs:complexType name="SetServiceConfigRequestDataType">
+     <xs:sequence>
+       <xs:element ref="XMPPServiceConfig" />
+     </xs:sequence>
+  </xs:complexType>  
+   
+  <xs:element name="SetServiceConfigResponseData" type="SetServiceConfigRequestDataType" />
+ 
+ 
+  <!--  Upgrade Request -->  
+  <xs:element name="UpgradeRequestData" type="UpgradeRequestDataType" />
+  <xs:complexType name="UpgradeRequestDataType">
+     <xs:sequence>
+       <xs:element name="FromDirPath" type="xs:string"/>
+     </xs:sequence>
+  </xs:complexType>  
+   
+  <xs:element name="UpgradeResponseData" type="UpgradeResponsetDataType" />
+ <xs:complexType name="UpgradeResponsetDataType">
+     <xs:sequence>
+       <xs:element name="URL" type="xs:string"/>
+     </xs:sequence>
+  </xs:complexType>
+  
+  <!--  Upgrade Request -->  
+  <xs:element name="UpgradeDeviceRequestData" type="UpgradeDeviceRequestDataType" />
+  <xs:complexType name="UpgradeDeviceRequestDataType">
+     <xs:sequence>
+     	<xs:element name="UpgradeDevice">
+       		<xs:complexType>
+       			<xs:sequence>
+       				<xs:element name="URL" type='xs:string'/>
+       			</xs:sequence>       			
+				<xs:attribute name='whereAssetNID' type='xs:string'/>
+				<xs:attribute name='whereTitle' type='xs:string'/>
+				<xs:attribute name='whereType' type='xs:string'/>						
+			</xs:complexType>			
+		</xs:element>
+     </xs:sequence>
+  </xs:complexType>  
+   
+  <xs:element name="UpgradeDeviceResponseData" type="UpgradeDeviceResponseDataType" />
+  <xs:complexType name="UpgradeDeviceResponseDataType">
+     <xs:sequence>
+       <xs:element name="Success" type="xs:string"/>
+     </xs:sequence>
+  </xs:complexType>
+
+
+
+	<xs:element name="DeviceLoginRequestData" type="DeviceLoginRequestDataType" />
+	<xs:complexType name="DeviceLoginRequestDataType">
+		<xs:sequence>
+			<xs:element name="DeviceLoginRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DevicePrivateData" type="xs:anySimpleType" />
+						<xs:element name="DevicePrivateKeyData" type='xs:string' />
+						<xs:element name="PortList">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name='Port' minOccurs="1" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:choice>
+												<xs:element name='NetworkStatus' />
+												<xs:element name='DisplayConfig' />
+												<xs:element name='DisplayStatus' />
+												<xs:element name='DirList'>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name='Dir' minOccurs="0" maxOccurs="unbounded">
+																<xs:complexType>
+																	<xs:attribute name='uuid' type="xs:string" />
+																	<xs:attribute name='storeRevision' type="xs:int" />
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name='StreamInfo' />
+											</xs:choice>
+											<xs:attribute name='type' type="PortIOTypeEnumType" />
+											<xs:attribute name='id' type="xs:int" />
+											<xs:attribute name='ready' type="xs:boolean" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name='serviceVersion' type='xs:string' />
+					<xs:attribute name='assetTemplateTitle' type='xs:string' />
+					<xs:attribute name='type' type='DeviceTypeEnums' />
+					<xs:attribute name='ready' type='xs:boolean' />
+					<xs:attribute name='xmppServerStatus' type='xs:boolean' />
+					<xs:attribute name='sshAdminPassword' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>  
+   
+  <xs:element name="DeviceLoginResponseData" type="DeviceLoginResponseDataType" />
+  <xs:complexType name="DeviceLoginResponseDataType">
+     <xs:sequence>
+       <xs:element name="DeviceLoginResponse">
+          <xs:complexType>
+             <xs:sequence>
+                <xs:element name='PortList'>
+                  <xs:complexType>
+                    <xs:sequence>
+                       <xs:element name='Port' minOccurs="1" maxOccurs="unbounded">
+                          <xs:complexType>
+                            <xs:attribute name='NID' type='xs:string'/>
+                            <xs:attribute name='id' type="xs:int" />
+                          </xs:complexType>
+                          <!-- TBD: Dir response  -->
+                       </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+             </xs:sequence>
+             <xs:attribute name='deviceNID' type='xs:string'/>             
+          </xs:complexType>
+       </xs:element>
+     </xs:sequence>
+  </xs:complexType>  	
+</xs:schema>
+ 

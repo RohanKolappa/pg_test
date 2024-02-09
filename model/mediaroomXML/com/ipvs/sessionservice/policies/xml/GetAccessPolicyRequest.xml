@@ -1,0 +1,59 @@
+<GetAccessPolicyRequest>
+	<GetAccessPolicyRequestData>
+		<GetAccessPolicy countToFetch="0"  whereType="Ports/Media/Dir/Session" sortBy="" sortOrder="ascending" startFrom="1"  
+		     whereTextSubStr="" selectFormat="BASIC/EXTENDED" whereName="" whereNID=""/>
+	</GetAccessPolicyRequestData>
+	<GetAccessPolicyResponseData>
+		<GetAccessPolicy>
+		
+		
+		
+		    <!-- BASIC FORMAT RESPONSE -->
+			<AccessPolicy NID='' name="Location" type='Ports/Media/Dir/Session' 	active='true/false' order=''/>
+			
+		  <!-- EXTENDED FORMAT RESPONSE -->
+			<AccessPolicy NID='' name="Location" type='Ports/Media/Dir/Session'
+				active='true/false' order=''>
+				<ActionList>
+					<!-- For Port object -->
+					<Action>ViewFrom</Action>
+					<Action>StreamTo</Action>
+					<!-- For Media -->
+					<Action>Playback</Action>
+
+					<!-- For Dir -->
+					<Action>Record</Action>
+					<Action>PVR</Action>
+
+					<!-- Session -->
+					<Action>Get</Action>
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+					<Action>Start</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<TargetFilterSet>
+					<TargetFilter filterNID='' />
+				</TargetFilterSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</AccessPolicy>
+		</GetAccessPolicy>
+	</GetAccessPolicyResponseData>
+	<GetAccessPolicyExceptionCodes />
+</GetAccessPolicyRequest>

@@ -1,0 +1,54 @@
+declare function local:getGroupInfo($groupId,$clipId) 
+as element()*{
+let $mediagroupdoc := for $b  in collection('/db/ipvs.default.mediastreamfileresourcelist')/*[(.//MediaStoreFileInfo/Type = 'MediaGroup') and (.//MediaGroupID = $groupId )]
+                               return $b
+let $bookmarklist := for $b in  collection('/db/ipvs.default.bookmarklist')/*[.//MediaStreamFileResourceNID = $mediagroupdoc/@NID]
+return $b
+let $groupinfo := if (($mediagroupdoc//MediaGroupID = $groupId) and ($mediagroupdoc//MediaGroupID/@ClipID = $clipId)) then 
+                      <GroupInfo title='{data($mediagroupdoc/Info/Title)}' UUID='{data($mediagroupdoc//UUID)}' NID='{ data($mediagroupdoc/@NID) }' state='{ data($mediagroupdoc//StateFlag) }'>
+					  	{$mediagroupdoc//MediaStoreFileInfo/MetaData}
+						<BookmarkList>{$bookmarklist}</BookmarkList>
+				     </GroupInfo>
+
+				 else  <GroupInfo/>
+return $groupinfo
+};
+
+declare function local:getFileWithBookmarkList( $ele as element()*)
+as element ()* {
+let $fileNID := data($ele/@NID)
+let $groupId := data($ele//MediaGroupID)
+let $clipId := data($ele//MediaGroupID/@ClipID)
+let $bookmarklist := for $b in  collection('/db/ipvs.default.bookmarklist')/*[.//MediaStreamFileResourceNID = $fileNID]    
+     return $b
+let $groupinfo := if($groupId != '') then  
+	let $b := local:getGroupInfo($groupId,$clipId)
+     return $b
+	 else <GroupInfo/>	      
+
+return <File NID='{ data($ele/@NID) }' byID='{data($ele//UUID)}' type='{data($ele//MediaStoreFileInfo/Type)}' title='{data($ele/Info/Title)}'>
+ {$ele//MediaStoreFileInfo/MetaData}{$ele//MediaStreamProfileInfo}
+ <BookmarkList>{$bookmarklist}</BookmarkList>{$groupinfo}
+ </File>
+
+};
+
+
+let $dirNID := '_DIRNID_'
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_
+
+let $fileList := for $list1 in collection('ipvs.default.mediastreamfileresourcelist')/*
+						   						      [(.//ParentMediaDirNID = $dirNID) and (.//Info/Properties/Permissions/Write = 'false') and (.//MediaStoreFileInfo/Type != 'MediaGroup') and (.//State/StateMsg != 'UpgradeError')]
+						   						      order by $list1//@NID ascending
+								          	return $list1
+								          	
+let $listcount := count($fileList)
+let $counter := $listcount							          	
+let $list2 := subsequence($fileList, $startFrom, $countToFetch)
+
+let $item := for $ele in $list2	
+    	return local:getFileWithBookmarkList($ele)
+
+let $bookmarkcount := count($item//Bookmark)
+return <FileList total='{$listcount}' bookmarkCount='{$bookmarkcount}'>{$item}</FileList>

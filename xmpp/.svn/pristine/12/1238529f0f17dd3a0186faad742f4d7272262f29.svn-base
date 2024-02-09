@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!--
+		ConversionPattern value="%d %-5p - %m%n" value="%-5p %c{1} - %m%n"
+		value="%d [%t] %p %c - %m %n" value="[%d{ABSOLUTE},%c{1}] %m%n"
+		value="%d{HH:mm:ss} [%-5p] %c{1} %m%n" # Common escape codes: # %p -
+		priority # %t - thread # %c - category (usually class name) # %d -
+		timestamp # %m - message # %x - NDC # %l - location # %F - FileName #
+		%L - Line Number
+		http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+	-->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<errorHandler class="com.ipvsserv.common.log.Log4JErrorHandler" />
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - %m%n" />
+		</layout>
+	</appender>
+	<appender name="syslog" class="org.apache.log4j.net.SyslogAppender">
+		<errorHandler class="com.ipvsserv.common.log.Log4JErrorHandler" />
+		<param name="Facility" value="LOCAL7" />
+		<param name="FacilityPrinting" value="true" />
+		<param name="SyslogHost" value="localhost" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - %m%n" />
+		</layout>
+	</appender>
+	 	
+	<appender name="file_summary" class="org.apache.log4j.RollingFileAppender">
+		<errorHandler class="com.ipvsserv.common.log.Log4JErrorHandler" />
+		<param name="File" value="logs/sum_sednaxmldbtest.log" />
+		<param name="Append" value="true"/>
+	 	<param name="MaxFileSize" value="1000KB" />
+ 		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - %m%n" />
+		</layout>
+		<!--  DEBUG < INFO < WARN < ERROR < FATAL -->
+		<!-- 
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="ERROR"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+        <filter class="org.apache.log4j.varia.DenyAllFilter"/>
+         -->
+	</appender>
+ 
+	
+	<appender name="file_detail" class="org.apache.log4j.RollingFileAppender">
+		<errorHandler class="com.ipvsserv.common.log.Log4JErrorHandler" />
+		<param name="File" value="logs/sednaxmldbtest.log" />
+		<param name="Append" value="true"/>
+	 	<param name="MaxFileSize" value="500KB" />
+ 		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - %m%n" />
+		</layout>
+		<!--  DEBUG < INFO < WARN < ERROR < FATAL -->
+		<!-- 
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="ERROR"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+        <filter class="org.apache.log4j.varia.DenyAllFilter"/>
+         -->
+	</appender>	
+	<!--
+		disable 3Party party Logging from
+		org.apache.commons.beanutils.ConvertUtils
+	-->
+	<logger name="org.apache.commons.beanutils.ConvertUtils">
+		<level value="error" />
+	</logger>
+	<!--
+		<errorHandler class="com.ipvsserv.common.log.Log4JErrorHandler"/>
+	-->
+	<category name="CONSOLE">
+		<priority value="debug" />
+		<appender-ref ref="console" />
+	</category>
+	<category name="DAEMON">
+		<priority value="debug" />
+		<appender-ref ref="syslog" />
+	</category>
+	<category name="CONSOLE_DAEMON">
+		<priority value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="syslog" />
+	</category>
+	<category name="FILE_DETAILS">
+		<priority value="debug" />
+		<appender-ref ref="file_detail" />
+	</category>
+	<category name="FILE_SUMMARY">
+		<priority value="debug" />
+		<appender-ref ref="file_summary" />
+	</category>
+	<root>
+		<priority value="error" />
+	</root>
+	<!--
+		Currently, the following appender classes exist:
+		org.apache.log4j.ConsoleAppender ConsoleAppender
+		org.apache.log4j.FileAppender FileAppender
+		org.apache.log4j.jdbc.JDBCAppender JDBCAppender
+		org.apache.log4j.AsyncAppender AsyncAppender
+		org.apache.log4j.net.JMSAppender JMSAppender
+		org.apache.log4j.lf5.LF5Appender LF5Appender
+		org.apache.log4j.nt.NTEventLogAppender NTEventLogAppender
+		org.apache.log4j.varia.NullAppender NullAppender
+		org.apache.log4j.net.SMTPAppender SMTPAppender
+		org.apache.log4j.net.SocketAppender SocketAppender
+		org.apache.log4j.net.SocketHubAppender SocketHubAppender
+		org.apache.log4j.net.SyslogAppender SyslogAppender
+		org.apache.log4j.net.TelnetAppender TelnetAppender
+		org.apache.log4j.WriterAppender WriterAppender
+	-->
+</log4j:configuration>

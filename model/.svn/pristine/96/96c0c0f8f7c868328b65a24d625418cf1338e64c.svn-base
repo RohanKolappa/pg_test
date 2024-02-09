@@ -1,0 +1,552 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "/controller/Policies",
+  "resourcePath": "/TagFilter",
+  "apis": [
+		{
+      "path": "/TagFilter",
+      "operations": 
+			[
+				{
+					  "method": "GET",
+					  "summary": "Get TagFilter (available in EDP 1.1)",
+					  "notes": "Get the list of TagFilter from EDP",
+					  "responseClass": "TagFilter",
+					  "nickname": "getTagFilter",
+					  "produces": [
+						"application/vnd.barco.nimbus.TagFilter+json",
+						"application/vnd.barco.nimbus.TagFilter+xml"
+					  ],
+					  "parameters": [
+					  
+						{
+						  "name": "MSIP",
+						  "description": "MS IP",
+						  "required": true,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "path"
+						},
+						{
+                            "name": "whereNID",
+                            "description": "Filter based on whereNID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on any substring in name",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+					   {
+                            "name": "whereObjectType",
+                            "description": "Filter based on ObjectType",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Devices",
+                                    "Users",
+                                    "MediaRoom",
+                                    "Profiles",
+                                    "Ports",
+                                    "Media",
+                                    "ALL"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+						{
+						  "name": "sortBy",
+						  "description": "Sort by name",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "allowableValues": {
+							"valueType": "LIST",
+							"values": [
+							  "name"
+							]
+						  },
+						  "paramType": "query"
+						},
+						{
+							"name": "sortOrder",
+							"description": "Sort in order ascending/descending",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"ascending",
+									"descending"
+								]
+							},
+
+							"paramType": "query"
+						},
+						{
+							"name": "selectFormat",
+							"description": "Filter by response formats",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"allowableValues": 
+							{
+								"valueType": "LIST",
+								"values": 
+								[
+									"BASIC",
+									"EXTENDED"
+								]
+							},
+
+							"paramType": "query"
+						},
+						{
+						  "name": "startFrom",
+						  "description": "Start From",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "integer",
+						  "paramType": "query"
+						},
+						{
+						  "name": "countToFetch",
+						  "description": "Count to fetch",
+						  "required": false,
+						  "allowMultiple": false,
+						  "dataType": "integer",
+						  "paramType": "query"
+						}
+					  ],
+					  "responseMessages": [
+						 {
+						  "code": 200,
+						  "message": "Success"
+						},
+						{
+						  "code": 401,
+						  "message": "Unauthorized"
+						},
+						{
+						  "code": 500,
+						  "message": "Internal Server Error"
+						}
+					  ],
+					  "deprecated": "false"
+				},
+				{
+					"method": "POST",
+					"summary": "Add TagFilter (available in EDP 1.1)",
+					"notes": "Add TagFilter to EDP",
+					"responseClass": "TagFilterResponse",
+					"nickname": "addTagFilter",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.TagFilter+json",
+						"application/vnd.barco.nimbus.TagFilter+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.TagFilter+json",
+						"application/vnd.barco.nimbus.TagFilter+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "Add a TagFilter to EDP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "AddTagFilter",
+							"paramType": "body"
+						}
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				},	
+				
+				{
+						  "method": "DELETE",
+						  "summary": "Delete TagFilter (available in EDP 1.1)",
+						  "notes": "Delete a TagFilter",
+						  "responseClass": "TagFilterResponse",
+						  "nickname": "deleteTagFilter",
+						  "produces": [
+							"application/json",
+							"application/xml"
+						  ],
+						  "parameters": [
+						 
+						  {
+							  "name": "MSIP",
+							  "description": "MS IP",
+							  "required": true,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "path"
+							},
+							{
+							  "name": "NID",
+							  "description": "TagFilter nid",
+							  "required": false,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "query"
+							},
+						   {
+							  "name": "name",
+							  "description": "TagFilter name",
+							  "required": false,
+							  "allowMultiple": false,
+							  "dataType": "string",
+							  "paramType": "query"
+							}  			
+						  ],
+						  "responseMessages": [
+							 {
+							  "code": 200,
+							  "message": "Success"
+							},
+							{
+							  "code": 401,
+							  "message": "Unauthorized"
+							},
+							{
+							  "code": 500,
+							  "message": "Internal Server Error"
+							}
+						  ],
+						  "deprecated": "false"
+				},
+{
+					"method": "POST",
+					"summary": "Set TagFilter (available in EDP 1.1)",
+					"notes": "update existing TagFilter to EDP ",
+					"responseClass": "TagFilterResponse",
+					"nickname": "setTagFilter",
+					"produces": 
+					[
+						"application/vnd.barco.nimbus.TagFilter+json",
+						"application/vnd.barco.nimbus.TagFilter+xml"
+					],
+
+					"consumes": 
+					[
+						"application/vnd.barco.nimbus.TagFilter+json",
+						"application/vnd.barco.nimbus.TagFilter+xml"
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "MSIP",
+							"description": "MS IP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "path"
+						},
+						{
+							"name": "NID",
+							"description": "NID",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+							
+						},
+						{
+							"name": "name",
+							"description": "TagFilter name",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+							
+						},
+						{
+							"name": "body",
+							"description": "update a TagFilter to EDP",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "SetTagFilter",
+							"paramType": "body"
+						}
+						
+					],
+
+					"responseMessages": 
+					[
+						{
+							"code": 200,
+							"message": "Success"
+						},
+
+						{
+							"code": 401,
+							"message": "Unauthorized"
+						},
+
+						{
+							"code": 500,
+							"message": "Internal Server Error"
+						}
+					],
+
+					"deprecated": "false"
+				}				
+			]	
+		}
+	],
+  
+  "models": 
+    {
+		"TagFilter":
+		{
+			"id": "TagFilter",
+			"required": 
+			[
+				"TagFilter"
+			],
+
+			"properties": 
+			{
+				"TagFilter": 
+				{
+					"$ref": "TagFilterAttr"
+					
+				}
+				
+			}
+		},
+		
+		"TagFilterResponse":
+		{
+			"id": "TagFilterResponse",
+			"properties": 
+			{
+				"TagFilter": 
+				{
+					"$ref": "TagFilterResponseData"
+					
+				}
+				
+			}
+		},
+		
+		"TagFilterResponseData":
+		{
+			"id": "TagFilterResponseData",
+			"properties": 
+			{
+				"@NID": {
+                    "type": "string"
+                },
+                "RuleList": {
+                    "$ref": "Rule"
+                },
+				"@name": {
+                    "type": "string"
+                },
+                "@objectType": {
+                    "type": "string"
+                }
+			}
+		},
+
+		"TagFilterAttr": 
+		{
+			"id": "TagFilterAttr",
+			"properties": 
+			{
+				"@NID":
+				{
+					"type":"string"
+				},
+				"@name": 
+				{
+					"type": "string"
+				},
+
+				"@objectType": 
+				{
+					"type": "String"
+				}
+			}
+		},
+		"Rule": 
+		{
+		  "id": "Rule",
+		  "description": "Rule",
+		  "required": [
+			"TagName",
+			"Operator",
+			"TagValue"			
+			],
+		  "properties": {
+		
+			"Operator": {"$ref": "Operator"},
+			"TagValue":{"$ref":"TagValue"},
+			"TagName":{"$ref":"TagName"}
+			}
+		},
+		
+		"RuleReq": 
+			{
+			  "id": "RuleReq",
+			  "description": "A Rule body",
+			  "required": [
+				"Rule"								
+			  ],
+			  "properties": 
+			  {
+				"Rule": {
+					"$ref": "Rule"
+				 }
+			  }
+			},
+		"AddTagFilter": 
+		{
+			"id": "AddTagFilter",
+			"description": "add a TagFilter request",
+			"required": 
+			[
+				"TagFilter"
+			],
+
+			"properties": 
+			{
+				"TagFilter": 
+				{
+					"$ref": "AddTagFilterReq"
+				}
+				
+				
+					
+			}
+		},
+
+		"AddTagFilterReq": 
+		{
+			"id": "AddTagFilterReq",
+			"description": "A basic add TagFilter request",
+			"required": 
+			[
+				"@name",				
+				"@objectType",
+				"RuleList"
+				],
+
+			"properties": 
+			{
+				
+				"@name": 
+				{
+					"type": "Location",
+					"description": ""
+				},
+				
+				"@objectType": 
+				{
+					"type": "Devices/Users/MediaRoom/Profiles/Ports/Media/ALL",
+					"description": ""
+				},
+				"RuleList": 
+				{
+				
+				"items": {
+				  "$ref": "RuleReq"
+					}
+				}					
+			}
+		},
+		"SetTagFilter": 
+		{
+			"id": "SetTagFilter",
+			"description": "Set a TagFilter request",
+			"required": 
+			[
+				"TagFilter"
+			],
+
+			"properties": 
+			{
+				"TagFilter": 
+				{
+					"$ref": "SetTagFilterReq"
+				}				
+			}
+		},
+
+		"SetTagFilterReq": 
+		{
+			"id": "SetTagFilterReq",
+			"description": "A basic set TagFilter request",
+			"required": 
+			[
+				
+				"@objectType",
+				"RuleList"
+			],
+
+			"properties": 
+			{
+							
+
+				"@objectType": 
+				{
+					"type": "Devices/Users/MediaRoom/Profiles/Ports/Media/ALL",
+					"description": ""
+				},
+				"RuleList": 
+				{				
+				"items": {
+				  "$ref": "RuleReq"
+					}
+				}
+				
+			}
+		}
+	}
+}

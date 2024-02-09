@@ -1,0 +1,139 @@
+<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="7,*,7" jsxwidth="100%" jsxheight="100%" jsxcols="7,*,7"></strings>
+      <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TL" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTL"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TOP" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTop"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="TR" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogTR"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="LEFT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogLeft"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="CENTER" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #fcfcfc"></strings>
+        <dynamics jsxbgcolor="P3BG"></dynamics>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="layout (--)" jsxrows="26,30,*,16,80,30" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxbgcolor="P3BG"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxpadding="4 4 4 4" jsxclassname="dialogHeader" jsxtextalign="right"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="4" jsxtop="4"></variants>
+              <strings jsxname="lblHeader" jsxtext="Customize" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="1"></variants>
+              <strings jsxname="btnCustomizeClose" jsxtext="[button text]" jsximage="images/buttons/btnClose.png" jsxoverimage="images/buttons/btnCloseOver.png" jsxdownimage="images/buttons/btnCloseDown.png" jsxonimage="images/buttons/btnCloseOn.png" jsxdisabledimage="images/buttons/btnClose.png"></strings>
+              <events jsxexecute="alert('Execute');"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="14 0 0 20"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="20" jsxfontsize="12"></variants>
+              <strings jsxname="label" jsxtext="Display the following columns:" jsxwidth="100%"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkCustomizeMtx" jsxwidth="100%" jsxheight="100%" jsxpadding="10 20 4 20"></strings>
+            <dynamics jsxbgcolor="P3BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxwidth="100%" jsxheight="100%" jsxname="block" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxheaderheight="0" jsxsuppressvscroll="0" jsxsuppresshscroll="0"></variants>
+                <strings jsxname="mtxCustomize" jsxselectionbg="images/spc.gif" jsxfocusstyle="normal" jsxbodyborder="solid 1px #cccccc"></strings>
+                <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="20" jsxsort="0"></variants>
+                  <strings jsxname="jsxChkColumn" jsxtext="" jsxpath="jsxChkColumn" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxchecked="0" jsxenabled="1"></variants>
+                    <strings jsxname="chkjsxChkColumn" jsxtext=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxsort="0"></variants>
+                  <strings jsxname="jsxColumnName" jsxtext="" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxColumnName"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxheight="16"></variants>
+            <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="0 0 0 20"></strings>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="16" jsxrelativeposition="1" jsxfontsize="9"></variants>
+              <strings jsxname="btnRefreshColumnList" jsxtext="&lt;u&gt;Refresh List&lt;/u&gt;" jsxcolor="blue" jsxborder="none"></strings>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkCustomizeSettings" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="P3BG"></dynamics>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1"></variants>
+            <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="6 0 0 0" jsxclassname="dialogFooter"></strings>
+            <dynamics jsxbgcolor="P2BG"></dynamics>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="80"></variants>
+              <strings jsxname="btnCustomizeCancel" jsxtext="Cancel" jsxmargin="0 12 0 0" jsxclassname="btnOk"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="80"></variants>
+              <strings jsxname="btnCustomizeApply" jsxtext="Apply" jsxmargin="0 20 0 0" jsxclassname="btnOk"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="RIGHT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogRight"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BL" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBL"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BOT" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBot"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="BR" jsxwidth="100%" jsxheight="100%" jsxclassname="dialogBR"></strings>
+      </object>
+    </object>
+  </object>
+</serialization>

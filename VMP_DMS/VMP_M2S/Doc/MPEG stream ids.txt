@@ -1,0 +1,61 @@
+MPEG-2 stream_id (video)
+========================
+
+00	picture_start_code
+01-AF	slice_start_code
+B0	reserved
+B1	reserved
+B2	user_data_start_code
+B3	sequence_header_code
+B4	sequence_error_code
+B5	extension_start_code
+B6	reserved
+B7	sequence_end_code
+B8	group_start_code
+
+MPEG-2 stream_id (system)
+=========================
+
+B9	MPEG-1&2 Program End Code
+BA	MPEG-1&2 Pack Header Start Code
+BB	MPEG-1&2 System Header Start Code
+BC	program_stream_map
+BD	private_stream_1
+BE	padding_stream
+BF	private_stream_2
+C0-DF	MPEG-2 or MPEG-1 audio stream number 00-1F
+E0-EF	MPEG-2 or MPEG-1 video stream number 00-0F
+F0	ECM_stream
+F1	EMM_stream
+F2	H.222.0 | ISO/IEC 13818-1 Annex A or ISO/IEC 13818-6_DSMCC_stream
+F3	ISO/IEC_13522_stream
+F4	H.222.1 type A
+F5	H.222.1 type B
+F6	H.222.1 type C
+F7	H.222.1 type D
+F8	H.222.1 type E
+F9	ancillary_stream
+FA-FE	reserved data stream
+FF	program_stream_directory
+
+MPEG-2 stream_type
+==================
+
+00	Reserved
+01	MPEG-1 Video
+02	MPEG-2 Video or MPEG-1 constrained parameter video stream
+03	MPEG-1 Audio
+04	MPEG-2 Audio
+05	MPEG-2 private_sections
+06	MPEG-2 PES packets containing private data
+07	ISO/IEC 13522 MHEG
+08	ITU-T Rec. H.222.0 | ISO/IEC 13818-1 Annex A DSM CC
+09	ITU-T Rec. H.222.1
+0A	ISO/IEC 13818-6 type A
+0B	ISO/IEC 13818-6 type B
+0C	ISO/IEC 13818-6 type C
+0D	ISO/IEC 13818-6 type D
+0E	ISO/IEC 13818-1 auxiliary
+0F-7F	ITU-T Rec. H.222.0 | ISO/IEC 13818-1 Reserved
+80-FF	User Private
+

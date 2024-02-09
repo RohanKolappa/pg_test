@@ -1,0 +1,30 @@
+<StartSession sessionId="testId">
+	<Session id='testId'>
+		<GrpFileList>
+			<GrpFile type='SyncRec' id='groupId' resourceTitle='syncrecording' />
+		</GrpFileList>
+
+		<EntityList>
+			<Entity type='SrcPort' id='srcid1' name='tx1'>
+				<Port resourceTitle='tx1' />
+				<PVR enable='false' />
+			</Entity>
+			<Entity type='SrcPort' id='srcid2' name='xp2001'>
+				<Port resourceTitle='xp2001_CHANNEL1' />
+				<PVR enable='false' />
+			</Entity>
+			<Entity type='RecFile' id='recid1' name='record1'>
+				<File resourceTitle='record1' grpFileId='groupId' />
+			</Entity>
+			<Entity type='RecFile' id='recid2' name='record2'>
+				<File resourceTitle='record2' grpFileId='groupId' />
+			</Entity>
+		</EntityList>
+		<ConnectionList>
+			<Connection type='RECORD' id='con1' srcEntityId='srcid1'
+				dstEntityId='recid1' name='tx1recording'/>
+			<Connection type='RECORD' id='con2' srcEntityId='srcid2'
+				dstEntityId='recid2' name='xp2001recording'/>
+		</ConnectionList>
+	</Session>
+</StartSession>

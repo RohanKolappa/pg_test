@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NotificationHandler>
+<!-- NAS Notifications -->
+	<Notification>
+		<NotificationType>SystemNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>NAS</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>Mount</Type>
+			<Type>Unmount</Type>
+			<Type>Online</Type>
+			<Type>Offline</Type>
+			<Type>Error</Type>
+			<Type>Delete</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SystemEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SystemEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>
+	<Notification>
+		<NotificationType>SystemNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>HA</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>OnOffSecondary</Type>			
+		</EventTypeList>
+		<MediaRoomEvent>SystemEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SystemEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>Config</Service>
+		</ServiceList>
+	</Notification>
+	<!-- Deleter Port Notification. Received On Delete of file from trash dir -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Progress</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DeleterPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>
+	
+	<!-- Deleter Port Notification. Received On Delete of file from trash dir -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Progress</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DMSRecorderPort</Type>
+		</EventTypeList>
+		<DataXPathList>
+		  <XPath>//Data/MediaStatus='Stopped'</XPath>
+		  <XPath>//Data/Status='Stopped'</XPath>
+		  <XPath>//Data/Status='Error Stopped'</XPath>
+		</DataXPathList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>Media</Service>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>
+	
+	<!-- Disk full notification. Received when the disk reaches threshold -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Progress</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DMSRecorderPort</Type>
+		</EventTypeList>
+		<DataXPathList>
+		  <XPath>//Data/MediaStatus='Started'</XPath>		  		  
+		</DataXPathList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>
+	
+	
+	<!-- Started and Stopped Event from Streaming Server - Ports (V2DEncoderPort,V2DDecoderPort) -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Started</EventSource>
+			<EventSource>Stopped</EventSource>
+			<EventSource>Connected Started</EventSource>
+			<EventSource>Connected Stopped</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>V2DDecoderPort</Type>
+			<Type>RTPDecoderPort</Type>
+			<Type>UDPDecoderPort</Type>
+			<Type>MPEGTSDecoderPort</Type>
+			<Type>DMSRecorderPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXML>
+			<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		</MediaRoomEventXML>
+		<ServiceList>
+			<Service>Media</Service>
+		</ServiceList>
+	</Notification>
+	
+	<!-- Stopped Event from Streaming Server - Ports (V2DHardWarePort) -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Stopped</EventSource>			
+		</EventSourceList>
+		<EventTypeList>
+			<Type>V2DHardWarePort</Type>		
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXML>
+			<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		</MediaRoomEventXML>
+		<ServiceList>
+			<Service>Media</Service>
+		</ServiceList>
+	</Notification>
+	 
+	<!-- Started and Stopped Event from Streaming Server - Ports (DMSRecorderPort) -->
+	<!--
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Stopped</EventSource>
+			<EventSource>Started</EventSource>
+			<EventSource>Connected Started</EventSource>
+			<EventSource>Connected Stopped</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DMSRecorderPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			TBD: <Service>MediaStoreAdmin</Service> 
+			<Service>com.ipvs.mediaroomservice.impl.DestStreamService</Service>
+		</ServiceList>
+	</Notification>		
+	-->
+	<!-- Disconnected Event from Streaming Server - Ports (V2DNetworkPort) -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Disconnected</EventSource>
+			<EventSource>Connected</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>V2DNetworkPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>Media</Service>
+		</ServiceList>
+	</Notification>	
+	<!-- End of Media Event from Streaming Server - Ports (DMSMediaPort) -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>EndOfMedia</EventSource>
+			<EventSource>Error</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DMSMediaPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>Media</Service>
+		</ServiceList>
+	</Notification>
+	<!-- Errors notification from Streaming Server - Ports (DMSRecordPort) -->
+	<Notification>
+		<NotificationType>SSNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>Error</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>DMSRecorderPort</Type>
+		</EventTypeList>
+		<MediaRoomEvent>SSEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/mediaroomservice/impl/SSEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>Media</Service>
+		</ServiceList>
+	</Notification>
+	
+	<!-- file tar untar -->
+	<Notification>
+		<NotificationType>SystemNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>MediaFileConverter</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>MediaFilePackComplete</Type>
+			<Type>MediaFileUnPackComplete</Type>
+			<Type>Media2dot4FileUnPackComplete</Type>
+			<Type>MediaFilePackError</Type>
+			<Type>MediaFileUnPackError</Type>
+			<Type>Media2dot4FileUnPackError</Type>
+		</EventTypeList>
+		<MediaRoomEvent>MediaFileConverterEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/assetadminservice/impl/MediaFileConverterEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>
+	
+	<!-- NFS Upload -->
+	<Notification>
+		<NotificationType>SystemNotification</NotificationType>
+		<EventSourceList>
+			<EventSource>NfsUpload</EventSource>
+		</EventSourceList>
+		<EventTypeList>
+			<Type>NfsUploadComplete</Type>
+			<Type>NfsUploadError</Type>
+		</EventTypeList>
+		<MediaRoomEvent>NfsUploadEvent</MediaRoomEvent>
+		<MediaRoomEventXMLPath>/com/ipvs/assetadminservice/impl/NfsUploadEventInstance.xml</MediaRoomEventXMLPath>
+		<ServiceList>
+			<Service>MediaStoreAdmin</Service>
+		</ServiceList>
+	</Notification>	
+</NotificationHandler>

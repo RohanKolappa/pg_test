@@ -1,0 +1,80 @@
+<DeviceHandler>
+
+	<handler>
+		<cmd>reboot_system</cmd>
+		<triggername>RebootCommand</triggername>
+                <paramtable>
+                </paramtable>
+	</handler>	
+
+	<handler>
+		<cmd>ha_takeover</cmd>
+		<triggername>HATakeoverCommand</triggername>
+                <paramtable>
+                </paramtable>
+	</handler>	
+
+	<handler>
+		<cmd>shutdown_system</cmd>
+		<triggername>ShutdownCommand</triggername>
+                <paramtable>
+                </paramtable>
+	</handler>	
+
+	<handler>
+		<cmd>save_config</cmd>
+		<triggername>SaveToFlashCommand</triggername>
+                <paramtable>
+                </paramtable>
+	</handler>	
+
+	<handler>
+		<cmd>set_time</cmd>
+		<triggername>SystemClockCommand</triggername>
+                <paramtable>
+                        <paramentry type="Integer">
+                                <paramname>hour</paramname>
+                                <paramval>Hour</paramval>
+                        </paramentry>
+                        <paramentry type="Integer">
+                                <paramname>min</paramname>
+                                <paramval>Minute</paramval>
+                        </paramentry>
+                        <paramentry type="Integer">
+                                <paramname>seconds</paramname>
+                                <paramval>Seconds</paramval>
+                        </paramentry>
+                        <paramentry type="Integer">
+                                <paramname>month</paramname>
+                                <paramval>Month</paramval>
+                        </paramentry>
+                        <paramentry type="Integer">
+                                <paramname>day</paramname>
+                                <paramval>Day</paramval>
+                        </paramentry>
+                        <paramentry type="Integer">
+                                <paramname>year</paramname>
+                                <paramval>Year</paramval>
+                        </paramentry>
+                </paramtable>
+	</handler>
+
+	<handler>
+		<cmd>upgrade_device</cmd>
+		<triggername>UpgradeSoftwareCommand</triggername>
+                <paramtable>
+                        <paramentry type="String">
+                                <paramname>url</paramname>
+                                <paramval>UpgradeURL</paramval>
+                        </paramentry>
+                </paramtable>
+	</handler>
+
+	<handler>
+		<cmd>revert_config</cmd>
+		<triggername>RevertToDefaultsCommand</triggername>
+                <paramtable>
+                </paramtable>
+	</handler>
+
+</DeviceHandler>

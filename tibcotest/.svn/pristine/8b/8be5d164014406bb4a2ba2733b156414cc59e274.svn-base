@@ -1,0 +1,100 @@
+<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="3" jsxheight="170"></variants>
+    <strings jsxname="blkAssetPolicyXauth" jsxwidth="100%" jsxrelativeposition="1" jsxclassname="formRow"></strings>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxheight="100%" jsxname="blkFormLabel" jsxwidth="22%" jsxtextalign="right" jsxdisplay="" jsxpadding="12 0 0 0" jsxstyleoverride="vertical-align: top;"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+        <strings jsxname="label" jsxtext="Authorized by:" jsxtextalign="right" jsxclassname="formLabel"></strings>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3"></variants>
+      <strings jsxheight="100%" jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="8 6 6 20"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxheight="30"></variants>
+        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay="" jsxpadding="4 0 0 0"></strings>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxrelativeposition="1"></variants>
+          <strings jsxname="chkAssetPolicy_XAuthUseServiceOperator" jsxtext="Operator" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+          <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxheight="30"></variants>
+        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1"></variants>
+          <strings jsxwidth="40%" jsxname="selAssetPolicy_XAuthUserFilter" jsxmargin="0 4 0 0" jsxdisplay="" jsxxml="" jsxvalue="Select User Filter"></strings>
+          <events jsxselect="checkAddForFilter(&quot;selAssetPolicy_XAuthUserFilter&quot;,&quot;User&quot;);"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="206" jsxtop="34"></variants>
+          <strings jsxname="lblAT" jsxtext="@" jsxdisplay=""></strings>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxrelativeposition="1"></variants>
+          <strings jsxwidth="40%" jsxname="selAssetPolicy_XAuthResourceFilter" jsxmargin="0 4 0 0" jsxdisplay="" jsxxml="" jsxvalue="Select Resource Filter"></strings>
+          <events jsxselect="checkAddForFilter(&quot;selAssetPolicy_XAuthResourceFilter&quot;,&quot;Resource&quot;);"></events>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="16" jsxrelativeposition="1"></variants>
+          <strings jsxname="btnAssetPolicy_AddXAuthUserFilter" jsxtext="Add &amp;darr;" jsxmargin="0 4 0 0" jsxdisplay="" jsxclassname="btnAdd"></strings>
+          <events jsxexecute="AddFilterToMatrix('selAssetPolicy_XAuthUserFilter','selAssetPolicy_XAuthResourceFilter','mtxAssetPolicy_XAuthUserList');"></events>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxheight="80"></variants>
+        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="249" jsxtop="19" jsxheight="90" jsxoverflow="1" jsxrelativeposition="1"></variants>
+          <strings jsxwidth="90%" jsxname="CONTAINER" jsxborder="solid 1px #aaaaaa;" jsxdisplay=""></strings>
+          <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+          <object type="jsx3.gui.Matrix">
+            <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+            <strings jsxname="mtxAssetPolicy_XAuthUserList" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxxmlid="mtxAssetPolicy_XAuthUserListDoc"></strings>
+            <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+            <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="mcAssetPolicy_XAuthUser" jsxtext="User Filters" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOne"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="mcAssetPolicy_XAuthUserNID" jsxtext="Users who can Authorize" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtextOneNID" jsxdisplay="none"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="20"></variants>
+              <strings jsxname="mcAt" jsxtext="@" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxAt" jsxdisplay=""></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="mcAssetPolicy_XAuthResourceFilterSel" jsxtext="Resource Filter" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtextTwo" jsxdisplay="" jsxwidth="*"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="mcAssetPolicy_XAuthResourceFilterSelNID" jsxtext="Resource Filter" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtextTwoNID" jsxdisplay="none" jsxwidth="*"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="20"></variants>
+              <strings jsxname="mcAssetPolicy_XAuthUserDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                <strings jsxname="DeleteButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

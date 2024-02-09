@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="devicevng">
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+	<property name="services.dir" value="resources/services" />
+	<property name = "common.classes.dir" value ="vngcommonbin"/>
+	<property name = "tx.classes.dir" value ="v2dtxbin"/>
+	<property name = "rx.classes.dir" value ="v2drxbin"/>
+	<property name = "xp.classes.dir" value ="v2dxpbin"/>
+	<property name = "dms.classes.dir" value ="dmsbin"/>
+	<property name = "ms.classes.dir" value ="msbin"/>
+	<property name="javalibs" value="javalibs"/>
+	<property name="javalibsdev" value="../javalibs"/>
+
+	<path id="devicevng.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="${javalibs}/dom4j.jar"/>
+		<pathelement location="${javalibs}/ipvsxmppclient.jar"/>
+		<pathelement location="${javalibs}/javax.servlet.jar"/>
+		<pathelement location="${javalibs}/jaxen.jar"/>
+		<pathelement location="${javalibs}/jetty-all-8.1.6.v20120903.jar"/>
+		<pathelement location="${javalibs}/log4j-1.2.15.jar"/>
+		<pathelement location="${javalibs}/smack.jar"/>
+		<pathelement location="${javalibs}/com.barco.nimbus.3rdparty.jain-sdp.jar"/>
+		<pathelement location="${javalibs}/deviceinterface.jar"/>
+	</path>
+
+	<path id="devicevngdev.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="${javalibsdev}/dom4j.jar"/>
+		<pathelement location="${javalibsdev}/ipvsxmppclient.jar"/>
+		<pathelement location="${javalibsdev}/javax.servlet.jar"/>
+		<pathelement location="${javalibsdev}/jaxen.jar"/>
+		<pathelement location="${javalibsdev}/jetty-all-8.1.6.v20120903.jar"/>
+		<pathelement location="${javalibsdev}/log4j-1.2.15.jar"/>
+		<pathelement location="${javalibsdev}/smack.jar"/>
+		<pathelement location="${javalibsdev}/com.barco.nimbus.3rdparty.jain-sdp.jar"/>
+		<pathelement location="../deviceinterface/dist/deviceinterface.jar"/>
+	</path>
+	
+			
+	<target name="init">
+		<mkdir dir="bin"/>
+		<mkdir dir="bin/${common.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${common.classes.dir}">
+			<fileset dir="vngcommon">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+		</copy>
+		<mkdir dir="bin/${common.classes.dir}/META-INF"/>
+		<mkdir dir="bin/${tx.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${tx.classes.dir}">
+			<fileset dir="v2dtx">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+			<fileset dir="bin/${common.classes.dir}" includes="**"/>
+		</copy>
+		<copy todir="bin/${tx.classes.dir}/META-INF/services" >
+			<fileset dir="v2dtx/${services.dir}" includes="**"/>
+		</copy>
+		<mkdir dir="bin/${rx.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${rx.classes.dir}">
+			<fileset dir="v2drx">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+			<fileset dir="bin/${common.classes.dir}" includes="**"/>
+		</copy>
+		<copy todir="bin/${rx.classes.dir}/META-INF/services" >
+			<fileset dir="v2drx/${services.dir}" includes="**"/>
+		</copy>
+		<mkdir dir="bin/${xp.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${xp.classes.dir}">
+			<fileset dir="v2dxp">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+			<fileset dir="bin/${common.classes.dir}" includes="**"/>
+		</copy>
+		<copy todir="bin/${xp.classes.dir}/META-INF/services" >
+			<fileset dir="v2dxp/${services.dir}" includes="**"/>
+		</copy>
+		<mkdir dir="bin/${dms.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${dms.classes.dir}">
+			<fileset dir="dms">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+			<fileset dir="bin/${common.classes.dir}" includes="**"/>
+		</copy>
+		<copy todir="bin/${dms.classes.dir}/META-INF/services" >
+			<fileset dir="dms/${services.dir}" includes="**"/>
+		</copy>
+		<mkdir dir="bin/${ms.classes.dir}"/>
+		<copy includeemptydirs="false" todir="bin/${ms.classes.dir}">
+			<fileset dir="ms">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+				<exclude name="resources/**"/>
+			</fileset>
+			<fileset dir="bin/${common.classes.dir}" includes="**"/>
+		</copy>
+		<copy todir="bin/${ms.classes.dir}/META-INF/services" >
+			<fileset dir="ms/${services.dir}" includes="**"/>
+		</copy>		
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+		<delete dir="dist"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project,build-release" name="build"/>
+	<target name="build-subprojects"/>
+	<target depends="init,build-subprojects" name="build-project">
+		<!--
+			<echo message="${ant.project.name}: ${ant.file}"/>       
+	    	<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${common.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+	            <src path="vngcommon"/>
+	            <src path="javalibs"/>
+	            <classpath refid="devicevng.classpath"/>
+	    	</javac>
+		-->
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${tx.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2dtx"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevng.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${rx.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2drx"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevng.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${xp.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2dxp"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevng.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${dms.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="dms"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevng.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${ms.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="ms"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevng.classpath"/>
+		</javac>	
+	</target>
+
+	<target depends="init,build-subprojects" name="build-devproject">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${tx.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2dtx"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevngdev.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${rx.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2drx"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevngdev.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${xp.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="v2dxp"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevngdev.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${dms.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="dms"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevngdev.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/${ms.classes.dir}" includeantruntime="false" source="${source}" target="${target}">
+			<src path="ms"/>
+			<src path="javalibs"/>
+			<src path="vngcommon"/>
+			<classpath refid="devicevngdev.classpath"/>
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar"/>
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+		<antcall target="build"/>
+	</target>
+
+	<target name="build-release" description="devicevng.jar">
+		<mkdir dir="dist"/>
+		<jar destfile="dist/v2dtx.jar" manifest="vngcommon/MANIFEST.MF">
+			<metainf dir="bin/${tx.classes.dir}/META-INF" includes="**/**"/>
+			<zipfileset dir="bin/${tx.classes.dir}" includes="**/*.class" />
+			<zipfileset dir="bin/${tx.classes.dir}" includes="**/*.xsd" />
+			<zipfileset dir="bin/${tx.classes.dir}" includes="**/*.xml" />
+			<zipfileset dir="bin/${tx.classes.dir}" includes="**/*.properties" />
+			<zipfileset dir="bin/${tx.classes.dir}" includes="**/*.txt" />
+		</jar>
+		<jar destfile="dist/v2drx.jar" manifest="vngcommon/MANIFEST.MF">
+			<metainf dir="bin/${rx.classes.dir}/META-INF" includes="**/**"/>
+			<zipfileset dir="bin/${rx.classes.dir}" includes="**/*.class" />
+			<zipfileset dir="bin/${rx.classes.dir}" includes="**/*.xsd" />
+			<zipfileset dir="bin/${rx.classes.dir}" includes="**/*.xml" />
+			<zipfileset dir="bin/${rx.classes.dir}" includes="**/*.properties" />
+			<zipfileset dir="bin/${rx.classes.dir}" includes="**/*.txt" />
+		</jar>
+		<jar destfile="dist/v2dxp.jar" manifest="vngcommon/MANIFEST.MF">
+			<metainf dir="bin/${xp.classes.dir}/META-INF" includes="**/**"/>
+			<zipfileset dir="bin/${xp.classes.dir}" includes="**/*.class" />
+			<zipfileset dir="bin/${xp.classes.dir}" includes="**/*.xsd" />
+			<zipfileset dir="bin/${xp.classes.dir}" includes="**/*.xml" />
+			<zipfileset dir="bin/${xp.classes.dir}" includes="**/*.properties" />
+			<zipfileset dir="bin/${xp.classes.dir}" includes="**/*.txt" />
+		</jar>
+		<jar destfile="dist/dms.jar" manifest="vngcommon/MANIFEST.MF">
+			<metainf dir="bin/${dms.classes.dir}/META-INF" includes="**/**"/>
+			<zipfileset dir="bin/${dms.classes.dir}" includes="**/*.class" />
+			<zipfileset dir="bin/${dms.classes.dir}" includes="**/*.xsd" />
+			<zipfileset dir="bin/${dms.classes.dir}" includes="**/*.xml" />
+			<zipfileset dir="bin/${dms.classes.dir}" includes="**/*.properties" />
+			<zipfileset dir="bin/${dms.classes.dir}" includes="**/*.txt" />
+		</jar>
+		<jar destfile="dist/ms.jar" manifest="vngcommon/MANIFEST.MF">
+			<metainf dir="bin/${ms.classes.dir}/META-INF" includes="**/**"/>
+			<zipfileset dir="bin/${ms.classes.dir}" includes="**/*.class" />
+			<zipfileset dir="bin/${ms.classes.dir}" includes="**/*.xsd" />
+			<zipfileset dir="bin/${ms.classes.dir}" includes="**/*.xml" />
+			<zipfileset dir="bin/${ms.classes.dir}" includes="**/*.properties" />
+			<zipfileset dir="bin/${ms.classes.dir}" includes="**/*.txt" />
+		</jar>		
+	</target>
+</project>

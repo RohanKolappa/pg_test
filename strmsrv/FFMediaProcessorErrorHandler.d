@@ -1,0 +1,2 @@
+FFMediaProcessorErrorHandler.d FFMediaProcessorErrorHandler.o: \
+  FFMediaProcessorErrorHandler.cpp FFMediaProcessorErrorHandler.hh

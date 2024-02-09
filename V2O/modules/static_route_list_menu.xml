@@ -1,0 +1,90 @@
+
+
+<Menu>
+
+   <Type>list</Type>
+   <Title>StaticRouteList</Title>
+   <Description>Static Route List</Description>
+   <Access>route_list</Access>
+   <ConfigFile>static_route</ConfigFile>
+   <CliCommandName>undefined</CliCommandName>
+
+   <Items>
+
+      <Item>
+        <Name>string_val</Name>
+        <Type>string</Type>
+        <Label>String</Label>
+        <Help>Enter any string</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue>Nothing</DefaultValue>
+        <ViewList>no</ViewList>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>integer_val</Name>
+        <Type>integer</Type>
+        <Label>Integer</Label>
+        <Help>Enter any integer</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>100</DefaultValue>
+        <Validation>
+            <Type>range</Type>
+            <Min>10</Min>
+            <Max>300</Max>
+        </Validation>
+        <ViewList>no</ViewList>
+      </Item>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable</Label>
+        <Help>Enable Interface</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+        <ViewList>no</ViewList>
+      </Item>
+
+      <Item>
+        <Name>destination</Name>
+        <Type>string</Type>
+        <Label>Destination</Label>
+        <Help>Enter destination in dotted notation</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>netmask</Name>
+        <Type>string</Type>
+        <Label>Netmask</Label>
+        <Help>Enter Netmask in dotted noattion</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue>255.255.255.0</DefaultValue>
+        <Validation>
+           <Type>netmask</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>gateway</Name>
+        <Type>string</Type>
+        <Label>Gateway</Label>
+        <Help>Enter gateway name or IP address in dotted noattion</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

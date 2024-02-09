@@ -1,0 +1,497 @@
+
+FPGA Device Driver
+==================
+
+
+Introduction
+------------
+
+The FPGA device driver currently supports I50, XP100, XP200 and XP220
+systems.
+
+The FPGA driver is implemented as a module of the Linux kernel. When it
+is initially loaded, it scans all PCI devices and adds the I50 (Vendor
+`0x10EE`, Device `0x0300`) and XP (Vendor `0x10B5`, Device `0x5601`) 
+ones to the driver. The kernel exports the char device interfaces 
+'/dev/fpgaX_video', '/dev/fpgaX_audio', '/dev/fpgaX_keyboard', 
+'/dev/fpgaX_mouse' and '/dev/fpgaX_i2c' for each FPGA board on the 
+PCI bus ('X' is either 0 or 1, depending the slot number of the 
+board).  The major number for all devices are 60, the minor numbers 
+are 0-4 for FPGA board 0, 5-9 for FPGA board 1. 
+
+The following operations are supported on the device interface:
+
+.......................................................................
+  open:     open user instance of the device.   
+  close:    close user instance of the device.   
+  read:     read data from the device.   
+  write:    write data to the device.   
+  ioctl:    perform hardware control over the device. This includes 
+            reading/writing FPGA and PLX registers for XP, or FPGA
+            and ADC9888, ADC9887, AD9852 and ID18125 for I50. 
+.......................................................................
+
+The following proc files are available for users to access information
+about the FPGA:
+
+.......................................................................
+/proc/fpga/X/registers:   contents of the most important FPGA video
+                          and audio registers and flags for Board X.
+/proc/fpga/X/barinfo:     PCI memory regions for Board X.
+/proc/fpga/X/interrupts:  status of interrupts and interrupt counts
+                          on Board X. 
+/proc/fpga/X/video_stats: count of DMA requests and errors for video 
+                          data transfer on Board X.
+/proc/fpga/X/audio_stats: count of DMA requests and errors for audio
+                          data transfer on Board X.
+/proc/fpga/X/kbm_stats:   count of PS2 and USB keyboard and mouse 
+                          data transfered on Board X.
+.......................................................................
+
+
+The following FPGA interrupts are used:
+
+On the I50:
+
+   Number                    Description
+   ------            ------------------------------------
+     2               Add FIFO empty
+     3               Add Horiz or Vert sync change
+     4               Add Horiz or Vert frequency change
+     7               Keyboard/mouse data available
+
+On the XP:
+
+   Number                    Description
+   ------            ------------------------------------
+     12              Keyboard data available
+     13              Mouse data available
+     20              Add video FIFO above low watermark 
+     22              Add audio FIFO above low watermark
+     25              Drop video FIFO below high watermark 
+     27              Drop audio FIFO below high watermark
+
+In addition, on the XP, FPGA interrupts 30 and 31 are used to signal 
+the completion of DMA transfers on the PLX DMA channels O and 1,
+respectively.
+
+Using the Driver
+----------------
+
+The driver is compiled as a module. It takes two module parameters: 
+boardpcislots and virtualboards.  For I50, XP100 or XP200, no module 
+parameter is needed.  virtualboards is only used for debugging. 
+For XP220, "boardpcislots=12,14" should be used to specify the PCI 
+slots for FPGA boards like this:
+
+    # insmod /V2O/modules/fpga_module.ko boardpcislots=12,14
+
+Supported Hardware
+------------------
+
+The following are the types of hardware handled by the driver:
+
+.Supported Hardware 
+[cols="3,10",options="header"]
+|============================================================
+| Type      | Description
+| I50-TX DA |
+A version of I50 transmitter that supports both VGA and DVI inputs.
+It uses the AD9887a analog-to-digital converter.
+| I50-RX    |
+The I50 receiver.
+| XP V1     |
+An early version of the XP that only supports BAR0 and BAR2 on the 
+PCI bus. This version is never released as a product.
+| XP V2     |
+Production version of the XP that supports PCI BAR3. 
+|============================================================
+
+The driver determines whether an XP is V1 or V2 by reading the
+vital product data (VPD) burnt into the PLX chip at manufacture time. 
+
+For I50s, the driver determines whether a TX is version A or DA by 
+reading or writing to the AD9887a I2C address (0x9a) and wait for 
+response. The hardware is version DA if a response is received, 
+otherwise it is version A.  
+
+
+Driver Overview 
+---------------
+
+The FPGA driver is a char driver that acts on the FPGA and 
+
+- for XP100/XP200/XP220, the PLX Technology 9056 PCI to local bus 
+  controller, 
+
+- for I50, the Analog Devices AD9888 and AD9887a analog-to-digital 
+  converter, the AD9852 digital synthesizer and the Integrated 
+  Device Technology ID18125 FIFO.
+
+The driver implements the the following devices:
+
+'/dev/fpgaX_video'::
+A character device allowing reading and writing video data to the
+system as well as ioctls to perform various types of hardware control.
+
+'/dev/fpgaX_audio'::
+A character device allowing reading and writing audio data to the
+system.
+
+'/dev/fpgaX_keyboard'::
+A character device allowing reading and writing PS2 keyboard data 
+to the system and get and set the type of scan code the keyboard 
+uses.
+
+'/dev/fpgaX_mouse'::
+A character device allowing reading and writing PS2 or IMPS2 mouse 
+data to the system and get and set whether whether the mouse is 
+PS2 or IMPS2.
+
+'/dev/fpgaX_i2c'::
+A character device to support locking of the I2C bus to ensure 
+concurrent access never happens. 
+
+
+Driver Initialization
+~~~~~~~~~~~~~~~~~~~~~
+When the driver is loaded, it first creates a `v2d` class structure,
+gets 10 device numbers for the maximum 2 boards with 5 devices each. 
+It then registers with the kernel as a PCI driver passing a pointer 
+to the probe function `vpci_probe`. When the kernel detects a PCI 
+board matching the vendor and device ID for I50 or XP, it calls 
+`vpci_probe`. `vpci_probe`, in turn, will set up the 5 char devices,
+create a directory under `/proc` (`/proc/fpga/X` where `X` is 0 or 1) 
+and use the `struct pci_dev` passed in the call to determine if it 
+should claim the board and whether it is XP or I50. Then,
+
+- For I50,
+  . Set up address map to access memory regions in the FPGA. The 
+    following are the memory regions are used by the driver: 
+    .. BAR 0: writing audio and/or video data to the FPGA 
+    .. BAR 1: reading and writing keyboard and mouse data
+    .. BAR 2: reading and writing FPGA, AD9888, AD9887a, AD9852 and 
+       ID18125 registers, 
+  . Reset the FPGA,
+  . Determine whether the board is A or DA, TX or RX,
+  . Initialize the AD9888 or AD9887a, AD9852 and ID18152,
+  . Initialize the routines that handle the video Look Up Table (LUT),
+  . Initialize routines that control FPGA interrutps, the LED, flow 
+    control and FPGA control and enable keyboard/mouse and audio on
+    the board.
+
+- For XP100/XP200/XP220,
+  . Set up address map to access memory regions in the FPGA. The 
+    following are the memory regions used by the driver:
+    .. BAR 0: reading and writing PLX registers  
+    .. BAR 2: programming the FPGA and the AD9852,
+    .. BAR 3: reading and writing FPGA registers,
+  . Initialize the PLX for DMA,
+  . Initialize the routines that handle the LUT,
+  . Initialize the routines that control flow control and enable 
+    keyboard/mouse and audio on the board.
+  
+Once the driver is loaded, the Linux startup script will determine
+whether the board is a TX or RX and load the appropriate FPGA firmware
+and call the `FPGA_IOC_BOARD_INIT` ioctl to complete the initialization.
+The following is what this ioctl does:
+
+  . Determine whether the board is TX or RX,
+  . Initialize the routine that control FPGA interrupts, the FPGA
+    configuration and the keyboard and mouse.
+
+
+Video Processing
+~~~~~~~~~~~~~~~~
+
+Video Processing on I50 TX
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On I50-TX, the FPGA driver uses an addside LUT to track the video format
+of the input video. It has an interrupt handler that's invoked when 
+video format changes (interrupt 2 and 3) and a timer routine to
+periodically scan for video change (`FPGA_AMLREG`, `FPGA_AMVREG`, 
+`FPGA_AMHREG` and `FPGA_AMTREG`). When a change is detected, the driver
+will 
+
+  . Try to find a LUT that matches the input,   
+  . If a match is found and the matching LUT is different from what's 
+    currently configured, the driver will reconfigure
+    .. the AD9888 or 9887, 
+    .. the ID18125, and 
+    .. the addside video registers in the FPGA, and
+    .. reset statistics counters in the driver for the video input,
+    .. force an EOF on programs that're reading data from the video 
+       device to indicate video has changed.
+  . If a match is found but the LUT has not changed, the driver will
+    schedule another scan but otherwise do anything,
+  . If no match is found, the driver re-configures the addside 
+    video in the FPGA and disables FPGA since there's no video to
+    read.
+
+The following is done to re-configure the FPGA:
+  . Set the noise threshold, sub-sampling scheme (422 or 444), and the
+    audio frequency registers in the FPGA to new values,
+  . Put FPGA addside video DCM into reset,
+  . Set the LUT, delay, resolution, slice size, DVI hot plug detect
+    and stereo bits in the FPGA to new values,
+  . Enable addside audio and video in the FPGA, wait a little then 
+    disable them,
+  . Take addside video DCM out of reset, wait till PLL locks,
+  . Set the FPGA to process either RGB or YUV input,
+  . Re-enable addside audio and video in the FPGA.
+
+Video Processing on I50 RX
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On the I50-RX, the driver uses a dropside LUT for the video format of 
+the video from the remote TX, and a display LUT for the video format 
+the RX uses to display the video. The user process 'StreamingServer' 
+detects LUT change from the Server Capabilities (SCAP) messages from
+the TX, re-computes display LUT, sets dropside and display LUTs in 
+the driver to new values, then calls the `FPGA_IOC_RESET_DROPSIDE`
+ioctl to:
+
+  . Reset statistics counters in the driver for the video output,
+  . Re-configure the AD9852, and
+  . Re-configure the dropside video registers in the FPGA.
+
+The following is done to re-configure the FPGA:
+
+  . Disable dropside audio and video in the FPGA, 
+  . Put FPGA dropside video DCM into reset,
+  . Set the audio frequency register in the FPGA,
+  . Set the delay, resolution, slice size and video buffer watermark in
+    the FPGA to new values,
+  . Take dropside video DCM out of reset, wait till PLL locks,
+  . Set stereo, video bypass, sync polarity in the FPGA to new values,
+  . Reset dropside SRAM DCM and wait till PLL locks,
+  . Set AD9852 pixel clock to new value,
+  . Enable dropside video DAC,
+  . Re-enable dropside audio and video in the FPGA.
+
+
+Video Processing on XP
+^^^^^^^^^^^^^^^^^^^^^^
+
+Both XP TX and RX use an addside LUT for video format for the local 
+input video, a dropside LUT for the video from the remote TX, and a 
+display LUT for the output video.
+
+The XP FPGA driver does not initiate video change processing. Instead, 
+the user process 'hald' scans for changes in video changes and 
+changes in configurations.  When changes are detected on the TX, 'hald' 
+reconfigures devices such as the ADC9888 and the SII1178, sets the 
+addside LUT, and calls the `FPGA_IOC_RESET_ADDSIDE` ioctl to 
+re-configure the addside video registers in the FPGA. 
+
+When changes are detected on the RX, the driver re-computes the
+override or overlay parameters, sets these parameters as well as 
+whether to reset the looped back video or not (using the 
+`FPGA_IOC_SET_AVFLAG` ioctl).  'hald' then sets the addside, 
+dropside and display LUTs in the driver to new values, re-configures 
+the AD9852 and the SII1178, and calls the `FPGA_IOC_RESET_DROPSIDE` 
+ioctl to re-configure the FPGA.
+
+The following describes what the `FPGA_IOC_RESET_ADDSIDE` and
+`FPGA_IOC_RESET_DROPSIDE` ioctl's do:
+
+`FPGA_IOC_RESET_ADDSIDE`
+
+  . Set the start-of-frame (SOF) delay, noise threshold, sub-
+    sampling scheme (422 or 444), LUT, and the audio frequency 
+    registers in the FPGA to new values,
+  . Put FPGA addside video DCM into reset, 
+  . Disable addside audio and video in the FPGA, 
+  . Take addside video DCM out of reset, wait for PLL to lock,
+  . Set the FPGA registers to select DVI or analog input, whether 
+    the input is 24- or 48-bit, whether the output is single- or 
+    dual-link, the horizontal and vertical delays and resolutions, 
+    the slice size, and the DVI hot plug detect and stereo bits,
+  . Set the FPGA addside buffer threshold and latency control 
+    registers,
+  . Set teh sub-sampling mode and color space registers,
+  . Re-enable addside audio and video in the FPGA.
+    
+`FPGA_IOC_RESET_DROPSIDE`
+
+  . Disable dropside audio and video in the FPGA, 
+  . Depending on whether `LOCALRESET` bit is on, either 
+    .. put the addside and dropside video and SONET DCM, or 
+    .. put the dropside video DCM   
+    into reset.
+  . Set the dropside video delay and resolution registers,
+  . Set dropside sub-sampling, slice size, stereo and override 
+    control registers,
+  . Set scale and ddr registers for cropping,
+  . Set FPGA register `FPGA_ATESTREG` to select whether to use data 
+    enable from the DVI chip, whether the output is 24- or 48-bit, 
+    whether the output is single- or dual-link, whether the output
+    is in local, remote or overlay mode, whether to use external 
+    sync, etc.
+  . Take dropside video (or video and SONET) DCM out of reset, 
+    wait till PLL locks,
+  . Invert horizontal and vertical sync polarities of the output if
+    needed,
+  . Program genlock registers,
+  . Set addside video delay and resolution registers,
+  . Do pixel adjust for the output if needed,
+  . Enable dropside video DAC,
+  . Re-enable dropside audio and video in the FPGA.
+
+Ioctl's are available for both I50 and XP to get and set the LUT 
+table the driver uses for matching input video, to get and set 
+LUTs, to get and set detailed video parameters such as coarse
+and fine quantization, noise threshold, horizontal and vertical 
+delay, etc, and to get and set registers on the FPGA and other 
+devices managed by the driver. 
+
+Audio Processing
+~~~~~~~~~~~~~~~~
+
+For I50, audio input and output are handled entirely in the FPGA 
+driver.  Audio input and output are enabled during driver initialization 
+and never re-configured in the I50.
+
+For the XP, the audio ADCs (AK4683AA and AK4683AD) and the PCA9555 on
+the PM also need to be configured in order for audio to be enabled.
+This is done in the routine `hal_activate_board` (defined in `vlib.c`)
+which is called immediately after the Linux startup script loads the 
+FPGA firmware.  This routine:
+
+  . Soft resets FPGA firmware,
+  . Calls the FPGA_IOC_BOARD_INIT ioctl to complete the initialization
+    of FPGA driver and FPGA registers for the board,
+  . Disables audio in FPGA,
+  . Initializes audio ADCs,
+  . Initializes the PCA9555 on the PM for PS2 and USB keyboard/mouse,
+  . Sets FPGA keyboard/mouse control register for either TX or RX 
+    processing,
+  . Initialize keyboard to scan code set configured by the user,
+  . Initializes audio volume on the PM PCA9555,
+  . Enables audio in FPGA.
+
+For both the I50 and the XP, audio processing is handled as part of 
+video change as described in the Video Processing section. No additional 
+configuration or control of audio processing is done by the driver.  
+
+The driver only allows reading and writing audio data to '/dev/fpgaX_audio'. 
+Some ioctls available but only to get statistics and to get and set queue 
+limits for the audio buffer in the driver.  Audio volume control on 
+the XP is implemented with direct read/write to the FPGA audio mixer 
+registers in user-space (`hal.c`).
+
+Keyboard/Mouse Processing
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Keyboard/mouse handled in basically the same way on the I50 and the
+XP. During initialization, the keyboard/mouse interrupt(s) (7 for I50, 
+12 and 13 for XP) is registered. When the keyboard/mouse interrupt 
+service routine will be executed when data is available from the
+FPGA. The interrupt service routine maintains a keyboard and a 
+mouse buffer together with pointers to next byte to read/write to 
+the buffer and count of bytes in the buffer.  When invoked, the 
+interrupt service routine will:
+
+- On I50, 
+  . look at `FPGA_ASREG` to determine whether there's keyboard or mouse 
+    data available. 
+  . If so, read 2 bytes from PCI BAR1 into the buffer, 
+  . If a complete keyboard or mouse packet is in the buffer, wake up the
+    process (if any) waiting for the buffer to become full.
+
+- On XP100/XP200/XP220, 
+  . look at `FPGA_DSREG` to determine whether there's keyboard or mouse 
+    data available. If so, it
+  . If so, read 2 bytes from either register `FPGA_KBDIN` or `KBD_MSEIN` 
+    into the buffer, 
+  . If a complete keyboard or mouse packet is in the buffer, wake up the
+    process (if any) waiting for the buffer to become full.
+
+Keyboard and mouse data from the FPGA are always read 2 bytes at a time. 
+For keyboard, the first byte is always `0xaa`, the second byte is the scan 
+code emitted by the keyboard. For mouse, the first byte is `0x00` if the
+mouse is PS2, or `0x03` if the mouse is IMPS2, i.e. mouse type ID in 
+PS/2 Mouse Protocol. A keyboard packet is complete if 2 bytes of data 
+is in the buffer, a mouse packet is complete if either 6 or 8 bytes 
+of data is in the buffer, depending on whether the mouse is PS2 or 
+IMPS2. Since user processes waiting on the data does not wake up until 
+a complete packet is in the buffer, we avoid the possibility of sending
+mis-aligned packets which could cause the mouse driver on the receiving 
+end (i.e. on the host connected to the TX that's receiving the mouse 
+data from the RX) to freeze.
+
+Handling of Other Devices
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The list of devices on the I50 and XP boards are documented in 
+device_list.txt. The following are handled in the driver:
+
+   Device                    Description
+   ------            ---------------------------------
+   AD9887a           Analog Devices ADC used on I50-TX 
+                     Version DA boards
+   AD9888            Analog Devices ADC used on I50-RX
+                     Version A boards
+   ID18125           Integrated Device Technology FIFO
+                     used on both versions of I50-TX
+   AD9852            Analog Devices digital synthesizer
+                     used on I50-RX
+   PLX9056           PLX Technology PCI to local bus
+                     controller used on XP
+
+- I50,
+
+  . AD9887a, AD9888, ID18125 are I2C devices accessed through FPGA 
+    register `FPGA_PADCREG`. The driver implements the I2C protocol 
+    by setting different bits of this register to 1 or 0 causing 
+    the FPGA to pull the I2C clock and data lines high or low by 
+    setting different bits of this register. 
+
+  . The AD9852 registers are memory mapped to PCI BAR2 starting at 
+    offset `AD9852_REGBASE_OFFSET`. The device is controlled through 
+    FPGA register `FPGA_PDDSREG`. 
+
+- XP,
+  
+  . The PLX9056 is the interface between PCI bus and the local bus on 
+    the FPGA. The driver 
+
+    .. initializes PLX configuration for PCI-local bus transfer for  
+       either V1 or V2 XP hardware,
+    .. initializes version information in driver based on PLX VPD,
+    .. implements functions for transferring audio and video data or 
+       from the FPGA using the DMA engine on the PLX chip. The driver 
+       uses two DMA channels: channel 0 for reading audio/video from 
+       the FPGA, channel 1 for writing audio/video to the FPGA.  
+    .. sets the PLX to interrupt when DMA is done (these interrupts
+       are mapped to FPGA interrupts 30 and 31 by the driver's 
+       interrupt handler.)  
+
+See device_list.txt for the access routines available for these devices.
+
+Driver Termination
+~~~~~~~~~~~~~~~~~~
+
+When the driver is removed, the following is performed:
+
+  . unregister the driver from kernel,
+  . unregister the range of device numbers registered when the driver
+    is loaded,
+  . destroys the `v2d` class structure,
+  . remove the proc entry `/proc/fpga/X` created at initialization.
+
+
+TODO
+----
+
+  . Move user code in `V2O/modules` to separate directory 
+  . Remove XP V1 code 
+  . Clean up #define for FPGA registers and interrupts 
+  . Re-structure `struct v2d_board`: separate out data relevant only to 
+    I50 or XP and move into unions, separate out flags and variables 
+    that control input video processing, video encoding, video decoding, 
+    output video processing and output display control so we can extend
+    the data structure to handle multiple input and output ports and 
+    multiple encoders or decoders later.  
+    

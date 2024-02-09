@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      - DMS specific version of generic Device elements
+    </xs:documentation>
+  </xs:annotation>
+  <xs:element name="DMS-25-Device" type="DMS-25-DeviceType" />
+  <xs:complexType name="DMS-25-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-25-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-25-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-100-Device" type="DMS-100-DeviceType" />
+  <xs:complexType name="DMS-100-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-100-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-100-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-120-Device" type="DMS-120-DeviceType" />
+  <xs:complexType name="DMS-120-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-120-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-120-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-120-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-200-Device" type="DMS-200-DeviceType" />
+  <xs:complexType name="DMS-200-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-200-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-200-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.0" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-1000-Device" type="DMS-1000-DeviceType" />
+  <xs:complexType name="DMS-1000-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-1000-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-1000-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-1200-Device" type="DMS-1200-DeviceType" />
+  <xs:complexType name="DMS-1200-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-1200-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-1200-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.0" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-1500-Device" type="DMS-1500-DeviceType" />
+  <xs:complexType name="DMS-1500-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-1500-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-1500-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.6" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-1600-Device" type="DMS-1600-DeviceType" />
+  <xs:complexType name="DMS-1600-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-1600-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-1600-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.5" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-1700-Device" type="DMS-1700-DeviceType" />
+  <xs:complexType name="DMS-1700-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="DMS-1700-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="DMS-1700-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.5" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStorePortResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamRelayPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DMS-DeviceCommand" type="DMS-DeviceCommandType" />
+  <xs:complexType name="DMS-DeviceCommandType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsCommand" type="SystemElementsCommandType" />
+      <xs:element name="ServiceElementsCommand" type="ServiceElementsCommandType" />
+      <xs:element name="NetworkElementsCommand" type="NetworkElementsCommandType" />
+      <xs:element name="StorageElementsCommand" type="StorageElementsCommandType" />
+      <xs:element name="AVCodecElementsCommand" type="AVCodecElementsCommandType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:element name="DMS-25-DeviceConfig" type="DMS-25-DeviceConfigType" />
+  <xs:complexType name="DMS-25-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-25-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-25-DeviceStatus" type="DMS-25-DeviceStatusType" />
+  <xs:complexType name="DMS-25-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-25-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-100-DeviceConfig" type="DMS-100-DeviceConfigType" />
+  <xs:complexType name="DMS-100-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-100-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-100-DeviceStatus" type="DMS-100-DeviceStatusType" />
+  <xs:complexType name="DMS-100-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-100-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  
+  <xs:element name="SG-100-DeviceConfig" type="SG-100-DeviceConfigType" />
+  <xs:complexType name="SG-100-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="SG-100-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="SG-100-DeviceStatus" type="SG-100-DeviceStatusType" />
+  <xs:complexType name="SG-100-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="SG-100-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  
+  <xs:complexType name="DMS-120-ResourcePointersType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-ResourcePointersType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="12" name="MediaStreamSrcPortResourceNID" type="NIDType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DMS-120-DeviceConfig" type="DMS-120-DeviceConfigType" />
+  <xs:complexType name="DMS-120-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-120-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-120-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="DMS-120-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-120-DeviceStatus" type="DMS-120-DeviceStatusType" />
+  <xs:complexType name="DMS-120-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-120-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-120-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="DMS-120-AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-200-DeviceConfig" type="DMS-200-DeviceConfigType" />
+  <xs:complexType name="DMS-200-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-200-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-200-DeviceStatus" type="DMS-200-DeviceStatusType" />
+  <xs:complexType name="DMS-200-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-200-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-1000-DeviceConfig" type="DMS-1000-DeviceConfigType" />
+  <xs:complexType name="DMS-1000-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-1000-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-1000-DeviceStatus" type="DMS-1000-DeviceStatusType" />
+  <xs:complexType name="DMS-1000-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-1000-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-1200-DeviceConfig" type="DMS-1200-DeviceConfigType" />
+  <xs:complexType name="DMS-1200-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-1200-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-1200-DeviceStatus" type="DMS-1200-DeviceStatusType" />
+  <xs:complexType name="DMS-1200-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-1200-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-1500-DeviceConfig" type="DMS-1500-DeviceConfigType" />
+  <xs:complexType name="DMS-1500-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-1500-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-1500-DeviceStatus" type="DMS-1500-DeviceStatusType" />
+  <xs:complexType name="DMS-1500-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-1500-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-1600-DeviceConfig" type="DMS-1600-DeviceConfigType" />
+  <xs:complexType name="DMS-1600-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-1600-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-1600-DeviceStatus" type="DMS-1600-DeviceStatusType" />
+  <xs:complexType name="DMS-1600-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-1600-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="DMS-1700-DeviceConfig" type="DMS-1700-DeviceConfigType" />
+  <xs:complexType name="DMS-1700-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="DMS-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="DMS-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="DMS-1700-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="DMS-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="DMS-1700-DeviceStatus" type="DMS-1700-DeviceStatusType" />
+  <xs:complexType name="DMS-1700-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="DMS-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="DMS-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="DMS-1700-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="DMS-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="SG-100-Device" type="SG-100-DeviceType" />
+  <xs:complexType name="SG-100-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="DMS-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="SG-100-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="SG-100-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="DMS-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.0" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-SystemElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsConfigType">
+        <xs:sequence>
+          <xs:element name="CPUConfig" type="CPUElementConfigType" />
+          <xs:element name="MemoryConfig" type="MemoryElementConfigType" />
+          <xs:element name="SystemHWConfig" type="SystemHWElementConfigType" />
+          <xs:element name="FrontPanelConfig" type="FrontPanelElementConfigType" />
+          <xs:element name="SystemClockConfig" type="SystemClockElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-SystemElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="CPUStatus" type="CPUElementStatusType" />
+          <xs:element name="MemoryStatus" type="MemoryElementStatusType" />
+          <xs:element name="SystemHWStatus" type="SystemHWElementStatusType" />
+          <xs:element name="FrontPanelStatus" type="FrontPanelElementStatusType" />
+          <xs:element name="SystemClockStatus" type="SystemClockElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-Base-ServiceElementsConfigType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="LinkLocalXMPPAgentServiceConfig" type="DMS-LinkLocalXMPPAgentServiceElementConfigType" />
+          <xs:element name="XMPPAgentServiceConfig" type="DMS-XMPPAgentServiceElementConfigType" />
+          <xs:element name="HTTPServiceConfig" type="HTTPServiceElementConfigType" />
+          <xs:element name="SSHServiceConfig" type="SSHServiceElementConfigType" />
+          <xs:element name="TelnetServiceConfig" type="TelnetServiceElementConfigType" />
+          <xs:element name="TFTPServiceConfig" type="TFTPServiceElementConfigType" />
+          <xs:element name="DHCPServiceConfig" type="DHCPServiceElementConfigType" />
+          <xs:element name="NTPServiceConfig" type="NTPServiceElementConfigType" />
+          <xs:element name="SecureTunnelClientServiceConfig" type="SecureTunnelClientServiceElementConfigType" />
+          <xs:element name="ClientDownloadServiceConfig" type="ClientDownloadServiceElementConfigType" />
+          <xs:element name="XMPPServiceConfig" type="XMPPServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-Base-ServiceElementsStatusType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="LinkLocalXMPPAgentServiceStatus" type="DMS-LinkLocalXMPPAgentServiceElementStatusType" />
+          <xs:element name="XMPPAgentServiceStatus" type="DMS-XMPPAgentServiceElementStatusType" />
+          <xs:element name="HTTPServiceStatus" type="HTTPServiceElementStatusType" />
+          <xs:element name="SSHServiceStatus" type="SSHServiceElementStatusType" />
+          <xs:element name="TelnetServiceStatus" type="TelnetServiceElementStatusType" />
+          <xs:element name="SecureTunnelClientServiceStatus" type="SecureTunnelClientServiceElementStatusType" />
+          <xs:element name="ClientDownloadServiceStatus" type="ClientDownloadServiceElementStatusType" />
+          <xs:element name="XMPPServiceStatus" type="XMPPServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-Base-ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="StreamingServiceConfig" type="DMS-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-Base-ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="StreamingServiceStatus" type="DMS-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-Base-ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="StreamingServiceConfig" type="DMS-120-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-Base-ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="StreamingServiceStatus" type="DMS-120-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-25-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-25-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-25-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-25-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-25-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-25-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-100-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-100-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-100-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-100-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-100-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-100-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="SG-100-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="SG-100-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SG-100-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SG-100-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="SG-100-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SG-100-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="DMS-120-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-120-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-120-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-200-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-200-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-200-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-200-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-200-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-200-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="2" maxOccurs="2" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1000-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-1000-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1000-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1000-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-1000-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1000-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1200-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-1200-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1200-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1200-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-1200-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1200-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1500-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-1500-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1500-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1500-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-1500-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1500-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1600-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-1600-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1600-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1600-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-1600-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1600-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1700-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="DMS-1700-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1700-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1700-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="DMS-1700-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-1700-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="3" maxOccurs="3" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StorageElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MountTableConfig" type="MountTableElementConfigType" />
+          <xs:element name="CFDriveConfig" type="CFDriveElementConfigType" />
+          <xs:element name="HardDiskTableConfig" type="HardDiskTableElementConfigType" />
+          <xs:element name="NASConfig" type="NASElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StorageElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="MountTableStatus" type="MountTableElementStatusType" />
+          <xs:element name="CFDriveStatus" type="CFDriveElementStatusType" />
+          <xs:element name="HardDiskTableStatus" type="HardDiskTableElementStatusType" />
+          <xs:element name="NASStatus" type="NASElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="12" name="WISEncoderConfig" type="MPEGEncoderElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-AVCodecElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element minOccurs="0" maxOccurs="12" name="WISEncoderStatus" type="AVCodecElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-LinkLocalXMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentConfig" />
+                <xs:element ref="XMPPAgentServiceSourceAgentConfig" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentStatus" />
+                <xs:element ref="XMPPAgentServiceSourceAgentStatus" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StreamingServiceElementType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementType">
+        <xs:sequence>
+          <xs:element name="Config" type="DMS-StreamingServiceElementConfigType" />
+          <xs:element name="Status" type="DMS-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="StreamsTxConfig" />
+          <xs:element ref="V2DStreamsTxConfig" />
+          <xs:element ref="MPEGTSStreamsTxConfig" />
+          <xs:element ref="UDPStreamsTxConfig" />
+          <xs:element ref="RTPStreamsTxConfig" />
+          <xs:element ref="V2DStreamsRxConfig" />
+          <xs:element ref="MPEGTSStreamsRxConfig" />
+          <xs:element ref="UDPStreamsRxConfig" />
+          <xs:element ref="RTPStreamsRxConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="DMS-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="V2DStreamTxInstance" />
+            <xs:element ref="MPEGTSStreamTxInstance" />
+            <xs:element ref="UDPStreamTxInstance" />
+            <xs:element ref="RTPStreamTxInstance" />
+            <xs:element ref="V2DStreamRxInstance" />
+            <xs:element ref="MPEGTSStreamRxInstance" />
+            <xs:element ref="UDPStreamRxInstance" />
+            <xs:element ref="RTPStreamRxInstance" />
+            <xs:element ref="StreamReaderInstance" />
+            <xs:element ref="StreamWriterInstance" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-StreamingServiceElementType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementType">
+        <xs:sequence>
+          <xs:element name="Config" type="DMS-120-StreamingServiceElementConfigType" />
+          <xs:element name="Status" type="DMS-120-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="MPEGStreamsEncodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="DMS-120-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DMS-120-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DMS-StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="MPEGEncoderInstance" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+</xs:schema>

@@ -1,0 +1,199 @@
+<Menu>
+   <Type>config</Type>
+   <Title>TxSplashParameters</Title>
+   <Description>Encoder Splash Parameters</Description>
+   <Access>tx_splash_parm</Access>
+   <ConfigFile>txsplashconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+   <CliCommandName>tx_splash_parm</CliCommandName>
+
+   <Items>
+
+      <Item>
+        <Name>splash_screen</Name>
+        <Type>string</Type>
+        <Label>Splash Screen</Label>
+        <Help>Enter Blue for the Blue Screen or Gridline for the Gridlines Screen</Help>
+        <FieldLength>12</FieldLength>
+        <DefaultValue>Blue Screen</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Blue Screen", "Grid Lines"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>splash_bw</Name>
+        <Type>bandwidth</Type>
+        <Label>Splash B/W</Label>
+        <Help>Enter the splash screen flow rate</Help>
+        <FieldLength>11</FieldLength>
+        <DefaultValue>1.00M</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>enable_splash</Name>
+        <Type>boolean</Type>
+        <Label>Enable Splash</Label>
+        <Help>To display splash screen on no video enter Yes else enter No</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>stereo</Name>
+        <Type>boolean</Type>
+        <Label>Stereo?</Label>
+        <Align>follow</Align>
+        <Help>Enter Yes if this video is Stereo. Else enter No</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>horiz_resolution</Name>
+        <Type>integer</Type>
+        <Label>Horiz. Resolution</Label>
+        <Help>Enter horizontal resolution of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>1280</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>256</Min>
+           <Max>8192</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_resolution</Name>
+        <Type>integer</Type>
+        <Label>Vert. Resolution</Label>
+        <Align>follow</Align>
+        <Help>Enter vertical  resolution of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>1024</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>256</Min>
+           <Max>4096</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>refresh_rate</Name>
+        <Type>float</Type>
+        <Label>Refresh Rate</Label>
+        <Help>Enter vertical refresh rate of the video</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>59.999</DefaultValue>
+        <Validation>
+            <Type>range</Type>
+            <Min>1.0</Min>
+            <Max>500.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>pixel_clock_rate</Name>
+        <Type>float</Type>
+        <Label>Pixel Clock Rate</Label>
+        <Align>follow</Align>
+        <Help>Enter pixel clock rate in MHz of the video</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>107.350</DefaultValue>
+        <Validation>
+            <Type>range</Type>
+            <Min>25.0</Min>
+            <Max>330.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_front_porch</Name>
+        <Type>integer</Type>
+        <Label>Horiz. Front Porch</Label>
+        <Help>Enter the horizontal front porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>40</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_front_porch</Name>
+        <Type>integer</Type>
+        <Label>Vert. Front Porch</Label>
+        <Align>follow</Align>
+        <Help>Enter the vertical front porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>3</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_back_porch</Name>
+        <Type>integer</Type>
+        <Label>Horiz. Back Porch</Label>
+        <Help>Enter the horizontal back porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>240</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_back_porch</Name>
+        <Type>integer</Type>
+        <Label>Vert. Back Porch</Label>
+        <Align>follow</Align>
+        <Help>Enter the vertical back porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>35</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_synch</Name>
+        <Type>integer</Type>
+        <Label>Horiz. Synch.</Label>
+        <Help>Enter the horizontal back porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>120</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_synch</Name>
+        <Type>integer</Type>
+        <Label>Vert. Synch.</Label>
+        <Align>follow</Align>
+        <Help>Enter the vertical back porch blanking value of the video</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>3</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

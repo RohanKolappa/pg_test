@@ -1,0 +1,64 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Resource",
+    "resourcePath": "/DiscoveryReportDeviceModel",
+    "apis": [
+        {
+            "path": "/DiscoveryReportDeviceModel",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "List device candidates",
+                    "notes": "Presents a series of candidate-devices that have been discovered. Each device comes with tags discoveredByNID, _rtsp._tcp (the zeroconf name), url (the rtsp url).",
+                    "responseClass": "ResourceOfAddDeviceList",
+                    "nickname": "getDiscoveryReport",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+			]
+		}
+	],
+	"models": 
+    {
+        "ResourceOfAddDeviceList":{
+        	"id": "ResourceOfDeviceList",
+        	"description" : "",
+        	"required" : [ 
+        		"Resource"
+        	],
+        	"properties" : {
+        		"Resource": {
+                    "type": "string"
+                }
+        	}
+        }
+	}
+}

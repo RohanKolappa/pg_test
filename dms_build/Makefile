@@ -1,0 +1,3122 @@
+
+
+ifneq ($(VERBOSE),1)
+QUIET = @
+QUIET_CLEAN = @echo "CLEAN";
+QUIET_MAKE = @${MAKE} --quiet
+QUIET_ANT = -quiet
+else
+QUIET_MAKE = ${MAKE}
+endif
+
+
+NO_COLOR=\x1b[0m
+RED_COLOR=\x1b[31;01m
+GREEN_COLOR=\x1b[32;01m
+
+BINT=Built_Intel
+BXPI=Built_Xpi
+CP=/bin/cp
+MV=/bin/mv
+RCP=/home/onair/bin/cp
+LN=/bin/ln -s
+RM=/bin/rm -f
+CHMOD=/bin/chmod
+MKNOD=/home/onair/bin/mknod
+MKDIR=/bin/mkdir
+UMOUNT=/bin/umount
+MOUNT=/bin/mount
+TAR=/bin/tar
+UNZIP=/usr/bin/unzip
+MD5SUM=/usr/bin/md5sum
+PATCH=/usr/bin/patch -p0
+OBJCOPY=/usr/bin/objcopy
+TOUCH=/bin/touch
+MKIMAGE=mkimage
+ifeq ($(BUILD_XPI),0)
+OBJBINCOPY=${OBJCOPY} --strip-debug
+OBJLIBCOPY=${OBJCOPY} --strip-debug
+DEV_DIR=dev/dev_i386
+else
+MKSQUASHFS =mksquashfs
+MKSQUASHFS_ARGS = -all-root -noappend -no-progress > /dev/null
+OBJCOPY=${CROSS_COMPILE}objcopy
+OBJBINCOPY=${OBJCOPY} --strip-debug
+OBJLIBCOPY=${OBJCOPY} --strip-debug
+DEV_DIR=dev/dev_arm
+endif
+CHROOT=/usr/sbin/chroot
+DATE=/bin/date
+CAT=/bin/cat
+GZIP=/bin/gzip
+SVN?=/usr/bin/svn
+SVN_1.7=/usr/bin/svn 
+SVNURL=http://192.168.1.29/svn/bcs
+VMP_SVNURL=http://192.168.1.29/svn/bcs
+VMP_MODULE_TAG=tags/20170622125524_r5702
+#ANT=/usr/local/apache-ant-1.7.0/bin/ant
+ANT=/usr/bin/ant
+DB_SERVER=exist_xmldb
+DB_SERVER_TAR=pkg_3party_exist_binaries.tgz
+DIST_IPVSDB_PKG_FOLDER=usr
+FACTORY_DB_FOLDER=factorydb.exist
+
+PARALLEL_MAKE = -j 4
+PLAYER_VERSION := $(shell cat player.version)
+
+IMAGESDIR=IMAGES
+SDKIMAGESDIR=BarcoSDK
+APPBASE=home/onair
+DISTDIR=rootfs
+
+ifneq (${BUILD_XPI},0)
+Kernel_App_Image = ${IMAGESDIR}/os_xpi.tar
+Base_App_Image = ${IMAGESDIR}/base_xpi.tar
+else
+Kernel_App_Image = ${IMAGESDIR}/os.tar
+Base_App_Image = ${IMAGESDIR}/base.tar
+endif
+
+Syslinux_App_Image = ${IMAGESDIR}/syslinux.tar
+Syslinux_XP200_App_Image = ${IMAGESDIR}/syslinux_xp200.tar
+Syslinux_V2D_App_Image = ${IMAGESDIR}/syslinux_v2d.tar
+SYSLINUXFS=syslinuxfs
+
+OnAir_App_Image = ${IMAGESDIR}/onairapp.tgz
+OnAir_App_Squash_Image = ${IMAGESDIR}/onairapp.sqf
+ONAIRFS=onairfs
+ONAIRDIR=${ONAIRFS}/${APPBASE}
+
+OnLib_App_Image = ${IMAGESDIR}/onlibapp.tgz
+OnLib_App_Squash_Image = ${IMAGESDIR}/onlibapp.sqf
+ONLIBFS=onlibfs
+ONLIBDIR=${ONLIBFS}/${APPBASE}
+
+ifneq (${BUILD_XPI},0)
+	Firmware_App_Image = ${IMAGESDIR}/firmwareapp_xpi.tar
+else
+	Firmware_App_Image = ${IMAGESDIR}/firmwareapp.tgz
+endif
+
+FIRMWAREFS=firmwarefs
+FIRMWAREDIR=${FIRMWAREFS}/${APPBASE}/V2O/firmware
+
+StrmSrv_App_Image = ${IMAGESDIR}/strmsrvapp.tgz
+StrmSrv_App_Squash_Image = ${IMAGESDIR}/strmsrvapp.sqf
+STRMSRVFS=strmsrvfs
+STRMSRVDIR=${STRMSRVFS}/${APPBASE}
+
+StrmSrvDev_App_Image = ${IMAGESDIR}/strmsrvdevapp.tgz
+STRMSRVDEVFS=strmsrvdevfs
+STRMSRVDEVDIR=${STRMSRVDEVFS}/${APPBASE}
+
+Encoder_App_Image = ${IMAGESDIR}/encoderapp.tgz
+ENCODERFS=encoderfs
+ENCODERDIR=${ENCODERFS}/${APPBASE}
+
+MediaRoom_App_Image = ${IMAGESDIR}/mediaroomapp.tgz
+MediaRoom_App_Squash_Image = ${IMAGESDIR}/mediaroomapp.sqf
+MEDIAROOMFS=mediaroomfs
+MEDIAROOMDIR=${MEDIAROOMFS}/${APPBASE}
+
+DeviceInterface_App_Image = ${IMAGESDIR}/deviceinterfaceapp.tgz
+DEVICEINTERFACEFS=deviceinterfacefs
+DEVICEINTERFACEDIR=${DEVICEINTERFACEFS}/${APPBASE}
+
+DeviceVNG_App_Image = ${IMAGESDIR}/devicevngapp.tgz
+DeviceVNG_App_Squash_Image = ${IMAGESDIR}/devicevngapp.sqf
+DEVICEVNGFS=devicevngfs
+DEVICEVNGDIR=${DEVICEVNGFS}/${APPBASE}
+
+MediaPortal_App_Image = ${IMAGESDIR}/mediaportalapp.tgz
+MEDIAPORTALFS=mediaportalfs
+MEDIAPORTALDIR=${MEDIAPORTALFS}/${APPBASE}
+
+MediaJS_App_Image = ${IMAGESDIR}/mediajsapp.tgz
+MEDIAJSFS=mediajsfs
+MEDIAJSDIR=${MEDIAJSFS}/${APPBASE}
+
+WebUI_App_Image = ${IMAGESDIR}/webuiapp.tgz
+WEBUIFS=webuifs
+WEBUIDIR=${WEBUIFS}
+
+GUI_App_Image = ${IMAGESDIR}/guiapp.tgz
+GUIFS=guifs
+GUIDIR=${GUIFS}/${APPBASE}
+
+Node_App_Image = ${IMAGESDIR}/nodeapp.tgz
+NODEFS=nodefs
+NODEDIR=${NODEFS}
+
+JDK_App_Image = ${IMAGESDIR}/jdkapp.tgz
+JDK_App_Squash_Image = ${IMAGESDIR}/jdkapp.sqf
+JDKFS=jdkfs
+JDKDIR=${JDKFS}/${APPBASE}
+
+IPP_App_Image = ${IMAGESDIR}/ippapp.tgz
+IPPFS=ippfs
+IPPDIR=${IPPFS}/${APPBASE}
+
+OpenFire_App_Image = ${IMAGESDIR}/openfireapp.tgz
+OPENFIREFS=openfirefs
+OPENFIREDIR=${OPENFIREFS}/${APPBASE}
+
+DiskUtils_App_Image = ${IMAGESDIR}/diskutilsapp.tgz
+DISKUTILSFS=diskutilsfs
+DISKUTILSDIR=${DISKUTILSFS}/${APPBASE}
+
+HA_App_Image = ${IMAGESDIR}/linuxhaapp.tgz
+HAFS=linuxhafs
+HADIR=${HAFS}/usr/local
+
+Maint_App_Image = ${IMAGESDIR}/maintapp.tgz
+MAINTFS=maintfs
+MAINTDIR=${MAINTFS}/${APPBASE}
+
+XkbData_App_Image = ${IMAGESDIR}/xkbdataapp.tgz
+XkbData_App_Squash_Image = ${IMAGESDIR}/xkbdataapp.sqf
+XKBDATAFS=xkbdatafs
+XKBDATADIR=${XKBDATAFS}
+
+GStreamer_App_Image = ${IMAGESDIR}/gstreamerapp.tgz
+GSTREAMERFS=gstreamerfs
+GSTREAMERDIR=${GSTREAMERFS}
+
+APPFSS = ${ONAIRFS} ${HOLDFS} ${ENCODERFS} ${MEDIAROOMFS} ${DEVICEINTERFACEFS} ${DEVICEVNGFS} ${MEDIAPORTALFS} ${GUIFS} ${JDKFS} \
+	${IPPFS} ${OPENFIREFS} ${STRMSRVFS} ${STRMSRVDEVFS} ${ONAIRFS} ${ONLIBFS} ${DISKUTILSFS} ${HAFS} ${FIRMWAREFS} ${SYSLINUXFS} ${MAINTFS} ${NODEFS} ${MEDIAJSFS} ${WEBUIFS} ${GSTREAMERFS}
+
+ifeq (${BUILD_XPI},0)
+OABZIMAGE=pkg_3party_images/OA
+PKG3PARTYDEVTGZ=pkg_3party_images/pkg_3party_dev.tgz
+PKG3PARTYJAVALIBS=pkg_3party_images/javalibs
+PKG3PARTYJAVALIBS_1_4=pkg_3party_images/javalibs-1.4
+PKG3PARTYIMAGETGZ=pkg_3party_images/pkg_3party_binaries.tgz
+PKG3PARTYIMAGES=pkg_3party_images
+SSLDIR=../openssl
+else
+UBOOTIMAGE=pkg_3party_arm_images/u-boot.bin
+OABZIMAGE=pkg_3party_arm_images/OA
+PKG3PARTYJAVALIBS=pkg_3party_images/javalibs
+PKG3PARTYJAVALIBS_1_4=pkg_3party_images/javalibs-1.4
+PKG3PARTYIMAGES=pkg_3party_arm_images
+PKG3PARTYDEVTGZ=pkg_3party_arm_images/pkg_3party_dev.tgz
+PKG3PARTYLINUXKERNELHEADERS=pkg_3party_arm_images/pkg_3party_moddev_binaries.tgz
+endif
+
+PKG3PARTYDEVMARKER = ${DEV_DIR}/.pkg3partydev
+
+DRM=drm
+OASYS=onairsys
+WIS=wisdrv
+V2DLIB=v2dlib
+XPIDRV=xpidrivers
+CDEVICEINTERFACE=CDeviceInterface
+V2DDEV=V2O
+MEDIAINDEX=mediaindex
+STRMSRV=strmsrv
+NET2USB=net2usb
+VMP=VMP_DMS
+SERVICE=service
+MEDIASERVER=mediaserver
+WEBIF=bootstrap_webui
+WEBUI=bootstrap_webui
+ACCESSNETUTILSDIR=accessnetutils
+TFTPDIR=/tftpboot/onair
+M2TCONTROL=m2t
+ENCODER=encoder
+PLAYER=player
+MCL=mcl
+GSTPLUGINS=gstPlugins
+DEVICEVNG=devicevng
+DEVICEINTERFACE=deviceinterface
+MEDIAROOM=mediaroom
+MEDIAPORTAL=mediaapp
+MEDIAJS=mediajs
+MEDIAROOMEXT=mediaroomext
+MEDIAROOMEXTAPP=mediaroomextapp
+RFBPROTO=rfbproto
+TIBCOGI=tibcotest
+TABLET=guiTablet
+COLLABCLIENT=CollabClient
+AUTOMATION=automation
+NIGHTLY=nightly
+XMPP=xmpp
+MODEL=model
+RELENG=com.barco.nimbus.releng
+JAVA7=/opt/jdk1.7.0/bin/java
+BUCKMINSTERDIR=buckminster
+BUCKMINSTERTEMP=${BUCKMINSTERDIR}/temp
+BUCKMINSTEROUTPUT=${BUCKMINSTERDIR}/output
+BUCKMINSTER=/opt/headless-buckminster/buckminster
+BUCKMINSTER_CONFIG=buckminster.nimbus.product.export.script.txt
+PRODUCT_LOCATION=${BUCKMINSTEROUTPUT}/com.barco.nimbus.equinox.product_1.0.0-eclipse.feature
+FIRMWAREIMAGES=firmware_images
+CLIENTBUILD=client_build
+AVDATA=avdata
+AUTHTOOL=authtool
+VIEWER=Viewer
+GIIPVSCOMMON=giIPVSCommon
+GUIAPIAGENT=guiAPIAgent
+GUIDEMOS=guiDemos
+EMBEDDEDPLAYER=${GIIPVSCOMMON}/js/com/ipvs
+GUICOMPONENTS=guiComponents
+
+SVNMODULES = pkg_3party pkg_3party_images pkg_3party_arm_images ${MEDIASERVER} ${WEBIF} ${OASYS} ${STRMSRV} ${MEDIAINDEX} ${V2DLIB} ${WIS} ${V2DDEV} dms_build ${MEDIAROOM} ${DEVICEINTERFACE} ${DEVICEVNG} ${MEDIAPORTAL} ${MEDIAROOMEXT} ${MEDIAROOMEXTAPP} ${RFBPROTO} ${TIBCOGI} ${TABLET} ${AUTOMATION} ${XMPP} ${NIGHTLY} ${MODEL} ${FIRMWAREIMAGES} ${CLIENTBUILD} ${AVDATA} ${AUTHTOOL} ${VIEWER} ${GIIPVSCOMMON} ${COLLABCLIENT} ${MEDIAJS} ${WEBUI}  ${NET2USB} ${XPIDRV} ${CDEVICEINTERFACE} ${GUIAPIAGENT} ${GSTPLUGINS} ${GUIDEMOS} ${GUICOMPONENTS}
+
+CHECKOUTMODULES = $(filter-out pkg_3party dms_build ${AUTOMATION} ${NIGHTLY} ${AVDATA}, ${SVNMODULES})
+
+
+EXTERNALMODULES = ${VMP}
+
+BINDIR=/bin
+BINS=tar df
+
+USRBINDIR=/usr/bin
+USRBINS=ipcs strace ipcrm wget find xsltproc uuidgen killall ionice
+
+USRSBINDIR=/usr/sbin
+USRSBINS=logrotate dmidecode
+
+SBINDIR=/sbin
+SBINS=sysctl iptables e2fsck fdisk insmod modprobe rmmod lsmod depmod arp tune2fs depmod rsyslogd rklogd  mkfs lsusb rpcbind ethtool lspci
+
+
+IPTDIR=/lib/iptables
+IPTLIBS=libipt_DNAT.so libipt_icmp.so libipt_MASQUERADE.so libipt_REDIRECT.so libipt_REJECT.so libipt_standard.so libipt_state.so libipt_tcp.so libipt_tcp.so libipt_udp.so 
+
+SYSLIBDIR=/lib
+SYSLIBS= ld-linux.so.2 libcom_err.so.2  libcrypt.so.1 libc.so.6 libdl.so.2 libe2p.so.2  libgcc_s.so.1 libext2fs.so.2 libm.so.6 libnsl.so.1 libnsl.so.1 libnsl.so.1 libnss_dns.so.2 libnss_files.so.2 libpam.so.0 libpthread.so.0 libresolv.so.2 librt.so.1 libutil.so.1 libuuid.so.1 security/pam_unix.so libexpat.so.1 libpopt.so.0 libz.so.1 libwrap.so.0 libncurses.so.5 libreadline.so.5 libcom_err.so.2 libaudit.so.0 libkeyutils.so.1 libproc-3.2.7.so libselinux.so.1 libacl.so.1 libattr.so.1 libtinfo.so.5 libblkid.so.1 libdevmapper.so.1.02 libsepol.so.1  libgcrypt.so.11 libgpg-error.so.0 libbz2.so.1 libcap.so.1 libasound.so.2
+
+USRLIBDIR=/usr/lib
+USRLIBS=libelf.so.1 libdb-4.6.so  libgdbm.so.2 libstdc++.so.6 libidn.so.11 libgssapi_krb5.so.2 libk5crypto.so.3 libkrb5.so.3 libnss3.so libkrb5support.so.0 libplc4.so libplds4.so libnspr4.so libmenu.so.5 libform.so.5 libpng12.so.0 libsqlite3.so.0 libexslt.so.0 libxslt.so.1 libusb-0.1.so.4 libtirpc.so.1 libgssglue.so.1 libfontconfig.so.1 libfreetype.so.6 libboost_program_options.so.3 libboost_filesystem.so.3 libltdl.so.3  libxml2.so.2 libcurl.so.4 libssl3.so libsmime3.so
+
+
+
+# Compute variables based on current version number
+ifeq (0,${MAKELEVEL})
+
+export BUILDTYPE := Developer
+WORKAREA = $(shell cd ..; pwd)
+export BUILDDIR := ${WORKAREA}
+export DEV_BUILD_NUMBER := $(shell expr 1000 + $$RANDOM % 9000)
+export BUILD_DATE := $(shell date)
+export BCP_PATH := ${BUILDDIR}/${VMP}
+
+ifeq ($(MAKECMDGOALS),Build)
+WORKAREADIR = $(shell pwd)
+export BUILDDIR := ${WORKAREADIR}/BUILD
+export BUILDTYPE := Local
+WORKAREA = $(shell pwd)
+export BCP_PATH := ${WORKAREA}/BUILD/${VMP}
+endif
+
+ifeq ($(MAKECMDGOALS),Release)
+WORKAREADIR = $(shell pwd)
+export BUILDDIR := ${WORKAREADIR}/BUILD
+export BUILDTYPE := Release
+WORKAREA = $(shell pwd)
+export BCP_PATH := ${WORKAREA}/BUILD/${VMP}
+endif
+
+ifeq (Developer,${BUILDTYPE})
+export CURRENT_VERSION := $(shell cat server.version)
+else
+export CURRENT_VERSION := $(shell rm -f server.version; ${SVN} -q update server.version; cat server.version)
+endif
+
+#if BUILD_XPI =1 builds for arm image, if BUILD_XPI =0 builds for intel Image
+ifeq ($(MAKECMDGOALS),xpi)
+export CROSS_COMPILE :=  arm-none-linux-gnueabi-
+export ARCH :=  arm
+export BUILD_XPI := 1
+PATH :=/opt/arm_cross_compilers/arm_cc/host/usr/bin:${PATH}
+export ${PATH}
+#$(info arm)
+else
+export CROSS_COMPILE =
+export ARCH := x86
+export BUILD_XPI := 0
+#$(info intel)
+endif
+endif
+
+
+MAJOR_NUMBER := $(shell echo ${CURRENT_VERSION} | sed -e 's/\([0-9]*\)\.\([0-9]*\)\.r\([0-9]*\)\.b\([0-9]*\)/\1/g')
+MINOR_NUMBER := $(shell echo ${CURRENT_VERSION} | sed -e 's/\([0-9]*\)\.\([0-9]*\)\.r\([0-9]*\)\.b\([0-9]*\)/\2/g')
+REVISION_NUMBER := $(shell echo ${CURRENT_VERSION} | sed -e 's/\([0-9]*\)\.\([0-9]*\)\.r\([0-9]*\)\.b\([0-9]*\)/\3/g')
+BUILD_NUMBER := $(shell echo ${CURRENT_VERSION} | sed -e 's/\([0-9]*\)\.\([0-9]*\)\.r\([0-9]*\)\.b\([0-9]*\)/\4/g')
+NEXT_BUILD_NUMBER := $(shell expr ${BUILD_NUMBER} + 1)
+NEXT_REVISION_NUMBER := $(shell expr ${REVISION_NUMBER} + 1)
+NEXT_BUILD_VERSION := $(shell echo ${CURRENT_VERSION} | sed -e 's/b.*/b${NEXT_BUILD_NUMBER}/g')
+NEXT_REVISION_VERSION := $(shell echo ${CURRENT_VERSION} | sed -e 's/r.*/r${NEXT_REVISION_NUMBER}.b0/g')
+RELEASE_TAG=MS${MAJOR_NUMBER}_${MINOR_NUMBER}_${REVISION_NUMBER}
+
+
+# Determine the tag used to checkout sources
+# Are we on main or branch? 
+BRANCH_INFO := $(shell ${SVN} info Makefile | grep URL )
+ifeq (trunk,$(findstring trunk,${BRANCH_INFO}))
+BRANCH_NAME := trunk
+else
+BRANCH_NAME := $(shell echo "${BRANCH_INFO}" | sed -e 's/.*branches\/\([[:alnum:]_]*\)\/.*/branches\/\1/')
+endif
+CHECKOUT_TAG = ${BRANCH_NAME}
+export CHECKOUT_REVISION := HEAD
+
+
+# Determine docs install directory. This can be overidden on command line
+DOCS_INSTALL_DIRECTORY = ${HOME}/public_html/docs
+
+# The default target
+all: CheckPlatform  Images Upgrade
+xpi: all
+Build:  CheckBuild Version all
+
+
+CheckPlatform:
+ifeq ($(MAKECMDGOALS),xpi)
+	@if [ -a  ${BINT} ] ; then \
+		echo -e "$(RED_COLOR)Intel build is detected in your workarea,Please run first make buildclean and then make xpi..... "; \
+		echo -e "$(NO_COLOR)"; \
+		false; \
+	else \
+		${TOUCH} ${BXPI};\
+	fi 
+else 		
+	@if [ -a  ${BXPI} ] ; then \
+		echo -e "$(RED_COLOR)Arm build is detected in your workarea, Please run first make buildclean and then make....."; \
+		echo -e "$(NO_COLOR)"; \
+		false; \
+	else \
+		${TOUCH} ${BINT};\
+	fi
+endif	
+
+
+# Find the revision of svn at this moment. A checkout for a build will
+# use this revision instead of checking out the HEAD for each module.
+# Any commits during a Build would not matter.
+ifeq ($(MAKECMDGOALS),Build)
+export CHECKOUT_REVISION := $(shell ${SVN} status -u | grep "Status against revision:" | sed "s/Status against revision: *//")
+ifdef USE_REVISION
+export CHECKOUT_REVISION := ${USE_REVISION}
+endif
+endif
+
+ifeq ($(MAKECMDGOALS),Release)
+export CHECKOUT_REVISION := ${USE_REVISION}
+export CHECKOUT_TAG := tags/${RELEASE_TAG}
+endif
+
+# For "Checkout" target, find the revision of svn at this moment
+ifeq ($(MAKECMDGOALS),Checkout)
+export CHECKOUT_REVISION := $(shell ${SVN} status -u | grep "Status against revision:" | sed "s/Status against revision: *//")
+ifdef USE_REVISION
+export CHECKOUT_REVISION := ${USE_REVISION}
+endif
+endif
+
+# The Release target
+# Tag all the modules at revision USE_REVISION with the RELEASE_TAG, 
+# Update the server.version to the NextVersion
+
+ifdef USE_REVISION
+Release: TagRelease NextVersion
+else
+Release:
+	@echo 
+	@echo "USE_REVISION not specified. Aborting Release Build...";
+	@echo
+	@echo "Usage: "
+	@echo "make Release USE_REVISION=svn_revision_to_build_from"
+	@echo
+endif
+
+
+# Internal target: Sanity check before we can proceed with the release build
+# -- Make sure that the svn revision to base the build on is sound
+# -- If on a branch, verify that we have checked out an official branch
+# -- The current directory needs to be up-to-date (all files commited)
+CheckRelease:
+	@${SVN} info -r ${CHECKOUT_REVISION} ${SVNURL}; \
+	if [ $$? -ne 0 ]; then \
+		printf "\nIncorrect SVN version number specified: USE_REVISION=${CHECKOUT_REVISION}\n"; \
+		false; \
+	fi
+	@${SVN} log -r ${CHECKOUT_REVISION}:HEAD server.version | grep "SVN_REVISION:${CHECKOUT_REVISION}" | grep "BUILD_VERSION:${MAJOR_NUMBER}.${MINOR_NUMBER}.r${REVISION_NUMBER}"; \
+	if [ $$? -ne 0 ]; then \
+		printf "\nThe specified USE_REVISION (${CHECKOUT_REVISION}) does not seem to have\nan associated Build for Release ${MAJOR_NUMBER}.${MINOR_NUMBER}.r${REVISION_NUMBER} \n"; \
+		printf "\nDid you fire a \"make Build\" since the last \"make Release\"??\n"; \
+		false; \
+	fi
+	@if [ ${BRANCH_NAME} != "trunk" ]; then \
+		${SVN} info Makefile | grep URL | grep "dms_build/branches" > /dev/null; \
+		if [ $$? -ne 0 ]; then \
+			printf "\nIncorrect branch checked out for a \"Release\" build.\n\n"; \
+			false; \
+		fi \
+	fi
+	@${SVN} status -qu | grep -v "Status against" | wc -l | egrep "^ *0" > /dev/null || \
+		( ${SVN} status -qu  && printf "\nCurrent directory not up-to-date. Aborting...\n\n" && false) 
+
+
+# Internal target: Sanity check before we can proceed with a 'Build' build
+# -- Confirm CHECKOUT_REVISION is sane (could have come from command line)
+# -- If on a branch, verify that we have checked out an official branch
+# -- The current directory needs to be up-to-date (all files commited)
+# -- The BUILD directory should have been cleaned out
+CheckBuild:
+	@${SVN} info -r ${CHECKOUT_REVISION} ${SVNURL}; \
+	if [ $$? -ne 0 ]; then \
+		printf "\nIncorrect SVN version number specified: USE_REVISION=${CHECKOUT_REVISION}\n"; \
+		false; \
+	fi
+	@if [ ${BRANCH_NAME} != "trunk" ]; then \
+		${SVN} info Makefile | grep URL | grep "dms_build/branches" > /dev/null; \
+		if [ $$? -ne 0 ]; then \
+			printf "\nIncorrect branch checked out for a \"Build\" build.\n\n"; \
+			false; \
+		fi \
+	fi
+	@${SVN} status -qu | grep -v "Status against" | wc -l | egrep "^ *0" > /dev/null || \
+		( ${SVN} status -qu  && printf "\nCurrent directory not up-to-date. Aborting...\n\n" && false) 
+	@if [ -d ${BUILDDIR} ]; then \
+			printf "\nNeed to delete ${BUILDDIR} before a  \"Release\" build.\nSuggest running \"make realclean\"\n\n"; \
+			false; \
+	fi
+
+
+# Internal target: used to verify that NEWTAG is correctly specified.
+#   -- should be defined on the command line
+#   -- should not be in the reserved "released" tag format MSxx_yy_zz
+CheckNewTag:
+	@if [ -z ${NEWTAG} ]; then \
+		echo; \
+		echo "NEWTAG not specified. Operation aborted."; \
+		echo; \
+		false; \
+	else \
+		echo ${NEWTAG} | grep  "MS[0-9]\\+_[0-9]\\+_[0-9]\\+$$" >& /dev/null; \
+		if [ $$? -eq 0 ]; then \
+			echo; \
+			echo "Tag \"${NEWTAG}\" is a release tag format and cannot be assigned. Operation aborted."; \
+			echo; \
+			false; \
+		fi \
+	fi
+
+# This target tags all sources with the "release" tag.
+# Used to tag everything for a release build
+# Internal target -- not intended to be invoked from command line
+TagRelease: CheckRelease
+	@for module in ${SVNMODULES} ; do \
+		echo "Tagging module \"$${module}\" in  \"${BRANCH_NAME}\" with \"${RELEASE_TAG}\" ..."; \
+		${SVN} list ${SVNURL}/$$module/tags/${RELEASE_TAG} >& /dev/null; \
+		if [ $$? -eq 0 ]; then \
+			echo "Tag \"${RELEASE_TAG}\" already exists for module \"$${module}\". Operation aborted."; \
+			false; \
+		else \
+		    ${SVN} copy -r ${CHECKOUT_REVISION} ${SVNURL}/$$module/${BRANCH_NAME} ${SVNURL}/$$module/tags/${RELEASE_TAG} -m "Creating tag ${RELEASE_TAG} for module $$module at SVN_REVISION:${CHECKOUT_REVISION}"; \
+			true; \
+		fi \
+	done 
+
+
+# This target tags the latest version of all modules with NEWTAG. 
+# If on a branch, uses the latest version on the branch
+SvnTag: CheckNewTag
+	@for module in ${SVNMODULES} ; do \
+		echo "Tagging module \"$${module}\" in  \"${BRANCH_NAME}\" with \"${NEW_TAG}\" ..."; \
+		${SVN} copy ${SVNURL}/$$module/${BRANCH_NAME} ${SVNURL}/$$module/tags/${NEW_TAG} -m "Creating tag ${NEW_TAG} for module $$module"; \
+	done 
+
+
+
+# todo: Fixme for svn
+# This target shows the difference between any two named tags for all modules
+SvnRDiffTags: 
+	@if [ -z ${TAG1} ] ; then \
+		echo "TAG1 not specified."; \
+		echo "Usage: "; \
+		echo "make SvnRDiffTags TAG1=sometag TAG2=some_other_tag"; \
+	elif [ -z ${TAG2} ] ; then \
+		echo "TAG2 not specified."; \
+		echo "Usage: "; \
+		echo "make SvnRDiffTags TAG1=sometag TAG2=some_other_tag"; \
+	else \
+		for module in ${SVNMODULES} ; do \
+			echo "Diffing module \"$${module}\" ."; \
+			${SVN} -q rdiff -s -r ${TAG1} -r ${TAG2} $$module; \
+		done \
+	fi
+
+
+# This target is used to create a branch from a release
+# Required to specify BRANCHFROM on command line
+# Format should be an existing release tag MSxx_yy_zz
+SvnBranch:
+	@if [ -z ${BRANCHFROM} ]; then \
+		echo "BRANCHFROM not specified. Branch creation aborted."; \
+		echo "Usage: "; \
+		echo "make SvnBranch BRANCHFROM=desired_branch_point"; \
+	else \
+		echo ${BRANCHFROM} | grep  "MS[0-9]\\+_[0-9]\\+_[0-9]\\+$$" >& /dev/null; \
+		if [ $$? -ne 0 ]; then \
+			echo "Incorrect BRANCHFROM specification: format MS{major}_{minor}_{revision}"; \
+		else \
+			export NEW_BRANCH=`echo ${BRANCHFROM} | sed -e 's/MS\(.*\)_.*/ms\1/g'`; \
+			echo "Creating branch name \"$$NEW_BRANCH\" at \"${BRANCHFROM}\""; \
+			err=0 ; \
+			for module in ${SVNMODULES} ; do \
+				echo "Checking branch \"$$NEW_BRANCH\" for module \"$${module}\" ..."; \
+				${SVN} list ${SVNURL}/$$module/branches/$$NEW_BRANCH >& /dev/null; \
+				if [ $$? -eq 0 ]; then \
+					echo "Branch \"$${NEW_BRANCH}\" already exists for module \"$${module}\". Need to abort."; \
+					err=1 ; \
+				fi; \
+				echo "Checking tag \"${BRANCHFROM}\" for module \"$${module}\" ..."; \
+				${SVN} list ${SVNURL}/$$module/tags/${BRANCHFROM} >& /dev/null; \
+				if [ $$? -eq 1 ]; then \
+					echo "Tag \"${BRANCHFROM}\" not found for module \"$${module}\". Need to abort."; \
+					err=1 ; \
+				fi; \
+			done; \
+			if [ x$$err = "x0" ]; then \
+				echo "Ok to create branch..." ; \
+				for module in ${SVNMODULES} ; do \
+					echo "Creating branch \"$$NEW_BRANCH\" for module \"$${module}\" ..."; \
+					echo ${SVN} copy ${SVNURL}/$$module/tags/${BRANCHFROM} ${SVNURL}/$$module/branches/$$NEW_BRANCH -m \"Creating branch $${NEW_BRANCH} for module $$module from tag ${BRANCHFROM}\" ; \
+					${SVN} copy ${SVNURL}/$$module/tags/${BRANCHFROM} ${SVNURL}/$$module/branches/$$NEW_BRANCH -m "Creating branch $${NEW_BRANCH} for module $$module from tag ${BRANCHFROM}" ; \
+				done ; \
+			else \
+				echo "Cannot create branch. Aborting..." ; \
+				false ; \
+			fi ; \
+		fi; \
+	fi
+
+
+# Do different things for Local vs Developer builds
+ifeq (Developer,${BUILDTYPE})
+
+${BUILDDIR}:
+	echo ${BUILDDIR}
+	@if [ ! -d ${BUILDDIR} ]; then \
+		echo; \
+		echo "Directory \"${BUILDDIR}\" does not exist!!"; \
+		echo; \
+		false; \
+	fi
+
+Svn_Checkout: ${BUILDDIR}
+	@cd ${BUILDDIR} ; \
+	ec=0; \
+	for module in ${CHECKOUTMODULES} ${EXTERNALMODULES} ; do \
+		if [ ! -d $${module} ]; then \
+			echo "Module \"$${module}\" does not exist in ${BUILDDIR}"; \
+			ec=1; \
+		fi; \
+	done; \
+		if [ ! -d ${RELENG} ]; then \
+			echo "Module \"${RELENG}\" does not exist in ${BUILDDIR}"; \
+			ec=1; \
+		fi; \
+	if [ $$ec -ne 0 ]; then \
+		printf "\nError: Did not find all required modules in ${BUILDDIR}\n"; \
+		printf "Suggest running \"make Checkout\" to checkout all needed modules.\n\n"; \
+	false ; \
+	fi;
+else
+
+# For Official (Local) builds
+
+${BUILDDIR}:
+	@if [ ! -d ${BUILDDIR} ]; then mkdir -p ${BUILDDIR}; fi
+
+ifeq (Release,${BUILDTYPE})
+	@echo "Target Svn_Checkout is unsupported for buildtype ${BUILDTYPE}"; false
+else
+Svn_Checkout: ${BUILDDIR}
+	@echo ${CHECKOUT_REVISION} > svn.revision.txt
+	${MAKE} CheckoutSelf
+	${MAKE} CheckoutSvnModules
+endif
+
+endif
+
+
+Checkout: ${BUILDDIR}
+	@echo ${CHECKOUT_REVISION} > svn.revision.txt
+ifneq (trunk,${CHECKOUT_TAG})
+	@echo ${CHECKOUT_TAG} | grep "branches/ms[0-9]\\+_[0-9]\\+$$" >& /dev/null ;\
+	if [ $$? -ne 0 ]; then \
+		echo "Checkout command not supported for ${CHECKOUT_TAG} version of dms_build"; \
+		echo "You need to checkout trunk or an official branch of dms_build" ; \
+		false ; \
+	fi
+endif
+	${MAKE} CheckoutSelf
+	${MAKE} CheckoutSvnModules
+
+CheckoutSelf: ${BUILDDIR}
+	@command="${SVN} -r ${CHECKOUT_REVISION} update"; \
+	printf "\n$$command\n"; \
+	$${command};
+
+CheckoutSvnModules: ${BUILDDIR}
+	@for module in ${CHECKOUTMODULES} ${EXTRAMODULES} ; do \
+		command="${SVN} checkout -r ${CHECKOUT_REVISION} ${SVNURL}/$$module/${CHECKOUT_TAG} ${BUILDDIR}/$$module"; \
+		printf "\n$$command\n"; \
+		$${command}; \
+	done
+
+	@for module in ${EXTERNALMODULES} ; do \
+		if [ -f ${BUILDDIR}/$$module/.jbs.root ] ; then \
+			command="${SVN_1.7} switch ${VMP_SVNURL}/$$module/${VMP_MODULE_TAG} ${BUILDDIR}/$$module"; \
+		else \
+			command="${SVN_1.7} checkout ${VMP_SVNURL}/$$module/${VMP_MODULE_TAG} ${BUILDDIR}/$$module"; \
+		fi ; \
+		printf "\n$$command\n"; \
+		$${command}; \
+	done
+
+	@command="${SVN} checkout -r ${CHECKOUT_REVISION} ${SVNURL}/SC/${CHECKOUT_TAG}/${RELENG} ${BUILDDIR}/${RELENG}"; \
+	printf "\n$$command\n"; \
+	$${command}; \
+
+CheckoutFull:
+	${MAKE} Checkout EXTRAMODULES=${AVDATA}
+
+Update: 
+	${MAKE} UpdateSelf
+	${MAKE} UpdateModules
+
+UpdateSelf: ${BUILDDIR}
+	@command="${SVN} update"; \
+	printf "\n$$command\n"; \
+	$${command};
+
+UpdateModules: ${BUILDDIR}
+	@for module in ${CHECKOUTMODULES} ; do \
+		command="${SVN} update ${BUILDDIR}/$$module"; \
+		printf "\n$$command\n"; \
+		$${command}; \
+	done
+
+	@for module in ${EXTERNALMODULES} ; do \
+		${SVN_1.7} info ${BUILDDIR}/$$module | grep ${VMP_MODULE_TAG} > /dev/null; \
+		if [ $$? -ne 0 ]; then \
+			command="make --quiet -C ${BUILDDIR}/$$module distclean"; \
+			printf "\n$$command\n"; \
+			$${command}; \
+			command="${SVN_1.7} switch ${VMP_SVNURL}/$$module/${VMP_MODULE_TAG} ${BUILDDIR}/$$module"; \
+			printf "\n$$command\n"; \
+			$${command}; \
+		fi ; \
+        done
+
+	@command="${SVN} update ${BUILDDIR}/${RELENG}"; \
+	printf "\n$$command\n"; \
+	$${command};
+
+
+Status:
+	@for module in ${CHECKOUTMODULES} ; do \
+		command="${SVN} status -u ${BUILDDIR}/$$module"; \
+		printf "\n$$command\n"; \
+		$${command}; \
+	done
+
+	@command="${SVN} status -u ${BUILDDIR}/${RELENG}"; \
+	printf "\n$$command\n"; \
+	$${command}; \
+
+	@command="${SVN} status -u"; \
+	printf "\n$$command\n"; \
+	$${command};
+
+Info:
+	@for module in ${CHECKOUTMODULES} ; do \
+		command="${SVN} info ${BUILDDIR}/$$module"; \
+		$${command} | grep URL:; \
+	done
+	@command="${SVN} info"; \
+	$${command} | grep URL:; 
+
+	@for module in ${EXTERNALMODULES} ; do \
+		command="${SVN_1.7} info ${BUILDDIR}/$$module"; \
+		$${command} | grep URL:; \
+	done
+	@command="${SVN} info"; \
+	$${command} | grep URL:;
+
+	@command="${SVN} info ${BUILDDIR}/${RELENG}"; \
+	$${command} | grep URL:; \
+
+	@command="${SVN} info"; \
+	$${command} | grep URL:;
+
+Version:
+	echo ${NEXT_BUILD_VERSION} > server.version
+	${SVN} commit -m "Auto update version. SVN_REVISION:${CHECKOUT_REVISION} BUILD_VERSION:${NEXT_BUILD_VERSION}" server.version 
+
+NextVersion:
+	echo ${NEXT_REVISION_VERSION} > server.version
+	${SVN} commit -m "Auto Update: Get Ready for Next Release: ${NEXT_REVISION_VERSION}" server.version
+
+
+ifeq (${BUILD_XPI},0)
+Images: Svn_Checkout Dist
+else
+Images: Dist
+endif
+
+Upgrade:
+
+ifneq (${BUILD_XPI},0)
+	@echo "Creating Final Image..."
+	${QUIET} ${MD5SUM} install.sh | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > install.sh.info
+	${QUIET} rm -f md5.txt
+
+	${QUIET} ${CP} install.sh ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_upgrade.sh ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_install.sh ${IMAGESDIR}
+
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/objectXml/*-Device.xml ${IMAGESDIR}
+	${QUIET} sed -i -e 's#<HostName>v2dxp100#<HostName>ngsd200#g' ${IMAGESDIR}/V2D-XPi-Device.xml
+	${QUIET} ${CP} server.version ${IMAGESDIR}
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' ${IMAGESDIR}/server.version
+endif
+
+
+# For XPI
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_xpi.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_xpi.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_xpi.txt
+	${QUIET} echo "type=os file=os_xpi.tar format=tar `cat os_xpi.tar.info`" >> ${IMAGESDIR}/manifest_xpi.txt
+	${QUIET} echo "type=os file=base_xpi.tar format=tar `cat base_xpi.tar.info`" >> ${IMAGESDIR}/manifest_xpi.txt
+	${QUIET} echo "type=os file=firmwareapp_xpi.tar format=tar `cat firmwareapp_xpi.tar.info`" >> ${IMAGESDIR}/manifest_xpi.txt
+#   ${QUIET} for file in onairapp.sqf onlibapp.sqf strmsrvapp.sqf  ; do 
+	${QUIET} for file in onairapp.sqf onlibapp.sqf strmsrvapp.sqf jdkapp.sqf mediaroomapp.sqf devicevngapp.sqf xkbdataapp.sqf ; do \
+		echo "type=squash file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_xpi.txt ; \
+		done
+
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' ${IMAGESDIR}/server.version
+endif
+
+else
+	@echo "Creating Final Image..."
+	${QUIET} ${MD5SUM} install.sh | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > install.sh.info
+	${QUIET} rm -f md5.txt
+
+	${QUIET} ${CP} install.sh ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_upgrade.sh ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_install.sh ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/objectXml/*-Device.xml ${IMAGESDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/xml/*handler.xml ${DEVICEVNG_DIR}/objectXml/
+	${QUIET} ${CP} server.version ${IMAGESDIR}
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' ${IMAGESDIR}/server.version
+endif
+
+# For DMS
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} echo "type=os file=os.tar format=tar `cat os.tar.info`" >> ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} echo "type=os file=syslinux.tar format=tar `cat syslinux.tar.info`" >> ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} echo "type=os file=base.tar format=tar `cat base.tar.info`" >> ${IMAGESDIR}/manifest_dms.txt
+	${QUIET} for file in onairapp.tgz onlibapp.tgz strmsrvapp.tgz guiapp.tgz nodeapp.tgz jdkapp.tgz mediaroomapp.tgz mediaportalapp.tgz mediajsapp.tgz webuiapp.tgz openfireapp.tgz diskutilsapp.tgz devicevngapp.tgz gstreamerapp.tgz; do \
+	   echo "type=app file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_dms.txt ; \
+	done
+# For MS
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} echo "type=os file=os.tar format=tar `cat os.tar.info`" >> ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} echo "type=os file=syslinux.tar format=tar `cat syslinux.tar.info`" >> ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} echo "type=os file=base.tar format=tar `cat base.tar.info`" >> ${IMAGESDIR}/manifest_ms.txt
+	${QUIET} for file in onairapp.tgz onlibapp.tgz guiapp.tgz nodeapp.tgz jdkapp.tgz mediaroomapp.tgz mediaportalapp.tgz mediajsapp.tgz webuiapp.tgz openfireapp.tgz diskutilsapp.tgz devicevngapp.tgz linuxhaapp.tgz gstreamerapp.tgz; do \
+	   echo "type=app file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_ms.txt ; \
+	done
+
+# For V2D
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} echo "type=os file=os.tar format=tar `cat os.tar.info`" >> ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} echo "type=os file=syslinux_v2d.tar format=tar `cat syslinux_v2d.tar.info`" >> ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} echo "type=os file=base.tar format=tar `cat base.tar.info`" >> ${IMAGESDIR}/manifest_v2d.txt
+	${QUIET} for file in onairapp.tgz onlibapp.tgz strmsrvdevapp.tgz jdkapp.tgz devicevngapp.tgz ; do \
+	   echo "type=app file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_v2d.txt ; \
+	done
+
+# For XP200
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} echo "type=os file=os.tar format=tar `cat os.tar.info`" >> ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} echo "type=os file=syslinux_xp200.tar format=tar `cat syslinux_xp200.tar.info`" >> ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} echo "type=os file=base.tar format=tar `cat base.tar.info`" >> ${IMAGESDIR}/manifest_v2dxp200.txt
+	${QUIET} for file in onairapp.tgz onlibapp.tgz strmsrvdevapp.tgz jdkapp.tgz mediaroomapp.tgz firmwareapp.tgz devicevngapp.tgz mediaportalapp.tgz   xkbdataapp.tgz; do \
+	   echo "type=app file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_v2dxp200.txt ; \
+	done
+
+# For Generic
+	${QUIET} ${RM} ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} echo "type=version version=`cat ${IMAGESDIR}/server.version`" >> ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} echo "type=installer file=install.sh `cat install.sh.info`" >> ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} echo "type=os file=os.tar format=tar `cat os.tar.info`" >> ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} echo "type=os file=syslinux.tar format=tar `cat syslinux.tar.info`" >> ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} echo "type=os file=base.tar format=tar `cat base.tar.info`" >> ${IMAGESDIR}/manifest_generic.txt
+	${QUIET} for file in onairapp.tgz onlibapp.tgz mediaroomapp.tgz diskutilsapp.tgz maintapp.tgz; do \
+	   echo "type=app file=$$file format=raw `cat $$file.info`" >> ${IMAGESDIR}/manifest_generic.txt ; \
+	done
+endif
+
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} ${TAR} cf DMS_IMAGE.developer.tar ${IMAGESDIR}
+	${QUIET} ${TAR} cf ipvssdk.developer.tar ${SDKIMAGESDIR}
+else
+	${QUIET} ${TAR} cf DMS_IMAGE.`cat server.version`.tar ${IMAGESDIR}
+	${QUIET} ${TAR} cf ipvssdk.`cat server.version`.tar ${SDKIMAGESDIR}
+endif
+
+
+
+clean:
+	@echo "CLEAN Images..."
+	${QUIET} ${RM} -rf ${DISTDIR} ${DISTDIR}.img ${APPFSS} OA onair.* *_Dist *.info ${IMAGESDIR} ${SDKIMAGESDIR} 
+
+realclean: clean
+	@echo "CLEAN BuildDir..."
+	${QUIET} ${RM} -rf BUILD
+
+buildclean: OASys_Build_Clean V2DDev_Build_Clean DeviceVNG_Build_Clean DeviceInterface_Build_Clean MediaRoom_Build_Clean MediaPortal_Build_Clean OpenFire_Build_Clean V2DLib_Build_Clean MediaIndex_Build_Clean RfbProto_Build_Clean AuthTool_Build_Clean StrmSrv_Build_Clean VMP_Build_Clean GStreamer_Build_Clean Model_Build_Clean TibcoGI_Build_Clean ClientBuild_Build_Clean  XpiDrv_Build_Clean Net2Usb_Build_Clean CDeviceInterface_Build_Clean   realclean
+	${QUIET} rm -f ${BINT} ${BXPI}
+
+test: V2DLib_Build_Test V2DDev_Build_Test MediaIndex_Build_Test StrmSrv_Build_Test
+
+TESTOUTPUTDIR = xunit_files
+${TESTOUTPUTDIR}:
+	${QUIET} ${MKDIR} -p ${TESTOUTPUTDIR}
+
+docs: StrmSrv_Build_Docs V2DLib_Build_Docs V2DDev_Build_Docs
+	${QUIET} ${CP} list_docs.php ${DOCS_INSTALL_DIRECTORY}/index.php
+
+${DISTDIR}:
+	${QUIET} ${MKDIR} -p ${DISTDIR}
+	${QUIET} ${MKDIR} -p ${DISTDIR}/tmp
+	${QUIET} ${MKDIR} -p ${DISTDIR}/bin 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/config
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/config/hwprofiles
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/scripts
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/scripts/watchdog
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/avahi
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/ifplugd
+	${QUIET} ${MKDIR} -p ${DISTDIR}/lib
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/ssh
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/udhcpc
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/ppp
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/share/udhcpc
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/share/terminfo/v
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/share/fonts
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/share/hwdata
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/lib
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/proc
+	${QUIET} ${MKDIR} -p ${DISTDIR}/sys
+	${QUIET} ${MKDIR} -p ${DISTDIR}/sbin  
+	${QUIET} ${MKDIR} -p ${DISTDIR}/dev  
+	${QUIET} ${MKDIR} -p ${DISTDIR}/dev/mvideo
+	${QUIET} ${MKDIR} -p ${DISTDIR}/dev/pts
+	${QUIET} ${MKDIR} -p ${DISTDIR}/dev/usb
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/sbin 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/bin 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/local/sbin
+	${QUIET} ${MKDIR} -p ${DISTDIR}/lib/modules
+	${QUIET} ${MKDIR} -p ${DISTDIR}/lib/security
+	${QUIET} ${MKDIR} -p ${DISTDIR}/lib/iptables
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/run
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/log
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/lib
+	${QUIET} ${MKDIR} -p ${DISTDIR}/mnt/etc
+	${QUIET} ${MKDIR} -p ${DISTDIR}/mnt/cf
+	${QUIET} ${MKDIR} -p ${DISTDIR}/mnt/usb
+	${QUIET} ${MKDIR} -p ${DISTDIR}/data
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/libexec
+	${QUIET} ${MKDIR} -p ${DISTDIR}/${APPBASE}
+	${QUIET} ${MKDIR} -p ${DISTDIR}/home/admin
+	${QUIET} ${MKDIR} -p ${DISTDIR}/home/onair
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/wis
+
+${ONAIRDIR}:
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/templates
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/certs
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/TV/bin
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/TV/lib
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/TV/conf
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/lib
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O/bin
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O/config
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O/factory_config
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O/modules
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}/V2O/firmware
+
+
+${ENCODERDIR}:
+	${QUIET} ${MKDIR} -p ${ENCODERDIR}
+
+${DEVICEVNGDIR}:
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}/templates
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}/xsl
+
+${DEVICEINTERFACEDIR}:
+	${QUIET} ${MKDIR} -p ${DEVICEINTERFACEDIR}
+	${QUIET} ${MKDIR} -p ${DEVICEINTERFACEDIR}/templates
+	${QUIET} ${MKDIR} -p ${DEVICEINTERFACEDIR}/xsl
+
+${MEDIAROOMDIR}:
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/templates
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/xsl
+
+${MEDIAPORTALDIR}:
+	${QUIET} ${MKDIR} -p ${MEDIAPORTALDIR}
+
+${MEDIAJSDIR}:
+	${QUIET} ${MKDIR} -p ${MEDIAJSDIR}
+
+${WEBUIDIR}:
+	${QUIET} ${MKDIR} -p ${WEBUIDIR}/${APPBASE}
+	${QUIET} ${MKDIR} -p ${WEBUIDIR}/usr/share
+
+${GUIDIR}:
+	${QUIET} ${MKDIR} -p ${GUIDIR}
+
+${NODEDIR}:
+	${QUIET} ${MKDIR} -p ${NODEDIR}
+
+${JDKDIR}:
+	${QUIET} ${MKDIR} -p ${JDKDIR}
+
+${IPPDIR}:
+	${QUIET} ${MKDIR} -p ${IPPDIR}
+
+${DISKUTILSDIR}:
+	${QUIET} ${MKDIR} -p ${DISKUTILSDIR}
+
+${OPENFIREDIR}:
+	${QUIET} ${MKDIR} -p ${OPENFIREDIR}
+	${QUIET} ${MKDIR} -p ${OPENFIREDIR}/bin
+
+${STRMSRVDIR}:
+	${QUIET} ${MKDIR} -p ${STRMSRVDIR}
+	${QUIET} ${MKDIR} -p ${STRMSRVDIR}/lib
+	${QUIET} ${MKDIR} -p ${STRMSRVDIR}/TV/bin
+	${QUIET} ${MKDIR} -p ${STRMSRVFS}/lib
+	${QUIET} ${MKDIR} -p ${STRMSRVFS}/etc/scripts/watchdog
+
+${STRMSRVDEVDIR}:
+	${QUIET} ${MKDIR} -p ${STRMSRVDEVDIR}
+	${QUIET} ${MKDIR} -p ${STRMSRVDEVDIR}/lib
+	${QUIET} ${MKDIR} -p ${STRMSRVDEVDIR}/TV/bin
+	${QUIET} ${MKDIR} -p ${STRMSRVDEVFS}/etc/scripts/watchdog
+
+
+${ONLIBDIR}:
+	${QUIET} ${MKDIR} -p ${ONLIBDIR}
+
+${FIRMWAREDIR}:
+	${QUIET} ${MKDIR} -p ${FIRMWAREDIR}
+
+
+${HADIR}:
+	${QUIET} ${MKDIR} -p ${HADIR}
+
+${MAINTDIR}:
+	${QUIET} ${MKDIR} -p ${MAINTDIR}
+	${QUIET} ${MKDIR} -p ${MAINTDIR}/V2O/bin
+	${QUIET} ${MKDIR} -p ${MAINTFS}/etc/scripts/
+	${QUIET} ${MKDIR} -p ${MAINTFS}/bin
+
+${XKBDATADIR}:
+	${QUIET} ${MKDIR} -p ${XKBDATADIR}
+
+${GSTREAMERDIR}:
+	${QUIET} ${MKDIR} -p ${GSTREAMERDIR}
+	${QUIET} ${MKDIR} -p ${GSTREAMERDIR}/home/onair/TV/bin
+
+
+Version_Dist: 
+	@echo "DIST Version"
+	${QUIET} ${MKDIR} -p ${ONAIRDIR}
+	${QUIET} ${CP} server.version ${ONAIRDIR}
+	${QUIET} ${DATE} +"%b %e %Y %T" > ${ONAIRDIR}/software_image_date.txt
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' ${ONAIRDIR}/server.version
+endif
+	${QUIET} ${CP} ${BUILDDIR}/${CLIENTBUILD}/player.version ${ONAIRDIR}
+	${QUIET} touch ${ONAIRDIR}/.changed
+
+
+Dist:
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${MKDIR} -p ${IMAGESDIR}
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}
+	${QUIET_MAKE} Kernel_App
+	${QUIET_MAKE} Base_App
+	${QUIET_MAKE} Net2Usb_App
+	${QUIET_MAKE} XpiDrv_App
+#	${QUIET_MAKE} Net2Usb_App
+	${QUIET_MAKE} OnAir_App
+#	${QUIET_MAKE} XpiDrv_App
+	${QUIET_MAKE} StrmSrv_App
+	${QUIET_MAKE} XkbData_App
+	${QUIET_MAKE} OnLib_App
+	${QUIET_MAKE} MediaRoom_App
+	${QUIET_MAKE} DeviceVNG_App
+	${QUIET_MAKE} JDK_App
+	${QUIET_MAKE} Firmware_App
+else
+	${QUIET} ${MKDIR} -p ${IMAGESDIR}
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}
+	${QUIET_MAKE} Kernel_App
+	${QUIET_MAKE} Base_App
+	${QUIET_MAKE} OnAir_App
+#	${QUIET_MAKE} Encoder_App
+	${QUIET_MAKE} StrmSrv_App
+	${QUIET_MAKE} XkbData_App
+	${QUIET_MAKE} IPVPlayer_App
+	${QUIET_MAKE} OnLib_App
+	${QUIET_MAKE} MediaRoom_App
+	${QUIET_MAKE} DeviceVNG_App
+	${QUIET_MAKE} MediaPortal_App
+	${QUIET_MAKE} MediaJS_App
+	${QUIET_MAKE} GUI_App
+	${QUIET_MAKE} WebUI_App
+	${QUIET_MAKE} Node_App
+	${QUIET_MAKE} JDK_App
+#	${QUIET_MAKE} IPP_App
+	${QUIET_MAKE} OpenFire_App
+	${QUIET_MAKE} DiskUtils_App
+	${QUIET_MAKE} Firmware_App
+	${QUIET_MAKE} HA_App
+	${QUIET_MAKE} Maint_App
+	${QUIET_MAKE} GStreamer_App
+endif
+
+Kernel_App:
+ifneq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${Kernel_App_Image}
+else
+	${QUIET_MAKE} ${Kernel_App_Image}
+	${QUIET_MAKE} ${Syslinux_App_Image}
+	${QUIET_MAKE} ${Syslinux_XP200_App_Image}
+	${QUIET_MAKE} ${Syslinux_V2D_App_Image}
+endif
+
+os.tar.info : ;
+ifeq (${BUILD_XPI},0)
+${Kernel_App_Image}: ${BUILDDIR}/${OABZIMAGE} syslinux.cfg menu.lst os.tar.info
+	${QUIET} ${CP} ${BUILDDIR}/${OABZIMAGE} OA
+	${QUIET} ${TAR} -cf ${Kernel_App_Image} OA syslinux.cfg menu.lst
+	${QUIET} ${MD5SUM} ${Kernel_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > os.tar.info
+	${QUIET} rm -f md5.txt
+else
+${Kernel_App_Image}: ${BUILDDIR}/${OABZIMAGE}
+	${QUIET} ${CP} ${BUILDDIR}/${OABZIMAGE} OA
+	${QUIET} ${CP} ${BUILDDIR}/${UBOOTIMAGE} u-boot.bin
+	${QUIET} ${TAR} -cf ${Kernel_App_Image} OA u-boot.bin
+	${QUIET} ${MD5SUM} ${Kernel_App_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > os_xpi.tar.info
+	${QUIET} rm -f md5.txt
+endif
+
+
+${Syslinux_App_Image}: syslinux.cfg
+	${QUIET} ${MKDIR} -p ${SYSLINUXFS}
+	${QUIET} ${CP} syslinux.cfg ${SYSLINUXFS}/syslinux.cfg
+	${QUIET} ${TAR} -C ${SYSLINUXFS} -cf ${Syslinux_App_Image}  syslinux.cfg
+	${QUIET} ${MD5SUM} ${Syslinux_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > syslinux.tar.info
+	${QUIET} rm -f md5.txt
+
+${Syslinux_XP200_App_Image}: syslinux_xp200.cfg
+	${QUIET} ${MKDIR} -p ${SYSLINUXFS}
+	${QUIET} ${CP} syslinux_xp200.cfg ${SYSLINUXFS}/syslinux.cfg
+	${QUIET} ${TAR} -C ${SYSLINUXFS} -cf ${Syslinux_XP200_App_Image}  syslinux.cfg
+	${QUIET} ${MD5SUM} ${Syslinux_XP200_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > syslinux_xp200.tar.info
+	${QUIET} rm -f md5.txt
+
+${Syslinux_V2D_App_Image}: syslinux_v2d.cfg
+	${QUIET} ${MKDIR} -p ${SYSLINUXFS}
+	${QUIET} ${CP} syslinux_v2d.cfg ${SYSLINUXFS}/syslinux.cfg
+	${QUIET} ${TAR} -C ${SYSLINUXFS} -cf ${Syslinux_V2D_App_Image}  syslinux.cfg
+	${QUIET} ${MD5SUM} ${Syslinux_V2D_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > syslinux_v2d.tar.info
+	${QUIET} rm -f md5.txt
+
+Base_App:
+ifeq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${DISTDIR}
+	${QUIET_MAKE} OASys_Build
+	${QUIET_MAKE} OASys_Dist
+	${QUIET_MAKE} Model_Build
+	${QUIET_MAKE} System_Dist
+	${QUIET_MAKE} ${Base_App_Image}
+else
+	${QUIET_MAKE} ${DISTDIR}
+	${QUIET_MAKE} OASys_Build
+	${QUIET_MAKE} Model_Build
+	${QUIET_MAKE} CDeviceInterface_Build
+	${QUIET_MAKE} System_Dist
+	${QUIET_MAKE} ${Base_App_Image}
+endif	
+
+${Base_App_Image}: onair.gz
+	@echo "IMAGE Base..."
+	${QUIET} ${TAR} cf ${Base_App_Image}  onair.gz
+	${QUIET} ${MD5SUM} ${Base_App_Image} | cut -d " " -f 1 > md5.txt 
+ifneq (${BUILD_XPI},0)
+	${QUIET} echo "md5=`cat md5.txt`" > base_xpi.tar.info
+else	
+	${QUIET} echo "md5=`cat md5.txt`" > base.tar.info
+endif
+	${QUIET} rm -f md5.txt
+
+
+OnAir_App:
+	${QUIET_MAKE} ${ONAIRDIR}
+	${QUIET_MAKE} V2DDev_Build
+	${QUIET_MAKE} V2DDev_Dist
+	${QUIET_MAKE} OnAir_Dist
+	${QUIET_MAKE} Version_Dist
+	${QUIET_MAKE} ${OnAir_App_Image}
+ifneq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${OnAir_App_Squash_Image}
+endif	
+
+
+${OnAir_App_Image}: ${ONAIRDIR}/.changed 
+	@echo "IMAGE OnAir..."
+	${QUIET} ${TAR} -C ${ONAIRFS} -czf ${OnAir_App_Image} home
+	${QUIET} ${MD5SUM} ${OnAir_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > onairapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${OnAir_App_Squash_Image}: ${ONAIRDIR}/.changed
+	@echo "IMAGE Squash OnAir..."
+	${QUIET} ${MKSQUASHFS} ${ONAIRFS} ${OnAir_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${OnAir_App_Squash_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > onairapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+StrmSrv_App:
+ifeq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${STRMSRVDIR}
+	${QUIET_MAKE} ${STRMSRVDEVDIR}
+	${QUIET_MAKE} VMP_Build
+	${QUIET_MAKE} VMP_Dist
+	${QUIET_MAKE} StrmSrv_Build
+	${QUIET_MAKE} V2DLib_Dist
+	${QUIET_MAKE} MediaIndex_Dist
+	${QUIET_MAKE} RfbProto_Dist
+	${QUIET_MAKE} StrmSrv_Dist
+	${QUIET_MAKE} AuthTool_Build
+	${QUIET_MAKE} AuthTool_Dist
+	${QUIET_MAKE} StrmSrvDev_Dist
+	${QUIET_MAKE} ${StrmSrv_App_Image}
+	${QUIET_MAKE} ${StrmSrvDev_App_Image}
+else
+	${QUIET_MAKE} ${STRMSRVDEVDIR}
+	${QUIET_MAKE} StrmSrv_Build
+	${QUIET_MAKE} V2DLib_Dist
+	${QUIET_MAKE} MediaIndex_Dist
+	${QUIET_MAKE} RfbProto_Dist
+	${QUIET_MAKE} StrmSrvDev_Dist
+	${QUIET_MAKE} ${StrmSrvDev_App_Image}
+	${QUIET_MAKE} ${StrmSrv_App_Squash_Image}
+endif
+
+
+${StrmSrv_App_Image}: ${STRMSRVDIR}/.changed
+	@echo "IMAGE StrmSrv..."
+	${QUIET} ${TAR} -C ${STRMSRVFS} -czf ${StrmSrv_App_Image} lib home etc
+	${QUIET} ${MD5SUM} ${StrmSrv_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > strmsrvapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${StrmSrvDev_App_Image}: ${STRMSRVDEVDIR}/.changed
+	@echo "IMAGE StrmSrvDev..."
+	${QUIET} ${TAR} -C ${STRMSRVDEVFS} -czf ${StrmSrvDev_App_Image} home etc
+	${QUIET} ${MD5SUM} ${StrmSrvDev_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > strmsrvdevapp.tgz.info
+
+${StrmSrv_App_Squash_Image}: ${STRMSRVDEVDIR}/.changed 
+	@echo "IMAGE Squash StrmSrv..."
+	${QUIET} ${MKSQUASHFS} ${STRMSRVDEVFS} ${StrmSrv_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${StrmSrv_App_Squash_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > strmsrvapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+IPVPlayer_App:
+	${QUIET_MAKE} IPVPlayer_Dist
+
+Encoder_App:
+	${QUIET_MAKE} ${ENCODERDIR}
+	${QUIET_MAKE} WisDrv_Build
+	${QUIET_MAKE} WisDrv_Dist
+	${QUIET_MAKE} ${Encoder_App_Image}
+
+${Encoder_App_Image}: ${ENCODERDIR}/.changed 
+	@echo "IMAGE Encoder..."
+	${QUIET} ${TAR} -C ${ENCODERFS} -czf ${Encoder_App_Image} home
+	${QUIET} ${MD5SUM} ${Encoder_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > encoderapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+MediaRoom_App:
+	${QUIET_MAKE} ${MEDIAROOMDIR}
+	${QUIET_MAKE} Model_Build
+	${QUIET_MAKE} Model_Dist
+	${QUIET_MAKE} MediaRoom_Build
+	${QUIET_MAKE} MediaRoom_Dist
+ifeq (${BUILD_XPI},0)
+	${QUIET_MAKE} SDK_Build
+	${QUIET_MAKE} SDK_Dist
+endif	
+	${QUIET_MAKE} ${MediaRoom_App_Image}
+ifneq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${MediaRoom_App_Squash_Image}
+endif	
+
+
+${MediaRoom_App_Image}: ${MEDIAROOMDIR}/.changed
+	@echo "IMAGE MediaRoom..."
+	${QUIET} ${TAR} -C ${MEDIAROOMFS} -czf ${MediaRoom_App_Image} home
+	${QUIET} ${MD5SUM} ${MediaRoom_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > mediaroomapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${MediaRoom_App_Squash_Image}: ${MEDIAROOMDIR}/.changed
+	@echo "IMAGE Squash MediaRoom..."
+	${QUIET} ${MKSQUASHFS} ${MEDIAROOMFS} ${MediaRoom_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${MediaRoom_App_Squash_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > mediaroomapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+DeviceInterface_App:
+	${QUIET_MAKE} ${DEVICEINTERFACEDIR}
+	${QUIET_MAKE} DeviceInterface_Build
+	${QUIET_MAKE} DeviceInterface_Dist
+	${QUIET_MAKE} ${DeviceInterface_App_Image}
+
+
+${DeviceInterface_App_Image}: ${DEVICEINTERFACEDIR}/.changed
+	@echo "IMAGE DeviceInterface..."
+	${QUIET} ${TAR} -C ${DEVICEINTERFACEFS} -czf ${DeviceInterface_App_Image} home
+	${QUIET} ${MD5SUM} ${DeviceInterface_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > deviceinterfaceapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+DeviceVNG_App:
+	${QUIET_MAKE} ${DEVICEVNGDIR}
+	${QUIET_MAKE} DeviceInterface_Build
+	${QUIET_MAKE} DeviceVNG_Build
+	${QUIET_MAKE} DeviceVNG_Dist
+	${QUIET_MAKE} ${DeviceVNG_App_Image}
+ifneq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${DeviceVNG_App_Squash_Image}
+endif
+
+${DeviceVNG_App_Image}: ${DEVICEVNGDIR}/.changed
+	@echo "IMAGE DeviceVNG..."
+	${QUIET} ${TAR} -C ${DEVICEVNGFS} -czf ${DeviceVNG_App_Image} home
+	${QUIET} ${MD5SUM} ${DeviceVNG_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > devicevngapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${DeviceVNG_App_Squash_Image}: ${DEVICEVNGDIR}/.changed
+	@echo "IMAGE Squash DeviceVNG..."
+	${QUIET} ${MKSQUASHFS} ${DEVICEVNGFS} ${DeviceVNG_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${DeviceVNG_App_Squash_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > devicevngapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+MediaPortal_App:
+	${QUIET_MAKE} ${MEDIAPORTALDIR}
+	${QUIET_MAKE} MediaPortal_Build
+	${QUIET_MAKE} MediaPortal_Dist
+	${QUIET_MAKE} ${MediaPortal_App_Image}
+
+
+${MediaPortal_App_Image}: ${MEDIAPORTALDIR}/.changed
+	@echo "IMAGE Media Portal ..."
+ifeq (${BUILD_XPI},0)
+	${QUIET} ${TAR} -C ${MEDIAPORTALFS} -czf ${MediaPortal_App_Image} home etc
+else
+	${QUIET} ${TAR} -C ${MEDIAPORTALFS} -czf ${MediaPortal_App_Image} home
+endif	
+	${QUIET} ${MD5SUM} ${MediaPortal_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > mediaportalapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+MediaJS_App:
+	${QUIET_MAKE} ${MEDIAJSDIR}
+	${QUIET_MAKE} MediaJS_Dist
+	${QUIET_MAKE} ${MediaJS_App_Image}
+
+
+${MediaJS_App_Image}: ${MEDIAJSDIR}/.changed
+	@echo "IMAGE Media JS ..."
+	${QUIET} ${TAR} -C ${MEDIAJSFS} -czf ${MediaJS_App_Image} home
+	${QUIET} ${MD5SUM} ${MediaJS_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > mediajsapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+
+OnLib_App:
+	${QUIET_MAKE} ${ONLIBDIR} 
+	${QUIET_MAKE} OnLib_Dist
+	${QUIET_MAKE} ${OnLib_App_Image}
+ifneq (${BUILD_XPI},0)
+	${QUIET_MAKE} ${OnLib_App_Squash_Image}
+endif
+
+${OnLib_App_Image}: ${ONLIBDIR}/.changed 
+	@echo "IMAGE OnLib..."
+    ifneq (${BUILD_XPI},0)
+	    ${QUIET} ${TAR} -C ${ONLIBFS} -czf ${OnLib_App_Image} home lib 
+    else
+	    ${QUIET} ${TAR} -C ${ONLIBFS} -czf ${OnLib_App_Image} home lib usr 
+    endif
+	${QUIET} ${MD5SUM} ${OnLib_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > onlibapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${OnLib_App_Squash_Image}: ${ONLIBDIR}/.changed
+	@echo "IMAGE Squash OnLib..."
+	${QUIET} ${MKSQUASHFS} ${ONLIBFS} ${OnLib_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${OnLib_App_Squash_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > onlibapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+ifeq (${BUILD_XPI},0)
+OnLib_Dist: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_apache_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_haserl_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_snmp_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ntp_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xerces_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_faac_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ffmpeg_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_log4c_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_matroska_binaries.tgz \
+	    ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_portaudio_binaries.tgz \
+		${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libxkbcommon_binaries.tgz \
+		${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_bweb_binaries.tgz 
+
+OnLib_Dist ${ONLIBDIR}/.changed:
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_apache_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_haserl_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_snmp_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ntp_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xerces_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_log4c_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_matroska_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_faac_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ffmpeg_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_portaudio_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libxkbcommon_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_bweb_binaries.tgz -C ${ONLIBFS}
+	${QUIET} touch OnLib_Dist
+	${QUIET} touch ${ONLIBDIR}/.changed
+
+else
+OnLib_Dist: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_boost_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_curl_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ffmpeg_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_fontconfig_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_freetype_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_gd_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_jpeg_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libbz2_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_log4c_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_matroska_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_png_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_portaudio_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_samplerate_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_usb_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_uuid_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xerces_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libxkbcommon_binaries.tgz
+OnLib_Dist ${ONLIBDIR}/.changed:
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_boost_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_curl_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ffmpeg_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_fontconfig_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_freetype_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_gd_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_jpeg_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libbz2_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_log4c_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_matroska_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_png_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_portaudio_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_samplerate_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_usb_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_uuid_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xerces_binaries.tgz -C ${ONLIBFS}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libxkbcommon_binaries.tgz -C ${ONLIBFS}
+	${QUIET} touch OnLib_Dist
+	${QUIET} touch ${ONLIBDIR}/.changed
+endif
+
+Maint_App:
+	${QUIET_MAKE} ${MAINTDIR} 
+	${QUIET_MAKE} Maint_Dist
+	${QUIET_MAKE} ${Maint_App_Image}
+
+${Maint_App_Image}: ${MAINTDIR}/.changed 
+	@echo "IMAGE Maint..."
+	${QUIET} ${TAR} -C ${MAINTFS} -czf ${Maint_App_Image} home etc bin
+	${QUIET} ${MD5SUM} ${Maint_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > maintapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+MAINT_DIR=${MAINTDIR}
+Maint_Dep = ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_maintutils_binaries.tgz \
+            ${BUILDDIR}/${V2DDEV}/modules/maint \
+            ${BUILDDIR}/${MEDIASERVER}/system/check_device/*.sh \
+            ${BUILDDIR}/${MEDIASERVER}/system/diskutils.sh \
+            ${BUILDDIR}/${MEDIASERVER}/system/shadow.simple \
+            ${BUILDDIR}/${MEDIASERVER}/system/securetty.generic
+#${Maint_Dep}: ;
+Maint_Dist: ${Maint_Dep}
+	${QUIET} ${MKDIR} -p ${IMAGESDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_maintutils_binaries.tgz -C ${MAINTFS}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/shadow.simple ${MAINTFS}/etc/shadow 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/securetty.generic ${MAINTFS}/etc/securetty 
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/maint ${MAINT_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/init_disks.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/disk_io_test.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/network_io_test.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/update_raid_bios.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/generate_test_report.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/run_all_device_tests.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/initial_check_device.sh ${MAINTFS}/etc/scripts/
+	${QUIET} ${LN} -f /etc/scripts/init_disks.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/disk_io_test.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/network_io_test.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/update_raid_bios.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/generate_test_report.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/run_all_device_tests.sh ${MAINTFS}/bin
+	${QUIET} ${LN} -f /etc/scripts/initial_check_device.sh ${MAINTFS}/bin
+	${QUIET} touch Maint_Dist
+	${QUIET} touch ${MAINTDIR}/.changed
+
+Firmware_App:
+	${QUIET_MAKE} ${FIRMWAREDIR} 
+	${QUIET_MAKE} Firmware_Dist
+	${QUIET_MAKE} ${Firmware_App_Image}
+
+
+	@echo "IMAGE Firmware..."
+ifneq (${BUILD_XPI},0)
+${Firmware_App_Image}: ${FIRMWAREFS}/.changed
+	${QUIET} ${TAR} -C ${FIRMWAREDIR} -cf ${Firmware_App_Image} xpi_encoder.bit xpi_decoder.bit fanout_fpga_enc.bit fanout_fpga_dec.bit expansion_fpga.bit prog.bit xpi_bringup.bit fanout_fpga_bringup.bit fanout_fpga_enc_time.v fanout_fpga_dec_time.v fanout_fpga_bringup_time.v expansion_fpga_time.v
+	${QUIET} ${MD5SUM} ${Firmware_App_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > firmwareapp_xpi.tar.info
+	${QUIET} rm -f md5.txt
+else
+${Firmware_App_Image}: ${FIRMWAREFS}/.changed 
+	${QUIET} ${TAR} -C ${FIRMWAREFS} -czf ${Firmware_App_Image} ${APPBASE}
+	${QUIET} ${MD5SUM} ${Firmware_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > firmwareapp.tgz.info
+	${QUIET} rm -f md5.txt
+endif	
+
+ifneq (${BUILD_XPI},0)
+Firmware_Dist: ${BUILDDIR}/${FIRMWAREIMAGES}/xpi_encoder.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/xpi_decoder.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_dec.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_enc.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_bringup.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/expansion_fpga.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/xpi_bringup.bit \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_dec_time.v \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_enc_time.v \
+	${BUILDDIR}/${FIRMWAREIMAGES}/fanout_fpga_bringup_time.v \
+	${BUILDDIR}/${FIRMWAREIMAGES}/expansion_fpga_time.v \
+	${BUILDDIR}/${FIRMWAREIMAGES}/prog.bit
+	${QUIET} ${CP} ${BUILDDIR}/${FIRMWAREIMAGES}/*.bit ${FIRMWAREDIR}
+	${QUIET} ${CP} ${BUILDDIR}/${FIRMWAREIMAGES}/*.v ${FIRMWAREDIR}
+	${QUIET} touch Firmware_Dist
+	${QUIET} touch ${FIRMWAREFS}/.changed
+else
+Firmware_Dist: ${BUILDDIR}/${FIRMWAREIMAGES}/v2d_tx_lx80.bin \
+	    ${BUILDDIR}/${FIRMWAREIMAGES}/v2d_rx_lx80.bin \
+	    ${BUILDDIR}/${FIRMWAREIMAGES}/v2d_tx_lx100.bin \
+	    ${BUILDDIR}/${FIRMWAREIMAGES}/v2d_rx_lx100.bin
+	${QUIET} ${CP} ${BUILDDIR}/${FIRMWAREIMAGES}/*.bin ${FIRMWAREDIR}
+	${QUIET} touch Firmware_Dist
+	${QUIET} touch ${FIRMWAREFS}/.changed
+endif
+
+GUI_App:
+	${QUIET_MAKE} ${GUIDIR} 
+	${QUIET_MAKE} TibcoGI_Build
+	${QUIET_MAKE} Tablet_Dist
+	${QUIET_MAKE} CollabClient_Dist
+	${QUIET_MAKE} ClientBuild_Build
+	${QUIET_MAKE} ClientBuild_Dist
+	${QUIET_MAKE} ${GUI_App_Image}
+
+
+${GUI_App_Image}: ${GUIDIR}/.changed
+	@echo "IMAGE GUI..."
+	${QUIET} ${TAR} -C ${GUIFS} -czf ${GUI_App_Image} home etc
+	${QUIET} ${MD5SUM} ${GUI_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > guiapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+WebUI_App:
+	${QUIET_MAKE} ${WEBUIDIR} 
+	${QUIET_MAKE} WebUI_Dist
+	${QUIET_MAKE} ${WebUI_App_Image}
+
+
+${WebUI_App_Image}: ${WEBUIDIR}/.changed
+	@echo "IMAGE WEBUI..."
+	${QUIET} ${TAR} -C ${WEBUIFS} -czf ${WebUI_App_Image} home usr
+	${QUIET} ${MD5SUM} ${WebUI_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > webuiapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+Node_App:
+	${QUIET_MAKE} ${NODEDIR} 
+	${QUIET_MAKE} Node_Dist
+	${QUIET_MAKE} ${Node_App_Image}
+
+
+${Node_App_Image}: ${NODEDIR}/.changed
+	@echo "IMAGE Node..."
+	${QUIET} ${TAR} -C ${NODEFS} -czf ${Node_App_Image} usr
+	${QUIET} ${MD5SUM} ${Node_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > nodeapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+OpenFire_App: 
+	${QUIET_MAKE} ${OPENFIREDIR} 
+	${QUIET_MAKE} OpenFire_Build
+	${QUIET_MAKE} OpenFire_Dist
+	${QUIET_MAKE} ${OpenFire_App_Image}
+
+${OpenFire_App_Image}: ${OPENFIREDIR}/.changed
+	@echo "IMAGE OpenFire..."
+	${QUIET} ${TAR} -C ${OPENFIREFS} -czf ${OpenFire_App_Image} home ${DIST_IPVSDB_PKG_FOLDER};
+	${QUIET} ${MD5SUM} ${OpenFire_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > openfireapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+JDK_App:
+	${QUIET_MAKE} ${JDKDIR} 
+	${QUIET_MAKE} ${JDK_App_Image}
+
+${JDK_App_Image}: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_jre_binaries.tgz
+	@echo "IMAGE JDK..."
+	${QUIET} ${RM} -rf {JDKFS}/*
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_jre_binaries.tgz -C ${JDKFS}
+#copy mimetypes content-types.properties
+	${QUIET} ${TAR} -C ${JDKFS} -czf ${JDK_App_Image} home usr
+	${QUIET} ${MD5SUM} ${JDK_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > jdkapp.tgz.info
+	${QUIET} rm -f md5.txt
+ifneq (${BUILD_XPI},0)	
+	${QUIET} ${MKSQUASHFS} ${JDKFS} ${JDK_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${JDK_App_Squash_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > jdkapp.sqf.info
+	${QUIET} rm -f md5.txt
+endif
+
+XpiDrv_App:
+	${QUIET_MAKE} XpiDrv_Build
+
+
+Net2Usb_App:
+	${QUIET_MAKE} Net2Usb_Build
+
+CDeviceInterface_App:
+	${QUIET_MAKE} CDeviceInterface_Build
+
+IPP_App:
+	${QUIET_MAKE} ${IPPDIR} 
+	${QUIET_MAKE} ${IPP_App_Image}
+
+${IPP_App_Image}: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ipp_binaries.tgz
+	@echo "IMAGE IPP..."
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ipp_binaries.tgz -C ${IPPFS}
+	${QUIET} ${TAR} -C ${IPPFS} -czf ${IPP_App_Image} home lib
+	${QUIET} ${MD5SUM} ${IPP_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > ippapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+DiskUtils_App:
+	${QUIET_MAKE} ${DISKUTILSDIR} 
+	${QUIET_MAKE} ${DiskUtils_App_Image}
+
+${DiskUtils_App_Image}: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_diskutils_binaries.tgz
+	@echo "IMAGE DiskUtils..."
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_diskutils_binaries.tgz -C ${DISKUTILSFS}
+	${QUIET} ${TAR} -C ${DISKUTILSFS} -czf ${DiskUtils_App_Image} sbin bin lib
+	${QUIET} ${MD5SUM} ${DiskUtils_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > diskutilsapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+XkbData_App:
+	@echo "IMAGE XkbData..."
+	${QUIET_MAKE} ${XKBDATADIR}
+	${QUIET_MAKE} ${XkbData_App_Image}
+ifeq (${BUILD_XPI},1)
+	${QUIET_MAKE} ${XkbData_App_Squash_Image}
+endif
+
+
+ ${XkbData_App_Image}: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xkbdata_binaries.tgz
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_xkbdata_binaries.tgz -C ${XKBDATAFS}
+	${QUIET} ${TAR} -C ${XKBDATAFS} -czf ${XkbData_App_Image} usr
+	${QUIET} ${MD5SUM} ${XkbData_App_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > xkbdataapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+${XkbData_App_Squash_Image}:	
+	${QUIET} ${MKSQUASHFS} ${XKBDATAFS} ${XkbData_App_Squash_Image} ${MKSQUASHFS_ARGS}
+	${QUIET} ${MD5SUM} ${XkbData_App_Squash_Image} | cut -d " " -f 1 > md5.txt
+	${QUIET} echo "md5=`cat md5.txt`" > xkbdataapp.sqf.info
+	${QUIET} rm -f md5.txt
+
+
+
+HA_App: 
+	${QUIET_MAKE} ${HADIR} 
+	${QUIET_MAKE} HA_Dist
+	${QUIET_MAKE} ${HA_App_Image}
+
+HA_Dep = ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_linuxha_binaries.tgz ${BUILDDIR}/${MEDIASERVER}/system/msctlex ${BUILDDIR}/${MEDIASERVER}/system/msctlimpl  
+
+${HA_Dep}:: ;
+HA_Dist: ${HA_Dep}
+	@echo "DIST Linux-HA..."
+	${QUIET} ${TAR} xzf \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_linuxha_binaries.tgz \
+	-C ${HAFS}
+	${QUIET} ${TAR} xzf \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_dns_bind_binaries.tgz \
+	-C ${HAFS}
+	${QUIET} ${MKDIR} -p \
+	${HAFS}/usr/local/linuxha/lib/ocf/resource.d/ipvs	
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/msctlex \
+	${HAFS}/usr/local/linuxha/ha.d/resource.d
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/msctlimpl \
+	${HAFS}/usr/local/linuxha/lib/ocf/resource.d/ipvs
+	${QUIET} touch HA_Dist
+	${QUIET} touch ${HADIR}/.changed
+
+
+${HA_App_Image}: ${HADIR}/.changed
+	@echo "IMAGE Linux-HA..."
+	${QUIET} ${TAR} -C ${HAFS} -czf ${HA_App_Image} usr etc
+	${QUIET} ${MD5SUM} ${HA_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > linuxhaapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+ifeq (${BUILD_XPI},0)
+${BUILDDIR}/${PKG3PARTYDEVMARKER}: ${BUILDDIR}/${PKG3PARTYDEVTGZ}
+	${QUIET} mkdir -p ${BUILDDIR}/${DEV_DIR}
+	${QUIET} cd ${BUILDDIR}/${DEV_DIR}; ${TAR} -xzmf ${BUILDDIR}/${PKG3PARTYDEVTGZ}
+	${QUIET} touch ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+else
+${BUILDDIR}/${PKG3PARTYDEVMARKER}: ${BUILDDIR}/${PKG3PARTYDEVTGZ}  ${BUILDDIR}/${PKG3PARTYLINUXKERNELHEADERS}
+	@echo "UNZIP 3PartyDev ..."
+	${QUIET} mkdir -p ${BUILDDIR}/${DEV_DIR}
+	${QUIET} cd ${BUILDDIR}/${DEV_DIR}; ${TAR} -xzmf ${BUILDDIR}/${PKG3PARTYDEVTGZ}
+	${QUIET} cd ${BUILDDIR}/${DEV_DIR}; ${TAR} -xzmf ${BUILDDIR}/${PKG3PARTYLINUXKERNELHEADERS}
+	${QUIET} touch ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+
+endif
+
+ifeq (${BUILD_XPI},0)
+onair.gz: ${DISTDIR}/.changed
+	(cd ${DISTDIR}; find . | cpio --quiet -o -H newc | gzip) >| onair.gz
+else	
+onair.gz: ${DISTDIR}/.changed
+	@echo "Creating onair.gz ..."
+	(cd ${DISTDIR}; find . | cpio --quiet -o -H newc | gzip) >| onair.gz.raw
+	     ${MKIMAGE} -A arm -O linux -T ramdisk -C gzip -n "onair.gz" -d onair.gz.raw onair.gz > /dev/null
+
+endif
+
+rootfs.tar.gz: ${DISTDIR}/.changed
+	@echo "Creating rootfs.tar.gz ..."
+	cd ${DISTDIR}; tar czf ../rootfs.tar.gz *
+
+
+ifeq (${BUILD_XPI},0)
+System_Deps = ${BUILDDIR}/${MEDIASERVER}/templates/* \
+	     ${BUILDDIR}/${MEDIASERVER}/system/* \
+	     ${BUILDDIR}/${MEDIASERVER}/migration/*.sh \
+	     ${BUILDDIR}/${MEDIASERVER}/system/check_device/*.profile \
+	     ${BUILDDIR}/${MEDIASERVER}/system/check_device/*.rc \
+	     ${BUILDDIR}/${MEDIASERVER}/system/check_device/*.sh \
+	     ${BUILDDIR}/${MODEL}/migration.tar \
+	     ${BUILDDIR}/${WIS}/Sw/SupportFiles/*.bin \
+	     ${BUILDDIR}/${WIS}/Sw/SupportFiles/*.txt \
+	     ${BUILDDIR}/${V2DDEV}/modules/remote_config.xml \
+	     ${BUILDDIR}/${V2DDEV}/modules/remote_notification.xml \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_linux_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_busybox_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_scponly_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_scpjailer_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_putty_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_avahi_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ziputils_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_mdadm_binaries.tgz \
+	     ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_alsa_binaries.tgz
+else
+System_Deps = ${BUILDDIR}/${MEDIASERVER}/templates/* \
+	${BUILDDIR}/${MEDIASERVER}/system/* \
+	${BUILDDIR}/${MEDIASERVER}/migration/*.sh \
+	${BUILDDIR}/${MEDIASERVER}/system/check_device/*.profile \
+	${BUILDDIR}/${MEDIASERVER}/system/check_device/*.rc \
+	${BUILDDIR}/${MEDIASERVER}/system/check_device/*.sh \
+	${BUILDDIR}/${WEBIF}/* \
+	${BUILDDIR}/${WEBIF}/img/* \
+	${BUILDDIR}/${WEBIF}/js/* \
+	${BUILDDIR}/${WEBIF}/css/* \
+	${BUILDDIR}/${MODEL}/migration.tar \
+	${BUILDDIR}/${V2DDEV}/modules/remote_config.xml \
+	${BUILDDIR}/${V2DDEV}/modules/remote_notification.xml \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_rootfs_base.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_boost_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_curl_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ffmpeg_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_freetype_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_gd_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_jpeg_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_libbz2_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_png_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_usb_binaries.tgz \
+	${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_uuid_binaries.tgz
+endif
+
+
+${System_Deps}:: ;
+System_Dist: ${System_Deps}
+	${QUIET} ${RM} -rf ${DISTDIR}/dev/*
+	${QUIET} ${MKDIR} -p ${DISTDIR}/dev 
+ifneq (${BUILD_XPI},0)	
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/agent/xsl
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/agent/db/streamcache 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/agent/scripts 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/agent/templates
+endif
+	${QUIET} ${MKNOD} -m 622 ${DISTDIR}/dev/console c 5 1
+
+	${QUIET} ${MKNOD} -m 644 ${DISTDIR}/dev/zero c 1 5
+	${QUIET} ${MKNOD} -m 644 ${DISTDIR}/dev/null c 1 3
+
+ifeq (${BUILD_XPI},0)
+	${QUIET} for i in ${SBINS}; \
+	do \
+		${OBJBINCOPY} ${SBINDIR}/$$i  ${DISTDIR}/${SBINDIR}/$$i;\
+		${CHMOD} +x ${DISTDIR}/${SBINDIR}/$$i;\
+	done
+
+	${QUIET} ${CP} /sbin/ifconfig	${DISTDIR}/${SBINDIR}/rh_ifconfig
+
+	${QUIET} for i in ${BINS}; \
+	do \
+		${OBJBINCOPY} ${BINDIR}/$$i  ${DISTDIR}/${BINDIR}/$$i;\
+		${CHMOD} +x ${DISTDIR}/${BINDIR}/$$i;\
+	done
+
+	${QUIET} for i in ${USRBINS}; \
+	do \
+		${OBJBINCOPY} ${USRBINDIR}/$$i  ${DISTDIR}/${USRBINDIR}/$$i;\
+		${CHMOD} +x ${DISTDIR}/${USRBINDIR}/$$i;\
+	done
+
+	${QUIET} for i in ${USRSBINS}; \
+	do \
+		${OBJBINCOPY} ${USRSBINDIR}/$$i  ${DISTDIR}/${USRSBINDIR}/$$i;\
+		${CHMOD} +x ${DISTDIR}/${USRSBINDIR}/$$i;\
+	done
+
+	${QUIET} for i in ${IPTLIBS}; \
+	do \
+		${OBJLIBCOPY} ${IPTDIR}/$$i  ${DISTDIR}/${IPTDIR}/$$i;\
+	done
+
+	${QUIET} for i in ${SYSLIBS}; \
+	do \
+		${OBJLIBCOPY} ${SYSLIBDIR}/$$i  ${DISTDIR}/${SYSLIBDIR}/$$i;\
+	done
+
+	${QUIET} for i in ${USRLIBS}; \
+	do \
+		${OBJLIBCOPY} ${USRLIBDIR}/$$i  ${DISTDIR}/${SYSLIBDIR}/$$i;\
+	done
+
+	${OBJBINCOPY} ${BINDIR}/df  ${DISTDIR}/${BINDIR}/df.system
+	${CHMOD} +x ${DISTDIR}/${BINDIR}/df.system
+else
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_rootfs_base.tgz -C ${DISTDIR}
+	${QUIET} ${TOUCH} ${DISTDIR}/etc/config/arm_system
+#${QUIET} ${TOUCH} ${DISTDIR}/etc/config/arm_system
+	${QUIET} ${LN} -f  /usr/sbin/ethtool    ${DISTDIR}${SBINDIR}/ethtool
+	${QUIET} ${LN} -f /usr/sbin/iptables ${DISTDIR}${SBINDIR}/iptables
+	${QUIET} ${MKDIR} -p ${DISTDIR}/${APPBASE}/bin
+	${QUIET} ${LN} -f  /usr/sbin/ntpd ${DISTDIR}/${APPBASE}/bin/ntpd
+	${QUIET} ${LN} -f  /usr/bin/ntpq ${DISTDIR}/${APPBASE}/bin/ntpq
+	${QUIET} rm  -f  ${DISTDIR}/etc/securetty
+
+# Modify dropbear startup script to use the correct banner 
+
+	${QUIET} touch ${DISTDIR}/etc/issue.net
+	${QUIET} sed -i -e "s%--exec /usr/sbin/dropbear%--exec /usr/sbin/dropbear -- -b /etc/issue.net -m -w%" ${DISTDIR}/etc/init.d/S50dropbear
+endif
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/pam.conf ${DISTDIR}/etc/pam.conf
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ssh_host_key ${DISTDIR}/etc/ssh/ssh_host_key
+	${CHMOD} 600 ${DISTDIR}/etc/ssh/ssh_host_key
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ssh_host_key.pub ${DISTDIR}/etc/ssh/ssh_host_key.pub
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ssh_host_rsa_key ${DISTDIR}/etc/ssh/ssh_host_rsa_key
+	${CHMOD} 600 ${DISTDIR}/etc/ssh/ssh_host_rsa_key
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ssh_host_rsa_key.pub ${DISTDIR}/etc/ssh/ssh_host_rsa_key.pub
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sshd_config ${DISTDIR}/etc/ssh/sshd_config
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sftp-server ${DISTDIR}/usr/libexec/sftp-server
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/hosts ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/passwd ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/group ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/shadow ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/nsswitch.conf ${DISTDIR}/etc 
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/pppoptions ${DISTDIR}/etc/ppp/options
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/logrotate.conf ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/services ${DISTDIR}/etc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/netconfig ${DISTDIR}/etc 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/syslog.conf ${DISTDIR}/etc
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/rsyslog.conf ${DISTDIR}/etc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/inittab_xpi ${DISTDIR}/etc/inittab
+else
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/inittab ${DISTDIR}/etc
+
+endif
+
+#	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/inittab ${DISTDIR}/etc
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/mdev.conf ${DISTDIR}/etc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/rc.sh ${DISTDIR}/etc/rc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/avahi-autoipd.action ${DISTDIR}/etc/avahi
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ifplugd.action ${DISTDIR}/etc/ifplugd
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ifplugd.conf ${DISTDIR}/etc/ifplugd
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watchdog.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/common.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/rollback_v2d.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/setup_kernel.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/start_base_services.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/gc_aborted_ingestions.sh ${DISTDIR}/etc/scripts/
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ubootenv.sh ${DISTDIR}/etc/scripts/
+endif
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/load_application_images.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/setup_file_system.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/setup_data_file_system.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/diskutils.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/get_config.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/create_device_xml.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/mount_hard_drive.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/start_system_services.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/preliminary_report_processing.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/apply_config.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/start_application_services.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/revert_to_defaults.sh ${DISTDIR}/etc/scripts/
+#	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/save_to_flash.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/save_database.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/restore_database.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/delete_database.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/export_database.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/import_database.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/database_management_variables.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/iptables.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_ntp.sh ${DISTDIR}/etc/scripts/watchdog/
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_net2usb.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/save_to_flash_xpi.sh ${DISTDIR}/etc/scripts/save_to_flash.sh
+else
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/save_to_flash.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_i2c.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/installwizard.sh ${DISTDIR}/etc/scripts/
+endif
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_nas.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_hdd.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_deviceapp.sh ${DISTDIR}/etc/scripts/watchdog/
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_network.sh ${DISTDIR}/etc/scripts/watchdog
+endif	
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/Start_StrmSrv.php ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/Start_StrmSrvRx.php ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/streamingserver.php ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_managementserver.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/watch_linuxha.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ctlbase.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/cmdctlbase.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/clusterctl.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/osgictl.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/dnsctl.sh ${DISTDIR}/etc/scripts/watchdog/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/_db_server.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sedna_native.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sedna_xmldb.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/exist_xmldb.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sednactl.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ipvsxmldbctl.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ipvsxmldbutils.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/openfirectl.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/database_upgrade_variables.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/trash_media.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ftp_upload.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ftp_logs.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/device_check_common.rc ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/check_device.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/check_device/*.profile ${DISTDIR}/etc/config/hwprofiles
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/kernel_poweroff.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/mediafile_conversion_utils.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/mediaroom_software_upgrade.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/nfs_upload.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/sc_discovery.sh ${DISTDIR}/etc/scripts/
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/omnitek.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/setgpio.sh ${DISTDIR}/etc/scripts/ 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/setup_xpi.sh ${DISTDIR}/etc/scripts/
+endif
+
+#ifeq (,$(findstring arm,$(CROSS_COMPILE)))
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/retrieve_serial_number.sh ${DISTDIR}/etc/scripts/
+#endif	
+# scripts fr ORB
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/launchumc.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/orbupgrade.sh ${DISTDIR}/etc/scripts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/Orb ${DISTDIR}/etc/scripts/
+
+ifneq (${BUILD_XPI},0)
+# XSL transform for "Apply"
+	${QUIET} ${MKDIR} -p ${DISTDIR}/${APPBASE}/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/xsls/get_listfile.xsl ${DISTDIR}/${APPBASE}/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/xsls/add_list.xsl ${DISTDIR}/${APPBASE}/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/xsls/get_addlist.xsl ${DISTDIR}/${APPBASE}/xsl
+
+# scripts to copy the Device Agent and supporting scripts
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${CDEVICEINTERFACE}/bin/agent ${DISTDIR}/usr/bin/agent
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/xsl/*.xsl ${DISTDIR}/etc/agent/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/templates/*.xml ${DISTDIR}/etc/agent/templates
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/scripts/*.sh ${DISTDIR}/etc/agent/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/scripts/*.rc ${DISTDIR}/etc/agent/scripts
+
+# Store message files for debug
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/in
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/out
+# Code to copy web interface
+	${QUIET} rm -rf ${DISTDIR}/var/www/templates
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/templates
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/cgi-bin
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/documentation
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/images
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/img
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/css
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/js
+	${QUIET} ${MKDIR} -p ${DISTDIR}/usr/share/bweb
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/www/images/* ${DISTDIR}/var/www/images
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBIF}/img/* ${DISTDIR}/var/www/img
+	${QUIET} cd ${DISTDIR}/var/www/img/ ; find -name .svn | xargs ${RM} -rf
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBIF}/templates/* ${DISTDIR}/var/www/templates
+	${QUIET} cd ${DISTDIR}/var/www/templates/ ; find -name .svn | xargs ${RM} -rf
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBIF}/bweb/* ${DISTDIR}/usr/share/bweb
+	${QUIET} cd ${DISTDIR}/usr/share/bweb/ ; find -name .svn | xargs ${RM} -rf
+	${QUIET} ${CHMOD} -R +x ${DISTDIR}/usr/share/bweb/*
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBIF}/cgi-bin/* ${DISTDIR}/var/www/cgi-bin
+	${QUIET} cd ${DISTDIR}/var/www/cgi-bin/ ; find -name .svn | xargs ${RM} -rf
+	${QUIET} ${CHMOD} -R +x ${DISTDIR}/var/www/cgi-bin/*
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBIF}/js/* ${DISTDIR}/var/www/js
+	${QUIET} cd ${DISTDIR}/var/www/js/ ; find -name .svn | xargs ${RM} -rf
+
+	${QUIET} ${CP} ${BUILDDIR}/${WEBIF}/documentation/* ${DISTDIR}/var/www/documentation
+	${QUIET} ${CP} ${BUILDDIR}/${WEBIF}/css/* ${DISTDIR}/var/www/css
+
+
+# code to copy Device Interface files
+# 
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/lighttpd
+	${QUIET} ${MKDIR} -p ${DISTDIR}/var/www/deviceinterface
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/templates/lighttpd.conf ${DISTDIR}/etc/lighttpd
+	${QUIET} ${CP} ${BUILDDIR}/${CDEVICEINTERFACE}/cgi/*.cgi ${DISTDIR}/var/www/deviceinterface
+endif
+
+	${QUIET} ${MKDIR} -p ${DISTDIR}/etc/migration
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/migration/*.sh ${DISTDIR}/etc/migration
+# code to copy migration scripts from model
+
+	${QUIET} ${TAR} xf ${BUILDDIR}/${MODEL}/migration.tar -C ${DISTDIR}/etc
+	${QUIET} ${CHMOD} +x ${DISTDIR}/etc/migration/*/*/*/*.sh
+
+	${QUIET} ${CHMOD} +x ${DISTDIR}/etc/scripts/*.sh
+	${QUIET} ${CHMOD} +x ${DISTDIR}/etc/scripts/watchdog/*.sh
+
+#	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/init ${DISTDIR}/init
+ifneq (${BUILD_XPI},0)
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/init_xpi ${DISTDIR}/init
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/inittab_qemu ${DISTDIR}/etc/
+else	
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/init ${DISTDIR}/init
+endif
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/getty.sh ${DISTDIR}/bin 
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/cfmount.sh ${DISTDIR}/bin/cfmount
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/cfunmount.sh ${DISTDIR}/bin/cfunmount
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/drvload.sh ${DISTDIR}/etc/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/drvunload.sh ${DISTDIR}/etc/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_upgrade.sh ${DISTDIR}/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/software_install.sh ${DISTDIR}/etc/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/remote_upgrade.sh ${DISTDIR}/etc/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/vt100 ${DISTDIR}/usr/share/terminfo/v
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/ipvs.ttf ${DISTDIR}/usr/share/fonts/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/usb.ids ${DISTDIR}/usr/share/hwdata/usb.ids
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/pci.ids ${DISTDIR}/usr/share/hwdata/pci.ids
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/profile ${DISTDIR}/etc
+	${QUIET} ${CP} ${BUILDDIR}/${WIS}/Sw/SupportFiles/*.bin ${DISTDIR}/etc/wis
+	${QUIET} ${CP} ${BUILDDIR}/${WIS}/Sw/SupportFiles/*.txt ${DISTDIR}/etc/wis
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/remote_config.xml ${DISTDIR}/etc/config/remote_config.xml
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/remote_notification.xml ${DISTDIR}/etc/config/remote_notification.xml
+
+ifeq (${BUILD_XPI},0)
+	${QUIET} ${CHMOD} -f +x ${DISTDIR}/bin/*
+	${QUIET} for file in ${DISTDIR}/lib/* ; do \
+	    if [ ! -L $$file ] ; then \
+	        ${CHMOD} +x $$file ; \
+	    fi \
+	done
+
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_linux_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_avahi_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_ziputils_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_busybox_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_scponly_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_scpjailer_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_putty_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_mdadm_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_openssh_binaries.tgz -C ${DISTDIR}
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_openssl_binaries.tgz -C ${DISTDIR}
+#	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_alsa_binaries.tgz -C ${DISTDIR}
+
+endif
+
+	${QUIET} touch ${DISTDIR}/.changed
+	${QUIET} touch System_Dist
+
+
+OnAir_Deps = ${BUILDDIR}/${MEDIASERVER}/templates/*
+
+${OnAir_Deps}:: ;
+OnAir_Dist: ${OnAir_Deps}
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/*.sdp ${ONAIRDIR}/templates
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/udhcpd.conf ${ONAIRDIR}/templates/udhcpd.conf
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/iptables.sh ${ONAIRDIR}/templates/iptables.sh
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/crontab ${ONAIRDIR}/templates/crontab
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/shadow ${ONAIRDIR}/templates/shadow
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/passwords ${ONAIRDIR}/templates/passwords
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ntp.conf ${ONAIRDIR}/templates/ntp.conf
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ntp_server.conf ${ONAIRDIR}/templates/ntp_server.conf
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/httpd.conf ${ONAIRDIR}/httpd.conf
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/crossdomain.xml ${ONAIRDIR}/templates/crossdomain.xml
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/mime.types ${ONAIRDIR}/templates/mime.types
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ssl.conf ${ONAIRDIR}/ssl.conf
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.xml.localdb ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.script ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.script.localdb ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.properties.localdb ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.keystore ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.truststore ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openfire.client.truststore ${ONAIRDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/log4crc ${ONAIRDIR}/log4crc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/openssl.cnf ${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/log4crc ${ONAIRDIR}/templates/log4crc
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/authkeys \
+	${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ha.cf \
+	${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/haresources \
+	${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/exist.conf ${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ms.zone.template ${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/ms.named.conf.template ${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/sc.service ${ONAIRDIR}/templates/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/templates/di.service ${ONAIRDIR}/templates/
+
+	${QUIET} ${RM} ${ONAIRDIR}/TV/logs
+	${QUIET} touch OnAir_Dist
+	${QUIET} touch ${ONAIRDIR}/.changed
+
+
+OASys_Build_Clean:
+	@echo "CLEAN OASys..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${OASYS} clean
+OASys_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD OASys..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${OASYS}
+OASys_Dep = ${BUILDDIR}/${OASYS}/frontpanel/frontpanel \
+	${BUILDDIR}/${OASYS}/syslinux/syslinux 
+
+${OASys_Dep}: ;
+OASys_Dist: ${OASys_Dep}
+	@echo "DIST OASys..."
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${OASYS}/frontpanel/frontpanel ${DISTDIR}/sbin/frontpanel
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${OASYS}/syslinux/syslinux ${DISTDIR}/sbin/syslinux
+	${QUIET} chmod +x ${DISTDIR}/sbin/frontpanel
+	${QUIET} chmod +x ${DISTDIR}/sbin/syslinux
+	${QUIET} touch ${DISTDIR}/.changed
+	${QUIET} touch OASys_Dist
+
+
+
+WIS_DIR = ${ENCODERDIR}
+WisDrv_Build:
+#	${QUIET_MAKE} -C ${BUILDDIR}/${WIS}/Sw
+WisDrv_Dep = ${BUILDDIR}/${WIS}/Sw/install/wis_sensor.o \
+	     ${BUILDDIR}/${WIS}/Sw/install/wisgo7007sb.o \
+	     ${BUILDDIR}/${WIS}/Sw/Lib/libVideoCapture.so
+${WisDrv_Dep}: ;
+WisDrv_Dist: ${WisDrv_Dep}
+	${QUIET} ${MKDIR} -p ${WIS_DIR}/lib/modules
+	${QUIET} ${CP} ${BUILDDIR}/${WIS}/Sw/install/wis_sensor.o ${WIS_DIR}/lib/modules/wis_sensor.o
+	${QUIET} ${CP} ${BUILDDIR}/${WIS}/Sw/install/wisgo7007sb.o ${WIS_DIR}/lib/modules/wisgo7007sb.o
+
+	${OBJLIBCOPY} ${BUILDDIR}/${WIS}/Sw/Lib/libVideoCapture.so ${WIS_DIR}/lib/libVideoCapture.so
+
+	${QUIET} touch WisDrv_Dist
+	${QUIET} touch ${WIS_DIR}/.changed
+
+
+V2DDEV_DIR = ${ONAIRDIR}
+V2DDev_Build_Clean:
+	@echo "CLEAN V2DDev..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${V2DDEV} clean
+V2DDev_Build_Test: ${TESTOUTPUTDIR}
+	@echo "Test V2DDev..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DDEV} test TESTPARAMS="--gtest_output=xml:v2ddev_test.xml --gtest_color=no"
+	${QUIET} /bin/cp ${BUILDDIR}/${V2DDEV}/modules/v2ddev_test.xml ${TESTOUTPUTDIR}
+V2DDev_Build_Docs:
+	@echo "Docs V2DDev..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DDEV} docsinstall DOCSINSTALLBASEDIR=${DOCS_INSTALL_DIRECTORY}
+V2DDev_Build:
+	@echo "BUILD V2DDev..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DDEV}
+ifeq (${BUILD_XPI},0)	
+V2DDev_Dep = ${BUILDDIR}/${V2DDEV}/modules/vutils \
+	     ${BUILDDIR}/${V2DDEV}/modules/libv2o.so \
+	     ${BUILDDIR}/${V2DDEV}/modules/drivers/libv2okernel.so \
+	     ${BUILDDIR}/${V2DDEV}/modules/drivers/fpga_module.ko \
+             ${BUILDDIR}/${V2DDEV}/modules/scripts/*
+${V2DDev_Dep}: ;
+V2DDev_Dist: ${V2DDev_Dep} 
+	@echo "DIST V2DDev..."
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/vutils ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/libv2o.so ${V2DDEV_DIR}/lib/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/drivers/libv2okernel.so ${V2DDEV_DIR}/lib/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/drivers/fpga_module.ko ${V2DDEV_DIR}/V2O/modules/
+
+	${QUIET} ${CHMOD} +x ${V2DDEV_DIR}/V2O/bin/vutils
+
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.txt ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.png ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.bmp ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${V2DDEV_DIR}/V2O/config/* ${V2DDEV_DIR}/V2O/factory_config
+	${QUIET} touch V2DDev_Dist
+	${QUIET} touch ${V2DDEV_DIR}/.changed
+else
+V2DDev_Dep = ${BUILDDIR}/${V2DDEV}/modules/vutils \
+	${BUILDDIR}/${V2DDEV}/modules/libv2o.so \
+	${BUILDDIR}/${V2DDEV}/modules/drivers/libv2okernel.so \
+	${BUILDDIR}/${V2DDEV}/modules/scripts/*
+
+V2DDev_Dist: ${V2DDev_Dep}
+	@echo "DIST V2DDev..."
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/vutils ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/libv2o.so ${V2DDEV_DIR}/lib/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/drivers/libv2okernel.so ${V2DDEV_DIR}/lib/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/maint ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/maint ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/efdma/*.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/ethernet/*.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/framebuffer/fb.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/netvizxpi/*.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/ptp/ptp.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/driver/OmniTek_Driver.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CHMOD} +x ${V2DDEV_DIR}/V2O/bin/vutils
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.txt ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.png ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${BUILDDIR}/${V2DDEV}/modules/scripts/*.bmp ${V2DDEV_DIR}/V2O/config
+	${QUIET} ${CP} ${V2DDEV_DIR}/V2O/config/* ${V2DDEV_DIR}/V2O/factory_config
+	${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux-kernel-headers/drivers/i2c/muxes/pca954x.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux-kernel-headers/drivers/mtd/devices/m25p80.ko ${V2DDEV_DIR}/V2O/modules/
+	${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux-kernel-headers/drivers/watchdog/pxa168_wdt.ko ${V2DDEV_DIR}/V2O/modules/
+#   ${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux_kernel_headers/drivers/mmc/card/mmc_test.ko ${V2DDEV_DIR}/V2O/modules/
+#
+#   #   ${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux_kernel_headers/sound/soc/pxa/snd-soc-nexxis-tlv320aic32x4.ko ${V2DDEV_DIR}/V2O/modules/
+
+#   ${QUIET} ${CP} ${BUILDDIR}/${DEV_DIR}/linux_kernel_headers/sound/soc/codecs/snd-soc-tlv320aic32x4.ko ${V2DDEV_DIR}/V2O/modules/
+
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIASERVER}/system/starttx_stream.sh ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/application/barco/*.sh ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CHMOD} +x ${V2DDEV_DIR}/V2O/bin/*.sh
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/application/barco/*.dat ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} ${CP} ${BUILDDIR}/${XPIDRV}/application/barco/*.txt ${V2DDEV_DIR}/V2O/bin/
+	${QUIET} touch V2DDev_Dist
+	${QUIET} touch ${V2DDEV_DIR}/.changed
+endif
+XpiDrv_Build_Clean:
+	@echo "CLEAN xpidrivers..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${XPIDRV}/driver clean
+#XpiDrv_Build:
+XpiDrv_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD xpidrivers..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${XPIDRV}/driver  ${PARALLEL_MAKE}
+
+
+Net2Usb_Build_Clean:
+	@echo "CLEAN net2usb..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${NET2USB} clean
+Net2Usb_Build:
+	@echo "BUILD net2usb..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${NET2USB} 
+
+CDeviceInterface_Build_Clean:
+	@echo "CLEAN C Device Interface..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${CDEVICEINTERFACE} clean
+CDeviceInterface_Build:
+	@echo "BUILD C Device Interface..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${CDEVICEINTERFACE} 
+
+MODEL_DIR = ${MEDIAROOMDIR}
+Model_Build_Clean: 
+	@echo "CLEAN Model..."
+	-${QUIET} cd ${BUILDDIR}/${MODEL}; ${ANT} ${QUIET_ANT} clean
+Model_Build:
+	@echo "BUILD Model..."
+	${QUIET} cd ${BUILDDIR}/${MODEL}; ${ANT} ${QUIET_ANT}
+Model_Dep = ${BUILDDIR}/${MODEL}/objectxml.jar
+${Model_Dep}: ;
+Model_Dist: ${Model_Dep}
+	@echo "DIST Model..."
+	${QUIET} ${MKDIR} -p ${MODEL_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${MKDIR} -p ${MODEL_DIR}/templates
+	${QUIET} ${MKDIR} -p ${MODEL_DIR}/templates/factorydb
+	${QUIET} rm -rf ${MODEL_DIR}/templates/factorydb/*
+	${QUIET} ${CP}  -r ${BUILDDIR}/${MODEL}/build/${FACTORY_DB_FOLDER}/* ${MODEL_DIR}/templates/factorydb
+	${QUIET} touch Model_Dist
+	${QUIET} touch ${MODEL_DIR}/.changed
+
+
+DEVICEVNG_LIBS = dom4j.jar javax.servlet.jar jaxen.jar jetty-all-8.1.6.v20120903.jar log4j-1.2.15.jar smack.jar com.barco.nimbus.3rdparty.jain-sdp.jar
+DEVICEVNG_DIR = ${DEVICEVNGDIR}
+
+DEVICEINTERFACE_LIBS = dom4j.jar javax.servlet.jar jaxen.jar jetty-all-8.1.6.v20120903.jar log4j-1.2.15.jar smack.jar
+DEVICEINTERFACE_DIR = 
+MEDIAROOM_LIBS = commons-beanutils.jar commons-collections-3.2.jar commons-lang-2.3.jar commons-logging-1.1.jar commons-logging-adapters-1.1.jar commons-logging-api-1.1.jar dom4j.jar jaxen.jar log4j-1.2.15.jar plugin.jar saxpath.jar smack.jar smackx.jar su-smack-latest.jar jcip-annotations-1.0.jar xpp3.jar jetty-all-8.1.6.v20120903.jar javax.servlet.jar resteasy-jaxrs-2.3.5.Final.jar jaxrs-api-2.3.5.Final.jar scannotation-1.0.3.jar json-convertor.jar  com.barco.nimbus.3rdparty.jain-sdp.jar
+MEDIAROOM_LIBS_1_4 = rt-1.4.jar smack-1.4.jar smackx-1.4.jar su-smack-1.2.jar 
+MEDIAROOM_DIR = ${MEDIAROOMDIR}
+MediaRoom_Build_Clean: 
+	@echo "CLEAN MediaRoom..."
+	-${QUIET} cd ${BUILDDIR}/${MEDIAROOM}; ${ANT} ${QUIET_ANT} clean
+MediaRoom_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD MediaRoom..."
+	${QUIET} for file in ${MEDIAROOM_LIBS} ; do \
+	   ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/$${file} ${BUILDDIR}/${MEDIAROOM}/3rdpartylib ; \
+	done
+	${QUIET} for file in ${MEDIAROOM_LIBS_1_4} ; do \
+	   ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS_1_4}/$${file} ${BUILDDIR}/${MEDIAROOM}/3rdpartylib ; \
+	done
+	${QUIET} cp server.version .version
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' .version
+endif
+	${QUIET} sed -e "s/VERSION/`cat .version`/g" -e 's/DATE/${BUILD_DATE}/g' ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/xsd/xml/version.xml > ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/app/version.xml
+	${QUIET} rm -f .version
+	${QUIET} cd ${BUILDDIR}/${MEDIAROOM}; ${ANT} ${QUIET_ANT} -listener org.apache.tools.ant.XmlLogger; \
+	if [ x$$? = "x1" ] ; then \
+		${ANT} ${QUIET_ANT} clean ; ${ANT} ${QUIET_ANT} -listener org.apache.tools.ant.XmlLogger; \
+	fi
+	${QUIET} ${MKDIR} -p build_logs
+	-${QUIET} ${MV} ${BUILDDIR}/${MEDIAROOM}/log.xml build_logs/mediaroom_build_log.xml
+
+MediaRoom_Dep = ${BUILDDIR}/${MEDIAROOM}/dist/mediaroom.jar \
+		${BUILDDIR}/${MEDIAROOM}/bin/applet.html \
+		${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/LoginRequestTemplate.xml \
+		${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/SetServiceDomainRequestTemplate.xml \
+		${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/ProxyClientConfigTemplate.xml \
+		${BUILDDIR}/${PKG3PARTYJAVALIBS}/*
+${MediaRoom_Dep}: ;
+MediaRoom_Dist: ${MediaRoom_Dep}
+	@echo "DIST MediaRoom..."
+	${QUIET} ${MKDIR} -p ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/dist/mediaroom.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public/mediaroom.jar
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/objectxml.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+#	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/dist/ipvsclient.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public/ipvsclient.jar
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/bin/applet.html ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public/applet.html
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/* ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS_1_4}/smack-1.4.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS_1_4}/smackx-1.4.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS_1_4}/su-smack-1.2.jar ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/public
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/LoginRequestTemplate.xml ${MEDIAROOM_DIR}/templates/LoginRequest.xml
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/SetServiceDomainRequestTemplate.xml ${MEDIAROOM_DIR}/templates/SetServiceDomainRequest.xml
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/ProxyClientConfigTemplate.xml ${MEDIAROOM_DIR}/templates/ProxyClientConfig.xml
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/utils/xsl/*.xsl ${MEDIAROOM_DIR}/xsl/
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/objectXml
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/objectXml/*.xml ${MEDIAROOM_DIR}/objectXml/
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/objectXml/*.version ${MEDIAROOM_DIR}/objectXml/
+# Add osgi only for intel build
+ifeq (${BUILD_XPI},0)
+	echo "Removing prev osgi dir"
+	rm -rf ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/osgi
+	echo "Removing prev osgi workspace and temp area"
+	rm -rf ${BUILDDIR}/osgi_workspace
+	rm -rf ${BUILDDIR}/dms_build/${BUCKMINSTERDIR}
+	echo "Creating new osgi dir"
+	${QUIET} ${MKDIR} -p ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/osgi
+	${QUIET}  cd ${BUILDDIR};  ${BUCKMINSTER} -vm ${JAVA7} -data  ${BUILDDIR}/osgi_workspace -D buckminster.temp.root=${BUILDDIR}/dms_build/${BUCKMINSTERTEMP} -D buckminster.output.root=${BUILDDIR}/dms_build/${BUCKMINSTEROUTPUT} --scriptfile com.barco.nimbus.releng/buckminster/${BUCKMINSTER_CONFIG}
+	echo "Copying osgi zip"
+	${QUIET} cd ${BUILDDIR}/${MEDIAROOM}; rm -rf osgi.zip
+	${QUIET} ${CP} ${BUILDDIR}/dms_build/${PRODUCT_LOCATION}/com.barco.nimbus.equinox.product.zip ${BUILDDIR}/${MEDIAROOM}/osgi.zip
+	echo "Extracting osgi zip"
+	${QUIET} cd ${MEDIAROOM_DIR}/modules/${MEDIAROOM}/osgi; ${UNZIP} ${BUILDDIR}/${MEDIAROOM}/osgi.zip
+	echo "osgi done"
+endif
+	${QUIET} touch MediaRoom_Dist
+	${QUIET} touch ${MEDIAROOM_DIR}/.changed
+
+MEDIAROOMEXT_LIBS = smack.jar
+SDK_Build_Clean: 
+	@echo "CLEAN SDK..."
+	-${QUIET} cd ${BUILDDIR}/${MEDIAROOMEXT}; ${ANT} ${QUIET_ANT} clean
+SDK_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD SDK..."
+	${QUIET} for file in ${MEDIAROOMEXT_LIBS} ; do \
+	   ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/$${file} ${BUILDDIR}/${MEDIAROOMEXT}/javalibs ; \
+	done
+	${QUIET} cd ${BUILDDIR}/${MEDIAROOMEXT}; ${ANT} ${QUIET_ANT} -listener org.apache.tools.ant.XmlLogger; \
+	if [ x$$? = "x1" ] ; then \
+		${ANT} ${QUIET_ANT} clean ; ${ANT} ${QUIET_ANT} -listener org.apache.tools.ant.XmlLogger; \
+	fi
+	${QUIET} ${MKDIR} -p build_logs
+	-${QUIET} ${MV} ${BUILDDIR}/${MEDIAROOMEXT}/log.xml build_logs/mediaroomext_build_log.xml
+
+SDK_Dist: ${SDK_Dep}
+	@echo "DIST SDK..."
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}
+	${QUIET} rm -rf ${SDKIMAGESDIR}
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/rest
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/xmpp
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/xmpp/doc
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/xmpp/doc/xsd
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/xmpp/src
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/xmpp/src/bin
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/sdk/README.txt ${SDKIMAGESDIR}/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXT}/xsd/ipvsxmppclient.xsd ${SDKIMAGESDIR}/xmpp/doc/xsd
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXT}/xsd/ipvsstanzaerror.xsd ${SDKIMAGESDIR}/xmpp/doc/xsd
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/xsd/*.public.* ${SDKIMAGESDIR}/xmpp/doc/xsd
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/xep-IPVS/API-IPVS-External.pdf ${SDKIMAGESDIR}/xmpp/doc/API-BARCO-XMPP.pdf
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/common/service/message.properties ${SDKIMAGESDIR}/xmpp/doc/xsd/exceptioncodes.txt
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXTAPP}/src/com/ipvs/ext/app/cmdline/CmdLineClient.java ${SDKIMAGESDIR}/xmpp/src/CmdLineClient.java
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/smack.jar ${SDKIMAGESDIR}/xmpp/src/bin
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXT}/dist/ipvsxmppclient.jar ${SDKIMAGESDIR}/xmpp/src/bin
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXTAPP}/src/README.txt ${SDKIMAGESDIR}/xmpp/
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${MODEL}/sdk/rest/* ${SDKIMAGESDIR}/rest
+	${QUIET} cd ${SDKIMAGESDIR}/rest ; find -name .svn | xargs ${RM} -rf
+	${QUIET} cp server.version .version
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' .version
+endif
+	${QUIET} sed -i "s/%server.version%/`cat .version`/g" ${SDKIMAGESDIR}/rest/src/api-docs
+	${QUIET} ${CP} .version ${SDKIMAGESDIR}/VERSION.txt
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/xep-IPVS/API-BARCO-Rest-XML.pdf ${SDKIMAGESDIR}/rest/doc
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/xep-IPVS/API-BARCO-Rest-JSON.pdf ${SDKIMAGESDIR}/rest/doc
+
+#	${QUIET} ${CP} -r ${BUILDDIR}/${COLLABCLIENT}/player/* ${SDKIMAGESDIR}/player
+#	$(eval PLAYERVERSION1 := $(shell grep 'player.version' ${BUILDDIR}/${CLIENTBUILD}/player.version | cut -f2 -d '='))
+#	$(eval PLAYERVERSION2 := $(shell sed -n #'s/^player\.version=[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)/\1,\2,\3,\4/p' #${BUILDDIR}/${CLIENTBUILD}/player.version))
+#	${QUIET} sed -i s/%SERVER.VERSION%/`cat .version`/g ${SDKIMAGESDIR}/player/src/js/BarcoPlayer.js
+#	${QUIET} rm -f .version 
+#	${QUIET} sed -i s/%PLAYER.VERSION2%/$(PLAYERVERSION2)/g ${SDKIMAGESDIR}/player/src/js/StreamPlayer.js
+#	${QUIET} ${CP} ${BUILDDIR}/${CLIENTBUILD}/player.version ${SDKIMAGESDIR}/player/src/streamplayers/ipvplayer
+#	${QUIET} ${CP} -f cab_files/IPVPlayerCtrl.cab ${SDKIMAGESDIR}/player/src/streamplayers/ipvplayer
+#	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOMEXTAPP}/src/README.txt ${SDKIMAGESDIR}
+#	${QUIET} ${CP} -r ${BUILDDIR}/${GUIAPIAGENT} ${SDKIMAGESDIR}/player/src
+#	${QUIET} cd ${SDKIMAGESDIR}/player ; find -name .svn | xargs ${RM} -rf
+#	${QUIET} rm -rf ${SDKIMAGESDIR}/player/src/sencha
+
+#       player keep only server load SDK Player reuiqred files
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/doc
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/src
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/src/js
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/src/guiAPIAgent/scripts
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/src/jquery
+	${QUIET} ${MKDIR} -p ${SDKIMAGESDIR}/player/src/resource
+
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/doc/Player.pdf ${SDKIMAGESDIR}/player/doc
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/js/BarcoPlayerInterface.js ${SDKIMAGESDIR}/player/src/js
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/js/plugin-inheritance.js ${SDKIMAGESDIR}/player/src/js
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/jquery/jquery-1.11.0.js ${SDKIMAGESDIR}/player/src/jquery
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/jquery/jquery.fullscreen-0.4.1.js ${SDKIMAGESDIR}/player/src/jquery
+	${QUIET} ${CP} ${BUILDDIR}/${GUIAPIAGENT}/scripts/BarcoUtil.js ${SDKIMAGESDIR}/player/src/guiAPIAgent/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/resource/barco60x40.png ${SDKIMAGESDIR}/player/src/resource
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/Player.css ${SDKIMAGESDIR}/player/src
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/Player.js ${SDKIMAGESDIR}/player/src
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/Player.html ${SDKIMAGESDIR}/player/src
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/player/src/PlayerEmbedURL.html ${SDKIMAGESDIR}/player/src
+
+
+DeviceInterface_Build_Clean: 
+	@echo "CLEAN DeviceInterface..."
+	-${QUIET} cd ${BUILDDIR}/${DEVICEINTERFACE}; ${ANT} ${QUIET_ANT} clean
+DeviceInterface_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD DeviceInterface..."
+	${QUIET} for file in ${DEVICEINTERFACE_LIBS} ; do \
+	   ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/$${file} ${BUILDDIR}/${DEVICEINTERFACE}/javalibs ; \
+	done
+	${QUIET} cd ${BUILDDIR}/${DEVICEINTERFACE}; ${ANT} ${QUIET_ANT} 
+
+DeviceInterface_Dist: ${BUILDDIR}/${DEVICEINTERFACE}/dist/deviceinterface.jar \
+		${BUILDDIR}/${PKG3PARTYJAVALIBS}/*
+	@echo "DIST DeviceInterface..."
+	${QUIET} ${MKDIR} -p ${DEVICEINTERFACE_DIR}/modules/${DEVICEINTERFACE}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEINTERFACE}/dist/deviceinterface.jar ${DEVICEINTERFACE_DIR}/modules/${DEVICEINTERFACE}/public/deviceinterface.jar
+	${QUIET} ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/* ${DEVICEINTERFACE_DIR}/modules/${DEVICEINTERFACE}/public
+	${QUIET} ${MKDIR} -p ${DEVICEINTERFACEDIR}/templates
+	${QUIET} touch DeviceInterface_Dist
+	${QUIET} touch ${DEVICEINTERFACE_DIR}/.changed
+
+DeviceVNG_Build_Clean: 
+	@echo "CLEAN DeviceVNG..."
+	-${QUIET} cd ${BUILDDIR}/${DEVICEVNG}; ${ANT} ${QUIET_ANT} clean
+DeviceVNG_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD DeviceVNG..."
+	${QUIET} for file in ${DEVICEVNG_LIBS} ; do \
+	   ${CP} ${BUILDDIR}/${PKG3PARTYJAVALIBS}/$${file} ${BUILDDIR}/${DEVICEVNG}/javalibs ; \
+	done
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEINTERFACE}/dist/deviceinterface.jar ${BUILDDIR}/${DEVICEVNG}/javalibs 
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEINTERFACE}/log4j.xml ${BUILDDIR}/${DEVICEVNG}/javalibs
+	${QUIET} cd ${BUILDDIR}/${DEVICEVNG}; ${ANT} ${QUIET_ANT} 
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}/templates
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/LoginRequestTemplate.xml ${DEVICEVNG_DIR}/templates/LoginRequest.xml
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/SetServiceDomainRequestTemplate.xml ${DEVICEVNG_DIR}/templates/SetServiceDomainRequest.xml
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAROOM}/src/com/ipvs/test/xml/ProxyClientConfigTemplate.xml ${DEVICEVNG_DIR}/templates/ProxyClientConfig.xml
+	${QUIET} ${MKDIR} -p ${MEDIAROOMDIR}/xsl
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/utils/xsl/*.xsl ${DEVICEVNG_DIR}/xsl/
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}/objectXml
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/objectXml/*.xml ${DEVICEVNG_DIR}/objectXml/
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/build/com/ipvs/xsd/xml/*handler.xml ${DEVICEVNG_DIR}/objectXml/
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/objectXml/*.version ${DEVICEVNG_DIR}/objectXml/
+
+DeviceVNG_Dep = ${BUILDDIR}/${DEVICEINTERFACE}/dist/deviceinterface.jar \
+				${BUILDDIR}/${DEVICEVNG}/dist/v2dtx.jar \
+				${BUILDDIR}/${DEVICEVNG}/dist/v2drx.jar \
+				${BUILDDIR}/${DEVICEVNG}/dist/v2dxp.jar \
+				${BUILDDIR}/${DEVICEVNG}/dist/dms.jar \
+				${BUILDDIR}/${DEVICEVNG}/dist/ms.jar \
+		MediaRoom_Dep
+${DeviceVNG_Dep}: ;
+DeviceVNG_Dist: ${DeviceVNG_Dep}
+	@echo "DIST DeviceVNG..."
+	${QUIET} ${MKDIR} -p ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/dist/v2dtx.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/dist/v2drx.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/dist/v2dxp.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/dist/dms.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/dist/ms.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${DEVICEVNG}/javalibs/* ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${CP} ${BUILDDIR}/${MODEL}/objectxml.jar ${DEVICEVNG_DIR}/modules/${DEVICEVNG}/public
+	${QUIET} ${MKDIR} -p ${DEVICEVNGDIR}/templates
+	${QUIET} touch DeviceVNG_Dist
+	${QUIET} touch ${DEVICEVNG_DIR}/.changed
+
+MEDIAPORTAL_DIR = ${MEDIAPORTALDIR}
+MediaPortal_Build_Clean: 
+	@echo "CLEAN Media Portal..."
+MediaPortal_Build: 
+	@echo "BUILD Media Portal..."
+
+MediaPortal_Dep = ${BUILDDIR}/${MEDIAPORTAL}/*.php \
+                  ${BUILDDIR}/${MEDIAPORTAL}/*.html \
+                  ${BUILDDIR}/${MEDIAPORTAL}/images/*.jpg \
+
+
+${MediaPortal_Dep}: ;
+MediaPortal_Dist: ${MediaPortal_Dep}
+	@echo "DIST Media Portal..."
+	${QUIET} ${MKDIR} -p ${MEDIAPORTAL_DIR}/modules/mediaportal/public
+	${QUIET} ${MKDIR} -p ${MEDIAPORTAL_DIR}/modules/mediaportal/public/images
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAPORTAL}/*.php ${MEDIAPORTAL_DIR}/modules/mediaportal/public/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAPORTAL}/*.html ${MEDIAPORTAL_DIR}/modules/mediaportal/public/
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAPORTAL}/images/*.jpg ${MEDIAPORTAL_DIR}/modules/mediaportal/public/images
+	${QUIET} ${MKDIR} -p ${MEDIAPORTALFS}/etc/scripts
+	${QUIET} ${CP} ${BUILDDIR}/${MEDIAPORTAL}/*.sh ${MEDIAPORTALFS}/etc/scripts
+	${QUIET} touch MediaPortalDist
+	${QUIET} touch ${MEDIAPORTAL_DIR}/.changed
+
+MEDIAJS_DIR = ${MEDIAJSDIR}
+MediaJS_Dist:
+	@echo "DIST Media JS..."
+	${QUIET} ${MKDIR} -p ${MEDIAJS_DIR}/modules/mediajs/public
+	${QUIET} ${CP} -r ${BUILDDIR}/${MEDIAJS}/* ${MEDIAJS_DIR}/modules/mediajs/public/
+	${QUIET} cd ${MEDIAJS_DIR}/modules/mediajs/public/ ; find -name .svn | xargs ${RM} -rf
+	${QUIET} touch ${MEDIAJS_DIR}/.changed
+
+WEBUI_DIR = ${WEBUIDIR}
+WebUI_Dist:
+	@echo "DIST WEBUI..."
+	${QUIET} ${MKDIR} -p ${WEBUI_DIR}/${APPBASE}/htdocs/public
+	-${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/index.html ${WEBUI_DIR}/${APPBASE}/htdocs/public/
+
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/img ${WEBUI_DIR}/${APPBASE}/htdocs/public/
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/css ${WEBUI_DIR}/${APPBASE}/htdocs/public/
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/js ${WEBUI_DIR}/${APPBASE}/htdocs/public/
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/templates ${WEBUI_DIR}/${APPBASE}/htdocs/public/
+	${QUIET} cd ${WEBUI_DIR}/${APPBASE}/htdocs/public/ ; find -name .svn | xargs ${RM} -rf
+
+	${QUIET} ${MKDIR} -p ${WEBUI_DIR}/${APPBASE}/apache/cgi-bin
+	${QUIET} ${CP} -r ${BUILDDIR}/${WEBUI}/cgi-bin/* ${WEBUI_DIR}/${APPBASE}/apache/cgi-bin
+	${QUIET} cd ${WEBUI_DIR}/${APPBASE}/apache/cgi-bin ; find -name .svn | xargs ${RM} -rf
+	${QUIET} ${CHMOD} -R +x ${WEBUI_DIR}/${APPBASE}/apache/cgi-bin/*
+
+	${QUIET} ${MKDIR} -p ${WEBUI_DIR}/usr/share/bweb
+	${QUIET} ${CP} -r  ${BUILDDIR}/${WEBUI}/bweb/* ${WEBUI_DIR}/usr/share/bweb/
+	${QUIET} cd ${WEBUI_DIR}/usr/share/bweb/ ; find -name .svn | xargs ${RM} -rf
+	${QUIET} ${CHMOD} -R +x ${WEBUI_DIR}/usr/share/bweb/*
+	${QUIET} ${CHMOD} 644 ${WEBUI_DIR}/usr/share/bweb/htpasswd
+	${QUIET} touch ${WEBUI_DIR}/.changed
+
+	${QUIET} ${MKDIR} -p ${WEBUI_DIR}/${APPBASE}/htdocs/public/rest
+	${QUIET} ${CP} -r ${BUILDDIR}/${MODEL}/sdk/rest/* ${WEBUI_DIR}/${APPBASE}/htdocs/public/rest
+
+OPENFIRE_DIR = ${OPENFIREDIR}
+OpenFire_Build_Clean:  
+	@echo "CLEAN OpenFire..."
+	-${QUIET} cd ${BUILDDIR}/${XMPP}/IPVSServComponent/build; ${ANT} ${QUIET_ANT} clean    
+	-${QUIET} cd ${BUILDDIR}/${XMPP}/mediaroomplugin/build; ${ANT} ${QUIET_ANT} clean    
+	-${QUIET} cd ${BUILDDIR}/${XMPP}/IpvsUserProvider/build; ${ANT} ${QUIET_ANT} clean
+
+OpenFire_Build:  
+	@echo "BUILD OpenFire..."
+	if [ "x${DB_SERVER}" = "xexist_xmldb" ] ; then \
+		 ${TAR} -C ${BUILDDIR}/${XMPP}/IPVSServComponent/build/lib/exist/dist -xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_exist_binaries.tgz  usr/local/exist/lib ; \
+	fi  \
+
+	${QUIET} ${CP}  ${BUILDDIR}/${PKG3PARTYJAVALIBS}/dom4j.jar ${BUILDDIR}/${XMPP}/IPVSServComponent/build/lib/merge ; cd ${BUILDDIR}/${XMPP}/IPVSServComponent/build; ${ANT} ${QUIET_ANT}; \
+	if [ x$$? = "x1" ] ; then \
+		${ANT} ${QUIET_ANT} clean ; ${ANT} ${QUIET_ANT}; \
+	fi  
+	${QUIET} cd ${BUILDDIR}/${XMPP}/mediaroomplugin/build; ${ANT} ${QUIET_ANT}; \
+	if [ x$$? = "x1" ] ; then \
+		${ANT} ${QUIET_ANT} clean ; ${ANT} ${QUIET_ANT}; \
+	fi  
+	${QUIET} cd ${BUILDDIR}/${XMPP}/IpvsUserProvider/build; ${ANT} ${QUIET_ANT}; \
+	if [ x$$? = "x1" ] ; then \
+		${ANT} ${QUIET_ANT} clean ; ${ANT} ${QUIET_ANT}; \
+	fi
+
+OpenFire_Dep = ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_openfire_binaries.tgz \
+	       ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_sedna_binaries.tgz \
+	       ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_exist_binaries.tgz \
+	       ${BUILDDIR}/${XMPP}/IPVSServComponent/target/ipvscomponent/lib/* \
+	       ${BUILDDIR}/${XMPP}/mediaroomplugin/target/mscomponent/lib/* \
+	       ${BUILDDIR}/${XMPP}/IpvsUserProvider/target/ipvsuserprovider.jar
+
+${OpenFire_Dep}: ;
+OpenFire_Dist: ${OpenFire_Dep}
+	@echo "DIST Openfire..."
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/${DB_SERVER_TAR} -C ${OPENFIREFS}
+	${QUIET} cp ${BUILDDIR}/${PKG3PARTYIMAGES}/javalibs/ipvsexistdbtriggers.jar ${OPENFIREFS}/usr/local/exist/lib/user
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_openfire_binaries.tgz -C ${OPENFIREFS}
+	${QUIET} cp ${BUILDDIR}/${MEDIASERVER}/system/existjetty.xml ${OPENFIREFS}/usr/local/exist/tools/jetty/etc/jetty.xml
+	${QUIET} /bin/rm -rf ${OPENFIRE_DIR}/ipvscomponent
+	${QUIET} /bin/rm -rf ${OPENFIRE_DIR}/mscomponent
+	${QUIET} cp -r ${BUILDDIR}/${XMPP}/IPVSServComponent/target/home/onair/ipvscomponent ${OPENFIRE_DIR}
+	${QUIET} cp -r ${BUILDDIR}/${XMPP}/mediaroomplugin/target/mscomponent ${OPENFIRE_DIR}
+	${QUIET} cp -r ${BUILDDIR}/${XMPP}/IpvsUserProvider/target/ipvsuserprovider.jar ${OPENFIRE_DIR}/openfire/lib
+	${QUIET} chmod +x ${OPENFIRE_DIR}/ipvscomponent/bin/ipvscomponent.sh
+	${QUIET} chmod +x ${OPENFIRE_DIR}/mscomponent/bin/mscomponent.sh
+
+	${QUIET} mkdir -p ${OPENFIRE_DIR}/bin
+	${QUIET} cp /usr/bin/ncftpget ${OPENFIRE_DIR}/bin
+	${QUIET} cp /usr/bin/ncftpput ${OPENFIRE_DIR}/bin
+
+	${QUIET} touch OpenFire_Dist
+	${QUIET} touch ${OPENFIRE_DIR}/.changed
+
+
+ifeq (${BUILD_XPI},0)
+V2DLIB_DIR = ${STRMSRVDIR}
+else
+V2DLIB_DIR = ${STRMSRVDEVDIR}
+endif
+
+V2DLib_Build_Clean:
+	@echo "CLEAN V2DLib..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${V2DLIB} clean
+V2DLib_Build_Test: ${TESTOUTPUTDIR}
+	@echo "Test V2DLib..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DLIB} test TESTPARAMS="--gtest_output=xml:v2dlib_test.xml --gtest_color=no"
+	${QUIET} /bin/cp ${BUILDDIR}/${V2DLIB}/v2dlib_test.xml ${TESTOUTPUTDIR}
+V2DLib_Build_Docs:
+	@echo "Docs V2DLib..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DLIB} docsinstall DOCSINSTALLBASEDIR=${DOCS_INSTALL_DIRECTORY}
+V2DLib_Build:
+	@echo "BUILD V2DLib..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${V2DLIB}
+V2DLib_Dep = ${BUILDDIR}/${V2DLIB}/libv2d.so
+${V2DLib_Dep}: ;
+V2DLib_Dist: ${V2DLib_Dep}
+	@echo "DIST V2DLib..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${V2DLIB}/libv2d.so ${V2DLIB_DIR}/lib/libv2d.so
+	${QUIET} touch V2DLib_Dist
+	${QUIET} touch ${V2DLIB_DIR}/.changed
+
+
+ifeq (${BUILD_XPI},0)
+MEDIAINDEX_DIR = ${STRMSRVDIR}
+else
+MEDIAINDEX_DIR = ${STRMSRVDEVDIR}
+endif
+MediaIndex_Build_Clean:
+	@echo "CLEAN MediaIndex..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${MEDIAINDEX} clean
+MediaIndex_Build_Test: ${TESTOUTPUTDIR}
+	@echo "Test MediaIndex..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${MEDIAINDEX} test TESTPARAMS="--gtest_output=xml:mediaindex_test.xml --gtest_color=no"
+	${QUIET} /bin/cp ${BUILDDIR}/${MEDIAINDEX}/mediaindex_test.xml ${TESTOUTPUTDIR}
+MediaIndex_Build:
+	@echo "BUILD MediaIndex..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${MEDIAINDEX}
+MediaIndex_Dep = ${BUILDDIR}/${MEDIAINDEX}/libmediaindex.so \
+	         ${BUILDDIR}/${MEDIAINDEX}/index_media
+${MediaIndex_Dep}: ;
+MediaIndex_Dist: ${MediaIndex_Dep} 
+	@echo "DIST MediaIndex..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${MEDIAINDEX}/libmediaindex.so ${MEDIAINDEX_DIR}/lib/libmediaindex.so
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${MEDIAINDEX}/index_media ${MEDIAINDEX_DIR}/TV/bin/index_media
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${MEDIAINDEX}/show_gaps ${MEDIAINDEX_DIR}/TV/bin/show_gaps
+	${QUIET} touch MediaIndex_Dist
+	${QUIET} touch ${MEDIAINDEX_DIR}/.changed
+
+ifeq (${BUILD_XPI},0)
+AUTHTOOL_DIR = ${STRMSRVDIR}
+else
+AUTHTOOL_DIR = ${STRMSRVDEVDIR}
+endif
+AuthTool_Build_Clean:
+	@echo "CLEAN AuthTool..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${AUTHTOOL}/mediaconverter clean
+AuthTool_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}  MediaIndex_Build
+	@echo "BUILD AuthTool..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${AUTHTOOL}/mediaconverter
+AuthTool_Dep = ${BUILDDIR}/${AUTHTOOL}/mediaconverter/mediaconverter/mediaconverter
+
+${AuthTool_Dep}: ;
+AuthTool_Dist: ${AuthTool_Dep} 
+	@echo "DIST AuthTool..."
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${AUTHTOOL}/mediaconverter/mediaconverter/mediaconverter ${AUTHTOOL_DIR}/TV/bin/mediaconverter
+	${QUIET} touch AuthTool_Dist
+	${QUIET} touch ${AUTHTOOL_DIR}/.changed
+
+ifeq (${BUILD_XPI},0)
+RFBPROTO_DIR = ${STRMSRVDIR}
+else
+RFBPROTO_DIR = ${STRMSRVDEVDIR}
+endif
+RfbProto_Build_Clean: 
+	@echo "CLEAN RfbProto..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${RFBPROTO} clean
+RfbProto_Build: 
+	@echo "BUILD RfbProto..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${RFBPROTO}
+RfbProto_Dep = ${BUILDDIR}/${RFBPROTO}/librfbproto.so
+${RfbProto_Dep}: ;
+RfbProto_Dist: ${RfbProto_Dep} 
+	@echo "DIST RfbProto..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${RFBPROTO}/librfbproto.so ${RFBPROTO_DIR}/lib/librfbproto.so
+	${QUIET} touch RfbProto_Dist
+	${QUIET} touch ${RFBPROTO_DIR}/.changed
+
+
+STRMSRV_DIR = ${STRMSRVDIR}
+StrmSrv_Build_Clean:
+	@echo "CLEAN StrmSrv..."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${STRMSRV} clean
+StrmSrv_Build_Test: ${TESTOUTPUTDIR}
+	@echo "Test StrmSrv..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${STRMSRV} test TESTPARAMS="--gtest_output=xml:strmsrv_test.xml --gtest_color=no"
+	${QUIET} /bin/cp ${BUILDDIR}/${STRMSRV}/strmsrv_test.xml ${TESTOUTPUTDIR}
+StrmSrv_Build_Docs:
+	@echo "Docs StrmSrv..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${STRMSRV} docsinstall DOCSINSTALLBASEDIR=${DOCS_INSTALL_DIRECTORY}
+
+StrmSrv_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER} WisDrv_Build MediaIndex_Build V2DLib_Build RfbProto_Build
+	@echo "BUILD StrmSrv..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${STRMSRV}
+StrmSrv_Dep = ${BUILDDIR}/${STRMSRV}/StreamingServer \
+              ${BUILDDIR}/${STRMSRV}/libstrmsrv.so \
+              ${BUILDDIR}/${STRMSRV}/FFCreator \
+              ${BUILDDIR}/${STRMSRV}/watch_streamingserver.sh 
+${StrmSrv_Dep}: ;
+
+StrmSrv_Dist: ${StrmSrv_Dep}
+	@echo "DIST StrmSrv..."
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${STRMSRV}/StreamingServer ${STRMSRV_DIR}/TV/bin/StreamingServer
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${STRMSRV}/libstrmsrv.so ${STRMSRV_DIR}/lib/libstrmsrv.so
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${STRMSRV}/FFCreator ${STRMSRV_DIR}/TV/bin/FFCreator
+	${QUIET} ${CP} ${BUILDDIR}/${STRMSRV}/watch_streamingserver.sh ${STRMSRVFS}/etc/scripts/watchdog/
+	${QUIET} touch StrmSrv_Dist
+	${QUIET} touch ${STRMSRV_DIR}/.changed
+
+
+STRMSRVDEV_DIR = ${STRMSRVDEVDIR}
+ifeq (${BUILD_XPI},0)
+StrmSrvDev_Dist: ${StrmSrv_Dep}
+	@echo "DIST StrmSrvDev..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${MEDIAINDEX}/libmediaindex.so ${STRMSRVDEV_DIR}/lib/libmediaindex.so
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${RFBPROTO}/librfbproto.so ${STRMSRVDEV_DIR}/lib/librfbproto.so
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${V2DLIB}/libv2d.so ${STRMSRVDEV_DIR}/lib/libv2d.so
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${STRMSRV}/StreamingServerDevice ${STRMSRVDEV_DIR}/TV/bin/StreamingServer
+	${QUIET} ${CP} ${BUILDDIR}/${STRMSRV}/watch_streamingserver.sh ${STRMSRVDEVFS}/etc/scripts/watchdog/
+	${QUIET} touch StrmSrvDev_Dist
+	${QUIET} touch ${STRMSRVDEV_DIR}/.changed
+else
+StrmSrvDev_Dist: ${StrmSrv_Dep}
+	@echo "DIST StrmSrvDev..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${MEDIAINDEX}/libmediaindex.so ${STRMSRVDEV_DIR}/lib/libmediaindex.so
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${RFBPROTO}/librfbproto.so ${STRMSRVDEV_DIR}/lib/librfbproto.so
+	${QUIET} ${CP} ${BUILDDIR}/${STRMSRV}/libthreadobjs.so  ${STRMSRVDEV_DIR}/lib/libthreadobjs.so
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${NET2USB}/net2usb ${STRMSRVDEV_DIR}/TV/bin/net2usb
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${V2DLIB}/libv2d.so ${STRMSRVDEV_DIR}/lib/libv2d.so
+	${QUIET} ${OBJBINCOPY} ${BUILDDIR}/${STRMSRV}/StreamingServerDevice ${STRMSRVDEV_DIR}/TV/bin/StreamingServer
+	${QUIET} ${CP} ${BUILDDIR}/${STRMSRV}/watch_streamingserver.sh ${STRMSRVDEVFS}/etc/scripts/watchdog/
+	${QUIET} touch StrmSrvDev_Dist
+	${QUIET} touch ${STRMSRVDEV_DIR}/.changed
+endif
+
+VMP_Build_Clean:
+	@echo "CLEAN VMP..."
+#	${QUIET} echo "JBS_BASE_DIR := $(BCP_PATH)/JBS" >| $(BCP_PATH)/.jbs.root
+	-${QUIET_MAKE} -C ${BUILDDIR}/${VMP} clean
+
+VMP_Build: ${BUILDDIR}/VMP_DMS/
+	@echo "BUILD VMP Modules..."
+#	echo "JBS_BASE_DIR := $(BCP_PATH)/JBS" >| $(BCP_PATH)/.jbs.root
+	${QUIET} sed -i -e  's/pipe/pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64/g'  ${BUILDDIR}/VMP_DMS/JBS/Make/Make.module.complink
+	${QUIET_MAKE} -C ${BUILDDIR}/${VMP} defs	
+	${QUIET_MAKE} -C ${BUILDDIR}/${VMP}
+VMP_Dist:
+	@echo "DIST VMP Modules..."
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Base64/libBFC_Base64.so.5 ${STRMSRVFS}/lib/libBFC_Base64.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_DL/libBFC_DL.so.5 ${STRMSRVFS}/lib/libBFC_DL.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Dyn/libBFC_Dyn.so.5 ${STRMSRVFS}/lib/libBFC_Dyn.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_IO/libBFC_IO.so.5 ${STRMSRVFS}/lib/libBFC_IO.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Image/libBFC_Image.so.5 ${STRMSRVFS}/lib/libBFC_Image.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Light/libBFC_Light.so.5 ${STRMSRVFS}/lib/libBFC_Light.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_LightRCom/libBFC_LightRCom.so.5 ${STRMSRVFS}/lib/libBFC_LightRCom.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_MT/libBFC_MT.so.5 ${STRMSRVFS}/lib/libBFC_MT.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Msg/libBFC_Msg.so.5 ${STRMSRVFS}/lib/libBFC_Msg.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Net/libBFC_Net.so.5 ${STRMSRVFS}/lib/libBFC_Net.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Net_Log/libBFC_Net_Log.so.5 ${STRMSRVFS}/lib/libBFC_Net_Log.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Plugins/libBFC_Plugins.so.5 ${STRMSRVFS}/lib/libBFC_Plugins.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_RegEx/libBFC_RegEx.so.5 ${STRMSRVFS}/lib/libBFC_RegEx.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Sound/libBFC_Sound.so.5 ${STRMSRVFS}/lib/libBFC_Sound.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_VFS/libBFC_VFS.so.5 ${STRMSRVFS}/lib/libBFC_VFS.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_XML/libBFC_XML.so.5 ${STRMSRVFS}/lib/libBFC_XML.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_DOM/libBFC_DOM.so.5 ${STRMSRVFS}/lib/libBFC_DOM.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/Sys_DL/libSys_DL.so.5 ${STRMSRVFS}/lib/libSys_DL.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/Sys_MT/libSys_MT.so.5 ${STRMSRVFS}/lib/libSys_MT.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_DMS/libVMP_DMS.so.5 ${STRMSRVFS}/lib/libVMP_DMS.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP/libVMP.so.5 ${STRMSRVFS}/lib/libVMP.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_GPC/libVMP_GPC.so.5 ${STRMSRVFS}/lib/libVMP_GPC.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_L2/libVMP_L2.so.5 ${STRMSRVFS}/lib/libVMP_L2.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_L3/libVMP_L3.so.5 ${STRMSRVFS}/lib/libVMP_L3.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_UI/libVMP_UI.so.5 ${STRMSRVFS}/lib/libVMP_UI.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_AAC/libVMP_AAC.so.5 ${STRMSRVFS}/lib/libVMP_AAC.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_M2S/libVMP_M2S.so.5 ${STRMSRVFS}/lib/libVMP_M2S.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_M4S/libVMP_M4S.so.5 ${STRMSRVFS}/lib/libVMP_M4S.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_AVC/libVMP_AVC.so.5 ${STRMSRVFS}/lib/libVMP_AVC.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_HLS/libVMP_HLS.so.5 ${STRMSRVFS}/lib/libVMP_HLS.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_RTP/libVMP_RTP.so.5 ${STRMSRVFS}/lib/libVMP_RTP.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/VMP_SegUtils/libVMP_SegUtils.so.5 ${STRMSRVFS}/lib/libVMP_SegUtils.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_HTTP/libBFC_HTTP.so.5 ${STRMSRVFS}/lib/libBFC_HTTP.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_NTLM/libBFC_NTLM.so.5 ${STRMSRVFS}/lib/libBFC_NTLM.so.5
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${VMP}/BFC_Crypto/libBFC_Crypto.so.5 ${STRMSRVFS}/lib/libBFC_Crypto.so.5
+
+IPVPlayer_Dist:
+	@echo "DIST IPVPlayer Module..."
+	${QUIET} ${MKDIR} -p cab_files
+	${QUIET} ${RM} -rf cab_files/*
+	${QUIET} export PLAYER_VER=`cut -d "=" -f 2 ${BUILDDIR}/${CLIENTBUILD}/player.version`; \
+          ${SVN} export -q ${SVNURL}/player_releases/tags/player_$${PLAYER_VER}/IPVPlayerCtrl.zip cab_files/IPVPlayerCtrl_$${PLAYER_VER}.zip; \
+          cd cab_files; unzip -q IPVPlayerCtrl_$${PLAYER_VER}.zip
+
+
+TIBCOGI_DIR = ${GUIDIR}
+TibcoGI_Build_Clean:
+	@echo "CLEAN TibcoGI..."
+	-${QUIET} cd ${BUILDDIR}/${TIBCOGI}; ${ANT} ${QUIET_ANT} clean
+TibcoGI_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD TibcoGI..."
+	-${QUIET} cd ${BUILDDIR}/${TIBCOGI}; ${ANT} ${QUIET_ANT}
+TibcoGI_Dist: TibcoGI_Build # Always force for now
+TibcoGI_Dist: 
+	@echo "DIST TibcoGI..."
+	${QUIET} ${RM} -rf ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${MKDIR} -p ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${MKDIR} -p ${TIBCOGI_DIR}/modules/clients/public/admin
+	${QUIET} ${MKDIR} -p ${TIBCOGI_DIR}/modules/clients/public/stx
+	${QUIET} ${MKDIR} -p ${TIBCOGI_DIR}/modules/clients/public/ipvs
+
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/clients.php ${TIBCOGI_DIR}/modules/clients/public/index.php
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/IPVSProxy.bat ${TIBCOGI_DIR}/modules/clients/public/GI/
+
+
+	${QUIET} cp server.version .version
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' .version
+endif
+	${QUIET} sed -e "s/VERSION/`cat .version`/g" -e 's/DATE/${BUILD_DATE}/g' ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/version.xml > guiversion.xml
+	${QUIET} rm -f .version
+
+	${QUIET} ${CP}  guiversion.xml ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_AdminUI/xml/version.xml
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_AdminUI ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_AdminUI/launch.php ${TIBCOGI_DIR}/modules/clients/public/admin/index.php
+
+
+
+	${QUIET} ${CP}  guiversion.xml ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_ClientUI/xml/version.xml
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_ClientUI ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS_ClientUI/launch.php ${TIBCOGI_DIR}/modules/clients/public/ipvs/index.php
+#   04/07 - File needed for popup window issue in GI
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/IPVSClient-Index.php ${TIBCOGI_DIR}/modules/clients/public/GI
+
+	${QUIET} ${CP}  guiversion.xml ${BUILDDIR}/${TIBCOGI}/JSXAPPS/STX_ClientUI/xml/version.xml
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/STX_ClientUI ${TIBCOGI_DIR}/modules/clients/public/GI/JSXAPPS
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TIBCOGI}/JSXAPPS/STX_ClientUI/launch.php ${TIBCOGI_DIR}/modules/clients/public/stx/index.php
+	${QUIET} rm -f guiversion.xml
+
+	${QUIET} cd ${TIBCOGI_DIR}/modules ; find -name .svn | xargs ${RM} -rf
+	${QUIET} touch TibcoGI_Dist
+	${QUIET} touch ${TIBCOGI_DIR}/.changed
+
+
+TibcoGILib_Dist: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_tibcogi_binaries.tgz
+TibcoGILib_Dist: 
+	@echo "DIST TibcoGILib"
+	${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_tibcogi_binaries.tgz -C ${GUIFS}
+	${QUIET} ${RM} -rf ${GUIDIR}/modules/clients/public/GI/JSX
+	${QUIET} ${MKDIR} -p ${GUIDIR}/modules/clients/public/GI
+	${QUIET} ${MV}  ${GUIDIR}/htdocs/public/* ${GUIDIR}/modules/clients/public/GI
+	${QUIET} ${CP} ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/index.php ${TIBCOGI_DIR}/htdocs/public
+	${QUIET} touch TibcoGILib_Dist
+	${QUIET} touch ${TIBCOGI_DIR}/.changed
+
+TABLET_DIR = ${GUIDIR}
+Tablet_Build_Clean:
+	@echo "CLEAN Tablet..."
+	-${QUIET} cd ${BUILDDIR}/${TABLET}; 
+Tablet_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD Tablet..."
+	-${QUIET} cd ${BUILDDIR}/${TABLET}; 
+Tablet_Dist: Tablet_Build # Always force for now
+Tablet_Dist: 
+	@echo "DIST Tablet..."
+	${QUIET} ${RM} -rf ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} ${MKDIR} -p ${TABLET_DIR}/modules/clients/public/tablet
+
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TABLET}/app ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TABLET}/util ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TABLET}/app.html ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} ${CP}  -r ${BUILDDIR}/${TABLET}/app.js ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} ${TAR} -xvzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_sencha_binaries.tgz -C ${TABLET_DIR}/modules/clients/public 
+	${QUIET} ${CP}  -r ${BUILDDIR}/${MODEL}/objectXml/service.version ${TABLET_DIR}/modules/clients/public/tablet
+	${QUIET} cp server.version .version
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' .version
+endif
+#	${QUIET} sed -e "s/VERSION/`cat .version`/g" -e 's/DATE/${BUILD_DATE}/g' ${BUILDDIR}/${TABLET}/JSXAPPS/IPVS-Common/php/version.xml > guiversion.xml
+	${QUIET} rm -f .version
+	${QUIET} cd ${TABLET_DIR}/modules ; find -name .svn | xargs ${RM} -rf
+	${QUIET} touch Tablet_Dist
+	${QUIET} touch ${TABLET_DIR}/.changed
+
+COLLABCLIENT_DIR = ${GUIDIR}
+CollabClient_Build_Clean:
+	@echo "CLEAN CollabClient..."
+	-${QUIET} cd ${BUILDDIR}/${TABLET}; 
+CollabClient_Build: ${BUILDDIR}/${PKG3PARTYDEVMARKER}
+	@echo "BUILD CollabClient..."
+	-${QUIET} cd ${BUILDDIR}/${TABLET}; 
+CollabClient_Dist: CollabClient_Build # Always force for now
+CollabClient_Dist: 
+	@echo "DIST CollabClient..."
+	${QUIET} ${RM} -rf ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${MKDIR} -p ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${MKDIR} -p ${COLLABCLIENT_DIR}/modules/clients/public/player
+	${QUIET} ${MKDIR} -p ${COLLABCLIENT_DIR}/modules/clients/public/demos
+	${QUIET} ${MKDIR} -p ${COLLABCLIENT_DIR}/modules/clients/public/gui/common
+#	${QUIET} ${MKDIR} -p ${COLLABCLIENT_DIR}/modules/clients/public/gui/src
+
+# copy guiAPIAgent and guiComponents under common
+	${QUIET} ${CP}  -r ${BUILDDIR}/guiAPIAgent ${COLLABCLIENT_DIR}/modules/clients/public/gui/common
+	${QUIET} ${CP}  -r ${BUILDDIR}/guiComponents ${COLLABCLIENT_DIR}/modules/clients/public/gui/common
+
+#	${QUIET} ${CP}  -r ${BUILDDIR}/${COLLABCLIENT}/common ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP}  -r ${BUILDDIR}/${COLLABCLIENT}/src ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP}  -r ${BUILDDIR}/${COLLABCLIENT}/resource ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP}  -r ${BUILDDIR}/${COLLABCLIENT}/lib ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP}  -r ${BUILDDIR}/${COLLABCLIENT}/player ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP}   ${BUILDDIR}/${COLLABCLIENT}/player/src/clientsPlayerIndex.php ${COLLABCLIENT_DIR}/modules/clients/public/player/index.php
+	${QUIET} ${CP} -r ${BUILDDIR}/${MODEL}/sdk/rest/src/resttester ${COLLABCLIENT_DIR}/modules/clients/public/gui/player
+	${QUIET} ${CP}  -r ${BUILDDIR}/guiAPIAgent ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src	
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/*.html ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${CP} ${BUILDDIR}/${COLLABCLIENT}/*.html ${COLLABCLIENT_DIR}/modules/clients/public/gui/
+
+	${QUIET} ${CP}  -r ${BUILDDIR}/${MODEL}/objectXml/service.version ${COLLABCLIENT_DIR}/modules/clients/public/gui
+	${QUIET} ${LN} -f /home/onair/modules/clients/public/gui/player/src/streamplayers/chromelessplayer ${COLLABCLIENT_DIR}/modules/clients/public/chromelessplayer
+	${QUIET} ${CP} ${BUILDDIR}/${CLIENTBUILD}/player.version ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/streamplayers/ipvplayer
+	${QUIET} cp server.version .version
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} sed -i -e 's/b.*/b${DEV_BUILD_NUMBER}/g' .version
+endif
+	${QUIET} sed -i s/%SERVER.VERSION%/`cat .version`/g ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/js/BarcoPlayer.js
+	${QUIET} rm -f .version 
+#	$(eval PLAYERVERSION1 := $(shell grep 'player.version' ${BUILDDIR}/${CLIENTBUILD}/player.version | cut -f2 -d '='))
+	$(eval PLAYERVERSION2 := $(shell sed -n 's/^player\.version=[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)\.[a-zA-Z]*\([0-9]*\)/\1,\2,\3,\4/p' ${BUILDDIR}/${CLIENTBUILD}/player.version))
+	${QUIET} sed -i s/%PLAYER.VERSION2%/$(PLAYERVERSION2)/g ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/js/StreamPlayer.js
+	${QUIET} sed -i s/%PLAYER.VERSION2%/$(PLAYERVERSION2)/g ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/js/LoadIPVPlayerObject.html
+	${QUIET} sed -i s/%PLAYER.VERSION2%/$(PLAYERVERSION2)/g ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/js/PlayerSelection.js
+	${QUIET} ${CP} -f cab_files/IPVPlayerCtrl.cab ${COLLABCLIENT_DIR}/modules/clients/public/gui/player/src/streamplayers/ipvplayer
+	${QUIET} ${RM} -rf cab_files
+	${QUIET} cd ${COLLABCLIENT_DIR}/modules/clients/public/gui ; find -name .svn | xargs ${RM} -rf
+	${QUIET} ${CP} -rf ${BUILDDIR}/${GUIDEMOS}/* ${COLLABCLIENT_DIR}/modules/clients/public/demos
+	${QUIET} ${MKDIR} -p ${GUIFS}/etc/scripts/
+	${QUIET} ${CP} -f ${BUILDDIR}/${GUIDEMOS}/scripts/*.sh ${GUIFS}/etc/scripts/
+	${QUIET} ${RM} -rf ${COLLABCLIENT_DIR}/modules/clients/public/demos/scripts
+	${QUIET} cd ${COLLABCLIENT_DIR}/modules/clients/public/demos ; find -name .svn | xargs ${RM} -rf
+	${QUIET} touch CollabClient_Dist
+	${QUIET} touch ${COLLABCLIENT_DIR}/.changed
+
+
+ClientBuild_Build_Clean:
+	@echo "CLEAN ClientBuild..."
+	-${QUIET} cd ${BUILDDIR}/${CLIENTBUILD}; ${ANT} ${QUIET_ANT} clean
+ClientBuild_Build:
+	@echo "BUILD ClientBuild..."
+ifeq (Developer,${BUILDTYPE})
+	${QUIET} cd ${BUILDDIR}/${CLIENTBUILD}; ${ANT} ${QUIET_ANT} -Dsvn.statusRevision=${DEV_BUILD_NUMBER}
+else
+	next_build_version=`cat server.version`; sed -i "s/version=.*/version=$${next_build_version}/" ${BUILDDIR}/${CLIENTBUILD}/clientUI.version
+	checkout_revision=`cat svn.revision.txt`; ${SVN} commit -m "Auto update by dms_build. SVN_REVISION:$${checkout_revision} BUILD_VERSION:${NEXT_BUILD_VERSION}" ${BUILDDIR}/${CLIENTBUILD}/clientUI.version
+	${QUIET} cd ${BUILDDIR}/${CLIENTBUILD}; ${ANT} ${QUIET_ANT} client-official-build -Ddms.official.build=true -Ddms.official.build.path=..
+endif
+CLIENT_DIR = ${GUIDIR}
+ClientBuild_Dist: 
+	@echo "DIST ClientBuild"
+	${QUIET} ${MKDIR} -p ${CLIENT_DIR}/modules/clients/public
+	${QUIET} ${MKDIR} -p ${CLIENT_DIR}/htdocs/public
+#	${QUIET} ${MKDIR} -p ${CLIENT_DIR}/htdocs/public/images
+	${QUIET} ${CP} -r ${BUILDDIR}/${CLIENTBUILD}/clients/* ${CLIENT_DIR}/modules/clients/public
+
+#	${QUIET} ${CP} ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/index.html ${CLIENT_DIR}/htdocs/public
+#	${QUIET} ${CP} ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/images/*.png ${CLIENT_DIR}/htdocs/public/images
+#	${QUIET} ${CP} ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/images/*.gif ${CLIENT_DIR}/htdocs/public/images
+#	${QUIET} ${CP} ${BUILDDIR}/${TIBCOGI}/JSXAPPS/IPVS-Common/php/images/*.jpg ${CLIENT_DIR}/htdocs/public/images
+
+
+	${QUIET} touch ${CLIENT_DIR}/.changed
+
+NODE_DIR = ${NODEDIR}
+Node_Dist: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_node_binaries.tgz
+Node_Dist: 
+	@echo "DIST Node"
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_node_binaries.tgz -C ${NODE_DIR}
+	${QUIET} touch Node_Dist
+	${QUIET} touch ${NODE_DIR}/.changed
+
+
+GStreamer_App:
+	${QUIET_MAKE} ${GSTREAMERDIR} 
+	${QUIET_MAKE} GStreamer_Build
+	${QUIET_MAKE} GStreamer_Dist
+	${QUIET_MAKE} ${GStreamer_App_Image}
+
+GStreamer_Build:
+	@echo "BUILD Gstreamer..."
+	${QUIET_MAKE} -C ${BUILDDIR}/${GSTPLUGINS}
+
+GStreamer_Build_Clean:
+	@echo "CLEAN Gstreamer.."
+	-${QUIET_MAKE} -C ${BUILDDIR}/${GSTPLUGINS} clean
+
+${GStreamer_App_Image}: ${GSTREAMERDIR}/.changed
+	@echo "IMAGE GStreamer..."
+	${QUIET} ${TAR} -C ${GSTREAMERFS} -czf ${GStreamer_App_Image} home usr
+	${QUIET} ${MD5SUM} ${GStreamer_App_Image} | cut -d " " -f 1 > md5.txt 
+	${QUIET} echo "md5=`cat md5.txt`" > gstreamerapp.tgz.info
+	${QUIET} rm -f md5.txt
+
+GSTREAMER_DIR = ${GSTREAMERDIR}
+GStreamer_Dist: ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_gstreamer_binaries.tgz
+GStreamer_Dist: 
+	@echo "DIST GStreamer"
+	${QUIET} ${TAR} xzf ${BUILDDIR}/${PKG3PARTYIMAGES}/pkg_3party_gstreamer_binaries.tgz -C ${GSTREAMER_DIR}
+	${QUIET} ${CP} ${BUILDDIR}/${GSTPLUGINS}/mediaimporter.sh ${GSTREAMER_DIR}/home/onair/TV/bin/mediaimporter
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${GSTPLUGINS}/libipvsrtpmuxer.so ${GSTREAMER_DIR}/usr/lib/gstreamer-1.0/libipvsrtpmuxer.so
+	${QUIET} ${OBJLIBCOPY} ${BUILDDIR}/${GSTPLUGINS}/libipvsmediawriter.so ${GSTREAMER_DIR}/usr/lib/gstreamer-1.0/libipvsmediawriter.so
+	${QUIET} touch GStreamer_Dist
+	${QUIET} touch ${GSTREAMER_DIR}/.changed
+
+
+
+.PHONY: Version NextVersion Release TagRelease CheckRelease SvnTag SvnCheckTag SvnBranch SvnCopyTag CheckNewTag CheckBuild
+

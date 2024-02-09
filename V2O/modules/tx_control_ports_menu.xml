@@ -1,0 +1,44 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>TxControlPorts</Title>
+   <Description>Encoder Control Port Range</Description>
+   <Access>tx_control_ports_parm</Access>
+   <ConfigFile>controlportsconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>port_from</Name>
+        <Type>integer</Type>
+        <Label>Control Port Start</Label>
+        <Help>Starting TCP Control port for V2D connections</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>6060</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>port_to</Name>
+        <Type>integer</Type>
+        <Label>Control Port End</Label>
+        <Help>Ending TCP Control port for V2D connections</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>7000</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+
+   </Items>
+</Menu>

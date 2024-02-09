@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+	<!--
+		NATIVE OBJECTS GET,ADD,UPDATE,DELETE REQUEST AND RESPONSES #### START
+	-->
+   
+     <!--  GetObject request -->
+	<xs:element name="GetObjectRequest" type="GetObjectRequestDataType" />
+	<xs:complexType name="GetObjectRequestDataType">
+		<xs:sequence>
+			<xs:element name="GetObjectRequest">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="GetObjectBaseType">
+							<xs:sequence>
+								<xs:element name="SelectXML" minOccurs="0">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:any />
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+							<xs:attribute name="whereXPath" type="xs:string" />
+							<xs:attribute name="selectFormat" type="NativeObjectSelectFormatType" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>		
+
+ 	<!-- GetObject Response -->
+	<xs:element name="GetObjectResponseData" type="GetObjectResponseDataType" />
+	<xs:complexType name="GetObjectResponseDataType">
+		<xs:sequence>
+			<xs:element name="GetObjectResponse">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="GetObjectResponseType">
+							<xs:sequence>
+								<xs:any />
+							</xs:sequence>
+							<xs:attribute name="type" type="ObjectListType" use="required" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>	
+
+   <!-- AddObject Request-->
+	<xs:element name="AddObjectRequestData" type="AddObjectRequestDataType" />
+	<xs:complexType name="AddObjectRequestDataType">
+		<xs:sequence>
+			<xs:element name="AddObjectRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+					<xs:attribute name="type" type="ObjectListType" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- AddObject Response -->
+	<xs:element name="AddObjectResponseData" type="AddObjectResponseDataType" />
+	<xs:complexType name="AddObjectResponseDataType">
+		<xs:sequence>
+			<xs:element name="AddObjectResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+					<xs:attribute name="type" type="ObjectListType" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>	
+	
+	<!-- UpdateObject Request -->
+	<!-- TBD: Include Select XML -->
+	<xs:element name="UpdateObjectRequestData" type="UpdateObjectRequestDataType" />
+	<xs:complexType name="UpdateObjectRequestDataType">
+		<xs:sequence>
+			<xs:element name="UpdateObjectRequest">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ObjectBaseType">
+							<xs:sequence>
+								<xs:any />
+							</xs:sequence>
+							<xs:attribute name="whereXPath" type="xs:string" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+    <!-- UpdateObject Response -->
+	<xs:element name="UpdateObjectResponseData" type="UpdateObjectResponseDataType" />
+	<xs:complexType name="UpdateObjectResponseDataType">
+		<xs:sequence>
+			<xs:element name="UpdateObjectResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- DeleteObject Request -->
+	<!-- TBD: Include Select XML -->
+	<xs:element name="DeleteObjectRequestData" type="DeleteObjectRequestDataType" />
+	<xs:complexType name="DeleteObjectRequestDataType">
+		<xs:sequence>
+			<xs:element name="DeleteObjectRequest">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ObjectBaseType">
+							<xs:sequence>
+								<xs:any />
+							</xs:sequence>
+							<xs:attribute name="whereXPath" type="xs:string" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- DeleteResponse -->
+	<xs:element name="DeleteObjectResponseData" type="DeleteObjectResponseDataType" />
+	<xs:complexType name="DeleteObjectResponseDataType">
+		<xs:sequence>
+			<xs:element name="DeleteObjectResponse">
+				<xs:complexType>
+					<xs:complexContent mixed="false">
+						<xs:extension base="ObjectBaseType">
+							<xs:sequence>
+								<xs:any />
+							</xs:sequence>
+							<xs:attribute name="whereXPath" type="xs:string" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+		NATIVE OBJECTS GET,ADD,UPDATE,DELETE REQUEST AND RESPONSES #### END
+	-->
+</xs:schema>

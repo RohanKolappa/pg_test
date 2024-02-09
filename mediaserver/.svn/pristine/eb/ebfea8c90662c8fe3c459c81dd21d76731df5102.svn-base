@@ -1,0 +1,239 @@
+#!/bin/sh
+#
+#	This script manages msctl
+#	usage: $0 {start|stop|status|monitor|validate-all|meta-data}
+#
+#######################################################################
+# Initialization:
+
+: ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/resource.d/heartbeat}
+. ${OCF_FUNCTIONS_DIR}/.ocf-shellfuncs
+
+MSCTLFILE="/var/status/msctl.running"
+USAGE="usage: $0 {start|stop|status|monitor|validate-all|meta-data}";
+
+CLUSTERCTL="/etc/scripts/watchdog/clusterctl.sh"
+DNSCTL="/etc/scripts/watchdog/dnsctl.sh"
+MSERVERCTL="/etc/scripts/watchdog/watch_managementserver.sh"
+
+DBCONF_FILE="/usr/local/exist/conf.xml"
+DBCONF_ACTIVE_FILE="/usr/local/exist/active.conf.xml"
+DBCONF_REPLICATE_FILE="/usr/local/exist/replicate.conf.xml"
+
+DEVICEAPP_HA_FILE="/usr/local/exist/deviceapp.ha.conf"
+DEVICEAPP_HA_ACTIVE_FILE="/usr/local/exist/deviceapp.ha.active.conf"
+DEVICEAPP_HA_REPLICATE_FILE="/usr/local/exist/deviceapp.ha.replicate.conf"
+MSCTLEX_FILE="/usr/local/exist/msctlex.conf"
+
+
+#this file is watchable by watchdog. If this file present watch dog will start watching the management service.
+#if device is in secondary this file going to be not present to stop unnecessary starts of management server on seconday
+WATCH_MS="/var/run/watchms"
+  
+  
+IPVSXMLDBCTL="/etc/scripts/ipvsxmldbctl.sh"
+DEVAPPCTL="/etc/scripts/watchdog/watch_deviceapp.sh"
+
+#######################################################################
+
+logprint() {
+    logger "$1"
+    echo "$1"
+}
+
+meta_data() {
+        cat <<END
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1.dtd">
+<resource-agent name="msctlimpl">
+<version>1.0</version>
+<longdesc lang="en">
+This script manages msctl.
+</longdesc>
+<shortdesc lang="en">Manages msctl (portable version)</shortdesc>
+
+<parameters>
+</parameters>
+
+<actions>
+<action name="start"   timeout="20s" />
+<action name="stop"    timeout="20s" />
+<action name="monitor" depth="0"  timeout="20s" interval="5s" />
+<action name="validate-all"  timeout="20s" />
+<action name="meta-data"  timeout="5s" />
+</actions>
+</resource-agent>
+END
+        exit $OCF_SUCCESS
+}
+
+start_implementation() {
+   logprint "msctlimpl:: start_implementation..."
+
+   # update the cfg files
+   /bin/rm -f $DBCONF_FILE
+   /bin/ln -s $DBCONF_ACTIVE_FILE $DBCONF_FILE
+   /bin/rm -f $DEVICEAPP_HA_FILE
+   /bin/ln -s $DEVICEAPP_HA_ACTIVE_FILE $DEVICEAPP_HA_FILE
+
+   #restart deviceappctl
+   $DEVAPPCTL restart
+
+   # stop replication if running
+   logprint "msctlimpl:: $IPVSXMLDBCTL stopreplication"
+   $IPVSXMLDBCTL stopreplication 
+	
+   touch ${WATCH_MS}
+   
+   # enable
+   $CLUSTERCTL on 
+   $DNSCTL on 
+   $MSERVERCTL on 
+
+   # start
+   #$CLUSTERCTL start 
+   #$DNSCTL start 
+   #$MSERVERCTL start 
+
+   return 0
+}
+
+stop_implementation() {
+
+   logprint "msctlimpl:: stop_implementation..."
+   if [ ! -f $MSCTLEX_FILE ] ; then
+     logprint "msctlimpl:: skipping stop_implementation: msctlex disabled..."
+     return 0
+   fi
+
+   #update cfg files
+   /bin/rm -f $DBCONF_FILE
+   /bin/ln -s $DBCONF_REPLICATE_FILE $DBCONF_FILE
+   /bin/rm -f $DEVICEAPP_HA_FILE
+   /bin/ln -s $DEVICEAPP_HA_REPLICATE_FILE $DEVICEAPP_HA_FILE
+
+   # we do not start replication, let the deviceapp do it
+
+   # disable
+   $CLUSTERCTL off 
+   $DNSCTL off 
+   $MSERVERCTL off 
+
+   #stop
+   #$CLUSTERCTL stop 
+   #$DNSCTL stop 
+   #$MSERVERCTL stop 
+   
+   #we should not remove watchms file on stop. mserverctl off will take care of stopping the management server and watch too.
+   
+   #restart deviceappctl only after MS is stopped
+   $DEVAPPCTL restart
+   
+   return 0
+}
+
+xs_stop() {
+
+    logprint "msctl:: stop..."
+    status
+    if [ $? = $OCF_NOT_RUNNING ] ; then
+        return $OCF_SUCCESS
+    fi
+
+    stop_implementation
+
+    # purposely inject stop failure
+    if [ $? -ne 0 ] ; then
+        logprint "msctl:: failed to stop..." 
+        return $OCF_ERR_GENERIC
+    fi
+
+    rm -f $MSCTLFILE
+    if [ $? -ne 0 ] ; then
+        return $OCF_ERR_GENERIC
+    fi
+
+    return $OCF_SUCCESS
+}
+
+
+xs_start() {
+
+    logprint "msctl:: start..."
+    status
+    if [ $? = $OCF_SUCCESS ] ; then
+        return $OCF_SUCCESS
+    fi
+
+    start_implementation
+
+    # purposely inject start failure
+    if [ $? -ne 0 ] ; then
+        logprint "msctl:: failed to start..."
+        return $OCF_ERR_GENERIC
+    fi
+
+	touch $MSCTLFILE
+	if [ $? -ne 0 ] ; then
+	    return $OCF_ERR_GENERIC
+	fi
+
+    return $OCF_SUCCESS
+}
+
+status() {
+
+    if [ -e $MSCTLFILE ] ; then 
+        logprint "msctl:: status running"
+        echo "running"
+        rc=$OCF_SUCCESS
+    else
+        logprint "msctl:: status stopped" 
+        echo "stopped"
+        rc=$OCF_NOT_RUNNING
+    fi
+
+    return $rc;
+
+}
+
+xs_status() {
+
+    logprint "msctl:: status invoked"
+    status
+    return $?
+}
+
+xs_monitor() {
+
+    logprint "msctl:: monitor invoked"
+    status
+    return $?
+}
+
+xs_validate_all() {
+
+    return $OCF_SUCCESS
+}
+  
+usage() {
+    echo $USAGE >&2
+    return $1
+}
+
+if [ $# -ne 1 ]; then
+    usage $OCF_ERR_ARGS
+fi
+
+case $1 in
+    meta-data)		meta_data;;
+    start)		xs_validate_all	&& xs_start;;
+    stop)		xs_stop;;
+    status)		xs_status;;
+    monitor)		xs_monitor;;
+    validate-all)	xs_validate_all;;
+    usage)		usage $OCF_SUCCESS;;
+    *)			usage $OCF_ERR_UNIMPLEMENTED;;
+esac
+
+exit $?

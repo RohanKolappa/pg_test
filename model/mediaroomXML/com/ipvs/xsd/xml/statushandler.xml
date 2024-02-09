@@ -1,0 +1,108 @@
+<DeviceHandler>
+
+	<handler>
+		<cmd>get_software_image_status</cmd>
+		<triggername>SystemElementsStatus/SoftwareImageStatus</triggername>
+		<validateXPath>Parameters/Parameter[@name='Version']</validateXPath>
+		<publish>true</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_cpu_status</cmd>
+		<triggername>SystemElementsStatus/CPUStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_memory_status</cmd>
+		<triggername>SystemElementsStatus/MemoryStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_front_panel_status</cmd>
+		<triggername>SystemElementsStatus/FrontPanelStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_system_clock_status</cmd>
+		<triggername>SystemElementsStatus/SystemClockStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_xmpp_agent_status</cmd>
+		<triggername>ServiceElementsStatus/XMPPAgentServiceStatus</triggername>
+		<publish>false</publish>
+	</handler>
+	
+	<handler>
+		<cmd>get_xmpp_server_status</cmd>
+		<triggername>ServiceElementsStatus/XMPPServiceStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_firmware_image_status</cmd>
+		<triggername>SystemElementsStatus/FirmwareImageStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_route_status</cmd>
+		<triggername>NetworkElementsStatus/RouteTableStatus</triggername>
+		<publish>false</publish>
+	</handler>
+
+	<handler>
+		<cmd>get_network_ports_status</cmd>
+		<triggername>NetworkElementsStatus/EthernetPortTableStatus</triggername>
+		<tablename>EthernetPortTableStatus</tablename>
+		<elementname>EthernetPortStatus</elementname>
+		<validateXPath>Parameters/Parameter[@name='IPAddress']</validateXPath>
+		<publish>true</publish>
+	</handler>
+
+	<handler>
+		<cmd>get_display_status</cmd>
+		<triggername>AVCodecElementsStatus/XP200PortStatus/XP200DisplayStatus</triggername>
+		<parent name="ChannelNumber" relativeXpath="../PortID" cliargument="channelNumber"/>
+		<validateXPath>Parameters/Parameter[@name!='']</validateXPath>
+		<publish>true</publish>
+	</handler>
+
+	<handler>
+		<cmd>get_disk_status</cmd>
+		<triggername>StorageElementsStatus/HardDiskTableStatus</triggername>
+		<error name="Raid Status" value="DEGRADED" type="ERRORS"/>
+		<error name="Raid Status" value="INIT" type="ERRORS"/>
+		<error name="Raid Status" value="REBUILDING" type="ERRORS"/>
+		<error name="Raid Status" value="INOPERABLE" type="FAILED"/>
+		<error name="BBU Status" value="Testing" type="ERRORS"/>
+		<error name="BBU Status" value="Charging" type="ERRORS"/>
+		<error name="BBU Status" value="Fault" type="ERRORS"/>
+		<error name="BBU Status" value="Error" type="ERRORS"/>
+		<error name="BBU Status" value="Failed" type="ERRORS"/>
+		<error name="BBU Status" value="WeakBat" type="ERRORS"/>
+		<validateXPath>Parameters/Parameter[@name!='']</validateXPath>
+		<publish>true</publish>
+	</handler>	
+
+	<handler>
+		<cmd>get_nas_status</cmd>
+		<triggername>StorageElementsStatus/NASStatus</triggername>
+		<publish>false</publish>
+	</handler>
+	
+	<handler>
+		<cmd>get_ha_status</cmd>
+		<triggername>ServiceElementsStatus//HAServerStatus</triggername>
+		<publish>false</publish>
+	</handler>	
+	<handler>
+		<cmd>get_db_management_status</cmd>
+		<triggername>ServiceElementsStatus//IPVSDBServiceStatus</triggername>
+		<publish>false</publish>
+	</handler>
+</DeviceHandler>

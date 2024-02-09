@@ -1,0 +1,33 @@
+Run DeviceApp in Eclipse
+-------------------------
+
+1. Add the following program arguments to DevieApp Run/Debug configuration
+	1.1. login  loginfilepath  (Copy /etc/config/LoginRequest.xml from any ipvs device and modify ipaddress and username ) -required
+	1.2. loginstatus  loginstatusfilepath  (/tmp/status for IPVS Devices ) -required
+	1.3. config configfilepath (Copy /etc/config/Device.xml from any ipvs device) -required
+	1.4. status statufilepath (copy /tmp/Device.xml from any ipvs device) - required
+2. Add log4j to your vm arguments
+    -Dlog4j.configuration=file:D:\padmaja_work\mediaroom_new\workspace\deviceinterface\log4j.xml
+3. Add your device jar to classpath which includes your service provider
+    - check out vngdevice module and run ant build.xml. it will create v2dtx.jar,nmsproxy.jar,v2dxp.jar etc. 
+4. Add objectXML.jar to your build path. 
+    - To Build objectxml jar you have to check out model and run ant build.xml.
+
+
+Run DeviceApp on Device
+------------------------
+
+1. Copy deviceinterface.jar to /home/onair/modules/mediaroom/public
+2. Copy v2dtx.jar/nmsproxy.jar to /home/onair/modules/mediaroom/public
+3. Copy log4j.xml to /home/onair/modules/mediaroom/public
+4. Stop deviceapp currently running on box. devappctl stop
+5. cd to /home/onair/modules/mediaroom/public/
+5. run following command to start new deviceinterface.jar
+    java -Xmx8m  -Dlog4j.configuration=file:///home/onair/modules/devicevng/public/log4j.xml -classpath v2dxp.jar  com.barco.device.app.DeviceApp login /etc/config/LoginRequest.xml loginstatus /tmp/status config /etc/config/Device.xml status /tmp/Device.xml
+    
+    If you are running MS in deviceapp mode, start with following command
+    java -Xmx8m  -Dlog4j.configuration=file:///home/onair/modules/mediaroom/public/log4j.xml -classpath v2dtx.jar  com.barco.device.app.DeviceApp login /etc/config/LoginRequest.xml loginstatus /tmp/status config /etc/config/Device.xml status /tmp/Device.xml appserveragentjid managementserver@localhost/managementserver
+    
+Note: if you running device interface on dms and ms memory argument is optional,but on xp's and tx you need memory argument. for xp 16m and for tx 8m.
+    
+	

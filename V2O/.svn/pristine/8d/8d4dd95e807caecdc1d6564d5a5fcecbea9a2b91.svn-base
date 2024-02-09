@@ -1,0 +1,88 @@
+
+Changing Board Type
+===================
+Shanker Iyer <shanker.iyer@barco.com>
+:Author Initials: SIYE
+$Id: board.txt 62961 2012-03-28 22:16:28Z siyer $
+
+Introduction
+------------
+The XP200 provides the ability to change the board type from a transmitter to
+a receiver and vice versa. This functionality is exposed through a command
+line interface command set_board_info
+
+[options="header"]
+|================================
+| Option | Values | Comments
+| boardtype | StreamSrc, StreamDst| Choice of transmitter or receiver
+| channelNumber | 1,2| Numeric identifier for the port
+|================================
+The process involves
+
+
+.  Disabling all access to the channel
+.  Loading the appropriate firmware image 
+.  Initializing the board
+.  Enabling access to the board
+
+Disabling access to the channel
+-------------------------------
+The HALD listens for events in the driver and configure necessary registers in
+the FPGA. There is one process for every channel. The first step is to
+terminate this process
+.kill hald
+
+The streaming server is used for IO operations on the channel. Based on the
+mode of operation of the device the streaming server objects associated with
+the channel are deleted.
+
+.. strmsrv_stop_fpga
+.. standalone_stop
+
+Loading the appropriate firmware image
+---------------------------------------
+For the LX80 and LX100 variants there are 2 sets of ".bin" files that are
+present in the firmwareapp.tgz. Based on the type of FPGA and the personality
+of the board the ".bin" file is loaded into the FPGA
+.  loadfpga 
+
+Initialize the board
+--------------------
+These operations are generally invoked during system startup. They are
+repeated every time the channel needs to initialized
+
+.  dreg  -r  -c <board number>
+..  hal_deactivate_board
+...  ioctl(fd, FPGA_IOC_BOARD_EXIT, NULL);
+..  hal_activate_board
+...  ioctl(fd, FPGA_IOC_BOARD_INIT, NULL)
+...  Whole bunch of hal commands to reset registers
+...  Initialize I2C bus
+...  Initialize DVI switch at I2C address 0x21
+...  Initialize DVI switch at I2C address 0x22
+...  Turn off LEDs
+...  Disable Audio in FPGA
+...  Set Audio ADC
+...  Processing for TX
+....  Configure and Enable TX PS2 KBM and USB KBM
+....  Initialize Keyboard and Mouse Type
+...  Processing for RX
+....  Configure and Enable  PS2 KBM and USB KBM for loopback
+....  Initialize Keyboard and Mouse Type
+...  Set audio volume
+...  Enable Audio in FPGA 
+...  XP100 related processing
+....  Turn off LED mode
+
+Enabling access to the board
+---------------------------
+The HALD is started to enable the system to respond to events in the driver
+and configure the driver
+
+.  /V2O/bin/hald -b <board number>
+If the devices is configured as a standalone the streaming server objects
+associated with serving/pushing content from/to the channel are enabled
+
+
+..  standalone_start
+

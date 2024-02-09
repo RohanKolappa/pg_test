@@ -1,0 +1,149 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>XpTxVideoParameters</Title>
+   <Description>Encoder Video Parameters</Description>
+   <Access>xp_tx_video_parm</Access>
+   <ConfigFile>txvidconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+      <Item>
+        <Name>phase_shift</Name>
+        <Type>integer</Type>
+        <Label>Sampling Phase</Label>
+        <Help>Sampling Phase</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-16</Min>
+           <Max>15</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>video_output</Name>
+        <Type>boolean</Type>
+        <Label>Local Video Output</Label>
+        <Help>Set video output for loopback port</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>noise_fine</Name>
+        <Type>integer</Type>
+        <Label>Fine Noise Elim</Label>
+        <Help>Fine Noise Elimination</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>16</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>2048</Max>
+        </Validation>
+
+      </Item>
+
+      <Item>
+        <Name>noise_coarse</Name>
+        <Type>integer</Type>
+        <Label>Coarse Noise Elim</Label>
+        <Help>Course Noise Elimination</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>10</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>256</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horizontal_position</Name>
+        <Type>integer</Type>
+        <Label>Horiz Position</Label>
+        <Help>Horizontal offset in pixels from left</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-135</Min>
+           <Max>375</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+	<Name>vertical_position</Name>
+        <Type>integer</Type>
+        <Label>Vert Position</Label>
+        <Help>Vertical offset in lines from top</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-25</Min>
+           <Max>50</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>lut_cpmp</Name>
+        <Type>string</Type>
+        <Label>LUT Charge Pump Curr</Label>
+        <Help>LUT Charge Pump Curr</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "50", "100", "150", "250","350","500","750","1500"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>dvi_mode</Name>
+        <Type>string</Type>
+        <Label>DVI Mode</Label>
+        <Help>Select to automatically set H/V delay values</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "LUT"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>optimize_latency</Name>
+        <Type>string</Type>
+        <Label>Optimize Latency</Label>
+        <Help>Select whether to optimize latency or not</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Yes", "No"</Values>
+        </Validation>
+      </Item>
+
+	  <Item>
+	    <Name>iframe_interval</Name>
+	    <Type>integer</Type>
+	    <Label>I-Frame Interval</Label>
+	    <Help>I Frame Interval in milli-seconds</Help>
+        <Align>follow</Align>
+	    <FieldLength>6</FieldLength>
+	    <DefaultValue>0</DefaultValue>
+	    <Validation>
+	       <Type>range</Type>
+		   <Min>0</Min>
+		   <Max>12000</Max>
+	    </Validation>
+	  </Item>
+   </Items>
+</Menu>

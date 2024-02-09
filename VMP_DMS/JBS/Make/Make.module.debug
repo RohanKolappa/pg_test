@@ -1,0 +1,72 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### DUMPVARS
+###
+### To debug things...
+
+.PHONY : dumpvars dumpcflags dumptarget # dumpstatic
+
+dumpvars :
+	@$(foreach d,$(dumpable),					\
+		printf "$(call mod-echo-priv-colored,black-yellow,$(d)):" ; \
+		printf "\t$(call mod-echo-priv-colored,white,[)" ; \
+		printf "$(call mod-echo-priv-colored,magenta,$($(d)))" ; \
+		printf "$(call mod-echo-priv-colored,white,])\n" ;	\
+	)
+
+dumpcflags :
+	@echo "$(compile-string)"
+
+dumptarget :
+	@echo "$(target-name)"
+
+dumpcppfiles :
+	@echo "$(mod-cmp-user-sources)"
+
+dump_% :
+	@echo "$($(patsubst dump_%,%,$@))"
+
+#local-dumpstatic :
+#	@echo JBS_STATIC = $(JBS_STATIC)
+#	@echo target-static = $(target-static)
+#	@echo target-type = $(target-type)
+#	@echo JBS_SILENT_MAKE = $(JBS_SILENT_MAKE)
+#	
+#
+#dep-dirs		:=	$(foreach				\
+#							d,				\
+#							$(target-all-deps),		\
+#							$($(d)-linkdir))
+#
+#dumpstatic: local-dumpstatic
+#	@for i in $(dep-dirs); do \
+#		echo $$i; \
+#		$(call mod-utils-do-make, $(JBS_MAKEOPTS) -C $$i local-dumpstatic); \
+#	done
+
+###############################################################################
+

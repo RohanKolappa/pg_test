@@ -1,0 +1,127 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+target-name		:=	$(strip $(target-name))
+lib-full-name		:=	$(link-prefix-lib)$(target-name)$(link-suffix-lib)
+
+dll-export-name		:=	$(target-name)_DLL
+
+###############################################################################
+### WIN32
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+compile-defs		+=	_LIB $(dll-export-name)=JBS_DLL_NONE
+
+$(lib-full-name) :	$(mod-cmp-temp-files)				\
+			$(compile-final-objects)
+	@$(call mod-echo-linking-lib,$(lib-full-name))
+	@"$(link-linker)"						\
+		-lib						\
+		$(link-flags)					\
+		/out:"$@" $(compile-final-objects)
+
+endif
+
+###############################################################################
+### LINUX
+
+ifeq "$(JBS_UNIX_SYSTEM)" "1"
+
+compile-defs		+=	$(dll-export-name)=JBS_DLL_NONE
+
+AR 			:= 	ar
+ARFLAGS			:= 	crv
+RANLIB			:= 	ranlib
+
+$(lib-full-name) :	$(mod-cmp-temp-files)				\
+			$(compile-final-objects)
+	@$(call mod-echo-linking-lib,$(lib-full-name))
+	@$(AR) $(ARFLAGS) $@ $(compile-final-objects)
+	@$(RANLIB) $@
+
+endif
+
+###############################################################################
+
+CLEAN-FILES		+=	$(lib-full-name)
+
+.PHONY : $(target-name)
+
+$(target-name) :	local-target
+
+local-target :		$(build-needed-libs) LIB-FULL-NAME
+
+.PHONY: LIB-FULL-NAME
+
+LIB-FULL-NAME:
+	@$(call mod-utils-do-make, $(JBS_MAKEOPTS) $(lib-full-name))
+
+###############################################################################
+
+local-defs :
+	@cat < /dev/null > ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "##### $(JBS_CUR_DIR)" >> ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-filename   := $(lib-full-name)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-test       := $(target-test)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-depfail    := $(target-depfail)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-deptype    := lib" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-cxxdefs    := $(dll-export-name)= $(target-cxxdefs)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-addcxxstring    := $(target-cxxstring)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-addcstring    := $(target-cstring)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-incldirs   := $(foreach d,$(compile-final-incldirs),$(JBS_CUR_DIR)/$(d)) $(target-incldirs)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-linkdir    := $(JBS_CUR_DIR)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-addlibs    := $(target-libs)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-addlibdirs := $(target-libdirs)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-addlinkstring := $(target-linkstring)" >> ./$(JBS_DEFS_FILE)
+	@if [ -n "$(target-docdir)" ] ; then echo "$(target-name)-doxydir    := ./$(target-docdir)/$(target-doxydir)" >> ./$(JBS_DEFS_FILE) ; fi
+	@echo "$(target-name)-deps       := $(target-deps)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-maj    = $(mod-vers-def-maj)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-med    = $(mod-vers-def-med)" >> ./$(JBS_DEFS_FILE)
+	@echo "$(target-name)-ver-min    = $(mod-vers-def-min)" >> ./$(JBS_DEFS_FILE)
+	@echo "" >> ./$(JBS_DEFS_FILE)
+
+###############################################################################
+
+mod-packs-target-linkname	:=	$(target-name)
+mod-packs-target-libs		:=	$(target-libs)
+mod-packs-target-libdirs	:=	$(target-libdirs)
+mod-packs-target-sources	:=	$(target-sources)
+mod-packs-target-headers	:=	$(compile-final-headers)
+mod-packs-target-cxxdefs	:=	$(dll-export-name)= $(target-cxxdefs)
+mod-packs-target-incldirs	:=	$(target-incldirs)
+mod-packs-target-docdir		:=	$(target-docdir)
+
+mod-packs-sdk-filenames		:=	$(lib-full-name)
+
+### We still DO NOT SUPPORT the sdk pack... This would involve adding a field
+### called for example 'target-oldtype' to the Make.target files.
+
+mod-packs-build-list		:=	src doc
+
+###############################################################################
+
+

@@ -1,0 +1,94 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+	<name>
+		<![CDATA[Block - 100%]]>
+	</name>
+	<icon>
+		<![CDATA[images/prototypes/block.gif]]>
+	</icon>
+	<description>
+		<![CDATA[Simple block, relatively positioned with overflow=scroll.]]>
+	</description>
+	<object type="jsx3.gui.Block">
+		<variants jsxoverflow="1"/>
+		<strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+		<object type="jsx3.gui.LayoutGrid">
+			<variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+			<strings jsxname="lytDestCanvasEditorCnt" jsxrows="26,105,26,*" jsxwidth="100%" jsxheight="100%"/>
+			<dynamics jsxbgcolor="BG2" jsxborder="BRD1"/>
+			<object type="jsx3.gui.Block">
+				<variants jsxoverflow="2"/>
+				<strings jsxname="blkDstMediaHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="titlebar glass" jsxtextalign="right"/>
+				<object type="jsx3.gui.Block">
+					<variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="5" jsxtop="5" jsxfontsize="12"/>
+					<strings jsxname="label" jsxtext="Destinations" jsxcolor="#e5e5e5" jsxdisplay="" jsxcursor="default"/>
+				</object>
+				<object type="jsx3.gui.ImageButton">
+					<variants jsxwidth="50" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"/>
+					<strings jsxname="btnDstPortFilter" jsxtext="" jsximage="images/buttons/btnFilterOff.png" jsxoverimage="images/buttons/btnFilterOver.png" jsxdownimage="images/buttons/btnFilterOver.png" jsxonimage="images/buttons/btnFilterOn.png" jsxdisabledimage="images/buttons/btnFilterDsbl.png" jsxmargin="3 12 0 0" jsxtip="Filter destination list"/>
+				</object>
+			</object>
+			<object type="jsx3.gui.Block">
+				<variants jsxoverflow="2"/>
+				<strings jsxname="blkDestList" jsxwidth="100%" jsxheight="100%"/>
+				<object type="com.ipvs.gui.SessionDstPanel">
+					<variants jsxblockwidth="150" jsxblockheight="70"/>
+					<strings jsxname="BlkMediaPlayerDstPanel" jsxwidth="100%" jsxheight="100%" jsxtext="[Text]" jsxbgcolor="#262626" jsxclassoff="mediaPlayerDst" jsxclasson="mediaPlayerDstSelected" jsxclassover="mediaPlayerDstOver" jsxdrag="0" jsxdrop="0" jsxtype="0" jsxdisplay=""/>
+					<events jsxselect="alert('Block: Select');" jsxdeleteblock="alert('Block: Delete');"/>
+				</object>
+			</object>
+			<object type="jsx3.gui.Block">
+				<variants jsxoverflow="2"/>
+				<strings jsxname="blkCanvasHeader" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="4 4 4 4" jsxclassname="H2"/>
+				<dynamics jsxbgcolor="BG4"/>
+				<object type="jsx3.gui.Block">
+					<variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="20"/>
+					<strings jsxname="label" jsxtext="Properties" jsxpadding="2 0 0 20" jsxclassname="t2"/>
+					<dynamics jsxcolor="@Dark"/>
+				</object>
+			</object>
+			<object type="jsx3.gui.Block">
+				<variants jsxoverflow="1"/>
+				<strings jsxname="blkCanvasEditorCnt" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+				<object type="jsx3.gui.LayoutGrid">
+					<variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+					<strings jsxname="blkMediaPlayerDestCanvas" jsxrows="*,35" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+					<object type="jsx3.gui.Block">
+						<variants jsxoverflow="2"/>
+						<strings jsxname="blkMediaPlayerCanvas" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay="" jsxborder="0px solid ;0px solid ;1px solid #333333;0px solid"/>
+						<include src="components/canvasEditDisplaySettings.xml" async="false"/>
+					</object>
+					<object type="jsx3.gui.Block">
+						<variants jsxoverflow="2"/>
+						<strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxborder="1px solid #aaaaaa;0px solid ;0px solid ;0px solid" jsxtextalign="right" jsxpadding="6 60 0 0"/>
+						<dynamics jsxbgcolor="BG4"/>
+						<object type="jsx3.gui.Button">
+							<variants jsxindex="0" jsxheight="22" jsxwidth="80" jsxfontsize="11"/>
+							<strings jsxname="btnApplyCanvasEdit" jsxtext="Apply" jsxclassname="btnOk"/>
+							<dynamics jsxborder="Basic Border"/>
+						</object>
+						<object type="jsx3.gui.Block">
+							<variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="30" jsxtop="2"/>
+							<strings jsxname="blkPlayerCanvasMask" jsxwidth="99%" jsxheight="99%" jsxdisplay="none" jsxclassname="modalMask" jsxtextalign="center"/>
+							<object type="jsx3.gui.Block">
+								<variants jsxrelativeposition="1" jsxleft="200" jsxtop="5" jsxfontsize="12"/>
+								<strings jsxname="txtPlayerCanvasOfflineMask" jsxwidth="100%" jsxtext="Device is not ready." jsxdisplay="none" jsxpadding="8"/>
+							</object>
+							<object type="jsx3.gui.Block">
+								<variants jsxrelativeposition="1" jsxleft="200" jsxtop="5" jsxfontsize="12"/>
+								<strings jsxname="txtPlayerCanvasUpdatingMask" jsxwidth="100%" jsxtext="Updating..." jsxdisplay="none" jsxpadding="8"/>
+							</object>
+						</object>
+					</object>
+				</object>
+				<object type="jsx3.gui.Block">
+					<variants jsxoverflow="1"/>
+					<strings jsxname="blkMediaPlayerDestMesg" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay="none" jsxtextalign="center"/>
+					<object type="jsx3.gui.Block">
+						<variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="40"/>
+						<strings jsxname="label" jsxtext="Windowing control is not supported for this device type." jsxclassname="t2" jsxpadding="20 0 0 0"/>
+					</object>
+				</object>
+			</object>
+		</object>
+	</object>
+</serialization>

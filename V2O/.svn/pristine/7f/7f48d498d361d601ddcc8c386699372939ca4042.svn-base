@@ -1,0 +1,39 @@
+
+
+<Menu>
+
+   <Type>list</Type>
+   <Title>NATZoneList</Title>
+   <Description>List of NAT Zone Entries</Description>
+   <Access>natzone_list</Access>
+   <ConfigFile>natzonelistconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>natzonename</Name>
+        <Type>string</Type>
+        <Label>Name</Label>
+        <Help>Name</Help>
+        <FieldLength>16</FieldLength>
+        <DefaultValue>Global</DefaultValue>
+
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>natzonevalue</Name>
+        <Type>string</Type>
+        <Label>IP Address /Host Name</Label>
+        <Help>Global Address of the Device</Help>
+        <FieldLength>30</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+   </Items>
+</Menu>

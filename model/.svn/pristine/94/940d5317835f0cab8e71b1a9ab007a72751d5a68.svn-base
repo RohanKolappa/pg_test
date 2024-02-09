@@ -1,0 +1,719 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<section2 topic='Old Room Operator Use Cases'>
+  <ul>
+    <li>An "Operator" is the "Entity" that is responsible for setting up, modifying and deleting Rooms</li>
+    <li>An "Operator" is also the "Initiator" of all actions during the Room</li>
+    <li>All Room operations are responded to by the "App Server" entity</li>
+    <li>"Action Request" operations are responded to by the other entities in the Room</li>
+    <li>There may be multiple "Operator" entities in one Room</li>
+  </ul>
+  <section3 topic="Add Room">
+    <section4 topic="Add Room Request">
+      <example caption='Add Room Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.AddRoomRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <AddRoomRequestData roomConfigNID='zzz123' name='Test Name' description='Test Description'>
+                  <Groups>
+                    <Tag Name="roomType" Value="Red" />
+                  </Groups>
+              </AddRoomRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic='Add Room Response'>
+      <example caption='Add Room Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddRoomRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <AddRoomResponseData roomNID='zzz567'>
+              </AddRoomResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddRoomRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <AddRoomResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to add room'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddMediaRoomRequestHandler(AddMediaRoomRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </AddRoomResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+  </section3>
+  <section3 topic="Delete Room">
+    <section4 topic="Delete Room Request">
+      <example caption='Delete Room Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.DeleteRoomRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <DeleteRoomRequestData roomNID='zzz567'>
+              </DeleteRoomRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic='Delete Room Response'>
+      <example caption='Delete Room Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteRoomRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <DeleteRoomResponseData roomNID='zzz567'>
+              </DeleteRoomResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteRoomRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <DeleteRoomResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to delete room'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteMediaRoomRequestHandler(DeleteMediaRoomRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='room not found room'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteMediaRoomRequestHandler(DeleteMediaRoomRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </DeleteRoomResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+  </section3>
+  <section3 topic="Get Room">
+    <p>Use Get ObjectList with ObjectType='com.ipvs.mediaroomservice.datamodel.MediaRoom'</p>
+  </section3>
+  <section3 topic="Get ObjectList">
+    <section4 topic="Get ObjectList Request">
+      <example caption='Get MediaStreamFile List Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.GetObjectListRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <GetObjectListRequestData>
+                <GetRequest objectType='MediaStreamFileResource' startFrom='0' countToFetch='10'>
+                  <WhereXPath>//Title[=lab1tx1]</WhereXPath>
+                </GetRequest>
+                ...
+              </GetObjectListRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic='GetObjectList Response'>
+      <example caption='Get MediaStreamFile List Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.GetObjectListRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <GetObjectListResponseData>
+                  <GetResponse objectCount='10' objectLastWhereEndCount='10'/>
+                  ...
+              </GetObjectListResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+  </section3>
+  <section3 topic="Edit Room">
+    <section4 topic="Add MediaGroup">
+      <example caption='Add MediaGroup Request'>
+        <![CDATA[
+        <message from='roomuser-default@localhost/userpc'
+              id='reg2'
+              to='managementserver@localhost/managementserver'
+              type='normal'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+              type='mediaroomservice.Request.AddMediaGroupRequest'
+                  fromAgent="com.ipvs.client.MRClientAgent"
+                  toAgent="com.ipvs.AppServerAgent"
+                  clientData="abc123"
+                  state="">
+            <AddMediaGroupRequestData roomNID='zzz123' name='Test MediaGroup Name' description='Test mediaGroup Description'>
+            </AddMediaGroupRequestData>
+          </AgentMessage>
+        </message>
+  ]]>
+      </example>
+      <example caption='Add MediaGroup Response'>
+        <![CDATA[
+        <message from='managementserver@localhost/managementserver'
+          id='reg2'
+          to='roomuser-default@localhost/userpc'
+          type='normal'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                  type='mediaroomservice.Response.AddMediaGroupRequest'
+                  fromAgent="com.ipvs.AppServerAgent"
+                  toAgent="com.ipvs.client.MRClientAgent"
+                  clientData="abc123"
+                  state="8">
+            <AddMediaGroupResponseData mediaGroupNID='zzz567'>
+            </AddMediaGroupResponseData>
+          </AgentMessage>
+         </message>
+  ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+        <message from='managementserver@localhost/managementserver'
+          id='reg2'
+          to='roomuser-default@localhost/userpc'
+          type='error'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                  type='mediaroomservice.Response.AddMediaGroupRequest'
+                  fromAgent="com.ipvs.AppServerAgent"
+                  toAgent="com.ipvs.client.MRClientAgent"
+                  clientData="abc123"
+                  state="0">
+            <AddMediaGroupResponseData>
+              <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to add mediaGroup'>
+                <log>
+                  Exception at com.ipvs.mediaroomserver.handler.AddMediaGroupRequestHandler(AddMediaGroupRequestHandler.java:123)
+                </log>
+              </ipvserror>
+            </AddMediaGroupResponseData>
+          </AgentMessage>
+         </message>
+  ]]>
+      </example>
+    </section4>
+    <section4 topic="Delete MediaGroup Request">
+      <example caption='Delete MediaGroup Request'>
+        <![CDATA[
+        <message from='roomuser-default@localhost/userpc'
+              id='reg2'
+              to='managementserver@localhost/managementserver'
+              type='normal'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+              type='mediaroomservice.Request.DeleteMediaGroupRequest'
+                  fromAgent="com.ipvs.client.MRClientAgent"
+                  toAgent="com.ipvs.AppServerAgent"
+                  clientData="abc123"
+                  state="">
+            <DeleteMediaGroupRequestData mediaGroupNID='zzz567'>
+            </DeleteMediaGroupRequestData>
+          </AgentMessage>
+        </message>
+  ]]>
+      </example>
+      <example caption='Delete MediaGroup Response'>
+        <![CDATA[
+        <message from='managementserver@localhost/managementserver'
+          id='reg2'
+          to='roomuser-default@localhost/userpc'
+          type='normal'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                  type='mediaroomservice.Response.DeleteMediaGroupRequest'
+                  fromAgent="com.ipvs.AppServerAgent"
+                  toAgent="com.ipvs.client.MRClientAgent"
+                  clientData="abc123"
+                  state="8">
+            <DeleteMediaGroupResponseData mediaGroupNID='zzz567'>
+            </DeleteMediaGroupResponseData>
+          </AgentMessage>
+         </message>
+  ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+        <message from='managementserver@localhost/managementserver'
+          id='reg2'
+          to='roomuser-default@localhost/userpc'
+          type='error'>
+          <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                  type='mediaroomservice.Response.DeleteMediaGroupRequest'
+                  fromAgent="com.ipvs.AppServerAgent"
+                  toAgent="com.ipvs.client.MRClientAgent"
+                  clientData="abc123"
+                  state="0">
+            <DeleteMediaGroupResponseData>
+              <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to delete mediaGroup'>
+                <log>
+                  Exception at com.ipvs.mediaroomserver.handler.DeleteMediaGroupRequestHandler(DeleteMediaGroupRequestHandler.java:123)
+                </log>
+              </ipvserror>
+              <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='mediaGroup not found'>
+                <log>
+                  Exception at com.ipvs.mediaroomserver.handler.DeleteMediaGroupRequestHandler(DeleteMediaGroupRequestHandler.java:123)
+                </log>
+              </ipvserror>
+            </DeleteMediaGroupResponseData>
+          </AgentMessage>
+         </message>
+  ]]>
+      </example>
+    </section4>
+    <section4 topic="Add Entity">
+      <example caption='Add Entity Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.AddEntityRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <AddEntityRequestData resourceNID='zzz123' name='Test Entity Name' description='Test Entity Description'
+                    roomNID='zzz123' role='MediaSource/MediaDestination/MediaRelay'>
+                <MediaSourceRoleData mediaGroupNID='zzz678' mediaOffset/mediaTC='1234' 
+                    mode='Dedicated/Shared' pvrDuration='0/1000' schedule='AutoStart/OnDemand'/>
+                <MediaRelayRoleData mediaGroupNID='zzz678' mediaSourceEntityNID='zzz357'
+                    mode='Dedicated/Shared' pvrDuration='0/1000' schedule='AutoStart/OnDemand'/>
+                <MediaDestinationRoleData/>
+              </AddEntityRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+      <example caption='Add Entity Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddEntityRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <AddEntityResponseData entityNID='zzz567'>
+              </AddEntityResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddEntityRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <AddEntityResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to add Entity'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='resource not found resourceID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='system' code='2003' description='resource not available resourceID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </AddEntityResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic="Add Stream">
+      <example caption='Add Stream Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.AddStreamRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <AddStreamRequestData roomNID='zzz123' name='Test Stream Name' description='Test Stream Description'
+                  sourceOrRelayEntityNID='zzz123' 
+                  destEntityNID='zzz823'
+                  profileNID='zzz782'>
+                <profileXML/>
+              </AddStreamRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+      <example caption='Add Stream Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddStreamRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <AddStreamResponseData streamNID='zzz567'>
+              </AddStreamResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.AddStreamRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <AddStreamResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to add Stream'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddStreamRequestHandler(AddStreamRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='sourceOrRelayEntity not found sourceEntityID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='destEntity not found destEntityID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2003' description='profile not found profileNID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.AddEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </AddStreamResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic="Delete Stream">
+      <example caption='Delete Stream Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.DeleteStreamRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <DeleteStreamRequestData streamNID='zzz567'>
+              </DeleteStreamRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+      <example caption='Delete Stream Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteStreamRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <DeleteStreamResponseData streamNID='zzz567'>
+              </DeleteStreamResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteStreamRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <DeleteStreamResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to delete Stream'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteStreamRequestHandler(DeleteStreamRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='stream not found not found streamID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteStreamRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </DeleteStreamResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic="Delete Entity">
+      <example caption='Delete Entity Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.DeleteEntityRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <DeleteEntityRequestData entityNID='zzz567'>
+              </DeleteEntityRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+      <example caption='Delete Entity Response'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteEntityRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <DeleteEntityResponseData entityNID='zzz567'>
+              </DeleteEntityResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='managementserver@localhost/managementserver'
+            id='reg2'
+            to='roomuser-default@localhost/userpc'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.DeleteEntityRequest'
+                    fromAgent="com.ipvs.AppServerAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <DeleteEntityResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='auth' code='2001' description='no permissions to delete entity'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteEntityRequestHandler(DeleteEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='data' code='2002' description='Entity not found EntityID=xyz'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.DeleteEntityRequestHandler(AddEntityRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </DeleteEntityResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+    <section4 topic="Edit Entity">
+      <p>Currently entity and role are synonymous so an edit is a delete followed by an add</p>
+      <p>If we want to have a single entity have multiple roles then revisit prev examples</p>
+    </section4>
+  </section3>
+  <section3 topic="Room Action Request">
+    <ul>
+      <li>Start</li>
+      <li>Stop</li>
+      <li>Pause</li>
+      <li>Catchup</li>
+      <li>Goto</li>
+      <li>Skipback/Skipfwd</li>
+      <li>Rewind/Fastfwd</li>
+    </ul>
+    <ul>
+      <li>Single Source</li>
+      <li>Source Group</li>
+    </ul>
+    <ul>
+      <li>Source Media Offset</li>
+    </ul>
+    <ul>
+      <li>Single Dest</li>
+      <li>Dest Group</li>
+    </ul>
+    <section4 topic="Media Action">
+      <example caption='Media Action Request'>
+        <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='conference@localhost/roomNID'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.MediaActionRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.RoomAgent"
+                    clientData="abc123"
+                    state="">
+              <MediaActionRequestData wc='123456789' action='Start/Stop/Pause/Catchup/Goto/Skipback/Skipfwd/Rewind/Fastfwd'
+                    actiondata='1000' target='MediaGroup/MediaSource/MediaDestination' targetNID='zzz368'>
+              </MediaActionRequestData>
+            </AgentMessage>
+          </message>
+    ]]>
+      </example>
+      <example caption='Media Action Response'>
+        <![CDATA[
+          <message from='srcrelayuser-default@localhost/lab1relay1'
+            id='reg2'
+            to='conference@localhost/roomNID'
+            type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.MediaActionRequest'
+                    fromAgent="com.ipvs.RoomAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="8">
+              <MediaActionResponseData entityNID='zzz567'>
+              </MediaActionResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+          <message from='srcrelayuser-default@localhost/lab1relay1'
+            id='reg2'
+            to='conference@localhost/roomNID'
+            type='error'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                    type='mediaroomservice.Response.MediaActionRequest'
+                    fromAgent="com.ipvs.RoomAgent"
+                    toAgent="com.ipvs.client.MRClientAgent"
+                    clientData="abc123"
+                    state="0">
+              <MediaActionResponseData>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='system' code='2001' description='action not supported'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.MediaActionRequestHandler(MediaActionRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+                <ipvserror xmlns='ipvs:mediaroom:service' type='system' code='2002' description='action failed'>
+                  <log>
+                    Exception at com.ipvs.mediaroomserver.handler.MediaActionRequestHandler(MediaActionRequestHandler.java:123)
+                  </log>
+                </ipvserror>
+              </MediaActionResponseData>
+            </AgentMessage>
+           </message>
+    ]]>
+      </example>
+    </section4>
+  </section3>
+</section2>

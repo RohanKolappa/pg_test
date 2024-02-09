@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>IPVS DeviceAdminAgent API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.0.1</revnumber>
+				<date>19 Jun 2012</date>
+				<revremark>Existing Device Agent API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>	
+	<preface>
+		<title>Introduction</title>
+		<para>
+			This document contains the IPVS Device Admin Agent API. Agent will accept requests from AppServerAgent/Clients or internal DeviceAdminServer
+    </para>
+	</preface>
+	<chapter>
+		<title>Discovery API</title>
+		<para>
+			API Calls used in Discovery process
+    </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from DeviceAdminManager or Clients</para>
+			<section>
+				<title>GetDevice</title>
+				<para> Returns the Device information in RAW format.</para>
+				<example>
+					<title>GetDeviceRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <GetDevice selectFormat='EXTENDED' />
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetDeviceResponse</title>
+					<programlisting>
+          <![CDATA[  
+   <GetDevice from='0' total='0'>
+		<Device NID='' title='' type='' description='' presence='' state='' password='' ownerUserJID='' softwareVersion=''
+				unManaged='true/false' unManned='true/false' msStatus='Active/Primary/PrimaryStandby/Secondary/SecondaryStandby'>
+				<Groups>
+					<Tag name='' value='' />
+				</Groups>
+				<DevicePrivateData />
+				<TemplateNID />				
+				<PortList>
+					<Port NID='' title='' streamType='' presence='' state='' portType='' deviceElementID=''>
+						<Groups />
+						<FeatureList>
+							<Feature name='' />
+						</FeatureList>
+						<ObserverInfoList>
+							<Observer xAuth='' monitor=''>
+								<UserNID></UserNID>
+								<ResourceNID></ResourceNID>
+							</Observer>
+						</ObserverInfoList>
+						<StreamURL></StreamURL>
+					</Port>
+				</PortList>
+				
+				]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetDeviceResponse - CONTINUE</title>
+					<programlisting>
+          <![CDATA[  
+				<DeviceConfig NID=''>
+					<System>
+						<NTPClient enabled='true/false' serverIP='' />
+						<SoftwareImage softwareVersion='' serviceVersion='' />
+					</System>
+					<Services>
+						<HTTPServer enabled='true/false' />
+						<SSHServer enabled='true/false' />
+						<TelnetServer enabled='true/false' />
+						<TFTPServer enabled='true/false' />
+						<XMPPServer enabled='true/false' port='' dailyBackup='Yes/No' backupTime='' enableExport='' recoveryMode='' />
+						<XMPPAgent enabled='true/false' xmppServer='' userName='' domain=''>
+							<AdminAgent enabled='true/false' />
+							<ConfigAgent enabled='true/false' />
+							<DestinationAgent enabled='true/false' />
+							<SourceAgent enabled='true/false' />
+							<XAuthAgent enabled='true/false' />
+							<PortCtrlAgent enabled='true/false' />
+						</XMPPAgent>
+						<StreamingServer enabled='true/false'>
+							<TXcntrlPorts from='' to='' />
+							<V2DRxPorts from='' to='' />
+							<MPEGTSRXPorts from='' to='' />
+							<UDPRXPorts from='' to='' />
+							<RTPRXPorts from='' to='' />
+							<MulticastIP from='' to='' />
+						</StreamingServer>
+						<DHCPServer enabled='true/false' startIP='' endIP='' publishedDNSServer='' />
+						<NTPServer enabled='true/false' serverIP='' />
+					</Services>
+					<Network isPrimaryEnabled='' hostName='' DNSServerIP='' DNSName=''>
+						<EthernetPortList>
+							<EthernetPort listIndex='' isPrimary='' portID='' enabled='true/false' multicast='true/false' ipAddress='' useDHCP='true/false' netmask='' />
+						</EthernetPortList>
+						<NATTable>
+							<NAT name='' listIndex='' ip='' />
+						</NATTable>
+						<RouteTable>
+							<Route listIndex='' destination='' netmask='' gateway='' />
+						</RouteTable>
+					</Network>
+					<Storage hardDriveEnabled='' NASEnabled=''>
+						<HardDiskList>
+							<HardDisk name='' mountPoint='' />
+						</HardDiskList>
+						<NASList>
+							<NAS name='' enabled='' server='' readOnly='true/false' />
+						</NASList>
+					</Storage>
+					
+					]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetDeviceResponse - CONTINUE</title>
+					<programlisting>
+          <![CDATA[  
+					<AVCodec>
+						<Port id=''>
+							<Displayconfig type='IPVSClientDisplayConfig'>
+								<Display configurable="" hres="AUTO" vres="AUTO">
+									<Panel id="" enable="" content="">
+										<Geometry zIndex="" border="" vpos="0" hpos="0" vres="100%" hres="100%" aspect="" transparency=""></Geometry>
+									</Panel>
+								</Display>
+
+								<Canvas id="" hres="1280" vres="1024">
+									<Background enable="" zIndex="" content="">
+										<ImageContent imageURL="" color=""></ImageContent>
+										<SessionContent enableConnPanel="" enableBookmarkPanel="" enableCtrlPanel="" enableHeaderPanel="" enablePlayerPanel="" sessionId=""></SessionContent>
+									</Background>
+
+									<Layout id="LayoutId1" type="" nRow="" nCol="" colWidth="" rowHeight="" hpad="" vpad="" stripPos="" nStrip="" border="hide" borderStyle="[8px]" header="hide" headerStyle="basic"
+										active="true"></Layout>
+
+									<Window id="Win1" content="">
+										<ConnectionContent MediaStreamIOPortTypeTitle="" MediaStreamIOPortElementID="" sessionId="" connId="" vres="" hres="" srcKbmCtrl=""></ConnectionContent>
+										<ThumbnailContent MediaStreamIOPortTypeTitle="" MediaStreamIOPortElementID="" imageURL="" refreshInterval=""></ThumbnailContent>
+										<Properties zIndex="100" border="" vpos="0" hpos="0" vres="100%" hres="100%" aspect="" transparency="0" layoutId="LayoutId1" layoutPos="" visibility="true" maximize="false" fps="15"
+											scale="fitWindow" mute="false" volume="50%" remoteKbmCtrl="false" scrollHPos="0" scrollVPos="0"></Properties>
+									</Window>
+								</Canvas>
+							</Displayconfig>
+							<Displayconfig type='XP200DisplayConfig'>
+								<DisplayType>Remote</DisplayType>
+								<OverlayType>Manual</OverlayType>
+								<Override>None</Override>
+								<KeepAspect>true</KeepAspect>
+								<Aspect>Auto</Aspect>
+								<HorizontalTransformation>Scale/Source</HorizontalTransformation>
+								<HorizontalScale>100</HorizontalScale>
+								<HorizontalResolution>0</HorizontalResolution>
+								<VerticalTransformation>Scale/Source</VerticalTransformation>
+								<VerticalScale>100</VerticalScale>
+								<VerticalResolution>0</VerticalResolution>
+								<HorizontalPosition>Location</HorizontalPosition>
+								<HorizontalLocation>Left</HorizontalLocation>
+								<VerticalPosition>Location</VerticalPosition>
+								<VerticalLocation>Top</VerticalLocation>
+								<HorizontalOffset>0</HorizontalOffset>
+								<VerticalOffset>0</VerticalOffset>
+								<Transparency>0</Transparency>
+							</Displayconfig>
+						</Port>
+					</AVCodec>
+				</DeviceConfig>
+				]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetDeviceResponse - CONTINUE</title>
+					<programlisting>
+          <![CDATA[  
+				<DeviceStatus>
+					<System>
+						<NTPClient>
+							<Parameter name="" type="Float" units="" source="" />
+						</NTPClient>
+						<SoftwareImage>
+							<Parameter name="" type="Float" units="" source="" />
+						</SoftwareImage>
+						<CPU>
+							<Parameter name="" type="Float" units="" source="" />
+						</CPU>
+						<Memory>
+							<Parameter name="" type="Float" units="" source="" />
+						</Memory>
+						<SystemHW>
+							<Parameter name="" type="Float" units="" source="" />
+						</SystemHW>
+						<SystemClock>
+							<Parameter name="" type="Float" units="" source="" />
+						</SystemClock>
+					</System>
+					<Services>
+						<HTTPServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</HTTPServer>
+						<SSHServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</SSHServer>
+						<TelnetServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</TelnetServer>
+						<TFTPServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</TFTPServer>
+						<XMPPServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</XMPPServer>
+						<XMPPAgent>
+							<Parameter name="" type="Float" units="" source="" />
+						</XMPPAgent>
+						<StreamingServer>
+							<Instance>
+								<Parameter name="" type="Float" units="" source="" />
+							</Instance>
+						</StreamingServer>
+						<DHCPServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</DHCPServer>
+						<NTPServer>
+							<Parameter name="" type="Float" units="" source="" />
+						</NTPServer>
+					</Services>
+					<Network isPrimaryEnabled='' hostName='' DNSServerIP='' DNSName=''>
+						<EthernetPortList>
+							<EthernetPort>
+								<Parameter name="" type="Float" units="" source="" />
+							</EthernetPort>
+						</EthernetPortList>
+						<NATTable>
+							<NAT>
+								<Parameter name="" type="Float" units="" source="" />
+							</NAT>
+						</NATTable>
+						<RouteTable>
+							<Route>
+								<Parameter name="" type="Float" units="" source="" />
+							</Route>
+						</RouteTable>
+					</Network>
+					<Storage hardDriveEnabled='' NASEnabled=''>
+						<HardDiskList>
+							<HardDisk>
+								<Parameter name="" type="Float" units="" source="" />
+							</HardDisk>
+						</HardDiskList>
+						<NASList>
+							<NAS>
+								<Parameter name="" type="Float" units="" source="" />
+							</NAS>
+						</NASList>
+					</Storage>
+					]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetDeviceResponse - CONTINUE</title>
+					<programlisting>
+          <![CDATA[  
+					<AVCodec>
+						<Port id=''>
+							<DisplayStatus type='IPVSClientDisplayConfig'>
+								<Display configurable="" hres="AUTO" vres="AUTO">
+									<Panel id="" enable="" content="">
+										<Geometry zIndex="" border="" vpos="0" hpos="0" vres="100%" hres="100%" aspect="" transparency=""></Geometry>
+									</Panel>
+								</Display>
+
+								<Canvas id="" hres="1280" vres="1024">
+									<Background enable="" zIndex="" content="">
+										<ImageContent imageURL="" color=""></ImageContent>
+										<SessionContent enableConnPanel="" enableBookmarkPanel="" enableCtrlPanel="" enableHeaderPanel="" enablePlayerPanel="" sessionId=""></SessionContent>
+									</Background>
+
+									<Layout id="LayoutId1" type="" nRow="" nCol="" colWidth="" rowHeight="" hpad="" vpad="" stripPos="" nStrip="" border="hide" borderStyle="[8px]" header="hide" headerStyle="basic"
+										active="true"></Layout>
+
+									<Window id="Win1" content="">
+										<ConnectionContent MediaStreamIOPortTypeTitle="" MediaStreamIOPortElementID="" sessionId="" connId="" vres="" hres="" srcKbmCtrl=""></ConnectionContent>
+										<ThumbnailContent MediaStreamIOPortTypeTitle="" MediaStreamIOPortElementID="" imageURL="" refreshInterval=""></ThumbnailContent>
+										<Properties zIndex="100" border="" vpos="0" hpos="0" vres="100%" hres="100%" aspect="" transparency="0" layoutId="LayoutId1" layoutPos="" visibility="true" maximize="false" fps="15"
+											scale="fitWindow" mute="false" volume="50%" remoteKbmCtrl="false" scrollHPos="0" scrollVPos="0"></Properties>
+									</Window>
+								</Canvas>
+							</DisplayStatus>
+							<Displayconfig type='XP200DisplayConfig'>
+								<Parameter name="" type="Float" units="" source="" />
+							</Displayconfig>
+						</Port>
+					</AVCodec>
+				</DeviceStatus>
+				<DeviceList />
+			</Device>		
+	</GetDevice>
+]]>
+        </programlisting>
+				</example>
+			</section>
+			<section>
+				<title>SetDeviceConfig</title>
+				<para> update the device Route,xmpp and ipaddress information</para>
+				<example>
+					<title>SetDeviceConfigRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <SetDeviceConfig byNID='' byTitle=''>
+	<SetDeviceNetworkInterface listIndex='' portId='' enable='true/false' primary='' multicast='' useDHCP='' ipAddress='' netmask='' />
+	<SetDeviceRoute listIndex='' destination='' netmask='' gateway='' operation=''/>	
+	<SetDeviceXMPPAgent enable='true/false' xmppServerIP='' deviceName='' password='' xmppServerPort='' serviceDomain='' />
+  </SetDeviceConfig>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SetDeviceConfigResponse</title>
+					<programlisting>
+          <![CDATA[  
+   <SetDeviceConfig/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceAdminServer</para>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>Startup API</title>
+		<para>
+			there is no specific api we have implemented for startup. Config agent sends the status and config request to appserver.
+    </para>
+		<section>
+			<title>External API</title>
+			<para> Requests Received from DeviceAdminManager or Clients</para>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> </para>
+			
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>DeviceConfig API</title>
+		<para>
+			API Calls used to update Device Config From Clients/AppControler or publish the Config to App Controler
+       </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from DeviceAdminManager or Clients</para>
+			<section>
+				<title>DeviceConfiguration Request</title>
+				<para> Apply the given configuration </para>
+				<example>
+					<title>DeviceConfigurationRequest</title>
+					<programlisting>
+          <![CDATA[  
+ <DeviceConfigurationRequest>
+  <DeviceConfig>
+    <!-- Device Specific config-->
+  </DeviceConfig>				
+</DeviceConfigurationRequest>			
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>DeviceConfigurationResponse</title>
+					<programlisting>
+          <![CDATA[  
+   <DeviceConfigurationResponse/>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>Enable DHCP to get local ipaddress</title>
+					<programlisting>
+          <![CDATA[  
+   <DeviceConfigurationRequest>  
+   <DeviceConfig Dirty="CLEAN">
+		       <NetworkElementsConfig Dirty="CLEAN">
+		         <EthernetPortTableConfig>
+		            <EthernetPortConfig Dirty="MODIFY" ListIndex="1">
+		               <PortID>1</PortID>
+		               <EnableInterface>true</EnableInterface>
+		               <IsPrimary>true</IsPrimary>
+		               <EnableMulticast>true</EnableMulticast>
+		               <MTU>1500</MTU>
+		
+		               <IPConfig>
+		                  <UseDHCP>true</UseDHCP>
+		                  <IPAddress>169.254.0.1</IPAddress>
+		                  <Netmask>255.255.0.0</Netmask>
+		               </IPConfig>
+		            </EthernetPortConfig>
+		         </EthernetPortTableConfig>
+		      </NetworkElementsConfig>		      
+	 </DeviceConfig>		
+</DeviceConfigurationRequest>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceServer</para>
+			<section>
+				<title>PublishDeviceConfigInDatabase</title>
+				<para> Direct method call to config agent to send the request to appserver  </para>
+				<example>
+					<title>Publish the DHCP config to AppServerAgent</title>
+					<programlisting>
+          <![CDATA[  
+  <DeviceConfig  byNID='1234' xpath='//EthernetPortConfig' operation='UPDATE'>
+	 <EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+         <PortID>1</PortID>
+         <EnableInterface>true</EnableInterface>
+         <IsPrimary>true</IsPrimary>
+         <EnableMulticast>true</EnableMulticast>
+         <MTU>1500</MTU>
+
+         <IPConfig>
+            <UseDHCP>true</UseDHCP>
+            <IPAddress>169.254.0.1</IPAddress>
+            <Netmask>255.255.0.0</Netmask>
+         </IPConfig>
+      </EthernetPortConfig>   
+	</DeviceConfig>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+	</chapter>
+
+
+	<chapter>
+		<title>DeviceStatus API</title>
+		<para>
+			API Calls used to publish the device status to AppServerAgent
+       </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from DeviceAdminManager</para>
+			<section>
+				<title>DeviceStatusRequest</title>
+				<para> Returns current status of device</para>
+				<example>
+					<title>GetDeviceStatusRequest</title>
+					<programlisting>
+          <![CDATA[  
+  	  	<DeviceStatusRequest>
+					<RequestXPath />
+		</DeviceStatusRequest>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>DeviceStatusResponse</title>
+					<programlisting>
+          <![CDATA[  
+   <DeviceStatusResponse>
+		<DeviceStatus Dirty="CLEAN">
+			<SystemElementsStatus Dirty="CLEAN">
+				<!-- Choice of device specific System Status -->
+			</SystemElementsStatus>
+			<ServiceElementsStatus Dirty="CLEAN">
+				<!-- Choice of device specific Services status -->
+			</ServiceElementsStatus>
+			<NetworkElementsStatus Dirty="CLEAN">
+				<NATZoneTableStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</ParametersList>
+				</NATZoneTableStatus>
+				<EthernetPortTableStatus>
+					<EthernetPortStatus Queryable="true" State="OK">
+						<ParametersList>
+							<Parameters>
+								<Parameter name="" type="Float" units="" source=""></Parameter>
+							</Parameters>
+						</ParametersList>
+					</EthernetPortStatus>
+				</EthernetPortTableStatus>
+				<!-- Network Status Common for all devices -->
+			</NetworkElementsStatus>
+			<StorageElementsStatus Dirty="CLEAN">
+				<!-- Common for all DMS and MS Devices -->
+			</StorageElementsStatus>
+			<AVCodecElementsStatus Dirty="CLEAN">
+				<!-- Choice of device specific AVCodec Elements -->
+			</AVCodecElementsStatus>
+		</DeviceStatus>
+	</DeviceStatusResponse>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceAdminServer</para>
+			<section>
+				<title>
+					PublishDeviceStatus</title>
+				<para>
+					Sends Request to appserver to update DeviceStatus in database
+      </para>
+				<example>
+					<title>Publishing network status to appserver</title>
+					<programlisting>
+          <![CDATA[  
+  <DeviceStatus  byNID='1234' xpath='//EthernetPortTableStatus' operation='UPDATE'>
+	   <EthernetPortTableStatus>
+            <EthernetPortStatus Queryable="true" State="OK">
+               <ParametersList>
+                  <Parameters>
+                     <Parameter name="" type="Float" units="" source=""></Parameter>
+                  </Parameters>
+               </ParametersList>
+            </EthernetPortStatus>
+         </EthernetPortTableStatus>  
+	</DeviceStatus>
+]]>
+        </programlisting>
+				</example>				
+			</section>
+		</section>
+	</chapter>
+
+
+	<chapter>
+		<title>DeviceCommand API</title>
+		<para>
+			API Calls used to Run commands on devices like Upgrade,Reboot,RevertDefault, SaveToFlash
+       </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from DeviceAdminManager</para>
+			<section>
+				<title>DeviceCommand</title>
+				<para> Execute the given action</para>
+				<example>
+					<title>DeviceCommandRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<DeviceCommandRequest>
+        <SystemElementsCommand>
+            <SaveToFlashCommand/>
+        </SystemElementsCommand>
+    </DeviceCommandRequest>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>DeviceCommandResponse</title>
+					<programlisting>
+          <![CDATA[  
+   <DeviceCommandResponse/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceAdminServer</para>
+		</section>
+	</chapter>
+</book>

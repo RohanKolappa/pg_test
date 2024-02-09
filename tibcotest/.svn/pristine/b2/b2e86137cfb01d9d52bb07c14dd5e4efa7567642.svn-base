@@ -1,0 +1,224 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkV2DVideoLookup" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkV2DVideoLookup" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="DirtyBitblkV2DVideoLookup"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="blkLayout" jsxrows="26,26,*,0" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+        <dynamics jsxbg="Header BG"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="8" jsxtop="5"></variants>
+          <strings jsxname="lblVideoLookupTable" jsxtext="Encoder Video Lookup Table" jsxcolor="#fff;" jsxfontweight="bold" jsxdisplay=""></strings>
+          <dynamics jsxfontsize="BaseText"></dynamics>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkMenu" jsxwidth="100%" jsxheight="100%" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H2BG.png);" jsxtextalign="right" jsxborder="solid 1px #d4d4d4;"></strings>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="20" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+          <strings jsxname="btnAddLUT" jsxtext="" jsximage="images/buttons/add.gif" jsxoverimage="images/buttons/addOver.gif" jsxdownimage="images/buttons/addDown.gif" jsxonimage="images/buttons/add.gif" jsxdisabledimage="images/buttons/add.gif" jsxmargin="3 4 4 4" jsxtip="Add"></strings>
+          <events jsxexecute=""></events>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="20" jsxheight="20" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxenabled="0"></variants>
+          <strings jsxname="btnEditLUT" jsxtext="" jsximage="images/buttons/edit.gif" jsxoverimage="images/buttons/editOver.gif" jsxdownimage="images/buttons/editDown.gif" jsxonimage="images/buttons/edit.gif" jsxdisabledimage="images/buttons/editDisabled.gif" jsxmargin="3 4 4 4" jsxtip="Edit"></strings>
+          <events jsxexecute=""></events>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="20" jsxheight="20" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxenabled="0"></variants>
+          <strings jsxname="btnDeleteLUT" jsxtext="" jsximage="images/buttons/del.gif" jsxoverimage="images/buttons/delOver.gif" jsxdownimage="images/buttons/delDown.gif" jsxonimage="images/buttons/del.gif" jsxdisabledimage="images/buttons/delDisabled.gif" jsxmargin="3 4 4 4" jsxtip="Delete"></strings>
+          <events jsxexecute=""></events>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="P4BG"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="0" jsxjsxxmlasync="1" jsxsuppresshscroll="0" jsxautorow="0" jsxreorder="0" jsxfixedcolumnindex="1" _isMouseDown="true"></variants>
+          <strings jsxname="mtxLookupTable" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxLookupTableID" jsxsorttype="number" jsxsortdirection="ascending"></strings>
+          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+          <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="60" jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupEntryListIndex" jsxtext="ListIndex" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLookupEntryListIndex" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="60" jsxfontsize="10" jsxsort="0"></variants>
+            <strings jsxname="jsxLookupEntryDirtyBit" jsxtext="State" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLookupEntryDirtyBit" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxformathandler="cleanDirtyBitColumn"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="40" jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableID" jsxtext="ID" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLookupTableID" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxdisplay="" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="100" jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableName" jsxtext="Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLookupTableName" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="100" jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableHres" jsxtext="H Res" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxLookupTableHres" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVres" jsxtext="V Res" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVres" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10" jsxsort="0"></variants>
+            <strings jsxname="jsxLookupTableRefreshRate" jsxtext="Refresh Rate" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableRefreshRate" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10" jsxsort="0"></variants>
+            <strings jsxname="jsxLookupTablePixelClockRate" jsxtext="Pixel Clock Rate" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTablePixelClockRate" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10" jsxsort="0"></variants>
+            <strings jsxname="jsxLookupTableStereo" jsxtext="Stereo" jsxpath="jsxLookupTableStereo" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableHFrontPorch" jsxtext="H Front Porch" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableHFrontPorch" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVFrontPorch" jsxtext="V Front Porch" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVFrontPorch" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableHBackPorch" jsxtext="H Back Porch" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableHBackPorch" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVBackPorch" jsxtext="V Back Porch" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVBackPorch" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableHSync" jsxtext="H Sync" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableHSync" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVSync" jsxtext="V Sync" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVSync" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVerticalMargin" jsxtext="V Margin" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVerticalMargin" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableSyncPolarity" jsxtext="Sync Polarity" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableSyncPolarity" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTablePhase" jsxtext="Phase" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTablePhase" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableHPos" jsxtext="H Pos" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableHPos" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableVPos" jsxtext="V Pos" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableVPos" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableCoarseNoise" jsxtext="Coarse Noise" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableCoarseNoise" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableFineNoise" jsxtext="FineNoise" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableFineNoise" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableGainRed" jsxtext="RedGain" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableGainRed" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableGainGreen" jsxtext="GreenGain" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableGainGreen" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableGainBlue" jsxtext="BlueGain" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableGainBlue" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableOffsetRed" jsxtext="RedOffset" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableOffsetRed" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableOffsetGreen" jsxtext="GreenOffset" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableOffsetGreen" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableOffsetBlue" jsxtext="BlueOffset" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableOffsetBlue" jsxcellborder="border-bottom:solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10"></variants>
+            <strings jsxname="jsxLookupTableColorSpace" jsxtext="ColorSpace" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableColorSpace" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxfontsize="10" jsxsort="0"></variants>
+            <strings jsxname="jsxLookupTableChargePumpCurr" jsxtext="ChargePumpCurr" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxLookupTableChargePumpCurr" jsxcellborder="border-bottom:solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right"></strings>
+        <dynamics jsxborder="@Inset Top"></dynamics>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+          <strings jsxname="btnDeleteV2dTxVideoLookup" jsxtext="Delete" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/IPVS_AdminUI/images/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+          <events jsxexecute="alert('hello');"></events>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18" jsxwidth="60" jsxfontsize="11"></variants>
+          <strings jsxname="btnResetV2dTxVideoLookup" jsxtext="Reset" jsxmargin="8 20 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/IPVS_AdminUI/images/buttons/Btn2BG.png);" jsxpadding="padding-top: 1px;" jsxborder=""></strings>
+          <events jsxexecute="alert('hello');"></events>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,66 @@
+<query>
+  <![CDATA["declare function local:getFileList( $parent as element()*) as element()* {   
+    let $MediaFileList := (
+      for $child in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..      
+    where  data($child//MediaStoreFileInfo/MediaGroupID) = data($parent)      
+    return <record jsxid='{ data($child/@NID)}'       
+      jsxtextmediaName='{ data($child/Info/Title) }'       
+      jsxtextmediaStatus='{ data($child//State/StateFlag) }'       
+      jsxtextmediaSize='{ data($child//Size) }'      
+      jsxtextmediaCreated='{ data($child/Info/Properties/DateCreated) }'      
+      jsxtextmediaLength='{ data($child//PlayLength) }'      
+      jsxtextmediaWrite='{ data($child/Info/Properties/Permissions/Write) }'      
+      jsxtextmediaGroupID='{ data($child//MediaStoreFileInfo/MediaGroupID) }'
+      jsxtextmediaStateFlag='{ data($child//State/StateFlag) }'/>   
+    )   
+    return $MediaFileList  
+    };  
+let $ParentMediaDirNID :='_PARENTMEDIADIRNID_' 
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+
+let $unique_mediaGrpIDs := distinct-values ( for $b in  index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..  
+	where $b[  Info/Properties[ParentMediaDirNID=$ParentMediaDirNID]   and not  ( Info/MediaStoreFileInfo/MediaGroupID=''  )   ]  
+	return $b/Info/MediaStoreFileInfo/MediaGroupID )   
+
+let $groupfile_all := for $b in  $unique_mediaGrpIDs
+						return <MediaGroupID>{$b}</MediaGroupID>
+
+let $groupfile_exits := for $b in    index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..         
+	where $b[     ( Info/MediaStoreFileInfo/Type='MediaGroup' and  Info/MediaStoreFileInfo/MediaGroupID=$unique_mediaGrpIDs       ) ]            
+	return  $b/Info/MediaStoreFileInfo/MediaGroupID   
+
+
+let $groupfile_exits_xml :=  <MediaGroupIDs>{$groupfile_exits}</MediaGroupIDs>
+let $groupfile_all_xml :=  <MediaGroupIDs>{$groupfile_all}</MediaGroupIDs>
+
+let $groupfile_exits_ids :=  distinct-values ( $groupfile_exits_xml//MediaGroupID )
+
+let $groupfile_non_exits := for  $b in  $groupfile_all_xml//MediaGroupID
+								where not( $b = $groupfile_exits_ids)
+								return $b
+
+let $list3 := subsequence($groupfile_non_exits, $startFrom, $countToFetch) 
+let $list := for  $b in $list3 
+              return
+              <record jsxid='{data($b)}'     
+                jsxtextmediaName='ORPHANED_MEDIA_GROUP_FILE'     
+                jsxtextmediaStatus=''     
+                jsxtextmediaSize=''     
+                jsxtextmediaCreated=''     
+                jsxtextmediaLength=''     
+                jsxtextmediaWrite=''     
+                jsxtextmediaStateFlag=''                                              
+                jsxtextmediaGroupID=''>     
+                { local:getFileList ($b) }   
+              </record>  
+
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($groupfile_non_exits)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

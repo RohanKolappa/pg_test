@@ -1,0 +1,137 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+    <strings jsxname="layout (--)" jsxrows="35,30,*,30" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #777777"></strings>
+    <dynamics jsxbgcolor="P1BG"></dynamics>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxborder="0px solid #777777; 0px solid #777777; 1px solid #999999; 0px solid #777777" jsxbgcolor="#d6d6d6"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="7" jsxfontsize="16"></variants>
+        <strings jsxname="lblUserAdminPolicy" jsxtext="Manage Users" jsxdisplay="" jsxfontweight="normal"></strings>
+        <dynamics jsxcolor="@Dark"></dynamics>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkMenu" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxborder="1px solid #efefef; 0px solid #777777; 1px solid #999999; 0px solid #777777"></strings>
+      <dynamics jsxbgcolor="Sub Menu BG"></dynamics>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="50" jsxheight="19" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="15" jsxtop="5"></variants>
+        <strings jsxname="btnAddUserAdminPolicy" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskAddDsbl.png" jsxdisplay="" jsxmargin="3 4 4 4" jsxtip="Add policy" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskAddOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskAddDown.png"></strings>
+        <events jsxexecute="cmpUserAdmin_btnAddOnClick();"></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxrelativeposition="0" jsxleft="135" jsxenabled="0" jsxtop="5"></variants>
+        <strings jsxname="btnEditUserAdminPolicy" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskEditDsbl.png" jsxdisplay="none" jsxmargin="3 4 4 4" jsxtip="Edit policy" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskEditOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskEditDown.png"></strings>
+        <events jsxexecute="cmpUserAdmin_btnEditOnClick();"></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="75" jsxenabled="0" jsxtop="5"></variants>
+        <strings jsxname="btnDeleteUserAdminPolicy" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDsbl.png" jsxdisplay="" jsxmargin="3 20 4 4" jsxtip="Delete policy" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDown.png"></strings>
+        <events jsxexecute="cmpUserAdmin_btnDeleteOnClick();"></events>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxleft="0" jsxtop="0" jsxwidth="0" jsxheight="0" jsxoverflow="2" jsxrelativeposition="0"></variants>
+        <strings jsxname="block" jsxbgcolor="#e8e8f5" jsxdisplay="none"></strings>
+        <object type="jsx3.gui.Menu">
+          <variants jsxxmlasync="1" jsxenabled="1"></variants>
+          <strings jsxname="menuUserPolicyList" jsxtip="menu" jsxtext="User Menu" jsxdisplay="none"></strings>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="policyUserList" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#e5e5e5" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999"></strings>
+      <dynamics jsxpadding="@8Pixel"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+        <dynamics jsxbgcolor="P4BG"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxjsxxmlasync="1" jsxrowheight="22" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+          <strings jsxname="mtxpolicyUserAdminList" jsxbgcolor="#efefff" jsxxml="" jsxsortpath="jsxUserPolicyType" jsxsorttype="text" jsxsortdirection="descending" jsxfocusstyle="font-weight:bold;" jsxmenu="menuUserPolicyList"></strings>
+          <dynamics jsxheaderborder="Matrix Box Header Border" jsxbodyborder="Matrix Box Body Border" jsxselectionbg="Matrix Selection BG"></dynamics>
+          <events jsxbeforeedit="jsx3.log('EVENT: (jsxbeforeedit). Record: ' + strRECORDID);" jsxafteredit="jsx3.log('EVENT: (jsxafteredit). Record: ' + strRECORDID + '. New Value: ' + strNEWVALUE);" jsxselect="cmpUserAdmin_OnSelect();"></events>
+          <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="40"></variants>
+            <strings jsxname="mcUserPolicyOrder" jsxresize="0" jsxtext="Order" jsxpadding="2 2 2 4" jsxcellpadding="2" jsxpath="index" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxsortdatatype="number"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="250"></variants>
+            <strings jsxname="mcUserPolicyName" jsxtext="Policy Name" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxtext" jsxcellfontweight="normal" jsxcellborder="border-bottom: solid 1px #d3d3d3;"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="45"></variants>
+            <strings jsxname="mcUserPolicyActive" jsxtext="Active" jsxpadding="2 2 2 4" jsxcellpadding="1" jsxvaluetemplate="@image" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcelltextalign="center" jsxpath="jsximg"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="88"></variants>
+            <strings jsxname="mcUserPolicyType" jsxtext="Policy Type:" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxUserPolicyType" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="80" jsxsort="0"></variants>
+            <strings jsxname="mcUserPolicyRoles" jsxtext="Roles:" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxUserPolicyRoles" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="mcUserPolicyUserFilters" jsxtext="User Filters" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxUserPolicyUserFilter" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxwidth="*" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="80" jsxtype="1" jsxrelativeposition="0" jsxleft="353" jsxtop="0" jsxwidth="100" jsxzindex="10"></variants>
+              <strings jsxname="jsxUserPolicyUserFilter" jsxdisplay="none" jsxvalue=""></strings>
+              <events jsxkeydown="1;"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="mcUserPolicyTargetFilters" jsxwidth="*" jsxtext="Target Filters" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxUserPolicyTargetFilter" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="80" jsxtype="1" jsxrelativeposition="0" jsxleft="453" jsxtop="0" jsxwidth="100" jsxzindex="10"></variants>
+              <strings jsxname="jsxUserPolicyTargetFilter" jsxdisplay="none" jsxvalue=""></strings>
+              <events jsxkeydown="1;"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="mcUserPolicyRuleKeyFilters" jsxwidth="*" jsxtext="Rule Key Filters" jsxpadding="2 2 2 4" jsxcellpadding="3" jsxpath="jsxUserPolicyRuleKeyFilter" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="80" jsxtype="1" jsxrelativeposition="0" jsxleft="553" jsxtop="0" jsxwidth="100" jsxzindex="10"></variants>
+              <strings jsxname="jsxUserPolicyRuleKeyFilter" jsxdisplay="none" jsxvalue=""></strings>
+              <events jsxkeydown="1;"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="10"></variants>
+            <strings jsxname="mcExpandCollapse" jsxtext="" jsxpadding="2 2 2 4" jsxcellpadding="14 0 0 0" jsxvaluetemplate="@empty" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcelltextalign="center" jsxpath="jsxImageUserPolicyExpandCollapse" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@Outset"></dynamics>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+              <strings jsxname="jsxImageUserPolicyExpandCollapse" jsximage="images/icons/arrowDown.gif" jsxoverimage="images/icons/arrowDown.gif" jsxdownimage="images/icons/arrowDown.gif" jsxonimage="images/icons/arrowDown.gif" jsxdisabledimage="images/icons/arrowDown.gif"></strings>
+              <events jsxexecute="jsx3.log('Clicked on button mask in row ' + this.emGetSession().recordId + '.');"></events>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="blkUserAccessFooter" jsxpadding="2 0 0 0" jsxtextalign="right" jsxborder="0px solid #555555; 1px solid #555555; 1px solid #555555; 1px solid #555555"></strings>
+      <dynamics jsxbgcolor="Pagination BG"></dynamics>
+      <include src="components/pagination.xml" async="false"></include>
+    </object>
+  </object>
+</serialization>

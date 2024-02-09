@@ -1,0 +1,15 @@
+
+
+#
+# Rotate logs every minute.
+* * * * * /usr/sbin/logrotate /etc/logrotate.conf
+
+#
+# Sync the hardware clock every hour (5 min past the hour). 
+# We sync during reboot but just in case the box is shutdown unexpectedly, 
+# we still want the hw clock to be in reasonable sync
+05 * * * * /sbin/hwclock -u -w
+
+#
+# Run Thumbnail GC nightly.(Moved to node js script)
+#00 * * * * /etc/scripts/gc_thumbnail_dir.sh cleanup_live

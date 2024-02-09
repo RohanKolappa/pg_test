@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestXML>
+	<Setting name="AMSettings">
+		<objectXmlFolder>src/com/ipvs/xsd/objectXml</objectXmlFolder>
+		<testXmlFolder>src/com/ipvs/assetadminservice/xml</testXmlFolder>
+		<testScriptXmlFolder>src/com/ipvs/assetadminservice/testscript</testScriptXmlFolder>
+		<templateXmlFolder>src/com/ipvs/assetadminservice/testscript</templateXmlFolder>
+		<serviceName>assetadminservice</serviceName>
+		<requestName>AssetManagementRequest</requestName>
+		<dataNodeName>AssetManagementRequestData</dataNodeName>
+		<startFrom>0</startFrom>
+		<countToFetch>-1</countToFetch>
+		<isDefaultSettingForServiceName>true</isDefaultSettingForServiceName>
+		<isDefaultSetting>true</isDefaultSetting>
+	</Setting>
+	<Setting name="PMSettings">
+		<objectXmlFolder>src/com/ipvs/xsd/objectXml</objectXmlFolder>
+		<testXmlFolder>src/com/ipvs/policyadminservice/xml</testXmlFolder>
+		<testScriptXmlFolder>src/com/ipvs/policyadminservice/testscript</testScriptXmlFolder>
+		<templateXmlFolder>src/com/ipvs/policyadminservice/testscript</templateXmlFolder>
+		<serviceName>policyadminservice</serviceName>
+		<requestName>PolicyManagementRequest</requestName>
+		<dataNodeName>PolicyManagementRequestData</dataNodeName>
+		<startFrom>0</startFrom>
+		<countToFetch>-1</countToFetch>
+		<isDefaultSettingForServiceName>true</isDefaultSettingForServiceName>
+		<isDefaultSetting>false</isDefaultSetting>
+	</Setting>
+	
+	
+	<File_Name_Schemes>
+		<!--
+			File_Name_Scheme
+			testXmlFile name  creation rule:
+			AssetResource_BASE_ALL_ADD.xml =  object: attrb=name  +  Base_all or Partial_base: attrb=name   +  testXmlFile: attrb=suffix (_ADD.xml)
+			xml target folder= objectXmlFolder
+			object_ATTRB_NAME = 1			
+			( e.g. - AssetResource, DMS-120-Device , V2D-Tx-Device, V2D-Rx-Device... etc )
+			data_type__ATTRB_SUFFIX =2		
+			(e.g  Base_all name="base1" suffix="_BASE_ALL" or Partial_base name="basePart1" suffix="_BASE_PART" or Partial_base name="basePart1" suffix="_BASE_PART")
+			testXmlFile_ATTRB_SUFFIX = 3		
+			( e.g. - _ADD , _DELETE_NID , _UPDATE_NID, _GET_LIST_FROM_COUNT..etc )
+			testXmlFile_ATTRB_SUFFIX_AS_FILE_NAME = 4	
+		-->
+		<File_Name_Scheme name="File_Name_Scheme1" scheme="123" remark="object_ATTRB_NAME + data_type__ATTRB_SUFFIX + testXmlFile_ATTRB_SUFFIX " />
+		<File_Name_Scheme name="File_Name_Scheme2" scheme="321" remark="testXmlFile_ATTRB_SUFFIX + data_type__ATTRB_SUFFIX + object_ATTRB_NAME" />
+		<File_Name_Scheme name="File_Name_Scheme3" scheme="231" remark="data_type__ATTRB_SUFFIX + testXmlFile_ATTRB_SUFFIX + object_ATTRB_NAME" />
+		<File_Name_Scheme name="File_Name_Scheme4" scheme="132" remark="object_ATTRB_NAME + testXmlFile_ATTRB_SUFFIX + data_type__ATTRB_SUFFIX " />
+		<File_Name_Scheme name="File_Name_Scheme5" scheme="213" remark="data_type__ATTRB_SUFFIX + object_ATTRB_NAME + testXmlFile_ATTRB_SUFFIX  " />
+		<File_Name_Scheme name="File_Name_Scheme6" scheme="312" remark="testXmlFile_ATTRB_SUFFIX+ object_ATTRB_NAME +  data_type__ATTRB_SUFFIX  " />
+		<File_Name_Scheme name="File_Name_Scheme7" scheme="4" remark="object_ATTRB_NAME + data_type__ATTRB_SUFFIX + testXmlFile_ATTRB_SUFFIX " />
+	</File_Name_Schemes>
+<!--
+		createTestXmlFiles : 
+		requestAction:
+		ACTION_GET_REQUEST = "GetRequest";
+		ACTION_REPLACE_REQUEST = "ReplaceRequest";
+		ACTION_DELETE_REQUEST = "DeleteRequest";
+		ACTION_ADD_REQUEST = "AddRequest";
+		
+		enableFilter for:
+		FILTER_NID = 'A';
+    	FILTER_OPERATION_DATA = 'G';
+    	FILTER_ORDER_BY_XPATH = 'B';
+    	FILTER_WHERE_XPATH = 'C';
+    	FILTER_CURSOR = 'E';
+    	FILTER_SELECT_XML = 'F';    
+    	FILTER_CHILD_XPATH_CONTEXT = 'H';    	
+		File_Name_Scheme and suffix used to create name of the file :
+		<File_Name_Scheme name="File_Name_Scheme1"/>
+	-->
+	<createTestXmlFiles name="createXmls">
+		 <!-- add  -->
+		<testXmlFile requestAction="AddRequest" File_Name_Scheme="File_Name_Scheme1" suffix="add" enableFilter="AG" />
+		 
+		<!-- replace -->
+		<testXmlFile requestAction="ReplaceRequest" File_Name_Scheme="File_Name_Scheme1" suffix="replace" enableFilter="AG" />
+
+		<!-- delete -->
+		<testXmlFile requestAction="DeleteRequest" File_Name_Scheme="File_Name_Scheme1" suffix="delete" enableFilter="A" />
+		
+		<!-- get -->
+		<testXmlFile requestAction="GetRequest" File_Name_Scheme="File_Name_Scheme1" suffix="get" enableFilter="ABE" />
+		
+		<!-- readquery -->
+		<testXmlFile requestAction="ReadQueryRequest" File_Name_Scheme="File_Name_Scheme1" suffix="readquery" enableFilter="" />	
+		
+	</createTestXmlFiles>
+	
+	<createTestXmlFiles name="createXmls_All">
+		 <!-- add  -->
+		<testXmlFile requestAction="AddRequest" File_Name_Scheme="File_Name_Scheme1" suffix="add" enableFilter="AG" />
+		<testXmlFile requestAction="AddRequest" File_Name_Scheme="File_Name_Scheme1" suffix="addChild" enableFilter="AGH" />
+		 
+		<!-- replace -->
+		<testXmlFile requestAction="ReplaceRequest" File_Name_Scheme="File_Name_Scheme1" suffix="replace" enableFilter="AG" />
+		<testXmlFile requestAction="ReplaceRequest" File_Name_Scheme="File_Name_Scheme1" suffix="replaceChild" enableFilter="AGH" />
+
+		<!-- delete -->
+		<testXmlFile requestAction="DeleteRequest" File_Name_Scheme="File_Name_Scheme1" suffix="delete" enableFilter="A" />
+		<testXmlFile requestAction="DeleteRequest" File_Name_Scheme="File_Name_Scheme1" suffix="deleteChild" enableFilter="AH" />
+		
+		<!-- get -->
+		<testXmlFile requestAction="GetRequest" File_Name_Scheme="File_Name_Scheme1" suffix="get" enableFilter="AB" />
+		<testXmlFile requestAction="GetRequest" File_Name_Scheme="File_Name_Scheme1" suffix="getSelect" enableFilter="ABCF" />
+		<testXmlFile requestAction="GetRequest" File_Name_Scheme="File_Name_Scheme1" suffix="getList" enableFilter="ABE" />
+		<testXmlFile requestAction="GetRequest" File_Name_Scheme="File_Name_Scheme1" suffix="getListSelect" enableFilter="ABCEF" />
+		
+		<!-- readquery -->
+		<testXmlFile requestAction="ReadQueryRequest" File_Name_Scheme="File_Name_Scheme1" suffix="readquery" enableFilter="" />	
+		
+	</createTestXmlFiles>
+
+ 	<!-- ///////////////////////////////////////////////////  SAMPLE ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="AssetResource" enable='false'>
+		<requestXML suffix="_SAMPLE_" createTestXmlFiles="createXmls">
+			<whereXPathList>
+				<xpath>//AssetResource/Info</xpath>
+			</whereXPathList>
+			<childXpath></childXpath>
+			<get>
+				<sortByXpathList>
+					<xpath>./Info/Title</xpath>
+				</sortByXpathList>
+				<sortOrder>
+					ascending
+				</sortOrder>
+				<selectXml>
+					<SelectXmlResult>
+						<xpath>//info</xpath>
+					</SelectXmlResult>
+				</selectXml>
+				<cursor>
+					<startFrom>0</startFrom>
+					<countToFetch>200</countToFetch>
+				</cursor>
+			</get>
+			<addReplace>
+				<parentContextXpath/>
+				<operationDataXpathList></operationDataXpathList>
+			</addReplace>
+			<readquery>
+				<!--  todo: file/resource/text -->
+				<queryType>resource</queryType>
+				<query>/com/ipvs/test/xml/AssetResource.xquery</query>
+			</readquery>				
+		</requestXML>
+		<requestXML suffix="_SAMPLE_PARTIAL" createTestXmlFiles="createXmls">
+			<whereXPathList>
+				<xpath>//AssetResource/Info/Tag</xpath>
+			</whereXPathList>
+			<childXpath></childXpath>
+			<get>
+				<sortByXpathList>
+					<xpath>./Info/Title</xpath>
+				</sortByXpathList>
+				<sortOrder>
+					ascending
+				</sortOrder>
+				<selectXml>
+					 <SelectXmlResult>
+						{$VAR//info},
+						{substring($VAR//info,'sunnyvale')},
+						{count($VAR//Title)}
+					</SelectXmlResult>
+				</selectXml>
+				<cursor>
+					<startFrom>0</startFrom>
+					<countToFetch>-1</countToFetch>
+				</cursor>
+			</get>
+			<addReplace>
+				<parentContextXpath>//AssetResource/Info</parentContextXpath>
+				<operationDataXpathList>
+				</operationDataXpathList>
+			</addReplace>
+			<readquery>
+				<!--  todo: file/resource/text -->
+				<queryType>test</queryType>
+				<query>for $b in #OBJ_AssetResource_OBJ#/info return $b/Title</query>
+			</readquery>	
+		</requestXML>
+	</object>
+	
+	<!-- ///////////////////////////////////////////////////  AssetResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="AssetResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<!-- ///////////////////////////////////////////////////  DMS-120-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="DMS-120-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//DMS-120-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//DMS-120-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//DMS-120-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>	
+ 	
+	<!-- ///////////////////////////////////////////////////  DMS-100-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="DMS-100-Device">
+			<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//DMS-100-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//DMS-100-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//DMS-100-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+
+	<!-- ///////////////////////////////////////////////////  DMS-25-Device ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="DMS-25-Device">
+			<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//DMS-25-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//DMS-25-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//DMS-25-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>		
+	<!-- /////////////////////////////////////////////////// MS-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MS-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>	
+	
+	<!-- /////////////////////////////////////////////////// MS-25-Device ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="MS-25-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>		
+	
+	<!-- ///////////////////////////////////////////////////  DMS-1500-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="DMS-1500-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//DMS-1500-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//DMS-1500-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//DMS-1500-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  DMS-1000-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="DMS-1000-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//DMS-1000-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//DMS-1000-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//DMS-1000-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  IPVSClient-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="IPVSClient-Device">
+			<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//IPVSClient-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//IPVSClient-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//IPVSClient-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  V2D-Rx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="V2D-Rx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+				    <xpath iCopyChildsToDepth="-1">//V2D-Rx-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-Rx-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-Rx-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+			
+	<!-- ///////////////////////////////////////////////////  V2D-Tx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="V2D-Tx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-Tx-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-Tx-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-Tx-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  RTP-Rx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="RTP-Rx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  RTP-Tx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="RTP-Tx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+			
+	<!-- ///////////////////////////////////////////////////  UDP-Rx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="UDP-Rx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+		
+	<!-- ///////////////////////////////////////////////////  UDP-Tx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="UDP-Tx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>	
+	
+	<!-- ///////////////////////////////////////////////////  MPEGTS-Rx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MPEGTS-Rx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>	
+	<!-- ///////////////////////////////////////////////////  V2D-XP200-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="V2D-XP200-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XP200-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XP200-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XP200-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+
+
+	<object settings="AMSettings" name="V2D-XP100-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XP100-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XP100-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XP100-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+
+	<object settings="AMSettings" name="V2D-XPi-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XPi-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XPi-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XPi-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+	
+	<object settings="AMSettings" name="V2D-XP200S-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XP200S-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XP200S-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XP200S-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+	
+	<object settings="AMSettings" name="V2D-XP220-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XP220-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XP220-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XP220-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+	
+	<object settings="AMSettings" name="V2D-XP220S-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//V2D-XP220S-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//V2D-XP220S-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//V2D-XP220S-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+	
+	
+
+
+
+	<!-- ///////////////////////////////////////////////////  MPEGTS-Tx-Device ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MPEGTS-Tx-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+ 	<!-- ///////////////////////////////////////////////////  MNA-110-Devices //////////////////////////////////////// -->
+	<object settings="AMSettings" name="MNA-110-ENCDP-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-110-ENCDP-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-110-ENCDP-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//MNA-110-ENCDP-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+	
+		<object settings="AMSettings" name="MNA-110-ENCDVI-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-110-ENCDVI-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-110-ENCDVI-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath  iCopyChildsToDepth="1">
+						//MNA-110-ENCDVI-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>			
+		</requestXML>
+	</object>
+
+	<object settings="AMSettings" name="MNA-110-ENCHDSDI-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-110-ENCHDSDI-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-110-ENCHDSDI-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-110-ENCHDSDI-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	<!-- ///////////////////////////////////////////////////  MNA-120-Devices //////////////////////////////////////// -->
+	
+	<object settings="AMSettings" name="MNA-120-DECDVIAudio-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-120-DECDVIAudio-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-120-DECDVIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-120-DECDVIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	
+	
+	
+	<object settings="AMSettings" name="MNA-120-ENCANAAudio-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-120-ENCANAAudio-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-120-ENCANAAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-120-ENCANAAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	
+	
+	
+	<object settings="AMSettings" name="MNA-120-ENCDPAudio-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-120-ENCDPAudio-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-120-ENCDPAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-120-ENCDPAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	
+	
+	
+	<object settings="AMSettings" name="MNA-120-ENCDVIAudio-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-120-ENCDVIAudio-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-120-ENCDVIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-120-ENCDVIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	
+	
+	
+	<object settings="AMSettings" name="MNA-120-ENCHDSDIAudio-Device">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+			<addReplace>
+				<operationDataXpathList>
+					<xpath iCopyChildsToDepth="-1">//MNA-120-ENCHDSDIAudio-Device</xpath>
+					<xpath iCopyChildsToDepth="50" removeChild="true">
+						//MNA-120-ENCHDSDIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+					<xpath iCopyChildsToDepth="1">
+						//MNA-120-ENCHDSDIAudio-Device/DeviceStatus/ServiceElementsStatus/StreamingServiceStatus/InstanceList
+					</xpath>
+				</operationDataXpathList>
+			</addReplace>
+		</requestXML>
+	</object>
+	
+	
+	
+ 	
+	<!-- ///////////////////////////////////////////////////  MediaStorePortResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStorePortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  MediaStreamDirResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamDirResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+
+
+	<!-- ///////////////////////////////////////////////////  MediaStreamFileResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamFileResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+ 	<!-- ///////////////////////////////////////////////////  Bookmark ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="Bookmark">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  MediaStreamSrcPortResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamSrcPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+	<!-- ///////////////////////////////////////////////////  MediaStreamDstPortResource ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="MediaStreamDstPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+	<!-- ///////////////////////////////////////////////////  MediaStreamRelayPortResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamRelayPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+  	<!-- ///////////////////////////////////////////////////  MediaStreamDstPortResource ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="MediaStreamDstPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>		
+	<!-- ///////////////////////////////////////////////////  MediaStreamRelayPortResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamRelayPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+	<!-- ///////////////////////////////////////////////////  MediaStreamIOPortResource ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaStreamIOPortResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  MPEGTSMediaStreamProfile ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MPEGTSMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  V2DMediaStreamProfile ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="V2DMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  RTPMediaStreamProfile ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="RTPMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  UDPMediaStreamProfile ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="UDPMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+ 	<!-- ///////////////////////////////////////////////////  RTPRAWMediaStreamProfile ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="RTP-RAWMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+ 	<!-- ///////////////////////////////////////////////////  RTPPCMMediaStreamProfile ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="RTP-PCMMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+ 	<!-- ///////////////////////////////////////////////////  RFBMediaStreamProfile ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="RFBMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+ 	<!-- ///////////////////////////////////////////////////  V2DMediaStreamProfile ///////////////////////////////////////////////////
+-->
+	<object settings="AMSettings" name="V2DMediaStreamProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  User ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="User">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  Group Tag Def ///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="GroupTagDef">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  Tag Object Filter ///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="TagObjectFilter">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+
+	<!-- ///////////////////////////////////////////////////  ObjectFilter ///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="ObjectFilter">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  Media Stream Filter ///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="MediaStreamFilter">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  Media Room Policy ///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="MediaRoomPolicyRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  Asset Admin Policy Rule///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="AssetAdminPolicyRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+	<!-- ///////////////////////////////////////////////////  Policy Admin Policy Rule///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="PolicyAdminPolicyRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+ 	
+	<!-- ///////////////////////////////////////////////////  Media Store  Admin Policy Rule///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="MediaStoreAdminPolicyRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+ 	</object>
+
+	<!-- ///////////////////////////////////////////////////  User Admin Policy Rule///////////////////////////////////////////////////-->
+	<object settings="PMSettings" name="UserAdminPolicyRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+
+	<object settings="PMSettings" name="NetworkAddressRule">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<!-- ///////////////////////////////////////////////////  Media Room   ///////////////////////////////////////////////////-->
+	<object settings="AMSettings" name="MediaRoom">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<object settings="AMSettings" name="CollaborationConfig">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	 
+	<object settings="AMSettings" name="ServiceResource">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<object settings="AMSettings" name="ServiceConfig">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<object settings="AMSettings" name="SessionConfig">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+	<object settings="AMSettings" name="DisplayProfile">
+		<requestXML suffix="_" createTestXmlFiles="createXmls">
+		</requestXML>
+	</object>
+	
+</TestXML>	
+ 

@@ -1,0 +1,137 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Layout - Top/Over]]></name>
+  <icon><![CDATA[images/prototypes/layout-over.gif]]></icon>
+  <description><![CDATA[2 top-over-bottom panes in an adaptive layout grid.]]></description>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+    <strings jsxname="mainContainer" jsxrows="38,40,*,26" jsxwidth="100%" jsxheight="100%" jsxbg="background-image: url(addins/ipvsCommon/images/panels/bg1.png);"></strings>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxheight="32"></variants>
+      <strings jsxname="header" jsxwidth="100%" jsxclassname="" jsxtextalign="right" jsxpadding="5 0 0 0"></strings>
+      <object type="jsx3.gui.Image">
+        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="8" jsxtop="8"></variants>
+        <strings jsxname="adminHeaderLogo" jsxsrc="../../addins/ipvsCommon/images/panels/adminHeaderLogo.png" jsxdisplay=""></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="16" jsxleft="0" jsxtop="2" jsxheight="30"></variants>
+        <strings jsxname="appTitle" jsxtext="Management Server" jsxcolor="#e5e5e5" jsxfontweight="normal" jsxpadding="6 0 0 0" jsxmargin="" jsxtagname="h1" jsxdisplay="" jsxwidth="100%" jsxtextalign="center"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11" jsxheight="30"></variants>
+        <strings jsxname="lblWelcomeText" jsxcolor="#e5e5e5" jsxpadding="2 15 0 5" jsxfontweight="bold"></strings>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="16" jsxwidth="70" jsxfontsize="12"></variants>
+        <strings jsxname="btnLogOut" jsxtext="Logout" jsxmargin="4 10 0 0" jsxpadding="" jsxclassname="btnOK"></strings>
+        <events jsxexecute="showLogin();"></events>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="16" jsxwidth="105"></variants>
+        <strings jsxname="btnSystemSettings" jsxtext="Backup/Restore" jsxmargin="0 10 0 0" jsxpadding="0 0 1 0" jsxclassname="btnOK" jsxdisplay="none"></strings>
+        <events jsxexecute="showLogin();"></events>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="16" jsxwidth="120"></variants>
+        <strings jsxname="btnUpgradeManager" jsxtext="Upgrade Manager" jsxmargin="0 10 0 0" jsxpadding="0 0 1 0" jsxclassname="btnOK" jsxdisplay="none"></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="16" jsxwidth="60"></variants>
+        <strings jsxname="btnAbout" jsxtext="About" jsxmargin="0 10 0 0" jsxclassname="btnOK" jsxpadding="0 0 1 0" jsxdisplay="none"></strings>
+        <events jsxexecute="showLogin();"></events>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="20"></variants>
+        <strings jsxname="spacer" jsxtext=""></strings>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxheight="38"></variants>
+      <strings jsxname="tabs" jsxwidth="100%" jsxtextalign="left" jsxstyleoverride="white-space:nowrap;" jsxpadding="10 8 0 8" jsxborder="border-top:solid 0px #666666" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/tabs/bottomBorder.png);background-position:bottom;"></strings>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="124" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxenabled="1"></variants>
+        <strings jsxname="btnSessionMonitor" jsxtext="Session Monitor" jsximage="images/tabs/tabSessionsOff.png" jsxonimage="images/tabs/tabSessionsOn.png" jsxdisabledimage="images/tabs/tabSessionsOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxstate="0" jsxwidth="124" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxenabled="1"></variants>
+        <strings jsxname="btnAssets" jsxtext="Assets" jsximage="images/tabs/tabDevicesOff.png" jsxonimage="images/tabs/tabDevicesOn.png" jsxdisabledimage="images/tabs/tabDevicesOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="124" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+        <strings jsxname="btnProfiles" jsxtext="Profiles" jsximage="images/tabs/tabProfilesOff.png" jsxonimage="images/tabs/tabProfilesOn.png" jsxdisabledimage="images/tabs/tabProfilesOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="122" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+        <strings jsxname="btnUsers" jsxtext="User Accounts" jsximage="images/tabs/tabUsersOff.png" jsxonimage="images/tabs/tabUsersOn.png" jsxdisabledimage="images/tabs/tabUsersOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="122" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+        <strings jsxname="btnMedia" jsxtext="Media" jsximage="images/tabs/tabMediaOff.png" jsxonimage="images/tabs/tabMediaOn.png" jsxdisabledimage="images/tabs/tabMediaOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxstate="0" jsxwidth="122" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxenabled="1"></variants>
+        <strings jsxname="btnPolicy" jsxtext="Access Policies" jsximage="images/tabs/tabPoliciesOff.png" jsxonimage="images/tabs/tabPoliciesOn.png" jsxdisabledimage="images/tabs/tabPoliciesOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxstate="0" jsxwidth="122" jsxheight="30" jsxtype="1" jsxprefetch="1" jsxenabled="1"></variants>
+        <strings jsxname="btnSystemAdmin" jsxtext="System Settings" jsximage="images/tabs/tabSystemOff.png" jsxonimage="images/tabs/tabSystemOn.png" jsxdisabledimage="images/tabs/tabSystemOff.png" jsxmargin=""></strings>
+        <events jsxexecute=""></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkMenuUI" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#aaaaaa;" jsxpadding="6 6 2 6" jsxborder="border-top:solid 4px #c21f25;"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="1" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkAssets" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="1" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkPolicy" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="1" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkSessionMonitor" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxbgcolor="" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="1" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkUser" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="2" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkMedia" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="2" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkProfiles" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="2" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkSystemAdmin" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""></strings>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkTaskbar" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#aaaaaa" jsxborder="border-bottom:solid 0px #1a6aa2"></strings>
+      <object type="jsx3.gui.WindowBar">
+        <variants jsxbartype="3"></variants>
+        <strings jsxname="taskBar" jsxborder="none" jsxbgcolor="#aaaaaa"></strings>
+        <dynamics jsxbg="@No BG Image"></dynamics>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="0" jsxheight="26"></variants>
+        <strings jsxname="lblVersion" jsxtext="0.0.r0.b0" jsxdisplay="" jsxwidth="100%" jsxtextalign="right" jsxpadding="10 10 0 0" jsxcolor="#454545"></strings>
+      </object>
+    </object>
+  </object>
+</serialization>

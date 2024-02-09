@@ -1,0 +1,22 @@
+# Running the command below, you instruct buckminster to checkout and build the nimbus.product:
+#
+# no_proxy="silsvn01.barco.com,sati.barco.com,kali.barco.com" /usr/local/headless-buckminster/buckminster -data /tmp/ws --scriptfile buckminster.nimbus.product.export.script.txt -Ldebug
+#
+# The output will be here: /tmp/buckminster/build/com.barco.nimbus.equinox.product_1.0.0-eclipse.feature/buckminster
+# you can configure the output location and the platform (windows/linux) by defining it in a properties file, 
+# for exmmaple: buckminster.linux.gtk.x84_64.properties
+# which must be passed to the perform command (in the script)
+# using --properties buckminster.linux.gtk.x84_64.properties
+
+#import "http://diec:Vngdc2013@silsvn01.barco.com/svn/svnroot/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.releng.cquery"
+import "http://nightly:n1ghtly@192.168.1.29/svn/bcs/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.releng.cquery"
+importtargetdefinition --active com.barco.nimbus.releng/buckminster/dev.target
+#import http://diec:Vngdc2013@silsvn01.barco.com/svn/svnroot/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.cquery
+import http://nightly:n1ghtly@192.168.1.29/svn/bcs/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.cquery
+#import http://diec:Vngdc2013@silsvn01.barco.com/svn/svnroot/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.equinox.junit.feature.cquery
+import http://nightly:n1ghtly@192.168.1.29/svn/bcs/SC/trunk/com.barco.nimbus.releng/buckminster/com.barco.nimbus.equinox.junit.feature.cquery
+build
+junit -l com.barco.nimbus.database.exist.test/com.barco.nimbus.database.exist.test.launch --stderr --stdout -o hbm/out/junit/com.barco.nimbus.database.exist.test --flatXML 
+junit -l com.barco.nimbus.pubsub.test/com.barco.nimbus.pubsub.test.launch --stderr --stdout -o hbm/out/junit/com.barco.nimbus.pubsub.test --flatXML 
+
+

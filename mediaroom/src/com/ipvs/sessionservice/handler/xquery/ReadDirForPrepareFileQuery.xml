@@ -1,0 +1,9 @@
+let $parentDirNID := '_PARENT_DIR_NID_'
+let $clipType := '_CLIP_TYPE_'
+let $dirDoc := doc(concat('/db/ipvs.default.', substring-before( substring-after($parentDirNID, 'default.') , '.' ) , '/', substring-after( substring-after($parentDirNID, 'default.'),'.')))/*[@NID=$parentDirNID] 
+let $parentDirDoc := if($clipType = 'PVRMediaClip') then 
+    let $parentDirNID2 := data($dirDoc//ParentMediaDirNID) 
+    let $dirDoc2 := doc(concat('/db/ipvs.default.', substring-before(substring-after( $parentDirNID2, 'default.') , '.' ) , '/', substring-after( substring-after($parentDirNID2, 'default.'),'.')))/*[@NID=$parentDirNID2]
+    return $dirDoc2 
+    else $dirDoc 
+return $parentDirDoc

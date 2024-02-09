@@ -1,0 +1,123 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkViewport" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxbgcolor="#252525"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="lytHeaderBody" jsxrows="40,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="com.ipvs.ipv.Header">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxheight="100%" jsxwidth="100%" jsxname="blkHeader" jsxbgcolor="#4f5557" jsxborder="border-bottom:solid 1px #646464" jsxtextalign="right" jsxdisplay=""></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxheight="100%" jsxname="blkFilter" jsxtextalign="left" jsxdisplay="none"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="10" jsxtop="10"></variants>
+            <strings jsxname="label" jsxtext="Search / Filter / Sort / Options Panel" jsxcolor="#e5e5e5" jsxdisplay=""></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="20" jsxfontsize="11"></variants>
+          <strings jsxname="txtBack" jsxtext="" jsxcolor="#cccccc" jsxpadding="8 0 8 0" jsxmargin="0 20 0 0"></strings>
+          <events jsxclick="this.onClick();"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="16" jsxfontsize="11"></variants>
+          <strings jsxname="txtSplitor" jsxtext="" jsxcolor="#cccccc" jsxpadding="4 8 8 0" jsxmargin="8 10 0 0" jsxborder="border-right:solid 1px #888888;"></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="16" jsxfontsize="11"></variants>
+          <strings jsxname="txtWelcome" jsxtext="" jsxcolor="#cccccc" jsxpadding="4 8 8 0" jsxmargin="8 10 0 0" jsxborder="border-right:solid 1px #888888;"></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="20" jsxfontsize="11"></variants>
+          <strings jsxname="txtLogout" jsxtext="Logout" jsxcolor="#cccccc" jsxpadding="8 0 8 0" jsxmargin="0 20 0 0"></strings>
+          <events jsxclick="this.onClick();"></events>
+        </object>
+        <object type="jsx3.gui.Image">
+          <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+          <strings jsxname="imgLogo" jsxsrc="images/icons/barco60x40.png" jsxdisplay=""></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxdisplay=""></strings>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="lytLeftRight" jsxcols="350,*" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkLeft" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="40" jsxheight="30" jsxzindex="90"></variants>
+              <strings jsxname="blkProgress" jsxwidth="100%" jsxdisplay="none" jsxbgcolor="#dddddd"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="30"></variants>
+                <strings jsxname="label" jsxtext="Loading..."></strings>
+                <dynamics jsxpadding="@8Pixel"></dynamics>
+              </object>
+            </object>
+            <object type="com.ipvs.gui.List">
+              <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppresshscroll="1" jsxsuppressvscroll="0" jsxheaderheight="0" jsxrowheight="92" _isMouseDown="true"></variants>
+              <strings jsxname="mtxMediaList" jsxbgcolor="#3b3b3b" jsxfocusstyle="font-weight:bold;" jsxselectionbg="images/bg/selectBG.png"></strings>
+              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxresize="0" jsxwidth="130"></variants>
+                <strings jsxname="mc1" jsxtext="&amp;#160;" jsxcellpadding="12 12 12 12" jsxpath="jsximg" jsxvaluetemplate="@image" jsxcellborder="border-bottom:solid 1px #424242"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxcellfontsize="16"></variants>
+                <strings jsxname="mc2" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="12 12 12 0" jsxpath="jsxtext" jsxcellborder="border-bottom:solid 1px #424242" jsxcellcolor="#dfdfdf"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkRight" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+              <strings jsxwidth="100%" jsxheight="100%" jsxname="blkMediaPlayer" jsxdisplay="" jsxtextalign="center"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="800" jsxheight="500"></variants>
+                <strings jsxname="blkPlayerOuterContainer" jsxrelativeposition="1" jsxbgcolor="#000000"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxwidth="800" jsxheight="450"></variants>
+                  <strings jsxname="blkVideoContainer" jsxrelativeposition="1"></strings>
+                  <include src="components/DisplayPanel.xml" async="false"></include>
+                </object>
+                <object type="com.ipvs.ipv.ViewerController">
+                  <variants jsxoverflow="2" jsxheight="50"></variants>
+                  <strings jsxname="blkControllerContainer" jsxwidth="100%" jsxrelativeposition="1" jsxbgcolor="#161616" jsxtextalign="left" jsxpadding="8 8 8 8"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="23" jsxheight="23" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxrelativeposition="0" jsxleft="10" jsxtop="10" jsxzindex="5"></variants>
+                    <strings jsxname="btnPlay" jsximage="images/buttons/pvrPlayUp.png" jsxmargin="0 2 0 2" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="23" jsxheight="23" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxrelativeposition="0" jsxleft="10" jsxtop="10" jsxzindex="10"></variants>
+                    <strings jsxname="btnPause" jsximage="images/buttons/pvrPauseUp.png" jsxmargin="0 2 0 2" jsxdisplay="none"></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="23" jsxheight="23" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxrelativeposition="0" jsxleft="37" jsxtop="10"></variants>
+                    <strings jsxname="btnStop" jsximage="images/buttons/pvrStopUp.png" jsxmargin="0 2 0 2" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="22" jsxheight="22" jsxprefetch="1" jsxtype="1" jsxstate="0" jsxrelativeposition="0" jsxleft="80" jsxtop="11"></variants>
+                    <strings jsxname="window_1_to_1" jsximage="images/buttons/btnEpc1to1Off.png" jsxmargin="0 4 0 20" jsxoverimage="images/buttons/btnEpc1to1Over.png" jsxdownimage="images/buttons/btnEpc1to1Down.png" jsxonimage="images/buttons/btnEpc1to1On.png" jsxdisabledimage="images/buttons/btnEpc1to1Dsbl.png" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="22" jsxheight="22" jsxprefetch="1" jsxtype="1" jsxstate="0" jsxrelativeposition="0" jsxleft="106" jsxtop="11"></variants>
+                    <strings jsxname="window_fullscreen" jsximage="images/buttons/btnEpcFullscreenOff.png" jsxmargin="0 2 0 2" jsxoverimage="images/buttons/btnEpcFullscreenOver.png" jsxdownimage="images/buttons/btnEpcFullscreenDown.png" jsxonimage="images/buttons/btnEpcFullscreenOn.png" jsxdisabledimage="images/buttons/btnEpcFullscreenDsbl.png" jsxdisplay=""></strings>
+                    <events jsxexecute=""></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

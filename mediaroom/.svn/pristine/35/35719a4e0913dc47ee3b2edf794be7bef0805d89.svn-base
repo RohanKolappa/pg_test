@@ -1,0 +1,89 @@
+This documents explains the use cases which have been run to generate the log files
+
+Physical Setup
+==============
+                   Va
+                   |
+              |    |
+Vb --- Rb ----|----Ra --- Ta
+       |      |
+       |
+       Tb
+
+Vb - Viewer in hospital B
+Rb - Archiver/Relay in hospital B
+Tb - Tx in hospital B
+
+Ra - Archiver/Relay in hospital A
+Ta - Tx in hospital A
+
+
+StreamFilterTable
+=================
+
+Src	Dest	Relay
+---	---	----
+
+Ta	ALL	Ra
+Ta	Ra	-
+Ra	Va	-
+
+ALL	Rb	Ra
+ALL	Vb	Rb
+Rb	Vb	-
+
+Tb	ALL	Rb
+Tb	Rb	-
+
+(Tb	Vb	--) Optional Direct
+
+
+UseCases
+=======
+
+1. relay_pvr : PVR on Ra
+
+	Vb --- Rb ---|--- Ra --- Ta
+
+2. relay_record : Record on Ra
+
+	Vb --- Rb ---|--- Ra --- Ta
+
+3. relay_playback : Playback from Ra
+
+	Vb --- Rb ---|--- Ra
+
+4. playback : Playback from Ra
+
+               Va
+               |
+               |
+	       Ra 
+
+5. TBD: pvr : PVR on Rb
+
+	Vb --- Rb 
+	       |
+	       |
+	       Tb
+
+LogFiles
+=======
+
+In the log files the following JIDs are used
+
+Ta - deviceuser-relaypvr
+Ra - srcrelay-relaypvr
+Rb - destrelay-relaypvr
+Vb/Va - roomuser-relaypvr
+
+Testing room UI without Admin UI or Tx
+======================================
+
+To test room UI without admin UI do the following
+
+1. run the TestApplet
+2. runtest ... room_test_<option>_admin_setup.exp (Ask Padmaja if you have questions about option)
+3. run the TestApplet
+4. runtest ... device_srcrelay_destrelay_user.exp (This will simulate the Tx, srcrelay, destrelay)
+5. Bring up the room UI

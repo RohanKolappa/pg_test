@@ -1,0 +1,182 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkAutoStartSettings" jsxwidth="100%" jsxheight="100%"></strings>
+    <dynamics jsxbgcolor="P4BG"></dynamics>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfAutoStartSettings" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="blkLayout" jsxrows="35,*" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxheight="35"></variants>
+          <strings jsxname="blkHeader" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="border-bottom: 1px solid #9898a5"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+            <strings jsxname="label" jsxtext="Streaming Profile" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxheight="450" jsxoverflow="3"></variants>
+          <strings jsxwidth="100%" jsxname="blkVideoConfigCnt" jsxbgcolor="#dddddd" jsxdisplay=""></strings>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18"></variants>
+            <strings jsxname="txtDirtyBitblkVideoConfigCnt" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="DirtyBitblkVideoConfigCnt"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="450"></variants>
+            <strings jsxname="blkBody" jsxwidth="100%" jsxbgcolor="#e5e5e5" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999" jsxclassname="dialogBody"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="1" jsxtop="10" jsxfontsize="12" jsxheight="91"></variants>
+              <strings jsxwidth="100%" jsxname="lbl" jsxtext="Enabling 'Multicast on Start' will force the encoder to continuously multicast video with the configured parameters.  Any client that connects to an encoder configured to 'Multicast on Start' will always use these streaming and connection parameters for at least the last hop of the connection.  The applied Connection Profile from the Policy (Route) will be ignored with the exception of keyboard/mouse parameters." jsxtextalign="left" jsxdisplay="" jsxcolor="#555555" jsxpadding="0 20 0 20" jsxborder="border-bottom:solid 1px #cccccc"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="116" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblAutoStart" jsxtext="Multicast on Start:" jsxdisplay="" jsxtextalign="right" jsxfontweight="normal"></strings>
+            </object>
+            <object type="jsx3.gui.CheckBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="115" jsxdefaultchecked="0" jsxchecked="0"></variants>
+              <strings jsxname="chkEnableAutoStart" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="EnableAutoStart"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="116" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblUseMulticast" jsxtext="Use Multicast:" jsxdisplay="none" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.CheckBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="115" jsxdefaultchecked="0" jsxchecked="0"></variants>
+              <strings jsxname="chkV2dTx_SI_UseMulitcast" jsxtext="" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="IsMulticast"></strings>
+              <dynamics jsxfontsize="SmallText"></dynamics>
+              <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="146" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblMaxBandwidth" jsxtext="Max Bandwidth:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="144" jsxwidth="80"></variants>
+              <strings jsxname="txtMaxBandwidth" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Bandwidth" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="225" jsxtop="146"></variants>
+              <strings jsxname="lblMaxBandwidthUnit" jsxtext="KB/sec" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="146" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblFrameRateDivider" jsxtext="FrameRate Divider:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="146" jsxwidth="80"></variants>
+              <strings jsxname="txtFrameRateDivider" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="FrameRateDivider" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="176" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblBurstRatio" jsxtext="Burst Ratio:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="176" jsxwidth="80"></variants>
+              <strings jsxname="txtBurstRatio" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="BurstRatio" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="176" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblBurstDuration" jsxtext="Burst Duration:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="176" jsxwidth="80"></variants>
+              <strings jsxname="txtBurstDuration" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="BurstDuration" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="505" jsxtop="178"></variants>
+              <strings jsxname="label" jsxtext="ms" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="206" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblLowCompression" jsxtext="Low Compression:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="206" jsxwidth="80"></variants>
+              <strings jsxname="txtLowComp" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="CompressionLow" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="206" jsxwidth="120" jsxfontsize="11"></variants>
+              <strings jsxname="lblHighCompression" jsxtext="High Compression:" jsxdisplay="" jsxfontweight="normal" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="206" jsxwidth="80"></variants>
+              <strings jsxname="txtHighComp" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="CompressionHigh" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="236" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblV2dTxMinRefresh" jsxtext="Minimum Refresh:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="236" jsxwidth="80"></variants>
+              <strings jsxname="txtV2dTxMinRefresh" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="RefreshMin" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="266" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblV2dTxMinSlice" jsxtext="Minimum Slice:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="266" jsxwidth="80"></variants>
+              <strings jsxname="txtV2dTxMinSlice" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="SliceMin" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="296" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblV2dTxBlockThreshold" jsxtext="Block Threshold:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="144" jsxtop="296" jsxwidth="80"></variants>
+              <strings jsxname="txtV2dTxBlockThreshold" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="BlockThreshold" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="236" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblV2dTxMaxRefresh" jsxtext="Maximum Refresh:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="236" jsxwidth="80"></variants>
+              <strings jsxname="txtV2dTxMaxRefresh" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="RefreshMax" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="266" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblMaxSlice" jsxtext="Maximum Slice:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="425" jsxtop="266" jsxwidth="80"></variants>
+              <strings jsxname="txtV2dTxMaxSlice" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="SliceMax" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="298" jsxtop="296" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblV2DEnable444" jsxtext="Color Sampling:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="110" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="425" jsxtop="296"></variants>
+              <strings jsxname="selColorSampling" jsxxmlurl="xml/selections/ColorSamplingType.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="ColorSampling"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="14" jsxtop="326" jsxfontsize="11" jsxwidth="120"></variants>
+              <strings jsxname="lblAVOption" jsxtext="A/V Option:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="110" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="425" jsxtop="296"></variants>
+              <strings jsxname="selColorSampling" jsxxmlurl="xml/selections/ColorSamplingType.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="ColorSampling"></strings>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="110" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="144" jsxtop="326"></variants>
+              <strings jsxname="selV2dTx_SI_AVOption" jsxxmlurl="xml/selections/V2DStreamConfigAVOption.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="AVOption"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxleft="0" jsxtop="140" jsxoverflow="1" jsxrelativeposition="0" jsxzindex="100"></variants>
+              <strings jsxwidth="100%" jsxheight="90%" jsxname="blkAutoStartSettingsMask" jsxbgcolor="#e5e5e5" jsxdisplay="none"></strings>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

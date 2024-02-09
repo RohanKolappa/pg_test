@@ -1,0 +1,102 @@
+<query>
+  <![CDATA["
+  
+ declare function local:getPVRDir( $parent as element()*) as element()* 
+ { 
+   let $MediaPVRDirList := ( 
+   for $b in collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]  
+     where   data($b//ParentMediaDirNID) = data($parent/@NID)  
+     and $b//Info/Title='PVR'
+     return  $b
+   )
+   return $MediaPVRDirList
+ };
+ 
+ declare function local:getRecycleBinDir( $parent as element()*) as element()* 
+ { 
+   let $RecycleBinDirList := ( 
+   for $b in collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]  
+     where   data($b//ParentMediaDirNID) = data($parent/@NID)  
+     and $b//Info/Title='RECYCLEBIN'
+     return  $b
+   )
+   return $RecycleBinDirList
+ };
+ 
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_  
+
+let $list2 := for $b in #OBJ_MediaStreamDirResource_OBJ# 
+where $b_WHEREXPATH_ 
+order by _SORTXPATH_  _SORTORDER_   
+return $b  
+let $list3 := subsequence($list2, $startFrom, $countToFetch) 
+
+let $list := for $b in  $list3 
+let $PVRDir := local:getPVRDir($b)
+let $RECYCLEBINDir := local:getRecycleBinDir($b)
+
+return 
+<record  
+jsxid='{ data($b/@NID) }'
+jsxStatus='{if ( data($b//State/StateFlag)  = 'Ready')
+            then 'images/icons/icon_device_ready.png' else
+            if ( data($b//State/StateFlag)  = 'NotReady')
+            then 'images/icons/icon_device_notready.png' else
+            if ( data($b//State/StateFlag)  = 'Offline')
+            then 'images/icons/icon_device_offline.png' else
+            if ( data($b//State/StateFlag)  = 'Busy')
+            then 'images/icons/icon_device_Busy.png' else
+            if ( data($b//State/StateFlag)  = 'Extracting')
+            then 'images/icons/icon_device_extracting.png' else
+            if ( data($b//State/StateFlag)  = 'Updating')
+            then 'images/icons/icon_device_updating.png' else
+            if ( data($b//State/StateFlag)  = 'Gettingremotepath')
+            then 'images/icons/icon_device_getting_remote.png' else
+            if ( data($b//State/StateFlag)  = 'Transferring')
+            then 'images/icons/icon_device_transferring.png' else
+            if ( data($b//State/StateFlag)  = 'Detached')
+            then 'images/icons/icon_device_unregistered.png' else
+            if ( data($b//State/StateFlag)  = 'StartSynch')
+            then 'images/icons/icon_device_start_synch.png' else
+            if ( data($b//State/StateFlag)  = 'Error')
+            then 'images/icons/icon_device_failure.png' else ''
+           }'
+jsxStateFlag='{ data($b//State/StateFlag) }'          
+jsxDirName='{ data($b//Info/Title) }'
+jsxTotalSize='{ data($b//Properties/Size) }'
+jsxSizeUsed='{ data($b//Properties/SizeUsed) }'
+jsxFullThreshold='{ data($b//Properties/DiskFullThreshold) }'
+jsxWriteMode='{ data($b//Info/Properties/Permissions/Write) }'
+jsxPVRMode='{if ( count($PVRDir)  = 0) then 'DISABLED' else 'ENABLED' }'
+jsxPVRDirNID='{data($PVRDir[1]/@NID)}'
+jsxRecycleBinDirNID='{data($RECYCLEBINDir[1]/@NID)}'
+> 
+{$b//Groups}
+<MediaStorePortResourceNIDList>
+  {
+     for $mediaStoreResourceNID in  $b//MediaStorePortResourceNIDList/MediaStorePortResourceNID
+     let $portNID :=  data($mediaStoreResourceNID)
+      let $portDoc :=  doc(concat('/db/ipvs.default.',  
+                          substring-before( substring-after( $portNID, 'default.') , '.'  ) , '/', 
+                          substring-after( substring-after( $portNID, 'default.'),'.')))/*[@NID=$portNID]
+      return 
+      <MediaStorePortResourceNID title='{data($portDoc//Title)}'
+                              deviceElementId='{data($mediaStoreResourceNID/@deviceElementId)}' 
+                              readOnly='{data($mediaStoreResourceNID/@readOnly)}'
+                              priority='{data($mediaStoreResourceNID/@priority)}'
+                              presence='{data($mediaStoreResourceNID/@presence)}'>
+                              {$portNID}
+      </MediaStorePortResourceNID>
+  }
+</MediaStorePortResourceNIDList>
+</record> 
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

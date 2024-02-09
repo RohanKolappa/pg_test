@@ -1,0 +1,305 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "http://{MSIP}/controller/Resource",
+  "resourcePath": "/Dir",
+  "apis": [
+    {
+      "path": "/Dir",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds all Media Directories that the Client has access to",
+          "notes": "Get a list of Media Directories that the Client has access to",
+          "responseClass": "List[Dir]",
+          "nickname": "getDir",
+          "produces": [
+            "application/vnd.barco.nimbus.Dir+json",
+            "application/vnd.barco.nimbus.Dir+xml"
+          ],
+          "parameters": [
+          
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "sort",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "title",
+                  
+"state",
+"size",
+"sizeUsed",
+"dateCreated",
+"dateModified"
+
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "sortOrder",
+              "description": "sort in order ascending/descending",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "ascending",
+                  "descending"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereTextSubStr",
+              "description": "Filter based on substring.this searach the substring in title,discription,metadata.",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "whereNID",
+              "description": "Filter based on dir nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "whereParentDirNID",
+              "description": "Filter based on ParentDirNID",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "subscriptionID",
+              "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.)",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(default='BASIC').SNAPSHOTURL is deprecated.",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "BASIC",
+                  "SNAPSHOTURL",
+				  "UPLOADURL"
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "wherePermissions",
+              "description": "Filter by  Permissions",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "MODIFY",
+                  "DELETE",
+                   "IMPORT",
+                    "RECORD"
+
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "whereFilePermissions",
+              "description": "Filter by  FilePermissions",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "MODIFY",
+                  "DELETE",
+                   "EXPORT",
+                    "PLAYBACK"
+
+                ]
+              },
+              "paramType": "query"
+            }, 
+{
+              "name": "whereDateRange",
+              "description": "Filter based on DateRange. From:YYYY-MM-DD HH:MM:SS.MMMM,To:YYYY-MM-DD HH:MM:SS.MMMM, Interval:xx(Y/M/D/H/m/S/s)",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            } ,
+{
+              "name": "expireTime",
+              "description": "expirey time of media url requesting from server. Its value should be in seconds ",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "startFrom",
+              "description": "get the list starting form startFrom index",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "countToFetch",
+              "description": "number of dir to be fetched",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "whereTagExpr",
+              "description": "fomat: Name%3D'Location' and Value%3D'Sunnyvale'",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "dstPortTitle",
+              "description": "Based on dstPortTitle MS retuns mediaURL/thumbnail url which destination cliet is requesting .",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            } 			
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		     {  "method": "GET",
+          "summary": "Finds the list of Tags that the Client has access to",
+          "notes": "Get a the list of Tags that the Client has access to",
+          "responseClass": "DirTags",
+          "nickname": "getDirTags",
+          "produces": [
+            "application/vnd.barco.nimbus.Dir-Tags+json",
+			"application/vnd.barco.nimbus.Dir-Tags+xml"
+          ],
+          "parameters": [
+         
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "sort by Name/Value",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Name",
+                  "Value"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereNameTextSubString",
+              "description": "Filter based on name substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "whereValueTextSubString",
+              "description": "Filter based on value substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(Default=NameValueList)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "NameList",
+                  "NameValueList",
+                  "NameValueTree"
+                ]
+              },
+              "paramType": "query"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+      ]
+    }
+  ],
+  "models": {
+   
+    
+  }
+}

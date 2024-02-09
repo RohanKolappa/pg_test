@@ -1,0 +1,60 @@
+<html>
+<head>
+<script language="JavaScript">
+    function Login() {
+        e = document.getElementById("login");
+        applet=document.getElementById("xmpp");
+        applet.login(e.value);
+    }
+    function Logout() {
+        applet=document.getElementById("xmpp");
+        applet.logout();
+    }
+    function SendRequest() {
+        e = document.getElementById("request");
+        applet=document.getElementById("xmpp");
+        applet.handleRequest(e.value);
+    }
+    function handleResponse(result) {
+        e = document.getElementById("response");
+        e.value=result;
+    }
+</script>
+</head>
+<body>
+<applet code="com.ipvs.smack.test.IPVSTestApplet.class" 
+archive ="commons-beanutils.jar, commons-collections-3.2.jar, commons-lang-2.3.jar, commons-logging-1.1.jar, commons-logging-adapters-1.1.jar, commons-logging-api-1.1.jar, mediaroom.jar, smack.jar, smackx.jar, su-smack-latest.jar"
+
+height="200"
+width="200" id  = "xmpp"  MAYSCRIPT>
+</applet>
+</body>
+<form>
+<table>
+<tr>
+<td>
+<textarea cols="40" rows="5" value = "login information" id="login"/>
+</textarea>
+</td>
+<td>
+<Input type = "Button" value = "Login" onclick = "Login()" disable="false" />
+<Input type = "Button" value = "Logout" onclick = "Logout()" disable="false" />
+</td>
+</tr>
+<tr>
+<td>
+<textarea cols="40" rows="5" value = "request information" id="request"/>
+</textarea>
+<td>
+<Input type = "Button" value = "SendRequest" onclick = "SendRequest()" />
+</td>
+</tr>
+<tr>
+<td>
+<textarea cols="40" rows="5" value = "response information"  id="response"/>
+</textarea>
+</td>
+</tr>
+</table>
+</form>
+</html>

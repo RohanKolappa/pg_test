@@ -1,0 +1,511 @@
+DB_SERVER_DESC="IPVS-XML-DB"
+DATABASE_DESC="Database"
+
+_IPVSDB_PIDFILE="/var/run/exist-db.pid"
+_IPVSDB_HOME="/usr/local/exist"
+
+_FOLDER_IPVSDB_SERVER_LOGDIR="${_FOLDER_IPVSDB_SERVER_DATA}/logs"
+_CHECK_INSLATION_LIB="${_IPVSDB_HOME}/start.jar"
+_IPVS_XMLDB_UTILS=/etc/scripts/ipvsxmldbutils.sh
+_DB_START_FAILED="${_FOLDER_IPVS_DB_BACKUP_STATUS}/exist_db_start_failed"
+#jetty , backup, standalone, server
+_START_AS="jetty"
+JAVATEMPDIR="/data/javaiotmp"
+DB_URI="xmldb:exist://localhost:10085/exist/xmlrpc"
+JAVA_OPTS="-Dfile.encoding=UTF-8 -Dexist.home=${_IPVSDB_HOME} -Djava.endorsed.dirs=${_IPVSDB_HOME}/lib/endorsed -Djava.io.tmpdir=${JAVATEMPDIR}" 
+DB_VALIDATION="-u admin -p admin" 
+JAVA_HOME=""
+JAVACMD="" 
+
+set_java_home(){
+        #todo:test properly before using the following code 
+        #if [ -z "$JAVA_HOME" ]; then
+        #   if [ -d "${_IPVSDB_HOME}/jre" ]; then
+        #       JAVA_HOME="${_IPVSDB_HOME}/jre"
+        #   elif [ -d "/etc/alternatives/jre" ]; then
+        #       JAVA_HOME="/etc/alternatives/jre"
+        #   else
+        #       jdks=`ls -r1d /usr/java/j*`
+        #       for jdk in $jdks; do
+        #           if [ -f "${jdk}/bin/java" ]; then
+        #               JAVA_HOME="$jdk"
+        #               break
+        #           fi
+        #       done
+        #       if [ -z "$JAVA_HOME" ]; then
+        #           if [ -d "/usr/java" -a -d "/usr/java/bin" ]; then
+        #               JAVA_HOME="/usr/java"
+        #           fi
+        #       fi
+        #   fi
+    #fi
+    JAVA_HOME=/usr
+    JAVACMD="${JAVA_HOME}/bin/java"
+}
+
+native_isDatabaseInstallationValid() {
+    if [ ! -d ${_FOLDER_IPVS_DB_BACKUP_STATUS} ] ; then
+        /bin/mkdir -p ${_FOLDER_IPVS_DB_BACKUP_STATUS}
+    fi
+
+# Is native_isDatabaseInstallationValid??
+    if [ ! -f ${_CHECK_INSLATION_LIB} ] ; then
+        logprint "ERROR: ${DB_SERVER_DESC} is not installed on this system!!"
+        return 1
+    fi
+
+    return 0
+}
+
+native_export_db(){
+    export_folder=$1 
+    #logprint "export_folder = ${export_folder}"             
+    EXIST_DB_HOME=$_IPVSDB_HOME
+    set_java_home
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar backup ${DB_VALIDATION} -b /db -ouri=${DB_URI} -d ${export_folder} > /dev/null 2>&1 "  
+    #echo "$CMD_EXEC"
+    eval $CMD_EXEC 
+    ret="$?" 
+    if [ "x$ret" != "x0" ]; then
+        logprint "ERROR: Failed to backup database."
+        return 1
+    fi
+    if [ ! -f ${export_folder}/db/__contents__.xml  ]; then
+        logprint "ERROR: Failed to backup database."
+        return 1
+    fi
+    return 0
+}
+
+native_restore_db() {
+    set_java_home
+    local restore_folder=$1 
+
+    local info_txt="${restore_folder}/../db/info.txt"
+    local backupAppVersion=`findPropertyInFile_withDefault $info_txt backupAppVersion 1`
+    local serviceVersion=`findPropertyInFile_withDefault $info_txt serviceVersion 1.4`
+    local backupDBServer=`findPropertyInFile_withDefault $info_txt DBServer sedna_native`
+    local backupAppVersion=`expr $backupAppVersion + 0` 
+    logprint "Restoring database from 'DB-${backupDBServer}:R-${backupAppVersion}:serviceVer-${serviceVersion}'" 
+
+    #create indexes before adding db files
+    restore_db_index_xq=${restore_folder}/../restore_db_index.xq
+    $_IPVS_XMLDB_UTILS createExistDBIndexesFolderXQ $restore_folder $restore_db_index_xq  
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -F ${restore_db_index_xq} > /dev/null 2>&1 "  
+    #echo "${CMD_EXEC}"
+    eval $CMD_EXEC 
+    isRestored="x$?" 
+    if [ "${isRestored}" != "x0" ]; then
+        logprint "ERROR: Failed to import ${DATABASE_DESC} from '${CREATE_DB_SRC_TGZ}' file."
+        /bin/rm -rf ${temp_folder}
+        return 1
+    fi
+
+    ############## backupDBServer from sedna_native/sedna_xmldb/exist_xmldb ############## 
+
+    if [ "$backupDBServer" = "sedna_native" -o "$backupDBServer" = "sedna_xmldb" ] ; then
+        local to_exist_folder=${restore_folder}/ipvsdb_exist
+        local from_folder=${restore_folder}
+        out_exist_restore_db_xquery="${restore_folder}/exist_restore_db.xq"
+        $_IPVS_XMLDB_UTILS sednaToExist_exist_xmldb $from_folder $to_exist_folder $out_exist_restore_db_xquery
+        CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -F ${out_exist_restore_db_xquery} > /dev/null 2>&1 "  
+    else 
+        #its exist_xmldb
+        if [ $backupAppVersion -eq 3 ] ; then
+            CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar backup ${DB_VALIDATION} -b /db -ouri=${DB_URI} -r ${restore_folder}/db/__contents__.xml  >  /dev/null 2>&1 "  
+        elif  [ $backupAppVersion -eq 1  -o  $backupAppVersion -eq 2 ] ; then
+            local to_exist_folder=${restore_folder}/ipvsdb_exist
+            local from_folder=${restore_folder}
+            out_exist_restore_db_xquery="${restore_folder}/exist_restore_db.xq"
+            $_IPVS_XMLDB_UTILS moveSCollToExistDBMColl $from_folder $to_exist_folder $out_exist_restore_db_xquery
+            CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -F ${out_exist_restore_db_xquery} > /dev/null 2>&1 "  
+        else
+            logprint "ERROR: backupAppVersion not supported."
+            /bin/rm -rf ${temp_folder}
+            return 1
+        fi
+    fi
+
+    eval $CMD_EXEC 
+    local isRestored="x$?" 
+    if [ "${isRestored}" != "x0" ]; then
+        logprint "ERROR: Failed to import ${DATABASE_DESC} from '${CREATE_DB_SRC_TGZ}' file."
+        /bin/rm -rf ${temp_folder}
+        return 1
+    fi     
+    sleep 2
+    return 0
+}
+
+native_check_database() {
+    return 0
+}
+
+native_cleanup_database(){
+    #Remove all .dbx, .lck  and .log files. This means removing all your old data! eXist will recreate those files upon the next restart.
+    /bin/rm -rf $_FOLDER_IPVSDB_SERVER_MSDB/*
+    /bin/rm -rf $_FOLDER_IPVSDB_SERVER_DATA_SEDNA_NATIVE
+
+    #/bin/rm -rf ${_FOLDER_IPVSDB_SERVER_MSDB}/*.dbx
+    #/bin/rm -rf ${_FOLDER_IPVSDB_SERVER_MSDB}/*.lck
+    #/bin/rm -rf ${_FOLDER_IPVSDB_SERVER_MSDB}/*.log
+    #logprint "DEBUG: native_cleanup_database "
+    return 0
+}
+
+cleanup_journal(){
+	#Remove the .lck and .log files to avoid timestamp mismatch during startup. eXist will recreate these files.
+	/bin/rm -rf ${_FOLDER_IPVSDB_SERVER_MSDB}/*.lck
+	/bin/rm -rf ${_FOLDER_IPVSDB_SERVER_MSDB}/*.log
+	#logprint "DEBUG: cleanup_journal "
+	return 0
+}
+
+
+native_schedule_createdbIfEmpty() {
+    if [ ! -d $_FOLDER_IPVSDB_SERVER_MSDB ] ; then
+        return 1
+    fi
+    return 0    
+}      
+
+native_stopIfRunning() {
+    return 0    
+}
+
+############## start/stop se_* ##############
+#check the offset in time setting
+_is_timeStamp_offset() {
+    #/usr/local/exist/webapp/WEB-INF/data/dbx_dir.lck 
+    local lck_file="${_FOLDER_IPVSDB_SERVER_MSDB}/dbx_dir.lck" 
+    if [ ! -f "$lck_file" ] ; then
+        echo "0"
+        return 0
+    fi
+    local filedate=`date -r "${lck_file}"  +%s`
+    local curdate=`date +%s`
+    local diff=`expr $filedate - $curdate`
+    diff=`expr $diff + 0`
+    if [ $diff -ne 0 ] ; then
+        echo $diff
+		cleanup_journal
+        return 1
+    fi
+    echo "0"
+    return 0
+}
+
+native_XMLDB_Start() {
+    logshow "Starting ${DB_SERVER_DESC} server."
+    # Make sure IPVS Component is not already running
+    if [ -f $_IPVSDB_PIDFILE ] ; then
+        pid=`cat $_IPVSDB_PIDFILE`
+        kill -0 $pid > /dev/null 2>&1
+        if [ "x$?" = "x0" ]; then
+            logprint "${DB_SERVER_DESC} already running... Stop it first."
+            return 1
+        else
+            logprint "${DB_SERVER_DESC} should have been running???"
+            rm -f "$_IPVSDB_PIDFILE"
+        fi
+    fi
+
+    #make sure DB start has not created Exception
+    /bin/mkdir -p "${_FOLDER_IPVS_DB_BACKUP_STATUS}"
+    /bin/rm -rf $_DB_START_FAILED
+    #make sure to follow log4j logrotate... 
+    exist_log_rotate 
+    
+    #check the offset in time setting
+    _is_timeStamp_offset
+    if [ "x$?" != "x0" ]; then
+        logprint "ERROR: TIME_SETTINGS_OFFSET_ERROR. ${DB_SERVER_DESC} may not start correctly. Found time setting mismatch between active and standby servers. The time offset is `_is_timeStamp_offset` sec."
+    fi
+
+    local current_dir=`pwd`
+    /bin/mkdir -p $_FOLDER_IPVSDB_SERVER_LOGDIR
+    cd $_FOLDER_IPVSDB_SERVER_LOGDIR
+    logprint "Starting ${DB_SERVER_DESC} ..."
+
+    set_java_home     
+    CMD_EXEC="nohup $JAVACMD -server -Xincgc -Xms128m -Xmx1024m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar ${_START_AS} & "  
+    eval $CMD_EXEC 
+    PID=$! 
+    ret="$?"
+    if [ "x$ret" = "x0" ]; then    
+        echo $PID > $_IPVSDB_PIDFILE
+    else 
+        logprint "FAILED to Start ${DB_SERVER_DESC}"
+        return 1
+    fi
+
+    local local err=0
+    local count=0
+    local timout=180
+    while(true); do
+        count=`expr ${count} + 5`
+        /bin/netstat -an | grep 10085 | grep LISTEN > /dev/null 2>&1
+        if [ "x$?" = "x0" ]; then
+            break
+        fi
+        check_exist_start_failed
+        if [ "x$?" = "x1" ]; then
+            err=2
+            break
+        fi
+        if [ $count -gt $timout ]; then
+            err=1
+            break
+        fi
+        logprint "Waiting to start ${DB_SERVER_DESC} and Ready. [${count}/${timout}]"
+        sleep 5
+    done
+    
+    sleep 1 # allows prompt to return
+    cd $current_dir
+
+    if [ "$err" = "2" ] ; then
+        logprint "ERROR: Could not start ${DB_SERVER_DESC}. Server returned Error: Unable to initialialize database instance 'exist': Recovery aborted" 
+        return 1
+    fi
+    
+    logprint "Started ${DB_SERVER_DESC}..."
+    return 0
+}
+
+check_exist_start_failed() {
+    if [ ! -f $_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log ] ; then
+        return 0
+    fi
+    local failed="`grep "Unable to initialialize database instance 'exist': Recovery aborted" $_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log | wc -c`"
+    failed=`expr $failed + 0`
+    if [ $failed -gt 0 ] ; then
+        echo "`grep "Recovery aborted" $_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log `" > $_DB_START_FAILED
+        echo "`grep "RecoveryManager" $_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log `" >> $_DB_START_FAILED
+        return 1
+    fi
+    
+    # todo add more situations --- where it does not start properly
+    return 0
+}
+
+exist_log_rotate(){
+    log_list="`find "$_FOLDER_IPVSDB_SERVER_LOGDIR" -name "exist.log.*" `"
+    local logfile_src=$_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log
+    local logfile_dest=$_FOLDER_IPVSDB_SERVER_LOGDIR/exist.log.1
+    if [ ! -f $logfile_src  ]; then
+        return 0
+    fi
+    if [ ! -f $logfile_dest  ]; then
+        /bin/mv  $logfile_src  $logfile_dest 
+        return 0
+    fi
+    for logfile in $log_list
+      do 
+      local date_cur="`date -r  $logfile +%s`"
+      local date_mv="`date -r  $logfile_dest +%s`"
+      if [ $date_mv -gt  $date_cur ]; then
+          logfile_dest=$logfile
+      fi
+    done
+    #logprint "exist_log_rotate to  $logfile_dest "
+    /bin/mv  $logfile_src  $logfile_dest 
+    return 0
+}
+
+native_XMLDB_SM_Start() {
+    return 0
+}
+
+native_XMLDB_Stop() {
+    logshow "Stopping ${DB_SERVER_DESC} Server."
+    if [ ! -f $_IPVSDB_PIDFILE ] ; then
+        logprint "${DB_SERVER_DESC} is not running."
+        #todo: need to make sure the process is realy got killed 
+        pids=`ps -o pid,rss,args  | grep /usr/local/exist/start.jar | grep jetty | cut -f2 -d' '`
+        if [ ! -z $pids ] ; then
+            logprint "WARNING: server still running  ${pids} ... kill -9 "
+            kill -9 $pids
+        fi     
+        return 1
+    fi
+    pid=`cat $_IPVSDB_PIDFILE`
+
+
+    logprint "Stopping ${DB_SERVER_DESC}..."
+    set_java_home
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar shutdown ${DB_VALIDATION} -l ${DB_URI} > /dev/null 2>&1"  
+    #echo "${CMD_EXEC}"
+    eval $CMD_EXEC 
+    ret="$?" 
+
+    # First do gracefull kill
+    kill $pid  > /dev/null 2>&1
+    local err=0
+    count=0
+    timout=90
+    while(true); do
+        count=`expr ${count} + 1`
+        kill -0 $pid > /dev/null 2>&1
+        if [ "x$?" != "x0" ]; then
+            break
+        fi             
+        if [ $count -gt $timout ]; then
+            err=1
+            break
+        fi
+        logprint "Waiting to stop ${DB_SERVER_DESC}. [${count}/${timout}]"
+        sleep 1
+    done
+
+    # if timed out shoot using -9. something wrong if this happens
+    if [ $err = "1" ] ; then
+        logprint "ERROR: Could not stop ${DB_SERVER_DESC}."
+
+        logprint "Timed out: Using kill -9 !!"
+        kill -9 $pid > /dev/null 2>&1
+
+        # Finally remove the PID file
+        /bin/rm -f $_IPVSDB_PIDFILE
+        return 1
+    fi
+
+
+    #todo: need to make sure the processis realy got killed 
+    pids=`ps -o pid,rss,args  | grep /usr/local/exist/start.jar | grep jetty | cut -f2 -d' '`
+    if [ ! -z $pids ] ; then
+        logprint "WARNING: server still running ? ${pids} ... kill -9 "
+        kill -9 $pids
+    fi     
+    # Finally remove the PID file
+    /bin/rm -f $_IPVSDB_PIDFILE
+    return 0
+}
+
+
+############## start/stop se_* ##############
+
+
+########## check status if db is accessible and running ##########
+
+native_serviceVerFromDB() {
+    local coll_name=`date +%s` 
+    local resultFile="${_FOLDER_IPVSDB_SERVER_LOGDIR}/dummy_${coll_name}"
+    rm -rf $resultFile
+    touch  $resultFile     
+    local XQUERY="data(doc('service.version')/Service/@Ver)" 
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -O ${resultFile} -x "  
+    echo "${XQUERY}" | eval $CMD_EXEC > /dev/null 2>&1
+    if [ "x$?" != "x0" ]; then
+        /bin/rm -rf $resultFile
+        echo ""
+        return 1
+    fi
+    local result=`cat $resultFile`
+    local len=`echo -n $result | wc -c`
+    /bin/rm -rf $resultFile
+    if [ $len -lt 1 ]; then
+        echo ""
+        return 1
+    fi
+    echo $result
+    return 0
+} 
+
+native_isSCol() {
+    local coll_name=`date +%s` 
+    local resultFile="${_FOLDER_IPVSDB_SERVER_LOGDIR}/dummy_${coll_name}"
+    /bin/rm -rf $resultFile
+    local XQUERY="declare namespace  xdb='http://exist-db.org/xquery/xmldb'; xdb:collection-available('IPVSc_default')" 
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -O ${resultFile} -x "  
+    echo "${XQUERY}" | eval $CMD_EXEC > $resultFile 2>&1
+    if [ "x$?" != "x0" ]; then
+        /bin/rm -rf $resultFile
+        echo "false"
+        return 1
+    fi
+    local result=`cat $resultFile`
+    /bin/rm -rf $resultFile
+    local len=`echo -n $result | wc -c`
+    if [ $len -lt 1 ]; then
+        echo false
+        return 1
+    fi
+    echo $result
+    return 0
+} 
+
+native_isDBDateAccessible() {
+    # todo add other situations --- where it does not start properly
+    
+    local coll_name=`date +%s` 
+    local resultFile="${_FOLDER_IPVSDB_SERVER_LOGDIR}/dummy_${coll_name}"
+    touch  $resultFile     
+    local XQUERY="declare namespace  xdb='http://exist-db.org/xquery/xmldb'; xdb:collection-available('dummy_${coll_name}')" 
+    CMD_EXEC="$JAVACMD -Xmx256m ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar client -ouri=${DB_URI} -O ${resultFile} -x "  
+    echo "${XQUERY}" | eval $CMD_EXEC > /dev/null 2>&1
+    if [ "x$?" != "x0" ]; then
+        logprint "ERROR: Failed to read from database." 
+        #todo:test properly
+        #rm -rf $resultFile
+        #return 1
+    fi
+    local result=`cat $resultFile`
+    local len=`echo -n $result | wc -c`
+    if [ $len -lt 1 ]; then
+        logprint "ERROR: Failed to read from database '${resultFile}'. " 
+        rm -rf $resultFile
+        #todo:test properly
+        return 1
+    fi
+    rm -rf $resultFile
+    #logprint "Is DB access test failed ? ${result}"   
+    return 0
+} 
+
+native_isDBAccessible() {
+    if [  -f $_DB_START_FAILED ] ; then
+        cat $_DB_START_FAILED
+        return 1
+    fi 
+    native_isDBDateAccessible
+    return 0
+}
+
+
+status_implementation() {
+    #check if the IpvsComponent is started 
+    if [ ! -f $_IPVSDB_PIDFILE ] ; then
+        echo "NOT_STARTED"
+        return 1
+    else
+        #check if the IpvsComponent process is killed or dead
+        pid=`cat $_IPVSDB_PIDFILE`
+        kill -0 $pid > /dev/null 2>&1
+        if [ "x$?" != "x0" ]; then
+            logprint "DEAD"
+            return 2
+        fi
+    fi
+    return 0
+}  
+
+modify_index() {
+    return 0
+}
+
+run_exist_consistency_check(){
+ 	set_java_home     
+    CMD_EXEC=" $JAVACMD ${JAVA_OPTS} -jar ${_IPVSDB_HOME}/start.jar org.exist.backup.ExportMain > /dev/null 2>&1"
+    eval $CMD_EXEC
+	ret="$?"
+    if [ "x$ret" != "x0" ]; then
+    		local file_name=${CONSISTENCY_CHECK_LOG_FILE}
+ 			touch ${file_name}
+ 			local filedate=`date +%c%t`
+ 			echo "${filedate} : Exist-db consistency check failed" >> ${file_name}   
+            logshow "Consistency check failed"
+            return 1
+        fi
+   return 0
+}

@@ -1,0 +1,124 @@
+declare function local:getDeviceInfo($b as element()*, $detail as xs:string) 
+as element ()* {
+
+        let $assetResourceNID := data($b//AssetResourceNID)
+        let $assetResource := if (($detail = 'EXTENDED') or ($detail = 'EXTENDEDURL') or ($detail = 'BASICCONNECTIONINFO') or ($detail = 'EXTENDEDCONNECTIONINFO'))
+                              then
+                               let $asset := for $res in collection('/db/ipvs.default.assetresourcelist')/*[.//@NID=$assetResourceNID]
+                                             return $res
+                                return $asset
+                              
+                              else
+                              		<Asset/>
+
+        return $assetResource
+};
+
+declare function local:getPortInfo( $b as element()*, $asset as element()*, $detail as xs:string)
+as element ()*
+{
+
+   let $portInfo := if (($detail = 'EXTENDED') or ($detail = 'EXTENDEDURL') or ($detail = 'BASICCONNECTIONINFO') or ($detail = 'EXTENDEDCONNECTIONINFO'))
+   		then  
+		   		 <Port NID='{ data($b/@NID) }'
+		   				 title='{ data($b//Info/Title) }'
+		   				 streamType='{ data($b//StreamType) }' 
+		  			  	 presence='{ data($b//Presence) }' 
+		    			 state='{ data($b//State/StateFlag) }'  
+		 			     portType='{ data($b//Type) }'
+		 			     portId='{ data($b//Info/DeviceElementID) }'
+		 			>     			  
+					{$b//Info/Description}
+					{$b//Info/Groups}
+					
+					<Asset NID = '{data($asset/@NID)}'
+                           title = '{data($asset//Title)}'
+                           deviceType = '{data($asset//Type)}'
+                           contactJID = '{data($asset//OwnerUserJID)}'
+                     />
+					
+					{$b//MaxInstanceCount}
+					{$b//PVRInfo}
+					<InstanceList> {
+								for $instance in $b//InstanceList/Instance
+								return <Instance streamURL='{ data($instance/MediaStreamInfo/MediaStreamURL) }' sessionId='{data($instance/@sessionId)}' mode='{data($instance/@mode)}'  >
+										<ProfileXML>{$instance//MediaStreamProfileInfo/*/*}</ProfileXML>
+									</Instance>							
+							}
+					</InstanceList>
+					<FeatureList>{
+						          for $feature in $b//FeatureList/Feature 
+					               where $feature/@Name!='' 
+								   return <Feature name='{data($feature/@Name)}'>{data($feature)}</Feature> }
+					</FeatureList>
+					<ObserverInfo> {
+									for $observer in $b//ObserverInfo/Observer								
+										return <Observer xAuth='{ data($observer/@xAuth) }' 
+								  				 monitor='{ data($observer/@monitor) }'
+								  				 userNID='{ data($observer/UserNID) }'
+								  				 resourceNID='{ data($observer/ResourceNID) }'
+						 					    >
+									   		   </Observer> 
+								    }
+					</ObserverInfo>
+				  </Port> 
+		else if ($detail = 'NATIVE') then $b				   	
+   		else      <Port NID='{ data($b/@NID) }'
+		   				 title='{ data($b//Info/Title) }'
+		   				 streamType='{ data($b//StreamType) }' 
+		  			  	 presence='{ data($b//Presence) }' 
+		    			 state='{ data($b//State/StateFlag) }'  
+		 			     portType='{ data($b//Type) }'
+		 			     portId='{ data($b//Info/DeviceElementID) }'
+		 		  >
+		 		  	{$b//Info/Groups}
+		 		  	<InstanceList> {
+								for $instance in $b//InstanceList/Instance
+								return <Instance streamURL='{ data($instance/MediaStreamInfo/MediaStreamURL) }' sessionId='{data($instance/@sessionId)}' mode='{data($instance/@mode)}'  >
+										<ProfileXML>{$instance//MediaStreamProfileInfo/*/*}</ProfileXML>
+									</Instance>							
+							}
+					</InstanceList>
+					<FeatureList>{
+						          for $feature in $b//FeatureList/Feature 
+					               where $feature/@Name!='' 
+								   return <Feature name='{data($feature/@Name)}'>{data($feature)}</Feature> }
+					</FeatureList>
+		 		  </Port> 
+		 		  
+	let $finalPortInfo := if((data($b//Type) = 'StreamSrc') and (count($b//RTPRecoderConfig/HLSConfig/Enable) != 0) and ($detail != 'NATIVE')) then
+							element { 'Port' } { $portInfo/(@*, attribute {'hls'} {data($b//HLSConfig/Enable)}, *)}
+						else if((data($b//Type) = 'StreamSrc') and (count($b//RTPRecoderConfig/HLSConfig/Enable) = 0) and ($detail != 'NATIVE')) then
+							element { 'Port' } { $portInfo/(@*, attribute {'hls'} {'false'}, *)}
+   						  else $portInfo	
+   	
+   	return $finalPortInfo
+};
+
+declare function local:getList()
+as element()*
+{
+	let $list1 := 
+		for $b in  OBJECT_TYPE | #OBJ_MediaStreamIOPortResource_OBJ# 
+			where $b  _XPATHAND_ 
+			order by upper-case ($b_SORTBY_) _SORTORDER_   
+			return $b
+	return $list1				
+	
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $item := $b
+	return $item
+};
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $assetResource := local:getDeviceInfo($b, $detail)
+         
+    let $item := 
+                for $ele in $b
+                let $assetEle := $assetResource//AssetResource[@NID = $ele//AssetResourceNID]
+    	        return local:getPortInfo($ele, $assetEle, $detail)
+    
+    return $item
+};

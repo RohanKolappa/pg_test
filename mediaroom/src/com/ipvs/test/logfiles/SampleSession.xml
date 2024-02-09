@@ -1,0 +1,233 @@
+<StartSessionStop>
+<!-- 
+
+Summary
+1. This sample config uses 2 sources tx1 and rtp_tx1
+2. It has examples for 2 sessions(record/playback) with start(Basic/Advanced) and stop for each
+3. The RecordSession streams them to playerpc and records them
+4. The PlaybackSession streams the recordings to playerpc
+
+Replace the following for you specific configuration ...
+1. managementserver with User/Resource of the management server
+2. playerpc : with ResourceTitle of the pc which will be used to view the video
+3. tx1, rtp_tx1 with ResourceTitle(s) of the sources  
+
+Recording/Playback finding the filesNIDs you need ...
+1. The recordings generated will have a mediaGroupID=<uuid>.<sessionConfigId>.<sessionId>
+2. When recording set the sessionId so that you can search for it in the mediaGroupID suffix in the FileList
+
+ -->
+<StartRecordBasic>
+    <iq id="StartSessionRequest.RequestToken3" to="managementserver@localhost/managementserver"  type="set">
+    <query xmlns="com.ipvs.session">
+    <StartSession sessionId="recordSessionID" sessionConfigId="none">
+                <Session>
+                    <Groups>
+                        <Tag Name="Location" Value="Sunnyvale"/>
+                    </Groups>
+                    <GrpFileList>
+                        <GrpFile type="SyncRec" id="gfId" resourceNID="" resourceTitle="GroupFileTitle"/>
+                    </GrpFileList>
+                    <EntityList>
+                        <Entity type="SrcPort" id="src1">
+                            <Port resourceNID="" resourceTitle="tx1"/>
+                            <PVR/>
+                        </Entity>
+                        <Entity type="DstPort" id="dst1">
+                            <Port resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="RecFile" id="recordd1">
+                            <File resourceNID="" resourceTitle="title1" grpFileId="gfId"/>
+                        </Entity>
+                        <Entity type="SrcPort" id="src2">
+                            <Port resourceNID="" resourceTitle="rtp_tx1"/>
+                            <PVR/>
+                        </Entity>
+                        <Entity type="DstPort" id="dst2">
+                            <Port resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="RecFile" id="recordd2">
+                            <File resourceNID="" resourceTitle="title2" grpFileId="gfId"/>
+                        </Entity>
+                    </EntityList>
+                    <ConnectionList>
+                        <Connection id="strmc1" srcEntityId="src1" dstEntityId="dst1"/>
+                        <Connection id="recordc1" srcEntityId="src1" dstEntityId="recordd1"/>
+                        <Connection id="strmc2" srcEntityId="src2" dstEntityId="dst2"/>
+                        <Connection id="recordc2" srcEntityId="src2" dstEntityId="recordd2"/>
+                    </ConnectionList>
+                </Session>
+            </StartSession>
+    </query>
+    </iq>
+</StartRecordBasic>
+<StartRecordAdvanced>
+    <iq id="StartSessionRequest.RequestToken3" to="managementserver@localhost/managementserver"  type="set">
+    <query xmlns="com.ipvs.session">
+    <StartSession sessionId="recordSessionID" sessionConfigId="none">
+                <Session serviceVer="" Ver="1.3" id="recordSessionConfigNID" name="" state="" timelineId="">
+                    <Properties sessionConfigNID="" ownerUserJID="" dateCreated="" playlength=""/>
+                    <Groups>
+                        <Tag Name="Location" Value="Sunnyvale"/>
+                    </Groups>
+                    <MetaData>
+                        <Tag Name=""/>
+                    </MetaData>
+                    <TimeLineList>
+                        <Timeline id="">
+                            <Start WC="" Offset="" parentTimelineId=""/>
+                            <Last WC="" Offset="" TimeScale=""/>
+                        </Timeline>
+                    </TimeLineList>
+                    <GrpFileList>
+                        <GrpFile type="SyncRec" id="gfId" resourceNID="" resourceTitle="GroupFileTitle"/>
+                    </GrpFileList>
+                    <DirList/>
+                    <ProfileList>
+                        <Profile id="" name="" profileNID=""/>
+                    </ProfileList>
+                    <AuthList>
+                        <Auth id="" name="" state="REQUEST/ALLOW/DENY/REVOKE/CANCEL" authEntityId=""/>
+                    </AuthList>
+                    <EntityList>
+                        <Entity type="SrcPort" id="src1" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="tx1"/>
+                            <PVR enable="" trimLength="" connId="" recEntityId="" plyEntityId=""/>
+                        </Entity>
+                        <Entity type="DstPort" id="dst1" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="RecFile" id="recordd1" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <File type="" resourceNID="" resourceTitle="title1" dirId="" grpFileId="gfId"/>
+                            <Port type="" resourceNID="" resourceTitle=""/>
+                        </Entity>
+                        <Entity type="SrcPort" id="src2" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="rtp_tx1"/>
+                            <PVR enable="" trimLength="" connId="" recEntityId="" plyEntityId=""/>
+                        </Entity>
+                        <Entity type="DstPort" id="dst2" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="RecFile" id="recordd2" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <File type="" resourceNID="" resourceTitle="title2" dirId="" grpFileId="gfId"/>
+                            <Port type="" resourceNID="" resourceTitle=""/>
+                        </Entity>
+                    </EntityList>
+                    <ConnectionList>
+                        <Connection type="STREAM" id="strmc1" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="src1" dstEntityId="dst1" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                        <Connection type="STREAM" id="recordc1" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="src1" dstEntityId="recordd1" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                        <Connection type="STREAM" id="strmc2" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="src2" dstEntityId="dst2" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                        <Connection type="STREAM" id="recordc2" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="src2" dstEntityId="recordd2" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                    </ConnectionList>
+                </Session>
+            </StartSession>
+    </query>
+    </iq>
+</StartRecordAdvanced>
+<StopRecord>
+    <iq id="StopSessionRequest.RequestToken32" to="managementserver@localhost/managementserver" type="set">
+    <query xmlns="com.ipvs.session">
+              <StopSession sessionId="recordSessionID"/>
+    </query>
+    </iq>
+</StopRecord>
+<StartPlaybackBasic>
+	<iq id="StartSessionRequest.RequestToken33" to="managementserver@localhost/managementserver"  type="set">
+	<query xmlns="com.ipvs.session">
+            <StartSession sessionId="playbackSessionID" sessionConfigId="none">
+                <Session serviceVer="" Ver="1.3" id="sessionConfigNID" name="" state="" timelineId="">
+                    <GrpFileList>
+                        <GrpFile type="SyncPly" id="groupFileID" resourceNID="default.mediastreamfileresourcelist.msfrl_081a2b85-b62a-425f-a11a-7a7b6c3bc681" resourceTitle="" dateCreated="" recSessionConfigId="" recSessionId="recordSessionID" syncEntityId="" recSessionConfigNID="recordSessionConfigNID"/>
+                    </GrpFileList>
+                    <EntityList>
+                        <Entity type="DstPort" id="clientd1" name="" streamType="" presence="">
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="PlyFile" id="recordd1" name="" streamType="" presence="">
+                            <File type="" resourceNID="default.mediastreamfileresourcelist.msfrl_cf058887-bf44-4728-a8c6-eddfa831a03e" resourceTitle="" dirId="" grpFileId="" startOffset="" playLength=""/>
+                        </Entity>
+                        <Entity type="DstPort" id="clientd2" name="" streamType="" presence="">
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="PlyFile" id="recordd2" name="" streamType="" presence="">
+                            <File type="" resourceNID="default.mediastreamfileresourcelist.msfrl_c13887ae-73f4-4029-9d37-c4a366156d17" resourceTitle="" dirId="" grpFileId="" startOffset="" playLength=""/>
+                        </Entity>
+                    </EntityList>
+                    <ConnectionList>
+                        <Connection type="STREAM" id="strmc1" srcEntityId="recordd1" dstEntityId="clientd1"/>
+                        <Connection type="STREAM" id="strmc2" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="recordd2" dstEntityId="clientd2"/>
+                    </ConnectionList>
+                </Session>
+            </StartSession>
+    </query></iq>
+</StartPlaybackBasic>
+<StartPlaybackAdvanced>
+	<iq id="StartSessionRequest.RequestToken33" to="managementserver@localhost/managementserver" from="apiuser@localhost/apipc" type="set">
+	<query xmlns="com.ipvs.session">
+            <StartSession sessionId="playbackSessionID" sessionConfigId="none">
+                <Session serviceVer="" Ver="1.3" id="sessionConfigNID" name="" state="" timelineId="">
+                    <Properties sessionConfigNID="" ownerUserJID="" dateCreated="" playlength=""/>
+                    <Groups>
+                        <Tag Name="" Value=""/>
+                    </Groups>
+                    <MetaData>
+                        <Tag Name=""/>
+                    </MetaData>
+                    <TimeLineList>
+                        <Timeline id="">
+                            <Start WC="" Offset="" parentTimelineId=""/>
+                            <Last WC="" Offset="" TimeScale=""/>
+                        </Timeline>
+                    </TimeLineList>
+                    <GrpFileList>
+                        <GrpFile type="SyncPly" id="groupFileID" resourceNID="default.mediastreamfileresourcelist.msfrl_081a2b85-b62a-425f-a11a-7a7b6c3bc681" resourceTitle="" dateCreated="" recSessionConfigId="" recSessionId="recordSessionID" syncEntityId="" recSessionConfigNID="recordSessionConfigNID"/>
+                    </GrpFileList>
+                    <DirList/>
+                    <ProfileList>
+                        <Profile id="" name="" profileNID=""/>
+                    </ProfileList>
+                    <AuthList>
+                        <Auth id="" name="" state="REQUEST/ALLOW/DENY/REVOKE/CANCEL" authEntityId=""/>
+                    </AuthList>
+                    <EntityList>
+                        <Entity type="DstPort" id="clientd1" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="PlyFile" id="recordd1" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <File type="" resourceNID="default.mediastreamfileresourcelist.msfrl_cf058887-bf44-4728-a8c6-eddfa831a03e" resourceTitle="" dirId="" grpFileId="" startOffset="" playLength=""/>
+                            <Port type="" resourceNID="" resourceTitle=""/>
+                        </Entity>
+                        <Entity type="DstPort" id="clientd2" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <Port type="" resourceNID="" resourceTitle="playerpc"/>
+                        </Entity>
+                        <Entity type="PlyFile" id="recordd2" name="" streamType="" presence="">
+                            <User type="" resourceNID="" resourceTitle="" userJID=""/>
+                            <File type="" resourceNID="default.mediastreamfileresourcelist.msfrl_c13887ae-73f4-4029-9d37-c4a366156d17" resourceTitle="" dirId="" grpFileId="" startOffset="" playLength=""/>
+                            <Port type="" resourceNID="" resourceTitle=""/>
+                        </Entity>
+                    </EntityList>
+                    <ConnectionList>
+                        <Connection type="STREAM" id="strmc1" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="recordd1" dstEntityId="clientd1" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                        <Connection type="STREAM" id="strmc2" gid="" name="" mode="AUTO/ONDEMAND" srcEntityId="recordd2" dstEntityId="clientd2" profileId="unknown" authId="" streamURL="" state="" timelineId=""/>
+                    </ConnectionList>
+                </Session>
+            </StartSession>
+    </query></iq>
+</StartPlaybackAdvanced>
+<StopPlayback>
+	<iq id="StopSessionRequest.RequestToken60" to="managementserver@localhost/managementserver"  type="set">
+	<query xmlns="com.ipvs.session">
+            <StopSession sessionId="playbackSessionID"/>
+	</query></iq>
+</StopPlayback>
+</StartSessionStop>
+            

@@ -1,0 +1,28 @@
+This directory has the source for the APIC-based character sleep utility
+which allows applications to block for X msecs by doing a read on the
+device /dev/csu with length to read set to X. 
+
+To compile the module
+
+    make -f Makefile.i386
+
+To install and test the module
+
+Create the device file (assuming we can use 61 as the major number)
+
+Su to root then
+
+    mknod -m 666 /dev/csu c 61 0
+ 
+Load the module
+
+    insmod -v ~/workdir/csu_module.o
+
+Run the test program 
+
+    csu_tester
+
+You can then do a "logread" to read the messages logged by tester.
+
+
+

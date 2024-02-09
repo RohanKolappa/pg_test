@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      - V2D specific version of generic Device elements
+    </xs:documentation>
+  </xs:annotation>
+  <xs:element name="ORB-500-Device" type="ORB-500-DeviceType" />
+  <xs:complexType name="ORB-500-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="ORB-500-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="ORB-500-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="ORB-500-DeviceStatusType" />
+          <xs:element name="DeviceCommand" type="ORB-DeviceCommandType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="2.1" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStreamIOPortResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamIOPortResourceNID" type="NIDType" />
+      <xs:element name="MediaStreamIOPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ORB-500-DeviceConfig" type="ORB-500-DeviceConfigType" />
+  <xs:complexType name="ORB-500-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="ORB-SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="ORB-500-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="ORB-NetworkElementsConfigType" />
+      <xs:element name="StorageElementsConfig" type="ORB-StorageElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="ORB-500-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="ORB-500-DeviceStatus" type="ORB-500-DeviceStatusType" />
+  <xs:complexType name="ORB-500-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="ORB-SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="ORB-500-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="ORB-NetworkElementsStatusType" />
+      <xs:element name="StorageElementsStatus" type="ORB-StorageElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="ORB-500-AVCodecElementsStatusType" />
+    </xs:all>
+	<xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:element name="ORB-500-DeviceCommand" type="ORB-DeviceCommandType" />
+  <xs:complexType name="ORB-DeviceCommandType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsCommand" type="SystemElementsCommandType" />
+      <xs:element name="ServiceElementsCommand" type="ServiceElementsCommandType" />
+      <xs:element name="NetworkElementsCommand" type="NetworkElementsCommandType" />
+      <xs:element name="StorageElementsCommand" type="StorageElementsCommandType" />
+      <xs:element name="AVCodecElementsCommand" type="AVCodecElementsCommandType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="ORB-SystemElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsConfigType">
+        <xs:sequence>
+          <xs:element name="CPUConfig" type="CPUElementConfigType" />
+          <xs:element name="MemoryConfig" type="MemoryElementConfigType" />
+          <xs:element name="SystemHWConfig" type="SystemHWElementConfigType" />
+          <xs:element name="SystemClockConfig" type="SystemClockElementConfigType" />
+          <xs:element name="FirmwareImageConfig" type="FirmwareImageElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-SystemElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SystemElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="CPUStatus" type="CPUElementStatusType" />
+          <xs:element name="MemoryStatus" type="MemoryElementStatusType" />
+          <xs:element name="SystemHWStatus" type="SystemHWElementStatusType" />
+          <xs:element name="SystemClockStatus" type="SystemClockElementStatusType" />
+          <xs:element name="FirmwareImageStatus" type="FirmwareImageElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="HTTPServiceConfig" type="HTTPServiceElementConfigType" />
+          <xs:element name="SSHServiceConfig" type="SSHServiceElementConfigType" />
+          <xs:element name="TelnetServiceConfig" type="TelnetServiceElementConfigType" />
+          <xs:element name="TFTPServiceConfig" type="TFTPServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="HTTPServiceStatus" type="HTTPServiceElementStatusType" />
+          <xs:element name="SSHServiceStatus" type="SSHServiceElementStatusType" />
+          <xs:element name="TelnetServiceStatus" type="TelnetServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableConfig" type="ORB-EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-EthernetPortTableElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" ref="EthernetPortConfig" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="NetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="EthernetPortTableStatus" type="ORB-EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-EthernetPortTableElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="EthernetPortTableElementStatusType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" ref="EthernetPortStatus" />
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ORB-ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="LinkLocalXMPPAgentServiceConfig" type="ORB-500-LinkLocalXMPPAgentServiceElementConfigType" />
+          <xs:element name="XMPPAgentServiceConfig" type="ORB-500-XMPPAgentServiceElementConfigType" />
+          <xs:element name="StreamingServiceConfig" type="ORB-500-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ORB-ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="LinkLocalXMPPAgentServiceStatus" />
+          <xs:element name="XMPPAgentServiceStatus" />
+          <xs:element name="StreamingServiceStatus" type="ORB-500-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-StorageElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsConfigType">
+        <xs:sequence>
+          <xs:element name="MountTableConfig" type="MountTableElementConfigType" />
+          <xs:element name="CFDriveConfig" type="CFDriveElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-StorageElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StorageElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="MountTableStatus" type="MountTableElementStatusType" />
+          <xs:element name="CFDriveStatus" type="CFDriveElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="ORBEncoderPortConfig">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="V2DXP200ElementConfigType" />
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ORBDecoderPortConfig" type="ORBDecoderPortElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-AVCodecElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsStatusType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element name="ORBEncoderPortStatus" type="V2DXP200ElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORBDecoderPortElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element fixed="MPEGTS" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element fixed="RTP" name="StreamType" type="StreamTypeEnumType" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ORBDecoderDisplayConfig" type="ORBDecoderDisplayConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORBDecoderDisplayConfigType">
+    <xs:sequence>
+      <xs:element name="Display" type="xs:int" />
+      <xs:element name="Canvas" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element ref="XMPPAgentServiceSourceAgentConfig" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-StreamingServiceElementType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementType">
+        <xs:sequence>
+          <xs:element name="Config" type="ORB-500-StreamingServiceElementConfigType" />
+          <xs:element name="Status" type="ORB-500-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="StreamsTxConfig" />
+          <xs:element ref="V2DStreamsTxConfig" />
+          <xs:element ref="V2DStreamsEncodeConfig" />
+          <xs:element ref="V2DStreamsRxConfig" />
+          <xs:element ref="V2DStreamsDecodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="ORB-500-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ORB-500-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:choice minOccurs="0" maxOccurs="2">
+          <xs:sequence>
+            <xs:element ref="V2DStreamTxInstance" />
+            <xs:element ref="V2DEncoderInstance" />
+          </xs:sequence>
+          <xs:sequence>
+            <xs:element ref="V2DStreamRxInstance" />
+            <xs:element ref="V2DDecoderInstance" />
+          </xs:sequence>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

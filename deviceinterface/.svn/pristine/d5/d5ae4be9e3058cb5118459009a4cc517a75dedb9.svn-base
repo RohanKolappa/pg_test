@@ -1,0 +1,230 @@
+<transcript>
+<Send-DeviceLoginRequest>
+	<message to='managementserver.localhost'>
+		<x xmlns='com.ipvs.agentmessage'>
+			<AgentMessage type="Request" to="managementserver.localhost"
+				from="rx1@localhost/rx1">
+				<Request serviceVer="">
+					<Header serviceName="systemservice" requestName="DeviceLoginRequest"
+						logLevel="0">
+						<ClientData>clientdata</ClientData>
+						<ClientCallback>com.barco.device.handler.DeviceAdmin.SCServiceReadyEventHandler
+						</ClientCallback>
+					</Header>
+					<Data>
+						<DeviceLoginRequestData serviceVersion="2.31.6"
+							softwareVersion="3.20.r3.b1" assetTemplateTitle="" type="V2D-Rx-Device"
+							ready="">
+							<DevicePrivateData />
+							<DevicePrivateKeyData>Ipvs1234</DevicePrivateKeyData>
+							<DeviceAdminServiceInfo>
+								<Port type="NetworkPort" id="1">
+									<NetworkStatus>
+										<Parameters>
+											<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+											<Parameter name="MTU Size" type="Integer">1500</Parameter>
+											<Parameter name="Status" source="configuration"
+												type="Boolean">True</Parameter>
+											<Parameter name="IPAddress" type="String">10.51.50.43
+											</Parameter>
+											<Parameter name="Netmask" type="String">255.255.252.0
+											</Parameter>
+											<Parameter name="Broadcast" type="String">10.51.51.255
+											</Parameter>
+											<Parameter name="HardwareAddress" type="String">00:50:56:88:6B:ED
+											</Parameter>
+											<Parameter name="Name" type="String">v2drx</Parameter>
+											<Parameter name="Primary" source="configuration"
+												type="Boolean">True</Parameter>
+											<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+												units="bytes">46684</Parameter>
+											<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+												units="bytes">29023</Parameter>
+											<Parameter name="RxPackets" source="counter"
+												type="UnsignedInteger" units="number">298</Parameter>
+											<Parameter name="TxPackets" source="counter"
+												type="UnsignedInteger" units="number">142</Parameter>
+											<Parameter name="RxErrors" source="counter" type="UnsignedInteger"
+												units="number">0</Parameter>
+											<Parameter name="TxErrors" source="errorcounter"
+												type="UnsignedInteger" units="number">0</Parameter>
+											<Parameter name="LinkDetected" type="String" />
+											<Parameter name="AutoNegotiate" type="String" />
+											<Parameter name="Speed" type="String" />
+											<Parameter name="Duplex" type="String" />
+											<Parameter name="LinkPartner" type="String" />
+										</Parameters>
+									</NetworkStatus>
+								</Port>
+								<Port type="DstPort" id="1" maxInstanceCount="1"
+									streamType="V2D" />
+							</DeviceAdminServiceInfo>
+							<MediaServiceInfo>
+								<StreamInfoList />
+							</MediaServiceInfo>
+							<LayoutServiceInfo>
+								<StreamInfoList />
+							</LayoutServiceInfo>
+							<MediaStoreServiceInfo>
+								<Dir uuid="" storeRevision="" />
+							</MediaStoreServiceInfo>
+						</DeviceLoginRequestData>
+					</Data>
+				</Request>
+			</AgentMessage>
+		</x>
+	</message>
+</Send-DeviceLoginRequest>
+<Recv-DeviceLoginResponse>
+	<message id="c8o9d-6258" to="rx1@localhost/rx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="rx1@localhost/rx1"
+				type="Response" logLevel="">
+				<Response serviceVer="2.31.6">
+					<Header serviceName="systemservice" requestName="DeviceLoginRequest"
+						userJID="rx1@localhost/rx1" deprecated="false"
+						requestNID="rx1@localhost/rx1/17515109" state="8">
+						<ClientData>clientdata</ClientData>
+						<ClientCallback>com.barco.device.handler.DeviceAdmin.SCServiceReadyEventHandler
+						</ClientCallback>
+					</Header>
+					<Data>
+						<DeviceLoginResponseData>
+							<Device
+								NID="default.assetresourcelist.arl_93804ab0-e02a-4319-818a-5a906a2ff9c2">
+								<PortList>
+									<Port id="1" type="NetworkPort">
+										<NetworkStatus>
+											<Parameters>
+												<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+												<Parameter name="MTU Size" type="Integer">1500</Parameter>
+												<Parameter name="Status" source="configuration"
+													type="Boolean">True</Parameter>
+												<Parameter name="IPAddress" type="String">10.51.50.43
+												</Parameter>
+												<Parameter name="Netmask" type="String">255.255.252.0
+												</Parameter>
+												<Parameter name="Broadcast" type="String">10.51.51.255
+												</Parameter>
+												<Parameter name="HardwareAddress" type="String">00:50:56:88:6B:ED
+												</Parameter>
+												<Parameter name="Name" type="String">v2drx</Parameter>
+												<Parameter name="Primary" source="configuration"
+													type="Boolean">True</Parameter>
+												<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+													units="bytes">46684</Parameter>
+												<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+													units="bytes">29023</Parameter>
+												<Parameter name="RxPackets" source="counter"
+													type="UnsignedInteger" units="number">298</Parameter>
+												<Parameter name="TxPackets" source="counter"
+													type="UnsignedInteger" units="number">142</Parameter>
+												<Parameter name="RxErrors" source="counter"
+													type="UnsignedInteger" units="number">0</Parameter>
+												<Parameter name="TxErrors" source="errorcounter"
+													type="UnsignedInteger" units="number">0</Parameter>
+												<Parameter name="LinkDetected" type="String" />
+												<Parameter name="AutoNegotiate" type="String" />
+												<Parameter name="Speed" type="String" />
+												<Parameter name="Duplex" type="String" />
+												<Parameter name="LinkPartner" type="String" />
+											</Parameters>
+										</NetworkStatus>
+									</Port>
+									<Port id="1" maxInstanceCount="1" streamType="V2D" type="DstPort"
+										NID="default.mediastreamdstportresourcelist.msdprl_4961dd3d-dfd9-4963-91ef-e837cacebd69" />
+								</PortList>
+								<DeviceXML
+									NID="default.devicelist.dl_b962680d-1e6a-4694-8e70-7a4958c9ff12" />
+								<DiscardStreamList>
+									<MediaServiceInfo />
+									<LayoutServiceInfo />
+								</DiscardStreamList>
+							</Device>
+						</DeviceLoginResponseData>
+					</Data>
+					<Log />
+				</Response>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-DeviceLoginResponse>
+
+<Recv-MediaRoomPresenceEvent>
+	<message id="c8o9d-6301" to="rx1@localhost/rx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="rx1@localhost/rx1"
+				type="Event" logLevel="">
+				<Event>
+					<Header serviceName="*" eventName="MediaPresenceEvent"
+						eventAgentJID="managementserver.localhost" eventWallclock="1379636694715"
+						eventLevel="200" />
+					<Data>
+						<MediaPresenceEventData type="MediaRoom"
+							roomNID="c11b064f-07eb-4471-a7be-905b9c6f114d" value="Ready" />
+					</Data>
+					<Log />
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-MediaRoomPresenceEvent>
+
+<Recv-SetupRequest>
+	<message id="c8o9d-6303" to="rx1@localhost/rx1" from="managementserver.localhost">
+		<x>
+			<AgentMessage from="managementserver.localhost" to="rx1@localhost/rx1"
+				type="Request" logLevel="">
+				<Request>
+					<Header serviceName="Layout" requestName="SetupRequest"
+						userJID="managementserver.localhost" deprecated="false"
+						requestNID="dcuser1@localhost/dcpc1/292074">
+						<ClientData />
+						<ClientCallback>com.ipvs.mediaroomservice.impl.AppServerAgent
+						</ClientCallback>
+					</Header>
+					<Data>
+						<SetupRequestData>
+							<streamNID>1aa949e9-0253-4bd8-9fa5-08968aa18278</streamNID>
+							<streamdatadoc>%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E%0A%3Cdata%3E%0A+++++++++++++++%09++%3Ccontext+roomId%3D%22%22+id%3D%22%22%2F%3E+%3C%21--+roomID+is+sessionId+and+id+is+conn+id+--%3E%0A++++++++++++++++++%3CroomNID%3Ec11b064f-07eb-4471-a7be-905b9c6f114d%3C%2FroomNID%3E%0A++++++++++++++++++%3CmediaSourceNID%3E15b435d8-5c31-4846-9841-f43b77deadfe%3C%2FmediaSourceNID%3E%0A++++++++++++++++++%3CmediaDestNID%3Efb46786b-20d7-4545-a4d5-b5fe70b70ffb%3C%2FmediaDestNID%3E%0A++++++++++++++++++%3CprofileNID%3Edefault.mediastreamprofilelist.mspl_79c9f539-624a-46f4-8b9d-3e99ba7c86f4%3C%2FprofileNID%3E%0A++++++++++++++++++%3CprofileXML%3E%3CV2DMediaStreamProfile%3E%0A++++++++++++++++++++%3CGroups%3E%0A++++++++++++++++++++++++%3CTag+Name%3D%22Network%22+Value%3D%22LAN%22%2F%3E%0A++++++++++++++++++++%3C%2FGroups%3E%0A++++++++++++++++++++%3CStreamType%3EV2D%3C%2FStreamType%3E%0A++++++++++++++++++++%3CPriority%3E1%3C%2FPriority%3E%0A++++++++++++++++++++%3CTitle%3EV2D_LAN%3C%2FTitle%3E%0A++++++++++++++++++++%3CDescription%3EV2D_LAN%3C%2FDescription%3E%0A++++++++++++++++++++%3CStreamActionInfo%3E%0A++++++++++++++++++++++++%3CAllowPause%3Etrue%3C%2FAllowPause%3E%0A++++++++++++++++++++++++%3CAllowSkipback%3Etrue%3C%2FAllowSkipback%3E%0A++++++++++++++++++++++++%3CAllowSkipfwd%3Etrue%3C%2FAllowSkipfwd%3E%0A++++++++++++++++++++%3C%2FStreamActionInfo%3E%0A++++++++++++++++++++%3CInfo%3E%0A++++++++++++++++++++++++%3CV2DStreamConfig%3E%0A++++++++++++++++++++++++++++%3CIsMulticast%3Efalse%3C%2FIsMulticast%3E%0A++++++++++++++++++++++++++++%3CEnableSRDTranscode%3Etrue%3C%2FEnableSRDTranscode%3E%0A++++++++++++++++++++++++++++%3CSRDTranscodeBandwidth%2F%3E%0A++++++++++++++++++++++++++++%3CAVOption%3EVideo%3C%2FAVOption%3E%0A++++++++++++++++++++++++%3C%2FV2DStreamConfig%3E%0A++++++++++++++++++++++++%3CV2DEncoderAudioConfig%3E%0A++++++++++++++++++++++++++++%3CSampleRate%2F%3E%0A++++++++++++++++++++++++++++%3CSampleSize%2F%3E%0A++++++++++++++++++++++++++++%3CMonoStereo%2F%3E%0A++++++++++++++++++++++++++++%3CAudioEncodeEnable%3Efalse%3C%2FAudioEncodeEnable%3E%0A++++++++++++++++++++++++%3C%2FV2DEncoderAudioConfig%3E%0A++++++++++++++++++++++++%3CV2DEncoderConnectionParameterConfig%3E%0A++++++++++++++++++++++++++++%3CBurstRatio%3E1.00%3C%2FBurstRatio%3E%0A++++++++++++++++++++++++++++%3CBurstDuration%3E4%3C%2FBurstDuration%3E%0A++++++++++++++++++++++++++++%3CCompression%3E%0A++++++++++++++++++++++++++++++++%3CHigh%3E6%3C%2FHigh%3E%0A++++++++++++++++++++++++++++++++%3CLow%3E4%3C%2FLow%3E%0A++++++++++++++++++++++++++++%3C%2FCompression%3E%0A++++++++++++++++++++++++++++%3CBandwidth%3E10000%3C%2FBandwidth%3E%0A++++++++++++++++++++++++++++%3CRefresh%3E%0A++++++++++++++++++++++++++++++++%3CMin%3E1%3C%2FMin%3E%0A++++++++++++++++++++++++++++++++%3CMax%3E10%3C%2FMax%3E%0A++++++++++++++++++++++++++++%3C%2FRefresh%3E%0A++++++++++++++++++++++++++++%3CSlice%3E%0A++++++++++++++++++++++++++++++++%3CMin%3E1%3C%2FMin%3E%0A++++++++++++++++++++++++++++++++%3CMax%3E13%3C%2FMax%3E%0A++++++++++++++++++++++++++++%3C%2FSlice%3E%0A++++++++++++++++++++++++++++%3CBlockThreshold%3E4%3C%2FBlockThreshold%3E%0A++++++++++++++++++++++++++++%3CColorSampling%3E4%3A2%3A2%3C%2FColorSampling%3E%0A++++++++++++++++++++++++++++%3CFrameRateDivider%3E1%3C%2FFrameRateDivider%3E%0A++++++++++++++++++++++++%3C%2FV2DEncoderConnectionParameterConfig%3E%0A++++++++++++++++++++++++%3CV2DEncoderConnectionParameterKbmConfig%3E%0A++++++++++++++++++++++++++++%3CAllowKMSwitch%3Etrue%3C%2FAllowKMSwitch%3E%0A++++++++++++++++++++++++++++%3CKMIdleTime%3E0%3C%2FKMIdleTime%3E%0A++++++++++++++++++++++++++++%3CEnableKbm%3Efalse%3C%2FEnableKbm%3E%0A++++++++++++++++++++++++%3C%2FV2DEncoderConnectionParameterKbmConfig%3E%0A++++++++++++++++++++++++%3CV2DRecorderConfig%3E%0A++++++++++++++++++++++++++++%3CFFTracks%3E1-256%3C%2FFFTracks%3E%0A++++++++++++++++++++++++++++%3CThumbnailConfig%3E%0A++++++++++++++++++++++++++++++++%3CEnable%3Etrue%3C%2FEnable%3E%0A++++++++++++++++++++++++++++%3C%2FThumbnailConfig%3E%0A++++++++++++++++++++++++%3C%2FV2DRecorderConfig%3E%0A++++++++++++++++++++%3C%2FInfo%3E%0A++++++++++++++++%3C%2FV2DMediaStreamProfile%3E%3C%2FprofileXML%3E%0A++++++++++++++++++%3CrelayNID%2F%3E%0A++++++++++++++++++%3CmediarelayNID%2F%3E%0A++++++++++++++++++%3CdestNID%3Edefault.mediastreamdstportresourcelist.msdprl_4961dd3d-dfd9-4963-91ef-e837cacebd69%3C%2FdestNID%3E%0A++++++++++++++++++%3CdestPortNID%3Edefault.mediastreamdstportresourcelist.msdprl_4961dd3d-dfd9-4963-91ef-e837cacebd69%3C%2FdestPortNID%3E%0A++++++++++++++++++%3CdestIP%3E10.51.32.8%3C%2FdestIP%3E%0A++++++++++++++++++%3CdestUDPStartPort%2F%3E%0A++++++++++++++++++%3CdestAgentJID%3Erx1%40localhost%2Frx1%3C%2FdestAgentJID%3E%0A++++++++++++++++++%3CdestFileUUID%2F%3E%0A++++++++++++++++++%3CdestFileParentDirNID%2F%3E%0A++++++++++++++++++%3CcallbackPort%2F%3E%0A++++++++++++++++++%3CdestStreamURL%2F%3E%0A++++++++++++++++++%3CsourceNID%3Edefault.mediastreamsrcportresourcelist.mssprl_bab42fb3-9de7-4755-935c-d027a7ffe0f7%3C%2FsourceNID%3E%0A++++++++++++++++++%3CsourcePortNID%3Edefault.mediastreamsrcportresourcelist.mssprl_bab42fb3-9de7-4755-935c-d027a7ffe0f7%3C%2FsourcePortNID%3E%0A++++++++++++++++++%3CxAuthAgentJID%2F%3E%0A%0A++++++++++++++++++%3CstreamGroups%3E%0A+++++++++++++++++++++%3CTag+Name%3D%22track%22+Value%3D%22c11b064f-07eb-4471-a7be-905b9c6f114d.StreamTrack%22%2F%3E%0A++++++++++++++++++%3C%2FstreamGroups%3E%0A%0A++++++++++++++++++%3CstreamOwnerUserJID%3Edcuser1%40localhost%2Fdcpc1%3C%2FstreamOwnerUserJID%3E%0A++++++++++++++++++%3CstreamURLType%2F%3E%0A++++++++++++++++++%3CsourceAgentJID%3Etx1%40localhost%2Fdcpc1%3C%2FsourceAgentJID%3E%0A++++++++++++++++++%3CstartWallClock%3E1379636694885%3C%2FstartWallClock%3E%0A++++++++++++++++++%3CtrimLength%2F%3E%0A++++++++++++++++++%3CtrackStateAtStart%3ESTARTED_CURRENT%3C%2FtrackStateAtStart%3E%0A++++++++++++++++++%3CtrackOffsetAtStart%3E1159%3C%2FtrackOffsetAtStart%3E%0A++++++++++++++++++%3CsourceNetworkAddressRule%2F%3E%0A++++++++++++++++++%3CdestNetworkAddressRule%2F%3E%0A++++++++++++++++++%3CpublishedSourceIP%2F%3E%0A++++++++++++++++++%3CpublishedDestIP%2F%3E%0A++++++++++++++++++%3CresolvedSourceIP%2F%3E%0A++++++++++++++++++%3CresolvedDestIP%2F%3E%0A++++++++++++++++++%3CmulticastIP%2F%3E%0A++++++++++++++++++%3CdestPortElementID%3E1%3C%2FdestPortElementID%3E%0A++++++++++++++++++%3CdestType%3EOutputDecoder%3C%2FdestType%3E%0A++++++++++++++++++%3CstreamType%3EV2D%3C%2FstreamType%3E%0A++++++++++++++++++%3CstreamURL%3Ev2d%3A%2F%2F10.51.50.1%2Fport%3D6060%3Fbandwidth%3D10240000%3Favoption%3DBoth%3Fismulticast%3Dtrue%3Fenablekbm%3Dfalse%3Fauthscheme%3DTOKEN%3Fauthdata%3Db8d03d7e-fe96-464d-b6e6-b057ef940c79%3C%2FstreamURL%3E%0A++++++++++++++++++%3CwindowId%2F%3E%0A++++++++++++++++++%3CcanvasId%2F%3E%0A++++++++++++++++++%3CtrickPlay%3Etrue%3C%2FtrickPlay%3E%0A+++++++++++++++%3C%2Fdata%3E
+							</streamdatadoc>
+							<mediasourcedatadoc>%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E%0A%3Cdata%3E%0A++++++++++++++++++%3CroomNID%3Ec11b064f-07eb-4471-a7be-905b9c6f114d%3C%2FroomNID%3E%0A++++++++++++++++++%3CsourceNID%3Edefault.mediastreamsrcportresourcelist.mssprl_bab42fb3-9de7-4755-935c-d027a7ffe0f7%3C%2FsourceNID%3E%0A++++++++++++++++++%3CstartOffset%2F%3E%0A++++++++++++++++++%3CstartTimecode%3E1379636693726%3C%2FstartTimecode%3E%0A++++++++++++++++++%3CuserRoomMediaSourceNID%2F%3E%0A++++++++++++++++++%3CsourceType%3EENCODER%3C%2FsourceType%3E%0A++++++++++++++++++%3CsourcePortNID%3Edefault.mediastreamsrcportresourcelist.mssprl_bab42fb3-9de7-4755-935c-d027a7ffe0f7%3C%2FsourcePortNID%3E%0A++++++++++++++++++%3CsourcePortElementID%3E1%3C%2FsourcePortElementID%3E%0A++++++++++++++++++%3CsourceAgentJID%3Etx1%40localhost%2Fdcpc1%3C%2FsourceAgentJID%3E%0A++++++++++++++++++%3CstreamType%3EV2D%3C%2FstreamType%3E%0A++++++++++++++++++%3CstreamURL%3Ev2d%3A%2F%2F10.51.50.1%2Fport%3D6060%3Fbandwidth%3D10240000%3Favoption%3DBoth%3Fismulticast%3Dtrue%3Fenablekbm%3Dfalse%3Fauthscheme%3DTOKEN%3Fauthdata%3Db8d03d7e-fe96-464d-b6e6-b057ef940c79%3C%2FstreamURL%3E%0A++++++++++++++++++%3CstreamProfile%3E%26lt%3BV2DMediaStreamProfile%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3BV2DStreamConfig%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BIsMulticast%26gt%3Btrue%26lt%3B%2FIsMulticast%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BEnableSRDTranscode%26gt%3Btrue%26lt%3B%2FEnableSRDTranscode%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BSRDTranscodeBandwidth%2F%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BAVOption%26gt%3BBoth%26lt%3B%2FAVOption%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3B%2FV2DStreamConfig%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3BV2DEncoderAudioConfig%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BSampleRate%2F%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BSampleSize%2F%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BMonoStereo%2F%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BAudioEncodeEnable%2F%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3B%2FV2DEncoderAudioConfig%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3BV2DEncoderConnectionParameterConfig%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BBurstRatio%26gt%3B1%26lt%3B%2FBurstRatio%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BBurstDuration%26gt%3B50%26lt%3B%2FBurstDuration%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BCompression%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BHigh%26gt%3B6%26lt%3B%2FHigh%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BLow%26gt%3B6%26lt%3B%2FLow%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3B%2FCompression%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BBandwidth%26gt%3B10000%26lt%3B%2FBandwidth%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BRefresh%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BMin%26gt%3B10%26lt%3B%2FMin%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BMax%26gt%3B30%26lt%3B%2FMax%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3B%2FRefresh%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BSlice%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BMin%26gt%3B0%26lt%3B%2FMin%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BMax%26gt%3B15%26lt%3B%2FMax%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3B%2FSlice%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BBlockThreshold%26gt%3B5%26lt%3B%2FBlockThreshold%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BColorSampling%26gt%3B4%3A2%3A2%26lt%3B%2FColorSampling%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BFrameRateDivider%26gt%3B1%26lt%3B%2FFrameRateDivider%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BIFrameInterval%2F%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3B%2FV2DEncoderConnectionParameterConfig%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3BV2DEncoderConnectionParameterKbmConfig%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BAllowKMSwitch%26gt%3Btrue%26lt%3B%2FAllowKMSwitch%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BKMIdleTime%26gt%3B0%26lt%3B%2FKMIdleTime%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BEnableKbm%26gt%3Bfalse%26lt%3B%2FEnableKbm%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3B%2FV2DEncoderConnectionParameterKbmConfig%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3BV2DRecorderConfig%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BFFTracks%26gt%3B1-256%26lt%3B%2FFFTracks%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3BThumbnailConfig%26gt%3B%0A++++++++++++++++++++++++++++++++++++%26lt%3BEnable%26gt%3Btrue%26lt%3B%2FEnable%26gt%3B%0A++++++++++++++++++++++++++++++++%26lt%3B%2FThumbnailConfig%26gt%3B%0A++++++++++++++++++++++++++++%26lt%3B%2FV2DRecorderConfig%26gt%3B%0A++++++++++++++++++++++++%26lt%3B%2FV2DMediaStreamProfile%26gt%3B%3C%2FstreamProfile%3E%0A++++++++++++++++++%3CtrackNID%3Ec11b064f-07eb-4471-a7be-905b9c6f114d.StreamTrack%3C%2FtrackNID%3E%0A++++++++++++++++++%3CstreamTrackMediaSourceNID%2F%3E%0A++++++++++++++++++%3CpvrEnabled%2F%3E%0A++++++++++++++++++%3ClookbackSourceNID%2F%3E%0A++++++++++++++++++%3ClookbackSourceAgentJID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileUUID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileParentDirNID%2F%3E%0A++++++++++++++++++%3ClookbackSourceFilePlayLength%2F%3E%0A++++++++++++++++++%3ClookbackSourceFileStartTC%2F%3E%0A++++++++++++++++++%3CxAuthAgentJID%2F%3E%0A++++++++++++++++++%3CmonitorAgentJID%2F%3E%0A+++++++++++++++%3C%2Fdata%3E
+							</mediasourcedatadoc>
+						</SetupRequestData>
+					</Data>
+				</Request>
+			</AgentMessage>
+		</x>
+	</message>
+</Recv-SetupRequest>
+
+<Send-StreamStatusEvent>
+	<message to='managementserver.localhost'>
+		<x xmlns='com.ipvs.agentmessage'>
+			<AgentMessage type="Event" to="managementserver.localhost"
+				from="rx1@localhost/rx1">
+				<Event>
+					<Header serviceName="Pubsub" eventName="StreamStatusEvent"
+						eventAgentJID="rx1@localhost/rx1" eventWallclock="1379633664601"
+						eventLevel="200" />
+					<Data>
+						<StreamStatusEventData roomNID="c11b064f-07eb-4471-a7be-905b9c6f114d"
+							streamNID="1aa949e9-0253-4bd8-9fa5-08968aa18278">
+							<state>8</state>
+							<lastEventData />
+							<relayData relayRoomNID="" relayStreamNID="" />
+
+							<MediaTimeline id="">
+								<Start WC="" Offset="" TC="" />
+								<Last WC="" Offset="" TC="" TimeScale="" action=""
+									lastState="" requestedAction="" />
+							</MediaTimeline>
+							<URL />
+						</StreamStatusEventData>
+					</Data>
+				</Event>
+			</AgentMessage>
+		</x>
+	</message>
+</Send-StreamStatusEvent>
+</transcript>

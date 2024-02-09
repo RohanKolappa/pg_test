@@ -1,0 +1,116 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="1"></variants>
+    <strings jsxinstanceof="jsx3.app.Model" jsxname="blkHostTable" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxheight="18"></variants>
+      <strings jsxname="txtDirtyBitblkHostTable" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="DirtyBitblkHostTable"></strings>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="blkLayout" jsxrows="35,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#d6d6d6" jsxpadding="6 8 8 10" jsxborder="border-bottom: 1px solid #9898a5"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+          <strings jsxname="lblHostTable" jsxtext="Host Table" jsxdisplay="" jsxmargin="0 20 0 0"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#e0e0e0" jsxborder="border-top:solid 1px #efefef"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="20" jsxtop="40" jsxwidth="500" jsxheight="300" jsxoverflow="2" jsxrelativeposition="0"></variants>
+          <strings jsxname="blkHost" jsxbgcolor="" jsxborder="solid 1px #999999;"></strings>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="layout (--)" jsxrows="24,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxbgcolor="" jsxborder="border-bottom: solid 1px #a9a9a9;" jsxtextalign="right" jsxpadding="2 2 2 2"></strings>
+              <dynamics jsxbg="Matrix Header BG"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="4" jsxfontsize="12"></variants>
+                <strings jsxname="label" jsxtext="Host Table" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="20" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="1"></variants>
+                <strings jsxname="imgbtnAddHostEntry" jsxtext="" jsximage="images/buttons/add.png" jsxoverimage="images/buttons/add.png" jsxdownimage="images/buttons/add.png" jsxonimage="images/buttons/add.png" jsxdisabledimage="images/buttons/add.png" jsxtip="Add"></strings>
+                <events jsxexecute="alert('Execute');"></events>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="20" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="1"></variants>
+                <strings jsxname="imgbtnDeleteHostEntry" jsxtext="" jsximage="images/buttons/del.png" jsxoverimage="images/buttons/del.png" jsxdownimage="images/buttons/del.png" jsxonimage="images/buttons/del.png" jsxdisabledimage="images/buttons/del.png" jsxtip="Delete"></strings>
+                <events jsxexecute="alert('Execute');"></events>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkHostList" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f5f5f5"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                <strings jsxname="mtxHostTable" jsxbgcolor="#f5f5f5" jsxfocusstyle="font-weight:bold;"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="80"></variants>
+                  <strings jsxname="jsxListIndex" jsxtext="ListIndex" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxListIndex" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="80"></variants>
+                  <strings jsxname="jsxDirtyBit" jsxtext="State" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxDirtyBit" jsxdisplay="" jsxformathandler="cleanDirtyBitColumn"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxHostName" jsxwidth="*" jsxtext="Host Name" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxHostName"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxHostName" jsxdisplay="none" jsxcdfattribute="jsxHostName"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxHostIPAddress" jsxwidth="*" jsxtext="IP Address" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxHostIPAddress"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxHostIPAddress" jsxdisplay="none" jsxcdfattribute="jsxHostIPAddress"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="40"></variants>
+                  <strings jsxname="imageButtonColumn" jsxtext="Delete" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                    <strings jsxname="imageButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                    <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants></variants>
+              <strings jsxname="blkHostFooter" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf;" jsxborder="border-top: solid 1px #a9a9a9;" jsxpadding="4 4 4 4"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                <strings jsxname="label" jsxtext="The fields are editable. You can edit the field values by clicking on them."></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

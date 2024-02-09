@@ -1,0 +1,202 @@
+<ipvs>
+	<DBTestActionsSequence>
+		<priorityLevels>10</priorityLevels>
+		<!--  define default values  for DBTestAction --> 
+		<!-- repeat the action so many times -->
+		<numberOfLoops>100</numberOfLoops>
+		<!-- start with delay  -->
+		<initialDelay>0</initialDelay>
+		<!-- if corePoolSize > 1. reapeat the loop for each thread -->	
+		<!-- if multi threaded then set corePoolSize > 1 -->	
+		<corePoolSize>1</corePoolSize>
+		<maximumPoolSize>1</maximumPoolSize>
+		<keepAliveTime>60</keepAliveTime>
+		<!-- if loopEndlessly=true. repeat the loop at interval  delay with delayUnit -->
+		<!-- if completBeforeStartNext=true do not set loopEndlessly=true -->
+		<loopEndlessly>false</loopEndlessly>
+		<delay>1</delay>
+		<delayUnit>SECONDS</delayUnit>
+		<!-- document and collection creation and deletion -->
+		<collectionPrefix>ipvsCol</collectionPrefix>
+		<documentPrefix>ipvsDoc</documentPrefix>
+		<bulkuploadPath>bulkupload.xml</bulkuploadPath>
+		<!--  ipvs domain -->	
+		<ipvsDomain>default</ipvsDomain>
+		<ipvsDomain>default</ipvsDomain>
+		<numberOfCollections>1</numberOfCollections>
+		<numberOfDocumentsPerCollection>10</numberOfDocumentsPerCollection>
+							
+		<!-- DBTestActions DeleteAll  -->
+		<DBTestActions name="DeleteAllStart" enable="true" priority="1" completBeforeStartNext="true">
+			<DBTestAction name="DeleteAllStart" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionDeleteAll</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>	
+				<param name='collectionPrefix'>ipvsCol</param>			
+			</DBTestAction>
+		</DBTestActions>					
+		<!-- DBTestActions CreateCollection  -->
+		<DBTestActions name="CreateCollection" enable="false" priority="2" completBeforeStartNext="true">
+			<DBTestAction name="CreateCollection" enable="false" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionCreateCollection</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>
+			</DBTestAction>
+		</DBTestActions>
+	
+
+		
+			<!-- DBTestActions CreateCollection  -->
+		<DBTestActions name="bulkloadData" enable="true" priority="3" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+ 			<DBTestAction name="LoadGroupTemplate" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadGroupTemplate</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+				<param name='bulkuploadPath'>bulkupload.xml</param>	
+				<param name='loadGroupTemplate'>l_location1</param>	
+			</DBTestAction>	
+			<DBTestAction name="LoadTemplate" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadTemplate</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+				<param name='bulkuploadPath'>bulkupload.xml</param>	
+				<param name='loadTemplate'>l_user1</param>	
+			</DBTestAction>	
+		</DBTestActions>
+			
+			
+		<!-- DBTestActions CreateCollection  -->
+		<DBTestActions name="loadData" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBTestAction name="RefreshDBStat" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBTestAction>	
+			<DBTestAction name="LoadDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBTestAction>			
+		</DBTestActions>			
+		
+		
+		<!-- DBTestActions LoadDocument  -->
+		<DBTestActions name="LoadDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBTestAction name="RefreshDBStat" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBTestAction>	
+			<DBTestAction name="LoadDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBTestAction>			
+		</DBTestActions>	
+		
+			
+		
+		<!-- DBTestActions UpdateDocument  -->
+		<DBTestActions name="UpdateDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBTestAction name="UpdateDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionUpdateDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+			</DBTestAction>	
+		</DBTestActions>
+						
+		<!-- DBTestActions readData or add update delete Xquery -->
+		<DBTestActions name="testData" enable="true" priority="4" completBeforeStartNext="true">
+			<DBTestAction name="UpdateDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionUpdateDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBTestAction>	
+			<!--   xquery for add/update/delete child nodes or read -->	
+			<DBTestAction name="ActionXquery1" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionXquery</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBTestAction>	
+			<DBTestAction name="ActionXquery2" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionXquery</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBTestAction>	
+		</DBTestActions>	
+	
+
+		<!-- DBTestActions DeleteDocument  -->
+		<DBTestActions name="DeleteDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBTestAction name="DeleteDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionDeleteDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+			</DBTestAction>	
+		</DBTestActions>
+
+		<!-- DBTestActions DeleteCollection  -->
+		<DBTestActions name="DeleteCollection" enable="true" priority="5" completBeforeStartNext="true">
+			<DBTestAction name="DeleteCollection" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBTestActionDeleteCollection</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>				
+			</DBTestAction>
+		</DBTestActions>
+		
+		<!-- DBTestActions DeleteAll  -->
+		<DBTestActions name="DeleteAllEnd" enable="true" priority="6" completBeforeStartNext="true">
+			<DBTestAction name="DeleteAll" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.existxmldb.DBTestActionDeleteAll</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>
+			</DBTestAction>
+		</DBTestActions>
+	</DBTestActionsSequence>
+		
+	<!--   DeleteAll start and end-->	
+	<DeleteAll/>
+	<!--   create/delete collection -->	
+	<CreateCollection/>
+	<DeleteCollection/>
+	<!--   create/delete/update document -->	
+	<LoadDocument/>
+	<DeleteDocument/>
+	<UpdateDocument/>		
+	<!--   load template / groupTemplate-->	
+	<LoadGroupTemplate>
+		<loadGroupTemplate type="groupTemplate" loadObjectsId='l_location1' groupTemplateId='g_location1' count='2' enable='true'  />			
+	</LoadGroupTemplate>
+	<GroupTemplate>
+		<loadTemplate type="template" loadObjectsId='l_user1' templateId='t_user1' count='1'  enable='true' />
+	</GroupTemplate>	 
+	<!--   xquery for add/update/delete child nodes or read -->	
+	<ActionXquery1/>
+	<ActionXquery2/>
+	
+	
+</ipvs>

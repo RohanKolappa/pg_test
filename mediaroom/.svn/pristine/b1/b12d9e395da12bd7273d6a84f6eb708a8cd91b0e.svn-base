@@ -1,0 +1,24 @@
+(: ------------------- Begin URLSchemeXQuery.xml -------------------- :)
+(: #include XQueryLib.xml :)
+declare function local:geturlschemeFilterList()
+as element()*
+{
+	let $urlschemefilterlist := (
+		for $d in index-scan('IPVSis_colnids_default', 'default.mediastreamfilterlist', 'EQ')/..
+		let $xpath := local:streamFilterToXPath($d)
+		let $urlschemetableXPath := string-join ( 
+			(
+				for $d in $d//ProfileFilter/MediaStreamProfileFilterNID
+				return local:filterNIDToXPath(data($d))
+			),
+			" or "
+		)
+		where $d//ProfileFilter/MediaStreamProfileFilterNID
+		return <filter><filterxpath>{$xpath}</filterxpath><urlschemetablexpath>{$urlschemetableXPath}</urlschemetablexpath></filter> 
+	)
+	return <result>{$urlschemefilterlist}</result>
+};
+
+let $result := local:geturlschemeFilterList()
+return $result
+(: ------------------- Begin URLSchemeXQuery.xml -------------------- :)

@@ -1,0 +1,109 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkConnectionProfileUI" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="30,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+      <dynamics jsxbgcolor="Matrix Background"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkProfileMenu" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right" jsxbgcolor="#d4d4d4" jsxpadding="5 0 0 0"></strings>
+        <dynamics jsxborder="Sub Menu Border"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="80" jsxheight="22" jsxrelativeposition="0" jsxleft="19" jsxtop="4"></variants>
+          <strings jsxname="blkAddProfile" jsxdisplay=""></strings>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="80" jsxheight="22" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxrelativeposition="1" jsxenabled="1"></variants>
+            <strings jsxname="btnAddProfile" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnNewUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnNewUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnNewDsbl.png" jsxdisplay="" jsxmargin="0 20 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnNewOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnNewDown.png" jsxtip="Add a new connection profile"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="80" jsxheight="22" jsxrelativeposition="0" jsxleft="118" jsxtop="4"></variants>
+          <strings jsxname="blkDeleteProfile" jsxdisplay=""></strings>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="80" jsxheight="22" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="1" jsxenabled="0"></variants>
+            <strings jsxname="btnDeleteProfile" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnDeleteUp1.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnDeleteUp1.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnDeleteDsbl1.png" jsxdisplay="" jsxmargin="0 20 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnDeleteOver1.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnDeleteDown1.png" jsxtip="Delete connection profile"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="52" jsxheight="20" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="1" jsxenabled="1"></variants>
+          <strings jsxname="btnFilterProfile" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnTskFilterUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskFilterUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskFilterDsbl.png" jsxdisplay="" jsxmargin="0 20 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskFilterOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskFilterDown.png" jsxtip="Filter list"></strings>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="74" jsxheight="20" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxrelativeposition="1" jsxenabled="1"></variants>
+          <strings jsxname="btnCustomizeProfile" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnTskCustomizeUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskCustomizeUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskCustomizeDsbl.png" jsxdisplay="" jsxmargin="0 40 0 0" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskCustomizeOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskCustomizeDown.png" jsxtip="Customize view options"></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="0" jsxheight="0" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="block" jsxdisplay="none" jsxbgcolor="#e8e8f5"></strings>
+          <object type="jsx3.gui.Menu">
+            <variants jsxxmlasync="1" jsxenabled="1"></variants>
+            <strings jsxname="menuProfileList" jsxtip="menu" jsxtext="Profile Menu" jsxdisplay="none"></strings>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkProfileList" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="Matrix Background"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="0" jsxjsxxmlasync="1" jsxrowheight="25" jsxheaderheight="25" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+          <strings jsxname="mtxProfileList" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="ascending" jsxmenu="menuProfileList"></strings>
+          <dynamics jsxselectionbg="Matrix Selection BG" jsxbgcolor="Matrix Background" jsxheaderborder="Matrix Box Header Border" jsxbodyborder="Matrix Box Body Border"></dynamics>
+          <events jsxexecute="" jsxselect="cmpProfileList_OnSelect();"></events>
+          <xslparameters jsx_rowbg1="#e5e5e5" jsx_rowbg2="#eeeeee"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="150" jsxcellfontsize="11"></variants>
+            <strings jsxname="jsxtext" jsxtext="Name" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxtext" jsxbgcolor="#999999"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxcellcolor="Matrix Text Color" jsxcellbgcolor="Matrix Row BG" jsxcellborder="Matrix Row Border" jsxcolor="@Dark" jsxfontsize="BaseText"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="90" jsxcellfontsize="11"></variants>
+            <strings jsxname="jsxProfileStreamType" jsxtext="Stream Type" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxProfileStreamType" jsxbgcolor="#999999"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxcellcolor="Matrix Text Color" jsxcellbgcolor="Matrix Row BG" jsxcellborder="Matrix Row Border" jsxcolor="@Dark" jsxfontsize="BaseText"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="58" jsxcellfontsize="11"></variants>
+            <strings jsxname="jsxindex" jsxtext="Priority" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxindex" jsxbgcolor="#999999" jsxsortdatatype="number"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxcellcolor="Matrix Text Color" jsxcellbgcolor="Matrix Row BG" jsxcellborder="Matrix Row Border" jsxcolor="@Dark" jsxfontsize="BaseText"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="362" jsxcellfontsize="11"></variants>
+            <strings jsxname="jsxProfileDescription" jsxtext="Description" jsxpadding="4 2 2 2" jsxcellpadding="6 6 4 6" jsxpath="jsxProfileDescription" jsxdisplay="" jsxbgcolor="#999999"></strings>
+            <dynamics jsxborder="Matrix Header Border" jsxbg="Matrix Header BG" jsxcellcolor="Matrix Text Color" jsxcellbgcolor="Matrix Row BG" jsxcellborder="Matrix Row Border" jsxcolor="@Dark" jsxfontsize="BaseText"></dynamics>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkProfileFooter" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="2 0 0 0" jsxtextalign="right" jsxborder="0px solid #555555; 1px solid #555555; 1px solid #555555; 1px solid #555555"></strings>
+        <dynamics jsxbgcolor="Pagination BG"></dynamics>
+        <include src="components/pagination.xml" async="false"></include>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxrelativeposition="0" jsxzindex="5" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="blkProfileCustomize" jsxdisplay="none" jsxclassname="dialogMask"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxwidth="370" jsxheight="550" jsxrelativeposition="0"></variants>
+        <strings jsxtop="50%" jsxname="block" jsxstyleoverride="margin-top: -275; margin-left: -170;" jsxleft="50%" jsxdisplay=""></strings>
+        <include src="components/customizeDialog.xml" async="false"></include>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="blkProfileFilter" jsxdisplay="none" jsxclassname="dialogMask"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxwidth="600" jsxheight="500" jsxrelativeposition="0"></variants>
+        <strings jsxtop="50%" jsxname="block" jsxstyleoverride="margin-left: -350;margin-top:-300;" jsxleft="50%" jsxdisplay=""></strings>
+        <include src="components/filterDialog.xml" async="false"></include>
+      </object>
+    </object>
+  </object>
+</serialization>

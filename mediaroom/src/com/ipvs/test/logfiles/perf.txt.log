@@ -1,0 +1,300 @@
+Running TCP server interface on port 5689...
+Logger used is CONSOLE
+Logger used is CONSOLE
+<info time=1215672174601>XMPPEventHandlerThread:: started</info>
+<info time=1215672175835>XMPPEventHandlerThread:: started</info>
+<info time=1215672177061>XMPPEventHandlerThread:: started</info>
+O:	<info time=1215672183996>CreateConnectionRequestHandler:getResponse</info>
+--AddRoomRequestHandler::getResponse(); check exists, add room elements
+O:1365<info time=1215672185361>XMPP::addRoom roomNID=zzzz_1215672184061bdd4c12d</info>
+--AddMediaSourceRequestHandler::getResponse(); get contact JID, add mediaSourceElement
+O:0880<info time=1215672186241>XMPP::sendInvite roomNID=zzzz_1215672184061bdd4c12d toJID=deviceuser-miyertest@localhost</info>
+S					<info time=1215672186253>ServiceClient: userJID=deviceuser-miyertest@192.168.1.209/callcenter join roomNID=zzzz_1215672184061bdd4c12d</info>
+S					<info time=1215672186253>XMPP::joinRoom roomNID=zzzz_1215672184061bdd4c12d</info>
+O:0081<info time=1215672186322>AddStreamRequestHandler: Using relayNID=zzzz_1215671773358dc6fbb8f</info>
+--MediaRoomServiceUtils.getContactJID; getPortNID, getContactJID
+O:0419<info time=1215672186741>AddStreamRequestHandler: Relay sourceAgentJID=destrelayuser-miyertest@localhost</info>
+O	<info time=1215672186741>XMPP::sendInvite roomNID=zzzz_1215672184061bdd4c12d toJID=destrelayuser-miyertest@localhost</info>
+DR		<info time=1215672186774>ServiceClient: userJID=destrelayuser-miyertest@192.168.1.209/callcenter join roomNID=zzzz_1215672184061bdd4c12d</info>
+DR		<info time=1215672186774>XMPP::joinRoom roomNID=zzzz_1215672184061bdd4c12d</info>
+--AddMediaSourceRequestHandler::addStreamElement
+O:0540<info time=1215672187281>AddStreamRequestHandler@roomuser-miyertest/zzzz_121567218676345848eb2 > WATCH Message to DestStreamAgent@roomuser-miyertest</info>
+O	<info time=1215672187282>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+O:0079<info time=1215672187361>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Adding streamNID to watchList streamNID=zzzz_121567218676345848eb2</info>
+--DestStreamAgent::handleEvent(); pubsub update results in a pubsub event
+O:1023<info time=1215672188384>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_121567218676345848eb2</info>
+O	<info time=1215672188388>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_121567218676345848eb2</info>
+O:0073<info time=1215672188461>AddStreamActionRequestHandler: Added actionNID=zzzz_121567218836910c0f944</info>
+O	<info time=1215672188469>AddStreamActionRequestHandler@roomuser-miyertest/zzzz_121567218676345848eb2 > NOTIFY Message to DestStreamAgent@roomuser-miyertest</info>
+O	<info time=1215672188469>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+O.DA	<info time=1215672188483>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_121567218676345848eb2 actionNID=zzzz_121567218836910c0f944</info>
+O:0278<info time=1215672188761>DestStreamAgent@roomuser-miyertest/zzzz_121567218676345848eb2 > request action=Start to SourceStreamAgent@destrelayuser-miyertest</info>
+O.DA	<info time=1215672188761>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=destrelayuser-miyertest@localhost</info>
+DR.SA		<info time=1215672188783>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-719" to="destrelayuser-miyertest@localhost/callcenter" from="zzzz_1215672184061bdd4c12d@conference.localhost/zzzz_1215672184061bdd4c12d.nickname" type="groupchat"><body><AgentMessage><header><agent>destrelayuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_121567218676345848eb2</streamNID><action>Start</action><actiondata></actiondata><actionNID>zzzz_121567218836910c0f944</actionNID></data></AgentMessage></body></message></info>
+DR.SA:0160	<info time=1215672188943>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::createInput userJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+--SourceTable::createRelayRoom, getProfileRelayInfo, getContactJID(dest, source, relay)
+DR.SA:3618	<info time=1215672192561>SourceTable::createRelay@destrelayuser-miyertest@192.168.1.209/callcenterdeviceuser-miyertest -> srcrelayuser-miyertest -> destrelayuser-miyertest</info>
+--SourceTable::getRelayNID: getContactJID
+DR.SA:0881	<info time=1215672193442>CreateConnectionRequestHandler:getResponse</info>
+DR.SA:1259	<info time=1215672194701>XMPP::addRoom roomNID=zzzz_1215672193507c7999c0</info>
+DR.SA:0860	<info time=1215672195561>XMPP::sendInvite roomNID=zzzz_1215672193507c7999c0 toJID=deviceuser-miyertest@localhost</info>
+S					<info time=1215672195582>ServiceClient: userJID=deviceuser-miyertest@192.168.1.209/callcenter join roomNID=zzzz_1215672193507c7999c0</info>
+S					<info time=1215672195583>XMPP::joinRoom roomNID=zzzz_1215672193507c7999c0</info>
+DR.SA:0061	<info time=1215672195622>AddStreamRequestHandler: Using relayNID=zzzz_1215671782061504e99b5</info>
+--SourceTable::
+DR.SA:0419	<info time=1215672196041>AddStreamRequestHandler: Relay sourceAgentJID=srcrelayuser-miyertest@localhost</info>
+DR.SA		<info time=1215672196041>XMPP::sendInvite roomNID=zzzz_1215672193507c7999c0 toJID=srcrelayuser-miyertest@localhost</info>
+SR.SA			<info time=1215672196082>ServiceClient: userJID=srcrelayuser-miyertest@192.168.1.209/callcenter join roomNID=zzzz_1215672193507c7999c0</info>
+SR.SA			<info time=1215672196082>XMPP::joinRoom roomNID=zzzz_1215672193507c7999c0</info>
+DR.SA:0510	<info time=1215672196551>AddStreamRequestHandler@destrelayuser-miyertest/zzzz_12156721960617a301451 > WATCH Message to DestStreamAgent@destrelayuser-miyertest</info>
+DR.SA		<info time=1215672196551>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+DR.SA:0300	<info time=1215672196851>AddStreamActionRequestHandler: Added actionNID=zzzz_12156721967575d905aee</info>
+DR.SA		<info time=1215672196851>AddStreamActionRequestHandler@destrelayuser-miyertest/zzzz_12156721960617a301451 > NOTIFY Message to DestStreamAgent@destrelayuser-miyertest</info>
+DR.SA		<info time=1215672196851>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+DR.SA		<info time=1215672196853> SourceStreamAgent:createSSInput@destrelayuser-miyertest inputType=RELAY ssInstanceID=2001</info>
+DR.SA		<info time=1215672196853>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Relay ssInstanceID=2001</info>
+DR.SA		<info time=1215672196856>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::createOutput userJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+DR.SA		<info time=1215672196858> SourceStreamAgent:createSSOutput@destrelayuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+DR.SA		<info time=1215672196858>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Stream Dest ssInstanceID=2002</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="destrelayuser-miyertest@192.168.1.209/callcenter">
+  <Instance NID="zzzz_121567176692689d5349f.LIVE" instanceType="LIVE">
+    <Input ssInstanceID="2001" inputType="RELAY" sourceNID="zzzz_121567176692689d5349f" offset="0" roomNID="zzzz_1215672193507c7999c0" streamNID="zzzz_12156721960617a301451" />
+    <MediaSource NID="zzzz_1215672185926fe37f89c">
+      <Stream NID="zzzz_121567218676345848eb2" ownerUser="roomuser-miyertest">
+        <Output ssInstanceID="2002" outputType="STREAM" streamURL="http://10.1.5.151/mpeg4/1/media.sdp" />
+      </Stream>
+    </MediaSource>
+  </Instance>
+</SourceTable>
+
+
+DR.SA		<info time=1215672196858> SourceStreamAgent:startSSOutput@destrelayuser-miyertest</info>
+DR.SA		<info time=1215672196858> SourceStreamAgent:startSSInput@destrelayuser-miyertest</info>
+DR.SA		<info time=1215672196858>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ...</info>
+DR.SA		<info time=1215672196858>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ... done=0</info>
+DR.SA		<info time=1215672196895>SourceStreamAgent@destrelayuser-miyertest/zzzz_121567218676345848eb2 > Response action=Start to DestStreamAgent@roomuser-miyertest</info>
+DR.SA		<info time=1215672196896>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+O.DA	<info time=1215672196914>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Start streamNID=zzzz_121567218676345848eb2</info>
+
+== Received URL total time = 12.0
+
+DR.DA:0820	<info time=1215672197371>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Adding streamNID to watchList streamNID=zzzz_12156721960617a301451</info>
+DR.DA:0226	<info time=1215672197597>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_12156721960617a301451</info>
+DR.DA		<info time=1215672197607>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_12156721960617a301451</info>
+DR.DA:0775	<info time=1215672197626>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_12156721960617a301451 actionNID=zzzz_12156721967575d905aee</info>
+DR.DA:0245	<info time=1215672197871>DestStreamAgent@destrelayuser-miyertest/zzzz_12156721960617a301451 > request action=Start to SourceStreamAgent@srcrelayuser-miyertest</info>
+DR.DA		<info time=1215672197871>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=srcrelayuser-miyertest@localhost</info>
+SR.SA			<info time=1215672197894>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1205" to="srcrelayuser-miyertest@localhost/callcenter" from="zzzz_1215672193507c7999c0@conference.localhost/zzzz_1215672193507c7999c0.nickname" type="groupchat"><body><AgentMessage><header><agent>srcrelayuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_12156721960617a301451</streamNID><action>Start</action><actiondata></actiondata><actionNID>zzzz_12156721967575d905aee</actionNID></data></AgentMessage></body></message></info>
+SR.SA			<info time=1215672198052>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::createInput userJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+SR.SA:1467		<info time=1215672199519>CreateConnectionRequestHandler:getResponse</info>
+SR.SA:1253		<info time=1215672200772>XMPP::addRoom roomNID=zzzz_1215672199575344a75db</info>
+SR.SA:0919		<info time=1215672201691>XMPP::sendInvite roomNID=zzzz_1215672199575344a75db toJID=deviceuser-miyertest@localhost</info>
+S				<info time=1215672201713>ServiceClient: userJID=deviceuser-miyertest@192.168.1.209/callcenter join roomNID=zzzz_1215672199575344a75db</info>
+S				<info time=1215672201713>XMPP::joinRoom roomNID=zzzz_1215672199575344a75db</info>
+SR.SA:0480		<info time=1215672202171>AddStreamRequestHandler@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > WATCH Message to DestStreamAgent@srcrelayuser-miyertest</info>
+SR.SA			<info time=1215672202171>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+SR.SA:0300		<info time=1215672202471>AddStreamActionRequestHandler: Added actionNID=zzzz_121567220237769578777</info>
+SR.SA			<info time=1215672202471>AddStreamActionRequestHandler@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > NOTIFY Message to DestStreamAgent@srcrelayuser-miyertest</info>
+SR.SA			<info time=1215672202471>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+SR.SA			<info time=1215672202472> SourceStreamAgent:createSSInput@srcrelayuser-miyertest inputType=RELAY ssInstanceID=2001</info>
+SR.SA			<info time=1215672202472>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Relay ssInstanceID=2001</info>
+SR.SA			<info time=1215672202474>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::createOutput userJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+SR.SA			<info time=1215672202476> SourceStreamAgent:createSSOutput@srcrelayuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+SR.SA			<info time=1215672202476>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Stream Dest ssInstanceID=2002</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="srcrelayuser-miyertest@192.168.1.209/callcenter">
+  <Instance NID="zzzz_121567176692689d5349f.LIVE" instanceType="LIVE">
+    <Input ssInstanceID="2001" inputType="RELAY" sourceNID="zzzz_121567176692689d5349f" offset="0" roomNID="zzzz_1215672199575344a75db" streamNID="zzzz_1215672201772bff80fce" />
+    <MediaSource NID="zzzz_12156721952459d465f45">
+      <Stream NID="zzzz_12156721960617a301451" ownerUser="destrelayuser-miyertest">
+        <Output ssInstanceID="2002" outputType="STREAM" streamURL="http://10.1.5.151/mpeg4/1/media.sdp" />
+      </Stream>
+    </MediaSource>
+  </Instance>
+</SourceTable>
+
+
+SR.SA			<info time=1215672202476> SourceStreamAgent:startSSOutput@srcrelayuser-miyertest</info>
+SR.SA			<info time=1215672202476> SourceStreamAgent:startSSInput@srcrelayuser-miyertest</info>
+SR.SA			<info time=1215672202476>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ...</info>
+SR.SA			<info time=1215672202476>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ... done=0</info>
+SR.SA:0039		<info time=1215672202515>SourceStreamAgent@srcrelayuser-miyertest/zzzz_12156721960617a301451 > Response action=Start to DestStreamAgent@destrelayuser-miyertest</info>
+SR.SA			<info time=1215672202515>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+DR.DA		<info time=1215672202540>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Start streamNID=zzzz_12156721960617a301451</info>
+DR.SA:0133	<info time=1215672202673>SourceTable@destrelayuser-miyertest processing relayInpuStreamStarted streamNID=zzzz_12156721960617a301451</info>
+DR.SA:0198	<info time=1215672202871>destrelayuser-miyertest@192.168.1.209/callcenter SourceStreamAgent:updateSSRelayInput ssInstanceID=2001 with URL=http://10.1.5.151/mpeg4/1/media.sdp</info>
+SR.DA:0800		<info time=1215672202971>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Adding streamNID to watchList streamNID=zzzz_1215672201772bff80fce</info>
+SR.DA:0224		<info time=1215672203195>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_1215672201772bff80fce</info>
+SR.DA			<info time=1215672203200>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_1215672201772bff80fce</info>
+SR.DA:0745		<info time=1215672203216>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_1215672201772bff80fce actionNID=zzzz_121567220237769578777</info>
+SR.DA:0235		<info time=1215672203451>DestStreamAgent@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > request action=Start to SourceStreamAgent@deviceuser-miyertest</info>
+SR.DA			<info time=1215672203451>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=deviceuser-miyertest@localhost</info>
+S				<info time=1215672203474>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1477" to="deviceuser-miyertest@localhost/callcenter" from="zzzz_1215672199575344a75db@conference.localhost/zzzz_1215672199575344a75db.nickname" type="groupchat"><body><AgentMessage><header><agent>deviceuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_1215672201772bff80fce</streamNID><action>Start</action><actiondata></actiondata><actionNID>zzzz_121567220237769578777</actionNID></data></AgentMessage></body></message></info>
+S.SA:0158			<info time=1215672203632>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::createInput userJID=deviceuser-miyertest@192.168.1.209/callcenter</info>
+S.SA				<info time=1215672203634> SourceStreamAgent:createSSInput@deviceuser-miyertest inputType=ENCODER ssInstanceID=2001</info>
+S.SA				<info time=1215672203634>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Encoder ssInstanceID=2001</info>
+S.SA				<info time=1215672203636>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::createOutput userJID=deviceuser-miyertest@192.168.1.209/callcenter</info>
+S.SA				<info time=1215672203639> SourceStreamAgent:createSSOutput@deviceuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+S.SA				<info time=1215672203639>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:add Stream Dest ssInstanceID=2002</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="deviceuser-miyertest@192.168.1.209/callcenter">
+  <Instance NID="zzzz_121567176692689d5349f.LIVE" instanceType="LIVE">
+    <Input ssInstanceID="2001" inputType="ENCODER" sourceNID="zzzz_121567176692689d5349f" offset="0" roomNID="zzzz_1215672199575344a75db" streamNID="zzzz_1215672201772bff80fce" />
+    <MediaSource NID="zzzz_1215672201382abb83926">
+      <Stream NID="zzzz_1215672201772bff80fce" ownerUser="srcrelayuser-miyertest">
+        <Output ssInstanceID="2002" outputType="STREAM" streamURL="http://10.1.5.151/mpeg4/1/media.sdp" />
+      </Stream>
+    </MediaSource>
+  </Instance>
+</SourceTable>
+
+
+S.SA				<info time=1215672203640> SourceStreamAgent:startSSOutput@deviceuser-miyertest</info>
+S.SA				<info time=1215672203640> SourceStreamAgent:startSSInput@deviceuser-miyertest</info>
+S.SA				<info time=1215672203640>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ...</info>
+S.SA				<info time=1215672203640>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::getStreamURL setInstanceInfo ... done=0</info>
+S.SA				<info time=1215672203675>SourceStreamAgent@deviceuser-miyertest/zzzz_1215672201772bff80fce > Response action=Start to DestStreamAgent@srcrelayuser-miyertest</info>
+S.SA				<info time=1215672203675>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+SR.DA			<info time=1215672203692>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Start streamNID=zzzz_1215672201772bff80fce</info>
+SR.DA:0140		<info time=1215672203832>SourceTable@srcrelayuser-miyertest processing relayInpuStreamStarted streamNID=zzzz_1215672201772bff80fce</info>
+SR.DA:0199		<info time=1215672204031>srcrelayuser-miyertest@192.168.1.209/callcenter SourceStreamAgent:updateSSRelayInput ssInstanceID=2001 with URL=http://10.1.5.151/mpeg4/1/media.sdp</info>
+
+
+<info time=1215672230753>SourceClientAgent: Sending GetCurrentTimeStamp from com.ipvs.mediaroomservice.impl.SourceClientAgent to com.ipvs.mediaroomservice.impl.SourceStreamAgent@destrelayuser-miyertest</info>
+<info time=1215672230754>SourceClientAgent: Waiting for GetCurrentTimeStamp from com.ipvs.mediaroomservice.impl.SourceStreamAgent fromJID=destrelayuser-miyertest@localhost</info>
+<info time=1215672230772>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1505" to="destrelayuser-miyertest@localhost" from="roomuser-miyertest@localhost/callcenter"><body><AgentMessage><header><agent>destrelayuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data>            <StreamNID>zzzz_121567218676345848eb2</StreamNID>            <action>GetCurrentTimeStamp</action>        <requestNID>roomuser-miyertest@192.168.1.209/callcenter/8883572</requestNID></data></AgentMessage></body></message></info>
+<info time=1215672230772>SourceStreamAgent@destrelayuser-miyertest/zzzz_121567218676345848eb2 > Response timeStamp=1215672230772 to SourceClientAgent@roomuser-miyertest</info>
+<info time=1215672230793>SourceClientAgent: Received Response from SourceStreamAgent=destrelayuser-miyertest@localhost/callcenter</info>
+SourceClientAgent: Response=<message id="E0bBU-1506" to="roomuser-miyertest@localhost" from="destrelayuser-miyertest@localhost/callcenter"><body><AgentMessage><header><agent>roomuser-miyertest/com.ipvs.mediaroomservice.impl.SourceClientAgent</agent></header><data><streamNID>zzzz_121567218676345848eb2</streamNID><TimeStamp><StreamCurrentTimeStamp>1215672230772</StreamCurrentTimeStamp> <SystemCurrentTimeStamp>1215672230772</SystemCurrentTimeStamp> </TimeStamp> <requestNID>roomuser-miyertest@192.168.1.209/callcenter/8883572</requestNID><log>1215672230772</log></data></AgentMessage></body></message>
+<info time=1215672230798>SourceClientAgent: Done Waiting for GetCurrentTimeStamp from com.ipvs.mediaroomservice.impl.SourceStreamAgent fromJID=destrelayuser-miyertest@localhost</info>
+
+<info time=1215672246264>DeleteMediaRoomRequestHandler:getResponse</info>
+<info time=1215672247072>DeleteMediaRoomRequestHandler@roomuser-miyertest/zzzz_1215672184061bdd4c12d Checking room found #streams=1</info>
+<info time=1215672247072>DeleteMediaRoomRequestHandler@roomuser-miyertest/zzzz_121567218676345848eb2 Checking if stream stopped</info>
+<info time=1215672247113>DeleteMediaRoomRequestHandler@roomuser-miyertest/zzzz_1215672184061bdd4c12d Stopping streamNID=zzzz_121567218676345848eb2</info>
+<info time=1215672247354>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_121567218676345848eb2</info>
+<info time=1215672247358>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_121567218676345848eb2</info>
+<info time=1215672247471>AddStreamActionRequestHandler: Added actionNID=zzzz_12156722473366040d826</info>
+<info time=1215672247471>AddStreamActionRequestHandler@roomuser-miyertest/zzzz_121567218676345848eb2 > NOTIFY Message to DestStreamAgent@roomuser-miyertest</info>
+<info time=1215672247471>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672247492>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_121567218676345848eb2 actionNID=zzzz_12156722473366040d826</info>
+<info time=1215672247511>DeleteMediaRoomRequestHandler: Wait #=0</info>
+<info time=1215672247791>DestStreamAgent@roomuser-miyertest/zzzz_121567218676345848eb2 > request action=Stop to SourceStreamAgent@destrelayuser-miyertest</info>
+<info time=1215672247791>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=destrelayuser-miyertest@localhost</info>
+<info time=1215672247813>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1649" to="destrelayuser-miyertest@localhost/callcenter" from="zzzz_1215672184061bdd4c12d@conference.localhost/zzzz_1215672184061bdd4c12d.nickname" type="groupchat"><body><AgentMessage><header><agent>destrelayuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_121567218676345848eb2</streamNID><action>Stop</action><actiondata></actiondata><actionNID>zzzz_12156722473366040d826</actionNID></data></AgentMessage></body></message></info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteOutput deleting ssInstanceID=2002</info>
+<info time=1215672247833> SourceStreamAgent:deleteSSOutput@destrelayuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Stream Dest ssInstanceID=2002</info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteInput deleting ssInstanceID=2001</info>
+<info time=1215672247833> SourceStreamAgent:deleteSSInput@destrelayuser-miyertest inputType=RELAY ssInstanceID=2001</info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Relay ssInstanceID=2001</info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:delete Relay ssInstanceID=2001</info>
+<info time=1215672247833>destrelayuser-miyertest@192.168.1.209/callcenter:SourceTable:deleteInput Started shutdown of Relay roomNID=zzzz_1215672193507c7999c0</info>
+<info time=1215672248151>AddStreamActionRequestHandler: Added actionNID=zzzz_1215672248057d4421d02</info>
+<info time=1215672248151>AddStreamActionRequestHandler@destrelayuser-miyertest/zzzz_12156721960617a301451 > NOTIFY Message to DestStreamAgent@destrelayuser-miyertest</info>
+<info time=1215672248152>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="destrelayuser-miyertest@192.168.1.209/callcenter" />
+
+
+<info time=1215672248153>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ...</info>
+<info time=1215672248153>destrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ... done=0</info>
+<info time=1215672248194>SourceStreamAgent@destrelayuser-miyertest/zzzz_121567218676345848eb2 > Response action=Stop to DestStreamAgent@roomuser-miyertest</info>
+<info time=1215672248194>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672248196>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_12156721960617a301451</info>
+<info time=1215672248201>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_12156721960617a301451</info>
+<info time=1215672248212>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Stop streamNID=zzzz_121567218676345848eb2</info>
+<info time=1215672248219>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_12156721960617a301451 actionNID=zzzz_1215672248057d4421d02</info>
+<info time=1215672248511>DestStreamAgent@destrelayuser-miyertest/zzzz_12156721960617a301451 > request action=Stop to SourceStreamAgent@srcrelayuser-miyertest</info>
+<info time=1215672248511>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=srcrelayuser-miyertest@localhost</info>
+<info time=1215672248536>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1694" to="srcrelayuser-miyertest@localhost/callcenter" from="zzzz_1215672193507c7999c0@conference.localhost/zzzz_1215672193507c7999c0.nickname" type="groupchat"><body><AgentMessage><header><agent>srcrelayuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_12156721960617a301451</streamNID><action>Stop</action><actiondata></actiondata><actionNID>zzzz_1215672248057d4421d02</actionNID></data></AgentMessage></body></message></info>
+<info time=1215672248551>DeleteMediaRoomRequestHandler: All streams stopped after tries=1</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteOutput deleting ssInstanceID=2002</info>
+<info time=1215672248555> SourceStreamAgent:deleteSSOutput@srcrelayuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Stream Dest ssInstanceID=2002</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteInput deleting ssInstanceID=2001</info>
+<info time=1215672248555> SourceStreamAgent:deleteSSInput@srcrelayuser-miyertest inputType=RELAY ssInstanceID=2001</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Relay ssInstanceID=2001</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable:delete Relay ssInstanceID=2001</info>
+<info time=1215672248555>srcrelayuser-miyertest@192.168.1.209/callcenter:SourceTable:deleteInput Started shutdown of Relay roomNID=zzzz_1215672199575344a75db</info>
+<info time=1215672248574>DeleteMediaRoomRequestHandler@roomuser-miyertest/zzzz_121567218676345848eb2 > UNWATCH Message to DestStreamAgent@roomuser-miyertest</info>
+<info time=1215672248574>XMPP::sendRoomMessage roomNID=zzzz_1215672184061bdd4c12d toJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672248575>DeleteMediaRoomRequestHandler:getResponse: done cleanRoom</info>
+<info time=1215672248611>roomuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Removing streamNID from watchList streamNID=zzzz_121567218676345848eb2</info>
+<info time=1215672248871>AddStreamActionRequestHandler: Added actionNID=zzzz_1215672248776ee513498</info>
+<info time=1215672248871>AddStreamActionRequestHandler@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > NOTIFY Message to DestStreamAgent@srcrelayuser-miyertest</info>
+<info time=1215672248871>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="srcrelayuser-miyertest@192.168.1.209/callcenter" />
+
+
+<info time=1215672248872>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ...</info>
+<info time=1215672248872>srcrelayuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ... done=0</info>
+<info time=1215672248915>SourceStreamAgent@srcrelayuser-miyertest/zzzz_12156721960617a301451 > Response action=Stop to DestStreamAgent@destrelayuser-miyertest</info>
+<info time=1215672248915>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672248918>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_1215672201772bff80fce</info>
+<info time=1215672248923>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Updated StreamNID=zzzz_1215672201772bff80fce</info>
+<info time=1215672248934>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Stop streamNID=zzzz_12156721960617a301451</info>
+<info time=1215672248941>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Handling notify streamNID=zzzz_1215672201772bff80fce actionNID=zzzz_1215672248776ee513498</info>
+<info time=1215672249073>SourceTable@destrelayuser-miyertest processing relayInpuStreamStopped streamNID=zzzz_12156721960617a301451</info>
+<info time=1215672249095>DeleteMediaRoomRequestHandler:getResponse</info>
+<info time=1215672249253>DestStreamAgent@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > request action=Stop to SourceStreamAgent@deviceuser-miyertest</info>
+<info time=1215672249253>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=deviceuser-miyertest@localhost</info>
+<info time=1215672249274>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent: received request=<message id="E0bBU-1775" to="deviceuser-miyertest@localhost/callcenter" from="zzzz_1215672199575344a75db@conference.localhost/zzzz_1215672199575344a75db.nickname" type="groupchat"><body><AgentMessage><header><agent>deviceuser-miyertest/com.ipvs.mediaroomservice.impl.SourceStreamAgent</agent></header><data><streamNID>zzzz_1215672201772bff80fce</streamNID><action>Stop</action><actiondata></actiondata><actionNID>zzzz_1215672248776ee513498</actionNID></data></AgentMessage></body></message></info>
+<info time=1215672249294>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteOutput deleting ssInstanceID=2002</info>
+<info time=1215672249294> SourceStreamAgent:deleteSSOutput@deviceuser-miyertest outputType=STREAM ssInstanceID=2002</info>
+<info time=1215672249294>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Stream Dest ssInstanceID=2002</info>
+<info time=1215672249294>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable:deleteInput deleting ssInstanceID=2001</info>
+<info time=1215672249294> SourceStreamAgent:deleteSSInput@deviceuser-miyertest inputType=ENCODER ssInstanceID=2001</info>
+<info time=1215672249294>deviceuser-miyertest@192.168.1.209/callcenter: SourceStreamAgent:delete Encoder ssInstanceID=2001</info>
+<?xml version="1.0" encoding="UTF-8"?>
+<SourceTable userJID="deviceuser-miyertest@192.168.1.209/callcenter" />
+
+
+<info time=1215672249294>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ...</info>
+<info time=1215672249296>deviceuser-miyertest@192.168.1.209/callcenter: SourceTable::releaseStreamURL setInstanceInfo ... done=2</info>
+<info time=1215672249335>SourceStreamAgent@deviceuser-miyertest/zzzz_1215672201772bff80fce > Response action=Stop to DestStreamAgent@srcrelayuser-miyertest</info>
+<info time=1215672249335>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672249353>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Received SourceStreamAgent StreamResponse action=Stop streamNID=zzzz_1215672201772bff80fce</info>
+<info time=1215672249492>SourceTable@srcrelayuser-miyertest processing relayInpuStreamStopped streamNID=zzzz_1215672201772bff80fce</info>
+<info time=1215672249516>DeleteMediaRoomRequestHandler:getResponse</info>
+<info time=1215672249952>DeleteMediaRoomRequestHandler@destrelayuser-miyertest/zzzz_1215672193507c7999c0 Checking room found #streams=1</info>
+<info time=1215672249953>DeleteMediaRoomRequestHandler@destrelayuser-miyertest/zzzz_12156721960617a301451 Checking if stream stopped</info>
+<info time=1215672250031>DeleteMediaRoomRequestHandler: All streams stopped after tries=0</info>
+<info time=1215672250056>DeleteMediaRoomRequestHandler@destrelayuser-miyertest/zzzz_12156721960617a301451 > UNWATCH Message to DestStreamAgent@destrelayuser-miyertest</info>
+<info time=1215672250056>XMPP::sendRoomMessage roomNID=zzzz_1215672193507c7999c0 toJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672250056>DeleteMediaRoomRequestHandler:getResponse: done cleanRoom</info>
+<info time=1215672250414>DeleteMediaRoomRequestHandler@srcrelayuser-miyertest/zzzz_1215672199575344a75db Checking room found #streams=1</info>
+<info time=1215672250414>DeleteMediaRoomRequestHandler@srcrelayuser-miyertest/zzzz_1215672201772bff80fce Checking if stream stopped</info>
+<info time=1215672250491>DeleteMediaRoomRequestHandler: All streams stopped after tries=0</info>
+<info time=1215672250515>DeleteMediaRoomRequestHandler@srcrelayuser-miyertest/zzzz_1215672201772bff80fce > UNWATCH Message to DestStreamAgent@srcrelayuser-miyertest</info>
+<info time=1215672250516>XMPP::sendRoomMessage roomNID=zzzz_1215672199575344a75db toJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672250516>DeleteMediaRoomRequestHandler:getResponse: done cleanRoom</info>
+<info time=1215672252431>DeleteMediaRoomRequestHandler:getResponse: done deleteElement</info>
+<info time=1215672252431>XMPP::deleteRoom roomNID=zzzz_1215672184061bdd4c12d</info>
+<info time=1215672252453>DeleteMediaRoomRequestHandler@roomuser-miyertest/zzzz_1215672184061bdd4c12d Deleted</info>
+<info time=1215672252502>DeleteMediaRoomRequestHandler:getResponse</info>
+<info time=1215672253931>DeleteMediaRoomRequestHandler:getResponse: done deleteElement</info>
+<info time=1215672253931>XMPP::deleteRoom roomNID=zzzz_1215672193507c7999c0</info>
+<info time=1215672253972>DeleteMediaRoomRequestHandler@destrelayuser-miyertest/zzzz_1215672193507c7999c0 Deleted</info>
+<info time=1215672253991>destrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Removing streamNID from watchList streamNID=zzzz_12156721960617a301451</info>
+<info time=1215672254431>DeleteMediaRoomRequestHandler:getResponse: done deleteElement</info>
+<info time=1215672254431>XMPP::deleteRoom roomNID=zzzz_1215672199575344a75db</info>
+<info time=1215672254471>DeleteMediaRoomRequestHandler@srcrelayuser-miyertest/zzzz_1215672199575344a75db Deleted</info>
+<info time=1215672254491>srcrelayuser-miyertest@192.168.1.209/callcenter:DestStreamAgent: Removing streamNID from watchList streamNID=zzzz_1215672201772bff80fce</info>
+<info time=1215672257461>ServiceClient: isNotOwner leaveRoom=roomuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672257461>XMPP::leaveRoom roomNID=zzzz_1215672184061bdd4c12d</info>
+<info time=1215672259161>ServiceClient: isNotOwner leaveRoom=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672259161>XMPP::leaveRoom roomNID=zzzz_1215672193507c7999c0</info>
+<info time=1215672259731>ServiceClient: isNotOwner leaveRoom=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672259731>XMPP::leaveRoom roomNID=zzzz_1215672199575344a75db</info>
+<info time=1215672273843>XMPPEventHandlerThread:: exiting</info>
+<info time=1215672274001>Logout userJID=roomuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672274002>XMPPEventHandlerThread:: exiting</info>
+<info time=1215672274161>Logout userJID=deviceuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672274162>XMPPEventHandlerThread:: exiting</info>
+<info time=1215672274321>Logout userJID=srcrelayuser-miyertest@192.168.1.209/callcenter</info>
+<info time=1215672274321>XMPPEventHandlerThread:: exiting</info>
+<info time=1215672274481>Logout userJID=destrelayuser-miyertest@192.168.1.209/callcenter</info>
+Done

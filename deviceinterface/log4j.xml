@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">
+    <param name="Target" value="System.out" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p - %m%n" />
+    </layout>
+  </appender>
+  
+ <appender name="syslog" class="org.apache.log4j.net.SyslogAppender">
+	<param name="Facility" value="LOCAL7"/>
+    <param name="FacilityPrinting" value="true"/>
+    <param name="SyslogHost" value="localhost"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p - %m%n" />
+    </layout>
+  </appender>
+  
+  
+  <category name="CONSOLE">
+    <priority value="debug" />
+    <appender-ref ref="console" />
+  </category>
+   
+  <category name="DAEMON">
+     <priority value="debug" />
+     <appender-ref ref="syslog" />
+  </category>
+
+  <category name="CONSOLE_DAEMON">
+     <priority value="debug" />
+     <appender-ref ref="console" />
+     <appender-ref ref="syslog" />
+  </category>
+
+      
+  <root>
+    <priority value="error" />
+    <!-- <appender-ref ref="console" /> -->
+  </root>
+  
+</log4j:configuration>

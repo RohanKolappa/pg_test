@@ -1,0 +1,134 @@
+
+Compiling v2dlibrary 
+====================
+
+Introduction
+------------
+
+This document explains how to generate 32-bit & 64-bit library files
+for v2dlib in +Microsoft Visual Studio 2008+.
+
+It also compiles a sample single threaded application called rx.exe
+which makes use of the dll & lib files.
+
+Compiling for Win32 & Win64
+---------------------------
+
+Before compiling v2dlibrary under Windows make sure the Microsoft
+Visual Studio is installed with 32-bit & 64-bit compatibility.
+
+VC++ gives the option of installing x64 compiler and tools on Windows
+64-bit computers.  To install the tools, select "x64 Compilers and
+Tools" check boxes during custom installation or perform a full
+installation.
+
+When the 64-bit compilers are installed on a 64-bit Windows operating
+system, you will see Command Prompts for the various 64-bit native and
+cross compilers. To access these Command Prompts, go to Start and then
+All Programs, from the Microsoft Visual Studio 2008 menu option select
+Visual Studio Tools and then a Command Prompt.
+
+Checkout Modules from Subversion
+--------------------------------
+
+In an empty work directory checkout the following modules from
+Subversion.
+
++v2dlib+:: This contains the primary codebase for the v2dlib library.
+
+Prepare for Compilation
+-----------------------
+
+32-bit compilation 
+~~~~~~~~~~~~~~~~~~
+
+Compiling the v2dlibrary for 32 bit is straight forward.  In v2dlib
+directory there is a sub-directory called v2dlibrary, where you will find
+a VC++ solution file v2dlibrary.sln. Click this file to open in Visual Studio.
+
+In Visual Studio, under the same solution, two projects are created with
+v2dlibrary as one project and sample application project as rx.
+
+First build v2dlibrary to generate +v2dlibrary.dll+ & +v2dlibrary.lib+
+files in +Release/Debug+ directory.
+
+After v2dlibrary.dll & v2dlibrary.lib files are generated
+successfully, then you can build rx project to generate +rx.exe+ in
+same +Release/Debug+ folder where v2dlibrary.dll & v2dlibrary.lib are
+generated.
+
+64-bit compilation
+~~~~~~~~~~~~~~~~~~ 
+
+For 64-bit compilation the VC++ project settings are already
+available. For any reason if the settings are missing you can
+configure to compile for 64 bit.
+
+The steps are as follows: 
+
+1. Open the C++ project that you want to configure to target 64-bit platform.
+2. Open the Property Page for that project.
+3. Click Configuration Manager to open the Configuration Manager
+Dialog Box.
+4. Click Active solution platform list and then select <New..> Option
+to open New Solution Platform Dialog Box.
+5. Click the Type or select the new platform drop-down arrow, and then
+select a 64-bit platform. If you don't find 64-bit platform you can
+type x64.
+
+6. Click Ok. 
+
+The platform you selected in the preceding step will appear under
+Active Solution Platform in the configuration manger dialog box.
+
+To cross verify, the Target machine is now set to MachineX64 (/MACHINE: x64)
+
+ 
+The 64-bit configuration is now setup. You can go ahead with the
+building 64-bit versions of the library.
+
+First build v2dlibrary project which generates the v2dlibrary.lib &
+v2dlibrary.dll in the directory structure +\v2dlibrary\x64\Release+.
+
+Then build rx project to generate a 64-bit rx.exe in the same
+directory structure +\v2dlibrary\x64\Release+.
+
+You can now switch between 32-bit or 64-bit configuration from Configure Manager.
+
+
+Verifying the 32-bit & 64-bit Executable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The 32-bit executable will run on Windows 32-bit operating system &
+64-bit operating system.  Of course the 64-bit executable only runs on
+64-bit operating system. When run it on the Windows 32-bit operating
+system you may see an error: "The .exe is not a valid Win32
+application".
+
+The sample application rx.exe which make use of v2dlibrary (dll & lib)
+is to demonstrate establishing network connection, collecting packets
+from network, parsing the network packets into frames, and decoding
+the frame packets. It does not render the decoded frames onto a
+display. It ignores all the decoded frames except the 25th frame which
+is dumped into an image file called image.bmp in the current
+directory. This file can be used to verify the correctness of the
+application.
+
+
+Usage for rx.exe
+~~~~~~~~~~~~~~~~
+
+The rx.exe takes at least one parameter i.e. host address -s.
+
+  rx.exe -s 127.0.0.0 -p 6060 
+
+for detailed usage run +rx.exe -h+
+
+
+
+
+
+
+ 
+
+

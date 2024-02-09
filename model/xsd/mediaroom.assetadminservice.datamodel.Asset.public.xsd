@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AssetPrivateKey" type="AssetPrivateKeyType" />
+  <xs:complexType name="AssetPrivateKeyType">
+    <xs:sequence>
+      <xs:element name="KeyScheme" type="xs:string" />
+      <xs:element name="KeyData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ObserverInfoType">
+		<xs:sequence>
+			<xs:element name="Observer"  maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UserNID" type="xs:string" />
+						<xs:element name="ResourceNID" type="xs:string" />
+					</xs:sequence>
+					<xs:attribute name="xAuth" type="xs:boolean" />
+					<xs:attribute name="monitor" type="xs:boolean" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	  <xs:simpleType name="DeviceTypeEnums">
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="V2D-Tx-Device" />
+            <xs:enumeration value="V2D-Rx-Device" />
+            <xs:enumeration value="V2D-XP200-Device" />
+            <xs:enumeration value="V2D-XP200S-Device" />
+            <xs:enumeration value="V2D-XP220-Device" />
+            <xs:enumeration value="V2D-XP220S-Device" />
+            <xs:enumeration value="V2D-XP100-Device" />
+            <xs:enumeration value="V2D-XPi-Device" />
+            <xs:enumeration value="DMS-120-Device" />
+            <xs:enumeration value="DMS-25-Device" />
+            <xs:enumeration value="DMS-100-Device" />
+            <xs:enumeration value="DMS-200-Device" />
+            <xs:enumeration value="DMS-1000-Device" />
+            <xs:enumeration value="DMS-1200-Device" />
+            <xs:enumeration value="DMS-1500-Device" />
+            <xs:enumeration value="DMS-1600-Device" />
+            <xs:enumeration value="DMS-1700-Device" />
+            <xs:enumeration value="DMS-25-Device" />
+            <xs:enumeration value="MS-25-Device" />
+            <xs:enumeration value="MS-Device" />
+            <xs:enumeration value="IPVSClient-Device" />
+            <xs:enumeration value="WebClient-Device" />
+            <xs:enumeration value="MPEGTS-Tx-Device" />
+            <xs:enumeration value="MPEGTS-Rx-Device" />
+            <xs:enumeration value="RTP-Tx-Device" />
+            <xs:enumeration value="RTP-Rx-Device" />
+            <xs:enumeration value="UDP-Tx-Device" />
+            <xs:enumeration value="UDP-Rx-Device" />
+            <xs:enumeration value="Proxy-Device" />
+            <!-- New device #45682 -->
+            <xs:enumeration value="MNA-110-ENCDP-Device" />
+            <xs:enumeration value="MNA-110-ENCDVI-Device" />
+            <xs:enumeration value="MNA-110-ENCHDSDI-Device" />
+            <xs:enumeration value="MNA-120-DECDVIAudio-Device" />
+            <xs:enumeration value="MNA-120-ENCANAAudio-Device" />
+            <xs:enumeration value="MNA-120-ENCDPAudio-Device" />
+            <xs:enumeration value="MNA-120-ENCDVIAudio-Device" />
+            <xs:enumeration value="MNA-120-ENCHDSDIAudio-Device" />
+            <xs:enumeration value="ANY" />
+          </xs:restriction>
+        </xs:simpleType>
+</xs:schema>

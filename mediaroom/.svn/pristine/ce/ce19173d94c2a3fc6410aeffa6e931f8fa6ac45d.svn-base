@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="xml" indent="yes" encoding="UTF-8" />
+	<xsl:template match="/">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="SetPortDisplayConfig">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="Canvas">
+		<XP200DisplayConfig>
+			<DisplayType>
+				<xsl:if test="Background[@enable='true'] and Window[@enable='true']">
+					<xsl:text>Overlay</xsl:text>
+				</xsl:if>
+				<xsl:if test="Background[@enable='false'] and Window[@enable='true']">
+					<xsl:text>Remote</xsl:text>
+				</xsl:if>
+				<xsl:if test="Background[@enable='true'] and Window[@enable='false']">
+					<xsl:text>Local</xsl:text>
+				</xsl:if>
+				<xsl:if test="Background[@enable='false'] and Window[@enable='false']">
+					<xsl:text>Error</xsl:text>
+				</xsl:if>
+			</DisplayType>
+
+			<OverlayType>Manual</OverlayType>
+
+			<Override>None</Override>
+			
+			<KeepAspect>
+				<xsl:if
+					test="Window/Geometry[@aspect='SourceHeight' or @aspect='SourceWidth' or @aspect='Auto']">
+					<xsl:text>true</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@aspect='None']">
+					<xsl:text>false</xsl:text>
+				</xsl:if>
+			</KeepAspect>
+
+			<Aspect>
+				<xsl:if test="Window/Geometry[@aspect='SourceHeight']">
+					<xsl:text>Vertical</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@aspect='SourceWidth']">
+					<xsl:text>Horizontal</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@aspect='Auto']">
+					<xsl:text>Auto</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@aspect='None']">
+					<xsl:text>None</xsl:text>
+				</xsl:if>
+			</Aspect>
+
+			<HorizontalTransformation>
+				<xsl:if test="Window/Geometry[contains(@hres,'px')]">
+					<xsl:text>Resolution</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[contains(@hres,'%')]">
+					<xsl:text>Scale/Source</xsl:text>
+				</xsl:if>
+			</HorizontalTransformation>
+			<HorizontalResolution>
+				<xsl:if test="Window/Geometry[contains(@hres,'px')]">
+					<xsl:value-of
+						select="substring-before(string(Window/Geometry/@hres),'px')" />
+				</xsl:if>
+			</HorizontalResolution>
+			<HorizontalScale>
+				<xsl:if test="Window/Geometry[contains(@hres,'%')]">
+					<xsl:value-of select="substring-before(Window/Geometry/@hres,'%')" />
+				</xsl:if>
+			</HorizontalScale>
+
+			<VerticalTransformation>
+				<xsl:if test="Window/Geometry[contains(@vres,'px')]">
+					<xsl:text>Resolution</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[contains(@vres,'%')]">
+					<xsl:text>Scale/Source</xsl:text>
+				</xsl:if>
+			</VerticalTransformation>
+			<VerticalResolution>
+				<xsl:if test="Window/Geometry[contains(@vres,'px')]">
+					<xsl:value-of
+						select="substring-before(string(Window/Geometry/@vres),'px')" />
+				</xsl:if>
+			</VerticalResolution>
+			<VerticalScale>
+				<xsl:if test="Window/Geometry[contains(@vres,'%')]">
+					<xsl:value-of select="substring-before(Window/Geometry/@vres,'%')" />
+				</xsl:if>
+			</VerticalScale>
+
+			<HorizontalPosition>
+				<xsl:if
+					test="Window/Geometry[@hpos='ALIGNLEFT' or @hpos='ALIGNMIDDLE' or @hpos='ALIGNRIGHT']">
+					<xsl:text>Location</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[contains(@hpos,'px')]">
+					<xsl:text>Offset</xsl:text>
+				</xsl:if>
+				
+			</HorizontalPosition>
+			<HorizontalLocation>
+				<xsl:if test="Window/Geometry[@hpos='ALIGNLEFT'or contains(@hpos,'px')]">
+					<xsl:text>Left</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@hpos='ALIGNMIDDLE']">
+					<xsl:text>Center</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@hpos='ALIGNRIGHT']">
+					<xsl:text>Right</xsl:text>
+				</xsl:if>
+			</HorizontalLocation>
+
+			<VerticalPosition>
+				<xsl:if
+					test="Window/Geometry[@vpos='ALIGNTOP' or @vpos='ALIGNMIDDLE' or @vpos='ALIGNBOTTOM']">
+					<xsl:text>Location</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[contains(@vpos,'px')]">
+					<xsl:text>Offset</xsl:text>
+				</xsl:if>
+			</VerticalPosition>
+			<VerticalLocation>
+				<xsl:if test="Window/Geometry[@vpos='ALIGNTOP' or contains(@vpos,'px')]">
+					<xsl:text>Top</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@vpos='ALIGNMIDDLE']">
+					<xsl:text>Middle</xsl:text>
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@vpos='ALIGNBOTTOM']">
+					<xsl:text>Bottom</xsl:text>
+				</xsl:if>
+			</VerticalLocation>
+
+			<HorizontalOffset>
+				<xsl:if test="Window/Geometry[contains(@hpos,'px')]">
+					<xsl:value-of select="substring-before(Window/Geometry/@hpos,'px')" />
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@hpos='ALIGNLEFT' or @hpos='ALIGNMIDDLE' or @hpos='ALIGNRIGHT']">
+					<xsl:text>0</xsl:text>
+				</xsl:if>
+			</HorizontalOffset>
+			<VerticalOffset>
+				<xsl:if test="Window/Geometry[contains(@vpos,'px')]">
+					<xsl:value-of select="substring-before(Window/Geometry/@vpos,'px')" />
+				</xsl:if>
+				<xsl:if test="Window/Geometry[@vpos='ALIGNTOP' or @vpos='ALIGNMIDDLE' or @vpos='ALIGNBOTTOM']">
+					<xsl:text>0</xsl:text>
+				</xsl:if>
+			</VerticalOffset>
+
+			<Transparency>
+				<xsl:if test="Window/Geometry[contains(@transparency,'%')]">
+					<xsl:value-of select="substring-before(Window/Geometry/@transparency,'%')" />
+				</xsl:if>
+			</Transparency>
+		</XP200DisplayConfig>
+	</xsl:template>
+</xsl:stylesheet>

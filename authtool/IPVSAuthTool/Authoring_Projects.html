@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Projects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="pc.css" rel="stylesheet" type="text/css">
+<script language="javascript" SRC="xmldom.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+var projectsFolder = "C:\\IP Video Systems\\IPVSAuthTool\\Projects";
+function loadProjects() {
+  var str = "";
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  if(!fso.FolderExists(projectsFolder.toString()))
+    return;
+  var f = fso.GetFolder(projectsFolder.toString());
+  var e = new Enumerator(f.SubFolders);
+  i = 0;
+  for(;!e.atEnd();e.moveNext()) {
+    if(i%2 == 0) {
+	    cls = "class=row6";
+	  }
+	  else {
+	    cls = "class=row5";
+	  }
+    project = parseXML(projectsFolder + "\\" + e.item().Name + "\\Project.xml");
+    pname = project.getElements("NAME")[0].getText();
+    dt = project.getElements("CREATED")[0].getText();
+    lng = project.getElements("LENGTH")[0].getText();
+    hr = parseInt(lng/3600);
+    mins = parseInt(lng/60);
+    mm = mins % 60;
+    ss = lng % 60;
+    if(hr<10)
+      hr = "0" + hr;
+    if(mm<10)
+      mm = "0" + mm;
+    if(ss<10)
+      ss = "0" + ss;
+    projectLength = hr + ":" + mm + ":" + ss;
+    size = project.getElements("PSIZE")[0].getText();
+    size = Math.round((size/(1024*1024))*100)/100;
+    str += "<tr><td " + cls + "><input type='checkbox' name=\"" + pname +"\" value=\"" + pname +"\">&nbsp;<img src='Images/icon21Project.gif' align='absmiddle'>&nbsp;" + pname + "</td><td " + cls + ">" + dt + "</td><td " + cls + ">" + projectLength + "</td><td " + cls + ">" + size + "&nbsp;GB</td><td " + cls + ">&nbsp;<a href=\"Authoring_newProject.html?pname=" + pname + "\"><font color='navy'><b>Edit</b></font></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"Authoring_Burn.html?pname=" + pname + "\"><font color='navy'><b>CreateMedia</b></font></a></td></tr>";
+    i++;
+  }
+  if(i == 0) {
+    str += "<tr><td class='col6' colspan='5'>No projects to list</td></tr>";
+  }
+  document.write(str);
+  f = null;
+	e = null;
+  fso = null;
+}
+
+function parseXML(fPath) {
+  objFSO = new ActiveXObject('Scripting.FileSystemObject');
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+
+  strContents = objFSO.OpenTextFile(fPath, 1).ReadAll();
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null ) {
+    alert( "Could not parse xml data");
+    return null;
+  }
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null ) {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return null;
+  }
+  xmlDoc = null;
+  objFSO = null;
+  return root;
+}
+
+function xmlErr( e ) {
+  alert(e);
+}
+
+<!--
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+
+function deleteProjects() {
+  cint = document.frmProjects.elements.length;
+  if(cint == 0) {
+    alert("There is no Projects to delete");
+    return;
+  }
+  
+  var Rflag = false;
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  for(i=cint-1; i>=0; i--) {
+    src = document.frmProjects.elements[i];
+    if((src.type == "checkbox") && (src.checked)) {
+      path = projectsFolder + "\\" + src.value;
+      fso.DeleteFolder(path, true);
+      var oRowIndex = src.parentElement.parentElement.rowIndex;
+      document.all("tblList").deleteRow(oRowIndex);
+      Rflag = true;
+    }
+  }
+  fso = null;
+  if(!Rflag) {
+    alert("No Project has been selected to delete");
+  }
+  document.getElementById("checkAll").checked = false;
+}
+
+function toggleSelect(obj) {
+  cint = document.frmProjects.elements.length;
+  if(cint == 0) {
+    alert("There are no projects");
+    obj.checked = false;
+    return;
+  }
+
+  if(obj.name == "checkAll") {
+    chkBool = obj.checked;
+    document.getElementById("checkNone").checked = false;
+  }
+  else if((obj.name == "checkNone") && (obj.checked)) {
+    chkBool = false;
+    document.getElementById("checkAll").checked = false;
+  }
+  for(i=0; i<cint; i++) {
+    if(document.frmProjects.elements[i].type == "checkbox") {
+      document.frmProjects.elements[i].checked = chkBool;
+    }
+  }
+}
+//-->
+</script>
+</head>
+
+<body class="body">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+	<tr>
+    	<td class="H1">
+			<div>
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img src="Images/logoClientHeader.gif" align="absmiddle"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50">IPVS
+			  Authoring Station                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </div>
+				<div style="text-align:right;padding-top:4px"><span class="t5white"><a href="Authoring_Home.html">Home</a> | <a href="Authoring_Settings.html">Settings</a> | <a href="Authoring_Projects.html">Projects</a> | <a href="Authoring_Media.html">Manage
+				      Media</a> | <a href="Authoring_Burn.html">Create Media</a> | <a href="Authoring_about.html">About</a>&nbsp;&nbsp;</span></div>
+  			</div>
+		</td>	
+	</tr>
+  	<tr>
+    	<td align="left" valign="top">
+			<span class="t1bmid">Projects</span>
+			<hr width="400">
+			<br>
+		</td>
+	</tr>
+	<tr>
+		<td> <!-- TOP FORM SECTION -->
+		</td>
+	</tr>
+	<tr>
+		<td height="100%" align="center"> <!-- BODY SECTION -->
+		
+			<table height="100%" width="800" cellpadding="0" cellspacing="0" border="0"> <!-- container for projects table -->
+				<tr>
+					<td align="center">
+						<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="border:solid 1px #23417d;filter:shadow(color:gray,strength:30, direction:135);">
+						  <tr>
+							<td height="100%" align="left" valign="top" class="H4">Projects</td>
+						  </tr>
+						  <tr>
+							<td align="left" valign="top" bgcolor="#ebeff5">
+              <form name="frmProjects">
+							  <div style="width:100%;height:100%;overflow:auto">
+								<table id="tblList" width="100%" border="0" cellpadding="0" cellspacing="0">
+								  <tr>
+									<td class="col3" width="50%">Project Name</td>
+									<td class="col3">Created</td>
+									<td class="col3">Total Play Time</td>
+									<td class="col3">Size</td>
+                  <td class="col3">Action</td>
+								  </tr>
+                  <script language="javascript">
+                  loadProjects();
+                  </script> 
+								</table>
+							  </div>
+              </form>
+							</td>
+						  </tr>
+						  <tr>
+							<td valign="top" class="Col1">
+							   <div style="height:30px; padding: 2px">
+								 <div style="float:left">
+									<span class="T5">Select:&nbsp;&nbsp;<input type="checkbox" name="checkAll" value="checkAll" onclick="toggleSelect(this)">All&nbsp;&nbsp;<input type="checkbox" name="checkNone" value="checkNone" onclick="toggleSelect(this)">None</span></div> 
+								<div style="text-align:right;padding-right:50px;">
+								  <button onClick="MM_goToURL('parent','Authoring_newProject.html');return document.MM_returnValue">New</button>&nbsp;&nbsp;&nbsp;
+	  							  <button onClick="deleteProjects()">Remove</button>&nbsp;&nbsp;&nbsp;
+								  <!-- <button>Edit</button>&nbsp;&nbsp;&nbsp; -->
+								  <!-- <button>&nbsp;&nbsp;Create Media&nbsp;&nbsp;</button> -->
+								</div> 
+							  </div>  
+							</td>
+						  </tr>
+						</table>
+					
+					</td>
+				</tr>
+			</table>
+		
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;
+
+		</td>
+  	</tr> 
+  	<tr>
+    	<td class="footer">&nbsp;</td>
+  	</tr>
+</table>
+</body>
+</html>

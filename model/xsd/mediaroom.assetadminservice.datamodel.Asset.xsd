@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Resource.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Asset.public.xsd" />
+  <xs:include schemaLocation="mediaroom.common.datamodel.public.xsd" />
+  <xs:element name="AssetResourceList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="AssetResource" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssetResource" type="AssetResourceType" />
+  <xs:complexType name="AssetResourceType">
+    <xs:sequence>
+      <xs:element name="Contact" type="ResourceLocalContactType" />
+      <xs:element name="State" type="ResourceStateType" />
+      <xs:element minOccurs="0" name="TemplateAssetResourceNID" type="xs:string" />
+      <xs:element name="BotUser" type="BotUserType"/>
+      <xs:element name="Info" type="AssetInfoType" />
+    </xs:sequence>
+       <xs:attributeGroup ref="AutoNID" />
+       <xs:attribute name="serviceVer" type="xs:double" use="required" />
+       <xs:attribute fixed="2.1" name="Ver" type="xs:double" use="required" />
+       <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+       <xs:attribute name="Persistence">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Permanent" />
+              <xs:enumeration value="Temporary" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+  </xs:complexType>
+   <xs:complexType name="BotUserType">
+       <xs:sequence>          
+       </xs:sequence>
+       <xs:attribute name="enable" type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name="ResourceLocalContactType">
+	<xs:all>
+		<xs:element name="OwnerUserJID" type="XMPPFullJID" />
+		<xs:element name="Presence" type="XMPPPresenceEnumType" />
+		<xs:element name="UserList" type="UserListType" />
+	</xs:all>
+  </xs:complexType>
+  <xs:complexType name="AssetInfoType">
+    <xs:all>
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="Type" type="DeviceTypeEnums"/>      
+      <xs:element ref="AssetPrivateKey" />
+      <xs:element ref="AssetPrivateData" />
+      <xs:element name='ApiKeyTable' type="ApiKeyTableType"/>	
+      <xs:element name="FeatureList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Feature" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="Name" type="xs:string"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+   <xs:complexType name="UserListType">
+  	<xs:sequence>
+   	  <xs:element name="User" minOccurs="0" maxOccurs="unbounded">
+   	  	<xs:complexType>
+  			<xs:attribute name="appName" type="AppNameEnumType" />
+  			<xs:attribute name="jid" type="xs:string" />
+  		</xs:complexType>
+  	  </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="AppNameEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="IPVSClient" />
+      <xs:enumeration value="IPVSAdmin" />
+      <xs:enumeration value="OdysseyClient" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="AssetPrivateData" type="xs:anyType" />
+  <xs:complexType name="AssetOOBInfoType">
+    <xs:sequence>
+      <xs:element name="NetworkPortTable" type="NetworkPortTableType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NetworkPortTableType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="NetworkPort" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NetworkPort" type="NetworkPortType" />
+  <xs:complexType name="NetworkPortType">
+    <xs:attribute name="PortID" type="xs:integer" />
+    <xs:attribute name="IsPrimary" type="xs:boolean" />
+    <xs:attribute name="IPAddress" type="xs:string" />
+    <xs:attribute name="DNSName" type="xs:string" />
+  </xs:complexType>
+</xs:schema>

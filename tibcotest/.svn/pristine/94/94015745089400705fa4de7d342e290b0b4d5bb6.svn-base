@@ -1,0 +1,20 @@
+<query>
+   <![CDATA["
+declare function local:getGroupFilesIDSFromDirNID  ( $mediaDirNID as xs:string )
+as element()* 
+{
+  let $unique_group_ids := distinct-values ( 
+  for $b in  index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/.. 
+  where $b[  Info/Properties[ParentMediaDirNID=$mediaDirNID ]   
+  and not  ( Info/MediaStoreFileInfo/MediaGroupID=''  )   ]  
+  return $b/Info/MediaStoreFileInfo/MediaGroupID )
+
+let $MediaGroupIDList :=  for $b in $unique_group_ids return <MediaGroupID>{$b}</MediaGroupID>
+return <MediaGroupIDList>{  $MediaGroupIDList } </MediaGroupIDList>
+};
+ 
+declare variable $parentMediaDirNID as xs:string :='_PARENTMEDIADIRNID_';
+declare variable $mediaGroupIDS as element()* := local:getGroupFilesIDSFromDirNID ( $parentMediaDirNID ) ;
+
+"]]>
+</query>

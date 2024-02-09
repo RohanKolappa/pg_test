@@ -1,0 +1,70 @@
+  <!-- 
+		This is used for define a AOP configuration. 
+		The AOP configuration can be used to monitor or relace an existing function of a class with a your customized function 'before', 'after' or 'around' excution of the existing function.  
+
+		'aopconfig':
+			aopfile:one/multiple files (separate by ',') including customized functions or specified log functions;
+					the file can be placed anywhere with a given name(say aopPatchs.js) i.e.:
+					project root           ~~~  "aopPatchs.js"
+					JSXAPPS\IPVS_ClientUI  ~~~  "JSXAPPS/IPVS_ClientUI/aopPatchs.js"
+					JSXAPPS\IPVS-Common\js ~~~ 	"JSXAPPS/JSXAPPS/IPVS-Common/js/aopPatchs.js"
+
+		'tgtclass':
+			name:a given class name with package;
+			
+		'tgtmethod':
+			name:name of a mthod which plans to be AOP;
+  		    aoptype:'before','after' and 'around';
+			aopfnc:a new function which will be excuted while AOP condition meet;
+			aopenable:true, add this as a pointcut
+					  false, remove this pointcut
+			pcname:name of a pointcut for AOP;	
+
+		 A sample configuration see the following. 
+		 (
+		  [1]Alt+Ctrl+M get a monitor window;[2] click Alt+Ctrl+Shift+A; [3]login WebClient; 
+		  [4]Change 'enable' values; [5]repeat 2nd step [6]click pagenation list 'Next' [6]Observe monitor 
+		  Don't set all 'around' true at the same time.
+		 )
+  
+  //Working samples to com.ipvs.gui.PortButtonPanel
+  <aopconfig aopfile="aop/aopPatchFnc-01.js,aop/aopPatchFnc-02.js">
+		<tgtclass name="com.ipvs.gui.PortButtonPanel"  >
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="around" aopfnc="testPortButtonPanelAroundFnc" enable="true" pcname="mypc01" />
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="before" aopfnc="testPortButtonPanelBeforeFnc" enable="false" pcname="mypc02" />
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="after" aopfnc="testPortButtonPanelAfterFnc" enable="false" pcname="mypc03" />
+		</tgtclass>
+		<tgtclass name="com.ipvs.gui.BlockButtonPanel"  >
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="around" aopfnc="testBlockButtonPanelAroundFnc" enable="false" pcname="yourpc01" />
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="before" aopfnc="testBlockButtonPanelBeforeFnc" enable="false" pcname="yourpc02" />
+			<tgtmethod name="getButtonFieldsTemplateXML" aoptype="after" aopfnc="testBlockButtonPanelAfterFnc" enable="false" pcname="yourpc03" />
+		</tgtclass>
+		<tgtclass name="jsx3.xml.XslDocument"  >
+			<tgtmethod name="transform" aoptype="around" aopfnc="testGiTransformAroundFnc" enable="false" pcname="GIpc01" />
+			<tgtmethod name="transform" aoptype="before" aopfnc="testGiTransformBeforeFnc" enable="false" pcname="GIpc02" />
+			<tgtmethod name="transform" aoptype="after" aopfnc="testGiTransformAfterFnc" enable="false" pcname="GIpc03" />
+		</tgtclass>	
+   </aopconfig>
+   -->
+
+   <!-- Working sample of get player real time size; using enable='true'/'false' to add/remove this PC -->
+   <!-- Candidate target functions in this class can be: setFps, setScaleToWindow,setNativeSize,toggleDisplay,	
+		getNativeSize,remoteKBMSState, mute, skipForward,catchUp,skipBackward,resume,pause,stop,start,load,destroy -->
+   <aopconfig aopfile="aop/aopPatchFnc.js">
+		<!-- tracking player size after clicking 'fullscreen' -->
+		<tgtclass name="com.ipvs.gui.MediaPlayerIE"  >
+			<tgtmethod name="toggleDisplay" aoptype="after" aopfnc="getPlayerSize" enable="false" pcname="getPlySize1" />
+		</tgtclass>
+		<!-- tracking player size after clicking 'setFps' -->
+		<tgtclass name="com.ipvs.gui.MediaPlayerIE"  >
+			<tgtmethod name="setFps" aoptype="after" aopfnc="getPlayerSize" enable="false" pcname="getPlySize2" />
+		</tgtclass>	
+		<!-- tracking player size after clicking '1:1' -->
+		<tgtclass name="com.ipvs.gui.MediaPlayerIE"  >
+			<tgtmethod name="setNativeSize" aoptype="after" aopfnc="getPlayerSize" enable="false" pcname="getPlySize3" />
+		</tgtclass>	
+		<!-- tracking functions who causes jsx3.gui.Block.paint() -->
+		<tgtclass name="jsx3.gui.Block"  >
+			<tgtmethod name="paint" aoptype="before" aopfnc="getBlockPaintCallerFnc" enable="true" pcname="getCallerFnc" />
+		</tgtclass>	
+   </aopconfig>

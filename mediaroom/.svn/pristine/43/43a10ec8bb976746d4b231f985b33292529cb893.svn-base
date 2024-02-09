@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="mediaroom">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="mediaroom.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="3rdpartylib/commons-beanutils.jar"/>
+        <pathelement location="3rdpartylib/commons-collections-3.2.jar"/>
+        <pathelement location="3rdpartylib/commons-lang-2.3.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-1.1.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-adapters-1.1.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-api-1.1.jar"/>
+        <pathelement location="3rdpartylib/smack.jar"/>
+        <pathelement location="3rdpartylib/smackx.jar"/>
+        <pathelement location="3rdpartylib/su-smack-latest.jar"/>
+        <pathelement location="3rdpartylib/jaxen-core.jar"/>
+        <pathelement location="3rdpartylib/jaxen-jdom.jar"/>
+        <pathelement location="3rdpartylib/jdom.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="3rdpartylib" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project,build-release" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="mediaroom.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="3rdpartylib"/>
+            <classpath refid="mediaroom.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+	<target name="build-release" description="ocpinterface.jar">
+	    <mkdir dir="dist"/>
+	    <jar destfile="dist/ocpinterface.jar" manifest="src/OCPINTERFACE.MF">
+	        <zipfileset dir="bin" includes="**/utils/*.class" />
+		    	<zipfileset dir="bin" includes="**/policyadminservice/utils/XMLUtils.class" />
+	    		<zipfileset dir="bin" includes="**/common/MRRequestI.class" />
+	        <zipfileset dir="bin" includes="**/MRLog.class" />
+	        <zipfileset dir="bin" includes="**/MRDB.class" />
+	        <zipfileset dir="bin" includes="**/MRXMLUtils.class" />
+	        <zipfileset dir="bin" includes="**/MRException*.class" />
+	        <zipfileset dir="bin" includes="**/ipvs_stxs_interface.xsd" />
+    			<zipfileset dir="bin" includes="**/ocp/xml/*.xml" />
+	    </jar>
+	</target>
+</project>

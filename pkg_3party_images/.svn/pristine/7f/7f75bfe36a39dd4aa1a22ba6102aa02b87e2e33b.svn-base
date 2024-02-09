@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="javalibs" version="1.0.0">
+	<cs:artifacts>
+		<cs:private name="lib-internal">
+			<!-- if left empty, buckminster picks all jars in the folder, but currently we want none of them -->
+			<cs:path path=".project" />
+		</cs:private>
+	</cs:artifacts>
+	<cs:actions>
+		<cs:public name="lib.zip" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFileId" value="buckminster.pdetasks" />
+				<cs:property key="targets" value="create.zip" />
+			</cs:actorProperties>
+			<cs:prerequisites alias="action.requirements">
+				<cs:attribute name="lib-internal" />
+			</cs:prerequisites>
+			<cs:products alias="action.output">
+				<cs:path path="pkg/lib.zip" />
+			</cs:products>
+		</cs:public>
+		<cs:public name="lib" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFileId" value="buckminster.pdetasks" />
+				<cs:property key="targets" value="unzip" />
+			</cs:actorProperties>
+			<cs:prerequisites alias="action.requirements">
+				<cs:attribute name="lib.zip" />
+			</cs:prerequisites>
+			<cs:products alias="action.output">
+				<cs:path path="lib/" />
+			</cs:products>
+		</cs:public>
+	</cs:actions>
+</cs:cspec>

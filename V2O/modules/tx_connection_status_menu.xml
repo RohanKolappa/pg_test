@@ -1,0 +1,217 @@
+<Menu>
+
+   <Type>status</Type>
+   <Title>TxConnectionStatus</Title>
+   <Description>Encoder Connection Status</Description>
+   <Access>tx_connection_status</Access>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+      <Item>
+        <Name>client</Name>
+        <Type>string</Type>
+        <Label>Client</Label>
+        <Help>IP address of connected client</Help>
+        <FieldLength>32</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>status</Name>
+        <Type>string</Type>
+        <Label>Status</Label>
+        <Help>Connection Status</Help>
+        <FieldLength>32</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>lut</Name>
+        <Type>string</Type>
+        <Label>LUT</Label>
+        <Help>LUT String</Help>
+        <FieldLength>40</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>max_bandwidth</Name>
+        <Type>string</Type>
+        <Label>Max BW</Label>
+        <Help>Maximum Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>interface</Name>
+        <Type>string</Type>
+        <Label>Interface</Label>
+        <Help>Interface</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Video BW</Label>
+        <Help>Video Bandwidth</Help>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Audio BW</Label>
+        <Help>Video Bandwidth</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>video_bytes</Name>
+        <Type>unsigned_long</Type>
+        <SubType>CliOnly</SubType>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Video Bytes</Label>
+        <Help>Video Bytes</Help>
+        <FieldLength>24</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>audio_bytes</Name>
+        <Type>unsigned_long</Type>
+        <SubType>CliOnly</SubType>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Audio Bytes</Label>
+        <Help>Audio Bytes</Help>
+        <FieldLength>24</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>vertical_frequency</Name>
+        <Type>float</Type>
+        <Label>Vert. Freq.</Label>
+        <Help>Vertical Frequency</Help>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>horizontal_frequency</Name>
+        <Type>float</Type>
+        <Label>Horiz. Freq.</Label>
+        <Help>Horizontal Frequency</Help>
+        <Align>follow</Align>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>horizontal_lines</Name>
+        <Type>integer</Type>
+        <Label>Horiz. Lines</Label>
+        <Help>Horizontal Lines</Help>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>stereo</Name>
+        <Type>boolean</Type>
+        <Source>truth</Source>
+        <Label>Stereo</Label>
+        <Help>Is Stereo?</Help>
+        <Align>follow</Align>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>frames</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Frames</Label>
+        <Help>Number Of Frames</Help>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>slices</Name>
+        <Type>unsigned_integer</Type>
+        <Units>number</Units>
+        <Source>counter</Source>
+        <Label>Slices</Label>
+        <Help>Number Of Slices</Help>
+        <Align>follow</Align>
+        <FieldLength>12</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>frame_rate</Name>
+        <Type>float</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Frame Rate</Label>
+        <Help>Current Frame Rate</Help>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>slice_rate</Name>
+        <Type>float</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Slice Rate</Label>
+        <Help>Current Slice Rate</Help>
+        <Align>follow</Align>
+        <FieldLength>8</FieldLength>
+      </Item>
+
+	  <Item>
+	    <Name>video_output</Name>
+        <Type>boolean</Type>
+        <Source>configuration</Source>
+	    <Label>Local Video Output</Label>
+	    <Help>Video output for loopback port</Help>
+	    <FieldLength>7</FieldLength>
+      </Item>
+      
+      <Item>
+        <Name>reverse_audio_bandwidth</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Rev Audio BW</Label>
+        <Help>Reverse Audio Bandwidth</Help>
+        <Align>follow</Align>
+        <FieldLength>11</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>reverse_audio_bytes</Name>
+        <Type>unsigned_long</Type>
+        <SubType>CliOnly</SubType>
+        <Units>bytes</Units>
+        <Source>counter</Source>
+        <Label>Reverse Audio Bytes</Label>
+        <Help>Reverse Audio Bytes</Help>
+        <FieldLength>24</FieldLength>
+      </Item>
+      
+      <Item>
+        <Name>compression_line_1</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Compression</Label>
+        <Help>Compression</Help>
+        <FieldLength>34</FieldLength>
+      </Item>
+
+      <Item>
+        <Name>compression_line_2</Name>
+        <Type>string</Type>
+        <SubType>MenuOnly</SubType>
+        <Label>Compression</Label>
+        <Help>Compression</Help>
+        <FieldLength>34</FieldLength>
+      </Item>
+
+   </Items>
+</Menu>

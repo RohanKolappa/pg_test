@@ -1,0 +1,159 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+DOXYTAGS-FILE		:=	.jbs.doxytags
+
+target-docdir		:=	$(strip $(target-docdir))
+target-doxydir		:=	$(strip $(target-doxydir))
+target-doxyimg		:=	$(strip $(target-doxyimg))
+
+#ifeq "$(target-docdir)" ""
+#target-docdir		:=	Doc
+#endif
+
+#ifeq "$(target-doxydir)" ""
+#target-doxydir		:=	Classes
+#endif
+
+ifeq "$(target-doxyimg)" ""
+target-doxyimg		:=	Images
+endif
+
+###############################################################################
+
+ifeq "$(target-docdir)" ""
+
+local-doc :
+
+$(DOXY_GEN_TAGFILE) :
+	@echo "########################################################"
+	@echo "###                  INTERNAL ERROR                  ###"
+	@echo "### DEPENDENCY NOT SETUP TO USE DOCUMENTATION AT ALL ###"
+	@echo "########################################################"
+	@exit 2
+
+else
+
+###############################################################################
+
+ifeq "$(target-doxydir)" ""
+
+local-doc :
+
+$(DOXY_GEN_TAGFILE) :
+	@echo "###########################################"
+	@echo "###           INTERNAL ERROR            ###"
+	@echo "### DEPENDENCY NOT SETUP TO USE DOXYGEN ###"
+	@echo "###########################################"
+	@exit 1
+
+else
+
+###############################################################################
+
+ifeq "$(target-type)" "none"
+
+local-doc :
+
+else
+
+mod-doc-doxydir		:=	$(target-docdir)/$(target-doxydir)
+mod-doc-noenter		:=	$(target-docdir)//$(JBS_NOENTER_FILE)
+mod-doc-doxyconf	:=	$(mod-doc-doxydir)/DoxyConf
+mod-doc-doxyconf-tmpl	:=	$(JBS_TMPL_DIR)/DoxyConf.tmpl
+
+mod-doc-needed-deps	:=	$(foreach				\
+					d,				\
+					$(target-all-deps),		\
+					$(if $($(d)-linkdir),$(d),))
+mod-doc-all-deps	:=	$(mod-doc-needed-deps)
+mod-doc-needed-deps	:=	$(filter-out				\
+					$(mod-doc-already-built),	\
+					$(mod-doc-needed-deps))
+
+mod-doc-already-built	+=	$(mod-doc-needed-deps)
+mod-doc-already-built	:=	$(sort $(mod-doc-already-built))
+
+export mod-doc-already-built
+
+DOXY_PROJECT_NAME	:=	$(target-name) Classes
+DOXY_OUTPUT_DIRECTORY	:=	$(mod-doc-doxydir)
+DOXY_INPUT		:=	$(mod-cmp-user-headers)
+DOXY_IMAGE_PATH		:=	$(target-docdir)/$(target-doxyimg)
+DOXY_TAGFILES		:=	\
+	$(foreach \
+		d, \
+		$(mod-doc-all-deps), \
+		$(call mod-path-connect,$(JBS_CUR_DIR),$(JBS_TOP_DIR),$($(d)-linkdir))/$(DOXYTAGS-FILE)_$(d)=$(call mod-path-upto,$(JBS_CUR_DIR)/$(mod-doc-doxydir)/html,$(JBS_CUR_DIR))$(call mod-path-connect,$(JBS_CUR_DIR),$(JBS_TOP_DIR),$($(d)-linkdir))/$($(d)-doxydir)/html)
+
+DOXY_GEN_TAGFILE	:=	$(DOXYTAGS-FILE)_$(target-name)
+
+DISTCLEAN-FILES		+=	$(DOXY_GEN_TAGFILE)
+DISTCLEAN-DIRS		+=	$(mod-doc-doxydir)
+
+local-doc :		$(mod-doc-needed-deps) $(DOXY_GEN_TAGFILE)
+
+$(DOXY_GEN_TAGFILE) :	$(mod-cmp-user-headers) \
+			$(mod-doc-doxydir) \
+			$(mod-doc-noenter) \
+			$(mod-doc-doxyconf)
+	@$(call mod-echo-bimsg,Generating Doxygen documentation for,$(target-name))
+	@$(JBS_DOXYGEN) $(mod-doc-doxyconf)
+	@touch $(DOXY_GEN_TAGFILE)
+
+$(mod-doc-doxydir) :
+	@mkdir -p $@
+
+$(mod-doc-noenter) :
+	@touch $@
+
+$(mod-doc-doxyconf) :	$(mod-cmp-user-headers) $(mod-doc-doxyconf-tmpl)
+	@$(call mod-echo-bimsg,Generating Doxygen configuration file for,$(target-name))
+	@sed \
+		-e 's,@PROJECT_NAME@,$(DOXY_PROJECT_NAME),' \
+		-e 's,@OUTPUT_DIRECTORY@,$(DOXY_OUTPUT_DIRECTORY),' \
+		-e 's,@INPUT@,$(DOXY_INPUT),' \
+		-e 's,@IMAGE_PATH@,$(DOXY_IMAGE_PATH),' \
+		-e 's,@TAGFILES@,$(DOXY_TAGFILES),' \
+		-e 's,@GENERATE_TAGFILE@,$(DOXY_GEN_TAGFILE),' \
+		-e 's,@JBS_HAVE_DOT@,$(JBS_HAVE_DOT),' \
+		-e 's,@PREDEFINED_DLLS@,$(target-name)_DLL= $(foreach d,$(mod-doc-needed-deps),$(d)_DLL= ),' \
+		$(mod-doc-doxyconf-tmpl) \
+		> $(mod-doc-doxyconf)
+
+.PHONY : $(mod-doc-needed-deps)
+
+$(mod-doc-needed-deps) :
+	@$(MAKE) -C $($@-linkdir) doc
+
+endif
+
+###############################################################################
+
+endif
+
+endif
+
+###############################################################################
+

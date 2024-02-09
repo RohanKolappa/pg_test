@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<project name="mediaroomextapp" default="dist">
+	<property name="src" location="src"/>
+	<property name="build"  location="build"/>
+	<property name="dist" location="dist"/>
+	<path id="mediaroomext.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="javalibs/dom4j.jar"/>
+		<pathelement location="javalibs/ipvsxmppclient.jar"/>
+		<pathelement location="javalibs/javax.servlet.jar"/>
+		<pathelement location="javalibs/jetty-all-8.1.6.v20120903.jar"/>
+		<pathelement location="javalibs/smack.jar"/>
+	</path>
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/deviceclient.jar" basedir="${build}" manifest="${src}/MANIFEST.MF"/>
+	</target>
+	<target name="compile">
+		<mkdir dir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}">
+			<src path="javalibs"/>
+			<classpath refid="mediaroomext.classpath"/>
+		</javac>
+	</target>
+	<target name="clean">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+</project>

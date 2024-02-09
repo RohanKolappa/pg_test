@@ -1,0 +1,266 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+### To be defined by the user:
+###
+### (*) for rte
+###	mod-packs-target-libs
+###	mod-packs-target-libdirs
+### ...
+
+###############################################################################
+### Internal variables:
+
+mod-packs-pack-cmd	:=	jpf_create
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+mod-packs-pack-platform	:=	win32
+endif
+
+ifeq "$(JBS_PLATFORM)" "LINUX"
+mod-packs-pack-platform	:=	linux
+endif
+
+mod-packs-base-dir	:=	$(JBS_TOP_DIR)/Packs
+mod-packs-pack-dir	:=	$(mod-packs-base-dir)/$(JBS_REL_DIR)
+
+###############################################################################
+
+mod-packs-do-init :
+	@[ -d $(mod-packs-base-dir) ] || mkdir $(mod-packs-base-dir)
+	@[ -f $(mod-packs-base-dir)/$(JBS_NOENTER_FILE) ] || touch $(mod-packs-base-dir)/$(JBS_NOENTER_FILE)
+
+###############################################################################
+
+ifeq "$(findstring bin,$(mod-packs-build-list))" "bin"
+
+mod-packs-do-bin-pack :		local-target
+	@$(call mod-echo-message,Creating BIN package for project '$(target-name)'!)
+	@$(call mod-echo-message,... creating temp directory)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+	@$(call mod-utils-make-dir,$(mod-packs-pack-dir))
+	@$(call mod-echo-message,... copying runtime files)
+	@$(call mod-utils-copy-file,$(mod-packs-bin-filenames),$(mod-packs-pack-dir))
+	@cp Makefile $(mod-packs-pack-dir)/Makefile
+	@$(call mod-echo-message,... archiving and compressing package!)
+	@( cd $(mod-packs-base-dir) && \
+	   $(mod-packs-pack-cmd) \
+		-n $(target-name) \
+		-v $(target-ver) \
+		-p $(mod-packs-pack-platform) \
+		-t bin \
+		$(JBS_REL_DIR) \
+	)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+
+else
+
+mod-packs-do-bin-pack :
+
+endif
+
+###############################################################################
+
+ifeq "$(findstring doc,$(mod-packs-build-list))" "doc"
+
+ifneq "$(mod-packs-target-docdir)" ""
+
+mod-packs-do-doc-pack :		doc
+	@$(call mod-echo-message,Creating DOC package for project '$(target-name)'!)
+	@$(call mod-echo-message,... creating temp directory)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+	@$(call mod-utils-make-dir,$(mod-packs-pack-dir))
+	@$(call mod-echo-message,... copying documentation)
+	@$(call mod-utils-copy-dir,$(mod-packs-target-docdir),$(mod-packs-pack-dir))
+	@$(call mod-echo-message,... archiving and compressing package!)
+	@( cd $(mod-packs-base-dir) && \
+	   $(mod-packs-pack-cmd) \
+		-n $(target-name) \
+		-v $(target-ver) \
+		-t doc \
+		$(JBS_REL_DIR) \
+	)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+
+else
+
+mod-packs-do-doc-pack :
+
+endif
+
+else
+
+mod-packs-do-doc-pack :
+
+endif
+
+###############################################################################
+
+ifeq "$(findstring rte,$(mod-packs-build-list))" "rte"
+
+mod-packs-do-rte-pack :		local-target
+	@$(call mod-echo-message,Creating RTE package for project '$(target-name)'!)
+	@$(call mod-echo-message,... creating temp directory)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+	@$(call mod-utils-make-dir,$(mod-packs-pack-dir))
+	@if [ -r Make.target.rte ] ; \
+	then \
+		cp Make.target.rte $(mod-packs-pack-dir)/Make.target ; \
+	else \
+		$(call mod-echo-message,... creating pseudo Make.target) ; \
+		echo "target-type     := rte" > $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-name     := $(target-name)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-maj  := $(target-ver-maj)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-med  := $(target-ver-med)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-min  := $(target-ver-min)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-deps     := $(target-deps)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-libs     := $(mod-packs-target-libs)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-libdirs  := $(mod-packs-target-libdirs)" >> $(mod-packs-pack-dir)/Make.target ; \
+	fi
+	@cp Makefile $(mod-packs-pack-dir)/Makefile
+	@$(call mod-echo-message,... copying runtime files)
+	@$(call mod-utils-copy-file,$(mod-packs-rte-filenames),$(mod-packs-pack-dir))
+	@$(call mod-echo-message,... archiving and compressing package!)
+	@( cd $(mod-packs-base-dir) && \
+	   $(mod-packs-pack-cmd) \
+		-n $(target-name) \
+		-v $(target-ver) \
+		-p $(mod-packs-pack-platform) \
+		-t rte \
+		$(JBS_REL_DIR) \
+	)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+
+else
+
+mod-packs-do-rte-pack :
+
+endif
+
+###############################################################################
+
+ifeq "$(findstring sdk,$(mod-packs-build-list))" "sdk"
+
+mod-packs-do-sdk-pack :		local-target
+	@$(call mod-echo-message,Creating SDK package for project '$(target-name)'!)
+	@$(call mod-echo-message,... creating temp directory)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+	@$(call mod-utils-make-dir,$(mod-packs-pack-dir))
+	@if [ -r Make.target.sdk ] ; \
+	then \
+		cp Make.target.sdk $(mod-packs-pack-dir)/Make.target ; \
+	else \
+		$(call mod-echo-message,... creating pseudo Make.target) ; \
+		echo "target-type     := sdk" > $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-name     := $(target-name)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-maj  := $(target-ver-maj)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-med  := $(target-ver-med)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-ver-min  := $(target-ver-min)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-sources  := $(mod-packs-target-headers)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-cxxdefs  := $(mod-packs-target-cxxdefs)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-deps     := $(target-deps)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-incldirs := $(mod-packs-target-incldirs)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-libs     := $(mod-packs-target-libs)" >> $(mod-packs-pack-dir)/Make.target ; \
+		echo "target-libdirs  := $(mod-packs-target-libdirs)" >> $(mod-packs-pack-dir)/Make.target ; \
+	fi
+	@cp Makefile $(mod-packs-pack-dir)/Makefile
+	@$(call mod-echo-message,... copying all headers)
+	@cp --parents $(mod-packs-target-headers) $(mod-packs-pack-dir)
+	@$(call mod-echo-message,... copying runtime files)
+	@$(call mod-utils-copy-file,$(mod-packs-sdk-filenames),$(mod-packs-pack-dir))
+	@for d in ` find $(mod-packs-pack-dir) -type d ` ; do if [ ! -r $${d}/Makefile ]; then touch $${d}/.jbs.noenter ; fi ; done
+	@$(call mod-echo-message,... archiving and compressing package!)
+	@( cd $(mod-packs-base-dir) && \
+	   $(mod-packs-pack-cmd) \
+		-n $(target-name) \
+		-v $(target-ver) \
+		-p $(mod-packs-pack-platform) \
+		-t sdk \
+		$(JBS_REL_DIR) \
+	)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+
+else
+
+mod-packs-do-sdk-pack :
+
+endif
+
+###############################################################################
+
+ifeq "$(findstring src,$(mod-packs-build-list))" "src"
+
+mod-packs-do-src-pack :		clean
+	@$(call mod-echo-message,Creating SRC package for project '$(target-name)'!)
+	@$(call mod-echo-message,... creating temp directory)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+	@$(call mod-utils-make-dir,$(mod-packs-pack-dir))
+	@$(call mod-echo-message,... copying tree)
+	@cp -R * $(mod-packs-pack-dir)
+	@$(call mod-echo-message,... archiving and compressing package!)
+	@( cd $(mod-packs-base-dir) && \
+	   $(mod-packs-pack-cmd) \
+		-n $(target-name) \
+		-v $(target-ver) \
+		-t src \
+		$(JBS_REL_DIR) \
+	)
+	@$(call mod-utils-del-dir,$(mod-packs-pack-dir))
+
+else
+
+mod-packs-do-src-pack :
+
+endif
+
+###############################################################################
+
+ifeq "$(findstring user,$(mod-packs-build-list))" "user"
+
+mod-packs-do-user-pack :		local-packs
+
+else
+
+mod-packs-do-user-pack :
+
+endif
+
+###############################################################################
+
+mod-packs-do-recurs-% :
+	@NO_ALREADY_BUILT=1 $(MAKE) mod-packs-do-$*-pack
+	@NO_ALREADY_BUILT=1 $(MAKE) do-in-subdirs-mod-packs-do-recurs-$*
+
+mod-packs-entry-point :							\
+		mod-packs-do-init					\
+		mod-packs-do-recurs-src					\
+		mod-packs-do-recurs-doc					\
+		mod-packs-do-recurs-sdk					\
+		mod-packs-do-recurs-rte					\
+		mod-packs-do-recurs-bin					\
+		mod-packs-do-recurs-user
+
+###############################################################################
+

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>Barco Device Interface Layout Service API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.1</revnumber>
+				<date>Dec 19 2012</date>
+				<revremark>Device Interface Layout Service API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+	    <glossentry>
+	      <glossterm>Device Interface</glossterm>
+	      <glossdef>
+	        <para>
+	        	This represents the external interface to a device.
+	        </para>
+	      </glossdef>
+ 	    </glossentry>
+	    <glossentry>
+	      <glossterm>Device Interface API</glossterm>
+	      <glossdef>
+	        <para>
+	        	The API accepted by the device on its external interface
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Device Interface Layout Service API</glossterm>
+	      <glossdef>
+	        <para>
+	        	The API accepted by the device on its external interface for Layout Service
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Service</glossterm>
+	      <glossdef>
+	        <para>
+	        	The device provides the following services : DeviceAdminAgent, Media, Layout, MediaStoreAgent
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Handler</glossterm>
+	      <glossdef>
+	        <para>
+	        	The code that handles a specific API message for a given service
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Agent</glossterm>
+	      <glossdef>
+	        <para>
+	        	The Handler invokes methods on the Agent for the  accepted by the device on its external interface
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Engine</glossterm>
+	      <glossdef>
+	        <para>
+	        	The Agent invokes methods on the Engine that implement the services on the device
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Entity</glossterm>
+	      <glossdef>
+	        <para>
+	        	A Source or a Destination
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	</glossary>	
+
+	  <preface>
+	    <title>Introduction</title>
+	    <para>
+	      This document contains the description of the device interface API for media services
+	    </para>
+	  </preface>
+
+  <chapter>
+    <title>Layout Service Overview</title>   
+    <para>
+      This chapter provides the version information and a brief description of the requests support by this service
+    </para> 
+    <section>
+    <title>Version</title>
+    <para>
+    <simplelist>
+    	<member>Document Version = 0.0.1</member>
+        <member>Service Version = x.x.x</member>
+        <member>Software Version = 4.0.x.x</member>
+    </simplelist>    
+    </para>    
+    </section>
+    <section>
+    <title>Layout Services Overview</title>
+    <para>
+      <simplelist>
+<member>
+      The layout service is responsible for rendering of media
+</member>
+<member>
+      The messages described here are in conformance with the AgentMessage described in the ref[1](API-AgentMessage.pdf)
+</member>
+      </simplelist>
+    </para>    
+    </section>
+  </chapter>
+  <chapter>
+    <title>Layout Services API</title>   
+    <para>
+      This chapter provides details of the Layout Service API
+    </para> 
+    <section>
+      <title>Layout Service API to be supported by a Device to receive media</title>
+      <para>
+        These requests are typically received by a device which is capable of receiving media streams
+        <itemizedlist>
+          <listitem>
+            <para>
+            <simplelist>
+				<member>The device receives a (Stream)Setup Request with the streamInfo and (Stream)Teardown Request</member>
+        		<member>The streamInfo includes streamdatadoc and mediasourcedatadoc which are described under API-MediaService.pdf</member>
+        		<member>The streamdatadoc may include the streamURL in which case the device can start playing the media</member>
+        		<member>The device will signal to the source to acquire a streamURL and then start playing the media</member>
+        		<member>The response and status updates include the StreamStatus which is described under API-MediaService.pdf</member>
+            </simplelist>
+          <example>
+            <title>Setup Request</title>
+            <programlisting>
+              <![CDATA[
+   <SetupRequestData>
+	<streamNID><!-- Unique identifier for the stream --></streamNID>
+	<streamdatadoc>
+		<!-- MediaDestination and Profile info -->		
+	</streamdatadoc>
+	
+	<mediasourcedatadoc>
+		<!-- MediaSource info -->		
+	</mediasourcedatadoc>
+	
+  </SetupRequestData>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>Setup Response</title>
+            <programlisting>
+              <![CDATA[
+   <SetupResponseData>
+    <StreamStatus .../>
+  </SetupResponseData>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>Teardown Request</title>
+            <programlisting>
+              <![CDATA[
+   <TeardownRequestData>
+	<streamNID><!-- Unique identifier for the stream --></streamNID>
+  </TeardownRequestData>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>Teardown Response</title>
+            <programlisting>
+              <![CDATA[
+   <TeardownResponseData>
+	<streamNID><!-- Unique identifier for the stream --></streamNID>
+  </TeardownResponseData>
+				]]>
+            </programlisting>
+          </example>
+			</para>
+			</listitem>
+			</itemizedlist>
+        </para>
+    </section>
+    <section>
+      <title>Maintaining state for the Stream</title>
+      <para>
+        The device has to maintain state for each of Stream, it relies on events from the colocated media engine and the peering source
+        <itemizedlist>
+          <listitem>
+            <para>
+              The state of the stream is updated based on
+              <simplelist>
+                <member>The presence of the MediaSource</member>
+                <member>Events from colocated media engine</member>
+                <member>The Start Response AgentMessages received from the MediaSource</member>
+                <member>The Events received from the MediaSource</member>
+              </simplelist>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The state machine action handlers are responsible for
+              <simplelist>
+        		<member>Restarting a stream once an absent MediaSource comes back online</member>
+	            <member>Publishing StreamStatusUpdates to the SC whenever the state of the stream changes</member>
+              </simplelist>
+            </para>
+          <example>
+            <title>StreamStatusEvent payload sent to the central server</title>
+            <programlisting>
+              <![CDATA[
+
+<StreamStatusEventData>
+<StreamStatus .../>
+</StreamStatusEventData>
+]]>
+            </programlisting>
+          </example>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    <section>
+      <title>Presence Events received by Devices</title>
+      <para>
+      	A Entity is a source or a destination
+        These requests are typically received by an entity which has setup/needs to setup communications with a peer. 
+        This setup is done in the context of a "MediaRoom". The "MediaRoom" has a unique identifier referred to as roomNID.
+        All resource allocations on the source/dest entities can be tied/linked to the presence of the MediaRoom
+        Please check the API-MediaService.pdf document for further details on the Presence Event
+      </para>
+    </section>
+  </chapter>
+
+
+</book>

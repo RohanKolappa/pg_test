@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.common.datamodel.xsd" />	
+	<xs:include schemaLocation="mediaroom.sessionservice.datamodel.public.xsd" />
+	<xs:element name="ReportList" type="ReportListType" />
+    <xs:complexType name="ReportListType">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Report" />       
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>    
+    <xs:element name="Report" type="ReportType" />
+  	<xs:complexType name="ReportType">
+      <xs:sequence>
+      	<xs:element name="Type" type='ReportEnumType' />      	        
+      	<xs:element name="Name" type="xs:string" />
+      	<xs:element name="Description" type="xs:string" />
+      	<xs:element name="ReportExport" type="ReportExportType" />
+      	<xs:element name="ReportConfig" type="ReportConfigType" />
+      	<xs:element name="ReportStatus" type="ReportStatusType" />
+      </xs:sequence>      
+      <xs:attribute name="serviceVer" type="xs:double" use="required" />
+      <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+      <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>   
+    <xs:complexType name="ReportExportType">
+      <xs:sequence>
+        <xs:element name="EnableExport" type="xs:boolean" />
+        <xs:element name="ExportSchedule" type="xs:integer" />
+        <xs:element name="ExportURL" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>      
+  	<xs:complexType name="ReportConfigType">
+      <xs:sequence>      	      	
+		<xs:choice>      	
+      		<xs:element name="PolicyReportConfig" type="PolicyReportConfigType" />
+      		<xs:element name="AuditReportConfig" type="AuditReportConfigType" />
+      	</xs:choice>      	
+      </xs:sequence>      
+    </xs:complexType>        
+    <xs:complexType name="PolicyReportConfigType">      
+	  <xs:complexContent mixed="false">
+        <xs:extension base="ConfigType" >
+          <xs:attribute name='selectPermissions' type='xs:string' />
+          <xs:attribute name='whereTextSubStr' type='xs:string' />
+      	  <xs:attribute name='whereTagExpr' type='xs:string' />
+      	  <xs:attribute name='whereTagExprMode' type='TagExprModeType' />		
+      	  <xs:attribute name='whereTarget' type='TargetEnumType' />      	             	  
+        </xs:extension>      
+      </xs:complexContent>                 
+    </xs:complexType>  
+    <xs:simpleType name="TargetEnumType" >
+      <xs:restriction base="xs:string" >
+      	<xs:enumeration value="User" />
+      	<xs:enumeration value="Resource" />      
+      </xs:restriction>
+	</xs:simpleType>          
+    <xs:complexType name="AuditReportConfigType">
+      <xs:complexContent mixed="false">
+        <xs:extension base="ConfigType" />      
+      </xs:complexContent>            
+    </xs:complexType>   
+    <xs:complexType name="ConfigType">
+      <xs:sequence>        
+        <xs:element name="SelectFormatXSL" type="xs:string" />                          
+      </xs:sequence>          
+      <xs:attribute name='selectFormat' type='xs:string'/>
+      <xs:attribute name='selectProperties' type='xs:string'/>                
+    </xs:complexType>   
+    <xs:complexType name="ReportStatusType">
+    	<xs:sequence>
+    		<xs:element name="LastExportStatus" type="ReportStatusInfoType" />    		
+    		<xs:element name="LastExported" type="DateTimeAttrType" />    		
+    	</xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReportStatusInfoType">
+    	<xs:complexContent mixed="false">
+        	<xs:extension base="DateTimeAttrType">
+        		<xs:attribute name='state' type='ReportStateEnumType' />
+        	</xs:extension>      
+      	</xs:complexContent>    	
+    </xs:complexType>    
+    
+    <xs:complexType name="DateTimeAttrType">
+	    <xs:attribute name='date' type='xs:string' />
+    	<xs:attribute name='time' type='xs:string' />
+	</xs:complexType>
+    
+</xs:schema>

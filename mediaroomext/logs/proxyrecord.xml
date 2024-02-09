@@ -1,0 +1,594 @@
+<log>
+	StreamClient:handleRequest request=
+	<login ip="10.1.4.63" user="ahhproxyuser2" password="Ipvs1234"
+		resource="ahhproxypc2" />
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken2" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<ServiceLogin>
+				<serverDate>1320363769164</serverDate>
+
+				<clientPrivateData />
+			</ServiceLogin>
+		</query>
+	</iq>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken3">
+		<query>
+			<Record sessionId="proxy_test_1320363776" sessionName="proxy_test_1320363776"
+				id="proxy_test_1320363776" name="proxy_test_1320363776" srcEntityId=""
+				profileId="" resetTimeline="false">
+				<Profile id="" profileNID="" profileTitle="" />
+				<SrcPort id="" portNID="" portTitle="AHH Lab 1" />
+				<DstFile id="" fileTitle="proxy_test_1320363776_1" dirNID=""
+					grpFileId="" dirId="" key="Title" action="Append"
+					keyMetaDataTagName="">
+					<MetaData>
+						<Tag Name="ID">1320363776</Tag>
+						<Tag Name="Hospital">hospital</Tag>
+						<Tag Name="Lab">AHH Lab 1_1320363776</Tag>
+						<Tag Name="Physician">physician</Tag>
+						<Tag Name="Patient">hosptial/AHH Lab 1_1320363776</Tag>
+						<Tag Name="PatientID">MD001</Tag>
+						<Tag Name="PatientDOB">01/24/1977</Tag>
+						<Tag Name="PatientSex">M</Tag>
+						<Tag Name="ProcedureType">AVOR</Tag>
+						<Tag Name="Notes" />
+					</MetaData>
+				</DstFile>
+			</Record>
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10237" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f"
+					operation="Add">
+					<ConnectionInfo sessionId="proxy_test_1320363776"
+						id="proxy_test_1320363776" name="proxy_test_1320363776" state=""
+						type="RECORD" errorCode="" errorData="" windowId="proxy_test_1320363776"
+						canvasId="proxy_test_1320363776">
+						<SrcEntity id="48a45c27-7308-4f19-89d1-34a46240c66a"
+							resourceTitle="AHH Lab 1"
+							resourceNID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f"
+							userJID="" userFullName="" />
+						<DstEntity id="6ed9ca08-9a4d-4e41-b730-ecee03d403ec"
+							resourceTitle="" resourceNID="" userJID="" userFullName="" />
+						<Profile id="b6bc43c8-0a25-4f59-bad9-1c5c3903f02f"
+							profileName="LocalLabControlBandwidthProfile"
+							profileNID="default.mediastreamprofilelist.mspl_b547d870-a4b1-486a-a4c9-12283f74b431"
+							allowKMSwitch="true" remoteKM="true" avOption="Video"
+							maxBandwidth="5000" lowCompression="6" highCompression="6"
+							burstRatio="1" burstDuration="50" unicast="true" multicast="false" />
+					</ConnectionInfo>
+				</Port>
+			</PortConnectionUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10241" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="WAITING_FOR_SOURCE-DEST_CONTACTED">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start WC="" Offset="" TC="" />
+							<Last WC="" Offset="" TC="" TimeScale="" action=""
+								lastState="" requestedAction="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken3" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<RecordResponseData>
+				<Session serviceVer="" Ver=""
+					name="ahhproxyuser2 Nov 03 23:42" timelineId="5043a752-0b63-4ec3-8062-5e3a255f8448.StreamTrack"
+					recordTimelineId="5043a752-0b63-4ec3-8062-5e3a255f8448.RecordTrack"
+					type="LIVE" gc="true" id="proxy_test_1320363776" state="Started">
+					<Properties sessionConfigNID=""
+						ownerUserJID="ahhproxyuser2@localhost/ahhproxypc2"
+						dateCreated="1320363772338" playlength="" />
+					<TimelineList>
+						<Timeline sessionId="proxy_test_1320363776"
+							connGroupId="" connId=""
+							id="5043a752-0b63-4ec3-8062-5e3a255f8448.StreamTrack">
+							<Start WC="1320363772338" Offset="0"
+								parentTimelineId="" />
+							<Last WC="1320363772338" Offset="0" TimeScale="1"
+								requestedAction="Start" lastState="STARTED_CURRENT" />
+						</Timeline>
+						<Timeline sessionId="proxy_test_1320363776"
+							connGroupId="" connId=""
+							id="5043a752-0b63-4ec3-8062-5e3a255f8448.RecordTrack">
+							<Start WC="1320363772338" Offset="0"
+								parentTimelineId="" />
+							<Last WC="1320363772338" Offset="0" TimeScale="1"
+								requestedAction="Start" lastState="STARTED_CURRENT" />
+						</Timeline>
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start WC="" Offset="" TC="" />
+							<Last WC="" Offset="" TC="" TimeScale="" action=""
+								lastState="" requestedAction="" />
+						</Timeline>
+					</TimelineList>
+					<GrpFileList />
+					<DirList />
+					<ProfileList>
+						<Profile
+							profileNID="default.mediastreamprofilelist.mspl_b547d870-a4b1-486a-a4c9-12283f74b431"
+							name="LocalLabControlBandwidthProfile" id="b6bc43c8-0a25-4f59-bad9-1c5c3903f02f" />
+					</ProfileList>
+					<EntityList>
+						<Entity gc="false" id="48a45c27-7308-4f19-89d1-34a46240c66a"
+							type="SrcPort" name="AHH Lab 1" presence="available"
+							jid="ahhxplab01@localhost/ahhxplab01">
+							<Port
+								resourceNID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f"
+								resourceTitle="AHH Lab 1" />
+						</Entity>
+						<Entity gc="true" id="6ed9ca08-9a4d-4e41-b730-ecee03d403ec"
+							type="RecFile" name="proxy_test_1320363776_1" presence="available"
+							jid="ahhrelay02@localhost/ahhrelay02">
+							<File resourceTitle="proxy_test_1320363776_1"
+								grpFileId="" key="Title" action="Append"
+								keyMetaDataTagName="" dirId=""
+								clipId="6ed9ca08-9a4d-4e41-b730-ecee03d403ec"
+								resourceNID="default.mediastreamfileresourcelist.msfrl_6670e758-1089-4b65-94a7-c439d3e3a55f"
+								playLength="0" mediaGroupId="">
+								<MetaData>
+									<Tag Name="ID">1320363776</Tag>
+									<Tag Name="Hospital">hospital</Tag>
+									<Tag Name="Lab">AHH Lab 1_1320363776</Tag>
+									<Tag Name="Physician">physician</Tag>
+									<Tag Name="Patient">hosptial/AHH Lab 1_1320363776</Tag>
+									<Tag Name="PatientID">MD001</Tag>
+									<Tag Name="PatientDOB">01/24/1977</Tag>
+									<Tag Name="PatientSex">M</Tag>
+									<Tag Name="ProcedureType">AVOR</Tag>
+									<Tag Name="Notes" />
+								</MetaData>
+							</File>
+						</Entity>
+					</EntityList>
+					<ConnectionList>
+						<Connection dstEntityId="6ed9ca08-9a4d-4e41-b730-ecee03d403ec"
+							id="proxy_test_1320363776" srcEntityId="48a45c27-7308-4f19-89d1-34a46240c66a"
+							type="RECORD" name="proxy_test_1320363776" canvasId="proxy_test_1320363776"
+							windowId="proxy_test_1320363776" profileId="b6bc43c8-0a25-4f59-bad9-1c5c3903f02f"
+							state="WAITING_FOR_SOURCE-DEST_CONTACTED" timelineId="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<ConnSeg state="WAITING_FOR_SOURCE-DEST_CONTACTED"
+								dstResourceTitle="proxy_test_1320363776_1" profileTitle="LocalLabControlBandwidthProfile"
+								srcResourceNID="default.mediastreamrelayportresourcelist.msrprl_c6eb6c60-135a-45e9-ae86-c1cb90beb3ac"
+								dstResourceNID="default.mediastreamfileresourcelist.msfrl_6670e758-1089-4tion"
+								Value="American Heart Hospital" />
+							<Tag Name="DeviceType" Value="ProxyPC" />
+						</Connection>
+					</ConnectionList>
+				</Session>
+			</RecordResponseData>
+		</query>
+	</iq>
+	
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10251" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="WAITING_FOR_STREAMURL">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="" TC="" WC="" />
+							<Last Offset="" TC="" TimeScale="" WC="" action=""
+								lastState="" requestedAction="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10255" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="WAITING_FOR_STREAMSTART"
+						streamURL="none">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="328" TC="1320363773928" TimeScale="1"
+								WC="1320363773928" action="Start" lastState="STARTED_CURRENT"
+								requestedAction="Start" sourceAction="Start" ssTC="" ssWC="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10271" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="WAITING_FOR_STREAMSTART"
+						streamURL="none">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="328" TC="1320363773928" TimeScale="1"
+								WC="1320363773928" action="Start" lastState="STARTED_CURRENT"
+								requestedAction="Start" sourceAction="Start" ssTC="" ssWC="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10274" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="328" TC="1320363773928" TimeScale="1"
+								WC="1320363773928" action="Start" lastState="STARTED_CURRENT"
+								requestedAction="Start" sourceAction="Start" ssTC="" ssWC="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10275" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+
+							<Last Offset="328" TC="1320363773928" TimeScale="1"
+								WC="1320363773928" action="Start" lastState="STARTED_CURRENT"
+								requestedAction="Start" sourceAction="Start" ssTC="1320363779964"
+								ssWC="1320363779965" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10277" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+
+							<Last Offset="307" TC="1320363776091" TimeScale="1"
+								WC="1320363776091" action="Start" lastState="STARTED_CURRENT"
+								requestedAction="Start" sourceAction="Start" ssTC="1320363779792"
+								ssWC="1320363779796" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken4">
+		<query>
+			<NewBookmark whereFileNID=""
+				whereSessionInfo="sessionId:proxy_test_1320363776,connGroupId:,connId:proxy_test_1320363776,entityId:" />
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken4" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<NewBookmark>
+				<Bookmark title="" TC="1320363802996" offset="">
+					<Description />
+					<MetaData>
+						<Tag Name="" />
+					</MetaData>
+				</Bookmark>
+			</NewBookmark>
+		</query>
+	</iq>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken5">
+		<query>
+			<AddBookmark whereFileNID=""
+				whereSessionInfo="sessionId:proxy_test_1320363776,connGroupId:,connId:proxy_test_1320363776,entityId:">
+				<Bookmark title="" TC="1320363802996" offset="">
+					<Description />
+					<MetaData>
+						<Tag Name="" />
+					</MetaData>
+				</Bookmark>
+			</AddBookmark>
+		</query>
+	</iq>
+
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken5" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<AddBookmark>
+				<Bookmark
+					NID="default.bookmarklist.bl_b87c1e17-dcfb-433d-89a0-ebdf4c74a403"
+					title="" TC="1320363802996" offset=""
+					owner="ahhproxyuser2@localhost/ahhproxypc2" dateCreated="1320363803997"
+					mediaStreamFileNID="default.mediastreamfileresourcelist.msfrl_6670e758-1089-4b65-94a7-c439d3e3a55f">
+					<Description />
+					<MetaData>
+						<Tag Name="" />
+					</MetaData>
+				</Bookmark>
+			</AddBookmark>
+		</query>
+	</iq>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken6">
+		<query>
+			<PauseRecord sessionId="proxy_test_1320363776"
+				connGroupId="" connId="" WC="" />
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken6" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<Timeline sessionId="proxy_test_1320363776" connGroupId=""
+				connId="" id="5043a752-0b63-4ec3-8062-5e3a255f8448.RecordTrack">
+				<Start WC="1320363772338" Offset="0" parentTimelineId="" />
+				<Last WC="1320363805011" Offset="30673" TimeScale="0"
+					requestedAction="Pause" lastState="STOPPED_CURRENT" />
+			</Timeline>
+		</query>
+	</iq>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken7">
+		<query>
+			<ResumeRecord sessionId="proxy_test_1320363776"
+				connGroupId="" connId="" WC="" />
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10288" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="30673" TC="0" TimeScale="0" WC="1320363805161"
+								action="Pause" lastState="STOPPED_CURRENT" requestedAction="Pause"
+								sourceAction="StopOutput" ssTC="1320363809925" ssWC="1320363805163" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken8">
+		<query>
+			<NewBookmark whereFileNID=""
+				whereSessionInfo="sessionId:proxy_test_1320363776,connGroupId:,connId:proxy_test_1320363776,entityId:" />
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10292" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="43672" TC="0" TimeScale="1" WC="1320363817277"
+								action="Catchup" lastState="STARTED_CURRENT" requestedAction="Catchup"
+								sourceAction="StartOutput" ssTC="" ssWC="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10293" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+
+							<Last Offset="43672" TC="0" TimeScale="1" WC="1320363817277"
+								action="Catchup" lastState="STARTED_CURRENT" requestedAction="Catchup"
+								sourceAction="StartOutput" ssTC="1320363822042" ssWC="1320363822042" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken8" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<NewBookmark>
+				<Bookmark title="" TC="1320363833996" offset="">
+					<Description />
+					<MetaData>
+						<Tag Name="" />
+					</MetaData>
+				</Bookmark>
+			</NewBookmark>
+		</query>
+	</iq>
+
+
+	StreamClient:handleRequest request=
+	<iq id="RequestToken12">
+		<query>
+			<StopSession sessionId="proxy_test_1320363776" />
+		</query>
+	</iq>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10308" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+							<Last Offset="74672" TC="0" TimeScale="1" WC="1320363848278"
+								action="Catchup" lastState="STARTED_CURRENT" requestedAction="Catchup"
+								sourceAction="StartOutput" ssTC="" ssWC="" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10309" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionStateUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f">
+					<ConnectionState sessionId="proxy_test_1320363776"
+						connId="proxy_test_1320363776" value="STREAMING">
+						<msg />
+						<Timeline id="614b8c44-17bb-4bb2-9be1-3ca9d9633833">
+							<Start Offset="0" TC="1320363773928" WC="1320363773928" />
+
+							<Last Offset="74672" TC="0" TimeScale="1" WC="1320363848278"
+								action="Catchup" lastState="STARTED_CURRENT" requestedAction="Catchup"
+								sourceAction="StartOutput" ssTC="1320363853044" ssWC="1320363853044" />
+						</Timeline>
+					</ConnectionState>
+				</Port>
+			</PortConnectionStateUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<message id="18jIY-10312" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost">
+		<x>
+			<PortConnectionUpdate>
+				<Port
+					NID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f"
+					operation="Delete">
+					<ConnectionInfo sessionId="proxy_test_1320363776"
+						id="proxy_test_1320363776" name="proxy_test_1320363776" state="STREAMING"
+						type="RECORD" errorCode="" errorData="" windowId="proxy_test_1320363776"
+						canvasId="proxy_test_1320363776">
+						<SrcEntity id="48a45c27-7308-4f19-89d1-34a46240c66a"
+							resourceTitle="AHH Lab 1"
+							resourceNID="default.mediastreamioportresourcelist.msioprl_20af11b9-5499-40b4-95ac-b9ccfd482b9f"
+							userJID="" userFullName="" />
+						<DstEntity id="6ed9ca08-9a4d-4e41-b730-ecee03d403ec"
+							resourceTitle="" resourceNID="" userJID="" userFullName="" />
+						<Profile id="b6bc43c8-0a25-4f59-bad9-1c5c3903f02f"
+							profileName="LocalLabControlBandwidthProfile"
+							profileNID="default.mediastreamprofilelist.mspl_b547d870-a4b1-486a-a4c9-12283f74b431"
+							allowKMSwitch="true" remoteKM="true" avOption="Video"
+							maxBandwidth="5000" lowCompression="6" highCompression="6"
+							burstRatio="1" burstDuration="50" unicast="true" multicast="false" />
+					</ConnectionInfo>
+				</Port>
+			</PortConnectionUpdate>
+		</x>
+	</message>
+
+	IpvsXmppStreamClient:handleXML=
+	<iq id="RequestToken12" to="ahhproxyuser2@localhost/ahhproxypc2"
+		from="managementserver.localhost" type="result">
+		<query serviceVer="2.28.20">
+			<sessionID>proxy_test_1320363776</sessionID>
+		</query>
+	</iq>
+</log>

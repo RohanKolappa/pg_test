@@ -1,0 +1,548 @@
+<html>
+<head>
+<!--meta http-equiv="X-UA-Compatible" content="IE=10"-->
+<title>Oh DubYou Ess</title>
+
+<style type="text/css">
+
+.panel {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+	height: 100%;
+	background-color: #3d444a;
+	outline: none !important;
+}
+
+iframe {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+	border: none;
+	box-sizing: border-box;
+}
+
+.panel-link-vertical {
+	width: 1px;
+	height: 100%;
+}
+.panel-link-horizontal {
+	width: 100%;
+	height: 1px;
+}
+#panel-link-top {
+	position: absolute;
+	top: 0px;
+}
+#panel-link-right {
+	position: absolute;
+	right: 0px;
+}
+#panel-link-bottom {
+	position: absolute;
+	bottom: 0px;
+}
+#panel-link-left {
+	position: absolute;
+	left: 0px;
+}
+.ui-notify {
+	position: absolute !important;
+	z-index: 999 !important;
+}
+  
+</style>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"/>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery/jquery.hotkeys.js"></script>
+
+<link rel="stylesheet" href="jquery/ui.notify.css"/>
+<script type="text/javascript" src="jquery/jquery.notify.js"></script>
+
+<script type="text/javascript">
+function jq( myid ) {
+    return "#" + myid.replace( /(:|\.|\[|\])/g, "\\$1" );
+}
+$(document).ready(function(){
+	// set up notifications
+	$("#notifications").notify({
+		speed: 500,
+		expires: 1000
+	});
+	// set up srcList
+	$("#srcList").dialog({
+		width:350,
+		height:800,
+		position:{
+		  my: "left top",
+		  at: "left+20 top+40",
+		  of: "#mainPanel"
+		},
+		show: true,
+		hide: true,
+		closeOnEscape: false,
+		autoOpen: false
+	});
+/*
+	// set up panel links
+	$("#panel-link-right").droppable({ 
+		tolerance: "touch",
+		over: function(event,ui) {
+			ui.draggable.hide("slide", {direction: "right"}, 400, function() {
+				// remove window after animation ends
+				ui.draggable.find(".win").dialog('destroy').remove();
+			});
+		}
+	});
+*/
+/*
+	$(".perspective").dialog({
+		width:350,
+		height:400,
+		position:{
+		  my: "center",
+		  at: "center",
+		  of: "#mainPanel"
+		},
+		show: true,
+		hide: true,
+		closeOnEscape: false//,
+		//autoOpen: false
+	});
+*/	
+	// focus keys to main panel
+	$("#mainPanel").attr("tabindex",-1).focus();
+	
+	// hint the user on how to get started
+	$("#notifications").notify("create", {
+		title: 'Ready: Press "s" to select a src'
+	});
+});
+
+// set up keystroke bindings
+// - bind 's' key to toggle srcList show/hide
+$(document).bind('keydown', 's', function() {
+	if( $("#srcList").dialog("isOpen") ) {
+		$("#srcList").dialog("close")
+	}
+	else {
+		$("#srcList").dialog("open")
+	}
+});
+
+
+var panelLayouts = [];
+var currLayoutNum = 0;
+// - bind 'Shift+Num' to saveLayout and 'Num' to loadLayout (1-9)
+for( var num=1; num<=9; num++) {
+	var saveKey = 'shift+'+num;
+	var loadKey = ''+num;
+	$(document).bind('keydown', saveKey, function(){
+		var num = event.keyCode - 48;
+		var currLayout = saveLayout()
+		panelLayouts[num - 1] = {layout: currLayout, layoutMode: currLayoutMode};
+		// save current layout number
+		currLayoutNum = num;
+		// notify
+		$("#notifications").notify("create", {
+			title: 'Layout '+num+': Saved'
+		});
+	});
+	$(document).bind('keydown', loadKey, function(){ 
+		var num = event.keyCode - 48;
+		if( typeof panelLayouts[num - 1] !== 'undefined' ) {
+			var currLayout = panelLayouts[num - 1].layout;
+			currLayoutMode = panelLayouts[num - 1].layoutMode;
+			loadLayout(currLayout);
+			// update current layout number
+			currLayoutNum = num;
+			// notify
+			$("#notifications").notify("create", {
+				title: 'Layout '+num+': Loaded'
+			});
+		}
+		else {
+			// notify
+			$("#notifications").notify("create", "error-template", {
+				title: 'Layout '+num+': Empty',
+				text: 'Press "Shift+'+num+'" to save a layout first'
+			}, {
+				expires: false
+			});
+		}
+	});
+}
+// - bind 't' to cycle between layouts (1-9)
+$(document).bind('keydown', 't', function(){ 
+	if( currLayoutNum == 0 ) {
+		$("#notifications").notify("create", "error-template", {
+		  title: 'Layout List: Empty',
+		  text: 'Save 2 or more layouts to cycle through'
+		}, {
+		  expires: false
+		});
+		return;
+	}
+	var num = currLayoutNum;
+	do{
+		num = (num >= 9 ? 1 : num+1);
+	} while( num != currLayoutNum && typeof panelLayouts[num - 1].layout == 'undefined' );
+	if( num != currLayoutNum ) {
+		var currLayout = panelLayouts[num - 1].layout;
+		currLayoutMode = panelLayouts[num - 1].layoutMode;
+		loadLayout(currLayout);
+		// update current layout number
+		currLayoutNum = num;
+		// notify
+		$("#notifications").notify("create", {
+			title: 'Layout '+num+': Loaded'
+		});
+	}
+});
+// - bind 'f,g' key to layoutMode free/grid
+var currLayoutMode = 'free';
+$(document).bind('keydown', 'f', function() {
+	if( currLayoutMode != 'free' ) {
+		// turn on draggable resizeable
+		$(".win").dialog("option", "resizable", true);
+		$(".win").dialog("option", "draggable", true);
+		// update layout mode
+		currLayoutMode = 'free';
+		// notify
+		$("#notifications").notify("create", {
+			title: 'Layout Mode: Free'
+		});
+		
+	}
+});
+$(document).bind('keydown', 'g', function() {
+	if( currLayoutMode != 'gridBigLittle' ) {
+		// turn off draggable, resizeable
+		$(".win").dialog("option", "resizable", false);
+		$(".win").dialog("option", "draggable", false);
+		loadLayoutGridBigLittle();
+		// update layout mode
+		currLayoutMode = 'gridBigLittle';
+		// notify
+		$("#notifications").notify("create", {
+			title: 'Layout Mode: Big Little Grid'
+		});
+	}
+	else {
+//		loadLayoutGridSimple();
+		currLayoutMode = 'gridSimple';
+		$("#notifications").notify("create", {
+			title: 'Layout Mode: Simple Grid'
+		});
+
+	}
+});
+// - bind 'x' key to clear all windows
+$(document).bind('keydown', 'x', function() {
+	// notify
+	var n = $("#notifications").notify("create", "confirm-template", {
+		title: 'Close all windows ?',
+		text: 'Confirm to continue or click X to cancel'
+	}, {
+	  expires: false
+	});
+	n.widget().delegate("input","click", function(){
+		// close all open windows
+		$(".win").each( function( idx, elm ){
+			$(elm).dialog( "close" );
+		});
+		n.close();
+	});
+	
+	
+});
+function saveLayout() {
+	// save info for all open windows
+	var layout = [];
+	$(".win").each( function( idx, elm ){
+		layout[idx] = {};
+		layout[idx].mediaURL = $(elm).find("iframe").attr("src");
+		layout[idx].title = $(elm).attr('id');
+//		layout[idx].width = $(elm).dialog( "option", "width");
+		layout[idx].width = $(elm).dialog("widget").width();
+//		layout[idx].height = $(elm).dialog( "option", "height");
+		layout[idx].height = $(elm).dialog("widget").height();
+//		var winPos = $(elm).dialog( "option", "position");
+		var winPos = $(elm).dialog("widget").position();
+		winPos.my = "left top";
+		winPos.at = "left+"+winPos.left+" top+"+winPos.top;		
+		layout[idx].position = {};
+		layout[idx].position.my = winPos.my;
+		layout[idx].position.at = winPos.at;
+//		layout[idx].zIndex = $(elm).dialog("widget").zIndex();
+		layout[idx].zIndex = $(elm).dialog("widget").zIndex();
+	});
+	return layout;
+}
+
+function loadLayout(layout) {
+	// close all open windows that are not in the new layout
+	$(".win").each( function( idx, elm ){
+		var title = $(elm).attr("id");
+		if( getWinInLayout(layout, title) == null ) {
+			$(elm).dialog( "close" );
+		}
+	});
+	if( layout.length > 0 ) {
+		// sort windows by zIndex
+		layout = layout.sort(function(a, b){
+		  return a.zIndex == b.zIndex ? 0 : +(a.zIndex > b.zIndex) || -1;
+		});
+		// open windows that don't exist - move if existing
+		$.each( layout, function( idx, winInfo ){
+			var jqWinSel = ".win"+jq(winInfo.title);
+			if( $(jqWinSel).length == 0 ) {
+				openWin(winInfo.mediaURL, winInfo.title, 
+					winInfo.width,
+					winInfo.height,
+					winInfo.position //,
+					//winInfo.zIndex
+				);
+			}
+			// need to move the newly opened ones as well to get it right
+			moveWin(winInfo.title, 
+				winInfo.width,
+				winInfo.height,
+				winInfo.position //,
+				//winInfo.zIndex
+			);
+
+		});
+	}
+}
+
+function loadLayoutGridBigLittle() {
+	// calc layout values
+	var panelWidth = $("#mainPanel").width(); //1920;
+	var panelHeight = $("#mainPanel").height(); //1080;
+	var winGap = 20;
+	var winCols = 4;
+	var winARW = 16, winARH = 9;
+	var winZIndex = 100;
+	var winLittleWidth = parseInt((((panelWidth - winGap) / winCols) - winGap)/winARW) * winARW;
+	var winLittleHeight = winLittleWidth / winARW * winARH;
+	var winRows = parseInt((panelHeight - winGap) / (winLittleHeight + winGap));
+	var winLittleCount = winCols + winRows - 1;
+	var winBigWidth = parseInt(((winLittleWidth + winGap) * (winCols - 1) - winGap)/winARW) * winARW;
+	var winBigHeight = winBigWidth / winARW * winARH;
+	var winBigHeightMax = parseInt(((panelHeight - (winGap * 2)) - (winLittleHeight + winGap))/winARH) * winARH;
+	if( winBigHeight > winBigHeightMax ) {
+		winBigHeight = winBigHeightMax;
+		winBigWidth = winBigHeight / winARH * winARW;
+	}
+	// map all open windows to this layout
+	var layout = [];
+	$(".win").each( function( idx, elm ){
+		layout[idx] = {};
+		layout[idx].title = $(elm).attr("id");
+		layout[idx].mediaURL = $(elm).find("iframe").attr("src");
+		layout[idx].width = (idx == 0 ? winBigWidth : winLittleWidth);
+		layout[idx].height = (idx == 0 ? winBigHeight : winLittleHeight);
+		layout[idx].position = {};
+		if( idx == 0 ) {
+			layout[idx].position.my = "left top";
+			layout[idx].position.at = "left+"+winGap+" top+"+(winGap+winLittleHeight+winGap);
+		}
+		else if( idx <= winCols ) {
+			layout[idx].position.my = "left top";
+			layout[idx].position.at = "left+"+(winGap+((winLittleWidth+winGap)*(idx-1)))+" top+"+winGap;
+		}
+		else if( idx <= (winCols + winRows - 1) ) {
+			layout[idx].position.my = "left top";
+			layout[idx].position.at = "left+"+(winGap+((winLittleWidth+winGap)*(winCols-1)))+" top+"+
+												(winGap+((winLittleHeight+winGap)*(idx-winCols)));
+		}
+		else {
+			layout[idx].position.my = "left top";
+			layout[idx].position.at = "left+"+(winGap+((winLittleWidth+winGap)*(winCols-1)))+" top+"+
+												(winGap+((winLittleHeight+winGap)*(winRows-1)));
+		}
+		layout[idx].zIndex = winZIndex;
+	});
+	// make it active
+	loadLayout(layout);
+}
+function loadLayoutGridSimple() {
+
+}
+function getWinInLayout(layout, title) {
+	var retval = null;
+	$.each( layout, function( idx, winInfo ){
+		if( winInfo.title == title ) {
+			retval = winInfo;
+			return false;
+		}
+	});
+	return retval;
+}
+function moveWin(title, width, height, position, zIndex) {
+	var jqWinSel = ".win"+jq(title);
+	// adjust z-index
+	if( zIndex != null ) {
+		$(jqWinSel).dialog("widget").zIndex(zIndex);
+	}
+	else {
+		$(jqWinSel).dialog("moveToTop");
+	}
+	// adjust size
+	$(jqWinSel).dialog("widget").animate({
+        width: width,
+        height: height
+    }, 500);
+	// adjust position
+	$(jqWinSel).dialog("widget").position({
+		my: position.my,
+		at: position.at,
+		of: (position.of == null ? "#mainPanel" : position.of),
+		using: function( objLeftTop ) {
+			$(jqWinSel).dialog("widget").animate( objLeftTop, 1000);
+		}
+	});
+	// focus keys to main panel
+	setTimeout(function(){
+		$("#mainPanel").focus();
+	}, 1500);
+}
+
+function openWin(mediaURL, title, width, height, position, zIndex) {
+	// add a win into the DOM
+	var winHTML = '<div id="'+title+'" title="'+title+'" class="win"><iframe src="' + mediaURL + '" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe></div>';
+	$("#mainPanel").append(winHTML);
+	var jqWinSel = ".win"+jq(title);
+	// make it a dialog
+	$(jqWinSel).dialog({
+		width:width,
+		height:height,
+		position:position,
+		closeOnEscape: false,
+		close: function( event, ui ) {
+			// destroy on close
+			$(this).dialog('destroy').remove();
+		}
+	});
+	// turn off draggable, resizeable if not in free mode
+	if( currLayoutMode != "free" ) {
+		$(jqWinSel).dialog("option", "resizable", false);
+		$(jqWinSel).dialog("option", "draggable", false);
+	}
+/*
+	$(jqWinSel).dialog("widget").resizable( "option", {
+		aspectRatio: true,
+        containment: "#mainPanel"
+    }).draggable( "option", {
+        opacity: 0.70,
+		containment: "#mainPanel"
+    });
+*/
+	// zindex needs separate handling (caveat: affects other win zindexes)
+	if( zIndex != null ) {
+		$(jqWinSel).dialog("widget").zIndex(zIndex);
+	}
+	// focus keys to main panel
+	setTimeout(function(){
+		$("#mainPanel").focus();
+	}, 500);
+}
+
+function newWin(mediaURL, title) {
+	console.log("Opening: " + title + " : " + mediaURL);
+	// init default position for new win
+	var width = 640;
+	var height = 480;
+	var position = {
+		my: "center",
+		at: "center",
+		of: "#mainPanel"
+	};
+	// ensure unique title
+	var inst = 1;
+	var baseTitle = title;
+	while( $(".win"+jq(title)).length > 0 ) {
+		title = baseTitle + "_" + inst;
+		inst++;
+	}
+	// open this window
+	openWin(mediaURL, title, width, height, position);
+	// move the window to a grid position if needed
+	if( currLayoutMode == 'gridBigLittle' ) {
+		loadLayoutGridBigLittle();
+	}
+	else if( currLayoutMode == 'gridSimple' ) {
+//		loadLayoutGridSimple();
+	}
+	// notify
+	$("#notifications").notify("create", {
+		title: 'New Window: '+title
+	});
+}
+
+function handleSelected(mediaURL, title) {
+	newWin(mediaURL, title);
+}
+</script>
+
+</head>
+
+<body>
+	<div id="mainPanel" class="panel">
+		<div id="panel-link-top" class="panel-link-horizontal"></div>
+		<div id="panel-link-right" class="panel-link-vertical"></div>
+		<div id="panel-link-bottom" class="panel-link-horizontal"></div>
+		<div id="panel-link-left" class="panel-link-vertical"></div>
+		
+		<button onclick='newWin("http://www.wikipedia.org", "wikipedia")'>Open Test Window</button>
+		
+		<div id="srcList" title="Select Src" class="srcList">
+			<iframe src="../demo1"></iframe>
+		</div>
+<!--		
+		<div id="perspective1" title="Perspective1" class="perspective">
+
+		</div>
+		
+		<div id="testTitle" title="Test" class="win">
+			<img src="images/robots.jpg" alt="Robots like cameras" />
+		</div>
+	
+		<div class="win"><img src="images/robots.jpg" alt="Robots like cameras" /></div>
+
+		<div class="win"><iframe src="http://www.wikipedia.org"></iframe></div>
+-->
+	</div>
+	<div id="notifications" style="display:none">
+		<div id="title-template">
+			<a class="ui-notify-cross ui-notify-close" href="#">X</a>
+			<h1>#{title}</h1>
+		</div>
+		<div id="text-template">
+			<a class="ui-notify-cross ui-notify-close" href="#">X</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+		<div id="error-template" class="ui-state-error">
+			<a class="ui-notify-cross ui-notify-close" href="#">X</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+		</div>
+		<div id="confirm-template" class="ui-state-highlight">
+		<a class="ui-notify-cross ui-notify-close" href="#">X</a>
+			<h1>#{title}</h1>
+			<p>#{text}</p>
+			<p style="margin-top:10px;text-align:center">
+				<input type="button" class="confirm" value="Confirm" />
+			</p>
+		</div>
+	</div>
+</body>
+
+</html>

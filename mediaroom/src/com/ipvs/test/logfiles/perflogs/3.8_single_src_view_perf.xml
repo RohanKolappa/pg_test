@@ -1,0 +1,612 @@
+<log>
+Logger used is DAEMON
+10/13/2010 22:44:08:713 GMT(846) *** loginComplete 
+10/13/2010 22:44:09:157 GMT(444) DONE : true waitForDBToReady  response='<DBResp><Service Ver="2.24"/></DBResp>'
+login done
+ SERVER_VERSION 2.24
+AppServerAgent GettingRoomList #Count=0
+<DATA><FileTransferInstanceList userJID="managementserver.localhost"/></DATA>
+Handling cached events Begin
+Handling cached events End
+XMPPTransaction:setDEBUG Setting debug=true for threadID=420
+<StartSessionRequestHandler time='1287009924068'>
+<UpdateSession time='1287009924068'>
+<t.readQuery./>
+<t.135.readQuery.>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readQuery(IpvsDBImpl.java:439)
+	com.ipvs.common.db.MRXMLDBUtils.readQuery(MRXMLDBUtils.java:381)
+	com.ipvs.sessionservice.impl.SessionResourceUtils.getQueryResult(SessionResourceUtils.java:54)
+	com.ipvs.sessionservice.impl.SessionResourceUtils.updateSessionDoc(SessionResourceUtils.java:489)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:86)
+	com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:59)
+	com.ipvs.common.service.MRServerThread.run(MRServerThread.java:104)
+	java.lang.Thread.run(Thread.java:675)
+]]></stacktrace>
+</t.135.readQuery.>
+<createStreamFileResource time='1287009924298'>
+<t.add.default.mediastreamfileresourcelist.msfrl_699b326f-8c9f-41de-a195-3fca205dc020/>
+<t.55.add.default.mediastreamfileresourcelist.msfrl_699b326f-8c9f-41de-a195-3fca205dc020>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_addNodeWithNodeID(IPVSSession.java:442)
+	com.ipvs.common.db.IpvsDBImpl.add(IpvsDBImpl.java:138)
+	com.ipvs.common.db.MRXMLDBUtils.add(MRXMLDBUtils.java:292)
+	com.ipvs.sessionservice.impl.AddObjectUtils.addObjectInDatabase(AddObjectUtils.java:20)
+	com.ipvs.sessionservice.impl.SessionResourceUtils.createStreamFileResource(SessionResourceUtils.java:323)
+	com.ipvs.sessionservice.impl.SessionResourceUtils.updateSessionDoc(SessionResourceUtils.java:608)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:86)
+	com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:59)
+	com.ipvs.common.service.MRServerThread.run(MRServerThread.java:104)
+	java.lang.Thread.run(Thread.java:675)
+]]></stacktrace>
+</t.55.add.default.mediastreamfileresourcelist.msfrl_699b326f-8c9f-41de-a195-3fca205dc020>
+</createStreamFileResource>
+<T.116.createStreamFileResource/>
+</UpdateSession>
+<T.350.UpdateSession/>
+<CreateSession time='1287009924418'>
+<AddRoom time='1287009924423'>
+<AddMediaRoomRequest time='1287009924437'>
+</AddMediaRoomRequest>
+<T.69.AddMediaRoomRequest/>
+</AddRoom>
+<T.90.AddRoom/>
+<RoomDBReadElement time='1287009924513'>
+</RoomDBReadElement>
+<T.5.RoomDBReadElement/>
+</CreateSession>
+<T.125.CreateSession/>
+<AddRoomAndEntities time='1287009924544'>
+<AddMediaSourceRequest time='1287009924579'>
+<AddMediaSourceNode time='1287009924596'>
+<RoomDBReadElement time='1287009924596'>
+</RoomDBReadElement>
+<T.5.RoomDBReadElement/>
+<isAvailable time='1287009924612'>
+<t.discoverItems.discoverItems/>
+<t.6.discoverItems.discoverItems>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:75)
+	com.ipvs.xmpp.client.smack.IPVSSession.iq_request(IPVSSession.java:598)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:242)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:226)
+	com.ipvs.xmpp.client.smack.IPVSMultiUserChat.isAvailable(IPVSMultiUserChat.java:175)
+	com.ipvs.xmpp.client.smack.IPVSSession.isAvailable(IPVSSession.java:347)
+	com.ipvs.client.ServiceAgentUtils.isAvailable(ServiceAgentUtils.java:365)
+	com.ipvs.mediaroomservice.handler.AddMediaSourceRequestHandler.getResponse(AddMediaSourceRequestHandler.java:265)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaSource(ConnectionUtils.java:153)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createMediaSource(SessionMediaRoomUtils.java:52)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:519)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:536)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:95)
+]]></stacktrace>
+</t.6.discoverItems.discoverItems>
+</isAvailable>
+<T.16.isAvailable/>
+<addMediaSourceElement time='1287009924647'>
+</addMediaSourceElement>
+<T.2.addMediaSourceElement/>
+</AddMediaSourceNode>
+<T.53.AddMediaSourceNode/>
+</AddMediaSourceRequest>
+<T.71.AddMediaSourceRequest/>
+<AddMediaDestRequest time='1287009924686'>
+<t.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2/>
+<t.41.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readSingle(IpvsDBImpl.java:278)
+	com.ipvs.common.db.MRXMLDBUtils.readSingle(MRXMLDBUtils.java:318)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:140)
+	com.ipvs.mediaroomservice.handler.AddMediaDestRequestHandler.getResponse(AddMediaDestRequestHandler.java:168)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaDest(ConnectionUtils.java:174)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createMediaDest(SessionMediaRoomUtils.java:77)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:516)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:536)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:95)
+	com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:59)
+]]></stacktrace>
+</t.41.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2>
+<isAvailable time='1287009924738'>
+<t.discoverItems.discoverItems/>
+<t.3.discoverItems.discoverItems>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:75)
+	com.ipvs.xmpp.client.smack.IPVSSession.iq_request(IPVSSession.java:598)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:242)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:226)
+	com.ipvs.xmpp.client.smack.IPVSMultiUserChat.isAvailable(IPVSMultiUserChat.java:175)
+	com.ipvs.xmpp.client.smack.IPVSSession.isAvailable(IPVSSession.java:347)
+	com.ipvs.client.ServiceAgentUtils.isAvailable(ServiceAgentUtils.java:365)
+	com.ipvs.mediaroomservice.handler.AddMediaDestRequestHandler.getResponse(AddMediaDestRequestHandler.java:177)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaDest(ConnectionUtils.java:174)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createMediaDest(SessionMediaRoomUtils.java:77)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:516)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.createSourcesAndDestinations(SessionMediaRoomUtils.java:536)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:95)
+]]></stacktrace>
+</t.3.discoverItems.discoverItems>
+</isAvailable>
+<T.9.isAvailable/>
+</AddMediaDestRequest>
+<T.88.AddMediaDestRequest/>
+</AddRoomAndEntities>
+<T.236.AddRoomAndEntities/>
+<startConnectionList time='1287009924780'>
+<RoomDBReadElement time='1287009924781'>
+</RoomDBReadElement>
+<T.6.RoomDBReadElement/>
+<ComputeRelayProfile time='1287009924800'>
+<GetUserAndResourceGroups time='1287009924829'>
+<t.readList.default.userlist/>
+<t.64.readList.default.userlist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:190)
+	com.ipvs.common.db.DBServiceUtils.getUserFromContactJID(DBServiceUtils.java:98)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:34)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getRelayDestination(MediaRoomServiceUtils.java:436)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:112)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getRelayProfileResult(StreamPolicyUtils.java:439)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:137)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+]]></stacktrace>
+</t.64.readList.default.userlist>
+</GetUserAndResourceGroups>
+<T.81.GetUserAndResourceGroups/>
+<GetUserAndResourceGroups time='1287009924924'>
+<t.readList.default.userlist/>
+<t.58.readList.default.userlist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:190)
+	com.ipvs.common.db.DBServiceUtils.getUserFromContactJID(DBServiceUtils.java:98)
+	com.ipvs.common.db.DBServiceUtils.getUserAndResource(DBServiceUtils.java:34)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSourceWithSourceType(MediaRoomServiceUtils.java:510)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getSource(MediaRoomServiceUtils.java:498)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:122)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getRelayProfileResult(StreamPolicyUtils.java:439)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:137)
+]]></stacktrace>
+</t.58.readList.default.userlist>
+</GetUserAndResourceGroups>
+<T.69.GetUserAndResourceGroups/>
+<getPolicyAdminResponse time='1287009924999'>
+</getPolicyAdminResponse>
+<T.102.getPolicyAdminResponse/>
+<getPolicyAdminResponse time='1287009925107'>
+</getPolicyAdminResponse>
+<T.68.getPolicyAdminResponse/>
+<t.readList.default.mediastreamrelayportresourcelist/>
+<t.102.readList.default.mediastreamrelayportresourcelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readListWithXqueryPrefix(MRXMLDBUtils.java:372)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:277)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.handleGetRequest(MediaRoomServiceUtils.java:1164)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:420)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:464)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:142)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getRelayProfileResult(StreamPolicyUtils.java:439)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:137)
+]]></stacktrace>
+</t.102.readList.default.mediastreamrelayportresourcelist>
+<t.readList.default.userlist/>
+<t.74.readList.default.userlist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:190)
+	com.ipvs.common.db.DBServiceUtils.getUserFromContactJID(DBServiceUtils.java:98)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:492)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:142)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getRelayProfileResult(StreamPolicyUtils.java:439)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:137)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+]]></stacktrace>
+</t.74.readList.default.userlist>
+<getPolicyAdminResponse time='1287009925397'>
+</getPolicyAdminResponse>
+<T.63.getPolicyAdminResponse/>
+<t.readList.default.mediastreamrelayportresourcelist/>
+<t.71.readList.default.mediastreamrelayportresourcelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readListWithXqueryPrefix(MRXMLDBUtils.java:372)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:277)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.handleGetRequest(MediaRoomServiceUtils.java:1164)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayFromAssetManagement(GetRelayListRequestHandler.java:420)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:464)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:508)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:142)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+]]></stacktrace>
+</t.71.readList.default.mediastreamrelayportresourcelist>
+<t.readList.default.mediastreamprofilelist/>
+<t.72.readList.default.mediastreamprofilelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readListWithXqueryPrefix(MRXMLDBUtils.java:372)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:277)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.handleGetRequest(MediaRoomServiceUtils.java:1164)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getProfileFromAssetManagement(GetRelayListRequestHandler.java:441)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.generateRelayProfileElement(GetRelayListRequestHandler.java:595)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:512)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:142)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getRelayProfileResult(StreamPolicyUtils.java:439)
+]]></stacktrace>
+</t.72.readList.default.mediastreamprofilelist>
+<getPolicyAdminResponse time='1287009925661'>
+</getPolicyAdminResponse>
+<T.56.getPolicyAdminResponse/>
+<t.readList.default.mediastreamprofilelist/>
+<t.59.readList.default.mediastreamprofilelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readListWithXqueryPrefix(MRXMLDBUtils.java:372)
+	com.ipvs.common.db.MRDBHelper.doGet(MRDBHelper.java:277)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.handleGetRequest(MediaRoomServiceUtils.java:1164)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getProfileFromAssetManagement(GetRelayListRequestHandler.java:441)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.generateRelayProfileElement(GetRelayListRequestHandler.java:595)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfile(GetRelayListRequestHandler.java:553)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayProfileList(GetRelayListRequestHandler.java:634)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getRelayAndProfileFromSrcRelayList(GetRelayListRequestHandler.java:256)
+	com.ipvs.mediaroomservice.handler.GetRelayListRequestHandler.getResponse(GetRelayListRequestHandler.java:155)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getProfileRelayInfo(StreamPolicyUtils.java:428)
+]]></stacktrace>
+</t.59.readList.default.mediastreamprofilelist>
+</ComputeRelayProfile>
+<T.1002.ComputeRelayProfile/>
+<AddStreamRequest time='1287009925816'>
+<ReadRoomDB time='1287009925816'>
+<RoomDBReadElement time='1287009925818'>
+</RoomDBReadElement>
+<T.3.RoomDBReadElement/>
+<mediaSourceDataDoc time='1287009925822'>
+</mediaSourceDataDoc>
+<T.0.mediaSourceDataDoc/>
+<mediaDestDataDoc time='1287009925824'>
+</mediaDestDataDoc>
+<T.1.mediaDestDataDoc/>
+</ReadRoomDB>
+<T.12.ReadRoomDB/>
+<SetRelay time='1287009925828'>
+</SetRelay>
+<T.0.SetRelay/>
+<IfRelaySetSourceAgentJID time='1287009925828'>
+<readRelayPortDoc time='1287009925828'>
+<t.readSingle.default.mediastreamrelayportresourcelist.msrprl_14ff53ca-a56e-4fae-bc46-99e44f049861/>
+<t.52.readSingle.default.mediastreamrelayportresourcelist.msrprl_14ff53ca-a56e-4fae-bc46-99e44f049861>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readSingle(IpvsDBImpl.java:278)
+	com.ipvs.common.db.MRXMLDBUtils.readSingle(MRXMLDBUtils.java:318)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:140)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:286)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+	com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:59)
+	com.ipvs.common.service.MRServerThread.run(MRServerThread.java:104)
+	java.lang.Thread.run(Thread.java:675)
+]]></stacktrace>
+</t.52.readSingle.default.mediastreamrelayportresourcelist.msrprl_14ff53ca-a56e-4fae-bc46-99e44f049861>
+</readRelayPortDoc>
+<T.62.readRelayPortDoc/>
+<getRelayAgentJID time='1287009925890'>
+</getRelayAgentJID>
+<T.4.getRelayAgentJID/>
+<isAvailable time='1287009925895'>
+<t.discoverItems.discoverItems/>
+<t.2.discoverItems.discoverItems>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:75)
+	com.ipvs.xmpp.client.smack.IPVSSession.iq_request(IPVSSession.java:598)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:242)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:226)
+	com.ipvs.xmpp.client.smack.IPVSMultiUserChat.isAvailable(IPVSMultiUserChat.java:175)
+	com.ipvs.xmpp.client.smack.IPVSSession.isAvailable(IPVSSession.java:347)
+	com.ipvs.client.ServiceAgentUtils.isAvailable(ServiceAgentUtils.java:365)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:306)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+	com.ipvs.common.service.MRServerThread.handleRequest(MRServerThread.java:59)
+	com.ipvs.common.service.MRServerThread.run(MRServerThread.java:104)
+]]></stacktrace>
+</t.2.discoverItems.discoverItems>
+</isAvailable>
+<T.15.isAvailable/>
+<createMediaRelayElement time='1287009925910'>
+</createMediaRelayElement>
+<T.18.createMediaRelayElement/>
+<sendRelayInvite time='1287009925928'>
+</sendRelayInvite>
+<T.1.sendRelayInvite/>
+</IfRelaySetSourceAgentJID>
+<T.103.IfRelaySetSourceAgentJID/>
+<AdjustStreamProfileAndURLType time='1287009925931'>
+</AdjustStreamProfileAndURLType>
+<T.0.AdjustStreamProfileAndURLType/>
+<GetOperator time='1287009925931'>
+<t.readList.default.assetresourcelist/>
+<t.75.readList.default.assetresourcelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElement_JumpNID(MRXMLDBUtils.java:190)
+	com.ipvs.common.db.DBServiceUtils.getResource(DBServiceUtils.java:116)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getOperator(MediaRoomServiceUtils.java:413)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getOperator(MediaRoomServiceUtils.java:405)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getOperatorGroups(StreamPolicyUtils.java:43)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:361)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+]]></stacktrace>
+</t.75.readList.default.assetresourcelist>
+</GetOperator>
+<T.87.GetOperator/>
+<ResolveNAT time='1287009926018'>
+<t.readQuery./>
+<t.156.readQuery.>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readQuery(IpvsDBImpl.java:439)
+	com.ipvs.common.db.MRXMLDBUtils.readQuery(MRXMLDBUtils.java:381)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNetworkAddressRuleListFilter(StreamPolicyUtils.java:97)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNetworkAddressRule(StreamPolicyUtils.java:108)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATRule(StreamPolicyUtils.java:327)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATResult(StreamPolicyUtils.java:376)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:409)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+]]></stacktrace>
+</t.156.readQuery.>
+<t.readSingle.default.assetresourcelist.arl_1cb148cf-37ac-4f5a-bee0-601a75566d49/>
+<t.45.readSingle.default.assetresourcelist.arl_1cb148cf-37ac-4f5a-bee0-601a75566d49>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readSingle(IpvsDBImpl.java:278)
+	com.ipvs.common.db.MRXMLDBUtils.readSingle(MRXMLDBUtils.java:318)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:140)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:490)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getDeviceDoc(StreamPolicyUtils.java:56)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATRule(StreamPolicyUtils.java:341)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATResult(StreamPolicyUtils.java:376)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:409)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+]]></stacktrace>
+</t.45.readSingle.default.assetresourcelist.arl_1cb148cf-37ac-4f5a-bee0-601a75566d49>
+<t.readList.default.devicelist/>
+<t.147.readList.default.devicelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:235)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:514)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:491)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getDeviceDoc(StreamPolicyUtils.java:56)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATRule(StreamPolicyUtils.java:341)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATResult(StreamPolicyUtils.java:376)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:409)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+]]></stacktrace>
+</t.147.readList.default.devicelist>
+<t.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2/>
+<t.39.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readSingle(IpvsDBImpl.java:278)
+	com.ipvs.common.db.MRXMLDBUtils.readSingle(MRXMLDBUtils.java:318)
+	com.ipvs.common.db.MRXMLDBUtils.readElement(MRXMLDBUtils.java:140)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:490)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getDeviceDoc(StreamPolicyUtils.java:56)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATRule(StreamPolicyUtils.java:341)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATResult(StreamPolicyUtils.java:379)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:409)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:153)
+]]></stacktrace>
+</t.39.readSingle.default.assetresourcelist.arl_f1998578-df07-495c-86f3-6e138132eed2>
+<t.readList.default.devicelist/>
+<t.68.readList.default.devicelist>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:397)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_request(IPVSSession.java:387)
+	com.ipvs.xmpp.client.smack.IPVSSession.ipvsdb_getData(IPVSSession.java:425)
+	com.ipvs.common.db.IpvsDBImpl.readList(IpvsDBImpl.java:354)
+	com.ipvs.common.db.MRXMLDBUtils.readList(MRXMLDBUtils.java:329)
+	com.ipvs.common.db.MRXMLDBUtils.findChildElements(MRXMLDBUtils.java:235)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:514)
+	com.ipvs.client.ServiceAgentUtils.getDeviceDoc(ServiceAgentUtils.java:491)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getDeviceDoc(StreamPolicyUtils.java:56)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATRule(StreamPolicyUtils.java:341)
+	com.ipvs.mediaroomservice.impl.StreamPolicyUtils.getNATResult(StreamPolicyUtils.java:379)
+	com.ipvs.mediaroomservice.handler.AddStreamRequestHandler.getResponse(AddStreamRequestHandler.java:409)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addMediaStream(ConnectionUtils.java:105)
+]]></stacktrace>
+</t.68.readList.default.devicelist>
+</ResolveNAT>
+<T.554.ResolveNAT/>
+<createStreamElement time='1287009926572'>
+<addStreamlement time='1287009926597'>
+</addStreamlement>
+<T.3.addStreamlement/>
+</createStreamElement>
+<T.28.createStreamElement/>
+</AddStreamRequest>
+<T.787.AddStreamRequest/>
+<StartConnections time='1287009926607'>
+<AddStreamActionRequest time='1287009926628'>
+<GetStreamDataDoc time='1287009926629'>
+</GetStreamDataDoc>
+<T.5.GetStreamDataDoc/>
+<addStreamAction time='1287009926639'>
+<isAvailable time='1287009926642'>
+<t.discoverItems.discoverItems/>
+<t.4.discoverItems.discoverItems>
+<stacktrace><![CDATA[
+	com.ipvs.common.XMPPTransaction.endTrace(XMPPTransaction.java:143)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:89)
+	com.ipvs.common.XMPPTransaction.waitForResponse(XMPPTransaction.java:75)
+	com.ipvs.xmpp.client.smack.IPVSSession.iq_request(IPVSSession.java:598)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:242)
+	com.ipvs.xmpp.client.smack.IPVSServiceDiscoveryManager.discoverItems(IPVSServiceDiscoveryManager.java:226)
+	com.ipvs.xmpp.client.smack.IPVSMultiUserChat.isAvailable(IPVSMultiUserChat.java:175)
+	com.ipvs.xmpp.client.smack.IPVSSession.isAvailable(IPVSSession.java:347)
+	com.ipvs.client.ServiceAgentUtils.isAvailable(ServiceAgentUtils.java:365)
+	com.ipvs.mediaroomservice.handler.AddStreamActionRequestHandler.addStreamAction(AddStreamActionRequestHandler.java:234)
+	com.ipvs.mediaroomservice.handler.AddStreamActionRequestHandler.addStreamAction(AddStreamActionRequestHandler.java:317)
+	com.ipvs.mediaroomservice.handler.AddStreamActionRequestHandler.getResponse(AddStreamActionRequestHandler.java:350)
+	com.ipvs.mediaroomservice.impl.MediaRoomServiceUtils.getMediaRoomResponse(MediaRoomServiceUtils.java:584)
+	com.ipvs.mediaroomservice.handler.ConnectionUtils.addStreamAction(ConnectionUtils.java:130)
+	com.ipvs.sessionservice.impl.SessionMediaRoomUtils.startConnectionList(SessionMediaRoomUtils.java:179)
+	com.ipvs.sessionservice.handler.StartSessionRequestHandler.getResponse(StartSessionRequestHandler.java:100)
+]]></stacktrace>
+</t.4.discoverItems.discoverItems>
+</isAvailable>
+<T.11.isAvailable/>
+<sendWatch time='1287009926653'>
+<getMediaSource time='1287009926653'>
+</getMediaSource>
+<T.10.getMediaSource/>
+<updateStreamDataWithTrackInfo time='1287009926663'>
+</updateStreamDataWithTrackInfo>
+<T.27.updateStreamDataWithTrackInfo/>
+<encode time='1287009926690'>
+</encode>
+<T.14.encode/>
+<sendAgentRequest time='1287009926704'>
+</sendAgentRequest>
+<T.9.sendAgentRequest/>
+<updateStreamStatus time='1287009926714'>
+<updateState time='1287009926714'>
+</updateState>
+<T.16.updateState/>
+<updateCollaborationConnectionStatus time='1287009926731'>
+</updateCollaborationConnectionStatus>
+<T.33.updateCollaborationConnectionStatus/>
+</updateStreamStatus>
+<T.50.updateStreamStatus/>
+</sendWatch>
+<T.111.sendWatch/>
+</addStreamAction>
+<T.125.addStreamAction/>
+</AddStreamActionRequest>
+<T.136.AddStreamActionRequest/>
+</StartConnections>
+<T.173.StartConnections/>
+</startConnectionList>
+<T.2000.startConnectionList/>
+</StartSessionRequestHandler>
+<T.2712.StartSessionRequestHandler/>
+XMPPTransaction:setDEBUG Setting debug=false for threadID=420
+
+</log>

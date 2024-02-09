@@ -1,0 +1,615 @@
+       API Documentation for IPVS Player ActiveX Control
+
+
+Introduction
+
+   This documents the programming interface to the IPVS Player ActiveX Control.
+   The commands are grouped in sections based on functionality.
+
+1. Media Recieve and Playback
+
+    Encapsulation: V2D
+       * URL: v2d://TXIP (eg. v2d://10.1.5.111)
+       * Need to set following properties on the player:
+           player.FileName = v2d://TXIP
+           player.ServerPort = 6060
+           player.MaxBandwidth = 5120; // kbps
+
+
+       * Optional "Properties" for the player for V2d:
+
+	   1. Name  : useHttp.
+	      Type  : Set/Get.
+	      Value : 0 or 1.( 1 For to use Http, 0 for not to use Http ).
+
+	   2. Name  : Mute.
+	      Type  : Set/Get
+	      Value : 0 or 1.( 1 for to set Mute, 0 for to set unmute ).
+
+	   3. Name  : AVMode.
+	      Tyype : Set/Get.
+	      Value : 1, 2 or 3.
+		      ( 1 For Video.
+		        2 For Audio.
+		        3 For Both. )
+
+	   4. Name  : Fps
+	      Type  : Set.
+	      Value : positive Int value.
+
+	   5. Name  : Multicast
+	      Type  : Set.
+	      Value : 0 or 1.( 1 to use Multicase mode, 0  to not to use multicast).
+
+	   6. Name  : ClientPortRangeStart.
+	      Type  : Set.
+	      Value : positive Int value.
+
+	   7. Name  : ClientPortRangeEnd.
+	      Type  : Set.
+	      Value : positive Int value.
+
+	   8. Name  : LocalKBMSState.
+	      Type  : Set/Get.
+	      Value : 0 or 1.( 1 to enable KBMS, 0 to Disable KBMS).
+
+           9. Name  : Settings.
+	      Type  : Set.
+	      Value : XML string.(XML string format should be something like 
+					"<ParameterList>
+					     <toolbar>Preserve/Hide</toolbar>
+					     <doubleclick>Disable/Enable</doubleclick>
+                                             <shortcutkeysforkbm>Disable/Enable</shortcutkeysforkbm>
+					 </ParameterList>").
+
+
+	  10. Name  : ErrorMessage.
+	      Type  : Get
+	      Value : String.( Returns the last error message.)
+
+          11. Name  : ErrorCode.
+	      Type  : Get
+	      Value : positive int value.( Returns the last error code.)
+
+          12. Name  : IsKBMSSuccess.( Returns 1 only when if "LocalKMBSState" is enabled and if the RFB status on the 
+					serverside is enabled.)
+	      Type  : Get
+	      Value : 0 or 1.
+	  
+ 	  13. Name  : MACAddresses.(Right now we are not using this property.).
+	      Type  : Get
+	      Value : String.
+
+	  14. Name  : AvailableCaptureDevices.
+	      Type  : Get
+	      Value : String.( Returns the string in XML format,ie, (<AvailableCaptureDevices>
+									<Device>
+								            <Type>Audio/Video</Type>
+									    <GUID>guid</GUID>
+									    <Name>MIC</Name>
+									</Device>
+									<Device>
+									    <Type>Audio/Video</Type>
+									    <GUID>guid</GUID>		
+									    <Name>USB></Name>
+									</Device>
+								     </AvailableCaptureDevices>).
+
+	  15. Name  : IsRFBReady.( Returns 1 only when if Server RFB is enabled.)
+              Type  : Get
+              Value : 0 or 1. 
+
+	  16. Name  : IsKBMSGrabbing. (Returns 1 only when if "LocalKBMSState" is enabled, RFB Status on the server side is Enabled and Player has the focus.)
+	      Type  : Get
+	      Value : 0 or 1.
+
+         
+         * Other Player "Methods".
+
+          
+	  
+	1. Method:
+    	     Play();(It is used to play the video stream. After setting the minimum properties
+			(ie, FileName, ServerPort, MaxBandwidth), only we need to call Play method.
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+        2. Method:
+    	     Stop();( It is used to stop the video stream.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	3. Method:
+    	     Pause();( It is used to pause the video.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	4. Method:
+    	     Resume();( It is used to resume the video for the paused media.).
+             Note: For MPEG4 and MPEGTS streams the Play() method must be 
+             called again instead of Resume().
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	5. Method:
+    	     CatchUp();(Right now we are not using this.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	6. Method:
+    	     SkipFwd([in] long mSecs);( It is used to skip forward the video for a particular period.).
+   
+           Parameters:
+    	     Positive Interger.(Time in milli seconds).
+    
+           Returns:
+ 	     None.
+
+
+	7. Method:
+    	     SkipBack([in] long mSecs);( It is used to skip backword the video for a particular perdios.).
+   
+           Parameters:
+    	     Positive Interger.(Time in milli seconds).
+    
+           Returns:
+ 	     None.
+
+	8. Method:
+    	     ShowNativeVideoResolution();( To display the video in native size ).
+	   
+	   Description: It is used to display video in native mode. First we need to get the native width and
+			native height by using two activex methods "GetNativeWidth()" and "GetNativeHeight()" 
+			respectively. After that we need to change the size of the activex by using thease values.
+			Afte changing the size of the activex, we need to call this method.
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	9. Method:
+    	     ScaleVideoToWindowSize();
+	
+	   Description: It is used to scale the video to fit into a window. First we need to change 
+			the activex size and then need to call this method.
+		
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	10. Method:
+    	     ShowStats();( It is used to display the statistics dialog ).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	11. Method:
+    	     ToggleMute();( It is used to mute and unmute the player depending upon the previous state ).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	12. Method:
+    	     ShowAboutDlg();( It is used to display the about dailog box. It contains the verison number 
+				for the player).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	13. Method:
+    	     GetMediaStats([out, retval] BSTR *a_pMStats);(It is used to get all the media statistics in xml format. 
+				Actually we are using this method in test scripts.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     String in xml format.
+
+	14. Method:
+    	     GetDecoderStats([out, retval] BSTR	*a_pDStats);(It is used to get all the decoder statistics 
+								in xml format. Actually we are using this method 
+								in test scripts.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     String in xml format.
+
+	15. Method:
+    	     GetRendererStats([out, retval] BSTR *a_pRStats);(It is used to get all the renderer statistics 
+								in xml format. Actually we are using this method 
+								in test scripts.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     String in xml format.
+
+	16. Method:
+    	     Snapshot([in] BSTR DirOrFileName, [in] BSTR FileFormat, [out,retval] BSTR* SavedFileName);
+			( It is used to save the current frame as a bitmap in a particular place.).
+   		
+	    **NOTE: Right now we are not using these paramters. These are for future enhancements).
+	
+           Parameters:
+    	     1. String( Directory name or filename ).
+	     2. String( File format ).
+    
+           Returns:
+ 	     String( Saved file name).
+
+	17. Method:
+    	     SetAuthParameters([in] BSTR a_bstrAuthScheme, [in] BSTR a_bstrAuthData); (It is used to get the authentication parameters. We should configure                                the same token on both sides of Tx/Rx connection for the token based authentication to work.)
+   
+           Parameters:
+              1. String -- Authentication Scheme (It should be "TOKEN" if it is token based authentication. Right now we are using only token based                                                   authentication from client side.)
+              2. String -- Authentication Token data.(It should be same as Tx/Rx side authentication token data.).     	     
+    
+           Returns:
+ 	     None.
+
+	18. Method:
+    	     SetTrickMode([in] BOOL a_bEnable); (It is used to enable/disable audio in some special cases, like, fast forward/slow speed play etc.)
+   
+           Parameters:
+              1. int -- (If it is "1", then player disables audio. If it is "0" then player enables audio.)
+    
+           Returns:
+ 	     None.
+
+    Encapsulation: RTP
+        * URL: http://SDPFileLocation
+        * Supported codecs: Video: MPEG4, Audio: AAC and G711
+    
+    Encapsulation: MPEGTS
+        * URL: udp://@destip:destport (e.g. udp://@192.168.1.66:3000)
+        * Supported codecs: Video: MPEG2, Audio: MPEG1, MPEG2, MPEG3, AC3.
+   
+    Pause-Resume:
+        For MPEG4  (RTP) and MPEGTS, the Pause and Resume implementation is
+        different from V2D. To pause the player the Pause method must be
+        called on the ActiveX object. To resume the stream the Play method
+        must be called instead of Resume.
+
+    Note: It is possible to support other combinations of encapsulation and codecs with a little effort because we already have the codecs. This will require some coding in the player.
+    For e.g. it is possible to support MPEG4 video inside MPEGTS, AAC audio inside MPEGTS.  
+=======================
+
+2. Audio Capture and Transmit
+
+   The control can be instructed to capture Audio from a local device and
+   transmit it over the network.
+
+2.1. Get Audio Capture Device List
+
+   The first step is to get a list of available local Audio Capture devices.
+   The list is returned in XML format. The GUID is used as a key reference for 
+   all further commands.
+   
+   Method:
+    GetAudioDeviceList([out,retval] BSTR* pDeviceList);
+   
+   Parameters:
+    None
+    
+   Returns:
+     <DeviceList>
+      <Device Type="Audio"
+              GUID="BD6DD71B-3DEB-11D1-B171-00C04FC20000"
+              Name="SoundMax Digital Audio">
+      </Device>
+      <Device Type="Audio"
+              GUID="FD5D2DFE-3E83-4E65-8827-F17CB11EFD35"
+              Name="USB">
+      </Device>
+  </DeviceList> 
+
+  Errors:
+   See below for common error section. 
+
+2.2. Start Audio Capture and Transmit
+
+  This starts audio capture and network transmission from the selected device.
+  The input parameters control the capture, encapsulation and encoding.
+  
+  Method:
+    StartAudioStreaming([in] BSTR a_bstrAudioParams, [out,retval] BSTR *a_pstrSDPData);
+
+  Parameters:
+    <StartAudioStreamingRequest>
+       <DeviceGUID>BD6DD71B-3DEB-11D1-B171-00C04FC20000</DeviceGUID>
+       <CaptureParams>
+           <SamplingFrequency>16000</SamplingFrequency>
+           <BitsPerSample>16</BitsPerSample>
+           <Channels>2</Channels>
+       </CaptureParams>
+       <EncapsulationParams>
+          <Encapsulation>RTP</Encapsulation>
+       </EncapsulationParams>
+       <EncodingParams>
+          <Encoding>RAW</Encoding> (should this be PCM???)
+       </EncodingParams>
+       <TransmissionParams>
+          <Multicast>false</Multicast> 
+          (No need for multicast node, we can detect and support it by looking
+          at the IP address)
+          <TTL>1</TTL>
+          <DestIP>172.16.3.224</DestIP>
+          <DestPort>6070</DestPort>
+       </TransmissionParams>
+    </StartAudioStreamingRequest>
+
+  Returns:
+    <StartAudioStreamingResponse>
+      <DeviceGUID>BD6DD71B-3DEB-11D1-B171-00C04FC20000</DeviceGUID>
+      <SDP>"v=0
+            o=IPVIDEOSYSTEMS
+            s=Media Presentation
+            e=NONE
+            t=0 0
+            m=audio 6070 RTP/AVP 96
+            c=IN IP4 172.16.3.224
+            a=rtpmap:96 L16/16000/2"
+      </SDP>
+    </StartAudioStreamingResponse>
+
+  Errors:
+    See below error section.
+
+2.3. Stop Audio Capture and Transmit
+  
+  This starts audio capture and network transmission from the selected device.
+  
+  Method:
+    StopAudioStreaming(GUID);   
+
+  Parameters:
+    <StopAudioStreamingRequest>
+       <DeviceGUID>BD6DD71B-3DEB-11D1-B171-00C04FC20000</DeviceGUID>  
+    </StopAudioStreamingRequest>
+
+  Return Value:
+    ActiveX method will return a HRESULT to indicate success or failure.
+    
+  Errors:
+    See below error section.
+    
+2.4 Get Audio Capture State
+
+  This returns the currrent state of the audio capture.
+  Ideally in addition to just started/stopped it can return the current
+  time related params of the stream 
+    - the (TimeCode @ WallClock) of the media last sent.
+   
+  I have not found the Directsound API for this but will investigate in 
+  the next iteration. If anything is wrong with the device, we will get a 
+  error during runtime. Player should propagate the error back to the UI
+  using current error handling scheme.
+
+2.5 Audio Capture Related Notifications
+
+  Will investigate in the next iteration.
+
+2.6 [Set|Get]CaptureVolume
+
+  There is already a Volume property which gets and sets the volume of the 
+  playback device. Can investigate in next iteration.
+
+Error Handling Scheme
+  There can be 3 methods of error handling:
+  1. XML response based: All methods take a final argument that contains a 
+  XML response. One of the nodes in the XML can be <Error></Error>. I think
+  this is not the standard way in ActiveX. It is not consistent with how 
+  errors are propagated by the player for other situations like playback.
+
+  2. There are 2-3 interfaces like IErrorInfo which COM servers should expose
+  to allow the clients to retrieve errors. This is the recommended way in COM
+  world to propagate errors to clients. But it may require us to do some 
+  research and take some time.
+
+  3. Player has 2 methods ErrorCode and ErrorMessage that can return a error 
+  code and error message to UI. The 2.4 UI uses this scheme, but it is a 
+  polling based method. But it handles most cases like errors in the
+  invocation.
+  E.g. 
+  try {
+      player.Play(); 
+  }
+  catch { // Play() failed due to typo in URL
+      var playerErrorNum = player.ErrorCode;
+      var playerErrorMsg = player.ErrorMessage;
+      // Javascript can use these messages as it wants
+  }
+  
+  When the Play() fails Javascript detects this using the HRESULT return value
+  of the method. This value is not directly available to the code, thus the
+  try/catch mechanism.
+
+  However, this cannot handle errors once the method succeeds. E.g. if a
+  thread exits due to error.
+
+
+______________________________________________________________________
+FIRE_EVENT MECHANISM
+______________________________________________________________________
+
+There is a mechanism called Fire_Events , to call client side functions
+from Activex.
+
+The Client should have the "Event" handling implementation.
+
+Ex:
+For example, In Javascript, the event implementation should be as follows,
+
+<SCRIPT FOR=IPVideoPlayer EVENT="OnChangeDisplay(a,b)" LANGUAGE="JavaScript">
+    alert(a);
+</SCRIPT>
+
+Activex can invoke "OnChangeDisplay()" event, whenever it needs.
+
+Activex is expecting 3 events.
+
+1. OnFullScreen(bool a_bFullScreen). : This will be called from "ToggleDisplay()" method of Activex. ToggleDisplay() is used to go to
+		                       the fullscreen, and comeback from the fullscreen.
+		                              
+
+2. OnKBMSEnable(bool a_bKSMEnabled) : This is called when user uses shortcut key to enable/disable KBMS.
+                                      a)Enabling KBMS : "Ctrl" + "k" -  is used to enable KBMS.(Press & hold "Ctrl", and press & release "k").
+                                      b)Disabling KBMS: "Ctrl", "Ctrl", "k" - is used to disable KBMS.(Press & release "Ctrl", press & release "Ctrl", and press & release "k".). While using this, user has to take care about the time span between each key press. The time span between each key press should be less than 250 milli seconds.
+
+   Activex, doesn't enable/disable KBMS itself, while using shortcut keys, it just informs UI. Because we need to enable/disable KBMS, based on user profile. Activex doesn't know about the user profile. So, UI has to enable/disable KBMS from this callback.                                      
+
+3. OnRFBEnable(bool a_bRFBEnabled)  : This is used to notify the status of RFB on the server side, to the client.
+
+4. OnNativeSizeChange(long a_lWidth, long a_lHeight)  : This is used to notify the native width and native height of the input stream.
+
+_____________________________________________________________________________
+Setting Windowed mode or windowless mode
+_____________________________________________________________________________
+
+Client can control the behavior of the application, by using the parameter called "Windowless".
+
+Ex:
+To use Windowless mode:
+
+    <PARAM NAME="Windowless"  VALUE="1">
+
+
+If this parameter is not specified, the player defaults to windowed mode.
+
+
+_____________________________________________________________________________
+For AuthStation (Play from minute files)
+_____________________________________________________________________________
+
+	1. Method:
+    	     Play();(It is used to play the video stream. After setting the minimum properties
+			(ie, FileName, ServerPort, MaxBandwidth) we need to call Play method.
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+        2. Method:
+    	     Stop();( It is used to stop the video stream.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	3. Method:
+    	     Pause();( It is used to pause the video.).
+   
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	4. Method:
+    	     Resume();( It is used to resume the video for the paused media.).
+             
+           Parameters:
+    	     None.
+    
+           Returns:
+ 	     None.
+
+	5. Method:
+    	     SkipFwd([in] long mSecs);( It is used to skip forward the video for a particular period.).
+   
+           Parameters:
+    	     Positive Interger.(Time in milli seconds).
+    
+           Returns:
+ 	     None.
+
+
+	6. Method:
+    	     SkipBack([in] long mSecs);( It is used to skip backword the video for a particular perdios.).
+   
+           Parameters:
+    	     Positive Interger.(Time in milli seconds).
+    
+           Returns:
+ 	     None.
+
+Properties:
+	7. Name  : SDPData
+	   Type  : Set.
+	   Value : String.
+  
+NOTE: SDP data should be something like this.
+      (Need to maintain one blank new line, after each line of data.
+      If we decode sdp data from db.xml, we need to replace a)VIDEOPORT_TOKEN and b)AUDIOPORT_TOKEN with "0"(zero).)/
+
+----------------------------------------------------------------
+	v=0
+
+	c=IN IP4 192.168.20.112/2
+
+	m=video 6900 RTP/AVP 96
+
+	a=rtpmap:96 MP4V-ES/90000
+
+	a=fmtp:96 streamType=5;profile-level-id=1;config=000001b003000001b509000001000000012000845d4c307d30b041e1463f
+
+	m=audio 6902 RTP/AVP 97
+
+	a=rtpmap:97 mpeg4-generic/48000/2
+
+	a=fmtp:97 streamtype=6;profile-level-id=5;mode=AAC-hbr;sizelength=13;indexlength=3;indexdeltalength=3;config=1190
+
+---------------------------------------   
+
+
+URLs for differect types of Media:
+-----------------------------------
+	
+	1. V2d minute files: v2dfile://<V2d minute files directory path>
+
+	2. Rtp minute files: rtpfile://<Rtp minute files directory path>
+	   NOTE: Activex needs SDP data, To run RTP minute files. So, we need to set "SDPData" property, before setting 
+		the "FileName" property.
+	
+	3. MPEGTS minute files : mpegtsfile://<MpegTs minute files directory path>
+

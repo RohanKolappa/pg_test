@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <title>Barco Media Player</title>
+	<link rel="stylesheet" href="Player.css" type="text/css">
+</head>
+<body>
+    <div class="header">
+      <h1><span><img class="logo" src="./resource/barco60x40.png" />Barco Media Player</span></h1>
+    </div>
+    <div class="mainContent"  style="margin:auto; width:640px; height:360px;">
+		<iframe id="myFrame" style="width:100%;height:100%" frameBorder="0" scrolling="no" allowfullscreen>
+		</iframe>
+    </div>
+	<div id="seturl">URL: 
+		<input id="controlurl" type="text" size="100" placeholder="mediaURL" value=""> 
+		<span id="set" ><BUTTON>Set</BUTTON> </span>
+	</div> 
+	<script>
+	    document.getElementById('set').addEventListener('click', function () {
+	        var inputs = document.getElementById('controlurl');
+	        var lcControlURL = inputs.value;
+
+	        if (!lcControlURL) {
+	            alert('Please input control URL. ');
+	            inputs.focus();
+	            return;
+	        };
+
+	        // set mediaURL where get from getFile or getPort response
+            // attach a configuration suffix to force start HLS 
+	        lcControlURL += '&confOpt_playerPref=HLS';
+	        document.getElementById('myFrame').setAttribute('src', lcControlURL);
+	    });
+		
+	</script>
+</body>
+</html>

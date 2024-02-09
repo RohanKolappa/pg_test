@@ -1,0 +1,1 @@
+java -classpath mediaroom.jar;commons-beanutils.jar;commons-collections-3.2.jar;commons-lang-2.3.jar;commons-logging-1.1.jar;commons-logging-adapters-1.1.jar;commons-logging-api-1.1.jar;smack.jar;smackx.jar;su-smack-latest.jar com.ipvs.test.TestApplet 

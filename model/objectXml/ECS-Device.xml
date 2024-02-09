@@ -1,0 +1,676 @@
+<?xml version="1.0"?>
+<ECS-Device serviceVer="" Ver="1.0" Rev="1" NID="" parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+	<ManagementMode>Local</ManagementMode>
+
+	<ResourcePointers>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<LicenseConfig Dirty="CLEAN">
+				<NewLicenseKey></NewLicenseKey>
+			</LicenseConfig>
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password>admin</Password>
+			</AdminServiceConfig>
+
+			<LoginBannerConfig Dirty="CLEAN">
+				<Banner>
+				</Banner>
+			</LoginBannerConfig>
+
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+			</SystemClockConfig>
+
+			<SplashScreenConfig file="/usr/local/file.bmp"
+				Dirty="CLEAN" />
+
+			<KeyboardConfig Dirty="CLEAN">
+				<Layout>us</Layout>
+				<Variant>intl</Variant>
+			</KeyboardConfig>
+			<RegionalSettingsConfig Dirty="CLEAN">
+				<Locale>en_US</Locale>
+				<Timezone>Europe/Brussels</Timezone>
+			</RegionalSettingsConfig>
+
+			<DesktopConfig Dirty="CLEAN">
+				<Display name="DP-3.8" resolution="1920x1200" refresh_rate="60"
+					position="0x0" />
+			</DesktopConfig>
+
+			<SystemLogConfig Dirty="CLEAN">
+				<Level>INFO</Level>
+			</SystemLogConfig>
+
+			<UpgradeConfig Dirty="CLEAN">
+				<Source></Source>
+			</UpgradeConfig>
+
+		</SystemElementsConfig>
+
+		<ServiceElementsConfig>
+			<!-- The ipvs xmpp device agent -->
+			<XMPPAgentServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<XMPPServer>0.0.0.0</XMPPServer>
+				<XMPPServerPort>5222</XMPPServerPort>
+				<DeviceName>UserId</DeviceName>
+				<DevicePassword>secret</DevicePassword>
+				<Domain>default</Domain>
+				<!-- XMPP domain: always "default" -->
+				<ServiceDomain>default</ServiceDomain>
+				<AgentList>
+					<!-- this represents the device agent (xmpp agent) -->
+					<XMPPAgentServiceConfigAgentConfig
+						Dirty="CLEAN">
+						<Enable>true</Enable>
+					</XMPPAgentServiceConfigAgentConfig>
+				</AgentList>
+			</XMPPAgentServiceConfig>
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+				<HTTPPort></HTTPPort>
+			</HTTPServiceConfig>
+
+			<SSHServiceConfig Dirty="CLEAN">
+				<EnableSSH>true</EnableSSH>
+			</SSHServiceConfig>
+
+			<TelnetServiceConfig Dirty="CLEAN">
+				<EnableTelnet>false</EnableTelnet>
+			</TelnetServiceConfig>
+
+			<TFTPServiceConfig Dirty="CLEAN">
+				<EnableTFTP>false</EnableTFTP>
+			</TFTPServiceConfig>
+
+			<DHCPServiceConfig Dirty="CLEAN">
+				<EnableDHCPServer>false</EnableDHCPServer>
+				<DHCPStartIP>10.1.5.1</DHCPStartIP>
+				<DHCPEndIP>10.1.5.50</DHCPEndIP>
+				<PublishDNSServer>192.168.1.254</PublishDNSServer>
+			</DHCPServiceConfig>
+
+			<NTPServiceConfig Dirty="CLEAN">
+				<EnableNTPServer>false</EnableNTPServer>
+				<NTPServerIP></NTPServerIP>
+			</NTPServiceConfig>
+
+			<SecureTunnelClientServiceConfig
+				Dirty="CLEAN">
+				<EnableSecureTunnel>true</EnableSecureTunnel>
+				<TunnelRemoteIP></TunnelRemoteIP>
+				<TunnelUsername></TunnelUsername>
+				<TunnelPassword></TunnelPassword>
+			</SecureTunnelClientServiceConfig>
+
+			<DiscoveryReportingServiceConfig
+				Dirty="CLEAN">
+				<Enable>false</Enable>
+			</DiscoveryReportingServiceConfig>
+
+			<CorosyncServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<GroupName></GroupName>
+				<VirtualIPAddress></VirtualIPAddress>
+				<DiscoveryMulticastSocket></DiscoveryMulticastSocket>
+				<DiscoveryUnicastSocket>
+					<Member></Member>
+					<Member></Member>
+				</DiscoveryUnicastSocket>
+			</CorosyncServiceConfig>
+			<MulticastIpAddressRange Dirty="CLEAN">
+				<From></From>
+				<To></To>
+			</MulticastIpAddressRange>
+			<StreamingServiceConfig Dirty="CLEAN">
+			</StreamingServiceConfig>
+			
+			<ECSServiceConfig Dirty="CLEAN">
+			<Config Dirty="CLEAN">
+				<deviceregistration Dirty="CLEAN">
+					<enable></enable>
+				</deviceregistration>
+
+				<redundancy Dirty="CLEAN">
+					<enable>true</enable>
+					<nodes>
+						<ip></ip>
+					</nodes>
+					<nodes>
+						<ip></ip>
+					</nodes>
+					<nodes>
+						<ip></ip>
+					</nodes>
+					<sshkey></sshkey>
+					<database_credential>
+						<user_name></user_name>
+						<password></password>
+					</database_credential>
+				</redundancy>
+
+			</Config>
+		</ECSServiceConfig>		
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName>name</HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP>0.0.0.0</DNSServerIP>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway>192.168.1.254</Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+			<HostTableConfig Dirty="CLEAN">
+				<HostEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</HostEntry>
+			</HostTableConfig>
+
+			<NATZoneTableConfig Dirty="CLEAN">
+				<NATZoneEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</NATZoneEntry>
+			</NATZoneTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<Name>eth0</Name>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="2">
+					<PortID>2</PortID>
+					<Name>eth1</Name>
+					<EnableInterface>false</EnableInterface>
+					<IsPrimary>false</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+
+					<IPConfig>
+						<UseDHCP>false</UseDHCP>
+						<IPAddress>0.0.0.0</IPAddress>
+						<Netmask>0.0.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+		</NetworkElementsConfig>
+
+		<StorageElementsConfig>
+			<MountTableConfig Dirty="CLEAN">
+				<MountEntry>
+					<DevPath>true</DevPath>
+					<MountPoint></MountPoint>
+					<MountArgs></MountArgs>
+				</MountEntry>
+			</MountTableConfig>
+
+			<CFDriveConfig Dirty="CLEAN">
+				<DeviceName></DeviceName>
+				<MountPoint></MountPoint>
+			</CFDriveConfig>
+
+			<HardDiskTableConfig Dirty="CLEAN">
+				<HardDiskEntry Dirty="CLEAN" ListIndex="1">
+					<DeviceName>/dev/sda1</DeviceName>
+					<MountPoint>/data1</MountPoint>
+
+					<RAIDArrayEntry Dirty="CLEAN">
+						<Controller>c0</Controller>
+						<Unit>u0</Unit>
+						<RAIDType>RAID-1</RAIDType>
+
+						<RAIDDiskTableConfig Dirty="CLEAN">
+							<RAIDDiskEntry Dirty="CLEAN" ListIndex="1">
+								<Port>1</Port>
+							</RAIDDiskEntry>
+
+							<RAIDDiskEntry Dirty="CLEAN" ListIndex="2">
+								<Port>2</Port>
+							</RAIDDiskEntry>
+						</RAIDDiskTableConfig>
+					</RAIDArrayEntry>
+
+					<MediaStore>
+						<Name>/data1</Name>
+						<RootDirPath>/data/DSS/data/portal/site</RootDirPath>
+					</MediaStore>
+
+					<SystemStore>
+						<SystemReservation Size="5368709120">
+							<RootDirPath>/data1</RootDirPath>
+						</SystemReservation>
+						<ThumbnailReservation Size="5368709120">
+							<RootDirPath>/data1/tncache/</RootDirPath>
+						</ThumbnailReservation>
+					</SystemStore>
+				</HardDiskEntry>
+			</HardDiskTableConfig>
+		</StorageElementsConfig>		
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<SystemElementsStatus State="OK">
+			<SoftwareImageStatus Queryable="true" State="OK">
+				<Parameters timestamp="1427298304840">
+					<Parameter name="Version" source="constant" type="String">4.4.r1.b86381
+					</Parameter>
+					<Parameter name="Service Version" source="constant" type="String">
+						2.32.5
+					</Parameter>
+					<Parameter name="Date" source="constant" type="String">Mar 23 2015
+						12:31:15
+					</Parameter>
+					<Parameter name="Serial Number" source="constant" type="String">59440606768762
+					</Parameter>
+					<Parameter name="Model" source="constant" type="String" />
+					<Parameter name="License ID" source="constant" type="String" />
+				</Parameters>
+			</SoftwareImageStatus>
+
+			<LicenseStatus>
+				<BLMPINCode />
+				<DemoLicenseDaysLeft />
+				<LicenseInfo>
+					<Product>mgs</Product>
+					<Expires>31-Jul-2004</Expires>
+					<Feature>basic</Feature>
+					<Version>1.0</Version>
+					<Quantity>0</Quantity>
+					<Valid>true</Valid>
+					<Property Name="somekey">someval</Property>
+				</LicenseInfo>
+				<LicenseInfo>
+					<Product>mgs2</Product>
+					<Expires>never</Expires>
+					<Feature>basic</Feature>
+					<Version>1.0</Version>
+					<Quantity>0</Quantity>
+					<Valid>true</Valid>
+					<Property Name="somekey">someval</Property>
+				</LicenseInfo>
+			</LicenseStatus>
+
+			<CPUStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="Uptime" type="String">57 mins, 43 secs
+					</Parameter>
+					<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+					<Parameter name="Temperature" type="Float">50</Parameter>
+				</Parameters>
+				<ParameterList>
+					<Parameters>
+						<Parameter name="Name" type="String">core1</Parameter>
+						<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+						<Parameter name="Temperature" type="Float">50</Parameter>
+					</Parameters>
+					<Parameters>
+						<Parameter name="Name" type="String">core2</Parameter>
+						<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+						<Parameter name="Temperature" type="Float">50</Parameter>
+					</Parameters>
+				</ParameterList>
+			</CPUStatus>
+
+			<MemoryStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="Total" source="guage" type="UnsignedInteger"
+						units="bytes">526880768</Parameter>
+					<Parameter name="Free" source="guage" type="UnsignedInteger"
+						units="bytes">131538944</Parameter>
+					<Parameter name="Cached" source="guage" type="UnsignedInteger"
+						units="bytes">270635008</Parameter>
+					<Parameter name="Usable" source="guage" type="UnsignedInteger"
+						units="bytes">402173952</Parameter>
+				</Parameters>
+			</MemoryStatus>
+
+			<!-- any HW status that is not CPU/Mem – f.i . leds etc -->
+			<SystemHWStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemHWStatus>
+
+			<SystemClockStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="UTCTime" type="String">Wed Mar 25 15:45:04 2015
+					</Parameter>
+					<Parameter name="NTPStatus" type="String">Ok</Parameter>
+					<Parameter name="NTPOffset" type="String">0.001068</Parameter>
+					<Parameter name="NTPInfo" source="dynamic" type="String">
+						remote
+						refid st t when poll reach delay offset jitter
+						==============================================================================
+						*10.51.49.135 LOCAL(0) 11 u 2 128 377 0.408 1.068 0.635
+					</Parameter>
+				</Parameters>
+			</SystemClockStatus>
+
+			<FirmwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+				<!-- ParametersList occur when tabular information is to be represented -->
+				<ParametersList timestamp="1427298304923">
+					<Parameters timestamp="1427298304923">
+						<Parameter name="Board Firmware" type="String">0.0-0</Parameter>
+						<Parameter name="Firmware Date" type="String">Jan 1 1970 00:00:00
+						</Parameter>
+						<Parameter name="Board Hardware" type="String">Rev 2081.6245
+							Manufactured 188 Dec 2008
+						</Parameter>
+						<Parameter name="Board Serial" type="String" />
+					</Parameters>
+					<Parameters timestamp="1427298304923">
+						<Parameter name="Board Firmware" type="String">0.0-0</Parameter>
+						<Parameter name="Firmware Date" type="String">Jan 1 1970 00:00:00
+						</Parameter>
+						<Parameter name="Board Hardware" type="String">Rev 2081.6245
+							Manufactured 188 Dec 2008
+						</Parameter>
+						<Parameter name="Board Serial" type="String" />
+					</Parameters>
+				</ParametersList>
+			</FirmwareImageStatus>
+
+			<DesktopStatus>
+				<Display name="DP-3.8">
+					<EDID resolution="1920x1200" refresh_rate="60" />
+					<EDID resolution="1920x1600" refresh_rate="60" />
+				</Display>
+			</DesktopStatus>
+			<IdentifyStatus>
+				<Parameters>
+					<Parameter name="identifying"></Parameter>
+				</Parameters>
+			</IdentifyStatus>
+		</SystemElementsStatus>
+
+		<!-- Simple parameter name/value scheme for exposing status that the device 
+			developer sees fit. Only for status that changes relatively less frequent 
+			and is smaller in quantity. -->
+		<ServiceElementsStatus State="OK">
+			<HTTPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HTTPServiceStatus>
+			<SSHServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SSHServiceStatus>
+			<TelnetServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</TelnetServiceStatus>
+			<SecureTunnelClientServiceStatus
+				Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SecureTunnelClientServiceStatus>
+
+			<XMPPAgentServiceStatus Queryable="true"
+				State="OK">
+				<Parameters>
+					<Parameter name="Status" source="health" type="Boolean">True
+					</Parameter>
+					<Parameter name="XMPP Server" type="String">10.51.51.28
+					</Parameter>
+				</Parameters>
+
+				<AgentList>
+					<XMPPAgentServiceConfigAgentStatus
+						Queryable="true">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</XMPPAgentServiceConfigAgentStatus>
+				</AgentList>
+			</XMPPAgentServiceStatus>
+
+			<CorosyncServiceStatus State="">
+				<VirtualIPAddress>172.16.0.250</VirtualIPAddress>
+			</CorosyncServiceStatus>
+
+			<!-- placeholder -->
+			<StreamingServiceStatus>
+				<CurrentStreamInstanceCount>
+					<Total></Total>
+					<Transmit></Transmit>
+					<Receive></Receive>
+					<Read></Read>
+					<Write></Write>
+					<Encode></Encode>
+					<Decode></Decode>
+				</CurrentStreamInstanceCount>
+
+				<InstanceList>
+				</InstanceList>
+			</StreamingServiceStatus>
+			
+			
+		<ECSServiceStatus>
+			<Status>
+				<health>
+					<overall_status>Green</overall_status>
+				</health>
+				<redundancy_status>Disabled</redundancy_status>
+			</Status>
+		</ECSServiceStatus>
+		</ServiceElementsStatus>
+
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+			<NTPClientStatus Queryable="true" State="">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</NTPClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList timestamp="1427298304931">
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">0.0.0.0</Parameter>
+						<Parameter name="Netmask" type="String">0.0.0.0</Parameter>
+						<Parameter name="Gateway" type="String">10.51.48.1</Parameter>
+						<Parameter name="Flags" type="String">UG</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">10.51.48.0
+						</Parameter>
+						<Parameter name="Netmask" type="String">255.255.252.0</Parameter>
+						<Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+						<Parameter name="Flags" type="String">U</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">224.0.0.0</Parameter>
+						<Parameter name="Netmask" type="String">240.0.0.0</Parameter>
+						<Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+						<Parameter name="Flags" type="String">U</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters timestamp="1427298304959">
+							<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+							<Parameter name="MTU Size" type="Integer">1500</Parameter>
+							<Parameter name="Status" source="configuration" type="Boolean">True
+							</Parameter>
+							<Parameter name="Virtual" source="truth" type="Boolean">False
+							</Parameter>
+							<Parameter name="IPAddress" type="String">10.51.50.81
+							</Parameter>
+							<Parameter name="Netmask" type="String">255.255.252.0
+							</Parameter>
+							<Parameter name="Broadcast" type="String">10.51.51.255
+							</Parameter>
+							<Parameter name="HardwareAddress" type="String">00:50:56:8C:CC:0B
+							</Parameter>
+							<Parameter name="Name" type="String">v2dxp200</Parameter>
+							<Parameter name="Primary" source="configuration" type="Boolean">True
+							</Parameter>
+							<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+								units="bytes">4603591</Parameter>
+							<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+								units="bytes">931061</Parameter>
+							<Parameter name="RxPackets" source="counter" type="UnsignedInteger"
+								units="number">52304</Parameter>
+							<Parameter name="TxPackets" source="counter" type="UnsignedInteger"
+								units="number">1528</Parameter>
+							<Parameter name="RxErrors" source="counter" type="UnsignedInteger"
+								units="number">0</Parameter>
+							<Parameter name="TxErrors" source="errorcounter" type="UnsignedInteger"
+								units="number">0</Parameter>
+							<Parameter name="LinkDetected" type="String" />
+							<Parameter name="AutoNegotiate" type="String" />
+							<Parameter name="Speed" type="String" />
+							<Parameter name="Duplex" type="String" />
+							<Parameter name="LinkPartner" type="String" />
+						</Parameters>
+					</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+		</NetworkElementsStatus>
+
+		<StorageElementsStatus State="OK">
+			<MountTableStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</MountTableStatus>
+
+			<CFDriveStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</CFDriveStatus>
+
+			<HardDiskTableStatus Queryable="true" State="OK">
+				<ParametersList timestamp="1427204653688">
+					<Parameters timestamp="1427204653688">
+						<Parameter name="Name" type="String">/data1</Parameter>
+						<Parameter name="Status" source="health" type="Boolean">True
+						</Parameter>
+						<Parameter name="Total" source="guage" type="UnsignedLong"
+							units="bytes">50888957952</Parameter>
+						<Parameter name="Available" source="guage" type="UnsignedLong"
+							units="bytes">42415878144</Parameter>
+						<Parameter name="Used" source="guage" type="UnsignedLong"
+							units="bytes">8473079808</Parameter>
+						<Parameter name="PercentUsed" type="Float" units="percent">16.65
+						</Parameter>
+						<Parameter name="Firmware" type="String" />
+						<Parameter name="RAID" type="String" />
+						<Parameter name="BBU Status" type="String" />
+						<Parameter name="Raid Status" type="String">ERROR</Parameter>
+						<Parameter name="Percentage" type="String" />
+						<Parameter name="Disk #0" type="String" />
+						<Parameter name="Status #0" type="String">ERROR</Parameter>
+						<Parameter name="Disk #1" type="String" />
+						<Parameter name="Status #1" type="String">ERROR</Parameter>
+						<Parameter name="Disk #2" type="String" />
+						<Parameter name="Status #2" type="String">ERROR</Parameter>
+						<Parameter name="Disk #3" type="String" />
+						<Parameter name="Status #3" type="String">ERROR</Parameter>
+						<Parameter name="Disk #4" type="String" />
+						<Parameter name="Status #4" type="String" />
+						<Parameter name="Disk #5" type="String" />
+						<Parameter name="Status #5" type="String" />
+						<Parameter name="Disk #6" type="String" />
+						<Parameter name="Status #6" type="String" />
+						<Parameter name="Disk #7" type="String" />
+						<Parameter name="Status #7" type="String" />
+					</Parameters>
+				</ParametersList>
+			</HardDiskTableStatus>
+		</StorageElementsStatus>
+
+		<!-- placeholder -->
+		<AVCodecElementsStatus State="OK">
+		</AVCodecElementsStatus>
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<!-- the presence of these node suggests that the device is capable of 
+			performing these system actions. -->
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<SaveToFlashCommand></SaveToFlashCommand>
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+			<IdentifyCommand />
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<StorageElementsCommand></StorageElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</ECS-Device>

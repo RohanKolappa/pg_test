@@ -1,0 +1,98 @@
+<Menu>
+   <Type>config</Type>
+   <Title>XpiColorParameters</Title>
+   <Description>Color Control Parameters</Description>
+   <Access>xpi_color_parm</Access>
+   <ConfigFile>xpicolorconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+
+      <Item>
+        <Name>brightness</Name>
+        <Type>integer</Type>
+        <Label>Brightness</Label>
+        <Help>Enter picture brightness or black level</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-127</Min>
+           <Max>127</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>contrast</Name>
+        <Type>float</Type>
+        <Label>Contrast</Label>
+        <Align>follow</Align>
+        <Help>Enter picture contrast or luma gain</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1.0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0.0</Min>
+           <Max>2.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>saturation</Name>
+        <Type>float</Type>
+        <Label>Saturation</Label>
+        <Help>Enter color saturation or chroma gain</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1.00</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0.0</Min>
+           <Max>2.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>hue</Name>
+        <Type>integer</Type>
+        <Label>Hue</Label>
+        <Align>follow</Align>
+        <Help>Enter effective hue applied to Chroma</Help>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>-127</Min>
+           <Max>127</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>rgb_range</Name>
+        <Type>string</Type>
+        <Label>RGB Range</Label>
+        <Help>Enter RGB quantization range</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "Limited", "Full"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>sampling_phase</Name>
+        <Type>integer</Type>
+        <Label>Phase</Label>
+        <Align>follow</Align>
+        <Help>Enter analog sampling phase</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>31</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

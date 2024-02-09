@@ -1,0 +1,37 @@
+<ipvs>
+
+	<!-- restrict the deletion to current file from group  -->
+	<!--  db_server=sedna_native/sedna_xmldb/exist_xmldb  -->
+	<query type="DeleteQuery" name="deleting"  priority="1" enable="true" db_server="sedna_native,sedna_xmldb,exist_xmldb">
+	<![CDATA[ 
+		declare variable $arr_param_mediaFileNID:=(PARAM_mediaStreamFileResourceNID) ;
+	
+		declare function local:count_otherdir_clips_in_group( $parent as element()*) as xs:integer { 
+			let $co :=   count ( index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[
+					//MediaStoreFileInfo/MediaGroupID=$parent/MediaGroupID  
+					and  //MediaStoreFileInfo/Type='MediaClip' 
+					and   not ( //Info/Properties/ParentMediaDirNID=$arr_parentMediaDirNID )]/@NID
+				)  
+ 			 return 
+			 if( $co=0 ) then
+				0
+			 else $co
+		};		
+
+		let $arr_mediaGroupID := distinct-values ( for $b in
+			index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+			where $b[ @NID=$arr_param_mediaFileNID  and local:count_otherdir_clips_in_group !=1 ]  
+			return $b//MediaGroupID/data(.) )
+
+		let $allFileNIDS := distinct-values ( for $b in
+			index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..
+			where $b[  $b/Info/MediaStoreFileInfo/MediaGroupID=$arr_mediaGroupID or $b/@NID=$arr_param_mediaFileNID] 
+			return $b/@NID/data(.) )
+		
+		for $b in index-scan('IPVSis_colnids_default', 'default.mediastreamfileresourcelist', 'EQ')/..[@NID=$allFileNIDS]  
+			| index-scan('IPVSis_colnids_default', 'default.bookmarklist', 'EQ')/..[//MediaStreamFileResourceNID=$allFileNIDS  ]
+		return  document-uri(root($b))
+	
+		]]>
+	</query>
+</ipvs>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="mediaroom">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	<!--<property name="3rdpartylib" value="../javalibs"/>-->
+	<property name="3rdpartylib" value="3rdpartylib"/>
+    <path id="mediaroom.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${3rdpartylib}/commons-beanutils.jar"/>
+        <pathelement location="${3rdpartylib}/commons-collections-3.2.jar"/>
+        <pathelement location="${3rdpartylib}/commons-lang-2.3.jar"/>
+        <pathelement location="${3rdpartylib}/commons-logging-1.1.jar"/>
+        <pathelement location="${3rdpartylib}/commons-logging-adapters-1.1.jar"/>
+        <pathelement location="${3rdpartylib}/commons-logging-api-1.1.jar"/>
+        <pathelement location="${3rdpartylib}/log4j-1.2.15.jar"/>
+        <pathelement location="${3rdpartylib}/smack.jar"/>
+        <pathelement location="${3rdpartylib}/smackx.jar"/>
+        <pathelement location="${3rdpartylib}/su-smack-latest.jar"/>
+        <pathelement location="${3rdpartylib}/jaxen.jar"/>
+        <pathelement location="${3rdpartylib}/dom4j.jar"/>
+        <pathelement location="${3rdpartylib}/plugin.jar"/>
+        <pathelement location="${3rdpartylib}/jcip-annotations-1.0.jar"/>
+        <pathelement location="${3rdpartylib}/xpp3.jar"/>
+    	<pathelement location="${3rdpartylib}/jetty-all-8.1.6.v20120903.jar"/>
+    	<pathelement location="${3rdpartylib}/javax.servlet.jar"/>    	
+    	<pathelement location="${3rdpartylib}/resteasy-jaxrs-2.3.5.Final.jar"/>
+    	<pathelement location="${3rdpartylib}/jaxrs-api-2.3.5.Final.jar"/>
+    	<pathelement location="${3rdpartylib}/scannotation-1.0.3.jar"/>
+    	<pathelement location="${3rdpartylib}/json-convertor.jar"/> 
+    	<pathelement location="${3rdpartylib}/com.barco.nimbus.3rdparty.jain-sdp.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="3rdpartylib" excludes="**/*.launch, **/*.java"/>
+        </copy>
+        <mkdir dir="ipvsclientbin"/>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="ipvsclientbin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project,build-release" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}" level="info"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="mediaroom.classpath"/>
+            <compilerarg value="-Xlint" compiler="modern"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="3rdpartylib"/>
+            <classpath refid="mediaroom.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+	<target name="build-release" description="mediaroom.jar">
+	    <mkdir dir="dist"/>
+	    <jar destfile="dist/mediaroom.jar" manifest="src/MANIFEST.MF">
+	        <metainf dir="src/META-INF" />
+	        <zipfileset dir="bin" includes="**/*.class" />
+	        <zipfileset dir="bin" includes="**/*.xsd" />
+	        <zipfileset dir="bin" includes="**/*.xml" />
+	    	<zipfileset dir="bin" includes="**/*.properties" />
+	        <zipfileset dir="bin" includes="**/*.txt" />
+	    </jar>
+	</target>
+	
+	<!-- Build for the java 1.4 ipvsclient.jar -->
+
+    <target depends="build,ipvsclientbuild" name="buildall"/>
+
+    <target depends="ipvsclientbuild-project,ipvsclientbuild-release" name="ipvsclientbuild"/>
+    <target depends="clean,init,ipvsclientbuild-project,ipvsclientbuild-release" name="ipvsclientdev"/>
+	
+    <property name="ipvsclienttarget" value="1.4"/>
+    <property name="ipvsclientsource" value="1.4"/>
+    <property name="ipvsclientbootclasspath" value="3rdpartylib/rt.jar"/>
+    <path id="ipvsclientmediaroom.classpath">
+        <pathelement location="ipvsclientbin"/>
+        <pathelement location="3rdpartylib/commons-beanutils.jar"/>
+        <pathelement location="3rdpartylib/commons-collections-3.2.jar"/>
+        <pathelement location="3rdpartylib/commons-lang-2.3.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-1.1.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-adapters-1.1.jar"/>
+        <pathelement location="3rdpartylib/commons-logging-api-1.1.jar"/>
+        <pathelement location="3rdpartylib/log4j-1.2.15.jar"/>
+        <pathelement location="3rdpartylib/smack-1.4.jar"/>
+        <pathelement location="3rdpartylib/smackx-1.4.jar"/>
+        <pathelement location="3rdpartylib/su-smack-1.2.jar"/>
+        <pathelement location="3rdpartylib/jaxen.jar"/>
+        <pathelement location="3rdpartylib/dom4j.jar"/>
+        <pathelement location="3rdpartylib/plugin.jar"/>
+    	<pathelement location="3rdpartylib/xpp3.jar"/>	
+    </path>
+    <target name="ipvsclientbuild-project">
+        <echo message="${ant.project.name}: ${ant.file}" level="info"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="ipvsclientbin" source="${ipvsclientsource}" target="${ipvsclienttarget}" bootclasspath="${ipvsbootclasspath}" sourcepath="" srcdir="src">
+			<include name="com/ipvs/app/BaseApplet.java"/>
+			<include name="com/ipvs/sessionservice/impl/SessionServiceConst.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/IPVSMessageExtension.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/AgentMessageExtensionProvider.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionIQ.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionIQProvider.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionMessageExtension.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionMessageExtensionProvider.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/ResponseElement.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/ResponseIQProvider.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/UpdateEventElement.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/UpdateEventExtentionProvider.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/BytestreamsLocalIP.java"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/BytestreamsLocalIPProvider.java"/>
+			<include name="com/ipvs/app/IPVSClientUtils.java"/>
+			<include name="com/ipvs/app/IPVSMessageHandler.java"/>
+			<include name="com/ipvs/app/IPVSClient.java"/>
+			<include name="com/ipvs/app/IPVSClientApplet.java"/>
+			<include name="com/ipvs/utils/FileUtils.java"/>
+        	<include name="org/dom4j/io/Dom4jXMPPPacketReader.java"/>
+            <classpath refid="ipvsclientmediaroom.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="ipvsclientbin" source="${source}" target="${target}" bootclasspath="${bootclasspath}">
+            <src path="3rdpartylib"/>
+            <classpath refid="ipvsclientmediaroom.classpath"/>
+        </javac>
+    </target>
+	
+    <target name="ipvsclientbuild-release" description="ipvsclient.jar">
+	    <mkdir dir="dist"/>
+	    <jar destfile="dist/ipvsclient.jar" manifest="src/MANIFEST.MF-1.4">
+	        <metainf dir="src/META-INF" />
+	        <fileset dir="ipvsclientbin">
+			<include name="com/ipvs/app/AppletLog.class"/>
+			<include name="com/ipvs/app/BaseApplet.class"/>
+			<include name="com/ipvs/sessionservice/impl/SessionServiceConst.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/IPVSMessageExtension.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/AgentMessageExtensionProvider.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionIQ.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionIQProvider.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionMessageExtension.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/SessionMessageExtensionProvider.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/ResponseElement.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/ResponseIQProvider.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/UpdateEventElement.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/UpdateEventExtentionProvider.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/BytestreamsLocalIP.class"/>
+			<include name="com/ipvs/xmpp/client/smack/packets/BytestreamsLocalIPProvider.class"/>
+			<include name="com/ipvs/app/IPVSClientUtils.class"/>
+			<include name="com/ipvs/app/IPVSMessageHandler.class"/>
+			<include name="com/ipvs/app/IPVSClient.class"/>
+			<include name="com/ipvs/app/IPVSClientApplet.class"/>
+			<include name="com/ipvs/app/JSNotifier.class"/>
+			<include name="com/ipvs/app/WrapperJSMethod.class"/>
+			<include name="com/ipvs/app/Notification.class"/>
+			<include name="com/ipvs/utils/FileUtils.class"/>
+			<include name="org/dom4j/io/Dom4jXMPPPacketReader.class"/>
+		</fileset>
+	    </jar>
+    </target>
+
+</project>

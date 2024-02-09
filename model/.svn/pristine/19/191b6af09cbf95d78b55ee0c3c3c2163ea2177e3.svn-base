@@ -1,0 +1,706 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller",
+    "resourcePath": "/Service",
+    "apis": [
+        {
+            "path": "/Service/Logout",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Service Logout Request",
+                    "notes": "This will make the user presence off-line and remove the user from the system's local cache.<br> This will cause the Long-Polling channel associated with the user to be terminated.<br> Clients that are long-pollingusing the URL in X-Barco-notification-channel, will see the poll requests failing and should handle them appropriately.",
+                    "responseClass": "ServiceLogoutResponse",
+                    "nickname": "Logout",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/Login",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Service Login Request",
+                    "notes": "The client version number can be obtained from the Version section of the API document corresponding to the client implementation.<br>Login API only supports a web client resource added in the system to used for clientTemplateTitle.e.g. web-client.<br>clientPrivateKey is an optional value in case the resource in the system has a password.<br><b> NOTE </b> - If all is well, the response will contain a Long Polling URL in the response headers.Client is required to keep polling the server with an HTTP GET on this URL X-Barco-notification-channel. This request requires the same set of headers as any other request. The server can send asynchronous notifications to the clientas response to this request. Every response comes back with a new URL in X-Barco-notification-channel response header. There may or may not be notifications in the notificationlist returned in response for thelong polling URL.",
+                    "responseClass": "ServiceLoginResponse",
+                    "nickname": "Login",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Service Login Request body",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "ServiceLogin",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/AuditEvent",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Audit Event Request",
+                    "notes": "It is an event to log user actions. Each event is saved as a single line (newline characters are not supported in the request) in a file on the management server. This request is an input to audit report.",
+                    "responseClass": "AuditEventResponse",
+                    "nickname": "AuditEvent",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "AuditEvent Request body",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AuditEvent",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+         {
+            "path": "/Service/Kickout",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Kickout Request",
+                    "notes": "Kickout api is used send Kickedout notification to logged in user",
+                    "responseClass": "KickoutResponse",
+                    "nickname": "Kickout",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters":"",
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/ServiceClient",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get Service Client Request",
+                    "notes": "This will return the logged in client information",
+                    "responseClass": "GetServiceClientResponse",
+                    "nickname": "GetServiceClient",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "whereContactJID",
+                            "description": "Filter based on value contact JID ",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "Filter by response formats",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Service/RegisterUser",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Register user",
+                    "notes": "Register user in database. Self Registration on the MS should be enabled to use this API. Use the bootstrap wizard available at http://{ms_ip_address} to enable self registration.",
+                    "responseClass": "RegisterUserResponse",
+                    "nickname": "RegisterUser",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "add a device",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "RegisterUser",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+				
+            ]
+        }
+		
+    ],
+    "models": {
+        "RegisterUser": {
+            "id": "RegisterUser",
+            "description": "a RegisterUser request",
+            "required": [
+                "User"
+            ],
+            "properties": {
+                "User": {
+                    "$ref": "User"
+                }
+            }
+        },
+      "RegisterUserResponse": {
+      "id": "RegisterUserResponse",
+      "description": "",
+      "properties": {
+        "User": {
+          "$ref": "UserRes"
+        }
+      }
+    },
+    
+     "UserRes": {
+      "id": "UserRes",
+      "description": "user format",
+      "required": [
+        "@NID",
+        "@fullName",
+        "@template",
+        "@presence",
+        "UserPrivateData",
+        "@password",
+        "@modifiedDate",
+        "Groups",
+        "@externalAuthentication",
+        "@username",
+        "@state",
+        "@email",
+        "@creationDate"
+      ],
+      "properties": {
+        "@NID": {
+          "type": "string",
+          "description": ""
+        },
+        "Groups": {
+          "items": {
+            "$ref": "Tag"
+          }
+        },
+        "@fullName": {
+          "type": "string",
+          "description": ""
+        },
+        "@template": {
+          "type": "string",
+          "description": ""
+        },
+        "@presence": {
+          "type": "string",
+          "description": ""
+        },
+        "UserPrivateData": {
+          "type": "string",
+          "description": ""
+        },
+        "@password": {
+          "type": "string",
+          "description": ""
+        },
+        "@modifiedDate": {
+          "type": "string",
+          "description": ""
+        },
+        "@externalAuthentication": {
+          "type": "string",
+          "description": ""
+        },
+        "@username": {
+          "type": "string",
+          "description": ""
+        },
+        "@state": {
+          "type": "string",
+          "description": ""
+        },
+        "@email": {
+          "type": "string",
+          "description": ""
+        },
+        "@creationDate": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+       "GetServiceClientResponse": {
+            "id": "GetServiceClientResponse",
+            "description": "a GetServiceClientResponse",
+            "properties": {
+                "GetServiceClientResponseData": {
+                    "$ref": "ServiceClientResponseData"
+                }
+            }
+        },
+       "ServiceClientResponseData": {
+            "id": "ServiceClientResponseData",
+            "description": "a ServiceClientResponseData",
+            "properties": {
+                "GetServiceClient": {
+                    "$ref": "GetServiceClientRes"
+                }
+            }
+        },
+       "GetServiceClientRes": {
+            "id": "GetServiceClientRes",
+            "description": "a ServiceClientData",
+            "properties": {
+                "User": {
+          			"$ref": "UserResponse"
+        			},
+        		"Asset": {
+          			"$ref": "Asset"
+        			},
+        		"Device": {
+          			"$ref": "Device"
+        			},
+        		"Permission": {
+          			"$ref": "Permission"
+        			},
+        		"@PortList": {
+          			"type": "string"
+        			}
+            }
+        },
+        "ServiceClient": {
+            "id": "ServiceClient",
+            "description": "a ServiceClient",
+            "properties": {
+                "ServiceClient": {
+                    "$ref": "ServiceClientData"
+                }
+            }
+        },
+        "ServiceClientData": {
+            "id": "ServiceClientData",
+            "description": "a ServiceClientData",
+            "properties": {
+                "User": {
+          			"$ref": "User"
+        			},
+        		"Device": {
+          			"$ref": "Device"
+        			},
+        		"Permission": {
+          			"$ref": "Permission"
+        			},
+        		"@PortList": {
+          			"type": "string"
+        			}
+            }
+        },
+        "User": {
+            "id": "User",
+            "description": "User",
+            "required": [
+                "@name",
+                "@password"
+            ],
+            "properties": {
+                "@name": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@password": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        },
+       "UserResponse": {
+            "id": "UserResponse",
+            "description": "UserResponse",
+            "properties": {
+                "@NID": {
+                    "type": "string"
+                },
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "@externalAuthentication": {
+                    "type": "string"
+                },
+               "@userName": {
+                    "type": "string"
+                },
+               "UserPrivateData": {
+                    "type": "string"
+                }
+            }
+        },
+        "Tag": {
+            "id": "Tag",
+            "properties": {
+                "Tag": {
+                	"type": "array",
+                	"items": {
+	                    "$ref": "TagAttr"
+                    }
+                }
+            }
+        },
+        "TagAttr": {
+            "id": "TagAttr",
+            "properties": {
+                "@Name": {
+                    "type": "string"
+                },
+                "@Value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ServiceLogin": {
+            "id": "ServiceLogin",
+            "description": "ServiceLogin request",
+            "required": [
+                "ServiceLogin"
+            ],
+            "properties": {
+                "ServiceLogin": {
+                    "$ref": "ServiceLoginReq"
+                }
+            }
+        },
+        "ServiceLoginResponse": {
+            "id": "ServiceLoginResponse",
+            "description": "Service Login Response",
+            "properties": {
+                "ServiceLoginResponse": {
+                    "$ref": "ServiceLoginResponseData"
+                }
+            }
+        },
+       "ServiceLoginResponseData": {
+            "id": "ServiceLoginResponseData",
+            "description": "A ServiceLogin Response",
+            "properties": {
+            "ServiceLogin":{
+              "$ref": "ServiceLoginData"
+              }
+            }
+        },
+       "ServiceLoginData": {
+            "id": "ServiceLoginData",
+            "description": "A ServiceLogineData Response",
+            "properties": {
+              "clientPrivateData": {
+                    "type": "string"
+                },
+               "serverDate": {
+                    "type": "string"
+                }
+              }
+         },
+       "ServiceLogoutResponse": {
+            "id": "ServiceLogoutResponse",
+            "description": "Service Logout Response",
+            "properties": {
+              "string":{
+            	"type":"admin@localhost/web-client_admin: User removed successfully!"
+              }
+            }
+        },
+       "KickoutResponse": {
+            "id": "KickoutResponse",
+            "description": "Kickout Response",
+            "properties": {
+            "string":{
+            	"type":"admin@localhost/web-client_admin: User removed successfully!"
+            }
+            }
+        },
+        "ServiceLoginReq": {
+            "id": "ServiceLoginReq",
+            "description": "A ServiceLogin request",
+            "required": [
+                "clientPrivateKey",
+                "clientTemplateTitle",
+                "@clientVersion"
+            ],
+            "properties": {
+                "clientPrivateKey": {
+                    "type": "string"
+                },
+                "clientTemplateTitle": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@clientVersion": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        },
+        "AuditEvent": {
+            "id": "AuditEvent",
+            "description": "AuditEvent request",
+            "required": [
+                "AuditEvent"
+            ],
+            "properties": {
+                "AuditEvent": {
+                    "$ref": "AuditEventReq"
+                }
+            }
+        },
+       "AuditEventResponse": {
+            "id": "AuditEventResponse",
+            "description": "AuditEvent response",
+            "properties": {
+                "AuditEventResponseData": {
+                    "$ref": "AuditEventResponseData"
+                }
+            }
+        },
+        "AuditEventResponseData": {
+            "id": "AuditEventResponseData",
+            "description": "AuditEvent response",
+            "properties": {
+                "AuditEvent": {
+                    "$ref": ""
+                }
+            }
+        },
+        "AuditEventReq": {
+            "id": "AuditEventReq",
+            "description": "A AuditEvent request",
+            "required": [
+                "@name",
+                "Description",
+                "@target",
+                "@type",
+                "@status",
+                "@level"
+            ],
+            "properties": {
+                "@name": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "Description": {
+                    "type": "Description"
+                },
+                "@target": {
+                    "type": "string"
+                },
+                "@type": {
+                    "type": "string",
+					"description": "[Required]"
+                },
+                "@status": {
+                    "type": "string"
+                },
+                "@level": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "warning",
+                        "info",
+                        "debug",
+                        "trace"
+                    ]
+                }
+            }
+        },
+        "Description": {
+            "id": "Description",
+            "required": [
+                "@text"
+            ],
+            "properties": {
+                "@text": {
+                    "type": "string",
+					"description": "[Required]"
+                }
+            }
+        }
+    }
+}

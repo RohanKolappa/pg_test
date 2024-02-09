@@ -1,0 +1,25 @@
+# -*-Shell-script-*-
+
+# Common variables used by database management scripts
+
+# The location of database repository
+DBREPOS=/data/saved_databases
+
+# Temp work area
+#WORKAREA=/data/database_work_area
+SANPSHOTAREA="/data/sedna_dbsnapshot"
+WORKAREA="${SANPSHOTAREA}/database_work_area"
+
+# Common function
+list_databases() {
+
+    # List the databases
+    echo
+    echo "Available database names:"
+    echo 
+    local files=`ls ${DBREPOS}/*.tgz 2> /dev/null`
+    for file in $files ; do
+        dbname=`basename $file .tgz`
+        echo $dbname
+    done
+}

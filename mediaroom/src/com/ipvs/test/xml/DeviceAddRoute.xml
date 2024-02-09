@@ -1,0 +1,56 @@
+<AgentMessage>
+<agentmessageheader>
+<agentJID>deviceuser-default@10.1.5.168/lab1tx1</agentJID>
+<agent>com.ipvs.common.service.DeviceAdminServerAgent</agent>
+<agentmessagetype>Request</agentmessagetype>
+</agentmessageheader>
+<agentmessagedata>
+<Request>
+<header>
+<servicename>systemservice</servicename>
+<requestname>DeviceConfigurationRequest</requestname>
+<loglevel>0</loglevel>
+<clientdata>Request_jsx_3s</clientdata>
+</header>
+<data>
+<DeviceConfigurationRequestData>
+<SystemDCRE>
+<SystemClockConfigDCRE ElementXPath="DeviceConfig/SystemElementsConfig">
+<SystemClockConfig Dirty="CLEAN">
+<EnableNTPClient>false</EnableNTPClient>
+</SystemClockConfig>
+</SystemClockConfigDCRE>
+<RouteTableConfigDCRE ElementXPath="DeviceConfig/NetworkElementsConfig">
+<RouteTableConfig Dirty="MODIFY">
+<RouteEntry Dirty="CLEAN">
+<RouteID>true</RouteID>
+<Destination>172.16.1.0</Destination>
+<Netmask>255.255.255.0</Netmask>
+<Gateway>10.1.5.244</Gateway>
+</RouteEntry>
+<RouteEntry Dirty="CLEAN">
+<RouteID>true</RouteID>
+<Destination>0.0.0.0</Destination>
+<Netmask>0.0.0.0</Netmask>
+<Gateway>10.1.5.244</Gateway>
+</RouteEntry>
+<RouteEntry Dirty="CLEAN">
+<RouteID>true</RouteID>
+<Destination>172.16.1.0</Destination>
+<Netmask>255.255.255.0</Netmask>
+<Gateway>10.1.5.244</Gateway>
+</RouteEntry>
+<RouteEntry Dirty="ADD">
+<Destination>172.16.2.0</Destination>
+<Netmask>255.255.255.0</Netmask>
+<Gateway>10.1.5.244</Gateway>
+</RouteEntry>
+</RouteTableConfig>
+</RouteTableConfigDCRE>
+</SystemDCRE>
+</DeviceConfigurationRequestData>
+</data>
+</Request>
+</agentmessagedata>
+</AgentMessage>
+

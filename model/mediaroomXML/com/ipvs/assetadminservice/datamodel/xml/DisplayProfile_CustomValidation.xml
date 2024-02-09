@@ -1,0 +1,15 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+<validation validationID="Title" methodName="validateNameLength" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData//Title" />
+  
+  <!-- CustomValidation and validation: must explicitly set enable="true",  for now default enable=false -->
+  <validation enable="true" validationID="duplcateTitleAdd" methodName="validateDuplicateTitle_add" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData//Title" caseSensitive="false"  allowSpaces="true" />  
+  <validation enable="true" validationID="duplcateTitleReplace" methodName="validateDuplicateTitle_replace" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//OperationData//Title" caseSensitive="false"  allowSpaces="true" />  
+
+  
+</CustomValidation>

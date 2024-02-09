@@ -1,0 +1,473 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>IPVS StoreAgent API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.0.1</revnumber>
+				<date>19 Jun 2012</date>
+				<revremark>First Version of Store Agent API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+		<glossentry>
+			<glossterm>AppController</glossterm>
+			<glossdef>
+				<para>
+					AppController running on managementserver. Controller will manage all modules of the system.
+        </para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>StoreManager</glossterm>
+			<glossdef>
+				<para>
+					StoreManager Running on Appserver. Manager will do policy check of Store agent requests and send the requests to StoreAgent
+        </para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>StoreAgent</glossterm>
+			<glossdef>
+				<para>
+					DeviceAdminAgent Running on Device. Handles the Request from StoreManager or Internal StoreServer.
+        </para>
+			</glossdef>
+		</glossentry>
+		<glossentry>
+			<glossterm>StoreServer</glossterm>
+			<glossdef>
+				<para>
+					StoreServer Running on Device. Which will handle the storage mount or unmount commands and broadcast storage updates 
+        </para>
+			</glossdef>
+		</glossentry>
+	</glossary>
+	<preface>
+		<title>Introduction</title>
+		<para>
+			This document contains the IPVS Store Agent API. Agent will accept requests from AppController or internal StoreServer
+    </para>
+	</preface>
+
+	<chapter>
+		<title>Startup API</title>
+		<para>
+			API Calls which used on start up store agent
+    </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from StoreManager or Clients</para>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceClient</para>
+			<section>
+				<title>GetPublishInfo</title>
+				<para> Returns the Directory information Which needs to be published to appserver </para>
+				<example>
+					<title>GetPublishInfoRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <GetPublishInfo/>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>GetPublishInfoResponse</title>
+					<programlisting>
+          <![CDATA[  
+    <GetPublishInfo>
+		<Dir uuid='' revision='' serviceVersion=''/>	
+		<Dir uuid='' revision='' serviceVersion=''/>
+	</GetPublishInfo>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>Sync API</title>
+		<para>
+			API Calls used on Store sync
+       </para>
+		<section>
+			<title>External API</title>
+			<para> Requests Received from StoreManager</para>
+			<section>
+				<title>SyncDBWithStoreDir</title>
+				<para> API call used to sync the database with store.
+					Which is used to remove the files from db if the blob does not have store file.
+					Store give the response with the list of files which does not
+					exist</para>
+				<example>
+					<title>SyncDBWithStoreDirRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <SyncDBWithStoreDir byNID='' byUUID=''>
+			<Media byUUID='' byNID=''/>
+   </SyncDBWithStoreDir>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SyncDBWithStoreDirResponse</title>
+					<programlisting>
+          <![CDATA[  
+  <SyncDBWithStoreDir NID='' UUID=''>
+	<Media UUID='' NID=''/>
+  </SyncDBWithStoreDir>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from StoreServer/DeviceClient</para>
+			<section>
+				<title>SyncDir</title>
+				<para> API call used when StoreAgent received Status update from StoreServer (example Mount/umounted of NAS)</para>
+				<example>
+					<title>SyncDirRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <SyncDir>
+		<Dir byNID='' byUUID='' revision='' serviceVersion='' state='Ready/Offline/Error' />
+   </SyncDir>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SyncDirResponse</title>
+					<programlisting>
+          <![CDATA[  
+  <SyncDir>
+	<Dir NID='' dbRevision='' />
+  </SyncDir>
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>SyncFile</title>
+				<para> API Call is used in response to SyncDir call if the Dir out of synch </para>
+				<example>
+					<title>SyncFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+  <SyncFile from='' total='' countToFetch='25'>
+	<File byNID='' byUUID=''>
+		<MediaStoreFile serviceVer="" Ver="1.6" Rev="1">
+			<MetaData>
+				<Tag Name=""></Tag>
+			</MetaData>
+
+			<Type>MediaClip</Type>
+			<MediaGroupID ClipID=""></MediaGroupID>
+			<Title></Title>
+			<Description></Description>
+			<StreamType></StreamType>
+			<State></State>
+			<DateCreated></DateCreated>
+			<DateModified></DateModified>
+
+			<MediaClip>
+				<PlayLength></PlayLength>
+
+				<MediaStreamProfileInfo>
+					<!-- Profile Info -->
+				</MediaStreamProfileInfo>
+			</MediaClip>
+		</MediaStoreFile>
+	</File>
+ </SyncFile>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SyncFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  <SyncFile  from='' total='' countToFetch=''/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+
+			<section>
+				<title>SetDirState</title>
+				<para> API call used when StoreAgent received Status update from StoreServer (example Mount/umounted of NAS)</para>
+				<example>
+					<title>SetDirStateRequest</title>
+					<programlisting>
+          <![CDATA[  
+   <SetDirState>
+		<Dir byNID='' byUUID='' state='Ready/Offline/Error' />
+   </SetDirState>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SetDirStateResponse</title>
+					<programlisting>
+          <![CDATA[  
+  <SyncDir/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+	</chapter>
+
+	<chapter>
+		<title>Dir API</title>
+		<para>
+			API Calls used to Upgrade/Register/UnRegister Directory
+       </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from StoreManager</para>
+			<section>
+				<title>UpgardeDir</title>
+				<para> Upgrade the media store dir to current version</para>
+				<example>
+					<title>UpgradeDirRequest</title>
+					<programlisting>
+          <![CDATA[  
+  	  <UpgradeDir byNID='' byUUID='' upgradeFiles='true/false'/>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>UpgradeDirResponse</title>
+					<programlisting>
+          <![CDATA[  
+       <UpgradeDir/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>UnRegisterDir</title>
+				<para> UnRegister the directory from Management Server</para>
+				<example>
+					<title>UnRegisterDirRequest</title>
+					<programlisting>
+          <![CDATA[  
+  	  <UnRegisterDir byNID='' byUUID=''/>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>UnRegisterDirResponse</title>
+					<programlisting>
+          <![CDATA[  
+       <UnRegisterDir/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>RegisterDir</title>
+				<para> Register the unregister directory to Management Server</para>
+				<example>
+					<title>RegisterDirRequest</title>
+					<programlisting>
+          <![CDATA[  
+  	  <RegisterDir byNID='' byUUID=''/>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>RegisterDirResponse</title>
+					<programlisting>
+          <![CDATA[  
+       <RegisterDir/>
+]]>
+        </programlisting>
+				</example>
+			</section>
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceClient </para>
+		</section>
+	</chapter>
+
+
+	<chapter>
+		<title>File API</title>
+		<para>
+			API Calls used to Add/Delete/Set/Upgrade/Import/Export of File
+       </para>
+
+		<section>
+			<title>External API</title>
+			<para> Requests Received from StoreManager</para>
+			<section>
+				<title>AddFile</title>
+				<para> API call used to add mediastore file in blob</para>
+				<example>
+					<title>AddFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+  	 <AddFile dirNID='' dirUUID='' NID='' type='' uuid='' title=''  description='' streamType=''>
+	   <MetaData>
+	      <Tag Name=''/>
+	   </MetaData>		
+	   <MediaStreamProfileInfo/>	
+	</AddFile>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>AddFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<AddFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+
+			<section>
+				<title>SetFile</title>
+				<para> API call used to update mediastore file information in blob</para>
+				<example>
+					<title>SetFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<SetFile dirNID='' dirUUID='' byUUID='' NID='' title='' description=''>
+	   <MetaData>
+	      <Tag Name=''/>
+	   </MetaData>		
+	   <MediaStreamProfileInfo/>	
+	</SetFile>
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>SetFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<SetFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>DeleteFile</title>
+				<para> API call used to update mediastore file information in blob</para>
+				<example>
+					<title>DeleteFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<DeleteFile dirNID=''  byUUID='' nid='' />
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>DeleteFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<DeleteFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+
+			<section>
+				<title>UpgradeFile</title>
+				<para> API call used to upgrade media store file</para>
+				<example>
+					<title>UpgradeFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<UpgradeFile dirNID=''  byUUID='' nid='' />
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>UpgradeFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<UpgradeFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>ImportFile</title>
+				<para> API call used to upgrade media store file</para>
+				<example>
+					<title>ImportFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<ImportFile dirNID=''  byUUID='' nid='' />
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>ImportFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<ImportFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+			<section>
+				<title>ExportFile</title>
+				<para> API call used to upgrade media store file</para>
+				<example>
+					<title>ExportFileRequest</title>
+					<programlisting>
+          <![CDATA[  
+ 	<ExportFile dirNID=''  byUUID='' nid='' />
+]]>
+        </programlisting>
+				</example>
+				<example>
+					<title>ExportFileResponse</title>
+					<programlisting>
+          <![CDATA[  
+  	<ExportFile />
+]]>
+        </programlisting>
+				</example>
+			</section>
+
+
+		</section>
+
+		<section>
+			<title>Internal API</title>
+			<para> Requests Received from DeviceAdminServer</para>
+		</section>
+	</chapter>
+</book>

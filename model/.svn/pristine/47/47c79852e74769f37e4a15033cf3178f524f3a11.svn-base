@@ -1,0 +1,25 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+ <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharacters" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//AssetResource/Info/Title"  />
+ <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharacters" action="Replace"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//AssetResource/Info/Title"  />
+ <validation enable="true" validationID="Title" methodName="validateDuplicateAsset_add" action="Add"  
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//AssetResource/Info/Title" />
+  
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//AssetResource/Info</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/AssetResource/Info/DeviceNID" action="delete"/>	
+  </validation>
+ 
+  <validation enable="true" validationID="Description" methodName="validateDescriptionForCurlyBraces" action="Replace" overWrite="true"
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//AssetResource/Info/Description"  />
+  <validation enable="true" validationID="DevicePrivateData" methodName="validateAssetPrivateDataForCurlyBraces" action="Replace" overWrite="true"
+  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+  xpath="//AssetResource/Info/AssetPrivateData"  />  
+</CustomValidation>

@@ -1,0 +1,31 @@
+<html>
+<script>
+function setServiceDomain() {
+  var serviceDomain = document.setServiceDomainForm.serviceDomain.value;
+  var clientdata = document.setServiceDomainForm.clientdata.value;
+  var request = "<Request>" +
+		"<header>" +
+  		"<servicename>xmpp</servicename>" +
+  		"<requestname>SetServiceDomainRequest</requestname>" +
+  		"<loglevel>0</loglevel>" +
+  		"<clientdata>" + clientdata + "</clientdata>" +
+		"</header>" +
+  		"<data><SetServiceDomainRequestData><domain>" + serviceDomain + "</domain></SetServiceDomainRequestData></data>" +
+  		"</Request>";
+  alert(request);
+  var response = parent.applet.document.test.sendRequest("*", request);
+  document.setServiceDomainForm.responsedata.value = response;
+  self.location = "test.html";
+}
+function handleMessage(messageXML) {
+}
+</script>
+<form name="setServiceDomainForm">
+<table>
+<tr><td>Service Domain</td><td> <input type="text" name="serviceDomain" value="miyertest" size=20></td></tr>
+<tr><td>ClientData</td><td> <input type="text" name="clientdata" value="ClientData" size=20></td></tr>
+<tr><td>ResponseData</td><td> <textarea name="responsedata" value="" rows="5" cols="40%"></textarea></td></tr>
+</table>
+<a href="javascript:setServiceDomain();">SetServiceDomain</a><br>
+</form>
+</html>

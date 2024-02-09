@@ -1,0 +1,40 @@
+The files startLoadTest.php, stopLoadTest.php and startSimulator.sh
+are used to load test the StreamingServer. The php files should be 
+run on a machine with php installed. startSimulator.sh can be run 
+on the same machine as the StreamingSerrver but it's better to run
+it on some other machine so not to load the DMS.  
+
+(1) Copy startSimulator.sh, tx, rx, and libv2d.so to a directory
+    e.g. "scripts", on the machine you want to use for simulators.
+    Create a directory for image files and copy some pre-recorded 
+    image files into it.  
+
+    Set "LD_LIBRARY_PATH" to the "scripts" directory.  Then run 
+    the script:
+
+    ./startSimulator.sh DMS-IP-ADDR N IMAGE-DIR
+
+    where DMS-IP-ADDR is the IP address of the DMS, N is the number
+    of Tx and Rx simulators you want to start, and IMAGE-DIR is the
+    name of the directory for image files.
+
+(2) On DMS, start the StreamingServer.  
+
+(3) On the php machine, run startLoadTest.php:
+
+    php ./startTest.php DMS-IP-ADDR N
+
+    where N is the number of streams for the test (same as the
+    number of Tx and Rx simulators started in (1)).
+
+(5) Watch the output (i.e. /var/log/messages) from the StreamingServer 
+    to see if there's packet loss, and watch the CPU and memory 
+    utilization of the StreamingServer
+
+(6) Run "php ./stopLoadTest.php DMS-IP-ADDR N" on the php machine 
+    to stop StreamingServer from relaying.
+ 
+(7) The Tx and Rx simulators should exit by themselves once the
+    StreamingServer stops relaying but it's safer to also do
+    "killall tx; killall rx" on the simulator machine when test
+    ends.

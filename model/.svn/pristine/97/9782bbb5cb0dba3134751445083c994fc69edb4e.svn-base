@@ -1,0 +1,286 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "http://{MSIP}/controller/Resource",
+  "resourcePath": "/User",
+  "apis": [
+    {
+      "path": "/User",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds the list of Users that the Client has access to",
+          "notes": "Get a the list of Users that the Client has access to",
+          "responseClass": "List[User]",
+          "nickname": "getUser",
+          "produces": [
+            "application/vnd.barco.nimbus.User+json",
+            "application/vnd.barco.nimbus.User+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		   {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "sort",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "username",
+                  
+"fullName"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "sortOrder",
+              "description": "sort in order ascending/descending",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "ascending",
+                  "descending"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereTextSubStr",
+              "description": "Filter based on substring.It will look the string in name,discription",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "whereNID",
+              "description": "Filter based on user nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+			{
+              "name": "whereUsername",
+              "description": "Filter based on user nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+
+{
+              "name": "subscriptionID",
+              "description": "Filter based on subscriptionID",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(default= BASIC)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "BASIC",
+                  "EXTENDED"
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "startFrom",
+              "description": "get the list starting form startFrom index",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "countToFetch",
+              "description": "number of users to be fetched",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "whereTagExpr",
+              "description": "fomat: Name%3D'Location' and Value%3D'Sunnyvale'",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "paramType": "query"
+            }		
+
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		
+		     {  "method": "GET",
+          "summary": "Finds the list of Tags that the Client has access to",
+          "notes": "Get a the list of Tags that the Client has access to",
+          "responseClass": "DirTags",
+          "nickname": "getDirTags",
+          "produces": [
+            "application/vnd.barco.nimbus.User-Tags+json",
+			"application/vnd.barco.nimbus.User-Tags+xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+                     {
+              "name": "sortBy",
+              "description": "sort by Name/Value",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Name",
+                  "Value"
+                ]
+              },
+              "paramType": "query"
+            },
+			 {
+              "name": "sortOrder,",
+              "description": "sort in order ascending/descending",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "ascending",
+                  "descending"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereNameTextSubString",
+              "description": "Filter based on name substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "whereValueTextSubStr",
+              "description": "Filter based on value substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(Default=NameValueList)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "NameList",
+                  "NameValueList",
+                  "NameValueTree"
+                ]
+              },
+              "paramType": "query"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+      ]
+    }
+  ],
+  "models": {
+   
+	"SetPassword": {
+      "id": "SetPassword",
+      "description": "a setpassword request",
+      "required": [
+        "UserPassword"
+      ],
+      "properties": {
+        "UserPassword" : {
+          "$ref": "UserPassword"
+        }
+      }
+    },
+	"UserPassword": {
+      "id": "UserPassword",
+      "description": "UserPassword",
+      "required": [
+        "@oldPassword",
+        "@newPassword"
+       
+       		
+      ],
+      "properties": {
+        "@oldPassword": {"type": "string"},
+		"@newPassword": {"type": "string"}
+		
+      }
+    }
+    
+  }
+}

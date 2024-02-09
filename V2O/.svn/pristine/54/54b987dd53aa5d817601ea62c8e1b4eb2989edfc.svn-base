@@ -1,0 +1,74 @@
+
+
+<Menu>
+
+   <Type>list</Type>
+   <Title>NASServerList</Title>
+   <Description>NAS Server</Description>
+   <Access>nas_list</Access>
+   <ConfigFile>nasserverlistconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>name</Name>
+        <Type>string</Type>
+        <Label>Name</Label>
+        <Help>Name</Help>
+        <FieldLength>16</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>server</Name>
+        <Type>string</Type>
+        <Label>Server IP</Label>
+        <Help>Ip Address of NAS server</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>remote_directory</Name>
+        <Type>string</Type>
+        <Label>Remote Directory</Label>
+        <Help>Remote Directory</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>/</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>anynonempty</Value>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable</Label>
+        <Help>Enable this entry</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+        <ViewList>no</ViewList>
+      </Item>
+
+      <Item>
+        <Name>readonly</Name>
+        <Type>boolean</Type>
+        <Label>ReadOnly</Label>
+        <Help>Mount remote network drive in read only mode</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+        <ViewList>no</ViewList>
+      </Item>
+
+
+   </Items>
+</Menu>

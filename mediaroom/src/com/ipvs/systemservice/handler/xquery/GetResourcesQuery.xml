@@ -1,0 +1,56 @@
+let $title := '_RESOURCETITLE_'    
+
+let $resource := for $resource in collection('ipvs.default.assetresourcelist')/*
+						   						      [.//Info/Title = $title]
+								          	return $resource
+let $resourceNID :=   if(count($resource)!=0) then
+                        data($resource//AssetResource/@NID)
+                      else ''
+ let $templateResource := if(data($resource//Type) = 'ANY')  then
+                                for $resource in collection('ipvs.default.assetresourcelist')/*
+						   						      [.//Info/Type = 'ANY' and .//TemplateAssetResourceNID='TEMPLATE']
+								          	return $resource
+              			  else ''               
+let $ioPortList :=   for $portresource in collection('ipvs.default.mediastreamsrcportresourcelist')/*[.//AssetResourceNID = $resourceNID] |   collection('ipvs.default.mediastreamdstportresourcelist')/* [.//AssetResourceNID = $resourceNID]| 
+                                           collection('ipvs.default.mediastreamioportresourcelist')/*[.//AssetResourceNID = $resourceNID]
+							        return $portresource
+                
+ let $relayPortList :=   for $portresource in collection('ipvs.default.mediastreamrelayportresourcelist')/* [.//AssetResourceNID = $resourceNID]
+							           return $portresource
+                      
+let $storePortList :=   for $portresource in collection('ipvs.default.mediastoreportresourcelist')/*[.//AssetResourceNID = $resourceNID]
+                        return $portresource             
+let $device :=     for $device in collection('ipvs.default.devicelist')/*
+						   						      [.//AssetResourceNID = $resourceNID]
+							      return $device
+
+let $getDirList := '_CHECKFORDIR_'
+
+let $dirList := if($getDirList = 'true') then 
+                   let $dirList :=  for $b  in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]   
+			                                    where $b  _UUIDXPATH_ 
+		                                 return $b
+                   let $subDirList :=  for $subDir in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*
+						   			                    	[(@parentNID='default.mediastreamdirresourcelist') and .//ParentMediaDirNID= $dirList/@NID]  
+								                     	return   $subDir
+                   return <DirList>{$dirList}<SubDir>{$subDirList}</SubDir></DirList>
+                else  <DirList/>
+                
+                        
+return 
+      <ResourceInfo>
+          <Resource>{$resource}</Resource>
+          <PortList>
+            <IOPortList>{$ioPortList}</IOPortList>
+            <StorePortList>{$storePortList}</StorePortList>
+            <RelayPortList>{$relayPortList}</RelayPortList>
+          </PortList>
+          <Device>{$device}</Device>
+          <Template>{$templateResource}</Template>
+          {$dirList}
+      </ResourceInfo>
+
+
+
+
+

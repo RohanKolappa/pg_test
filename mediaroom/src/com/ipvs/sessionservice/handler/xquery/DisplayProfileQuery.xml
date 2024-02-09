@@ -1,0 +1,45 @@
+declare function local:getDisplayProfileInfo( $b as element()*, $detail as xs:string)
+as element ()*
+{
+   let $displayInfo := if ($detail = 'EXTENDED')
+   		then 
+		      <DisplayProfile NID='{ data($b/@NID) }' 
+      			  title='{ data($b//Title) }' 
+    			  portType='{ data($b//MediaStreamIOPortTypeTitle) }' 
+  			  	  priority='{ data($b//Priority) }' 
+		 			>     			  
+					<description>{ data($b//Description) }</description>
+					{$b//Groups}
+					{$b//Canvas}
+				  </DisplayProfile> 
+   		else   <DisplayProfile NID='{ data($b/@NID) }' 
+      			  title='{ data($b//Title) }' 
+    			  portType='{ data($b//MediaStreamIOPortTypeTitle) }' 
+  			  	  priority='{ data($b//Priority) }' />
+  			  	  
+   return $displayInfo
+};
+
+declare function local:getList() 
+as element()*
+{
+	let $list1 := 
+		for $b in  #OBJ_DisplayProfile_OBJ#  
+		where $b _XPATHAND_  
+			order by $b_SORTBY_ _SORTORDER_
+			return $b
+	
+	 return  $list1
+};
+
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $list1 := local:getDisplayProfileInfo($b, $detail)
+ 	
+	return $list1
+};
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

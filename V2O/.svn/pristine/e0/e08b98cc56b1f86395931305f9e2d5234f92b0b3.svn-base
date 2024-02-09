@@ -1,0 +1,231 @@
+
+XP Keyboard/Mouse Implementation
+================================
+
+Introduction
+------------
+
+The XP200 has 4 USB A connectors above the LAN and console VGA ports on the
+rear panel. These USB ports as well as the PS/2 port to the left of the
+console VGA are console keyboard ports.  Additionally, it has 2 USB A, 1 
+USB B and one PS/2 connector to the left of the DVI ports for each channel. 
+These USB and PS/2 ports are normally used for either keyboard/mouse devices
+(for channels configured as RXes) or as keyboard/mouse connections to the 
+host PC (for channels configured as TXes). But to avoid the need of always 
+having to have one keyboard for the console, another for the remote
+host, the XP200 provides a "KBM mode" parameter so users can set this parmeter
+to "console" and use the keyboard/mouse connected to the TX and/or RX also
+as a console keyboard. 
+
+On the XP100, there are no dedicated console keyboard ports at all. There
+are 2 USB A, 1 USB B and one PS/2 port on the rear panel. So we have to 
+be able to use the same keyboard as console keyboard or to control the local
+or remotely connected host.
+
+This document describes the details of how this "KBM mode" feature is 
+implemented. 
+
+Summary of KBM Modes 
+--------------------
+
+The following table shows the KBM modes supported on the XPs:
+
+.Keyboard Modes
+[cols="3,5,10",options="header"]
+|============================================================
+| Board | Keyboard Mode | Description
+| TX    | Console       |
+Keyboard is used as the text entry device for system administration, i.e.
+run "menu" or CLI commands.
+|       | Local         |
+Keyboard input is looped back to the host connected to the USB B port on 
+the TX board.
+| RX    | Console       |
+Keyboard is used as the text entry device for system administration, i.e.
+run "menu" or CLI commands.
+|       | Local         |
+Keyboard input is looped back to the host connected to the USB B port on 
+the RX board.
+|       | Remote        |
+Keyboard input is sent to the remote TX then forwarded to the host connected 
+to the USB A port on the TX.
+|============================================================
+
+Since each board in the XP has input and output KBM ports, it is 
+theoretically possible to handle the KBM mode on each board independently. 
+But because the Linux Virtual Terminal subsystem is used to implement 
+the console mode, all the boards in the XP have to switch have to switch 
+in or out of console mode simultaneously. Other than this, there are 
+no other restrictions on how the KBM modes can be set in the XPs. 
+
+To switch KBM modes, the user can either change the settings using
+"menu" or CLI, or enter a pre-defined escape sequence on one of the USB
+keyboards connected to the TX or the RX boards in the system. The default
+escape sequence for console mode is repeatedly pressing and releasing
+LCTRL three times, the default for local mode is pressing and releasing
+LALT three times, the default for remote mode is pressing and releasing
+ESC three times. But the user is free to change the escape sequence using 
+"menu" or "CLI". The effects of KBM mode change through escape sequences 
+are exactly the same as those from "menu" or "cli". That is, the system 
+will immediately switch into the new mode, and, if the configuration is 
+saved to flash, the system should start up in the new mode when it boots.
+
+KBM Mode Change From "menu" or CLI
+----------------------------------
+
+The user can change KBM mode by selecting the appropriate settings on 
+the "menu" or executing the CLI `set_kbconsole` or `set_rx_kbm_parm`. 
+The former switches between console and non-console modes, the latter 
+switches between local and remote KBM modes for the RX. The following
+is how these commands are processed:
+
+- `set_kbconsole` 
+
+  . A Linux virtual terminal X is created when the system starts (where
+    X > 6 since Linux uses terminals 1 to 6 for consoles).
+  . If the argument to the command is "no", call `VT_ACTIVATE` ioctl to
+    to switch to terminal X. If the argument is "yes", call `VT_ACTIVATE`
+    ioctl to switch to terminal 1, i.e. Linux console.
+  . Updates the `kbconsoleconf.txt` with the new mode.
+  . Note it is not necessary to update the current KBM mode used by the 
+    StreamingServer to process KBM data since the StreamingServer will 
+    update this information whenever there is data to be processed.  
+
+- `set_rx_kbm_parm`
+
+  . Updates current keyboard information used by the StreamingServer
+    to match the keyboard type appropriate for the new mode (i.e. keyboard
+    type and keyboard escape sequence since the local and remote hosts 
+    may use different scan code sets).
+  . Updates the `rxkbmconf_X.txt` with the new mode (where X is the board 
+    number for the RX).
+  . Sets the current KBM mode to the new mode so the StreamingServer will
+    process data using the new mode setting.
+
+KBM Mode Change Via Keyboard Escape Sequence  
+---------------------------------------------
+
+When data is entered on the keyboard or mouse connected to one of the 
+boards in the XP, StreamerServer will detect it and call one of the 
+following routines (in `serverutils.c` and `clientutils.c`):
+
+  . `process_server_event_data` 
+  . `retrieve_client_keyboard_data`
+  . `retrieve_client_mouse_data`
+  . `retrieve_client_event_data`
+
+to process it, depending on whether the board is TX or RX and whether 
+the keyboard or mouse is PS/2 or USB. These routines, in turn, will 
+call `fill_kb_buffer` or `fill_ms_buffer` (in `kbms_utils.c`) to convert 
+the input into V2D-style keyboard or mouse data:
+
+["ditaa",target="images/gen_kbm.png",scale="60"]
+------------------------------------------------------------------------
+
+               V2D Keyboard Packet for N-Byte Scan Codes
+          +------+------+------+------+------+------+------+------+
+          | Bit7 | Bit6 | Bit5 | Bit4 | Bit3 | Bit2 | Bit1 | Bit0 |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 1 |  1   |  0   |  1   |  0   |  1   |  0   |  1   |  0   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 2 |                  Scan Code Byte 1                     |
+ +--------+------+------+------+------+------+------+------+------+
+ |                             .   .   .                          |
+ +--------+------+------+------+------+------+------+------+------+
+ |Byte N-1|  1   |  0   |  1   |  0   |  1   |  0   |  1   |  0   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte N |                  Scan Code Byte N                     |
+ +--------+------+------+------+------+------+------+------+------+
+
+                      V2D Mouse Packet for PS/2 Mouse
+          +------+------+------+------+------+------+------+------+
+          | Bit7 | Bit6 | Bit5 | Bit4 | Bit3 | Bit2 | Bit1 | Bit0 |
+ +--------+------+------+------+------+------+------+------+------+ 
+ | Byte 1 |  0   |  0   |  0   |  0   |  0   |  0   |  0   |  0   | 
+ +--------+------+------+------+------+------+------+------+------+ 
+ | Byte 2 |Y ovfl|X ovfl|Y sign|X sign|  1   |MidBTN|RgtBTN|LftBTN| 
+ +--------+------+------+------+------+------+------+------+------+ 
+ | Byte 3 |  0   |  0   |  0   |  0   |  0   |  0   |  0   |  0   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 4 |                        X movement                     |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 5 |  0   |  0   |  0   |  0   |  0   |  0   |  0   |  0   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 6 |                        Y movement                     |
+ +--------+------+------+------+------+------+------+------+------+
+
+                    V2D Mouse Packet for IMPS/2 Mouse
+          +------+------+------+------+------+------+------+------+
+          | Bit7 | Bit6 | Bit5 | Bit4 | Bit3 | Bit2 | Bit1 | Bit0 |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 1 |  0   |  0   |  0   |  0   |  0   |  0   |  1   |  1   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 2 |Y ovfl|X ovfl|Y sign|X sign|  1   |MidBTN|RgtBTN|LftBTN|
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 3 |  0   |  0   |  0   |  0   |  0   |  0   |  1   |  1   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 4 |                        X movement                     |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 5 |  0   |  0   |  0   |  0   |  0   |  0   |  1   |  1   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 6 |                        Y movement                     |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 7 |  0   |  0   |  0   |  0   |  0   |  0   |  1   |  1   |
+ +--------+------+------+------+------+------+------+------+------+
+ | Byte 8 |                        Z movement                     |
+ +--------+------+------+------+------+------+------+------+------+
+
+------------------------------------------------------------------------
+
+The `process_server_event_data`, etc.  will accumulate PS/2 or USB input 
+till it has enough bytes to determine whether the input matches one of 
+the escape sequences for mode switching and switches mode if a match 
+is found, otherwise processes the data as appropriate to the current mode. 
+The detailed processing is as follows:
+
+- Keyboard Input Processing
+
+  . check system virtual console status and update KBM mode if necessary,
+  . read all available PS/2 (or USB) input,
+  . call `fill_kb_buffer` to convert the input to V2D-style keyboard data
+    and add to keyboard buffer,
+  . check if there's a complete V2D-style keyboard make or break code in 
+    keyboard buffer,
+  . check if what's in keyboard buffer:
+
+    .. matches one of the escape sequences,
+    .. doesn't match any the escape sequences,
+    .. needs more data in order to determine whether there's a match,
+
+  . if a match is found and the new mode is different from the current
+    mode,  
+    
+    .. send break code to current mode keyboard host if necessary,
+    .. discard everything in keyboard buffer,
+    .. executes either the `set_kbconsole` or the `set_rx_kbm_parm` 
+       CLI, as appropriate, to set the KBM mode to new mode.
+
+  . if a match is found and the new mode is the same as the current mode,
+    or if there's no match,
+
+    .. discard everything in keyboard buffer if current mode is console,
+    .. write keyboard buffer to FPGA if in current mode is local,
+    .. return keyboard buffer to StreamingServer for forwarding to remote 
+       host if current mode is remote.
+
+  . do nothing if there's not enough data in keyboard buffer for a complete
+    make or break code or to determine whether the buffer matches the escape
+    sequences (so more data will be accumulated the next time the routine is
+    called by the StreamingServer). 
+
+- Mouse Input Processing
+
+  . check system virtual console status and update KBM mode if necessary,
+  . read all available PS/2 (or USB) input,
+  . discard everything we just read if current mode is console,
+  . call `fill_ms_buffer` to convert the input to V2D-style mouse data
+    and add to mouse buffer,
+  . write mouse buffer to FPGA if in current mode is local,
+  . return mouse buffer to StreamingServer for forwarding to remote host
+    if current mode is remote.
+

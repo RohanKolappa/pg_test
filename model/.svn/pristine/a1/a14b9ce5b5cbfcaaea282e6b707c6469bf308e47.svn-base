@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.policyadminservice.datamodel.Rule.xsd" />
+  <xs:element name="PolicyAdminPolicyRuleList" type="PolicyAdminPolicyRuleListType" />
+  <xs:complexType name="PolicyAdminPolicyRuleListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PolicyRule" type="PolicyAdminPolicyRuleType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:element name="PolicyAdminPolicyRule" type="PolicyAdminPolicyRuleType" />
+  <xs:complexType name="PolicyAdminPolicyRuleType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServicePolicyRuleType">
+        <xs:sequence>
+          <xs:element name="PolicyAdminRoleSet" type="PolicyAdminRoleSetType" />
+          <xs:element name="PolicyAdminObjectFilterSet" type="PolicyAdminObjectFilterSetType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PolicyAdminObjectFilterSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="PolicyAdminObjectFilterNID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PolicyAdminRoleSetType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="PolicyAdminObjectRole" type="PolicyAdminObjectRoleType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PolicyAdminObjectRoleType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="ServiceObjectRoleType">
+        <xs:sequence>
+          <xs:element name="RoleObject">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="PolicyAdminPolicyRule" />
+                <xs:enumeration value="UserAdminPolicyRule" />
+                <xs:enumeration value="AssetAdminPolicyRule" />
+                <xs:enumeration value="MediaStoreAdminPolicyRule" />
+                <xs:enumeration value="MediaRoomPolicyRule" />
+                <xs:enumeration value="MediaStreamFilter" />
+                <xs:enumeration value="Filter" />
+                <xs:enumeration value="GroupTagDef" />
+                <xs:enumeration value="User://Groups/Tag" />
+                <xs:enumeration value="AssetResource://Groups/Tag" />
+                <xs:enumeration value="MediaStreamPortResource://Groups/Tag" />
+                <xs:enumeration value="MediaStreamProfile://Groups/Tag" />
+                <xs:enumeration value="MediaRoom://Groups/Tag" />
+                <xs:enumeration value="NetworkAddressRule" />
+                <xs:enumeration value="System" />                
+                <xs:enumeration value="Report" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="RoleAction">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="Add" />
+                <xs:enumeration value="Delete" />
+                <xs:enumeration value="Read" />
+                <xs:enumeration value="Modify" />
+                <xs:enumeration value="Upgrade" />
+                <xs:enumeration value="Restore" />
+                <xs:enumeration value="Backup" />                
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

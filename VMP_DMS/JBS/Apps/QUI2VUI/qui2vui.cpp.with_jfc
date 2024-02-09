@@ -1,0 +1,207 @@
+// ============================================================================
+//
+// Copyright (c) 2003-2006 Barco N.V.
+//
+// ============================================================================
+//
+// Filename:
+//	...
+// 
+// Description:
+//	...
+// 
+// Author(s):
+//	...
+//
+// ============================================================================
+
+#include <iostream>
+
+#include "BFC.Buffer.h"
+#include "BFC.Exception.h"
+
+#include "BFC.IO.File.h"
+
+#include "QtUIParser.h"
+
+// ============================================================================
+
+using namespace std;
+using namespace BFC;
+
+// ============================================================================
+
+static const char *progname = 0;
+
+static void usage() {
+
+	cerr << "Usage:" << endl;
+	cerr << "    " << progname << " [-d] [-q] -i <.qui filename> [-o <.vui filename>]" << endl;
+	cerr << "    " << progname << " -v" << endl;
+	cerr << "with:" << endl;
+	cerr << "-d: print resulting VMP tree" << endl;
+	cerr << "-q: suppress warnings" << endl;
+	cerr << "-v: print version and exit" << endl;
+
+}
+
+// ============================================================================
+
+int main(int argc, char *argv[]) {
+
+	progname = argv[0];
+
+	Buffer	iFilename;
+	Buffer	oFilename;
+	Bool	doDebug = false;
+	Bool	beQuiet = false;
+
+	argc--; argv++;
+
+	while ( argc ) {
+
+		Buffer v( *argv );
+		argc--; argv++;
+
+		if ( v == "-i" ) {
+			if ( ! argc ) {
+				cerr << "Missing input filename!" << endl;
+				return -1;
+			}
+			if ( ! iFilename.isEmpty() ) {
+				cerr << "Duplicate input filename!" << endl;
+				return -1;
+			}
+			Buffer t( *argv );
+			argc--; argv++;
+			if ( t.isEmpty() ) {
+				cerr << "Empty input filename!" << endl;
+				return -1;
+			}
+			iFilename = t;
+			continue;
+		}
+
+		if ( v == "-o" ) {
+			if ( ! argc ) {
+				cerr << "Missing output filename!" << endl;
+				return -1;
+			}
+			if ( ! oFilename.isEmpty() ) {
+				cerr << "Duplicate output filename!" << endl;
+				return -1;
+			}
+			Buffer t( *argv );
+			argc--; argv++;
+			if ( t.isEmpty() ) {
+				cerr << "Empty output filename!" << endl;
+				return -1;
+			}
+			oFilename = t;
+			continue;
+		}
+
+		if ( v == "-d" ) {
+			doDebug = true;
+			continue;
+		}
+
+		if ( v == "-q" ) {
+			beQuiet = true;
+			continue;
+		}
+
+		if ( v == "-v" ) {
+			cout	<< TARGET_VERSION_MAJ << "."
+				<< TARGET_VERSION_MED << "."
+				<< TARGET_VERSION_MIN << endl;
+			return 0;
+		}
+
+		cerr << "Unsupported arg \"" << v << "\"!" << endl;
+		usage();
+		return -1;
+	}
+
+	if ( iFilename.isEmpty() ) {
+		cerr << "No input filename!" << endl;
+		usage();
+		return -1;
+	}
+
+	IO::File iFile;
+
+	try {
+		iFile.open( iFilename, IO::File::Read );
+	}
+	catch ( Exception& e ) {
+		cerr << "Can't open input file!" << endl;
+		cerr << e.what() << endl;
+		return -1;
+	}
+
+	Buffer iContent;
+
+	try {
+		iContent = iFile.dumpToBuffer();
+	}
+	catch ( Exception& e ) {
+		cerr << "Can't read input file!" << endl;
+		cerr << e.what() << endl;
+		return -1;
+	}
+
+	QtUIParser qtparser;
+
+	if ( beQuiet ) {
+		qtparser.setDebug( false );
+	}
+
+	Buffer oContent;
+
+	try {
+		oContent = qtparser.parse( iContent );
+	}
+	catch ( Exception& e ) {
+		cerr << "Can't parse input file!" << endl;
+		cerr << e.what() << endl;
+		return -1;
+	}
+
+	if ( doDebug ) {
+		cout << oContent;
+	}
+
+	if ( ! oFilename.isEmpty() ) {
+
+		IO::File oFile;
+
+		try {
+			oFile.open( oFilename,
+				IO::File::Write
+				| IO::File::Create
+				| IO::File::Truncate );
+		}
+		catch ( Exception& e ) {
+			cerr << "Can't open output file!" << endl;
+			cerr << e.what() << endl;
+			return -1;
+		}
+
+		try {
+			oFile.putBytes( oContent );
+		}
+		catch ( Exception& e ) {
+			cerr << "Can't write output file!" << endl;
+			cerr << e.what() << endl;
+			return -1;
+		}
+
+	}
+
+	return 0;
+
+}
+
+// ============================================================================
+

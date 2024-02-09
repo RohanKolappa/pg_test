@@ -1,0 +1,216 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>TxConnectionParameters</Title>
+   <Description>Encoder Connection Parameters</Description>
+   <Access>tx_connection_parm</Access>
+   <ConfigFile>txconnectionconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+
+   <Items>
+      <Item>
+        <Name>bandwidth</Name>
+        <Type>bandwidth</Type>
+        <Label>Max Bandwidth</Label>
+        <Help>Maximum Bandwidth</Help>
+        <FieldLength>10</FieldLength>
+        <DefaultValue>10.0M</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>burst_ratio</Name>
+        <Type>float</Type>
+        <Label>Burst Ratio</Label>
+        <Help>Burst Ratio</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>1.00</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1.0</Min>
+           <Max>100.0</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>burst_duration</Name>
+        <Type>integer</Type>
+        <Label>Burst Duration</Label>
+        <Help>Burst Duration in milliseconds</Help>
+        <Align>follow</Align>
+        <FieldLength>5</FieldLength>
+        <DefaultValue>50</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>1000</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>low_compression</Name>
+        <Type>integer</Type>
+        <Label>Low Compression</Label>
+        <Help>Low Compression</Help>
+        <FieldLength>3</FieldLength>
+        <DefaultValue>6</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>10</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>high_compression</Name>
+        <Type>integer</Type>
+        <Label>High Compression</Label>
+        <Help>High Compression</Help>
+        <Align>follow</Align>
+        <FieldLength>3</FieldLength>
+        <DefaultValue>6</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>10</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>av_option</Name>
+        <Type>string</Type>
+        <Label>AV Option</Label>
+        <Help>Audio/Video Option</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>Both</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Video", "Audio", "Both"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>framerate_divider</Name>
+        <Type>integer</Type>
+        <Label>FrameRate Divider</Label>
+        <Help>Framerate Divider</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>1</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>256</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>min_refresh</Name>
+        <Type>integer</Type>
+        <Label>Min Refresh</Label>
+        <Help>Minimum Refresh</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>10</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>255</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>max_refresh</Name>
+        <Type>integer</Type>
+        <Label>Max Refresh</Label>
+        <Help>Maximum Refresh</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>30</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>255</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>min_slice</Name>
+        <Type>integer</Type>
+        <Label>Min Slice</Label>
+        <Help>Minimum Slice</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>255</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>max_slice</Name>
+        <Type>integer</Type>
+        <Label>Max Slice</Label>
+        <Help>Maximum Slice</Help>
+        <Align>follow</Align>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>15</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>255</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>block_threshold</Name>
+        <Type>integer</Type>
+        <Label>Block Threshold</Label>
+        <Help>Block Threshold</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>5</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>255</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>color_sampling</Name>
+        <Type>string</Type>
+        <Label>Color Sampling</Label>
+        <Help>Set color sampling scheme</Help>
+        <FieldLength>14</FieldLength>
+        <DefaultValue>4:2:2</DefaultValue>
+		<Validation>
+		    <Type>enumeration</Type>
+			<Values>"4:2:2", "Static 4:4:4", "Dynamic 4:4:4"</Values>
+		</Validation>
+      </Item>
+
+      <Item>
+        <Name>kbm_switch</Name>
+        <Type>boolean</Type>
+        <Label>Allow K/M Switch</Label>
+        <Help>Allow Keyboard/Mouse switch when idle?</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>kbm_idle_limit</Name>
+        <Type>integer</Type>
+        <Label>K/M Idle Limit</Label>
+        <Help>Idle time (in secs) before Keyboard/Mouse switch is allowed</Help>
+        <Align>follow</Align>
+        <FieldLength>3</FieldLength>
+        <DefaultValue>5</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>3</Min>
+           <Max>30</Max>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

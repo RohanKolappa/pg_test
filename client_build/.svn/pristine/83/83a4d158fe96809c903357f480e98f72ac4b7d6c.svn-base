@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!-- Sample build file used to retrieve svnant's sources -->
+<project name="common_tasks" basedir="." >
+ 
+  <!-- common clean -->
+  <macrodef name="common_clean">
+	<attribute name="pathname"/>
+	<sequential>
+		<delete dir="@{pathname}"/>
+	</sequential>
+  </macrodef>
+
+  <!-- common svn checkout -->
+  <macrodef name="common_checkout">
+	<attribute name="svn.url"/>
+	<attribute name="svn.revision"/>
+	<attribute name="svn.destpath"/>
+	<sequential>
+		<echo message="CHECKING OUT @{svn.url} AT @{svn.revision} TO @{svn.destpath}" level="info"/>
+		<exec executable="svn">
+			  <arg value="checkout" />
+			  <arg value="-r" />
+	  	      <arg value="@{svn.revision}" />
+			  <arg value="@{svn.url}" />
+			  <arg value="@{svn.destpath}" />
+		</exec>	
+	</sequential>
+  </macrodef>
+
+ <!-- common svn export -->
+  <macrodef name="common_export">
+	<attribute name="svn.url"/>
+	<attribute name="svn.revision"/>
+	<attribute name="svn.destpath"/>
+	<sequential>
+		<echo message="CHECKING OUT @{svn.url} AT @{svn.revision} TO @{svn.destpath}" level="info"/>
+		<exec executable="svn">
+			  <arg value="export" />
+			  <arg value="--force" />
+			  <arg value="-r" />
+	  	      <arg value="@{svn.revision}" />
+			  <arg value="@{svn.url}" />
+			  <arg value="@{svn.destpath}" />
+		</exec>	
+	</sequential>
+  </macrodef>
+
+   <!-- common svn update check -->
+  <macrodef name="common_ensure_svnupdate">
+	<attribute name="svnUpdateDirFile.list"/>
+	<sequential>
+		<echo  level="info"	/>
+		<echo message="check if model and mdeiaroom already checkout ..."	level="info"/>
+		<condition property="checkout.exist">
+			<for list="@{svnUpdateDirFile.list}" param="toBeUpdatedDirFile">
+				<and>
+					<available file="@{toBeUpdatedDirFile}" />
+				</and>
+			</for>
+		</condition>
+
+		<if>
+		<equals arg1="@{checkout.exist}" arg2="false" />
+		 <then>
+		   <echo message=" SVN update error: Please do SVN checkout before SVN update!" level="info" />
+		 </then>
+		 <else>
+			<echo  level="info"	/>
+			<for list="@{svnUpdateDirFile.list}" param="toBeUpdatedDirFile">
+				<echo message=" updating @{toBeUpdatedDirFile} ..."	level="info"/>
+				<parallel threadCount='1' failonany="true">
+					<svn>
+					  <update dir="@{toBeUpdatedDirFile}" recurse="true" />
+					</svn>
+				</parallel>
+			</for>
+		 </else>
+		</if>
+	</sequential> 
+  </macrodef>
+
+  <!-- common svn update -->
+  <macrodef name="common_svnupdate">
+	<attribute name="svn.destpath"/>
+	<sequential>
+		<echo message="svn update @{svn.destpath} "	level="info"/>
+		<exec executable="svn">
+			  <arg value="update" />
+			  <arg value="@{svn.destpath}" />
+		</exec>	
+	</sequential>
+  </macrodef>
+
+  <!-- common svn commit -->
+  <macrodef name="common_svncommit">
+	<attribute name="svn.file"/>
+	<attribute name="svn.message"/>
+	<sequential>
+		<exec executable="svn">
+			  <arg value="commit" />
+			  <arg value="-m" />
+			  <arg value="@{svn.message}" />
+			  <arg value="@{svn.file}" />
+		</exec>
+	</sequential>
+  </macrodef>
+
+   <!-- common svn copy -->
+  <macrodef name="common_svncopy">
+	<attribute name="svn.srcURL"/>
+	<attribute name="svn.destURL"/>
+	<attribute name="svn.revision"/>
+	<attribute name="svn.message"/>
+	<sequential>
+	<echo message='svn copy -r @{svn.revision} @{svn.srcURL} @{svn.destURL} -m "@{svn.message}"'	level="info"/>
+		<exec executable="svn">
+			  <arg value="copy" />
+			    <arg value="-r" />
+			  <arg value="@{svn.revision}" />
+			  <arg value="@{svn.srcURL}" />
+  			  <arg value="@{svn.destURL}" />
+			  <arg value="-m" />
+			  <arg value="@{svn.message}" />
+		</exec>
+	</sequential>
+  </macrodef>
+
+  <!-- common directory check -->
+  <macrodef name="common_checkDirExist">
+	<attribute name="dirFile.list"/>
+	<sequential>
+		<echo message="..." level="info"/>
+		<for list="@{dirFile.list}" param="dirFile">
+		  <sequential>
+			<available file="@{dirFile}" property="@{dirFile}_isDirFileAvail" />
+			<var name="isDirFileAvail" value="@{dirFile}_isDirFileAvail"/>
+			<switch value="${@{dirFile}_isDirFileAvail}">
+			  <case value="true">
+				<echo message="@{dirFile} is already exist" level="info" />
+				<echo message="@{dirFile}_isDirFileAvail=${@{dirFile}_isDirFileAvail}" level="info"/>
+			  </case>
+			  <default>
+				<echo message="@{dirFile} is not exist and being created now..." level="info"/>
+				<mkdir dir="@{dirFile}"/>		
+			  </default>
+			</switch>
+		  </sequential>
+		</for>
+	</sequential>
+  </macrodef>
+
+	<!-- ======================================================= -->
+	<!-- get svn info by svn status -u							 -->
+	<!-- ======================================================= -->
+	<macrodef name="common_getSvnInfo">
+	<attribute name="svn.properties"/>
+	<sequential>
+		<!-- svn status -u instead of svn info -->
+		<exec executable="svn" output="@{svn.properties}">
+			<arg value="status" />
+			<arg value="-u" />
+		</exec>
+
+		<loadfile property="svn.statusRevision"  srcFile="@{svn.properties}">
+		  <filterchain>
+			  <filterreader classname="org.apache.tools.ant.filters.TailFilter">
+				  <param name="lines" value="1"/>
+			  </filterreader>
+				<tokenfilter>
+					<replacestring from="Status against revision:" to=""/>
+				</tokenfilter>
+				<striplinebreaks/>
+				<deletecharacters chars=" "/>
+		  </filterchain>
+		</loadfile>
+		<echo message="svn status - u " level="info"/>
+		<echo message="current revision: ${svn.statusRevision} " level="info"/>
+	</sequential>
+  </macrodef>
+
+	<!-- ======================================================= -->
+	<!-- check file exist						 -->
+	<!-- ======================================================= -->
+	<macrodef name="common_checkFile">
+		<attribute name="file.name"/>
+		<attribute name="echo.message"/>
+		<sequential>
+			<available file="@{file.name}" property="@{file.name}_exist"/>
+			<fail unless="@{file.name}_exist" message="@{echo.message}!" />
+		</sequential>
+	</macrodef>
+
+	<!-- ======================================================= -->
+	<!-- create version.xml						 -->
+	<!-- ======================================================= -->
+	<macrodef name="common_versionXMLbuilder">
+		<attribute name="software.version"/>
+		<attribute name="software.date"/>
+		<attribute name="dest.list"/>
+		<sequential>
+			<for list="@{dest.list}" param="dest.path">
+				<sequential>
+					<echo message=" version.xml will be created in @{dest.path}; software.version is @{software.version},software.date is @{software.date} " level="info"/>
+					<xmltask outputter="simple:4" dest="@{dest.path}/version.xml">
+					  <insert path=".">
+						<![CDATA[
+							<GUIVersion>
+							<version>@{software.version}</version>
+							<date>@{software.date}</date>
+							</GUIVersion>
+						]]>
+					  </insert>
+					</xmltask>
+				</sequential>
+			</for>
+		</sequential>
+	</macrodef>
+
+</project>

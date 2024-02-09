@@ -1,0 +1,135 @@
+<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <onAfterDeserialize><![CDATA[
+
+objJSX.registerHotKey('doCancel', '.', false, true, false);
+
+  ]]></onAfterDeserialize>
+  <object type="jsx3.io.FileDialog">
+    <variants jsxwidth="600" jsxheight="320" jsxzindex="5000"></variants>
+    <strings jsxname="file_dialog" jsxhelpid="ide.filedialog"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="abc_cbar" jsxtext="Open/Save Dialog"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="jsx_tbb"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="file_dialog.doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="jsx_tbb"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="file_dialog.doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxloadtype="1" jsxoverflow="2"></variants>
+      <strings jsxname="layout_horiz" jsxrows="26,*,28"></strings>
+      <dynamics jsxbgcolor="@Solid Disabled"></dynamics>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxoverflow="2"></variants>
+        <strings jsxname="jsxlayoutgrid" jsxcols="*,98"></strings>
+        <object type="jsx3.gui.Block">
+          <variants></variants>
+          <strings jsxpadding="4"></strings>
+          <object type="jsx3.gui.Select">
+            <variants></variants>
+            <strings jsxwidth="100%" jsxname="path_select"></strings>
+            <events jsxselect="file_dialog.doPathSelect(strRECORDID);"></events>
+            <xslparameters jsxnocheck="1"></xslparameters>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxrelativeposition="1"></variants>
+          <strings jsxname="jsxwindowbar"></strings>
+          <object type="jsx3.gui.ToolbarButton">
+            <variants jsxtype="0" jsxstate="0"></variants>
+            <strings jsxname="jsxbutton_goUp" jsxtip="go up" jsximage="jsxapp:/images/plugin-icons/icon_58.gif"></strings>
+            <events jsxexecute="file_dialog.doGoUp();"></events>
+          </object>
+          <object type="jsx3.gui.ToolbarButton">
+            <variants jsxtype="0" jsxstate="0"></variants>
+            <strings jsxname="jsxbutton_newFolder" jsxtip="create new folder..." jsximage="jsxapp:/images/plugin-icons/icon_57.gif"></strings>
+            <events jsxexecute="file_dialog.doNewFolder();"></events>
+          </object>
+          <object type="jsx3.gui.ToolbarButton">
+            <variants jsxtype="0" jsxstate="0"></variants>
+            <strings jsxname="jsxbutton_reload" jsxtip="reload" jsximage="jsxapp:/images/plugin-icons/icon_22.gif"></strings>
+            <events jsxexecute="file_dialog.doReload();"></events>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants></variants>
+        <strings></strings>
+        <dynamics jsxbgcolor="@Solid Medium" jsxbodyborder="@Outset"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxresize="1" jsxreorder="0" jsxindex="0" jsxheaderheight="21"></variants>
+          <strings jsxname="file_list" jsxfocusstyle=";"></strings>
+          <dynamics jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"></dynamics>
+          <events jsxchange="file_dialog.doFileSelect(this.getValue());" jsxexecute="file_dialog.doFileExecute();"></events>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#e8e8f5"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxresize="0" jsxwidth="20"></variants>
+            <strings jsxname="col_icon" jsxcellpadding="1" jsxpadding="3" jsxpath="jsximg" jsxvaluetemplate="@image"></strings>
+            <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="150"></variants>
+            <strings jsxname="col_name" jsxcellpadding="3" jsxpadding="3" jsxpath="name" jsxtext="File"></strings>
+            <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="40"></variants>
+            <strings jsxname="col_size" jsxcellpadding="3" jsxpadding="3" jsxpath="size" jsxsortpath="bytes" jsxtext="Size" jsxdatatype="number"></strings>
+            <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="250"></variants>
+            <strings jsxname="col_mtime" jsxcellpadding="3" jsxpadding="3" jsxpath="mtime" jsxformathandler="@datetime" jsxvaluetemplate="@empty" jsxtext="Modified" jsxdatatype="number"></strings>
+            <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="100"></variants>
+            <strings jsxname="col_type" jsxcellpadding="3" jsxpadding="3" jsxpath="type" jsxtext="Type"></strings>
+            <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"></dynamics>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants></variants>
+        <strings jsxpadding="4" jsxborder="solid 1px #9898a5;0px;0px;0px"></strings>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxoverflow="2"></variants>
+          <strings jsxname="layout_bottom" jsxcols="*,190"></strings>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxfontsize="11"></variants>
+            <strings jsxname="file_name" jsxwidth="100%"></strings>
+            <events jsxkeydown="file_dialog.doPathEdit(objEVENT);" jsxexecute="file_dialog.doExecute();"></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants></variants>
+            <strings jsxtextalign="right" jsxpadding="1 0 0 0"></strings>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="70"></variants>
+              <strings jsxname="btn_cancel" jsxtext="Cancel" jsxtip="cancel" jsxmargin="0 6 0 0"></strings>
+              <events jsxexecute="file_dialog.doCancel();"></events>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="70"></variants>
+              <strings jsxname="btn_execute" jsxtext="Save" jsxfontweight="bold" jsxtip="save" jsxmargin="0 12 0 0"></strings>
+              <events jsxexecute="file_dialog.doExecute(null, 'Current');"></events>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxindex="0" jsxheight="16" jsxwidth="16" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+              <strings jsxname="helpBtn" jsximage="jsxapp:/images/plugin-icons/icon_59.gif" jsxvisibility="hidden" jsxdisplay="none"></strings>
+              <events jsxexecute="this.getServer().invokeHelp(file_dialog);"></events>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

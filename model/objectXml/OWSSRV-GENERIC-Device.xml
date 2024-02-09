@@ -1,0 +1,1261 @@
+<?xml version="1.0"?>
+<OWSSRV-GENERIC-Device serviceVer="" Ver="1.1"
+	Rev="1" NID="" parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+
+	<ManagementMode>Local</ManagementMode>
+
+	<ResourcePointers>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<LicenseConfig Dirty="CLEAN">
+				<NewLicenseKey></NewLicenseKey>
+			</LicenseConfig>
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password></Password>
+			</AdminServiceConfig>
+
+			<LoginBannerConfig Dirty="CLEAN">
+				<Banner>
+					OWSSRV
+				</Banner>
+			</LoginBannerConfig>
+
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+			</SystemClockConfig>
+
+			<SplashScreenConfig file="" Dirty="CLEAN" />
+
+			<KeyboardConfig Dirty="CLEAN">
+				<Layout>us</Layout>
+				<Variant></Variant>
+			</KeyboardConfig>
+			<RegionalSettingsConfig Dirty="CLEAN">
+				<Locale>en_US</Locale>
+				<Timezone>Europe/Brussels</Timezone>
+			</RegionalSettingsConfig>
+
+			<DesktopConfig Dirty="CLEAN">
+				<Display name="" resolution="" refresh_rate="" position="" />
+			</DesktopConfig>
+
+			<SystemLogConfig Dirty="CLEAN">
+				<Level>INFO</Level>
+			</SystemLogConfig>
+
+			<UpgradeConfig Dirty="CLEAN" />
+		</SystemElementsConfig>
+
+		<ServiceElementsConfig>
+			<XMPPAgentServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<XMPPServer>0.0.0.0</XMPPServer>
+				<XMPPServerPort>5222</XMPPServerPort>
+				<DeviceName>UserId</DeviceName>
+				<DevicePassword>secret</DevicePassword>
+				<Domain>default</Domain>
+				<ServiceDomain>default</ServiceDomain>
+				<AgentList>
+					<XMPPAgentServiceConfigAgentConfig
+						Dirty="CLEAN">
+						<Enable>true</Enable>
+					</XMPPAgentServiceConfigAgentConfig>
+				</AgentList>
+			</XMPPAgentServiceConfig>
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+				<HTTPPort></HTTPPort>
+			</HTTPServiceConfig>
+
+			<SSHServiceConfig Dirty="CLEAN">
+				<EnableSSH>true</EnableSSH>
+			</SSHServiceConfig>
+
+			<TelnetServiceConfig Dirty="CLEAN">
+				<EnableTelnet>false</EnableTelnet>
+			</TelnetServiceConfig>
+
+			<TFTPServiceConfig Dirty="CLEAN">
+				<EnableTFTP>false</EnableTFTP>
+			</TFTPServiceConfig>
+
+			<DHCPServiceConfig Dirty="CLEAN">
+				<EnableDHCPServer>false</EnableDHCPServer>
+				<DHCPStartIP>10.1.5.1</DHCPStartIP>
+				<DHCPEndIP>10.1.5.50</DHCPEndIP>
+				<PublishDNSServer>192.168.1.254</PublishDNSServer>
+			</DHCPServiceConfig>
+
+			<NTPServiceConfig Dirty="CLEAN">
+				<EnableNTPServer>false</EnableNTPServer>
+				<NTPServerIP></NTPServerIP>
+			</NTPServiceConfig>
+
+			<!-- placeholder for ssh tunnel -->
+			<SecureTunnelClientServiceConfig
+				Dirty="CLEAN">
+				<EnableSecureTunnel>true</EnableSecureTunnel>
+				<TunnelRemoteIP></TunnelRemoteIP>
+				<TunnelUsername></TunnelUsername>
+				<TunnelPassword></TunnelPassword>
+			</SecureTunnelClientServiceConfig>
+
+			<DiscoveryReportingServiceConfig
+				Dirty="CLEAN">
+				<Enable>false</Enable>
+			</DiscoveryReportingServiceConfig>
+
+			<StreamingServiceConfig Dirty="CLEAN">
+			</StreamingServiceConfig>
+
+			<CorosyncServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<GroupName></GroupName>
+				<VirtualIPAddress></VirtualIPAddress>
+				<DiscoveryMulticastSocket></DiscoveryMulticastSocket>
+				 <DiscoveryUnicastSocket>
+				    <Member></Member>
+				    <Member></Member>
+				</DiscoveryUnicastSocket>	
+			</CorosyncServiceConfig>
+
+			<OWSSRVServiceConfig Dirty="CLEAN">
+				<Config Dirty="CLEAN">
+					<edp_service_login Dirty="CLEAN">
+						<server_ip></server_ip>
+						<ows_server>
+							<user></user>
+							<password></password>
+						</ows_server>
+						<ows_device_agent>
+							<user></user>
+							<password></password>
+						</ows_device_agent>
+					</edp_service_login>
+					<ldap_client Dirty="CLEAN">
+						<server />
+						<dn />
+					</ldap_client>
+					<ldap Dirty="CLEAN">
+						<server></server>
+						<root_dn></root_dn>
+						<user_base></user_base>
+						<user_filter></user_filter>
+						<group_base></group_base>
+						<group_filter></group_filter>
+						<manager_dn></manager_dn>
+						<manager_pwd></manager_pwd>
+						<display_name></display_name>
+					</ldap>
+					<redundancy Dirty="CLEAN">
+						<enable>true</enable>
+						<nodes>
+							<ip></ip>
+						</nodes>
+						<nodes>
+							<ip></ip>
+						</nodes>
+						<nodes>
+							<ip></ip>
+						</nodes>
+						<sshkey></sshkey>
+						<database_credential>
+							<user_name></user_name>
+							<password></password>
+						</database_credential>
+					</redundancy>
+					<ows_app_server_default>
+						<permission_group>
+							<name></name>
+							<permission>
+								<role>Administrator</role>
+								<system>
+									<ports>
+										<OpenPorts></OpenPorts>
+										<CreatePorts>true</CreatePorts>
+										<DeletePorts>true</DeletePorts>
+										<EditPorts>true</EditPorts>
+									</ports>
+									<workspace>
+										<OpenWorkspace>true</OpenWorkspace>
+										<CreateWorkspace>true</CreateWorkspace>
+										<DeleteWorkspace>true</DeleteWorkspace>
+										<EditWorkspace>true</EditWorkspace>
+									</workspace>
+								</system>
+								<console>
+									<user>
+										<ChangePassword>true</ChangePassword>
+										<RetrievePassword>true</RetrievePassword>
+										<SwitchUser>true</SwitchUser>
+									</user>
+									<system>
+										<StartSystem>true</StartSystem>
+										<LockSystem>true</LockSystem>
+										<RestartSystem>true</RestartSystem>
+										<ShutdownSystem>true</ShutdownSystem>
+									</system>
+									<settings>
+										<OpenSettings>true</OpenSettings>
+										<EditSettings>true</EditSettings>
+									</settings>
+									<masteraudio>
+										<OpenMasterAudio>true</OpenMasterAudio>
+										<EditMasterAudio>true</EditMasterAudio>
+									</masteraudio>
+								</console>
+								<source>
+									<consolesourcepanel>
+										<OpenSources>true</OpenSources>
+										<CreateSources>true</CreateSources>
+										<DeleteSources>true</DeleteSources>
+										<EditSources>true</EditSources>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<EditTag>true</EditTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+									</consolesourcepanel>
+									<sourcewindow>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<OpenLock>true</OpenLock>
+										<EditLock>true</EditLock>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</sourcewindow>
+								</source>
+								<perspective>
+									<consoleperspectivepanel>
+										<OpenPerspective>true</OpenPerspective>
+										<CreatePerspective>true</CreatePerspective>
+										<DeletePerspective>true</DeletePerspective>
+										<EditPerspective>true</EditPerspective>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<EditTag>true</EditTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenTemplate>true</OpenTemplate>
+										<CreateTemplate>true</CreateTemplate>
+										<DeleteTemplate>true</DeleteTemplate>
+										<EditTemplate>true</EditTemplate>
+									</consoleperspectivepanel>
+									<perspectivewindow>
+										<AddSourceToPerspective>true</AddSourceToPerspective>
+										<RemoveSourceFromPerspective>true
+										</RemoveSourceFromPerspective>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<OpenGrid>true</OpenGrid>
+										<EditGrid>true</EditGrid>
+										<RemoveGrid>true</RemoveGrid>
+									</perspectivewindow>
+								</perspective>
+								<workarea>
+									<workareawindow>
+										<OpenWorkarea>true</OpenWorkarea>
+										<CreateWorkarea>true</CreateWorkarea>
+										<EditWorkarea>true</EditWorkarea>
+										<DeleteWorkarea>true</DeleteWorkarea>
+										<AddSourceToWorkarea>true</AddSourceToWorkarea>
+										<RemoveSourceFromWorkarea>true</RemoveSourceFromWorkarea>
+										<OpenQuickLaunchBar>true</OpenQuickLaunchBar>
+										<EditQuickLaunchBar>true</EditQuickLaunchBar>
+										<OpenLastUsedSource>true</OpenLastUsedSource>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</workareawindow>
+								</workarea>
+							</permission>
+
+							<source_target>
+								<domain>
+									<name></name>
+									<feature></feature>
+								</domain>
+							</source_target>
+						</permission_group>
+						<permission_group>
+							<name></name>
+							<permission>
+								<role>Supervisor</role>
+								<system>
+									<ports>
+										<OpenPorts>true</OpenPorts>
+									</ports>
+									<workspace>
+										<OpenWorkspace>true</OpenWorkspace>
+										<CreateWorkspace>true</CreateWorkspace>
+										<DeleteWorkspace>true</DeleteWorkspace>
+										<EditWorkspace>true</EditWorkspace>
+									</workspace>
+								</system>
+								<console>
+									<user>
+										<ChangePassword>true</ChangePassword>
+										<RetrievePassword>true</RetrievePassword>
+										<SwitchUser>true</SwitchUser>
+									</user>
+									<system>
+										<StartSystem>true</StartSystem>
+										<LockSystem>true</LockSystem>
+										<RestartSystem>true</RestartSystem>
+										<ShutdownSystem>true</ShutdownSystem>
+									</system>
+									<settings>
+										<OpenSettings>true</OpenSettings>
+										<EditSettings>true</EditSettings>
+									</settings>
+									<masteraudio>
+										<OpenMasterAudio>true</OpenMasterAudio>
+										<EditMasterAudio>true</EditMasterAudio>
+									</masteraudio>
+								</console>
+								<source>
+									<consolesourcepanel>
+										<OpenSources>true</OpenSources>
+										<CreateSources>true</CreateSources>
+										<DeleteSources>true</DeleteSources>
+										<EditSources>true</EditSources>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<EditTag>true</EditTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+									</consolesourcepanel>
+									<sourcewindow>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<OpenLock>true</OpenLock>
+										<EditLock>true</EditLock>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</sourcewindow>
+								</source>
+								<perspective>
+									<consoleperspectivepanel>
+										<OpenPerspective>true</OpenPerspective>
+										<CreatePerspective>true</CreatePerspective>
+										<DeletePerspective>true</DeletePerspective>
+										<EditPerspective>true</EditPerspective>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenTemplate>true</OpenTemplate>
+										<CreateTemplate>true</CreateTemplate>
+										<DeleteTemplate>true</DeleteTemplate>
+										<EditTemplate>true</EditTemplate>
+									</consoleperspectivepanel>
+									<perspectivewindow>
+										<AddSourceToPerspective>true</AddSourceToPerspective>
+										<RemoveSourceFromPerspective>true
+										</RemoveSourceFromPerspective>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<OpenGrid>true</OpenGrid>
+										<EditGrid>true</EditGrid>
+										<RemoveGrid>true</RemoveGrid>
+									</perspectivewindow>
+								</perspective>
+								<workarea>
+									<workareawindow>
+										<OpenWorkarea>true</OpenWorkarea>
+										<CreateWorkarea>true</CreateWorkarea>
+										<EditWorkarea>true</EditWorkarea>
+										<DeleteWorkarea>true</DeleteWorkarea>
+										<AddSourceToWorkarea>true</AddSourceToWorkarea>
+										<RemoveSourceFromWorkarea>true</RemoveSourceFromWorkarea>
+										<OpenQuickLaunchBar>true</OpenQuickLaunchBar>
+										<EditQuickLaunchBar>true</EditQuickLaunchBar>
+										<OpenLastUsedSource>true</OpenLastUsedSource>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</workareawindow>
+								</workarea>
+							</permission>
+
+							<source_target>
+								<domain>
+									<name></name>
+									<feature></feature>
+								</domain>
+							</source_target>
+						</permission_group>
+						<permission_group>
+							<name></name>
+							<permission>
+								<role>Operator</role>
+								<system>
+									<ports>
+										<OpenPorts>true</OpenPorts>
+									</ports>
+									<workspace>
+										<OpenWorkspace>true</OpenWorkspace>
+										<CreateWorkspace>true</CreateWorkspace>
+										<EditWorkspace>true</EditWorkspace>
+									</workspace>
+								</system>
+								<console>
+									<user>
+										<ChangePassword>true</ChangePassword>
+										<RetrievePassword>true</RetrievePassword>
+										<SwitchUser>true</SwitchUser>
+									</user>
+									<system>
+										<LockSystem>true</LockSystem>
+									</system>
+									<masteraudio>
+										<OpenMasterAudio>true</OpenMasterAudio>
+										<EditMasterAudio>true</EditMasterAudio>
+									</masteraudio>
+								</console>
+								<source>
+									<consolesourcepanel>
+										<OpenSources>true</OpenSources>
+										<CreateSources>true</CreateSources>
+										<DeleteSources>true</DeleteSources>
+										<EditSources>true</EditSources>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<DeleteTag>true</DeleteTag>
+									</consolesourcepanel>
+									<sourcewindow>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<OpenLock>true</OpenLock>
+										<EditLock>true</EditLock>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</sourcewindow>
+								</source>
+								<perspective>
+									<consoleperspectivepanel>
+										<OpenPerspective>true</OpenPerspective>
+										<CreatePerspective>true</CreatePerspective>
+										<DeletePerspective>true</DeletePerspective>
+										<EditPerspective>true</EditPerspective>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<DeleteTag>true</DeleteTag>
+										<OpenTemplate>true</OpenTemplate>
+										<CreateTemplate>true</CreateTemplate>
+										<DeleteTemplate>true</DeleteTemplate>
+									</consoleperspectivepanel>
+									<perspectivewindow>
+										<AddSourceToPerspective>true</AddSourceToPerspective>
+										<RemoveSourceFromPerspective>true
+										</RemoveSourceFromPerspective>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<OpenGrid>true</OpenGrid>
+										<EditGrid>true</EditGrid>
+										<RemoveGrid>true</RemoveGrid>
+									</perspectivewindow>
+								</perspective>
+								<workarea>
+									<workareawindow>
+										<OpenWorkarea>true</OpenWorkarea>
+										<CreateWorkarea>true</CreateWorkarea>
+										<EditWorkarea>true</EditWorkarea>
+										<DeleteWorkarea>true</DeleteWorkarea>
+										<AddSourceToWorkarea>true</AddSourceToWorkarea>
+										<RemoveSourceFromWorkarea>true</RemoveSourceFromWorkarea>
+										<OpenQuickLaunchBar>true</OpenQuickLaunchBar>
+										<EditQuickLaunchBar>true</EditQuickLaunchBar>
+										<OpenLastUsedSource>true</OpenLastUsedSource>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</workareawindow>
+								</workarea>
+							</permission>
+
+							<source_target>
+								<domain>
+									<name></name>
+									<feature></feature>
+								</domain>
+							</source_target>
+						</permission_group>
+							<permission_group>
+							<name></name>
+							<permission>
+								<role>Api</role>
+								<system>
+									<ports>
+										<OpenPorts>true</OpenPorts>
+									</ports>
+									<workspace>
+										<OpenWorkspace>true</OpenWorkspace>
+										<CreateWorkspace>true</CreateWorkspace>
+										<DeleteWorkspace>true</DeleteWorkspace>
+										<EditWorkspace>true</EditWorkspace>
+									</workspace>
+								</system>
+								<console>
+									<user>
+										<ChangePassword>true</ChangePassword>
+										<RetrievePassword>true</RetrievePassword>
+										<SwitchUser>true</SwitchUser>
+									</user>
+									<system>
+										<StartSystem>true</StartSystem>
+										<LockSystem>true</LockSystem>
+										<RestartSystem>true</RestartSystem>
+										<ShutdownSystem>true</ShutdownSystem>
+									</system>
+									<settings>
+										<OpenSettings>true</OpenSettings>
+										<EditSettings>true</EditSettings>
+									</settings>
+									<masteraudio>
+										<OpenMasterAudio>true</OpenMasterAudio>
+										<EditMasterAudio>true</EditMasterAudio>
+									</masteraudio>
+								</console>
+								<source>
+									<consolesourcepanel>
+										<OpenSources>true</OpenSources>
+										<CreateSources>true</CreateSources>
+										<DeleteSources>true</DeleteSources>
+										<EditSources>true</EditSources>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<EditTag>true</EditTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+									</consolesourcepanel>
+									<sourcewindow>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<OpenLock>true</OpenLock>
+										<EditLock>true</EditLock>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</sourcewindow>
+								</source>
+								<perspective>
+									<consoleperspectivepanel>
+										<OpenPerspective>true</OpenPerspective>
+										<CreatePerspective>true</CreatePerspective>
+										<DeletePerspective>true</DeletePerspective>
+										<EditPerspective>true</EditPerspective>
+										<OpenListView>true</OpenListView>
+										<OpenThumbnailView>true</OpenThumbnailView>
+										<AddFavorites>true</AddFavorites>
+										<RemoveFavorites>true</RemoveFavorites>
+										<CreateSearch>true</CreateSearch>
+										<CreateTag>true</CreateTag>
+										<DeleteTag>true</DeleteTag>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenTemplate>true</OpenTemplate>
+										<CreateTemplate>true</CreateTemplate>
+										<DeleteTemplate>true</DeleteTemplate>
+										<EditTemplate>true</EditTemplate>
+									</consoleperspectivepanel>
+									<perspectivewindow>
+										<AddSourceToPerspective>true</AddSourceToPerspective>
+										<RemoveSourceFromPerspective>true
+										</RemoveSourceFromPerspective>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<OpenGrid>true</OpenGrid>
+										<EditGrid>true</EditGrid>
+										<RemoveGrid>true</RemoveGrid>
+									</perspectivewindow>
+								</perspective>
+								<workarea>
+									<workareawindow>
+										<OpenWorkarea>true</OpenWorkarea>
+										<CreateWorkarea>true</CreateWorkarea>
+										<EditWorkarea>true</EditWorkarea>
+										<DeleteWorkarea>true</DeleteWorkarea>
+										<AddSourceToWorkarea>true</AddSourceToWorkarea>
+										<RemoveSourceFromWorkarea>true</RemoveSourceFromWorkarea>
+										<OpenQuickLaunchBar>true</OpenQuickLaunchBar>
+										<EditQuickLaunchBar>true</EditQuickLaunchBar>
+										<OpenLastUsedSource>true</OpenLastUsedSource>
+										<OpenProperties>true</OpenProperties>
+										<EditProperties>true</EditProperties>
+										<OpenAudioVolume>true</OpenAudioVolume>
+										<EditAudioVolume>true</EditAudioVolume>
+										<CreateLabel>true</CreateLabel>
+										<EditLabel>true</EditLabel>
+										<DeleteLabel>true</DeleteLabel>
+										<CreateZoom>true</CreateZoom>
+										<EditZoom>true</EditZoom>
+										<DeleteZoom>true</DeleteZoom>
+										<OpenScaling>true</OpenScaling>
+										<EditScaling>true</EditScaling>
+										<RemoveScaling>true</RemoveScaling>
+										<CreateCropping>true</CreateCropping>
+										<EditCropping>true</EditCropping>
+										<DeleteCropping>true</DeleteCropping>
+									</workareawindow>
+								</workarea>
+							</permission>
+
+							<source_target>
+								<domain>
+									<name></name>
+									<feature></feature>
+								</domain>
+							</source_target>
+						</permission_group>
+					
+					</ows_app_server_default>
+					<permission_group_list Dirty="CLEAN">
+						<permission_group>
+							<name></name>
+							<permission />
+							<source_target>
+								<domain>
+									<name></name>
+									<feature></feature>
+								</domain>
+							</source_target>
+						</permission_group>
+					</permission_group_list>
+				</Config>
+			</OWSSRVServiceConfig>
+
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName>name</HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP></DNSServerIP>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway>192.168.1.254</Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+
+			<HostTableConfig Dirty="CLEAN">
+				<HostEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</HostEntry>
+			</HostTableConfig>
+
+			<NATZoneTableConfig Dirty="CLEAN">
+				<NATZoneEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</NATZoneEntry>
+			</NATZoneTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="2">
+					<PortID>2</PortID>
+					<EnableInterface>false</EnableInterface>
+					<IsPrimary>false</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+
+					<IPConfig>
+						<UseDHCP>false</UseDHCP>
+						<IPAddress>0.0.0.0</IPAddress>
+						<Netmask>0.0.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+		</NetworkElementsConfig>
+
+		<StorageElementsConfig>
+			<MountTableConfig Dirty="CLEAN">
+				<MountEntry>
+					<DevPath>true</DevPath>
+					<MountPoint></MountPoint>
+					<MountArgs></MountArgs>
+				</MountEntry>
+			</MountTableConfig>
+
+			<CFDriveConfig Dirty="CLEAN">
+				<DeviceName></DeviceName>
+				<MountPoint></MountPoint>
+			</CFDriveConfig>
+
+			<HardDiskTableConfig Dirty="CLEAN">
+				<HardDiskEntry Dirty="CLEAN" ListIndex="1">
+					<DeviceName>/dev/sda1</DeviceName>
+					<MountPoint>/data1</MountPoint>
+
+					<RAIDArrayEntry Dirty="CLEAN">
+						<Controller>c0</Controller>
+						<Unit>u0</Unit>
+						<RAIDType>RAID-1</RAIDType>
+
+						<RAIDDiskTableConfig Dirty="CLEAN">
+							<RAIDDiskEntry Dirty="CLEAN" ListIndex="1">
+								<Port>1</Port>
+							</RAIDDiskEntry>
+
+							<RAIDDiskEntry Dirty="CLEAN" ListIndex="2">
+								<Port>2</Port>
+							</RAIDDiskEntry>
+						</RAIDDiskTableConfig>
+					</RAIDArrayEntry>
+
+					<MediaStore>
+						<Name>/data1</Name>
+						<RootDirPath>/data/DSS/data/portal/site</RootDirPath>
+					</MediaStore>
+
+					<SystemStore>
+						<SystemReservation Size="5368709120">
+							<RootDirPath>/data1</RootDirPath>
+						</SystemReservation>
+						<ThumbnailReservation Size="5368709120">
+							<RootDirPath>/data1/tncache/</RootDirPath>
+						</ThumbnailReservation>
+						<LogsReservation Size="5368709120">
+							<RootDirPath>/data1/logs/</RootDirPath>
+						</LogsReservation>
+					</SystemStore>
+				</HardDiskEntry>
+			</HardDiskTableConfig>
+
+			<NASConfig Dirty="CLEAN">
+				<NASTable>
+					<NASEntry Dirty="CLEAN" ListIndex="1">
+						<Server></Server>
+						<RemoteDirectory></RemoteDirectory>
+						<Enable></Enable>
+						<ReadOnly></ReadOnly>
+
+						<MediaStore>
+							<Name></Name>
+							<RootDirPath>/data/DSS/data/portal/site/NAS</RootDirPath>
+						</MediaStore>
+
+						<SystemStore>
+							<SystemReservation Size="5368709120">
+								<RootDirPath>/data/DSS/data/portal/site/NAS</RootDirPath>
+							</SystemReservation>
+							<ThumbnailReservation Size="0">
+								<RootDirPath>/data/DSS/data/portal/site/NAS</RootDirPath>
+							</ThumbnailReservation>
+						</SystemStore>
+					</NASEntry>
+				</NASTable>
+			</NASConfig>
+		</StorageElementsConfig>
+
+		<AVCodecElementsConfig>
+		</AVCodecElementsConfig>
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<SystemElementsStatus State="OK">
+			<SoftwareImageStatus Queryable="true" State="OK">
+				<Parameters timestamp="1427298304840">
+					<Parameter name="Version" source="constant" type="String">4.4.r1.b86381
+					</Parameter>
+					<Parameter name="Service Version" source="constant" type="String">
+						2.32.5
+					</Parameter>
+					<Parameter name="Date" source="constant" type="String">Mar 23 2015
+						12:31:15
+					</Parameter>
+					<Parameter name="Serial Number" source="constant" type="String">59440606768762
+					</Parameter>
+					<Parameter name="Model" source="constant" type="String" />
+					<Parameter name="License ID" source="constant" type="String" />
+				</Parameters>
+			</SoftwareImageStatus>
+
+			<LicenseStatus>
+				<BLMPINCode />
+				<DemoLicenseDaysLeft />
+				<LicenseInfo>
+					<Product>mgs</Product>
+					<Expires>never</Expires>
+					<Feature>basic</Feature>
+					<Version>1.0</Version>
+					<Quantity>0</Quantity>
+					<Valid>true</Valid>
+					<Property Name="somekey">someval</Property>
+				</LicenseInfo>
+				<LicenseInfo>
+					<Product>mgs2</Product>
+					<Expires>never</Expires>
+					<Feature>basic</Feature>
+					<Version>1.0</Version>
+					<Quantity>0</Quantity>
+					<Valid>true</Valid>
+					<Property Name="somekey">someval</Property>
+				</LicenseInfo>
+			</LicenseStatus>
+
+
+			<CPUStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="Uptime" type="String">57 mins, 43 secs
+					</Parameter>
+					<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+					<Parameter name="Temperature" type="Float">50</Parameter>
+				</Parameters>
+				<ParameterList>
+					<Parameters>
+						<Parameter name="Name" type="String">core1</Parameter>
+						<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+						<Parameter name="Temperature" type="Float">50</Parameter>
+					</Parameters>
+					<Parameters>
+						<Parameter name="Name" type="String">core2</Parameter>
+						<Parameter name="LoadAverage" type="Float">0.66</Parameter>
+						<Parameter name="Temperature" type="Float">50</Parameter>
+					</Parameters>
+				</ParameterList>
+			</CPUStatus>
+
+			<MemoryStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="Total" source="guage" type="UnsignedInteger"
+						units="bytes">526880768</Parameter>
+					<Parameter name="Free" source="guage" type="UnsignedInteger"
+						units="bytes">131538944</Parameter>
+					<Parameter name="Cached" source="guage" type="UnsignedInteger"
+						units="bytes">270635008</Parameter>
+					<Parameter name="Usable" source="guage" type="UnsignedInteger"
+						units="bytes">402173952</Parameter>
+				</Parameters>
+			</MemoryStatus>
+
+			<SystemHWStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+				<Display id="" name="Dell U2410" resolution="1920 x 1080"
+					orientation="landscape" />
+				<Display id="" name="generic" resolution="1920 x 1080"
+					orientation="landscape" />
+				<AudioIn id="" name="mic" />
+				<AudioOut id="" name="headphones" />
+				<GenericDevice id="" name="cardreader" /><!-- to be used 
+					for things we don't model deeper -->
+			</SystemHWStatus>
+
+			<SystemClockStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="UTCTime" type="String">Wed Mar 25 15:45:04 2015
+					</Parameter>
+					<Parameter name="NTPStatus" type="String">Ok</Parameter>
+					<Parameter name="NTPOffset" type="String">0.001068</Parameter>
+					<Parameter name="NTPInfo" source="dynamic" type="String">
+						remote
+						refid st t when poll reach delay offset jitter
+						==============================================================================
+						*10.51.49.135 LOCAL(0) 11 u 2 128 377 0.408 1.068 0.635
+					</Parameter>
+				</Parameters>
+			</SystemClockStatus>
+
+			<FirmwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+				<!-- ParametersList occur when tabular information is to be represented -->
+				<ParametersList timestamp="1427298304923">
+					<Parameters timestamp="1427298304923">
+						<Parameter name="Board Firmware" type="String">0.0-0</Parameter>
+						<Parameter name="Firmware Date" type="String">Jan 1 1970 00:00:00
+						</Parameter>
+						<Parameter name="Board Hardware" type="String">Rev 2081.6245
+							Manufactured 188 Dec 2008
+						</Parameter>
+						<Parameter name="Board Serial" type="String" />
+					</Parameters>
+					<Parameters timestamp="1427298304923">
+						<Parameter name="Board Firmware" type="String">0.0-0</Parameter>
+						<Parameter name="Firmware Date" type="String">Jan 1 1970 00:00:00
+						</Parameter>
+						<Parameter name="Board Hardware" type="String">Rev 2081.6245
+							Manufactured 188 Dec 2008
+						</Parameter>
+						<Parameter name="Board Serial" type="String" />
+					</Parameters>
+				</ParametersList>
+			</FirmwareImageStatus>
+
+			<IdentifyStatus>
+				<Parameters>
+					<Parameter name="identifying"></Parameter>
+				</Parameters>
+			</IdentifyStatus>
+		</SystemElementsStatus>
+
+		<ServiceElementsStatus State="OK">
+			<HTTPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HTTPServiceStatus>
+			<SSHServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SSHServiceStatus>
+			<TelnetServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</TelnetServiceStatus>
+			<SecureTunnelClientServiceStatus
+				Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SecureTunnelClientServiceStatus>
+
+			<XMPPAgentServiceStatus Queryable="true"
+				State="OK">
+				<Parameters>
+					<Parameter name="Status" source="health" type="Boolean">True
+					</Parameter>
+					<Parameter name="XMPP Server" type="String">10.51.51.28
+					</Parameter>
+				</Parameters>
+
+				<AgentList>
+					<XMPPAgentServiceConfigAgentStatus
+						Queryable="true">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</XMPPAgentServiceConfigAgentStatus>
+				</AgentList>
+			</XMPPAgentServiceStatus>
+
+			<StreamingServiceStatus>
+				<CurrentStreamInstanceCount>
+					<Total></Total>
+					<Transmit></Transmit>
+					<Receive></Receive>
+					<Read></Read>
+					<Write></Write>
+					<Encode></Encode>
+					<Decode></Decode>
+				</CurrentStreamInstanceCount>
+
+				<InstanceList>
+				</InstanceList>
+			</StreamingServiceStatus>
+			<CorosyncServiceStatus State="">
+				<VirtualIPAddress></VirtualIPAddress>
+			</CorosyncServiceStatus>
+		</ServiceElementsStatus>
+
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList timestamp="1427298304931">
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">0.0.0.0</Parameter>
+						<Parameter name="Netmask" type="String">0.0.0.0</Parameter>
+						<Parameter name="Gateway" type="String">10.51.48.1</Parameter>
+						<Parameter name="Flags" type="String">UG</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">10.51.48.0
+						</Parameter>
+						<Parameter name="Netmask" type="String">255.255.252.0</Parameter>
+						<Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+						<Parameter name="Flags" type="String">U</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+					<Parameters timestamp="1427298304931">
+						<Parameter name="Destination" type="String">224.0.0.0</Parameter>
+						<Parameter name="Netmask" type="String">240.0.0.0</Parameter>
+						<Parameter name="Gateway" type="String">0.0.0.0</Parameter>
+						<Parameter name="Flags" type="String">U</Parameter>
+						<Parameter name="Interface" type="String">eth0</Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters timestamp="1427298304959">
+							<Parameter name="LAN" type="UnsignedInteger">1</Parameter>
+							<Parameter name="MTU Size" type="Integer">1500</Parameter>
+							<Parameter name="Status" source="configuration" type="Boolean">True
+							</Parameter>
+							<Parameter name="Virtual" source="truth" type="Boolean">False
+							</Parameter>
+							<Parameter name="IPAddress" type="String">10.51.50.81
+							</Parameter>
+							<Parameter name="Netmask" type="String">255.255.252.0
+							</Parameter>
+							<Parameter name="Broadcast" type="String">10.51.51.255
+							</Parameter>
+							<Parameter name="HardwareAddress" type="String">00:50:56:8C:CC:0B
+							</Parameter>
+							<Parameter name="Name" type="String">v2dxp200</Parameter>
+							<Parameter name="Primary" source="configuration" type="Boolean">True
+							</Parameter>
+							<Parameter name="RxBytes" source="counter" type="UnsignedInteger"
+								units="bytes">4603591</Parameter>
+							<Parameter name="TxBytes" source="counter" type="UnsignedInteger"
+								units="bytes">931061</Parameter>
+							<Parameter name="RxPackets" source="counter" type="UnsignedInteger"
+								units="number">52304</Parameter>
+							<Parameter name="TxPackets" source="counter" type="UnsignedInteger"
+								units="number">1528</Parameter>
+							<Parameter name="RxErrors" source="counter" type="UnsignedInteger"
+								units="number">0</Parameter>
+							<Parameter name="TxErrors" source="errorcounter" type="UnsignedInteger"
+								units="number">0</Parameter>
+							<Parameter name="LinkDetected" type="String" />
+							<Parameter name="AutoNegotiate" type="String" />
+							<Parameter name="Speed" type="String" />
+							<Parameter name="Duplex" type="String" />
+							<Parameter name="LinkPartner" type="String" />
+						</Parameters>
+					</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+		</NetworkElementsStatus>
+
+		<StorageElementsStatus State="OK">
+			<MountTableStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</MountTableStatus>
+
+			<CFDriveStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</CFDriveStatus>
+
+			<HardDiskTableStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HardDiskTableStatus>
+
+			<NASStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NASStatus>
+		</StorageElementsStatus>
+
+
+		<AVCodecElementsStatus State="OK">
+		</AVCodecElementsStatus>
+
+		<OWSSRVServiceStatus>
+			<Status>
+				<health>
+					<overall_status>Green|Yellow|Red</overall_status>
+				</health>
+				<identifying>
+					false
+				</identifying>
+				<redundancy_status>
+					Disabled
+				</redundancy_status>
+			</Status>
+		</OWSSRVServiceStatus>
+
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<SaveToFlashCommand></SaveToFlashCommand>
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+			<IdentifyCommand />
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<StorageElementsCommand></StorageElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</OWSSRV-GENERIC-Device>

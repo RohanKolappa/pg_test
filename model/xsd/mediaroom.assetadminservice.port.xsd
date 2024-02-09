@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+
+	<!-- SetServiceClientDeviceConfig -->
+	<xs:element name="SetPortResourceTypeRequestData" type='SetPortResourceTypeRequestDataType' />
+	<xs:complexType name="SetPortResourceTypeRequestDataType">
+		<xs:sequence>
+			<xs:element name="SetPortResourceType">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name='PortResource' maxOccurs="3">
+							<xs:complexType>
+								<xs:attribute name='deviceElementId' type='xs:string' />
+								<xs:attribute name='type' type='xs:string' />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name='byAssetNID' type='xs:string' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="SetPortResourceTypeResponseData" type='SetPortResourceTypeResponseDataType' />
+	<xs:complexType name="SetPortResourceTypeResponseDataType" />
+</xs:schema> 

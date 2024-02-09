@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="deviceinterface">
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+	<property name="services.dir" value="resources/services" />
+	<property name="classes.dir" value ="bin"/>
+	<property name="javalibs" value="javalibs"/>
+	<property name="devjavalibs" value="../javalibs"/>
+	<property name="output" value="dist/deviceinterface.jar"/>
+	<path id="deviceinterface.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="${javalibs}/dom4j.jar"/>
+		<pathelement location="${javalibs}/javax.servlet.jar"/>
+		<pathelement location="${javalibs}/jaxen.jar"/>
+		<pathelement location="${javalibs}/jetty-all-8.1.6.v20120903.jar"/>
+		<pathelement location="${javalibs}/log4j-1.2.15.jar"/>
+		<pathelement location="${javalibs}/smack.jar"/>
+	</path>
+	<path id="deviceinterfacedev.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="${devjavalibs}/dom4j.jar"/>
+		<pathelement location="${devjavalibs}/javax.servlet.jar"/>
+		<pathelement location="${devjavalibs}/jaxen.jar"/>
+		<pathelement location="${devjavalibs}/jetty-all-8.1.6.v20120903.jar"/>
+		<pathelement location="${devjavalibs}/log4j-1.2.15.jar"/>
+		<pathelement location="${devjavalibs}/smack.jar"/>
+	</path>
+	<target name="init">
+		<mkdir dir="bin"/>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}/META-INF/services" >
+			<fileset dir="${services.dir}" includes="**"/>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+		<delete dir="dist"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project,build-release" name="build"/>
+	<target name="build-subprojects"/>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src"/>
+			<classpath refid="deviceinterface.classpath"/>
+		</javac>
+	</target>
+	<target depends="init" name="build-devproject">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src"/>
+			<classpath refid="deviceinterfacedev.classpath"/>
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar"/>
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+		<antcall target="build"/>
+	</target>
+	<target name="build-release" description="deviceinterface.jar">
+		<mkdir dir="dist"/>
+		<dirname property="dir" file="${output}"/>
+		<mkdir dir="${dir}"/>
+		<jar destfile="${output}" manifest="src/MANIFEST.MF">
+			<!--<metainf dir="bin/META-INF" includes="**/**"/>-->
+			<metainf dir="src/META-INF" />
+			<zipfileset dir="bin" includes="**/*.class" />
+			<zipfileset dir="bin" includes="**/*.xsd" />
+			<zipfileset dir="bin" includes="**/*.xml" />
+			<zipfileset dir="bin" includes="**/*.properties" />
+			<zipfileset dir="bin" includes="**/*.txt" />
+		</jar>
+	</target>
+</project>

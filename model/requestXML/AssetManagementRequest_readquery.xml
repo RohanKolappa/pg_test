@@ -1,0 +1,1325 @@
+<ReadQueryRequests>
+	<Request serviceVer="">
+		<header>
+			<servicename>policyadminservice</servicename>
+			<requestname>PolicyManagementRequest
+			</requestname>
+			<loglevel>0</loglevel>
+			<clientdata>GroupTagDef_readQuery_1_1244237178333_671fe241
+			</clientdata>
+		</header>
+		<data>
+			<PolicyManagementRequestData>
+				<ReadQueryRequest>
+					<RequestID>requestID</RequestID>
+					<Query>for $b in index-scan('IPVSis_colnids_default',
+						'default.assetresourcelist', 'EQ')/../@NID return string($b)
+					</Query>
+				</ReadQueryRequest>
+			</PolicyManagementRequestData>
+		</data>
+	</Request>
+
+	<Response serviceVer="">
+		<header>
+			<servicename>policyadminservice</servicename>
+			<requestname>PolicyManagementRequest
+			</requestname>
+			<userJID>superuser-default@127.0.0.1/callcenter
+			</userJID>
+			<requestNID>63</requestNID>
+			<state>8</state>
+			<clientdata>GroupTagDef_readQuery_1_1244237178333_671fe241
+			</clientdata>
+		</header>
+		<data>
+			<PolicyManagementResponseData>
+				<ObjectType />
+				<ReadQueryResponse>
+					<ResponseID>requestID</ResponseID>
+					<ResponseXML>default.assetresourcelist.managementserver
+					</ResponseXML>
+				</ReadQueryResponse>
+			</PolicyManagementResponseData>
+		</data>
+		<log />
+	</Response>
+
+
+	<Request serviceVer="">
+		<header>
+			<servicename>policyadminservice</servicename>
+			<requestname>PolicyManagementRequest
+			</requestname>
+			<loglevel>0</loglevel>
+			<clientdata>GroupTagDef_readQuery_2_1244237178567_9342bef5
+			</clientdata>
+		</header>
+		<data>
+			<PolicyManagementRequestData>
+				<ReadQueryRequest>
+					<RequestID>requestID</RequestID>
+					<Query>for $b in #OBJ_AssetResource_OBJ#/@NID return string($b)
+					</Query>
+				</ReadQueryRequest>
+			</PolicyManagementRequestData>
+		</data>
+	</Request>
+
+	<Response serviceVer="">
+		<header>
+			<servicename>policyadminservice</servicename>
+			<requestname>PolicyManagementRequest
+			</requestname>
+			<userJID>superuser-default@127.0.0.1/callcenter
+			</userJID>
+			<requestNID>64</requestNID>
+			<state>8</state>
+			<clientdata>GroupTagDef_readQuery_2_1244237178567_9342bef5
+			</clientdata>
+		</header>
+		<data>
+			<PolicyManagementResponseData>
+				<ObjectType />
+				<ReadQueryResponse>
+					<ResponseID>requestID</ResponseID>
+					<ResponseXML>default.assetresourcelist.managementserver
+					</ResponseXML>
+				</ReadQueryResponse>
+			</PolicyManagementResponseData>
+		</data>
+		<log />
+	</Response>
+
+
+	<Request serviceVer="">
+		<header>
+			<servicename>policyadminservice</servicename>
+			<requestname>PolicyManagementRequest
+			</requestname>
+			<loglevel>0</loglevel>
+			<clientdata>GroupTagDef_readQuery_3_1244237178802_61a08937
+			</clientdata>
+		</header>
+		<data>
+			<PolicyManagementRequestData>
+				<ReadQueryRequest>
+					<RequestID>requestID</RequestID>
+					<Query>let $list1:= for $b in #OBJ_AssetResource_OBJ#/@NID
+						return string($b) let $list2:= for $c in
+						#OBJ_GroupTagDef_OBJ#/@NID return string($c) return &lt;result&gt;  &lt;list3a&gt;{$list1}&lt;/list3a&gt; &lt;list3b&gt;{$list2}&lt;/list3b&gt;&lt;/result&gt;
+						</Query>
+						</ReadQueryRequest>
+						</PolicyManagementRequestData>
+						</data>
+						</Request>
+ <Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>65</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_3_1244237178802_61a08937</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list3a>default.assetresourcelist.managementserver</list3a>
+            <list3b>default.grouptagdeflist.gtdl_fb8167d3-ce07-4e35-87dd-9f3eece2ae4e default.grouptagdeflist.gtdl_b8ec6c3a-f47e-4716-9f18-f7c8e81ac162 default.grouptagdeflist.gtdl_61ff6b3c-f97f-4788-8197-c70599f78994</list3b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_4_1244237179083_f54314d1</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_AssetResource_OBJ# return $b let $list2:= for $c in #OBJ_ServiceResource_OBJ# return $c return &lt;result&gt;  &lt;list4a&gt;{$list1}&lt;/list4a&gt; &lt;list4b&gt;{$list2}&lt;/list4b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ <Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>66</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_4_1244237179083_f54314d1</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list4a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list4a>
+            <list4b>
+              <ServiceResource NID="default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f" Rev="1" Ver="1.1" parentNID="default.serviceresourcelist">
+                <Contact>
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>Reachable</Reachable>
+                </Contact>
+                <State>
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>StateMsg</StateMsg>
+                </State>
+                <Info>
+                  <Description>App Service</Description>
+                  <Type>AppService</Type>
+                </Info>
+              </ServiceResource>
+            </list4b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_5_1244237179427_ef365594</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_AssetResource_OBJ# return $b let $list2:= for $b in #OBJ_GroupTagDef_OBJ# return $b return &lt;result&gt;  &lt;list5a&gt;{$list1}&lt;/list5a&gt; &lt;list5b&gt;{$list2}&lt;/list5b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ <Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>67</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_5_1244237179427_ef365594</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list5a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list5a>
+            <list5b>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_fb8167d3-ce07-4e35-87dd-9f3eece2ae4e" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_b8ec6c3a-f47e-4716-9f18-f7c8e81ac162" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <replaceLISTc33>replaceLISTc33</replaceLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <replaceLISTr22>
+                  <newaddLISTc44>newaddLISTc44</newaddLISTc44>
+                  replaceLISTr22
+                </replaceLISTr22>
+                <addDOCrwc11>
+                  <replaceDOCc33>replaceDOCc33</replaceDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <replaceDOCr22>
+                  <newaddDOCc44>newaddDOCc44</newaddDOCc44>
+                  replaceDOCr22
+                </replaceDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_61ff6b3c-f97f-4788-8197-c70599f78994" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addDOCrwc1>
+                  <addDOCc3>addDOCc3</addDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <addDOCr2>addDOCr2</addDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+            </list5b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_6_1244237179942_ff94c9f2</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>for $b in  index-scan('IPVSi_nids_default', 'default.assetresourcelist', 'EQ')/../Info return string($b)</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ <Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>68</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_6_1244237179942_ff94c9f2</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML />
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_7_1244237180177_c012b83e</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>for $b in #OBJ_AssetResource_OBJ#/Info return $b</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>69</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_7_1244237180177_c012b83e</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+            <Groups>
+              <Tag Name="" Value="" />
+            </Groups>
+            <Title>managementserver</Title>
+            <Description>string</Description>
+            <Type>MS-Device</Type>
+            <DeviceNID />
+            <AssetPrivateKey>
+              <KeyScheme />
+              <KeyData />
+            </AssetPrivateKey>
+            <AssetPrivateData />
+          </Info>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_8_1244237180411_25bacbe1</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_AssetResource_OBJ#/Info return $b let $list2:= for $b in #OBJ_default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f_OBJ#/Contact return $b return &lt;result&gt;  &lt;list8a&gt;{$list1}&lt;/list8a&gt; &lt;list8b&gt;{$list2}&lt;/list8b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>70</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_8_1244237180411_25bacbe1</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list8a>
+              <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                <Groups>
+                  <Tag Name="" Value="" />
+                </Groups>
+                <Title>managementserver</Title>
+                <Description>string</Description>
+                <Type>MS-Device</Type>
+                <DeviceNID />
+                <AssetPrivateKey>
+                  <KeyScheme />
+                  <KeyData />
+                </AssetPrivateKey>
+                <AssetPrivateData />
+              </Info>
+            </list8a>
+            <list8b>
+              <Contact>
+                <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                <Reachable>Reachable</Reachable>
+              </Contact>
+            </list8b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_9_1244237180708_1f649c6f</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_AssetResource_OBJ# return $b let $list2:= for $b in #OBJ_default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f_OBJ# return $b return &lt;result&gt;  &lt;list9a&gt;{$list1}&lt;/list9a&gt; &lt;list9b&gt;{$list2}&lt;/list9b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>71</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_9_1244237180708_1f649c6f</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list9a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list9a>
+            <list9b>
+              <ServiceResource NID="default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f" Rev="1" Ver="1.1" parentNID="default.serviceresourcelist">
+                <Contact>
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>Reachable</Reachable>
+                </Contact>
+                <State>
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>StateMsg</StateMsg>
+                </State>
+                <Info>
+                  <Description>App Service</Description>
+                  <Type>AppService</Type>
+                </Info>
+              </ServiceResource>
+            </list9b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_10_1244237181067_65c0e4c7</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_AssetResource_OBJ# return $b let $list2:= for $b in #OBJ_default.grouptagdeflist_OBJ# return $b return &lt;result&gt;  &lt;list10a&gt;{$list1}&lt;/list10a&gt; &lt;list10b&gt;{$list2}&lt;/list10b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>72</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_10_1244237181067_65c0e4c7</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list10a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list10a>
+            <list10b>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_fb8167d3-ce07-4e35-87dd-9f3eece2ae4e" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_b8ec6c3a-f47e-4716-9f18-f7c8e81ac162" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <replaceLISTc33>replaceLISTc33</replaceLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <replaceLISTr22>
+                  <newaddLISTc44>newaddLISTc44</newaddLISTc44>
+                  replaceLISTr22
+                </replaceLISTr22>
+                <addDOCrwc11>
+                  <replaceDOCc33>replaceDOCc33</replaceDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <replaceDOCr22>
+                  <newaddDOCc44>newaddDOCc44</newaddDOCc44>
+                  replaceDOCr22
+                </replaceDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_61ff6b3c-f97f-4788-8197-c70599f78994" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addDOCrwc1>
+                  <addDOCc3>addDOCc3</addDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <addDOCr2>addDOCr2</addDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+            </list10b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_11_1244237181567_b770f778</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>for $b in  index-scan('IPVSi_nids_default', 'default.assetresourcelist.managementserver', 'EQ')/../Info return string($b)</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>73</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_11_1244237181567_b770f778</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>managementserverstringMS-Device</ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_12_1244237181817_98b50cfb</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>for $b in #OBJ_default.assetresourcelist.managementserver_OBJ#/Info return $b</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>74</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_12_1244237181817_98b50cfb</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+            <Groups>
+              <Tag Name="" Value="" />
+            </Groups>
+            <Title>managementserver</Title>
+            <Description>string</Description>
+            <Type>MS-Device</Type>
+            <DeviceNID />
+            <AssetPrivateKey>
+              <KeyScheme />
+              <KeyData />
+            </AssetPrivateKey>
+            <AssetPrivateData />
+          </Info>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_13_1244237182067_f3cf3fce</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_default.assetresourcelist.managementserver_OBJ#/Info return $b let $list2:= for $b in #OBJ_default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f_OBJ#/Contact return $b return &lt;result&gt;  &lt;list13a&gt;{$list1}&lt;/list13a&gt; &lt;list13b&gt;{$list2}&lt;/list13b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>75</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_13_1244237182067_f3cf3fce</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list13a>
+              <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                <Groups>
+                  <Tag Name="" Value="" />
+                </Groups>
+                <Title>managementserver</Title>
+                <Description>string</Description>
+                <Type>MS-Device</Type>
+                <DeviceNID />
+                <AssetPrivateKey>
+                  <KeyScheme />
+                  <KeyData />
+                </AssetPrivateKey>
+                <AssetPrivateData />
+              </Info>
+            </list13a>
+            <list13b>
+              <Contact>
+                <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                <Reachable>Reachable</Reachable>
+              </Contact>
+            </list13b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_14_1244237182349_5b356654</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_default.assetresourcelist.managementserver_OBJ# return $b let $list2:= for $b in #OBJ_default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f_OBJ# return $b return &lt;result&gt;  &lt;list14a&gt;{$list1}&lt;/list14a&gt; &lt;list14b&gt;{$list2}&lt;/list14b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ <Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>76</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_14_1244237182349_5b356654</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list14a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list14a>
+            <list14b>
+              <ServiceResource NID="default.serviceresourcelist.srl_970ad6b2-6e5e-4892-9fb8-2be68a37cc2f" Rev="1" Ver="1.1" parentNID="default.serviceresourcelist">
+                <Contact>
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>Reachable</Reachable>
+                </Contact>
+                <State>
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>StateMsg</StateMsg>
+                </State>
+                <Info>
+                  <Description>App Service</Description>
+                  <Type>AppService</Type>
+                </Info>
+              </ServiceResource>
+            </list14b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+
+
+<Request serviceVer=""><header><servicename>policyadminservice</servicename><requestname>PolicyManagementRequest</requestname><loglevel>0</loglevel><clientdata>GroupTagDef_readQuery_15_1244237182708_8848c4a9</clientdata></header><data><PolicyManagementRequestData><ReadQueryRequest><RequestID>requestID</RequestID><Query>let $list1:= for $b in #OBJ_default.assetresourcelist.managementserver_OBJ# return $b let $list2:= for $b in #OBJ_default.grouptagdeflist_OBJ# return $b return &lt;result&gt;  &lt;list15a&gt;{$list1}&lt;/list15a&gt; &lt;list15b&gt;{$list2}&lt;/list15b&gt;&lt;/result&gt;</Query></ReadQueryRequest></PolicyManagementRequestData></data></Request>
+ 
+<Response serviceVer="">
+  <header>
+    <servicename>policyadminservice</servicename>
+    <requestname>PolicyManagementRequest</requestname>
+    <userJID>superuser-default@127.0.0.1/callcenter</userJID>
+    <requestNID>77</requestNID>
+    <state>8</state>
+    <clientdata>GroupTagDef_readQuery_15_1244237182708_8848c4a9</clientdata>
+  </header>
+  <data>
+    <PolicyManagementResponseData>
+      <ObjectType />
+      <ReadQueryResponse>
+        <ResponseID>requestID</ResponseID>
+        <ResponseXML>
+          <result>
+            <list15a>
+              <AssetResource Version="1.1" Persistence="Temporary" Parse="true" NIDScheme="PARENTNID.KEYVAL" NID="default.assetresourcelist.managementserver" KeyElementRelativeXPath="Info/Title" parentNID="default.assetresourcelist">
+                <Contact Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Contact">
+                  <OwnerUserJID>managementserver@127.0.0.1/managementserver</OwnerUserJID>
+                  <Reachable>string</Reachable>
+                </Contact>
+                <State Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.State">
+                  <StateFlag>Ready</StateFlag>
+                  <StateMsg>string</StateMsg>
+                </State>
+                <Info Parse="true" NIDScheme="PARENTNID.ELEMENTNAME" NID="default.assetresourcelist.managementserver.Info">
+                  <Groups>
+                    <Tag Name="" Value="" />
+                  </Groups>
+                  <Title>managementserver</Title>
+                  <Description>string</Description>
+                  <Type>MS-Device</Type>
+                  <DeviceNID />
+                  <AssetPrivateKey>
+                    <KeyScheme />
+                    <KeyData />
+                  </AssetPrivateKey>
+                  <AssetPrivateData />
+                </Info>
+                <TemplateAssetResourceNID>string</TemplateAssetResourceNID>
+              </AssetResource>
+            </list15a>
+            <list15b>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_fb8167d3-ce07-4e35-87dd-9f3eece2ae4e" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_b8ec6c3a-f47e-4716-9f18-f7c8e81ac162" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <replaceLISTc3>replaceDoc3</replaceLISTc3>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <replaceLISTr2>
+                  <newaddLISTc4>newaddLISTc4</newaddLISTc4>
+                  replaceLISTr2
+                </replaceLISTr2>
+                <addDOCrwc1>
+                  <replaceDOCc3>replaceDOCc3</replaceDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <replaceDOCr2>
+                  <newaddDOCc4>newaddDOCc4</newaddDOCc4>
+                  replace1
+                </replaceDOCr2>
+                <addLISTrwc11>
+                  <replaceLISTc33>replaceLISTc33</replaceLISTc33>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <replaceLISTr22>
+                  <newaddLISTc44>newaddLISTc44</newaddLISTc44>
+                  replaceLISTr22
+                </replaceLISTr22>
+                <addDOCrwc11>
+                  <replaceDOCc33>replaceDOCc33</replaceDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <replaceDOCr22>
+                  <newaddDOCc44>newaddDOCc44</newaddDOCc44>
+                  replaceDOCr22
+                </replaceDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+              <GroupTagDef NID="default.grouptagdeflist.gtdl_61ff6b3c-f97f-4788-8197-c70599f78994" parentNID="default.grouptagdeflist" Ver="1.2" Rev="1">
+                <addLISTrwc1>
+                  <addLISTc3>addLISTc3</addLISTc3>
+                  addLISTrwc1
+                </addLISTrwc1>
+                <addLISTr2>addLISTr2</addLISTr2>
+                <addDOCrwc1>
+                  <addDOCc3>addDOCc3</addDOCc3>
+                  addDOCrwc1
+                </addDOCrwc1>
+                <addDOCr2>addDOCr2</addDOCr2>
+                <addLISTrwc11>
+                  <addLISTc33>addLISTc33</addLISTc33>
+                  addLISTrwc11
+                </addLISTrwc11>
+                <addLISTr22>addLISTr22</addLISTr22>
+                <addDOCrwc11>
+                  <addDOCc33>addDOCc33</addDOCc33>
+                  addDOCrwc11
+                </addDOCrwc11>
+                <addDOCr22>addDOCr22</addDOCr22>
+                <addLISTrwc111>
+                  <addLISTc333>addLISTc333</addLISTc333>
+                  addLISTrwc111
+                </addLISTrwc111>
+                <addLISTr222>addLISTr222</addLISTr222>
+                <addDOCrwc111>
+                  <addDOCc333>addDOCc333</addDOCc333>
+                  addDOCrwc111
+                </addDOCrwc111>
+                <addDOCr222>addDOCr222</addDOCr222>
+                <TagName />
+                <TagObjectTypeList>
+                  <TagObjectType />
+                </TagObjectTypeList>
+                <TagValueList>
+                  <TagValue />
+                </TagValueList>
+              </GroupTagDef>
+            </list15b>
+          </result>
+        </ResponseXML>
+      </ReadQueryResponse>
+    </PolicyManagementResponseData>
+  </data>
+  <log />
+</Response>
+ 
+</ReadQueryRequests>

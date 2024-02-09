@@ -1,0 +1,99 @@
+<SetAccessPolicyRequest>
+	<SetAccessPolicyRequestData>
+		<SetAccessPolicy byNID='' byName="Location"
+			active='true/false' order=''>
+			<ActionList>
+				<Action/>
+			    
+				<!-- For Port object
+				 ViewFrom
+				 StreamTo
+				-->
+				
+				<!-- For Media 
+				   StreamTo
+				   Playback
+				-->
+				
+				<!-- For Dir 
+					Record
+					PVR
+				-->
+				
+				<!-- Session 
+				 	Add
+					Modify
+					Delete
+					Start
+				-->
+			</ActionList>
+
+			<OperatorFilterSet>
+				<OperatorFilter>
+					<User filterNID='' />
+					<Resource filterNID='' />
+				</OperatorFilter>
+			</OperatorFilterSet>
+
+			<TargetFilterSet>
+				<TargetFilter filterNID='' />
+			</TargetFilterSet>
+
+			<AdvanceFilterSet>
+				<AdvanceFilter>
+					<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+					<LHTagName></LHTagName>
+					<Operator></Operator>
+					<RHRule>OperatorUser/OperatorResource</RHRule>
+					<RHTagName></RHTagName>
+				</AdvanceFilter>
+			</AdvanceFilterSet>
+		</SetAccessPolicy>
+	</SetAccessPolicyRequestData>
+	<SetAccessPolicyResponseData>
+		<SetAccessPolicy>
+			<AccessPolicy NID='' name="Location" type='Ports/Media/Dir/Session'
+				active='true/false' order=''>
+				<ActionList>
+					<!-- For Port object -->
+					<Action>ViewFrom</Action>
+					<Action>StreamTo</Action>
+					<!-- For Media -->
+					<Action>Playback</Action>
+
+					<!-- For Dir -->
+					<Action>Record</Action>
+					<Action>PVR</Action>
+
+					<!-- Session -->
+					<Action>Add</Action>
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+					<Action>Start</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<TargetFilterSet>
+					<TargetFilter filterNID='' />
+				</TargetFilterSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</AccessPolicy>
+		</SetAccessPolicy>
+	</SetAccessPolicyResponseData>
+	<SetAccessPolicyExceptionCodes />
+</SetAccessPolicyRequest>

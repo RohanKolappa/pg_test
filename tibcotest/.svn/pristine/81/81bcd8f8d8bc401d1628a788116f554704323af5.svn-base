@@ -1,0 +1,326 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="700" jsxheight="600" jsxzindex="5000" jsxwindowstate="1" jsxleft="0" jsxtop="0" jsxminx="650" jsxminy="500"></variants>
+    <strings jsxname="DialogMediaDirStorageConfig" jsxdisplay="" jsxbgcolor="#e5e5e5"></strings>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Capacity Management" jsxbgcolor="#cccccc"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="@Max Tip"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute=""></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1" jsxloadtype="1"></variants>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layoutRows" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #efefef;1px solid #9898a5;1px solid #aaaaaa;1px solid #d8d8e5" jsxbgcolor="#e5e5e5" jsxstyleoverride="overflow-x:hidden"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="40" jsxrelativeposition="1" jsxzindex="2"></variants>
+            <strings jsxname="blkErrorMsg" jsxwidth="100%" jsxdisplay="none" jsxborder="border: solid 1px #ff0000" jsxpadding="10 10 10 10"></strings>
+            <dynamics jsxbgcolor="P4BG"></dynamics>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+              <strings jsxname="imgErrorIcon" jsxsrc="../../addins/ipvsCommon/images/icons/icon_error.png" jsxmargin="0 10 0 0"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"></variants>
+              <strings jsxname="lblMetadataErrorMsg" jsxcolor="#ff0000"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxheight="100"></variants>
+            <strings jsxname="blkStorageSetup" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #aaaaaa;1px solid #d8d8e5"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="10" jsxtop="10"></variants>
+              <strings jsxname="label" jsxtext="Choose a storage management method for this directory:" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="50" jsxtop="40" jsxfontsize="12"></variants>
+              <strings jsxname="btnRadioDiskSpanning" jsxtext="Manage storage by grouping directories" jsxgroupname="storageman1" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.RadioButton">
+              <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="50" jsxtop="65" jsxfontsize="12"></variants>
+              <strings jsxname="btnRadioIlm" jsxtext="Manage storage by removing files" jsxgroupname="storageman1" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="360"></variants>
+            <strings jsxname="blkILM" jsxwidth="100%" jsxrelativeposition="1" jsxborder="border-top:solid 1px #efefef" jsxbgcolor="#e5e5e5" jsxdisplay="none"></strings>
+            <dynamics jsxpadding="@8Pixel"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxwidth="600" jsxheight="250" jsxrelativeposition="0" jsxleft="50" jsxtop="20"></variants>
+              <strings jsxname="blkILMThresholdRule" jsxdisplay=""></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="140" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                <strings jsxname="blkILMMenu" jsxheight="100%" jsxborder="solid 1px #cccccc" jsxbgcolor="#f5f5f5" jsxmargin="0 10 0 0" jsxdisplay=""></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="25" jsxfontsize="12"></variants>
+                  <strings jsxname="blklblThresholdRule" jsxtext="Threshold Rule" jsxwidth="100%" jsxtextalign="left" jsxpadding="6 0 6 20" jsxcolor="#333333"></strings>
+                  <events jsxclick="null;"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="25" jsxfontsize="12"></variants>
+                  <strings jsxname="blklblILMRule" jsxtext="ILM Rule" jsxwidth="100%" jsxtextalign="left" jsxpadding="6 0 6 20" jsxcolor="#333333"></strings>
+                  <events jsxclick="null;"></events>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="450" jsxrelativeposition="0" jsxleft="150" jsxtop="0"></variants>
+                <strings jsxname="blkThresholdRule" jsxheight="100%" jsxdisplay="" jsxbgcolor="#f5f5f5" jsxborder="solid 1px #cccccc"></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="20" jsxtop="10" jsxchecked="0" jsxfontsize="12"></variants>
+                  <strings jsxname="chkThresholdRule" jsxtext="Manage disk storage based on capacity:" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="390" jsxheight="200" jsxrelativeposition="0" jsxleft="20" jsxtop="25"></variants>
+                  <strings jsxname="blkThresholdRuleSettings" jsxdisplay="none"></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="20" jsxfontsize="12"></variants>
+                    <strings jsxname="lblThresholdcapacity" jsxtext="When disk capacity hits:" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxheight="18" jsxrelativeposition="0" jsxleft="175" jsxtop="20" jsxwidth="30"></variants>
+                    <strings jsxname="txtThresholdDiskCapacity" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="208" jsxtop="22" jsxfontsize="12"></variants>
+                    <strings jsxname="lblThresholdcapacityPercentage" jsxtext="%" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.RadioButton">
+                    <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="60" jsxtop="75" jsxfontsize="12"></variants>
+                    <strings jsxname="btnRadioThresholdNAS" jsxtext="Offload to NAS drive" jsxgroupname="threshold" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxheight="20" jsxrelativeposition="0" jsxleft="80" jsxtop="95" jsxwidth="300" jsxfontsize="12" jsxenabled="0"></variants>
+                    <strings jsxname="txtThresholdNASURL" jsxmargin="0 4 0 0" jsxvalue="" jsxdisplay="" jsxdisabledbgcolor="#f0f0f0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="80" jsxtop="115" jsxfontsize="10" jsxwidth="300"></variants>
+                    <strings jsxname="label" jsxtext="&lt;i&gt;Example NAS URL:  &lt;b&gt;nfs://192.168.0.1/dirname/&lt;/b&gt;&lt;/i&gt;" jsxdisplay="" jsxcolor="#555555"></strings>
+                  </object>
+                  <object type="jsx3.gui.RadioButton">
+                    <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="60" jsxtop="50" jsxfontsize="12"></variants>
+                    <strings jsxname="btnRadioThresholdDelete" jsxtext="Delete Media" jsxgroupname="threshold" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="80" jsxtop="190" jsxfontsize="12"></variants>
+                    <strings jsxname="lblThresholdReduce" jsxtext="Reduce disk capacity to:" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxheight="18" jsxrelativeposition="0" jsxleft="235" jsxtop="190" jsxwidth="30"></variants>
+                    <strings jsxname="txtThresholdDiskReduceCapacity" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="270" jsxtop="192" jsxfontsize="12"></variants>
+                    <strings jsxname="lblThresholdReducePercentage" jsxtext="%" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="80" jsxtop="140"></variants>
+                    <strings jsxname="label" jsxtext="Choose which format the media will be saved as:" jsxdisplay="" jsxcolor="#444"></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="300" jsxheight="22" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="80" jsxtop="155" jsxfontsize="12" jsxenabled="0"></variants>
+                    <strings jsxname="selThresholdMediaExportFormat" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxleft="390" jsxtop="155" jsxwidth="18" jsxheight="18" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                    <strings jsxname="blKThresholdMediaFormatHelp" jsxbgcolor="#f5f5f5"></strings>
+                    <events jsxspy=""></events>
+                    <object type="jsx3.gui.ImageButton">
+                      <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                      <strings jsxname="imgHelp" jsximage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxoverimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdownimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxonimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdisabledimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdisplay=""></strings>
+                      <events jsxexecute=""></events>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxwidth="450" jsxrelativeposition="0" jsxleft="150" jsxtop="0"></variants>
+                <strings jsxname="blkILMRule" jsxheight="100%" jsxdisplay="none" jsxbgcolor="#f5f5f5" jsxborder="solid 1px #cccccc"></strings>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="20" jsxtop="10" jsxfontsize="12"></variants>
+                  <strings jsxname="chkILMRule" jsxtext="Manage disk storage based on age of files:" jsxmargin="0 4 0 0" jsxdisplay="" jsxcolor=""></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="390" jsxheight="200" jsxrelativeposition="0" jsxleft="20" jsxtop="25"></variants>
+                  <strings jsxname="blkILMRuleSettings" jsxdisplay="none"></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="20" jsxfontsize="12"></variants>
+                    <strings jsxname="lblILMRulecapacity" jsxtext="When media is older than:" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="50" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="175" jsxtop="20"></variants>
+                    <strings jsxname="selTypeValue" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="230" jsxtop="20"></variants>
+                    <strings jsxname="selType" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.RadioButton">
+                    <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="60" jsxtop="75" jsxfontsize="12"></variants>
+                    <strings jsxname="btnRadioILMRuleNAS" jsxtext="Offload to NAS drive" jsxgroupname="ilmrule" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxheight="18" jsxrelativeposition="0" jsxleft="80" jsxtop="95" jsxwidth="300" jsxenabled="0"></variants>
+                    <strings jsxname="txtILMRuleNASURL" jsxmargin="0 4 0 0" jsxvalue="" jsxdisplay="" jsxdisabledbgcolor="#f0f0f0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="80" jsxtop="115" jsxfontsize="10" jsxwidth="300"></variants>
+                    <strings jsxname="label" jsxtext="&lt;i&gt;Example NAS URL:  &lt;b&gt;nfs://192.168.0.1/dirname/&lt;/b&gt;&lt;/i&gt;" jsxdisplay="" jsxcolor="#555555"></strings>
+                  </object>
+                  <object type="jsx3.gui.RadioButton">
+                    <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="60" jsxtop="50" jsxfontsize="12"></variants>
+                    <strings jsxname="btnRadioILMRuleDelete" jsxtext="Delete Media" jsxgroupname="ilmrule" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="80" jsxtop="140"></variants>
+                    <strings jsxname="label" jsxtext="Choose which format the media will be saved as:" jsxdisplay="" jsxcolor="#444"></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="300" jsxheight="22" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="80" jsxtop="155" jsxfontsize="12" jsxenabled="0"></variants>
+                    <strings jsxname="selILMMediaExportFormat" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxleft="390" jsxtop="155" jsxwidth="18" jsxheight="18" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                    <strings jsxname="blKILMMediaFormatHelp" jsxbgcolor="#f5f5f5"></strings>
+                    <events jsxspy=""></events>
+                    <object type="jsx3.gui.ImageButton">
+                      <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                      <strings jsxname="imgHelp" jsximage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxoverimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdownimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxonimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdisabledimage="../../addins/ipvsCommon/images/icons/icon_help.png" jsxdisplay=""></strings>
+                      <events jsxexecute=""></events>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxwidth="600" jsxheight="120" jsxrelativeposition="0" jsxleft="50" jsxtop="280"></variants>
+              <strings jsxname="blkScheduler" jsxdisplay="" jsxborder="solid 1px #cccccc" jsxbgcolor="#f5f5f5"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="20" jsxtop="10" jsxfontsize="12"></variants>
+                <strings jsxname="lblSchedule" jsxtext="Schedule:" jsxdisplay="" jsxcolor="#333333"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="175" jsxtop="10" jsxfontsize="12"></variants>
+                <strings jsxname="lblScheduleCheck" jsxtext="Check directory capacity at:" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxleft="175" jsxtop="30" jsxwidth="200"></variants>
+                <strings jsxname="txtSchedule" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="174" jsxtop="55" jsxwidth="400" jsxfontsize="10"></variants>
+                <strings jsxname="lblScheduleNote" jsxtext="&lt;i&gt;Enter in 24hr format the time of day to check capacity. If checking more than once per day, use a comma separated list.  Example: For 12pm, 6pm, and 12am, enter &lt;b&gt;12, 18, 0&lt;/b&gt;&lt;br&gt;&#xA;&lt;b&gt;Note:&lt;/b&gt;  All times are relative to the Management Server's time.&lt;/i&gt;" jsxdisplay="" jsxcolor="#555555"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="350" jsxrelativeposition="1" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="blkDirectorySpan" jsxwidth="100%" jsxbgcolor="#e5e5e5" jsxdisplay="none"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="55" jsxtop="16" jsxfontsize="12"></variants>
+              <strings jsxname="lblDescription" jsxtext="Increase storage capacity by spanning directories." jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="50" jsxtop="75" jsxfontsize="12" jsxwidth="100"></variants>
+              <strings jsxname="lblDSThreshold" jsxtext="Threshold" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="20" jsxrelativeposition="0" jsxleft="170" jsxtop="72" jsxwidth="40"></variants>
+              <strings jsxname="txtDSThreshold" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="213" jsxtop="75" jsxfontsize="12"></variants>
+              <strings jsxname="lblDSThresholdPercentage" jsxtext="%" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="50" jsxtop="105" jsxwidth="100" jsxfontsize="12"></variants>
+              <strings jsxname="lblDSPriority" jsxtext="Directory Info:" jsxdisplay="" jsxtextalign="right"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxwidth="500" jsxheight="100" jsxrelativeposition="0" jsxleft="170" jsxtop="105"></variants>
+              <strings jsxname="blkMediaDirMediaStore" jsxdisplay="" jsxborder="solid 1px #999999;" jsxbgcolor="#f5f5f5"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                <strings jsxname="mtxMediaDirMediaStore" jsxbodyborder="0px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlid="mtxMediaDirMediaStoreDoc" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxNID" jsxtext="NID" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxNID" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxresize="0" jsxwidth="55"></variants>
+                  <strings jsxname="jsxPresenceMap" jsxtext="Presence" jsxcellpadding="2" jsxpath="jsxPresenceMap" jsxvaluetemplate="@image" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxresize="0" jsxwidth="60"></variants>
+                  <strings jsxname="jsxPresenceShow" jsxtext="Presence" jsxcellpadding="2" jsxpath="jsxPresenceShow" jsxvaluetemplate="@image" jsxborder="0px solid #ffffff;1px solid #c9c9c9;1px solid #c9c9c9;0px solid #ffffff" jsxpadding="2"></strings>
+                  <dynamics jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxDMS" jsxtext="DMS" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxDMS" jsxborder="0px solid #ffffff;1px solid #c9c9c9;1px solid #c9c9c9;0px solid #ffffff"></strings>
+                  <dynamics jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="100"></variants>
+                  <strings jsxname="jsxDeviceElementID" jsxtext="ID" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxDeviceElementID" jsxborder="0px solid #ffffff;1px solid #c9c9c9;1px solid #c9c9c9;0px solid #ffffff"></strings>
+                  <dynamics jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="55"></variants>
+                  <strings jsxname="jsxReadOnly" jsxtext="ReadOnly" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxReadOnly" jsxdisplay="none" jsxborder="0px solid #ffffff;1px solid #c9c9c9;1px solid #c9c9c9;0px solid #ffffff"></strings>
+                  <dynamics jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxPriority" jsxwidth="100" jsxtext="Priority" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxPriority" jsxborder="0px solid #ffffff;1px solid #c9c9c9;1px solid #c9c9c9;0px solid #ffffff"></strings>
+                  <dynamics jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Medium"></dynamics>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                    <strings jsxname="jsxPriority" jsxdisplay="none"></strings>
+                    <events jsxkeydown="1;"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #efefef;1px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5" jsxbgcolor="#d8d8d8" jsxtextalign="right" jsxpadding="8 20 8 40"></strings>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+            <strings jsxname="btnCancel" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnCancelUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnCancelOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnCancelDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnCancelUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnCancelDsbl.png" jsxtip="" jsxmargin="0 8 0 8"></strings>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+            <strings jsxname="btnSave" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnSaveUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnSaveOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnSaveDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnSaveUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnSaveDsbl.png" jsxmargin="0 8 0 8" jsxtip=""></strings>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

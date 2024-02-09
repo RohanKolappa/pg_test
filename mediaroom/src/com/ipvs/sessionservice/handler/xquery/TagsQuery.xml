@@ -1,0 +1,59 @@
+declare function local:getGroupTags( $b as element()*)
+as element ()*
+{
+   let $tagName := data($b//TagName)
+   return 	    
+	     <GroupTagDef> {
+          for $tagValue in $b//TagValue 
+          return 
+		  <TagValuePair>
+		  	  {$b/TagObjectTypeList}
+			  <Groups>
+		    	 <Tag Name='{data($tagName)}' Value='{data($tagValue)}'/>
+			   </Groups>
+		   </TagValuePair>
+          }
+		  </GroupTagDef>
+};	                     
+  
+declare function local:getList() 
+as element()*
+{
+	let $list1 := 
+		for $b in  #OBJ_GroupTagDef_OBJ#  
+		let $groupTagRecord := local:getGroupTags($b)
+		where $groupTagRecord 
+		return  
+		    for $tag in $groupTagRecord/TagValuePair
+		    where $tag _XPATHAND_
+		    return $tag/Groups/Tag
+	 let $list2 :=for $tag1 in $list1
+		         order by $tag1_SORTBY_ _SORTORDER_
+		         return $tag1 
+	 return  $list2
+};
+
+
+declare function local:formatList($b as element()*, $detail as xs:string) {
+    let $tagList := <TagList>{ $b } </TagList>
+    let $list := if ($detail ='NameList') then 
+					   for $tagName in distinct-values($tagList/Tag/@Name) 
+					   return <Tag Name='{data($tagName)}'/>
+		         else if ($detail ='NameValueTree') then 
+					   for $tagName in distinct-values($tagList/Tag/@Name)
+					   return <Tag Name='{data($tagName)}'>	
+								{for $tag in $tagList/Tag
+		                         where $tag[@Name=$tagName and @Value!='']
+		                         return 
+		                           <Value>{data($tag/@Value)} </Value>
+		                        }
+		                 </Tag>
+		          else 
+		          	for $tag in $tagList/Tag where $tag[@Value!='' and @Name!='']
+		              return $tag
+    return $list
+};
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+	let $list:= $b
+		return $b
+};

@@ -1,0 +1,256 @@
+﻿<serialization jsxversion="3.8" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkSessionMedia" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.Splitter">
+      <variants jsxorientation="1" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxname="splitter (--)" jsxsubcontainer1pct="50%"></strings>
+      <dynamics jsxbgcolor="BG3"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="BG3"></dynamics>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="lytSources" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxborder="BRD4"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkSessionSourcesHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="Titlebar glass" jsxpadding="4 8 4 4" jsxtextalign="right" jsxbgcolor="#000"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="4" jsxtop="4"></variants>
+              <strings jsxname="label" jsxtext="My Media Sources" jsxclassname="T2" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxwidth="16" jsxheight="17"></variants>
+              <strings jsxname="blkSessionAddMediaSource" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxtype="0" jsxprefetch="1" jsxstate="1" jsxheight="17" jsxwidth="16"></variants>
+                <strings jsxname="btnSessionAddMediaSource" jsxtext="" jsximage="images/buttons/btnAddOff.png" jsxoverimage="images/buttons/btnAddOn.png" jsxdownimage="images/buttons/btnAddOn.png" jsxonimage="images/buttons/btnAddOn.png" jsxdisabledimage="images/buttons/btnAddOff.png" jsxtip="Add media source to my list"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkSessionSources" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="BG2"></dynamics>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxheaderheight="0" jsxrowheight="25"></variants>
+              <strings jsxname="mtxSessionSources" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending" jsxselectionbg="images/panels/selectSrc.gif"></strings>
+              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+              <xslparameters jsx_rowbg1="" jsx_rowbg2=""></xslparameters>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxEntityID" jsxtext="Source Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxEntityID" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsximgEntityPresence" jsxwidth="20" jsxtext="Image" jsxvaluetemplate="@image" jsxpadding="2" jsxcellpadding="4 2 2 2" jsxpath="jsximgEntityPresence" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxcellfontsize="11"></variants>
+                <strings jsxname="jsxtext" jsxtext="Source Name" jsxwidth="*" jsxcellpadding="4 2 2 6" jsxpath="jsxtext" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxcellbgcolor="" jsxcellfontweight="normal"></strings>
+                <dynamics jsxcolor="Font1"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="50" jsxcellfontsize="12"></variants>
+                <strings jsxname="jsxtype" jsxtext="Source Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtype" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxcellbgcolor="" jsxvaluetemplate="@image" jsxdisplay="none"></strings>
+                <dynamics jsxcolor="Font1"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="50" jsxcellfontsize="12"></variants>
+                <strings jsxname="jsxtypeImage" jsxtext="Source Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtypeImage" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxcellbgcolor="" jsxvaluetemplate="@image"></strings>
+                <dynamics jsxcolor="Font1"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxNID" jsxtext="Source Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="4 0 0 0" jsxpath="jsxNID" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxstartOffset" jsxtext="Source Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxstartOffset" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxRole" jsxtext="Source Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxRole" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="30"></variants>
+                <strings jsxname="jsximgEntityDeleteCol" jsxtext="ImageButton" jsxpadding="3" jsxcellpadding="3 2 2 4" jsxvaluetemplate="@empty" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                  <strings jsxname="jsximgEntityDelete" jsximage="images/buttons/btn_delete_circle_on.png" jsxoverimage="images/buttons/btn_delete_circle_over.png" jsxdownimage="images/buttons/btn_delete_circle_over.png" jsxonimage="images/buttons/btn_delete_circle_on.png" jsxdisabledimage="images/buttons/btn_delete_circle_on.png" jsxtip="Delete media"></strings>
+                  <events jsxexecute="jsx3.log('Clicked on button mask in row ' + this.emGetSession().recordId + '.');"></events>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="BG3"></dynamics>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="lytDestinations" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxborder="BRD4"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkSessionDestinationsHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="Titlebar glass" jsxpadding="4 8 4 4" jsxtextalign="right" jsxbgcolor="#000"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="4" jsxtop="4"></variants>
+              <strings jsxname="label" jsxtext="My Destinations" jsxclassname="T2" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxwidth="16" jsxheight="17"></variants>
+              <strings jsxname="blkSessionAddDestination" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxtype="0" jsxprefetch="1" jsxstate="1" jsxheight="17" jsxwidth="16"></variants>
+                <strings jsxname="btnSessionAddDestination" jsxtext="" jsximage="images/buttons/btnAddOff.png" jsxoverimage="images/buttons/btnAddOn.png" jsxdownimage="images/buttons/btnAddOn.png" jsxonimage="images/buttons/btnAddOn.png" jsxdisabledimage="images/buttons/btnAddOff.png" jsxtip="Add a destination to my list"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkSessionDestinations" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="BG2"></dynamics>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxheaderheight="0" jsxrowheight="25"></variants>
+              <strings jsxname="mtxSessionDestinations" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending" jsxselectionbg="images/panels/selectDst.gif"></strings>
+              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+              <xslparameters jsx_rowbg1="" jsx_rowbg2=""></xslparameters>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxEntityID" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxEntityID" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsximgEntityPresence" jsxwidth="20" jsxtext="Image" jsxvaluetemplate="@image" jsxpadding="2" jsxcellpadding="4 2 2 2" jsxpath="jsximgEntityPresence" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxcellfontsize="11"></variants>
+                <strings jsxname="jsxtext" jsxtext="Destination Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="4 2 2 6" jsxpath="jsxtext" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxcellfontweight="normal"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="50" jsxcellfontsize="12"></variants>
+                <strings jsxname="jsxtype" jsxtext="Destibation Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtype" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxvaluetemplate="@image" jsxdisplay="none"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="50" jsxcellfontsize="12"></variants>
+                <strings jsxname="jsxtypeImage" jsxtext="Destibation Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtypeImage" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxvaluetemplate="@image"></strings>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxNID" jsxtext="Destination Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="4 0 0 0" jsxpath="jsxNID" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxIP" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxIP" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxUDPStartPort" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxUDPStartPort" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxRole" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxRole" jsxdisplay="none"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="30"></variants>
+                <strings jsxname="jsximgEntityDeleteCol" jsxtext="ImageButton" jsxpadding="3" jsxcellpadding="3 2 2 4" jsxvaluetemplate="@empty" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                  <strings jsxname="jsximgEntityDelete" jsximage="images/buttons/btn_delete_circle_on.png" jsxoverimage="images/buttons/btn_delete_circle_over.png" jsxdownimage="images/buttons/btn_delete_circle_over.png" jsxonimage="images/buttons/btn_delete_circle_on.png" jsxdisabledimage="images/buttons/btn_delete_circle_on.png" jsxtip="Delete media"></strings>
+                  <events jsxexecute="jsx3.log('Clicked on button mask in row ' + this.emGetSession().recordId + '.');"></events>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Splitter">
+          <variants jsxorientation="1" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="splitter (--)" jsxsubcontainer1pct="46.63951120162933%" jsxdisplay="none"></strings>
+          <dynamics jsxbgcolor="BG4"></dynamics>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="lytUsers" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"></strings>
+            <dynamics jsxborder="BRD4"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkSessionUsersHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="Titlebar glass" jsxpadding="4 8 4 4" jsxtextalign="right"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="4" jsxtop="4"></variants>
+                <strings jsxname="label" jsxtext="Participants" jsxclassname="T2" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxtype="0" jsxprefetch="1" jsxstate="1" jsxheight="17" jsxwidth="16"></variants>
+                <strings jsxname="btnSessionAddUsers" jsxtext="" jsximage="images/buttons/btnAddOff.png" jsxoverimage="images/buttons/btnAddOn.png" jsxdownimage="images/buttons/btnAddOn.png" jsxonimage="images/buttons/btnAddOn.png" jsxdisabledimage="images/buttons/btnAddOff.png" jsxtip="Add a participant to my list"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="blkSessionUsers" jsxwidth="100%" jsxheight="100%"></strings>
+              <dynamics jsxbgcolor="BG2"></dynamics>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxheaderheight="0"></variants>
+                <strings jsxname="mtxSessionUsers" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending" jsxselectionbg="images/panels/select.gif"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="" jsx_rowbg2=""></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxEntityID" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxEntityID" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxcellfontsize="12"></variants>
+                  <strings jsxname="jsxtext" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5"></strings>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxwidth="50" jsxcellfontsize="12"></variants>
+                  <strings jsxname="jsxtype" jsxtext="Destibation Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtype" jsxcellborder="solid 1px #777777; solid 0px #777777;solid 0px #777777;solid 0px #777777" jsxcellcolor="#e5e5e5" jsxvaluetemplate="@image"></strings>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxNID" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxNID" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxIP" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxIP" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxUDPStartPort" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxUDPStartPort" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxRole" jsxtext="Destibation Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxRole" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

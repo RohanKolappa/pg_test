@@ -1,0 +1,1452 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE xep SYSTEM 'xep.dtd' [
+  <!ENTITY % ents SYSTEM 'xep.ent'>
+  %ents;
+]>
+<?xml-stylesheet type='text/xsl' href='xep.xsl'?>
+<xep>
+  <header>
+    <title>XEP Template</title>
+    <abstract>This specification provides an example of the format for XMPP Extension Protocols (XEPs).</abstract>
+    <legal>
+      <copyright>This XMPP Extension Protocol is copyright (c) 1999 - 2008 by the XMPP Standards Foundation (XSF).</copyright>
+      <permissions>Permission is hereby granted, free of charge, to any person obtaining a copy of this specification (the &quot;Specification&quot;), to make use of the Specification without restriction, including without limitation the rights to implement the Specification in a software program, deploy the Specification in a network service, and copy, modify, merge, publish, translate, distribute, sublicense, or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the condition that the foregoing copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification. Unless separate permission is granted, modified works that are redistributed shall not contain misleading information regarding the authors, title, number, or publisher of the Specification, and shall not claim endorsement of the modified works by the authors, any organization or project to which the authors belong, or the XMPP Standards Foundation.</permissions>
+      <warranty>## NOTE WELL: This Specification is provided on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. In no event shall the XMPP Standards Foundation or the authors of this Specification be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Specification or the implementation, deployment, or other use of the Specification. ##</warranty>
+      <liability>In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall the XMPP Standards Foundation or any author of this Specification be liable for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising out of the use or inability to use the Specification (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if the XMPP Standards Foundation or such author has been advised of the possibility of such damages.</liability>
+      <conformance>
+        This XMPP Extension Protocol has been contributed in full conformance with the XSF's Intellectual Property Rights Policy (a copy of which may be found at &lt;<link url='http://www.xmpp.org/extensions/ipr-policy.shtml'>http://www.xmpp.org/extensions/ipr-policy.shtml</link>&gt; or obtained by writing to XSF, P.O. Box 1641, Denver, CO 80201 USA).
+      </conformance>
+    </legal>
+    <number>xxxx</number>
+    <status>ProtoXEP</status>
+    <type>Standards Track</type>
+    <sig>Standards</sig>
+    <approver>Council</approver>
+    <dependencies>
+      <spec>XMPP Core</spec>
+      <spec>XEP-0001</spec>
+      <spec>Etc.</spec>
+    </dependencies>
+    <supersedes/>
+    <supersededby/>
+    <shortname>NOT_YET_ASSIGNED</shortname>
+    <author>
+      <firstname>Peter</firstname>
+      <surname>Saint-Andre</surname>
+      <email>stpeter@jabber.org</email>
+      <jid>stpeter@jabber.org</jid>
+    </author>
+    <revision>
+      <version>0.0.1</version>
+      <date>2001-09-14</date>
+      <initials>psa</initials>
+      <remark>
+        <p>First draft.</p>
+      </remark>
+    </revision>
+  </header>
+  <section1 topic='Introduction' anchor='intro'>
+    <p>This is a template for use in writing XMPP Extension Protocol specifications (XEPs). For detailed information about the XSF's standards process and how to write a XEP, refer to "XEP-0001: XMPP Extension Protocols" and "XEP-0143: Guidelines for Authors of XMPP Extension Protocols".</p>
+  </section1>
+  <section1 topic='Requirements' anchor='reqs'>
+    <p>STRONGLY RECOMMENDED.</p>
+  </section1>
+  <section1 topic='Glossary' anchor='glossary'>
+    <p>OPTIONAL.</p>
+  </section1>
+  <section1 topic='Object Model' anchor='objectmodel'>
+    <section2 topic='User'></section2>
+    <section2 topic='Asset(AssetResource + Device)'></section2>
+    <section2 topic='MediaStreamPortResources(Src/Dst/Relay)'></section2>
+    <section2 topic='MediaStorePortResources'></section2>
+    <section2 topic='Media(MediaStreamDirResource/MediaStreamFileResource/Bookmark)'></section2>
+    <section2 topic='MediaStreamProfile'></section2>
+  </section1>
+  <section1 topic='Policy Model' anchor='policymodel'>
+    <section2 topic='Tag/TagDef'></section2>
+    <section2 topic='Filter'></section2>
+    <section2 topic='Rule'>
+      <section3 topic='Object Access Rules'>
+        <ul>
+          <li>Add/Delete/Get/Edit</li>
+        </ul>
+      </section3>
+      <section3 topic='Media Stream Rules'>
+        <ul>
+          <li>Operate(Start/Stop - OnDemand/Scheduled)</li>
+          <li>Participate</li>
+          <li>StreamSend</li>
+          <li>StreamRcv</li>
+        </ul>
+      </section3>
+      <section3 topic='Media Routing/PVR Rules'>
+        <ul>
+          <li>StreamRelay(w/ PVRBuffer)</li>
+        </ul>
+      </section3>
+    </section2>
+  </section1>
+  <section1 topic='Session Model' anchor='sessionmodel'>
+    <section2 topic='Session Objects'>
+      <section3 topic='Profile'>
+        <p>One entry for each profile used for connections in the session.
+        The simplest form is a reference to an existing Profile by NID.
+        Or a custom ProfileInfo element can be specified - by itself or as overrides to an existing Profile</p>
+        <p>Eventually Profiles in the DB will be a "range" spec and this will be the values in use currently</p>
+        <example caption='Profile'>
+          <![CDATA[
+            <Profile id='' name='' profileNID=''>
+              <ProfileInfo/>
+            </Profile>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='PVRBuffer'>
+        <p>
+          PVR spec that can be attached to a Src that does not natively support an offset other than "LIVE".
+          More that one Src can share the same PVR Spec. 
+          The actual PVR file name will be a combination of the "name" attribute and the Src "name".
+        </p>
+        <p>More generically:</p>
+        <ul>
+          <li>multiple PVR specs - for different offset ranges - can be attached to the same Src</li>
+          <li>the PVR spec can be attached to any leg of a route which can be used as a Src or Dst Route spec.</li>
+        </ul>
+        <example caption='PVR Buffer'>
+          <![CDATA[
+            <PVRBuffer id='' name='' bufferLength=''>
+              <PVRFile id='' dir='xxx/yyy'/>
+            </PVRBuffer>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='Route'>
+        <p>
+          Ordered list of relay Ports (along with relayProfiles for each leg)
+          Can be attached as a src or dst route to specify explicit routing.
+          Any one leg can have a PVRBuffer spec attached to it.
+        </p>
+        <p>Currently only a dstRoute with one leg is supported for PVR purposes</p>
+        <example caption='Route'>
+          <![CDATA[
+            <Route id='' name='' startMode='AUTO'>
+              <RelayPort id='' resourceNID=''/>
+              <RelayPort id='' resourceNID='' profileId='' pvrBufferId=''/>
+              <RelayPort id='' resourceNID='' profileId=''/>
+            </Route>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='SyncMedia'>
+        <p>
+          Media clip group file for Sync Recording / Playback
+        </p>
+        <example caption='Sync Media Group'>
+          <![CDATA[
+            <SyncMedia id='' name=''>
+              <GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/>
+            </SyncMedia>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='Entity'>
+        <p>
+          All Instances of Resources used in Connections are considered "entities".
+          Types: Src/Dst/IO Ports, Clients, AuthClients, Files(standalone/ clips part of a sync media group)
+          Entity spec includes pvr, src/dst route specs. 
+          This allows for specifying "auto start" for these "secondary connections" without specifying a "Connection"
+        </p>
+        <ul>
+          <li>Issues:</li>
+          <li>id/name/assignmentBy(user/system)/uniqueness</li>
+          <li>Mode: Exclusive, Shared, VirtualResource</li>
+          <li>File - Create/Overwrite</li>
+          <li>Client/Operator/Participant/Auth</li>
+          
+        </ul>
+        <example caption='IO Port Entity'>
+          <![CDATA[
+          <Entity id='' name='' presence='' streamType=''>
+            <IOPort id='' resourceNID='' instanceId='' routeId=''/>
+          </Entity>
+           ]]>
+         </example>
+        <example caption='Media Client Entity'>
+          <![CDATA[
+          <Entity id='' name='' presence='' streamType=''>
+            <Client id='' userJID='' resourceNID='' instanceId='' routeId=''/>
+          </Entity>
+          ]]>
+        </example>
+        <example caption='Auth Client Entity'>
+          <![CDATA[
+          <Entity id='' name='' presence='' streamType=''>
+            <AuthClient id='' userJID='' resourceNID='' instanceId=''/>
+          </Entity>
+          ]]>
+        </example>
+        <example caption='File Entity'>
+          <![CDATA[
+          <Entity id='' name='' presence='' streamType=''>
+            <File id='' resourceNID=''/>
+            <StorePort id='' resourceNID=''  instanceId='' routeId=''/>
+          </Entity>
+          ]]>
+        </example>
+        <example caption='Sync File Clip Entity'>
+          <![CDATA[
+          <Entity id='' name='' presence='' streamType=''>
+            <ClipFile id='' resourceNID='' syncMediaId=''/>
+            <StorePort id='' resourceNID=''  instanceId='' routeId=''/>
+          </Entity>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='Connection'>
+        <p>
+          One entry for each connection.
+          Includes a SrcEntity, DstEntity, profile and pvr offset spec.
+          Optionally includes a route spec and/or pvr spec.
+          Can be tagged as part of a connection group.
+          offsetMode=ABSOLUTE attribute specifies that the start date of the conn = EPOCH and all offsets will be relative to that
+          Entities can be fully qualified id (ie sessionId:entityId) to allow x-session connections
+        </p>
+        <example caption='Connections w/ Options'>
+          <![CDATA[
+            <Connection id='' connGroupId='' srcEntityId='' dstEntityId='' profileId='' offsetMode='ABSOLUTE' offsetRange='' startMode='ONDEMAND'/>
+            <Connection id='' srcEntityId='' srcRouteId='' dstRouteId='' dstEntityId='' profileId='' timeMode='ABSOLUTE' offsetRange='' authId='' startMode='ONDEMAND'/>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='Auth'>
+        <p>
+          One entry for each authentication required by policy
+        </p>
+        <example caption='Auth'>
+          <![CDATA[
+            <Auth id='' state='REQUEST/ALLOW/DENY/REVOKE/CANCEL' connGrpId='' connId='' authEntityId=''/>
+          ]]>
+        </example>
+      </section3>
+      <section3 topic='ConnGroup'>
+        <p>
+          A group id that can be attached to any set of connections.
+          Hierarchical ConnGroups can be spec'd by attaching group id to another ConnGroup
+          Specs attached to the conn group apply as defaults for the connections 
+          (can be overridden by the connection)
+        </p>
+        <ul>
+          <li>TBD: Default conn group for recordings</li>
+          <li>TBD: everything in one default conngroup = sessionid - for PVR at session scope</li>
+        </ul>
+        <example caption='Basic ConnGroup'>
+          <![CDATA[
+          <ConnGroup id=''/>
+          ]]>
+        </example>
+        <example caption='Hierarchical ConnGroup'>
+          <![CDATA[
+          <ConnGroup id='' connGrpId=''/>
+          ]]>
+        </example>
+        <example caption='ConnGroup w/ attributes'>
+          <![CDATA[
+          <ConnGroup id='' pvrId=''/>
+          <ConnGroup id='' recordId=''/>
+          <ConnGroup id='' srcRouteId='' dstRouteId='' routeId=''/>
+          <ConnGroup id='' offsetMode='ABSOLUTE' offsetRange='' startMode='ONDEMAND/>
+          ]]>
+        </example>
+      </section3>
+    </section2>
+  </section1>
+  <section1 topic='Use Cases' anchor='usecases'>
+    <p>Use cases are split into groups for convinience only. The seperation does not carry any other semantics. 
+    The set of operations needed to implement a collection of end-user functionality will most likely be a mix</p>
+    <section2 topic="Service Discovery">
+      <p>The following is an example of the response to a Service Discovery query</p>
+      <example caption='Service Discovery Response'>
+        <![CDATA[
+        <identity category="collaboration" type="ipvscollab"/>
+        <feature var="jabber:iq:ipvscollab"/>
+    ]]>
+      </example>
+    </section2>
+    <section2 topic='Service Message Overview'>
+      <section3 topic='Request/Response/Error'>
+        <example caption='Request'>
+          <![CDATA[
+          <message from='roomuser-default@localhost/userpc'
+                id='reg2'
+                to='managementserver@localhost/managementserver'
+                type='normal'>
+            <AgentMessage xmlns='ipvs:com.ipvs.mediaroom:mediaroomservice'
+                type='mediaroomservice.Request.OperatorRequest'
+                    fromAgent="com.ipvs.client.MRClientAgent"
+                    toAgent="com.ipvs.AppServerAgent"
+                    clientData="abc123"
+                    state="">
+              <RequestData>
+                
+                              
+              </RequestData>
+            </AgentMessage>
+          </message>
+          ]]>
+        </example>
+        <example caption='Operator Response'>
+          <![CDATA[
+            
+            ]]>
+        </example>
+        <p>If there is an error, the service MUST return an error to the user:</p>
+        <example caption='MediaRoom Service returns Error'>
+          <![CDATA[
+            
+            ]]>
+        </example>
+      </section3>
+      <section3 topic='Notification'>
+
+      </section3>
+    </section2>
+    <section2 topic='Service Client Use Cases'>
+      <section3 topic='Startup Operations'>
+        <section4 topic='ServiceLogin'>
+          <example caption='Service Login'>
+            <![CDATA[
+            <ServiceLogin clientVersion=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get Server Time">
+          <example caption='Get Server Time'>
+            <![CDATA[
+            <GetServerTime/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Session Info Operations'>
+        <section4 topic="Get SessionList">
+          <example caption='Get SessionList Request'>
+            <![CDATA[
+            <GetSessionList>
+              <GetRequest/>
+            </GetSessionList>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get InviteList">
+          <example caption='Get InviteList Request'>
+            <![CDATA[
+            <GetInviteList>
+              <GetRequest/>
+            </GetInviteList>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get Session SrcList">
+          <example caption='Get Session SrcList Request'>
+            <![CDATA[
+            <GetSessionSrcList sessionId=''>
+              <DstList>
+                <dstEntityId/>
+              </DstList>
+              <ProfileList>
+                <profileId/>
+              </ProfileList>
+              <GetRequest/>
+            </GetSessionSrcList>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get Session DstList">
+          <example caption='Get Session DstList Request'>
+            <![CDATA[
+            <GetSessionDstList sessionId=''>
+              <SrcList>
+                <srcEntityId/>
+              </SrcList>
+              <ProfileList>
+                <profileId/>
+              </ProfileList>
+              <GetRequest/>
+            </GetSessionDstList>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get Session ProfileList">
+          <example caption='Get Session ProfileList Request'>
+            <![CDATA[
+            <GetSessionProfileList sessionId=''>
+              <SrcList>
+                <dstEntityId/>
+              </SrcList>
+              <DstList>
+                <dstEntityId/>
+              </DstList>
+              <GetRequest/>
+            </GetSessionProfileList>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Get Session RouteList">
+          <example caption='Get Session RouteList Request'>
+            <![CDATA[
+            <GetSessionRouteList sessionId=''>
+              <SrcList>
+                <srcEntityId/>
+              </SrcList>
+              <DstList>
+                <dstEntityId/>
+              </DstList>
+              <ProfileList>
+                <profileId/>
+              </ProfileList>
+              <GetRequest/>
+            </GetSessionRouteList>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic="Status Operations">
+        <example caption='Get Status Request'>
+          <![CDATA[
+          <GetPortStatus>
+            <Port type='SRC/DST/IO/RELAY/STORE'/>
+          </GetPortStatus>
+          <GetMediaStatus>
+            <Media type='DIR/FILE'/>
+          </GetMediaStatus>
+          <GetUserStatus>
+            <User jid=''/>
+          </GetUserStatus>
+          <GetAssetStatus>
+            <Asset NID=''/>
+          </GetAssetStatus>
+          <GetDeviceStatus>
+            <DeviceElement ='SYSTEM/SERVICES/PORTS'/>
+          </GetDeviceStatus>
+          ]]>
+        </example>
+      </section3>
+    </section2>
+    <section2 topic="Room Operator Use Cases">
+      <ul>
+        <li>An "Operator" is the "Entity" that is responsible for setting up, modifying and deleting Rooms</li>
+        <li>An "Operator" is also the "Initiator" of all actions during the Room</li>
+        <li>All Room operations are responded to by the "App Server" entity</li>
+        <li>"Action Request" operations are responded to by the other entities in the Room</li>
+        <li>There may be multiple "Operator" entities in one Room</li>
+      </ul>
+      <section3 topic='Session Setup/Edit Operations'>
+        <section4 topic="View">
+          <example caption='View Request'>
+            <![CDATA[
+            <View sessionId='' connId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Playback">
+          <example caption='Playback Request'>
+            <![CDATA[
+            <Playback sessionId='' connId=''>
+              <SrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </Playback>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SyncPlayback">
+          <example caption='SyncPlayback Request'>
+            <![CDATA[
+            <SyncMedia id='' name=''>
+              <GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/>
+            </SyncMedia>
+            <SyncPlayback sessionId='' connId=''>
+              <SyncSrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date='' syncMediaClipId=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </SyncPlayback>
+            <SyncPlayback sessionId='' connId=''>
+              <SyncSrcFile id='' srcResourceNID='' dir='xxx/yyy' name='' date='' syncMediaClipId=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </SyncPlayback>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Record">
+          <example caption='Record Request'>
+            <![CDATA[
+            <Record sessionId='' connId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstFile id='' dir='xxx/yyy' name='' date='' storePortResourceNID=''/>
+            </Record>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SyncRecord">
+          <example caption='SyncRecord Request'>
+            <![CDATA[
+            <SyncMedia id='' name=''>
+              <GroupFile id='' resourceNID='' dir='xxx/yyy' title='' date=''/>
+            </SyncMedia>
+            <SyncRecord sessionId='' connId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <SyncDstFile id='' dir='xxx/yyy' name='' date='' syncMediaClipId='' storePortResourceNID=''/>
+            </SyncRecord>
+            <SyncRecord sessionId='' connId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <SyncDstFile id='' dir='xxx/yyy' name='' date='' syncMediaClipId='' storePortResourceNID=''/>
+            </SyncRecord>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Chat">
+          <example caption='Chat Request'>
+            <![CDATA[
+            <Chat sessionId='' connGroupId='' connId=''>
+              <User id='' userJID=''/>
+            </Chat>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Invite">
+          <example caption='Invite Request'>
+            <![CDATA[
+            <Invite sessionId='' id='' jid='' userNID='' resourceNID=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Kick">
+          <example caption='Kick Request'>
+            <![CDATA[
+            <Kick sessionId='' id='' jid='' userNID='' resourceNID=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Create">
+          <example caption='Create Request'>
+            <![CDATA[
+            <Create sessionId='' collaborationConfigNID='' mode='RECORD/PLAYBACK'/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Destroy">
+          <example caption='Destroy Request'>
+            <![CDATA[
+            <Destroy sessionId=''/>
+            <Destroy sessionId='' connGroupId=''/>
+            <Destroy sessionId='' connGroupId='' connId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Publish">
+          <p>By default sessions are "InviteOnly".
+          Use publish to allow others to Join w/o invites</p>
+          <example caption='Publish Request'>
+            <![CDATA[
+            <Publish sessionId='' tagName='' tagValue=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SwitchSrc">
+          <example caption='SwitchSrc Request'>
+            <![CDATA[
+            <SwitchSrc sessionId='' connId='' newSrcEntityId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SwitchDst">
+          <example caption='SwitchDst Request'>
+            <![CDATA[
+            <SwitchDst sessionId='' connId='' newDstEntityId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SwitchProfile">
+          <example caption='SwitchProfile Request'>
+            <![CDATA[
+            <SwitchProfile sessionId='' connId='' newProfileId=''/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Options for Setup/Edit Operations'>
+        <p>The above operations are shown in their "Basic" form.  
+        They can be enhanced with more information using the following options</p>
+        <example caption='View Request w/o any options'>
+            <![CDATA[
+            <View sessionId='' connId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        <section4 topic="Profile Spec">
+          <example caption='View Request w/ referenced Profile spec'>
+            <![CDATA[
+            <Profile id='' profileNID=''/>
+            <View sessionId='' connId='' profileId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+          <example caption='View Request w/ inline Profile spec'>
+            <![CDATA[
+            <Profile id=''>
+              <ProfileInfo/>
+            </Profile>
+            <View sessionId='' connId='' profileId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+          <example caption='View Request w/ inline Profile override'>
+            <![CDATA[
+            <Profile id='' profileNID=''>
+              <ProfileInfo/>
+            </Profile>
+            <View sessionId='' connId='' profileId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="ConnGroup Spec">
+          <example caption='View Request w/ ConnGroup spec'>
+            <![CDATA[
+            <ConnGroup sessionId='' id=''/>
+            <View sessionId='' connGroupId='' connId='' profileId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="OffsetMode/Range Spec">
+          <example caption='View Request w/ OffsetMode/Range spec'>
+            <![CDATA[
+            <View sessionId='' connId='' offsetMode='ABSOLUTE' offsetRange=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="StartMode Spec">
+          <example caption='View Request w/ StartMode spec'>
+            <![CDATA[
+            <View sessionId='' connId='' startMode='AUTOSTART'>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="PVR Spec">
+          <example caption='View Request w/ PVR spec'>
+            <![CDATA[
+            <PVR sessionId='' id='' bufferLength=''>
+              <PVRFile id='' dir='xxx/yyy' name='' pvrPortResourceNID='' profileNID=''/>
+            </PVR> 
+            <View sessionId='' connGroupId='' connId='' profileId='' pvrId=''>
+              <SrcPort id='' srcResourceNID=''/>
+              <DstPort id='' dstResourceNID=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Route Spec">
+          <example caption='View Request w/ Route spec'>
+            <![CDATA[
+            <Route sessionId='' id=''>
+              <RelayPort id='' relayResourceNID=''/>
+              <RelayPort id='' relayResourceNID=''/>
+            </Route>          
+            <View sessionId='' connGroupId='' connId='' profileId='' routeId=''>
+              <SrcPort id='' srcResourceNID='' srcRouteId=''/>
+              <DstPort id='' dstResourceNID='' dstRouteId=''/>
+            </View>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Options for Entity Spec'>
+        <p>
+          By default operations fully specify the entities they involve and will result in unique entity/conection Ids
+          If another operation needs to reference an existing entity in the session they can do so by referencing their IDs in operation attributes
+        </p>
+        <section4 topic='Entity Id Reference'>
+          <example caption='View an existing Src'>
+            <![CDATA[
+              <View sessionId='' srcId=''>
+                <DstPort id='' dstResourceNID=''/>
+              </View>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='Entity ID Scope'>
+          <example caption='View an existing Src from a different Session'>
+            <![CDATA[
+              <View sessionId='' srcId='sessionId:srcId'>
+                <DstPort id='' dstResourceNID=''/>
+              </View>
+              ]]>
+          </example>
+        </section4>
+        <section4 topic='Entity Resource By Title'>
+          <example caption='View an existing Src from a different Session'>
+            <![CDATA[
+              <View sessionId=''>
+                <SstPort id='' dstResourceTitle=''/>
+                <DstPort id='' dstResourceTitle=''/>
+              </View>
+              ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Session PVR Operations'>
+        <p>
+          The intent of the operator when issuing a PVR Action is to "do a certain action from or at a certain point in time".
+          <br/>go to a certain "Offset"
+          <br/>- this is the time since the start of the Connection (or Connection Group).
+          <br/>- depending on the "offsetMode" the connection (group) start date will be either NOW or the EPOCH date.
+          <br/>- "LIVE" connections will use an "ABSOLUTE" offsetMode = startTime = EPOCH.
+          <br/>- "Playback in Sync Mode" should also use ABSOLUTE mode if you want times/offsets to be in terms of the original recording time.
+          <br/>with reference to a certain "Wall Clock"
+          <br/>- "Wall Clock" is the "real time" when the command was/should be effective
+          <br/>- It is specified in Notifications to qualify "when" a certain "offset" was achieved on the Server side (thus making the system independant of message xmit delays)
+          <br/>- Succesive PVR Actions can use this value to qualify when the requested "Offset" should be achieved on the server side
+          <br/>- This allows precise time control without requiring the Client to be NTP Time Sync'd with the Servers
+          <br/>and Stop or Play with a certain Speed (called Timescale) at/from/to that position.
+        </p>
+        <p>
+          These parameters are packaged into a "TimeLine" [WC, Offset, Timescale].
+          <br/>All PVR actions are in essence a request to "achieve" a certain "Timeline".
+        </p>
+        <p>
+          The default scope for these actions is the Session
+          <br/>ConnGroup scopes should be used for implementing StartRec/StopRec like operations
+        </p>
+        <section4 topic="Start">
+          <example caption='Start Request'>
+            <![CDATA[
+            <Start sessionId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Stop">
+          <example caption='Stop Request'>
+            <![CDATA[
+            <Stop sessionId=''/>             
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Pause">
+          <example caption='Pause Request'>
+            <![CDATA[
+            <Pause sessionId=''/>             
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Resume">
+          <example caption='Resume Request'>
+            <![CDATA[
+            <Resume sessionId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Catchup">
+          <example caption='Catchup Request'>
+            <![CDATA[
+            <Catchup sessionId=''/>             
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="SkipTo">
+          <example caption='SkipFwd Request'>
+            <![CDATA[
+            <SkipTo sessionId='' offsetDelta='10'/>             
+            ]]>
+          </example>
+          <example caption='SkipBack Request'>
+            <![CDATA[
+            <SkipTo sessionId=''offsetDelta='-10'/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="PauseAt">
+          <example caption='PauseAt Request'>
+            <![CDATA[
+            <PauseAt sessionId='' Offset=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="ResumeFrom">
+          <example caption='ResumeFrom Request'>
+            <![CDATA[
+            <ResumeFrom sessionId='' Offset=''/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Scope for PVR Operations'>
+        <p>
+          PVR/Action Operations are qualified by their scope.
+          <br/>Scope could be at the Session, ConnGroup, or Connection level
+        </p>
+        <section4 topic='Session Scope'>
+          <example caption='Start Request w/ Session scope'>
+            <![CDATA[
+            <Start sessionId='' WC=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='ConnGroup Scope'>
+          <example caption='Start Request w/ ConnGroup scope'>
+            <![CDATA[
+            <Start sessionId='' connGroupId='' WC=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='Connection Scope'>
+          <example caption='Start Request w/ Connection scope'>
+            <![CDATA[
+            <Start sessionId='' connGroupId='' connId='' WC=''/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Options for PVR Operations'>
+        <p>
+          PVR/Action Operations are enhanced by the following options.
+        </p>
+        <section4 topic='Effective WC'>
+          <p>
+            This specifies a WC at which time the operation should be effective (as opposed to "ASAP").
+            <br/>"ASAP": when the WC when the App Server happens to recieve/process the operation.
+            <br/>By default operations are in ASAP mode.
+          </p>
+          <example caption='Start Request w/ Effective WC option'>
+            <![CDATA[
+            <Start sessionId='' WC=''/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Bookmark Operations'>
+        <section4 topic="AddBookmark">
+          <example caption='AddBookmark Request'>
+            <![CDATA[
+            <AddBookmark sessionId='' connGroupId='' connId='' fileEntityId=''/>
+              <AddRequest/>
+            </AddBookmark>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="UpdateBookmark">
+          <example caption='UpdateBookmark Request'>
+            <![CDATA[
+            <UpdateBookmark fileEntityId=''>
+              <UpdateRequest/>
+            </UpdateBookmark>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="DeleteBookmark">
+          <example caption='DeleteBookmark Request'>
+            <![CDATA[
+            <DeleteBookmark fileEntityId=''>
+              <DeleteRequest/>
+            </DeleteBookmark>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="GetBookmark">
+          <example caption='GetBookmark Request'>
+            <![CDATA[
+            <GetBookmark fileEntityId=''>
+              <GetRequest/>
+            </GetBookmark>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+      <section3 topic='Session Notifications'>
+        <section4 topic="AuthRequest">
+          <example caption='AuthRequest Notification'>
+            <![CDATA[
+            <Auth id='' state='REQUEST' sessionId='' connGroupId='' connId='' authEntityId=''/>
+            <Auth id='' state='CANCEL'/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='Presence Notification'>
+          <example caption='Presence Notification'>
+            <![CDATA[
+            <Presence jid='' value=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='ConnState Notification'>
+          <p>If value is Error - then code and msg are valid</p>
+          <example caption='ConnState Notification: CONNECTED'>
+            <![CDATA[
+            <ConnState sessionId='' connId='' value='CONNECTED'/>
+            ]]>
+          </example>
+          <example caption='ConnState Notification: Error'>
+            <![CDATA[
+            <ConnState sessionId='' connId='' value='ERROR' code='NNNN' msg='This is the error message'/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic='TimeLine Notification'>
+          <p>
+            Timelines exist for:
+            <br/>- the session, all connection groups, all connections, all entities.
+            <br/>PVR actions specify a new "target" Timeline for the scope they are issued at
+            <br/>When the entites involved achieve this "timeline" - they will send timeline update notifications into the session
+          </p>
+          <example caption='TimeLine Notification'>
+            <![CDATA[
+            <Timeline sessionId='' connGroupId='' connId='' offsetMode='ABSOLUTE/RELATIVE'>
+              <Start WC="2341234" Offset="0" TimeScale="1(Play)"/>
+              <Last WC="7444674" Offset="9678687" TimeScale="0(Pause)"/>
+            </Timeline>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+    </section2>
+    <section2 topic='Room Participant Entity Use Cases'>
+      <section3 topic='Operations'>
+        <section4 topic="Join">
+          <p>Join is once per session (not per role) w/ or w/o invite.</p>
+          <example caption='Join Request w/o invite'>
+            <![CDATA[
+            <Join sessionId=''/>
+            ]]>
+          </example>
+          <example caption='Join Request w/ invite'>
+            <![CDATA[
+            <Join sessionId='' inviteId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Leave">
+          <example caption='Leave Operation'>
+            <![CDATA[
+            <Leave sessionId='' kickId=''/>
+            ]]>
+          </example>
+        </section4>
+        <section4 topic="Auth">
+          <example caption='AuthResponse Operation'>
+            <![CDATA[
+            <Auth id='' state='ALLOW/DENY/REVOKE'/>
+            ]]>
+          </example>
+        </section4>
+      </section3>
+    </section2>
+    <section2 topic="Room IO Entity Use Cases">
+      <section3 topic="Setup Response(Join/ACK/Leave)"/>
+      <section3 topic="Action Response"/>
+      <section3 topic="Event"/>
+      <section3 topic="In-Band Protocol Message"/>
+    </section2>
+    <section2 topic="App Server Use Cases">
+      <section3 topic="Setup Request(Invite/Start/Update/End/Kick)"/>
+    </section2>
+    <section2 topic="Administrator Use Cases">
+      <section3 topic="Add Object">
+        <p>The following are some examples of Add Object Requests</p>
+        <example caption='Add Object'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <addrequest xmlns='ipvs:mediaroom:assetadminservice'
+                domain='default'
+                objtype='assetresourcelist'>
+      <data xmlns='ipvs:mediaroom:datamodel'/>
+    </addrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <example caption='Add partial XML under an Object by NID'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <addrequest xmlns='ipvs:mediaroom:assetadminservice'
+                domain='default'
+                objtype='assetresourcelist'>
+      <parentNID>zzzz_123455566667777</parentNID>
+      <data xmlns='ipvs:mediaroom:datamodel'/>
+    </addrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <example caption='Add partial XML under an Object by Where XPath'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='set'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <addrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'>
+      <parentWhereXPath>/*[//Title='tx1']</parentWhereXPath>
+      <data xmlns='ipvs:mediaroom:datamodel'/>
+    </addrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <p>If there is an error, the service MUST return an error to the user:</p>
+        <example caption='MediaRoom Service returns Error'>
+          <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='error'>
+  <error type='auth' code='2001'>
+    <not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+    <log xmlns='ipvs:mediaroom:service'>
+      No permissions to add node
+    </log>
+  </error>
+</iq>
+    ]]>
+        </example>
+        <p>Otherwise, the service MUST inform the user that the request was successfully executed:</p>
+        <example caption='MediaRoom Service informs User that request has been processed'>
+          <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'>
+  <response xmlns='ipvs:mediaroom:service'>
+    <addresponse>
+      <nid xmlns='ipvs:mediaroom:datamodel'/>
+    </addresponse>
+  </response>
+</ip>
+    ]]>
+        </example>
+      </section3>
+      <section3 topic="Delete Object"/>
+      <section3 topic="Get Object">
+        <p>The following are some examples of Get Object Requests</p>
+        <example caption='Get Object by NID'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'>
+      <objNID>zzzz_1234555666677777</objNID>
+    </getrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <example caption='Get Object List'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'>
+    </getrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <example caption='Get Object (List) by Where XPath'>
+          <![CDATA[
+<iq from='hag66@shakespeare.lit/pda'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='get'>
+  <request xmlns='ipvs:mediaroom:service'>
+    <getrequest xmlns='ipvs:ipvscollab:service:assetadmin'
+                domain='default'
+                objtype='assetresourcelist'>
+      <whereXPath>/*[//Groups[/Name='Location' && /Value='Sunnyvale']]</whereXPath>
+    </getrequest>
+  </request>
+</iq>
+    ]]>
+        </example>
+        <p>If there is an error, the service MUST return an error to the user:</p>
+        <example caption='MediaRoom Service returns Error'>
+          <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='error'>
+  <error type='cancel' code='1001'>
+    <item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+    <log xmlns='ipvs:mediaroom:service'>
+      Item not found
+    </log>
+  </error>
+</iq>
+    ]]>
+        </example>
+        <p>
+          Otherwise, the service MUST inform the user that the request was successfully executed.
+          If the request was a List request or a where Xpath based request, and no matching results were found,
+          the request is considered a sucess and a getresponse with no child nodes should be returned.
+          :
+        </p>
+        <example caption='MediaRoom Service returns requested nodes'>
+          <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'>
+  <response xmlns='ipvs:mediaroom:service'>
+    <getresponse>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+    </getresponse>
+  </response>
+</ip>
+    ]]>
+        </example>
+        <example caption='MediaRoom Service returns without any nodes'>
+          <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'>
+  <response xmlns='ipvs:mediaroom:service'>
+    <getresponse>
+    </getresponse>
+  </response>
+</ip>
+    ]]>
+        </example>
+      </section3>
+      <section3 topic="Edit Object"/>
+    </section2>
+    <section2 topic="Direct DB Access Use Cases">
+      <p>
+        Direct DB access is only used by IPVS App Service Agent
+        All DB operations are done in the context of an "Xquery".
+        No convinience functions are provided as this interface is not expected to be used by API clients.
+        The types of operations are:
+      </p>
+      <ol>
+        <li>'Get' queries - executions in the DB that return a result (set) of elements</li>
+        <li>'Update' queries - executions that update data in the DB</li>
+      </ol>
+      <p>
+        To start with all executions will happen within a seperate transaction and all the results will be sent back in one result.
+        Later we will introduce the notion of a transaction that stays open and the getNext is driven from the requestors side.
+      </p>
+      <p>The following are some examples of DB Xquery Requests</p>
+      <example caption='Xquery - get'>
+        <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='ipvsdb.company.com'
+    type='get'>
+  <xquery xmlns='ipvs:mediaroom:ipvsdb'
+          autoreply='true'
+          autosubscribe='true'
+          jid='hag66@shakespeare.lit/pda'>
+    <execute>for $d in document('xxxx', 'cccc')/* return $d</execute>
+  </xquery>
+</iq>
+  ]]>
+      </example>
+      <example caption='Xquery - update'>
+        <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='ipvsdb.company.com'
+    type='set'>
+  <xquery xmlns='ipvs:mediaroom:ipvsdb'
+          autoreply='false'
+          autosubscribe='true'
+          jid='hag66@shakespeare.lit/pda'>
+    <execute>UPDATE replace <aaa></aaa> in document('xxxx', 'cccc')/*</execute>
+  </xquery>
+</iq>
+  ]]>
+      </example>
+      <p>If there is an error, the service MUST return an error to the user:</p>
+      <example caption='MediaRoom Service returns Error'>
+        <![CDATA[
+<iq from='ipvsdb.company.com'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='error'>
+  <error type='modify' code='1001'>
+    <bad-request xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+    <log xmlns='ipvs:mediaroom:ipvsdb'>
+      Xquery execute error log here
+    </log>
+  </error>
+</iq>
+    ]]>
+      </example>
+      <p>
+        Otherwise, the service MUST inform the user that the request was successfully executed.
+        If no matching results were found,
+        the request is considered a sucess and a response with no child nodes should be returned.
+        :
+      </p>
+      <example caption='MediaRoom Service returns requested nodes directly to user - autoreply'>
+        <![CDATA[
+<iq from='ipvscollab.company.com'
+    id='reg2'
+    to='hag66@shakespeare.lit/pda'
+    type='result'>
+  <xquery xmlns='ipvs:mediaroom:ipvsdb'>
+    <result>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+      <node xmlns='ipvs:mediaroom:datamodel'/>
+    </result>
+  </xquery>
+</ip>
+    ]]>
+      </example>
+      <example caption='MediaRoom Service returns blank result to App Server - no autoreply'>
+        <![CDATA[
+<iq from='ipvsdb.company.com'
+    id='reg2'
+    to='ipvscollab.company.com'
+    type='result'>
+  <xquery xmlns='ipvs:mediaroom:ipvsdb'>
+    <result/>
+  </xquery>
+</ip>
+    ]]>
+      </example>
+      <section3 topic="Subscribe Unsubscribe">
+        <p>
+          Typically this can be handled by using the autosubscribe=true attribute during DB operations.
+          If explicit subscriptions are needed they are done using the following messages:
+        </p>
+        <p>The following are some examples of DB Subscribe/Unsubscribe Requests</p>
+        <example caption='Subscribe to an Object List'>
+          <![CDATA[
+  <message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'>
+    <subscribe xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'/>
+      <sub jid='witch44@shakespeare.lit/pda'
+           objtype='devicelist'/>
+    </subscribe>
+  </message>
+    ]]>
+        </example>
+        <example caption='Subscribe to an Object by NID'>
+          <![CDATA[
+  <message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'>
+    <subscribe xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_12347125311945283'/>
+      <sub jid='witch44@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_74935864306735496'/>
+    </subscribe>
+  </message>
+    ]]>
+        </example>
+        <example caption='UnSubscribe JID from all nodes'>
+          <![CDATA[
+  <message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'>
+    <unsubscribe xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub jid='hag66@shakespeare.lit/pda />
+    </unsubscribe>
+  </message>
+    ]]>
+        </example>
+        <example caption='UnSubscribe JID from Object List'>
+          <![CDATA[
+  <message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'>
+    <unsubscribe xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'/>
+    </unsubscribe>
+  </message>
+    ]]>
+        </example>
+        <example caption='UnSubscribe JID from Object by NID'>
+          <![CDATA[
+  <message from='ipvscollab.company.com'
+          id='reg2'
+          to='ipvsdb.company.com'
+          type='set'>
+    <unsubscribe xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub jid='hag66@shakespeare.lit/pda'
+           objtype='assetresourcelist'
+           objNID='zzzz_67598345702334545'/>
+    </unsubscribe>
+  </message>
+    ]]>
+        </example>
+        <p>
+          There is no need for a response if the operation succeeds.
+          However, if there is an error, the service MUST return an error to the user:
+        </p>
+        <example caption='DB Service returns Error'>
+          <![CDATA[
+<message from='ipvsdb.company.com'
+        id='reg2'
+        to='ipvscollab.company.com'
+        type='error'>
+  <error type='cancel' code='1001'>
+    <item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/>
+    <log xmlns='ipvs:mediaroom:ipvsdb'>
+      Xquery execute error log here
+    </log>
+  </error>
+</message>
+    ]]>
+        </example>
+      </section3>
+      <section3 topic="DB Change Notification">
+        <p>
+          Based on either auto subscription or explicit Subscribe/Unsubscribe requests
+          the DB service will notify the subscribed JID when the resp nodes in the DB are modified.
+        </p>
+        <p>The following are some examples of DB Change Notification messages</p>
+        <example caption='DB Change Notification - List add'>
+          <![CDATA[
+  <message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'>
+    <notification xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub objtype='assetresourcelist'/>
+      <payload update='add'>
+        <node xmlns='ipvs:mediaroom:datamodel'>
+      </payload>
+    </notification>
+  </message>
+    ]]>
+        </example>
+        <example caption='DB Change Notification - List delete'>
+          <![CDATA[
+  <message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'>
+    <notification xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub objtype='assetresourcelist'/>
+      <payload update='delete'>
+        <objNID xmlns='ipvs:mediaroom:datamodel'>
+      </payload>
+    </notification>
+  </message>
+    ]]>
+        </example>
+        <example caption='DB Change Notification - Object change'>
+          <![CDATA[
+  <message from='ipvsdb.company.com'
+          id='reg2'
+          to='hag66@shakespeare.lit/pda'
+          type='set'>
+    <notification xmlns='ipvs:mediaroom:ipvsdb'>
+      <sub objtype='assetresourcelist'
+           objNID='zzzz_74935864306735496'/>
+      <payload update='replace'>
+        <node xmlns='ipvs:mediaroom:datamodel'>
+      </payload>
+    </notification>
+  </message>
+    ]]>
+        </example>
+      </section3>
+    </section2>
+  </section1>
+  <section1 topic='Business Rules' anchor='rules'>
+    <p>OPTIONAL.</p>
+  </section1>
+  <section1 topic='Implementation Notes' anchor='impl'>
+    <p>OPTIONAL.</p>
+  </section1>
+  <section1 topic='Accessibility Considerations' anchor='access'>
+    <p>OPTIONAL.</p>
+  </section1>
+  <section1 topic='Internationalization Considerations' anchor='i18n'>
+    <p>OPTIONAL.</p>
+  </section1>
+  <section1 topic='Security Considerations' anchor='security'>
+    <p>REQUIRED.</p>
+  </section1>
+  <section1 topic='IANA Considerations' anchor='iana'>
+    <p>REQUIRED.</p>
+  </section1>
+  <section1 topic='XMPP Registrar Considerations' anchor='registrar'>
+    <p>REQUIRED.</p>
+  </section1>
+  <section1 topic='XML Schema' anchor='schema'>
+    <section2 topic='Object Schema'>
+      <p>
+        <link url='../xsd/mediaroom.service.datamodel.xsd'>Object Datamodel</link>
+      </p>
+    </section2>
+    <section2 topic='App Message Schema'>
+      <p>
+        <link url='../xsd/mediaroom.service.xsd'>App Message Schema</link>
+      </p>
+    </section2>
+    <section2 topic='MediaRoom Message Schema'>
+      <p>
+        <link url='../xsd/mediaroom.mediaroomservice.xsd'>MediaRoom Message Schema</link>
+      </p>
+    </section2>
+    <section2 topic='Admin Message Schema'>
+      <p>
+        <link url='../xsd/mediaroom.assetadminservice.xsd'>Asset Admin Message Schema</link>
+      </p>
+      <p>
+        <link url='../xsd/mediaroom.policyadminservice.xsd'>Policy Admin Message Schema</link>
+      </p>
+    </section2>
+  </section1>
+</xep>

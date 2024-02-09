@@ -1,0 +1,112 @@
+<StartSessionRequest>
+<StartSessionRequestData>
+<StartSession sessionId="none">
+<Session id='' >
+  <Properties sessionConfigNID='' ownerUserJID='' dateCreated='' playlength=''/>	
+  <Groups>
+    <Tag Name="" Value=""/>
+  </Groups>
+  
+  <MetaData>
+    <Tag Name=''></Tag>
+  </MetaData>
+  
+  
+  <GrpFileList>
+    <GrpFile type='SyncPly' id='' resourceNID='' resourceTitle='' dateCreated=''
+                                  recSessionConfigId='' recSessionId=''
+                                  syncEntityId=''/>
+    <GrpFile type='SyncRec' id='' resourceNID='' resourceTitle=''>
+	    <MetaData>
+	       <Tag Name=''></Tag>
+	    </MetaData>
+    </GrpFile>
+  </GrpFileList>
+ 
+  <DirList>
+    <Dir id='' resourceNID='' resourceTitle=''/>
+  </DirList>
+  
+  <ProfileList>
+    <Profile id='' name='' profileNID=''/>
+  </ProfileList>
+  
+  
+  <EntityList>
+    <Entity type='SrcPort' id='' name='' streamType='' presence=''>
+      <User userNID="" username="" userJID=""></User>
+      <Port type='' resourceNID='' resourceTitle=''/>
+      <PVR enable='true' trimLength='' connId='' recEntityId='' plyEntityId=''/>
+    </Entity>
+    <Entity type='DstPort' id='' name='' streamType='' presence=''>
+      <User userNID="" username="" userJID=""></User>
+      <Port type='' resourceNID='' resourceTitle=''/>
+    </Entity>
+    <Entity type='RlyPort' id='' name='' streamType='' presence=''>
+      <User userNID="" username="" userJID=""></User>
+      <Port type='' resourceNID='' resourceTitle=''/>
+    </Entity>
+    <Entity type='PlyFile' id='' name='' streamType='' presence=''>
+      <User userNID="" username="" userJID=""></User>
+      <File type='' resourceNID='' resourceTitle='' dirId='' grpFileId='' startOffset='' playLength=''/>
+    </Entity>
+    <Entity type='AuthClient' id='' name='' streamType='' presence=''>
+       <User userNID="" username="" userJID=""></User>
+       <AuthCtrl resourceNID="" resourceTitle=""></AuthCtrl>
+    </Entity>
+    <Entity type='RecFile' id='' name='' streamType='' presence='' >
+      <User type='' resourceNID='' resourceTitle='' userJID='' />
+      <File type='' resourceNID='' resourceTitle='' dirId='' grpFileId='' 
+          key=''  action='' keyMetaDataTagName=''>
+	      <MetaData>
+	         <Tag Name=''></Tag>
+	      </MetaData>
+      </File>
+      <Port type='' resourceNID='' resourceTitle=''/>
+    </Entity>
+    <Entity type='PVRFile' id='' name='' streamType='' presence=''>
+      <User userNID="" username="" userJID=""></User>
+      <File type='' resourceNID='' resourceTitle='' dirId='' trimLength=''/>
+      <Port type='' resourceNID='' resourceTitle=''/>
+    </Entity>
+  </EntityList>
+
+  <ConnectionList>
+    <Connection type='STREAM' id='' gid='' name='' mode='AUTO/ONDEMAND'
+                  srcEntityId='' dstEntityId='' profileId='' authEntityId=''
+                  streamURL='' state='' timelineId=''>          
+    </Connection>
+    <Connection type='RECORD' id='' gid='' name='' mode='AUTO/ONDEMAND'
+                srcEntityId='' dstEntityId='' profileId='' authEntityId=''
+                streamURL='' state='' timelineId=''>          
+    </Connection>
+    <Connection type='PVR' id='' gid='' name='' mode='AUTO/ONDEMAND'
+                srcEntityId='' dstEntityId='' profileId='' authEntityId=''
+                streamURL='' state='' timelineId=''>         
+    </Connection>
+  </ConnectionList>
+
+</Session>
+</StartSession>
+</StartSessionRequestData>
+<StartSessionResponseData>
+</StartSessionResponseData>
+<StartSessionExceptionCodes>
+	//Common exception codes 40xx series
+	public static final int SESSION_ID_DOES_NOTEXISTS = 4001;
+	
+	// Entity Exception Codes 41xx series
+    public static final int CANNOT_CREATE_GROUPFILE =  4101;
+	public static final int CANNOT_CREATE_MEDIAFILE =  4102;
+	public static final int MEDIASOURCE_ERROR =  4103;
+	public static final int MEDIADEST_ERROR =  4104;
+
+	// Connection Exception Codes 42xx series
+	public static final int SOURCE_ENTITY_ERROR =  4201;
+	public static final int DEST_ENTITY_ERROR =  4202;
+	public static final int CONNECTION_SETUP_FAILED =  4203;
+
+	// Misc 43xx series
+	public static final int DESTDIR_NOT_FOUND =  4302;
+</StartSessionExceptionCodes>
+</StartSessionRequest>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipvsdbservice>
+    <!-- enum type = importDB, importMediaDir, importMediaFile -->
+    <request DBCallTimeOut="" domain="" type="importMediaDir" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  importDB or importMediaDir or  ImportMediaFile -->
+        
+	    <!--  importMediaDir -->
+        <importMediaDir>
+            <params>
+                <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+            </params>
+            <!--  optional  -->
+            <scriptFilePath>importDB_mediaDir.xml</scriptFilePath>
+            <zipFolderPath>/data/mediadir/importdb</zipFolderPath>
+        </importMediaDir>
+        
+        <!--  or  importMediaFile -->
+        <importMediaFile>
+            <params>
+                <mediaStreamFileResourceNID>default.mediastreamfileresourcelist.msfrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamFileResourceNID>
+            </params>
+            <!--  optional  -->
+            <scriptFilePath>importDB_mediaFile.xml</scriptFilePath>
+            <zipFolderPath>/data/mediadir/importdb</zipFolderPath>
+        </importMediaFile>
+        
+        <!-- todo: or importDB -->
+        <importDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </importDB>
+        
+        <!-- todo: or restoreDB -->
+        <restoreDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </restoreDB>
+        
+        <!-- todo: or restoreFactoryDB -->
+        <restoreFactoryDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </restoreFactoryDB>
+        
+        <!-- todo: or restoreLastBackupDB -->
+        <restoreLastBackupDB>
+            <params>
+                <!-- todo -->
+            </params>
+        </restoreLastBackupDB>        
+    </request>
+
+    <response  DBCallTimeOut="" domain="" type="importMediaDir" xmlns="ipvs:mediaroom:ipvsdbservice">
+        <!--  choice =  importDB or importMediaDir or  importMediaFile -->
+        <DBResp>
+        
+	        <!--  importMediaDir -->
+            <importMediaDir>
+                <params>
+                    <mediaStreamDirResourceNID>default.mediastreamdirresourcelist.msdrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamDirResourceNID>
+                </params>
+            </importMediaDir>
+	
+	        <!--  or  importMediaFile -->
+            <importMediaFile>
+                <params>
+                    <mediaStreamFileResourceNID>default.mediastreamfileresourcelist.msfrl_0424eb84-5519-47de-acf3-86865a4f8d37</mediaStreamFileResourceNID>
+                </params>
+            </importMediaFile>
+            
+            <!--   todo: or  importDB -->
+            <importDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </importDB>
+            
+            <!--  todo: or  restoreDB -->
+            <restoreDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </restoreDB>
+            
+            <!--  todo: or  restoreFactoryDB -->
+            <restoreFactoryDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </restoreFactoryDB>
+            
+            <!--  todo: or  restoreLastBackupDB -->
+            <restoreLastBackupDB>
+                <params>
+                    <!-- todo -->
+                </params>
+            </restoreLastBackupDB>                
+        </DBResp>
+    </response>
+</ipvsdbservice>

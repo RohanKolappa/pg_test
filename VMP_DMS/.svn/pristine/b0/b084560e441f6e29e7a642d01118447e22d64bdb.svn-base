@@ -1,0 +1,82 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+CTAGS-FILE		:=	tags
+
+JBS_CTAGS-APP	:=	ctags
+
+ifdef JBS_AUTO_REBUILD_TAGS
+JBS_AUTO-REBUILD-TAGS	:=	$(JBS_AUTO_REBUILD_TAGS)
+else
+JBS_AUTO-REBUILD-TAGS	:=	0
+endif
+
+.PHONY : JBS_AUTO-REBUILD-TAGS
+
+export JBS_AUTO-REBUILD-TAGS
+
+###############################################################################
+
+ifeq "$(target-type)" "none"
+
+local-tag :
+
+else
+
+ifeq "$(call mod-utils-check-on, $(JBS_AUTO-REBUILD-TAGS))" "true"
+local-target : $(CTAGS-FILE)
+endif
+
+DISTCLEAN-FILES		+= $(CTAGS-FILE)
+
+mod-tag-needed-deps-files	:=	$(foreach				\
+								d,				\
+								$(build-needed-deps),		\
+								$($(d)-linkdir)/$(CTAGS-FILE))
+
+local-tag : $(mod-tag-needed-deps-files) $(CTAGS-FILE)
+
+$(mod-tag-needed-deps-files) :
+	@$(MAKE) $(make-recurse-opt) -C $(dir $@) local-tag
+
+tag-files		:= $(strip $(compile-final-sources) $(compile-final-csources) $(compile-final-headers))
+
+ifneq "$(tag-files)" ""
+
+$(CTAGS-FILE) : $(tag-files)
+	@$(call mod-echo-tag,$(target-name) [$(JBS_REL_DIR)])
+	@$(JBS_CTAGS-APP) -f $(CTAGS-FILE) $^
+
+else
+
+$(CTAGS-FILE) :
+
+endif
+
+endif
+
+.PHONY: local-tag tag $(mod-tag-needed-deps-files)
+
+###############################################################################
+

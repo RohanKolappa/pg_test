@@ -1,0 +1,42 @@
+<query>
+   <![CDATA["
+let $startFrom := _STARTFROM_ 
+let $countToFetch := _COUNTTOFETCH_ 
+let $list2  := for $b in #OBJ_MediaStoreAdminPolicyRule_OBJ# 
+where $b[not((MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='Read' and MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='Record') 
+            or (MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='Read' and MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='PVR')
+            or (MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='Read' and MediaStoreAdminRoleSet/MediaStoreAdminObjectRole/RoleAction='Playback')
+            )]
+and $b_WHEREXPATH_
+order by _SORTXPATH_  _SORTORDER_
+return $b
+let $list3 := subsequence($list2, $startFrom, $countToFetch)
+let $list := for $b in  $list3
+return 
+<record  
+jsxid='{ data($b/@NID) }'  
+index='{ data($b//order) }'  
+NID='{ data($b/@NID)  }'
+jsxtext='{ data($b//rulename) }' 
+jsximg='{ if (data($b//valid) = 'true') 
+              then 'images/icons/ok16.png' 
+              else 'images/icons/off16.png' }'
+jsxMediaStorePolicyType='{ if (data($b//allow) = 'true') 
+                                  then 'Allow' 
+                                  else 'Deny' }'
+jsxMediaStorePolicyRoles='{data('')}'
+jsxMediaStorePolicyUserFilter='{data('')}'
+jsxMediaStorePolicyTargetFilter='{data('')}'
+jsxMediaStorePolicyRuleKeyFilter='{data('')}'
+jsxImageMediaStorePolicyexpandCollapse= '{data('images/icons/arrowDown.gif')}'
+> 
+</record>
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+ return <result>{$result}</result>"]]>
+</query>

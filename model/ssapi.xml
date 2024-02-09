@@ -1,0 +1,695 @@
+<SSAPI>
+	<Streamer>
+		<Name>Generic<!--Applies to all streamer objects--></Name>
+		<CreateParameters>
+			<Parameter>
+				<Name>id</Name>
+				<Description>A unique object ID</Description>
+				<Type>Integer</Type>
+			</Parameter>
+		</CreateParameters>
+	</Streamer>
+    <Streamer>
+        <Name>V2DDecoderPort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>dstport</Name>
+    			<Description>Server Port</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastttl</Name>
+    			<Description>Time to Live</Description>
+				<Type>Integer</Type>
+				<Default>1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastaddr</Name>
+    			<Description>Multicast Address</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>maxbitrate</Name>
+    			<Description>Max output bandwidth</Description>
+				<Type>Integer</Type>
+				<Default>100 mbps</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>v2dtx</Name>
+    			<Description>Whether we are on real TX</Description>
+				<Type>Boolean</Type>
+				<Default>0</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>listener</Name>
+    			<Description>Start a new connection if requested</Description>
+				<Type>Boolean</Type>
+				<Default>0</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>policycheck</Name>
+    			<Description>Authorize connection based on policy file</Description>
+				<Type>Boolean</Type>
+				<Default>1</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>policyfile</Name>
+    			<Description>Authorize connection based on policy file</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>interface</Name>
+    			<Description>Interface to use for multicast</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>    		
+    	</CreateParameters>
+    	<UpdateParameters>
+    		<Parameter>
+    			<Name>port</Name>
+    			<Description>Must be same as the one passed at create time</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>sockfd</Name>
+    			<Description>Audio/video/control socket for HTTP connection</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>tcpcontrolfd</Name>
+    			<Description>Control socket</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>bandwidth</Name>
+    			<Description>Maximum output bandwidth</Description>
+				<Type>Integer</Type>
+				<Default>100 Mbps</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>enablesrd</Name>
+    			<Description>Toggle SRD On/Off</Description>
+				<Type>Boolean</Type>
+				<Default>True</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>srdpolicy</Name>
+    			<Description>SRD Stereo frames policy</Description>
+				<Type>String</Type>
+				<Default>Source</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>debugslices</Name>
+    			<Description>Send SRD Debug slices</Description>
+				<Type>Boolean</Type>
+				<Default>False</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>markslices</Name>
+    			<Description>Send Marker slices</Description>
+				<Type>Boolean</Type>
+				<Default>False</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>disconnectall</Name>
+    			<Description>Disconnect the client</Description>
+				<Type>Boolean</Type>
+				<Default>None</Default>
+    		</Parameter>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+    </Streamer>
+    <Streamer>
+    	<Name>DMSMediaPort</Name>
+    	<Type>Reader</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcname</Name>
+    			<Description>Media name</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>   	
+    		<Parameter>
+    			<Name>srcdir</Name>
+    			<Description>Path to the media</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>  
+    		<Parameter>
+    			<Name>tc</Name>
+    			<Description>Absolute timestamp from which to start reading</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>   	
+    		<Parameter>
+    			<Name>offset</Name>
+    			<Description>Offset in milliseconds from where to start reading</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>   	   		 	
+    	</CreateParameters>
+    	<NotificationList>
+	    	<Notification>
+    			<Type>Error</Type>	    	
+    			<Code>11</Code>
+    			<Description>FileRead</Description>
+    		</Notification>
+    	</NotificationList>   	
+    </Streamer>
+    <Streamer>
+    	<Name>DMSRecorderPort</Name>
+    	<Type>Writer</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>dstname</Name>
+    			<Description>Media name</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>   	
+    		<Parameter>
+    			<Name>dstdir</Name>
+    			<Description>Path to the media</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>  
+    		<Parameter>
+    			<Name>trimlength</Name>
+    			<Description>Currently unused</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>   	
+    	</CreateParameters>
+    	<NotificationList>
+    		<Notification>
+    			<Type>Error</Type>
+    			<Code>10</Code>
+    			<Description>FileOpen</Description>
+    		</Notification>
+    		<Notification>
+    			<Type>Error</Type>    		
+    			<Code>12</Code>
+    			<Description>FileWrite</Description>
+    		</Notification>
+    	</NotificationList>    	
+    </Streamer>
+    <Streamer>
+    	<Name>DeleterPort</Name>
+    	<Type>Writer</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>deletedir</Name>
+    			<Description>The directory to delete</Description>
+				<Type>String</Type>
+				<Default>/data/DSS/data/portal/site/default/trash</Default>
+    		</Parameter>   	
+    	</CreateParameters>
+    	<NotificationList>
+    		<Notification>
+    			<Type>Error</Type>    		
+    			<Code>12</Code>
+    			<Description>FileWrite</Description>
+    		</Notification>
+    	</NotificationList>    	
+    </Streamer>    
+    <Streamer>
+    	<Name>V2DMediaPort</Name>
+    	<Type>Reader</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcname</Name>
+    			<Description>Media name</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>   	
+    		<Parameter>
+    			<Name>srcdir</Name>
+    			<Description>Path to the media</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>  
+    		<Parameter>
+    			<Name>tc</Name>
+    			<Description>Absolute timestamp from which to start reading</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>   	
+    		<Parameter>
+    			<Name>offset</Name>
+    			<Description>Offset in milliseconds from where to start reading</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>   	   		 	
+    	</CreateParameters>
+    	<NotificationList>
+    	</NotificationList>    	
+    </Streamer>    
+    <Streamer>
+    	<Name>AnyMediaPort</Name>
+    	<Type>Reader</Type>
+    </Streamer>    
+    <Streamer>
+    	<Name>AnyRecorderPort</Name>
+    	<Type>Writer</Type>
+    </Streamer>    
+    <Streamer>
+        <Name>WISEncoderPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcport</Name>
+    			<Description>Source Port</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>UDPNetworkPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcport</Name>
+    			<Description>Source Port</Description>
+				<Type>Integer</Type>
+				<Default>6001</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastaddr</Name>
+    			<Description>Multicast Address</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>perfinterval</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>generatebw</Name>
+    			<Description>Generate BW</Description>
+				<Type>String</Type>
+				<Default>0</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>WISNetworkPort</Name>
+    	<Type>Receiver</Type>
+	</Streamer>
+    <Streamer>
+        <Name>VNCNetworkPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>rfbip</Name>
+    			<Description>Server IP Address</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>rfbpasswd</Name>
+    			<Description>Password Buffer</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>rfbport</Name>
+    			<Description>Port</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>    		
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>V2DNetworkPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcip</Name>
+    			<Description>Source (Tx) IP Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>srcbitrate</Name>
+    			<Description>Source Bitrate</Description>
+				<Type>String</Type>
+				<Default>26214400</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>srcport</Name>
+    			<Description>Source listner Port</Description>
+				<Type>Integer</Type>
+				<Default>6060</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>srcmulticast</Name>
+    			<Description>If source is Multicast</Description>
+				<Type>Boolean</Type>
+				<Default>0</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>avoption</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>3</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>videoport</Name>
+    			<Description>Video Port</Description>
+				<Type>Integer</Type>
+				<Default>6070</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>audioport</Name>
+    			<Description>Audio Port</Description>
+				<Type>Integer</Type>
+				<Default>6071</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>httpport</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>    		
+    	</CreateParameters>
+    	<UpdateParameters>
+    		<Parameter>
+    			<Name>mousex</Name>
+    			<Description>Mouse event: X</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mousey</Name>
+    			<Description>Mouse event: Y</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>buttonmask</Name>
+    			<Description>Mouse event : ButtonMask</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>fullscreen_refresh</Name>
+    			<Description>Full screen refresh message to the connected server</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>RTPNetworkPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>srcip</Name>
+    			<Description>Source (Tx) IP Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>videoport</Name>
+    			<Description>Video Port</Description>
+				<Type>Integer</Type>
+				<Default>3000</Default>
+    		</Parameter>    		
+    		<Parameter>
+    			<Name>audioport</Name>
+    			<Description>Audio Port</Description>
+				<Type>Integer</Type>
+				<Default>3002</Default>
+    		</Parameter>    		
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>SchedulerPort</Name>
+    	<Type>Receiver</Type>
+	</Streamer>
+    <Streamer>
+        <Name>V2DEncoderPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>ioport</Name>
+    			<Description>IO Port</Description>
+				<Type>Integer</Type>
+				<Default>1</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>MPEGTSNetworkPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>multicastip</Name>
+    			<Description>Multicast IP Address</Description>
+				<Type>String</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>srcip</Name>
+    			<Description>Source IP Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>dstport</Name>
+    			<Description>Destination Port</Description>
+				<Type>Integer</Type>
+				<Default>3000</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>V2DAudioEncoderPort</Name>
+    	<Type>Receiver</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>audiotype</Name>
+    			<Description>Audio Type</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>ioport</Name>
+    			<Description>ioport describes the channel number</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>AnyNetworkPort</Name>
+    	<Type>Receiver</Type>
+	</Streamer>
+
+    <Streamer>
+        <Name>UDPDecoderPort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>dstaddr</Name>
+    			<Description>Destination Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>dstport</Name>
+    			<Description>Destination port</Description>
+				<Type>Integer</Type>
+				<Default>60002</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastttl</Name>
+    			<Description>Multicast time to live</Description>
+				<Type>Integer</Type>
+				<Default>1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>perfinterval</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>interface</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>MPEGTSDecoderPort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>dstaddr</Name>
+    			<Description>Destination Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>dstport</Name>
+    			<Description>Destination port</Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastttl</Name>
+    			<Description>Multicast time to live</Description>
+				<Type>Integer</Type>
+				<Default>1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>interface</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>RTPDecoderPort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>dstaddr</Name>
+    			<Description>Destination Address</Description>
+				<Type>String</Type>
+				<Default>127.0.0.1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>dstport</Name>
+    			<Description>Destination port</Description>
+				<Type>Integer</Type>
+				<Default>300</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>mcastttl</Name>
+    			<Description>Multicast time to live</Description>
+				<Type>Integer</Type>
+				<Default>1</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>videoclockrate</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>90000</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>audioclockrate</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>48000</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>interface</Name>
+    			<Description></Description>
+				<Type>Integer</Type>
+				<Default>0</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>V2DFastFwdPort</Name>
+    	<Type>Sender</Type>
+	</Streamer>
+    <Streamer>
+        <Name>V2DHardWarePort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>ioport</Name>
+    			<Description>ioport describes the channel number</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+	</Streamer>
+    <Streamer>
+        <Name>V2DAudioDecoderPort</Name>
+    	<Type>Sender</Type>
+    	<CreateParameters>
+    		<Parameter>
+    			<Name>audiotype</Name>
+    			<Description>Audio Type</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    		<Parameter>
+    			<Name>ioport</Name>
+    			<Description>ioport describes the channel number</Description>
+				<Type>Integer</Type>
+				<Default>None</Default>
+    		</Parameter>
+    	</CreateParameters>
+    	<UpdateParameters>
+    	</UpdateParameters>
+    	<NotificationList>
+    	</NotificationList>
+    </Streamer>
+    <Streamer>
+        <Name>AnyDecoderPort</Name>
+    	<Type>Sender</Type>
+    </Streamer>
+</SSAPI>

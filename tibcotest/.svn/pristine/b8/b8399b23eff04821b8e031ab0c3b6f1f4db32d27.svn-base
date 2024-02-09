@@ -1,0 +1,223 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Splitter - V]]></name>
+  <icon><![CDATA[images/prototypes/splitter-side.gif]]></icon>
+  <description><![CDATA[Splitter (side-by-side panes)]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Splitter">
+    <variants jsxleft="0" jsxtop="0" jsxsubcontainer1min="220"></variants>
+    <strings jsxname="splitter ( | )" jsxsubcontainer1pct="30%"></strings>
+    <dynamics jsxbgcolor="P1BG"></dynamics>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkGroupTagNamesContainer" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="blkGroupTagNames" jsxrows="35,30,*,220" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #777777"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="header" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="2 0 0 0" jsxborder="border-bottom:solid 1px #999999" jsxbgcolor="#d6d6d6"></strings>
+          <dynamics jsxcolor="@Dark"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="7" jsxfontsize="16"></variants>
+            <strings jsxname="lblGroupTags" jsxtext="Tag Names" jsxdisplay="" jsxfontweight="normal"></strings>
+            <dynamics jsxcolor="@Dark"></dynamics>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkMenu" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999"></strings>
+          <dynamics jsxbgcolor="Sub Menu BG"></dynamics>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="15" jsxtop="5"></variants>
+            <strings jsxname="btnAddGroupTagPolicy" jsximage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskAddDsbl.png" jsxdisplay="" jsxmargin="3 4 4 4" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskAddOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskAddDown.png" jsxtip="Add tag name"></strings>
+            <events jsxexecute="cmpGroupTagName_btnAddOnClick();"></events>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxenabled="0" jsxleft="75" jsxtop="5"></variants>
+            <strings jsxname="btnDeleteGroupTagPolicy" jsximage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDsbl.png" jsxdisplay="" jsxmargin="3 4 4 4" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDown.png" jsxtip="Delete tag name"></strings>
+            <events jsxexecute="cmpGroupTagName_btnDeleteOnClick()"></events>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxenabled="0" jsxleft="135" jsxtop="5"></variants>
+            <strings jsxname="btnEditGroupTagPolicy" jsxtext="[button text]" jsximage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskEditDsbl.png" jsxdisplay="none" jsxmargin="3 4 4 4"></strings>
+            <events jsxexecute="cmpGroupTagName_btnEditOnClick();"></events>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkTagList" jsxwidth="100%" jsxheight="100%" jsxcolor="" jsxborder="border-top:solid 1px #efefef"></strings>
+          <dynamics jsxbgcolor="Panel BG" jsxpadding="@8Pixel"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkPadding" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxborder="solid 1px #777777"></strings>
+            <dynamics jsxbgcolor="P4BG"></dynamics>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppressvscroll="0" jsxsuppresshscroll="0" jsxrowheight="22" _isMouseDown="true"></variants>
+              <strings jsxname="mtxGroupTagName" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+              <dynamics jsxbgcolor="P4BG" jsxselectionbg="Matrix Selection BG"></dynamics>
+              <events jsxexecute="" jsxselect="cmpGroupTagName_OnSelect();"></events>
+              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxresize="0"></variants>
+                <strings jsxname="icon" jsxtext="&amp;#160;" jsxwidth="20" jsxcellpadding="2" jsxpath="jsximg" jsxvaluetemplate="@image" jsxcellbgcolor="#e7e7e7" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none" jsxpadding="2 2 2 4"></strings>
+                <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="180"></variants>
+                <strings jsxname="mcTagName" jsxtext="Names" jsxpadding="2 2 2 4" jsxcellpadding="2" jsxpath="jsxtext" jsxcellbgcolor="#f5f5f5;" jsxcellborder="border-bottom: solid 1px #d3d3d3;"></strings>
+                <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown"></dynamics>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkGroupTagProperties" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="center" jsxpadding="5 0 5 0"></strings>
+          <dynamics jsxbgcolor="Panel BG"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="26" jsxfontsize="12"></variants>
+            <strings jsxname="label" jsxtext="Tag Properties" jsxwidth="100%" jsxpadding="5 0 0 8" jsxclassname="H1" jsxborder="solid 1px #d4d4d4;" jsxdisplay="none"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="block" jsxwidth="90%" jsxheight="100%" jsxrelativeposition="1" jsxborder="1px solid #9898a5;1px solid #ffffff;1px solid #ffffff;1px solid #9898a5"></strings>
+            <dynamics jsxpadding="@8Pixel" jsxbgcolor="P4BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="10"></variants>
+              <strings jsxname="label" jsxtext="This tag is assigned to:" jsxfontweight="bold" jsxdisplay=""></strings>
+              <dynamics jsxfontsize="BaseText"></dynamics>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="38" jsxfontsize="10"></variants>
+              <strings jsxname="lblAssets" jsxtext="Devices" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="38" jsxfontsize="10"></variants>
+              <strings jsxname="lblDevices" jsxtext="Devices" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="58" jsxfontsize="10"></variants>
+              <strings jsxname="lblUser" jsxtext="Users" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="138" jsxfontsize="10"></variants>
+              <strings jsxname="lblMediaRoom" jsxtext="MediaRoom" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="78" jsxfontsize="10"></variants>
+              <strings jsxname="lblProfile" jsxtext="Profiles" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="98" jsxfontsize="10"></variants>
+              <strings jsxname="lblPorts" jsxtext="Ports" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="46" jsxtop="118" jsxfontsize="10"></variants>
+              <strings jsxname="lblMedia" jsxtext="Media" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="38" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyAsset1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="58" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyDevice1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="58" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyUser1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="138" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyMediaRoom1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="78" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyProfile1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="98" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyResource1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="28" jsxtop="118" jsxwidth="13" jsxheight="13"></variants>
+              <strings jsxname="chkTagPropertyMedia1" jsxsrc="images/buttons/checkOff.gif" jsxdisplay=""></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkFilterProperties" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+            <dynamics jsxbgcolor="Panel BG"></dynamics>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="blkGroupTagValuesContainer" jsxwidth="100%" jsxheight="100%" jsxborder="solid 1px #777777" jsxcolor=""></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="35,30,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="2 0 0 0" jsxborder="border-bottom:solid 1px #999999" jsxbgcolor="#d6d6d6"></strings>
+          <dynamics jsxcolor="@Dark"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="7" jsxfontsize="16"></variants>
+            <strings jsxname="lblGroupTagValue" jsxtext="Tag Values" jsxdisplay="" jsxfontweight="normal"></strings>
+            <dynamics jsxcolor="@Dark"></dynamics>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkMenu" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxborder="border-top:solid 1px #efefef;border-bottom:solid 1px #999999"></strings>
+          <dynamics jsxbgcolor="Sub Menu BG"></dynamics>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="15" jsxenabled="0" jsxtop="5"></variants>
+            <strings jsxname="btnAddGroupTagValuePolicy" jsximage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskAddUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskAddDsbl.png" jsxdisplay="" jsxmargin="3 4 4 4" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskAddOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskAddDown.png" jsxtip="Add tag value"></strings>
+            <events jsxexecute="cmpGroupTagValue_btnAddOnClick();"></events>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="75" jsxenabled="0" jsxtop="5"></variants>
+            <strings jsxname="btnDeleteGroupTagValuePolicy" jsximage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDsbl.png" jsxdisplay="" jsxmargin="3 4 4 4" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnTskDeleteDown.png" jsxtip="Delete tag value"></strings>
+            <events jsxexecute="cmpGroupTagValue_btnDeleteOnClick();"></events>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+            <variants jsxwidth="50" jsxheight="19" jsxtype="1" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="135" jsxenabled="0" jsxtop="5"></variants>
+            <strings jsxname="btnEditGroupTagValuePolicy" jsxtext="[button text]" jsximage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnTskEditUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnTskEditDsbl.png" jsxdisplay="none" jsxmargin="3 4 4 4"></strings>
+            <events jsxexecute="cmpGroupTagValue_btnEditOnClick();"></events>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkGroupTagValues" jsxwidth="100%" jsxheight="100%" jsxborder="border-top:solid 1px #efefef"></strings>
+          <dynamics jsxbgcolor="P4BG"></dynamics>
+          <object type="jsx3.gui.Matrix">
+            <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppressvscroll="0" jsxsuppresshscroll="0" jsxrowheight="22"></variants>
+            <strings jsxname="mtxGroupTagValue" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxsortpath="jsxtext" jsxsorttype="text" jsxsortdirection="descending"></strings>
+            <dynamics jsxbgcolor="P3BG" jsxselectionbg="Matrix Selection BG"></dynamics>
+            <events jsxexecute="" jsxselect="cmpGroupTagName_OnSelect();"></events>
+            <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxresize="0"></variants>
+              <strings jsxname="icon" jsxtext="&amp;#160;" jsxwidth="20" jsxcellpadding="2" jsxpath="jsximg" jsxvaluetemplate="@image" jsxcellbgcolor="#e7e7e7" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none" jsxpadding="2 2 2 4"></strings>
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="180"></variants>
+              <strings jsxname="mcTagValue" jsxtext="Values" jsxpadding="2 2 2 4" jsxcellpadding="2" jsxpath="jsxtext" jsxcellbgcolor="#f5f5f5;" jsxcellborder="border-bottom: solid 1px #d3d3d3;"></strings>
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown"></dynamics>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkGroupTagPagination" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxborder="border-top:solid 1px #999999"></strings>
+          <dynamics jsxbgcolor="Pagination BG"></dynamics>
+          <include src="components/pagination.xml" async="false"></include>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

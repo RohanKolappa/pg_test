@@ -1,0 +1,124 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+-include $(JBS_TOP_DIR)/$(JBS_DEFS_FILE)
+
+###############################################################################
+### First of all, let's include the user's view of what has to be done in the
+### current directory.
+
+include $(JBS_MAKE_DIR)/Make.module.helpers
+
+include $(JBS_CUR_DIR)/Make.target
+
+ifeq "$(target-type)" ""
+target-type	:=	none
+endif
+
+###############################################################################
+### Fix availability flag.
+
+mod-utils-check-on	=	$(if $(findstring x$(strip $(1))x,x1x xYx xyx xyesx xYesx xYESx),true,false)
+
+###############################################################################
+### Fix local user settings based on system-wide settings.
+
+### ... static vs. shared
+
+ifeq "$(call mod-utils-check-on, $(JBS_STATIC))" "true"
+ifeq "$(target-type)" "dll"
+target-type	:=	lib
+endif
+ifeq "$(target-type)" "exe"
+target-static	:=	yes
+endif
+endif
+
+### ... target-profile
+
+ifeq "$(call mod-utils-check-on, $(JBS_PROFILE))" "true"
+ifneq "$(target-profile)" "no"
+target-profile	:=	yes
+endif
+else
+ifneq "$(target-profile)" "yes"
+target-profile	:=	no
+endif
+endif
+
+### ... target-debug
+
+ifeq "$(target-profile)" "yes"
+target-debug	:=	yes
+endif
+
+ifeq "$(call mod-utils-check-on, $(JBS_DEBUG))" "true"
+ifneq "$(target-debug)" "no"
+target-debug	:=	yes
+endif
+else
+ifneq "$(target-debug)" "yes"
+target-debug	:=	no
+endif
+endif
+
+### ... target-stripped
+
+ifeq "$(target-debug)" "yes"
+target-stripped	:=	no
+endif
+
+ifneq "$(target-stripped)" "no"
+target-stripped :=	yes
+endif
+
+###############################################################################
+# 2008-02-12: GAG/JFGO
+
+.SUFFIXES:            # Delete the default suffixes
+
+###############################################################################
+### It's time to bring in the rest of the building system (vars & rules).
+
+include $(JBS_MAKE_DIR)/Make.module.pkgconfig
+include $(JBS_MAKE_DIR)/Make.module.echo
+include $(JBS_MAKE_DIR)/Make.module.path
+include $(JBS_MAKE_DIR)/Make.module.version
+include $(JBS_MAKE_DIR)/Make.module.utils
+include $(JBS_MAKE_DIR)/Make.module.complink
+
+include $(sort $(wildcard $(JBS_MAKE_DIR)/Make.user.*))
+
+include $(JBS_MAKE_DIR)/Make.common.stuff
+
+include $(JBS_MAKE_DIR)/Make.target.$(target-type)
+include $(JBS_MAKE_DIR)/Make.module.packs
+include $(JBS_MAKE_DIR)/Make.module.doc
+include $(JBS_MAKE_DIR)/Make.module.tags
+include $(JBS_MAKE_DIR)/Make.module.debug
+include $(JBS_MAKE_DIR)/Make.module.clean
+include $(JBS_MAKE_DIR)/Make.rules.instantiators
+
+###############################################################################
+

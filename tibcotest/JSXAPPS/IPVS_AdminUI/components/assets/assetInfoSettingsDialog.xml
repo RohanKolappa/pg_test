@@ -1,0 +1,348 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[
+		Dialog
+	]]></name>
+  <icon><![CDATA[
+		images/prototypes/dialog.gif
+	]]></icon>
+  <description><![CDATA[
+		Dialog box.  (Set Modal property for a modal dialog).
+	]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="725" jsxheight="530" jsxzindex="5000" jsxwindowstate="1" jsxleft="0" jsxtop="0"></variants>
+    <strings jsxname="DialogAssetInfo"></strings>
+    <dynamics jsxbgcolor="Dialog BG"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Basic Settings" jsxcolor="#fff;"></strings>
+      <dynamics jsxbg="Dialog Titlebar" jsxbgcolor="@Solid Shadow"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfDlgEditAssetInfo" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkDeviceInfo" jsxwidth="100%" jsxheight="100%" jsxstyleoverride=""></strings>
+          <dynamics jsxbgcolor="Dialog BG"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="blkDeviceTabPaneInfo" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxstyleoverride="overflow-x:hidden;"></strings>
+            <dynamics jsxbgcolor="P3BG" jsxborder="@Outset Bottom"></dynamics>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18"></variants>
+              <strings jsxname="txtDirtyBitblkDeviceTabPaneInfo" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="blkAssetHiddenContent" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay="none"></strings>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtAssetXMLServiceVersion" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="serviceVer"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtAssetXMLVersion" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="Ver"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtAssetXMLRevision" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="Rev"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtAssetXMLPersistense" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="Persistence"></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"></variants>
+                <strings jsxname="txtAssetXMLKeyElementPath" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="KeyElementPath"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="30"></variants>
+              <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="13" jsxleft="11" jsxtop="6"></variants>
+                <strings jsxname="label" jsxtext="Device" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="16" jsxheight="16" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxenabled="0"></variants>
+                <strings jsxname="imagebutton" jsxtext="" jsximage="images/buttons/btnHelpOff.png" jsxoverimage="images/buttons/btnHelpOn.png" jsxdownimage="images/buttons/btnHelpOn.png" jsxonimage="images/buttons/btnHelpOn.png" jsxdisabledimage="images/buttons/btnHelpOff.png" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="45"></variants>
+              <strings jsxname="blkFormDeviceType" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Device Type:" jsxwidth="22%" jsxtextalign="right" jsxpadding="14 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="14 2 2 20"></strings>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="200" jsxheight="18" jsxxmlasync="0" jsxrelativeposition="1"></variants>
+                  <strings jsxname="selAssetType" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="AssetType"></strings>
+                  <dynamics jsxfontsize="BaseText"></dynamics>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="200" jsxheight="18" jsxxmlasync="0" jsxrelativeposition="1"></variants>
+                  <strings jsxname="selAssetDeviceType" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="DeviceType"></strings>
+                  <dynamics jsxfontsize="BaseText"></dynamics>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="30"></variants>
+              <strings jsxname="blkFormDeviceName" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Device Name:" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 2 2 20"></strings>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18" jsxrelativeposition="1"></variants>
+                  <strings jsxname="txtAssetDeviceName" jsxmargin="0 4 0 0" jsxdisplay="" jsxwidth="75%" jsxcdfattribute="DeviceName"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="36"></variants>
+              <strings jsxname="blkHelpText" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="2 2 2 20"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                  <strings jsxname="label" jsxtext="The Device Name must be lowercase alphabetic letters and numbers only." jsxclassname="helpText" jsxwidth="90%"></strings>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="30"></variants>
+              <strings jsxname="blkFormDevicePassword" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36"></variants>
+                <strings jsxname="label" jsxtext="Device Password:" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxclassname="formText"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 2 2 20"></strings>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="2" jsxheight="18" jsxrelativeposition="1"></variants>
+                  <strings jsxname="txtAssetDevicePassword" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Password"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="135" jsxheight="18"></variants>
+                  <strings jsxname="lblAssetDeviceVerifyPassword" jsxtext="Verify Password:" jsxdisplay="" jsxtextalign="right" jsxvisibility="" jsxpadding="2 0 0 8" jsxclassname="formText"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="2" jsxheight="18" jsxrelativeposition="1"></variants>
+                  <strings jsxname="txtAssetDeviceVerifyPassword" jsxmargin="0 4 0 4" jsxdisplay="" jsxcdfattribute="VerifyPassword"></strings>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="36"></variants>
+              <strings jsxname="blkHelpText" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="2 2 2 20"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+                  <strings jsxname="label" jsxtext="Recommended device password format is minimum of 8 characters, at least 1 uppercase, 1 lower case, and 1 numeric." jsxclassname="helpText" jsxwidth="90%"></strings>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="50"></variants>
+              <strings jsxname="blkFormDeviceDesc" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="36" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Device Description:" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="36"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 2 2 20"></strings>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="30" jsxtype="1" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="75%" jsxname="txtAssetDeviceDescription" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="DeviceDescription"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="30"></variants>
+              <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="13" jsxleft="11" jsxtop="6"></variants>
+                <strings jsxname="label" jsxtext="Assign Tags" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="16" jsxheight="16" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxenabled="0"></variants>
+                <strings jsxname="imagebutton" jsxtext="" jsximage="images/buttons/btnHelpOff.png" jsxoverimage="images/buttons/btnHelpOn.png" jsxdownimage="images/buttons/btnHelpOn.png" jsxonimage="images/buttons/btnHelpOn.png" jsxdisabledimage="images/buttons/btnHelpOff.png" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="140"></variants>
+              <strings jsxname="blkFormDeviceTags" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="140" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Tags:" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="140"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 2 2 20"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="21" jsxtop="10" jsxwidth="160"></variants>
+                  <strings jsxname="lblAssetTagName" jsxtext="Enter/Select Tag Name:" jsxdisplay="" jsxtextalign="left" jsxfontweight="bold"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="21" jsxtop="50" jsxwidth="160"></variants>
+                  <strings jsxname="lblAssetTagValue" jsxtext="Enter/Select Tag Value:" jsxdisplay="" jsxtextalign="left" jsxfontweight="bold"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="150" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="21" jsxtop="23"></variants>
+                  <strings jsxname="cmbAssetTagName" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+                  <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="150" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="21" jsxtop="63"></variants>
+                  <strings jsxname="cmbAssetTagValue" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+                </object>
+                <object type="jsx3.gui.Button">
+                  <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="121" jsxtop="90" jsxwidth="40"></variants>
+                  <strings jsxname="btnAssetAddTag" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnAdd"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                  <events jsxexecute="alert('hello');"></events>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxwidth="270" jsxleft="191" jsxtop="20" jsxheight="90" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                  <strings jsxname="blkTagMatrixContainer" jsxborder="solid 1px #999999;"></strings>
+                  <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                  <object type="jsx3.gui.Matrix">
+                    <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                    <strings jsxname="mtxTags" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxTagName" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                    <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                    <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                    <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="jsxTagName" jsxtext="Tag Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxTagName" jsxwidth="*"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants></variants>
+                      <strings jsxname="jsxTagValue" jsxwidth="*" jsxtext="Tag Value" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxTagValue"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    </object>
+                    <object type="jsx3.gui.Matrix.Column">
+                      <variants jsxwidth="20" jsxsort="0"></variants>
+                      <strings jsxname="mcGroupDelete" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                      <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                        <strings jsxname="jsxDeleteTag" jsximage="jsx:///images/list/delete.gif"></strings>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1" jsxheight="20" jsxrelativeposition="0" jsxleft="21" jsxtop="112"></variants>
+                  <strings jsxname="blkApplyTagsToPorts" jsxwidth="100%" jsxdisplay=""></strings>
+                  <object type="jsx3.gui.CheckBox">
+                    <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="1" jsxchecked="0" jsxfontsize="10"></variants>
+                    <strings jsxname="chkApplyTagsToPorts" jsxtext="Apply Tags to Ports" jsxmargin="0 4 0 0" jsxdisplay="none" jsxfontweight="bold"></strings>
+                    <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="30"></variants>
+              <strings jsxname="blkFormSectionTitle" jsxwidth="100%" jsxrelativeposition="1" jsxtextalign="right" jsxpadding="6 6 6 6" jsxclassname="formSectionTitle"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="13" jsxleft="11" jsxtop="6"></variants>
+                <strings jsxname="label" jsxtext="Device Private Data" jsxdisplay="" jsxclassname="formSectionTitle"></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="16" jsxheight="16" jsxtype="1" jsxprefetch="1" jsxstate="1" jsxenabled="0"></variants>
+                <strings jsxname="imagebutton" jsxtext="" jsximage="images/buttons/btnHelpOff.png" jsxoverimage="images/buttons/btnHelpOn.png" jsxdownimage="images/buttons/btnHelpOn.png" jsxonimage="images/buttons/btnHelpOn.png" jsxdisabledimage="images/buttons/btnHelpOff.png" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="120"></variants>
+              <strings jsxname="blkFormDeviceDesc" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="120" jsxfontsize="11"></variants>
+                <strings jsxname="label" jsxtext="Device Private Data:" jsxwidth="22%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="120"></variants>
+                <strings jsxname="blkField" jsxwidth="78%" jsxrelativeposition="1" jsxpadding="6 2 2 20"></strings>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="100" jsxtype="1" jsxrelativeposition="1"></variants>
+                  <strings jsxwidth="75%" jsxname="txtAssetDevicePrivateData" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="AssetPrivateData"></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="375" jsxtop="18" jsxwidth="150"></variants>
+              <strings jsxname="txtTemplateAssetResourceNID" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalue=""></strings>
+              <dynamics jsxfontsize="SmallText"></dynamics>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxbgcolor="Dialog Footer" jsxborder="@Outset Top"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnCancelAddAssetInfo" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxclassname="btnOk"></strings>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnSaveAssetInfo" jsxtext="Save" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxclassname="btnOk"></strings>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

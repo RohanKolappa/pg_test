@@ -1,0 +1,16 @@
+<html>
+<script>
+parent.applet.document.test.setCallback("handleMessage");
+function handleMessage(messageXML) {
+  parent.main.handleMessage(messageXML);
+}
+function handleInit(messageXML) {
+  alert(messageXML);
+}
+
+</script>
+<applet name="test" width=100% height=50 
+code="com.ipvs.app.ServiceApplet"
+archive ="commons-beanutils.jar, commons-collections-3.2.jar, commons-lang-2.3.jar, commons-logging-1.1.jar, commons-logging-adapters-1.1.jar, commons-logging-api-1.1.jar, mediaroom.jar, smack.jar, smackx.jar, su-smack-latest.jar" MAYSCRIPT
+></applet>
+</html>

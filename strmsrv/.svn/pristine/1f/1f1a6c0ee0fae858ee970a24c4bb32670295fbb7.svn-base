@@ -1,0 +1,13 @@
+Control Flow for a command
+
+Each thread has an inQueue
+The ctrlthr writes to the inQueue of the various other threads
+The other threads write the response to the ctrlthr queue
+
+ctrthrl		rcvrthr		senderthr	reader		writer
+
+processCommand
+		processCommand
+		processReceivers
+		sendResponse
+processModule

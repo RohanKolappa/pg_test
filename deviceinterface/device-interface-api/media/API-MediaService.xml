@@ -1,0 +1,822 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+    "C:/docbook/docbook-xml-4.5/docbookx.dtd" [
+  <!ENTITY SessionObjectXML SYSTEM "Session.xml">
+  <!ENTITY SessionObjectXSD SYSTEM "Session.xsd">
+]>
+<?xml-stylesheet type='text/xsl' 
+    href='http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl'?>
+<book status="draft">
+	<bookinfo>
+		<title>Barco Device Interface Media Service API</title>
+		<revhistory>
+			<revision>
+				<revnumber>0.1</revnumber>
+				<date>Dec 19 2012</date>
+				<revremark>Device Interface Media Service API</revremark>
+			</revision>
+		</revhistory>
+	</bookinfo>
+	<glossary>
+	    <glossentry>
+	      <glossterm>Device Interface</glossterm>
+	      <glossdef>
+	        <para>
+	        	This represents the external interface to a device.
+	        </para>
+	      </glossdef>
+ 	    </glossentry>
+	    <glossentry>
+	      <glossterm>Device Interface API</glossterm>
+	      <glossdef>
+	        <para>
+	        	The API accepted by the device on its external interface
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Device Interface Media Service API</glossterm>
+	      <glossdef>
+	        <para>
+	        	The API accepted by the device on its external interface for Media Service
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Service</glossterm>
+	      <glossdef>
+	        <para>
+	        	The device provides the following services : DeviceAdminAgent, Media, Layout, MediaStoreAgent
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Handler</glossterm>
+	      <glossdef>
+	        <para>
+	        	The code that handles a specific API message for a given service
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Agent</glossterm>
+	      <glossdef>
+	        <para>
+	        	The Handler invokes methods on the Agent for the  accepted by the device on its external interface
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Engine</glossterm>
+	      <glossdef>
+	        <para>
+	        	The Agent invokes methods on the Engine that implement the services on the device
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	    <glossentry>
+	      <glossterm>Entity</glossterm>
+	      <glossdef>
+	        <para>
+	        	A Source or a Destination
+	        </para>
+	      </glossdef>
+	    </glossentry>
+	</glossary>	
+
+	  <preface>
+	    <title>Introduction</title>
+	    <para>
+	      This document contains the description of the device interface API for media services
+	    </para>
+	  </preface>
+
+  <chapter>
+    <title>Media Service Overview</title>   
+    <para>
+      This chapter provides the version information and a brief description of the requests support by this service
+    </para> 
+    <section>
+    <title>Version</title>
+    <para>
+    <simplelist>
+    	<member>Document Version = 0.0.1</member>
+        <member>Service Version = x.x.x</member>
+        <member>Software Version = 4.0.x.x</member>
+    </simplelist>    
+    </para>    
+    </section>
+    <section>
+    <title>Media Services Overview</title>
+    <para>
+      <simplelist>
+<member>
+      The media service is responsible for enabling the viewing/recording/playback of media
+</member>
+<member>
+      The service provides support for relaying of media streams between endpoints
+</member>
+<member>
+      The service also provides support for lookback capabilities on live sources. The viewer can thus rewind a live source
+</member>
+<member>
+      The messages described here are in conformance with the AgentMessage described in the ref[1](API-AgentMessage.pdf)
+</member>
+      </simplelist>
+    </para>    
+    </section>
+  </chapter>
+  <chapter>
+    <title>Media Services API</title>   
+    <para>
+      This chapter provides details of the Media Service API
+    </para> 
+    <section>
+      <title>Media Service API to be supported by a Device to start a stream</title>
+      <para>
+        These requests are typically RPC requests received by a device capable of starting/stopping a stream
+        <itemizedlist>
+          <listitem>
+            <para>
+              Handling requests to start/stop streams
+              <simplelist>
+                <member>The request includes all the information required to start the stream</member>
+                <member>If the Start fails, the corresponding state(START_ERROR) is returned in the response</member>
+                <member>A Start/Stop of the stream results in Start/Stop Stream requests being sent to the MediaEngine</member>
+              </simplelist>
+            </para>
+          <example>
+            <title>StartStreamRequest payload received</title>
+            <programlisting>
+              <![CDATA[
+
+<StartStreamRequestData>
+	<streamNID>c7c002c0-43c0-451f-b087-56818bb4e88f</streamNID>
+	<streamdatadoc>
+		<!--
+			Stream object goes here to be updated with destination IP/Port by the
+			MediaAgentImpl
+		-->
+	</streamdatadoc>
+	<mediasourcedatadoc>
+		<!-- MediaSource object goes here -->
+	</mediasourcedatadoc>
+</StartStreamRequestData>
+				]]>
+            </programlisting>
+          </example>
+          <para>
+      <simplelist>
+<member>
+             	streamNID - unique identifier for the stream, will be used for future control operations on the stream
+</member>
+<member>
+             	streamdatadoc - complete description of the stream (listed in appendix)
+</member>
+<member>
+             	mediasourcedatadoc - complete description of the source (listed in appendix)
+</member>
+      </simplelist>
+      	  </para>
+          <example>
+            <title>StartStreamResponse payload sent</title>
+            <programlisting>
+              <![CDATA[
+
+<StartStreamResponseData>
+	<StreamStatus roomNID="136cc62f-6537-4cfd-b677-8d09d37738e2"
+		streamNID="3bebcbb1-3ead-47b7-b006-a1c7f829b34e">
+		<!-- See Appendix for StreamStatus element -->
+	</StreamStatus>
+</StartStreamResponseData>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>StartStreamResponse error payload sent</title>
+            <programlisting>
+              <![CDATA[
+<Error code="2021">
+	<Description>Media Source Busy</Description>
+</Error>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>StopStreamRequest payload received</title>
+            <programlisting>
+              <![CDATA[
+
+<StopStreamRequestData>
+	<streamNID>c7c002c0-43c0-451f-b087-56818bb4e88f</streamNID>
+</StopStreamRequestData>
+				]]>
+            </programlisting>
+          </example>
+          <para>
+             	streamNID - unique identifier for the stream, used at the time of start
+      	  </para>
+          <example>
+            <title>StopStreamResponse payload sent</title>
+            <programlisting>
+              <![CDATA[
+
+<StopStreamResponseData>
+	<streamNID>c7c002c0-43c0-451f-b087-56818bb4e88f</streamNID>
+</StopStreamResponseData>
+				]]>
+            </programlisting>
+          </example>
+          </listitem>
+          <listitem>
+            <para>
+              Maintaining a state machine for each of the MediaStreams which is updated based on
+              <simplelist>
+                <member>The notifications received from the MediaEngine</member>
+                <member>The notifications received from the upstream relays</member>
+              </simplelist>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The state machine action handlers are responsible for
+              <simplelist>
+	            <member>Sending notificatiosn to the peering destination</member>
+              </simplelist>
+            </para>
+          <example>
+            <title>StreamStatusEvent payload sent to the peering destination</title>
+            <programlisting>
+              <![CDATA[
+
+<StreamStatusEventData>
+	<StreamStatus roomNID="136cc62f-6537-4cfd-b677-8d09d37738e2"
+		streamNID="3bebcbb1-3ead-47b7-b006-a1c7f829b34e">
+		<!-- See Appendix for StreamStatus element -->
+	</StreamStatus>
+</StreamStatusEventData>
+]]>
+            </programlisting>
+          </example>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    
+    <section>
+      <title>Presence Events received by Devices</title>
+      <para>
+      	A Entity is a source or a destination
+        These requests are typically received by an entity which has setup/needs to setup communications with a peer. 
+        This setup is done in the context of a "MediaRoom". The "MediaRoom" has a unique identifier referred to as roomNID.
+        All resource allocations on the source/dest entities can be tied/linked to the presence of the MediaRoom
+        <itemizedlist>
+          <listitem>
+            <para>
+              Presence Event
+              <simplelist>
+                <member>The event includes the jid of the entity and its availability value i.e Ready or Unavailable</member>
+                <member>If a source is notified that the dest is Unavailable it must release the resources associated with the dest</member>
+                <member>If a dest is notified that the source is Unavailable it must update its state</member>
+                <member>If a dest is notified that the source is Ready it must resend the StartStreamRequest(s)</member>
+                <member>If the SC is notified that a dest is Unavailable it must mark the destination as such</member>
+                <member>If the SC is notified that a dest is Ready it must resend the PUTCanvasRequest</member>
+                <member>If the source/dest is notified that a MediaRoom is Unavailable it must release the resources associated with it</member>
+              </simplelist>
+            </para>
+          <example>
+            <title>MediaPresence Event for Source/Dest received</title>
+            <programlisting>
+              <![CDATA[
+<MediaPresence type="Entity" 
+		roomNID="136cc62f-6537-4cfd-b677-8d09d37738e2" value="Unavailable/Ready"/>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>MediaPresence Event for MediaRoom received</title>
+            <programlisting>
+              <![CDATA[
+<MediaPresence type="MediaRoom" 
+		jid="xpi@localhost/xpi" value="Unavailable/Ready"/>
+				]]>
+            </programlisting>
+          </example>
+          <para>
+      <simplelist>
+<member>
+             	type - "Entity"/"MediaRoom" indicates whether the presence is for an Entity or a MediaRoom
+</member>
+<member>
+             	roomNID - The unique ID of the MediaRoom
+</member>
+<member>
+             	jid - The full JID of the Entity User/Device whose presence notification is recevived
+</member>
+<member>
+             	value - the state of the entity, could be Ready or Unavailable. 
+</member>
+      </simplelist>
+      	  </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </section>
+    
+    
+    
+    
+  </chapter>
+    <appendix>
+    <title>Data Model</title>
+    <para>
+      The following are sample XMLs that reflect the structure of Objects involved in the MediaRoom service.
+    </para>
+    <section>
+      <title>MediaRoom Objects</title>
+      <para>
+      The MediaRoom Objects are listed below. The corresponding xml is available under the svn.
+      The base svn URL is "https://10.51.112.47/svn/ipvsvn/model/trunk/objectXml/MediaRoom.xml"
+      Each of the elements mentioned below is a child element in the MediaRoom document
+      <simplelist>
+        <member>mediasourcedatadoc : //MediaSource/data</member>
+        <member>streamdatadoc : //Stream/data</member>
+        <member>StreamStatus : //Stream/Status</member>
+      </simplelist>
+      </para>
+  </section>
+    <section>
+      <title>Object Details</title>
+      <para>Explanation of the use of information in the mediasourcedatadoc and streamdatadoc for starting of streams
+      Common : streamdatadoc, mediasourcedatadoc
+      <simplelist>
+<member>
+roomNID : Common groupID for streams that are to be controlled as a group
+</member>
+      </simplelist>
+      </para>
+      <para>Dest Decoder : streamdatadoc
+      <simplelist>
+<member>
+destNID : Unique Global ID for the destination Port
+</member>
+<member>
+streamURL : A pre-defined streamURL configured on the source
+</member>
+<member>
+destUDPStartPort : Determined on the destination based on available UDP network ports
+</member>
+<member>
+destPortElementID : Unique Local ID for the destination Port
+</member>
+<member>
+sourceAgentJID : Contact for the source Port
+</member>
+<member>
+windowId : Reference to the window within a canvas on the destination
+</member>
+<member>
+canvasId : Reference to the canvas on the destination
+</member>
+<member>
+startWallClock : Wallclock when the request was initiated
+</member>
+<member>
+trackStateAtStart : State of the group/track at the time that request was initiated
+</member>
+<member>
+trackOffsetAtStart : Offset from the start of the group/track at the time the request was initiated
+</member>
+      </simplelist>
+      </para>
+      <para>Dest Recorder : streamdatadoc
+      <simplelist>
+<member>
+destFileParentDirNID : The unique global ID of the directory of the recording
+</member>
+<member>
+destFileUUID : The unique local ID of the recording file
+</member>
+<member>
+trimLength : The length that the PVR recording that needs to be maintained which is continously trimmed
+</member>
+      </simplelist>
+      </para>
+      <para>Source Live : streamdatadoc
+      <simplelist>
+<member>
+relayNID : Unique global ID of the relay Port
+</member>
+<member>
+sourceNID : Unique global ID of the source Port
+</member>
+<member>
+mediaSourceNID : Unique instance ID of the mediasource on the central server
+</member>
+<member>
+destAgentJID : Contact for the destination Port
+</member>
+<member>
+resolvedSourceIP : The IP address of the source as seen by the destination
+</member>
+<member>
+destType : The type of the destination i.e. Stream, File, Decoder
+</member>
+<member>
+streamType : The type of the stream i.e. RTP, V2D, MPEGTS
+</member>
+<member>
+sourcePortNID : The unique global ID of the source Port on the central server
+</member>
+<member>
+resolvedDestIP : The IP address of the destination as seen by the source
+</member>
+<member>
+profileXML : The xml description of the profile of the stream e.g. bandwidth, audio/video etc which is specific to the streamType
+</member>
+<member>
+destIP : The pre-configured destination IP to be used by the source
+</member>
+<member>
+callbackPort : The pre-configured destination Port to be used by the source
+</member>
+<member>
+streamURLType : The type of URL requested, set to HTTP for RTP streams to point to an SDP file on the media server
+</member>
+<member>
+trickPlay : Indicated whether the destination support playback at multiple speeds i.e. FastForward, Rewind
+</member>
+      </simplelist>
+      </para>
+      <para>Source Live : mediasourcedatadoc
+      <simplelist>
+<member>
+sourceNID : Unique global ID of the source on the central server
+</member>
+<member>
+startOffset : The start offset of the media in case of a playback source
+</member>
+<member>
+startTimecode : The start timecode of the media in case of a playback source
+</member>
+<member>
+userRoomMediaSourceNID : This applies for multi-hop relays of multiple playback stream which are bring played in the same group and logically point to the same source. This enables the source to serve both users from the source input
+</member>
+<member>
+sourceType : The type of the source i.e. Encoder, File
+</member>
+<member>
+sourcePortNID : The unique global ID of the source Port in the central server
+</member>
+<member>
+sourcePortElementID : The unique local ID of the source Port on the device
+</member>
+<member>
+streamType : The type of the stream supported by the source e.g. RTP, V2D, MPEGTS
+</member>
+<member>
+trackNID : A sub-group ID for the source
+</member>
+      </simplelist>
+      </para>
+      <para>Management Server Collaboration : streamdatadoc
+      <simplelist>
+<member>
+mediaDestNID : Unique instance ID for the media destination
+</member>
+<member>
+profileNID : Unique global ID for the profile being used for the stream
+</member>
+<member>
+streamOwnerUserJID : The user who initiated the setup of the stream
+</member>
+<member>
+destStreamURL : The pre-configured streamURL for the destination
+</member>
+<member>
+sourcePortNID : Unique global ID for the source port on the central server
+</member>
+<member>
+mediarelayNID : Unique instance ID for the relay on the central server
+</member>
+<member>
+xAuthAgentJID : Contact for the entity who needs to authorize access before a stream is started
+</member>
+<member>
+streamGroups : Not used
+</member>
+<member>
+sourceNetworkAddressRule : The NAT rule being used to resolve the IP addresses for source
+</member>
+<member>
+destNetworkAddressRule : The NAT rule being used to resolve the IP addresses for destination
+</member>
+<member>
+publishedSourceIP : The IP address published by the source
+</member>
+<member>
+publishedDestIP : The IP address published by the destination
+</member>
+</simplelist>
+</para>
+
+      <para>Playback, LIVE-PVR : mediasourcedatadoc
+      <simplelist>
+<member>lookbackSourceNID : Unique global ID of the lookback source on the central server</member>
+<member>lookbackSourceAgentJID : Contact for the lookback source</member>
+<member>lookbackSourceFileUUID : Unique local ID of the lookback source file</member>
+<member>lookbackSourceFileParentDirNID : Unique globacl ID of the parent directory on the central server</member>
+<member>lookbackSourceFilePlayLength : Playlength of the lookback source file</member>
+<member>lookbackSourceFileStartTC : Start timecode captured when the lookback source was originally recorded</member>
+</simplelist>
+</para>
+
+    <section>
+      <title>StreamStatus</title>
+      <para>The StreamStatus is included in the StartResponse as well as all StreamStatus Updates
+          <example>
+            <title>The StreamStatus element</title>
+            <programlisting>
+              <![CDATA[
+
+<StreamStatus roomNID="136cc62f-6537-4cfd-b677-8d09d37738e2"
+		streamNID="3bebcbb1-3ead-47b7-b006-a1c7f829b34e">
+		<state>6</state>
+		<URL>v2d://10.51.50.1/port=6060?bandwidth=10240000?avoption=Both?
+		ismulticast=false?enablekbm=false?authscheme=TOKEN?
+		authdata=fc654255-b350-432e-a95a-8a9c0d89c7e0
+		</URL>
+		<lastEventData>
+			<!-- Last Event Data goes here -->
+		</lastEventData>
+		<relayData relayRoomNID="" relayStreamNID="" />
+		<MediaTimeline id="">
+			<Start WC="" Offset="" TC=""/>
+			<Last WC="" Offset="" TC="" TimeScale="" action="" lastState="" 
+			requestedAction=""/>
+		</MediaTimeline>
+</StreamStatus>
+				]]>
+            </programlisting>
+          </example>
+        <simplelist>
+<member>
+             	roomNID - unique identifier for the room which includes this stream
+</member>
+<member>
+             	streamNID - unique identifier for the stream
+</member>
+<member>
+             	state - the state of the stream (Enumerated in appendix)
+</member>
+<member>
+             	lastEventData - the last event received by the destination from the upstream source
+</member>
+<member>
+             	relayData - the upstream relay roomNID and streamNID 
+</member>
+<member>
+             	MediaTimeline - the WallClock and Timecode at Start and at the Last update, used for PVR
+</member>
+        </simplelist>
+
+</para>
+</section>
+
+  </section>
+  <section>
+      <title>Simple Examples of MediaAgent Implementation</title>
+      <para>
+      The simplest example is one where the source can only return one URL.
+      This MediaAgent implementation needs to implement the startStream method
+      An advanced source might inspect the specifications of the stream to decide 
+      on how to configure the source and then return the URL. In this case however
+      the source is very simple and can stream at a fixed profile. An example of 
+      a profile parameter is the bandwidth to stream at.
+            <programlisting>
+public Document startStream(DeviceI device, String requestNID,
+			String streamNID, Document streamDataDoc,
+			Document mediaSourceDataDoc) throws Exception {
+  String streamStatusXML = FilePath.readFile(FilePath.streamStatusPath);
+  Document streamStatusDoc = XMLUtils.stringToDocument(streamStatusXML);
+  XMLUtils.setValueXpath(streamStatusDoc, "//state", String.valueOf(MediaAgentI.WAITING_FOR_STREAMSTARTED)); 
+  XMLUtils.setValueXpath(streamStatusDoc, "//URL", 
+   "v2d://10.51.50.1/port=6060?bandwidth=10240000?avoption=Both?ismulticast=false?enablekbm=false?authscheme=TOKEN?authdata=fc654255-b350-432e-a95a-8a9c0d89c7e0");
+  return streamStatusDoc;
+}
+            </programlisting>
+      </para>
+      
+  </section>
+  <section>
+      <title>Sample Start Request</title>
+      <para>
+      This is a sample start request. An encoder needs to look at a simple subset.
+      Most of the remaining elements are related to PVR/Relay functionality
+      All the elements of the streamdatadoc and mediasourcedatadoc have been explained in the previous section.
+          <example>
+            <title>The Start Request</title>
+            <programlisting>
+              <![CDATA[
+              <?xml version="1.0" encoding="UTF-8"?>
+<message id="B9xmI-5218" to="tx1@localhost/tx1"
+	from="0c31592d-fbf0-49ae-a7ea-e9e87c7046b1@conference.localhost/managementserver@localhost"
+	type="groupchat">
+	<x>
+		<AgentMessage from='xpi@localhost/xpi' to='xpi@localhost/xpi' type='Request' logLevel='5'>
+			<Request>
+				<header>
+					<servicename>Media</servicename>
+					<requestname>StartStreamRequest</requestname>
+					<userJID>none</userJID>
+					<requestNID>none</requestNID>
+					<clientdata>none</clientdata>
+				</header>
+				<data>
+					<StartStreamRequestData>
+						<streamNID>c7c002c0-43c0-451f-b087-56818bb4e88f</streamNID>
+						<streamdatadoc .../>
+						<mediasourcedatadoc .../>
+					</StartStreamRequestData>
+				</data>
+			</Request>
+		</AgentMessage>
+	</x>
+</message>
+              
+				]]>
+            </programlisting>
+          </example>
+          
+          <example>
+            <title>The streamdatadoc</title>
+            <programlisting>
+              <![CDATA[
+          						<streamdatadoc>
+								<roomNID>0c31592d-fbf0-49ae-a7ea-e9e87c7046b1</roomNID>
+								<mediaSourceNID>3b4ebfe6-50a7-458e-8d3c-db1a09e661b4
+								</mediaSourceNID>
+								<mediaDestNID>fc654255-b350-432e-a95a-8a9c0d89c7e0
+								</mediaDestNID>
+								<profileNID>default.mediastreamprofilelist.mspl_ead3a5f2-02a7-4e8c-9d35-832cc35c2056
+								</profileNID>
+								<profileXML .../>
+								<relayNID />
+								<mediarelayNID />
+								<destNID>default.mediastreamrelayportresourcelist.msrprl_b04c0295-dc81-4887-ac55-71768feb50ae
+								</destNID>
+								<destPortNID>default.mediastreamrelayportresourcelist.msrprl_b04c0295-dc81-4887-ac55-71768feb50ae
+								</destPortNID>
+								<destIP />
+								<destUDPStartPort />
+								<destAgentJID>managementserver@localhost/managementserver
+								</destAgentJID>
+								<destFileUUID />
+								<destFileParentDirNID />
+								<callbackPort />
+								<destStreamURL />
+								<sourceNID>default.mediastreamioportresourcelist.msioprl_61a8cafa-5d78-4580-948d-c6287e61f3a5
+								</sourceNID>
+								<sourcePortNID>default.mediastreamioportresourcelist.msioprl_61a8cafa-5d78-4580-948d-c6287e61f3a5
+								</sourcePortNID>
+								<xAuthAgentJID />
+
+								<streamGroups>
+									<Tag Name="track"
+										Value="0c31592d-fbf0-49ae-a7ea-e9e87c7046b1.StreamTrack" />
+								</streamGroups>
+
+								<streamOwnerUserJID>managementserver@localhost/managementserver
+								</streamOwnerUserJID>
+								<streamURLType />
+								<sourceAgentJID>xpi@localhost/xpi</sourceAgentJID>
+								<startWallClock>1354814536060</startWallClock>
+								<trimLength />
+								<trackStateAtStart>STARTED_CURRENT</trackStateAtStart>
+								<trackOffsetAtStart>799</trackOffsetAtStart>
+								<sourceNetworkAddressRule />
+								<destNetworkAddressRule />
+								<publishedSourceIP>10.51.50.1</publishedSourceIP>
+								<publishedDestIP>10.51.48.190</publishedDestIP>
+								<resolvedSourceIP>10.51.50.1</resolvedSourceIP>
+								<resolvedDestIP>10.51.48.190</resolvedDestIP>
+								<destPortElementID />
+								<destType>OUTPUT_STREAM</destType>
+								<streamType>V2D</streamType>
+								<streamURL />
+								<windowId />
+								<canvasId />
+								<trickPlay>true</trickPlay>
+						</streamdatadoc>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>The profileXML</title>
+            <programlisting>
+              <![CDATA[
+								<profileXML>
+									<V2DMediaStreamProfile>
+										<Groups>
+											<Tag Name="" Value="" />
+										</Groups>
+										<Title>V2D</Title>
+										<Description>V2D</Description>
+										<StreamType>V2D</StreamType>
+										<Priority>1</Priority>
+										<StreamActionInfo>
+											<AllowPause>true</AllowPause>
+											<AllowSkipback>true</AllowSkipback>
+											<AllowSkipfwd>true</AllowSkipfwd>
+										</StreamActionInfo>
+										<Info>
+											<V2DStreamConfig>
+												<IsMulticast>false</IsMulticast>
+												<EnableSRDTranscode>true</EnableSRDTranscode>
+												<SRDTranscodeBandwidth />
+												<AVOption>Both</AVOption>
+											</V2DStreamConfig>
+											<V2DEncoderAudioConfig>
+												<SampleRate />
+												<SampleSize />
+												<MonoStereo />
+												<AudioEncodeEnable />
+											</V2DEncoderAudioConfig>
+											<V2DEncoderConnectionParameterConfig>
+												<BurstRatio>1</BurstRatio>
+												<BurstDuration>50</BurstDuration>
+												<Compression>
+													<High>6</High>
+													<Low>6</Low>
+												</Compression>
+												<Bandwidth>10000</Bandwidth>
+												<Refresh>
+													<Min>10</Min>
+													<Max>30</Max>
+												</Refresh>
+												<Slice>
+													<Min>0</Min>
+													<Max>15</Max>
+												</Slice>
+												<BlockThreshold>5</BlockThreshold>
+												<ColorSampling>4:2:2</ColorSampling>
+												<FrameRateDivider>1</FrameRateDivider>
+												<IFrameInterval />
+											</V2DEncoderConnectionParameterConfig>
+											<V2DEncoderConnectionParameterKbmConfig>
+												<AllowKMSwitch>true</AllowKMSwitch>
+												<KMIdleTime>0</KMIdleTime>
+												<EnableKbm>false</EnableKbm>
+											</V2DEncoderConnectionParameterKbmConfig>
+											<V2DRecorderConfig>
+												<FFTracks>1-256</FFTracks>
+												<ThumbnailConfig>
+													<Enable>true</Enable>
+												</ThumbnailConfig>
+											</V2DRecorderConfig>
+										</Info>
+									</V2DMediaStreamProfile>
+								</profileXML>
+				]]>
+            </programlisting>
+          </example>
+          <example>
+            <title>The mediasourcedatadoc</title>
+            <programlisting>
+              <![CDATA[
+						<mediasourcedatadoc>
+								<roomNID>0c31592d-fbf0-49ae-a7ea-e9e87c7046b1</roomNID>
+								<sourceNID>default.mediastreamioportresourcelist.msioprl_61a8cafa-5d78-4580-948d-c6287e61f3a5
+								</sourceNID>
+								<startOffset>0</startOffset>
+								<startTimecode>1354814535261</startTimecode>
+								<userRoomMediaSourceNID>8bfa1a10-68f2-4943-b60f-779a63fb2423
+								</userRoomMediaSourceNID>
+								<sourceType>ENCODER</sourceType>
+								<sourcePortNID>default.mediastreamioportresourcelist.msioprl_61a8cafa-5d78-4580-948d-c6287e61f3a5
+								</sourcePortNID>
+								<sourcePortElementID>1</sourcePortElementID>
+								<sourceAgentJID>xpi@localhost/xpi</sourceAgentJID>
+								<streamType>V2D</streamType>
+								<streamURL />
+								<streamProfile />
+								<trackNID>0c31592d-fbf0-49ae-a7ea-e9e87c7046b1.StreamTrack
+								</trackNID>
+								<streamTrackMediaSourceNID />
+								<pvrEnabled />
+								<lookbackSourceNID />
+								<lookbackSourceAgentJID />
+								<lookbackSourceFileUUID />
+								<lookbackSourceFileParentDirNID />
+								<lookbackSourceFilePlayLength />
+								<lookbackSourceFileStartTC />
+								<xAuthAgentJID />
+								<monitorAgentJID />
+						</mediasourcedatadoc>
+				]]>
+            </programlisting>
+          </example>
+          </para>
+  </section>
+</appendix>
+</book>

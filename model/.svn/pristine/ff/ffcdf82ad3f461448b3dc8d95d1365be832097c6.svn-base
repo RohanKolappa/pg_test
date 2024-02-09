@@ -1,0 +1,1041 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "http://{MSIP}/controller/Resource",
+  "resourcePath": "/Port",
+  "apis": [
+    {
+      "path": "/Port",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds all Ports in the system",
+          "notes": "Get a list of all the ports in the system",
+          "responseClass": "List[Port]",
+          "nickname": "getPort",
+          "produces": [
+            "application/vnd.barco.nimbus.Port+json",
+"application/vnd.barco.nimbus.Port+xml"
+          ],
+          "parameters": [
+
+		{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },	
+            {
+              "name": "type",
+              "description": "Filter by port type",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "SrcPort",
+                  "DstPort"
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "sortBy",
+              "description": "sort by title/state",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "title",                  
+"state"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "sortOrder",
+              "description": "sort in order ascending/descending",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "ascending",
+                  "descending"
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "whereNID",
+              "description": "Filter based on port nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "subscriptionID",
+              "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "whereTextSubStr",
+              "description": "Filter based on substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "BASIC",
+                  "EXTENDED",
+                  "EXTENDEDURL",
+                  "BASICURL",
+                  "BASICCONNECTIONINFO",
+                  "EXTENDEDCONNECTIONINFO"
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "wherePermissions",
+              "description": "Filter by  Permissions",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+				"ADD",
+                  "MODIFY",
+                  "DELETE",
+                   "VIEWFROM",
+                    "STREAMTO"
+
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "whereStreamType",
+              "description": "Filter by  stream type",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "V2D",
+                  "RTP",
+                   "MPEGTS",
+                    "UDP",
+					"RTP-RAW",
+					"RTP-PCM",
+					"RFB"
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "whereState",
+              "description": "Filter by  state",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Ready",
+                  "Busy",
+                   "NotReady",
+                    "Offline",
+					"Unmanaged"
+
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "whereTagExpr",
+              "description": "format: Name%3D'Location' and Value%3D'Sunnyvale'",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "paramType": "query"
+            }, 
+{
+              "name": "dstPortTitle",
+              "description": "Based on dstPortTitle MS retuns mediaURL/thumbnail url which destination cliet is requesting .It should used along with BASICURL,EXTENDEDURL .",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            } ,
+{
+              "name": "expireTime",
+              "description": "expirey time of media url requesting from server.It should be in SecondsUsed along with BASICURL or EXTENDEDURL selectFormat",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "startFrom",
+              "description": "get the list starting form startFrom index",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "countToFetch",
+              "description": "number of ports to be fetched",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            }			
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+{
+          "method": "GET",
+          "summary": "Finds the list of Tags that the Client has access to",
+          "notes": "Get a the list of Tags that the Client has access to",
+          "responseClass": "PortTags",
+          "nickname": "getPortTags",
+          "produces": [
+            "application/vnd.barco.nimbus.Port-Tags+json",
+			"application/vnd.barco.nimbus.Port-Tags+xml"
+          ],
+          "parameters": [
+          
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "sort by Name/Value",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Name",
+                  "Value"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereNameTextSubString",
+              "description": "Filter based on name substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "whereValueTextSubString",
+              "description": "Filter based on value substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(Default=NameValueList)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "NameList",
+                  "NameValueList",
+                  "NameValueTree"
+                ]
+              },
+              "paramType": "query"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		
+		 {
+          "method": "POST",
+          "summary": "Update port title, description, and groups in the database",
+          "notes": "Update port title, description, and groups in the database",
+          "responseClass": "PortInfo",
+          "nickname": "SetPortInfo",
+          "produces": [
+            "application/vnd.barco.nimbus.Port-Info+json",
+"application/vnd.barco.nimbus.Port-Info+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		 
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+		  {
+              "name": "NID",
+              "description": "port nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+           {
+              "name": "title",
+              "description": "port title",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },           	
+            {
+              "name": "body",
+              "description": "Update port info in database",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PortInfo",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Update observer information in the database",
+          "notes": "Update observer information in the database",
+          "responseClass": "PortObserverInfo",
+          "nickname": "SetPortObserverInfo",
+          "produces": [
+           "application/vnd.barco.nimbus.Port-ObserverInfo+json",
+"application/vnd.barco.nimbus.Port-ObserverInfo+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		   
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+		  {
+              "name": "NID",
+              "description": "port nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+           {
+              "name": "title",
+              "description": "port title",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },           	
+            {
+              "name": "body",
+              "description": "Update port observer in database",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PortObserverInfo",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Update the PVR settings in the database",
+          "notes": "Update the PVR settings in the database",
+          "responseClass": "SetPortPVRInfo",
+          "nickname": "SetPortPVRInfo",
+          "produces": [
+            "application/vnd.barco.nimbus.Port-PVRInfo+json",
+"application/vnd.barco.nimbus.Port-PVRInfo+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		   
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+		  {
+              "name": "NID",
+              "description": "port nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+           {
+              "name": "title",
+              "description": "port title",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },           	
+            {
+              "name": "body",
+              "description": "Update pvr info in database",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "SetPortPVRInfo",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Update port stream URL in the database",
+          "notes": "Update port stream URL in the database",
+          "responseClass": "SetPortStreamURL",
+          "nickname": "SetPortStreamURL",
+          "produces": [
+            "application/vnd.barco.nimbus.Port-StreamURL+json",
+				  "application/vnd.barco.nimbus.Port-StreamURL+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		   
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+		  {
+              "name": "NID",
+              "description": "port nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+           {
+              "name": "title",
+              "description": "port title",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },           	
+            {
+              "name": "body",
+              "description": "Update PortStreamURL in database",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "SetPortStreamURL",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+		
+      ]
+    }
+  ],
+  "models": {
+    "Tag": {
+      "id": "Tag",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "String"
+        }
+      }
+    },
+	"Port": {
+      "id": "Port",
+      "description": "A Port body",
+      "required": [
+        "Port"
+      ],
+      "properties": {
+        "Port": {
+            "$ref": "Portbody"
+         }
+      }
+    },
+    "Portbody": {
+      "id": "Portbody",
+      "description": "A basic port object response",
+      "required": [
+        "@NID",
+        "Groups",
+        "@streamType",
+        "@portType",
+        "@portId",
+        "@presence",
+        "@state",
+        "@title",
+        "Permissions"
+      ],
+      "properties": {
+        "Groups": {
+          "type": "array",
+            "items": {
+              "$ref": "Tag"
+            }
+         },
+        "@NID": {"type": "string"},
+        "@streamType": {"type": "string",
+          "description": "type of stream",
+          "enum": [
+            "V2D",
+            "MPEGTS",
+            "RTP"
+          ]},
+        "@portType": {"type": "string", "description": "type of port"},
+        "@portId": {"type": "integer"},
+        "@presence": {"type": "string", "enum": [
+            "available",
+            "unavailable"
+          ]},
+        "@state": {"type": "string", "enum": [
+            "Ready",
+            "Offline",
+            "Busy"
+          ]},
+        "@title": {"type": "string"},
+        "Permissions": {
+            "$ref": "Permissions"
+        }
+      }
+    },
+    "Permissions": {
+      "id": "Permissions",
+      "required": [
+        "@add",
+        "@modify",
+        "@delete",
+        "@streamto",
+        "@viewfrom",
+        "@read"
+      ],
+      "properties": {
+        "@add": {
+          "type": "boolean"
+        },
+        "@modify": {
+          "type": "boolean"
+        },
+        "@delete": {
+          "type": "boolean"
+        },
+        "@streamto": {
+          "type": "boolean"
+        },
+        "@viewfrom": {
+          "type": "boolean"
+        },
+        "@read": {
+          "type": "boolean"
+        }
+      }
+    },
+		"PortInfo": {
+      "id": "PortInfo",
+      "description": "set PortInfo request",
+      "required": [
+        "PortInfo"
+      ],
+      "properties": {
+        "PortInfo" : {
+          "$ref": "setPortInfoReq"
+        }
+      }
+    },
+	"setPortInfoReq": {
+      "id": "setPortInfoReq",
+      "description": "A basic set port info request",
+      "required": [
+        "Groups",
+        "@title",
+        
+        "@description"
+		
+		
+      ],
+      "properties": {"Groups": {
+          "type": "array",
+            "items": {
+              "$ref": "Tag"
+            }
+         },
+        "@title":{"type": "string","description": "[Required [Does not allow XML restricted special characters]]"},
+
+        "@description": {"type": "string"}
+		
+		
+		
+      }
+    },
+	"PortObserverInfo": {
+      "id": "PortObserverInfo",
+      "description": "set PortObserverInfo request",
+      "required": [
+        "PortObserverInfo"
+      ],
+      "properties": {
+        "PortObserverInfo" : {
+          "$ref": "setPortObserverInfoReq"
+        }
+      }
+    },
+	"setPortObserverInfoReq": {
+      "id": "setPortObserverInfoReq",
+      "description": "A basic setPortObserverInfo request",
+      "required": [
+        "Observer"
+      ],
+      "properties": {
+        "Observer":{"type": "Observer"}
+		
+      }
+    },
+	"Observer": {
+      "id": "Observer",
+      "required": [
+        "ResourceNID",
+        "UserNID",
+        "@xAuth",
+        "@monitor"
+      ],
+      "properties": {
+        "ResourceNID": {
+          "type": "string",
+		  "description": "Required if xAuth/monitor present. NID of an asset resource in the system"
+        },
+        "UserNID": {
+          "type": "string",
+		  "description": "Required if xAuth/monitor present. NID of the User to be set as an Observer"
+        },
+        "@xAuth": {
+          "type": "boolean"
+        },
+        "@monitor": {
+          "type": "boolean"
+        }
+      }
+    },
+	"SetPortPVRInfo": {
+      "id": "SetPortPVRInfo",
+      "description": "set PortPVRInfo request",
+      "required": [
+        "PortPVRInfo"
+      ],
+      "properties": {
+        "PortPVRInfo" : {
+          "$ref": "PortPVRInfo"
+        }
+      }
+    },
+	"PortPVRInfo": {
+      "id": "PortPVRInfo",
+      "description": "set PortPVRInfo request",
+      "required": [
+        "@mediaStreamDirResourceNID",
+		"@trimLength",
+		"@enable"	
+      ],
+      "properties": {
+       "@mediaStreamDirResourceNID": {
+          "type": "string",
+		  "description":"Required. Use GetDir call to get this NID for required media directory"
+        },
+        "@trimLength": {
+          "type": "string",
+		  "description":"Optional - In milliseconds. Default is 4hrs"
+        },
+		"@enable": {
+          "type": "boolean",
+		  
+		  "description":"Required."
+        }
+      }
+    },
+	"SetPortStreamURL": {
+      "id": "SetPortStreamURL",
+      "description": "set PortStreamURL request",
+      "required": [
+        "PortStreamURL"
+      ],
+      "properties": {
+        "PortStreamURL" : {
+          "$ref": "PortStreamURL"
+        }
+      }
+    },
+	"PortStreamURL": {
+      "id": "PortStreamURL",
+      "description": "set PortStreamURL request",
+      "required": [
+        "@streamURL"
+      ],
+      "properties": {
+       "@streamURL": {
+          "type": "string"
+        }
+      }
+    },
+	"PortDisplayConfig": {
+      "id": "PortDisplayConfig",
+      "description": "set PortDisplayConfigReq request",
+      "required": [
+        "PortDisplayConfigReq"
+      ],
+      "properties": {
+        "PortDisplayConfigReq" : {
+          "$ref": "setPortDisplayConfigReq"
+        }
+      }
+    },
+	"setPortDisplayConfigReq": {
+      "id": "setPortDisplayConfigReq",
+      "description": "A basic setPortDisplayConfigReq request",
+      "required": [
+        "Canvas"
+      ],
+      "properties": {
+        "Canvas":{"type": "Canvas"}
+		
+      }
+    },
+	"Canvas": {
+      "id": "Canvas",
+      "description": "Canvas",
+      "required": [
+        "Background",
+		"Window"
+			
+      ],
+      "properties": {
+       "Background": {
+          "$ref": "Background"
+        },
+        "Window": {
+          "$ref": "Window"
+        }
+      }
+    },
+	"Background": {
+      "id": "Background",
+      "description": "Background",
+      "required": [
+        "@zIndex",
+		"@content",
+		"@enable"	
+      ],
+      "properties": {
+       "@zIndex": {
+          "type": "string"
+        },
+        "@content": {
+          "type": "string"
+        },
+		"@enable": {
+          "type": "boolean"
+        }
+      }
+    },
+	"Window": {
+      "id": "Window",
+      "description": "Window",
+      "required": [
+        "@zIndex",
+		"@content",
+		"@enable",
+        "Geometry"		
+      ],
+      "properties": {
+       "@zIndex": {
+          "type": "string"
+        },
+        "@content": {
+          "type": "string"
+        },
+		"@enable": {
+          "type": "boolean"
+        },
+		"Geometry": {
+          "$ref": "Geometry"
+        }
+      }
+    },
+	"Geometry": {
+      "id": "Geometry",
+      "description": "Geometry",
+      "required": [
+        "@hpos",
+		"@vpos",
+		"@hres",
+        "@vres",
+        "@aspect",
+		"@transparency"
+		 ],
+      "properties": {
+       "@vpos": {
+          "type": "string"
+        },
+        "@hpos": {
+          "type": "string"
+        },
+		"@hres": {
+          "type": "string"
+        },
+		"@vres": {
+          "type": "string"
+        },
+		"@aspect": {
+          "type": "string"
+        },
+		"@transparency": {
+          "type": "string"
+        }
+      }
+    },
+	"PortWindowProperties": {
+      "id": "PortWindowProperties",
+      "description": "set PortWindowProperties request",
+      "required": [
+        "PortWindowProperties"
+      ],
+      "properties": {
+        "PortWindowProperties" : {
+          "$ref": "setPortWindowPropertiesReq"
+        }
+      }
+    },
+	"setPortWindowPropertiesReq": {
+      "id": "setPortWindowPropertiesReq",
+      "description": "A basic setPortWindowPropertiesReq request",
+      "required": [
+        "WindowProperties"
+      ],
+      "properties": {
+        "WindowProperties":{"type": "WindowProperties"}
+		
+      }
+    },
+	"WindowProperties": {
+      "id": "WindowProperties",
+      "required": [
+        "@scrollHPos",
+        "@scale",
+        "@maximize",
+"@border",
+"@hres",
+"@aspect",
+"@transparency",
+"@scrollVPos",
+"@remoteKbmCtrl",
+"@vpos",
+"@layoutPos",
+"@vres",
+"@visibility",
+"@hpos",
+"@fps",
+"@mute",
+"@volume"
+
+      ],
+      "properties": {
+        "@scrollHPos": {
+          "type": "string"
+        },
+        "@scale": {
+          "type": "string"
+        },
+        "@maximize": {
+          "type": "string"
+        },
+        "@border": {
+          "type": "string"
+        },
+		"@hres": {
+          "type": "string"
+        },
+		"@aspect": {
+          "type": "string"
+        },
+		"@transparency": {
+          "type": "string"
+        },
+		"@remoteKbmCtrl": {
+          "type": "string"
+        },
+		"@vpos": {
+          "type": "string"
+        },
+		"@layoutPos": {
+          "type": "string"
+        },
+		"@vres": {
+          "type": "string"
+        },
+		"@visibility": {
+          "type": "string"
+        },
+		"@hpos": {
+          "type": "string"
+        },
+		"@fps": {
+          "type": "string"
+        },
+		"@mute": {
+          "type": "string"
+        },
+		"@volume": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

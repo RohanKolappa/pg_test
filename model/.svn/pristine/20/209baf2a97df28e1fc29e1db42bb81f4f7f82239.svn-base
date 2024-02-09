@@ -1,0 +1,158 @@
+<ipvs>
+	<tagMappings>
+		<xml>tagMappings.xml</xml>
+	</tagMappings>
+	<!-- variables are always saved to folder -->
+    <global_system_variables path="/data/dbmigration/workarea/global_system_variables.xml">
+	    <variable name="serviceVersion" description="current migration service version"/>
+	    <variable name="DBMigrationFolder" description="migration folder e.g. /etc/migration/1.0/database"/>
+	    <variable name="DBMigrationWorkareaFolder" description="work folder e.g. /data/dbmigration/workarea/1.0/migration"/>
+	    <variable name="DBMigrationWorkareaTempFolder" description="work temp folder e.g. /data/dbmigration/workarea/1.0/migration/temp"/>
+	    <variable name="DBMigrationWorkareaBackupFolder" description="work backup folder e.g. /data/dbmigration/workarea/1.0/pre_migration_bck_db"/>
+	    <variable name="servicedomain" description="servicedomain - e.g. default"/>
+	    <variable name="ipvs_collection" description="for current servicedomain - collection name e.g. IPVSc_default"/>
+	    <variable name="ipvs_colindex" description="for current servicedomain - col index name e.g. IPVSis_colnids_default"/>
+	    <variable name="ipvs_nodeindex" description="for current servicedomain - node index name e.g. IPVSi_nids_default"/>
+	    <variable name="serviceVersion_db" description="current database service version"/>
+	    <variable name="serviceVersion_software" description="current software service version"/>
+	    <variable name="aftermigration_serviceVersion" description="after migration service version">2.15</variable> 
+	</global_system_variables>      
+
+	<DBMigrationTaskSequence>
+		<vendor>sedna</vendor>
+		<priorityLevels>10</priorityLevels>
+		<numberOfLoops>1</numberOfLoops>
+		<initialDelay>0</initialDelay>
+		<delay>1</delay>
+		<delayUnit>SECONDS</delayUnit>
+		<corePoolSize>1</corePoolSize>
+		<maximumPoolSize>1</maximumPoolSize>
+		<keepAliveTime>60</keepAliveTime>
+		<loopEndlessly>false</loopEndlessly>
+		
+		<DBMigrationTasks enable="true" name="tasks_createsnapshot" priority="1" completBeforeStartNext="true">
+			<DBMigrationTask enable="true" name="task_xsls_transform_task"
+				priority="2" saveForDiff="true">
+				<ipvstag_ApplyXslFileSystem enable="true">
+				
+					
+					<!-- root -->
+					<xslMapping enable="true" type="non_objectType" non_objectType="service.version">
+						<xsl_transform xsl="../../shared/xsl/_updateServiceVersionXml.xsl" />
+					</xslMapping>
+								
+					<!-- default apply to all xmls-->					
+					<xslMapping enable="false" type="objectType" objectType="*">
+						<xsl_transform xsl="../../shared/xsl/_updateServiceVersion.xsl" />
+					</xslMapping>
+					
+					<!-- apply_serviceVersion - only called on last service version migration -->	
+					<!-- apply_serviceVersion - only called on on object types which are not mapped -->	
+					<xslMapping enable="true" type="apply_serviceVersion" apply_serviceVersion="*">
+						<xsl_transform xsl="../../shared/xsl/_updateServiceVersion.xsl" />
+					</xslMapping>	
+					
+					<xslMapping enable="true"  type="objectType" objectType="MediaStreamSrcPortResource">
+						<xsl_transform xsl="xsl/MediaStreamSrcPortResource.xsl" />
+					</xslMapping>
+					
+					<xslMapping enable="true"  type="objectType" objectType="MediaStreamDstPortResource">
+						<xsl_transform xsl="xsl/MediaStreamDstPortResource.xsl" />
+					</xslMapping>
+					
+					<xslMapping enable="true"  type="objectType" objectType="MediaStreamRelayPortResource">
+						<xsl_transform xsl="xsl/MediaStreamRelayPortResource.xsl" />
+					</xslMapping>
+					
+					<xslMapping enable="true"  type="objectType" objectType="MediaStreamIOPortResource">
+						<xsl_transform xsl="xsl/MediaStreamIOPortResource.xsl" />
+					</xslMapping>
+					
+					<xslMapping enable="true"  type="objectType" objectType="MediaStorePortResource">
+						<xsl_transform xsl="xsl/MediaStorePortResource.xsl" />
+					</xslMapping>
+										
+					<!-- device types -->
+					<xslMapping enable="true"  type="objectType" objectType="DMS-100-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="DMS-1000-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="DMS-120-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="DMS-1200-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="DMS-1500-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="DMS-200-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="IPVSClient-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="MPEGTS-Rx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="MPEGTS-Tx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="MS-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="RTP-Rx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType"  objectType="RTP-Tx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="UDP-Rx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="UDP-Tx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-Rx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-Tx-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-XP200-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-XP200S-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-XP220-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-XP220S-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					<xslMapping enable="true"  type="objectType" objectType="V2D-XP100-Device">
+						<xsl_transform xsl="../xsl/Device.xsl" />
+					</xslMapping>
+					
+					
+					
+					<!--  individual objects  -->
+					
+					<!-- 
+					<xslMapping enable="true"  type="objectType" objectType="AssetAdminPolicyRule">
+						<xsl_transform xsl="xsl/AssetAdminPolicyRule.xsl" />
+					</xslMapping>
+					-->
+					 
+					
+ 			 
+				</ipvstag_ApplyXslFileSystem>
+			</DBMigrationTask>
+		</DBMigrationTasks>
+ 		 
+
+	</DBMigrationTaskSequence>
+</ipvs>

@@ -1,0 +1,24 @@
+let $fileNID := '_FILENID_'
+
+let $fileDoc := doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $fileNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $fileNID, 'default.'),'.')))/*[@NID=$fileNID]
+
+let $parentDirNID := $fileDoc//ParentMediaDirNID
+let $dirNID :=   $fileDoc//ParentMediaDirNID    
+let $fileUUID := $fileDoc//UUID				
+let $dirDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dirNID, 'default.'),'.')))/*[@NID=$dirNID]
+let $priorityPort := data($dirDoc/min(.//MediaStorePortResourceNIDList/MediaStorePortResourceNID[@priority!='']/@priority))   
+
+let $portNID :=  data($dirDoc//MediaStorePortResourceNID[@priority = $priorityPort]) 
+
+let $dirId := data($dirDoc//MediaStorePortResourceNID[@priority = $priorityPort and .= $portNID]/@deviceElementId)              
+                      
+let $portDoc :=  doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $portNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $portNID, 'default.'),'.')))/*[@NID=$portNID]
+let $contactJID :=data($portDoc/Contact/OwnerUserJID)
+				                     
+return <Thumbnail ><parentDirNID>{$parentDirNID}</parentDirNID> <fileUUID>{$fileUUID}</fileUUID><contactJID>{$contactJID}</contactJID><dirID>{$dirId}</dirID></Thumbnail>

@@ -1,0 +1,43 @@
+#!/bin/sh
+# $Id: ifplugd.action 99 2004-02-08 20:17:59Z lennart $
+
+# This file is part of ifplugd.
+#
+# ifplugd is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# ifplugd is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ifplugd; if not, write to the Free Software Foundation,
+# Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+# Source common library
+. /etc/scripts/common.rc
+
+set -e
+
+if [ -z "$1" ] || [ -z "$2" ] ; then
+	logprint "ifplugd.action: Wrong arguments" 
+	exit 1
+fi
+
+# If DHCP is enabled, tell udhcpc to renew the lease otherwise do  
+# nothing, i.e. we'll keep the IP address if it's static
+# Question: what about link local address?
+if [ "$2" = "up" ] ; then 
+    logprint "ifplugd.action: Interface $1 Up" 
+    if [ -f /tmp/udpcpc.$1 ]; then
+        kill -s USR1 `cat /tmp/udpcpc.$1`
+    fi
+fi
+
+if [ "$2" = "down" ] ; then
+    logprint "ifplugd.action: Interface $1 Down" 
+fi
+exit 1

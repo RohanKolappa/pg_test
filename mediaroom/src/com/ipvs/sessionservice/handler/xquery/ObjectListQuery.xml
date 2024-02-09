@@ -1,0 +1,23 @@
+let $list1 := local:getList()
+let $startFrom := _STARTFROM_
+let $countToFetch := _COUNTTOFETCH_
+let $detail := '_DETAIL_'
+let $formatType := '_FORMAT_TYPE_'
+let $listcount := count($list1)
+let $resultcount := if ($countToFetch = -1) then 
+						 $listcount
+						 else
+						  $countToFetch
+						 
+						 
+let $list2 := if ($formatType = 'taglist') then $list1
+              else subsequence($list1, $startFrom, $resultcount)
+let $list3 :=  if ($formatType = 'item') then 
+                 for $b in  $list2
+                   return local:formatItem($b, $detail)                    
+			   else  
+			       local:formatList($list2, $detail)
+			    
+                  
+
+return <ObjectList from='{$startFrom}' total='{$listcount}'>{$list3}</ObjectList>

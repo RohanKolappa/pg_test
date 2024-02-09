@@ -1,0 +1,48 @@
+Audit Event Logging
+
+Files:
+
+1. AuditEventMapping ==> com/ipvs/common/service/AuditEventMapping.xml
+2. AuditEventLogger ==>  com/ipvs/common/service/AuditEventLogger.java
+3. AuditEventUtils ==>  com/ipvs/common/service/AuditEventUtils.java
+4. AuditEvent ==>  com/ipvs/common/service/AuditEvent.java
+5. EventLoggerI ==> com/ipvs/common/service/EventLoggertI.java
+
+
+ ==> LOGGING EVENT USING AUDITEVENTMAPPING FILE
+      AuditEventMapping:  contains the event mapping  based on object and action or request name
+	  ==> Adding Event Based on Object or action: 
+		    1. Add entry in AuditEventMapping 
+		         	<EventMapping action='ReplaceRequest' objectType='AssetResource' eventType='Device' eventName='Modify' targetXPath='//Info/Title' />
+		    2. implements EventLoggerI in request handler 
+		    3. Create AuditEvent object in getAuditEvent method using AuditEventUtils methods getAuditEventObjectBasedOnObjectAndAction 
+		    
+	  ==> Adding event Based on Request 
+	       1. Add Entry in AuditEventMapping 
+	                <EventMapping action='DeleteRequest' objectType='Device' eventType='Device' eventName='Delete' targetXPath='//Device/@title'>
+						<RequestList>
+							<Request>DeleteDeviceRequest</Request>
+						</RequestList>
+					</EventMapping>
+
+Note: If the handler result doc does not contains the values then read/create document accordingly and set it in request loggerDocument.					
+
+ ==> LOGGING EVENT USING EVENTLOGGERI IN REQUEST HANDLER
+         1. implements EventLoggerI in request handler 
+		 2. Create AuditEvent based on your requirement 
+
+ ==> LOGGING EVENT AT AGENT LEVEL / CUSTOM EVENTS
+        1. Create AuditEvent object based on Your Requirement
+        2. Add auditEvent object to AuditEventLogger queue.
+    	 
+ ==> LOGGING EVENT FOR ASYN REQUESTS
+        1. Create AuditEvent object in hanldeAgentResponse of AgetnResponseHanlder
+        2. Pass Audit Event object to handleResponse of MRResponseHandlerI		
+
+	 
+		    				
+		                       
+
+ 
+                       
+   

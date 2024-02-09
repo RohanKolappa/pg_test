@@ -1,0 +1,36 @@
+let $fileNID :=_FILENID_
+let $dirNID :=_DIRNID_
+
+let $fileDoc := doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $fileNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $fileNID, 'default.'),'.')))/*[@NID=$fileNID]
+
+                     
+let $dirDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $dirNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $dirNID, 'default.'),'.')))/*[@NID=$dirNID]
+let $priorityPort := data($dirDoc/min(.//MediaStorePortResourceNIDList/MediaStorePortResourceNID[@priority!='']/@priority))   
+
+let $portNID :=  data($dirDoc//MediaStorePortResourceNID[1][@priority = $priorityPort]) 
+
+let $dirId := data($dirDoc//MediaStorePortResourceNID[@priority = $priorityPort and .= $portNID]/@deviceElementId)              
+                      
+let $portDoc :=    doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $portNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $portNID, 'default.'),'.')))/*[@NID=$portNID]
+
+let $deviceDoc := for $device in collection('/db/ipvs.default.devicelist')/*
+						   						[.//MediaStorePortResourceNID/NIDValue = $portNID] 
+												return $device
+let $assetResourceNID :=    $portDoc//AssetResourceNID                     
+let $assetResourceDoc :=      doc(concat('/db/ipvs.default.', 
+          						substring-before( substring-after( $assetResourceNID, 'default.') , '.'  ) , '/',
+          						substring-after( substring-after( $assetResourceNID, 'default.'),'.')))/*[@NID=$assetResourceNID]
+ 
+let $dmsIP := data($deviceDoc//EthernetPortStatus/Parameters[Parameter[@name = 'Primary' and . = 'True'] and Parameter[@name = 'Status' and . = 'True']]/./Parameter[@name='IPAddress'])
+let $apiKeyTable := $assetResourceDoc//ApiKeyTable
+				                     
+let $downloadURL := if($dmsIP !='') then 
+                        concat("https://", $dmsIP, "/mediajs/file/download?mediaID=",data($fileDoc//UUID), "&amp;dirID=", $dirId, "&amp;timestamp=_TIME_STAMP_CONST", "&amp;apiKey=", data($apiKeyTable/ApiKey/@key), "&amp;signature=_SIGNATURE_CONST")
+                    else ''	
+return <StartDownloading url='{$downloadURL}' byNID='{$fileNID}'>{$apiKeyTable} </StartDownloading>

@@ -1,0 +1,89 @@
+	
+	let $whereConfig := '_WHERE_CONFIG_'
+	
+    let $serviceResourceDoc := 	for $serviceResource in #OBJ_ServiceResource_OBJ#
+								   return $serviceResource
+								   
+    let $assetResourceNID := 	if ($serviceResourceDoc/HA/*/@state = 'active') then
+										   $serviceResourceDoc/HA/*[@state='active']/@MSAssetResourceNID
+						     	  else 
+		 								   $serviceResourceDoc/AssetResourceNID
+
+
+    let $deviceDoc := 	for $ms in #OBJ_Device_OBJ#
+	     					where $ms/AssetResourceNID = data($assetResourceNID)
+					    return $ms
+
+	let $assetDoc := doc(concat('/db/ipvs.default.',  
+								  substring-before( substring-after( $assetResourceNID, 'default.') , '.'  ) , '/', 
+								  substring-after( substring-after( $assetResourceNID, 'default.'),'.')))/*[@NID=$assetResourceNID]
+	
+    						
+    return <GetSystemConfig> 
+			<Device jid='{data($assetDoc//OwnerUserJID)}' NID='{data($assetDoc/@NID)}'>
+					 {
+							if($whereConfig = 'SoftwareVersion' or $whereConfig = 'ALL')  then 
+								<SoftwareVersion tversion='{data($deviceDoc//SoftwareImageStatus/Parameters/Parameter[@name='Version'])}'/> 
+							else ''
+							
+					  }
+					  {		
+							if($whereConfig = 'ScheduleBackup' or $whereConfig = 'ALL')  then 
+							  <ScheduleBackup enable='{data($deviceDoc//IPVSDBService/Backup/DailyBackup)}' 
+											  backupTime='{data($deviceDoc//IPVSDBService/Backup/BackupTime)}'
+											  enableExport='{data($deviceDoc//IPVSDBService/Backup/EnableExport)}'
+											  exportURL='{data($deviceDoc//IPVSDBService/Backup/ExportURL)}'
+											  recoveryMode='{data($deviceDoc//IPVSDBService/Restore/RecoveryMode)}'
+							  /> 
+							  else ''
+							 
+							
+						}
+						{
+							if($whereConfig = 'ExternalAuthentication' or $whereConfig = 'ALL')  then 
+							  <ExternalAuthentication enable='{data($deviceDoc//XMPPServerLDAPAuth/Enable)}'
+													  host='{data($deviceDoc//XMPPServerLDAPAuth/Host)}' 
+													  adminDN='{data($deviceDoc//XMPPServerLDAPAuth/AdminDN)}' 
+													  adminPassword='{data($deviceDoc//XMPPServerLDAPAuth/AdminPassword)}' 
+													  baseDN='{data($deviceDoc//XMPPServerLDAPAuth/BaseDN)}' 
+													  usernameField='{data($deviceDoc//XMPPServerLDAPAuth/UsernameField)}' 
+							  /> 
+							  else ''
+							
+						 }
+						 {
+							  if($whereConfig = 'Preferences' or $whereConfig = 'ALL')  then 
+								 <Preferences>
+									<Login maxMediaClients='{data($deviceDoc//ServicePreferences/Login/MaxMediaClients)}'/>
+							 	 </Preferences> 
+							   else ''
+							
+						  }
+						  {
+							  if($whereConfig = 'DeviceDiscovery' or $whereConfig = 'ALL')  then 
+							  	let $assetTemplateDoc := for $assetResource in  collection('/db/ipvs.default.assetresourcelist')/*[(@parentNID='default.assetresourcelist')] where $assetResource//Title = 'discoverytemplate'
+    														return $assetResource
+								return <DeviceDiscovery enable='{data($deviceDoc//DeviceDiscovery/Enable)}'>
+								 			{$assetTemplateDoc//Info/Groups}
+									   </DeviceDiscovery>
+							  else ''
+							
+						  }
+						  {
+							if($whereConfig = 'MulticastIPAddressPool' or $whereConfig = 'ALL')  then 
+							  for $serviceConfig in #OBJ_ServiceConfig_OBJ#
+								   return $serviceConfig/MulticastIPAddressPool
+							  else ''
+							
+						 }
+						 
+						 {
+							if($whereConfig = 'WriterOptions' or $whereConfig = 'ALL')  then 
+							  for $serviceConfig in #OBJ_ServiceConfig_OBJ#
+								   return $serviceConfig/WriterOptions
+							  else ''
+							
+						 }
+			</Device>
+		 </GetSystemConfig>
+   

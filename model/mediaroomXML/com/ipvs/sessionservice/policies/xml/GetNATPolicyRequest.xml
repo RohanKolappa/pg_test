@@ -1,0 +1,54 @@
+<GetNATPolicyRequest>
+	<GetNATPolicyRequestData>
+		<GetNATPolicy countToFetch="0" sortBy="" sortOrder="ascending" startFrom="1"  
+		     whereTextSubStr="" selectFormat="BASIC/EXTENDED" whereName="" whereNID=""/>
+	</GetNATPolicyRequestData>
+	<GetNATPolicyResponseData>
+	   
+		<GetNATPolicy>
+			
+				 <!-- BASIC FORMAT RESPONSE -->
+			<NATPolicy  NID='' name="Location" active='true/false' order=''/>
+		
+			<!-- EXTENDED FORMAT RESPONSE -->
+			<NATPolicy NID='' name="Location" active='true/false' order=''>
+				<LocalSiteFilteSet>
+					<LocalSiteFilter filterNID='' />
+				</LocalSiteFilteSet>
+
+				<RemoteSiteFilteSet>
+					<RemoteSiteFilter filterNID='' />
+				</RemoteSiteFilteSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>From/To</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>From/To</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+
+				<NetworkAddressScheme>
+					<UseDNSName>true</UseDNSName>
+					<UseLANIP></UseLANIP>
+					<EthernetPortEntryID></EthernetPortEntryID>
+					<UseNATZoneIP></UseNATZoneIP>
+					<NATZoneEntryName></NATZoneEntryName>
+				</NetworkAddressScheme>
+
+				<OutboundNATTable>
+					<NATTable>
+						<NATEntry>
+							<Network></Network>
+							<TranslatedNetwork></TranslatedNetwork>
+							<Netmask></Netmask>
+						</NATEntry>
+					</NATTable>
+				</OutboundNATTable>
+			</NATPolicy>
+		</GetNATPolicy>
+	</GetNATPolicyResponseData>
+<GetNATPolicyExceptionCodes />
+</GetNATPolicyRequest>

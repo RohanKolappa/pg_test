@@ -1,0 +1,84 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="com.ipvs.gui.SessionSlider">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkSessionSlider" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <dynamics jsxcursor="@Default"></dynamics>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutCols" jsxcols="68,*,68" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkTimeCodeContainer" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxborder="0px solid ;0px solid #353535;0px solid ;0px solid" jsxcursor="default" jsxpadding="5 0 0 0"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"></variants>
+          <strings jsxname="lblTimeCode" jsxtext="00:00:00" jsxcolor="#f5f5f5"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkSliderContainer" jsxwidth="100%" jsxheight="100%" jsxborder="0px solid ;0px solid #353535 ;0px solid ;0px solid #000000"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxheight="27" jsxrelativeposition="0" jsxoverflow="2" jsxleft="0" jsxtop="4"></variants>
+          <strings jsxname="blkSlider" jsxwidth="100%" jsxdisplay="" jsxbgcolor=""></strings>
+          <object type="jsx3.gui.Slider">
+            <variants jsxvalue="0" jsxrelativeposition="0" jsxorientation="0" jsxpainttrack="1" jsxtrackclick="1" jsxleft="0" jsxtop="0" jsxzindex="20" jsxenabled="1"></variants>
+            <strings jsxname="sliderPointer" jsxlength="100%" jsxdisplay="" jsxtip="" jsxborder="none"></strings>
+            <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+            <events jsxchange="this.onSelect(fpVALUE,fpPREVIOUS);" jsxincchange="this.onDrag(fpVALUE);"></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxtop="2" jsxheight="10" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="5"></variants>
+            <strings jsxname="sliderTrackContainer" jsxwidth="100%" jsxleft="0%" jsxdisplay=""></strings>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+              <strings jsxname="layoutCols" jsxcols="7,*,7" jsxwidth="100%" jsxheight="100%"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxspy="0"></variants>
+                <strings jsxname="blkSpacer" jsxwidth="100%" jsxheight="100%"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"></variants>
+                <strings jsxname="blkTrackBG" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #000000;1px solid #444444;1px solid #444444;1px solid #000000" jsxbgcolor="#121212" jsxcolor="" jsxtextalign="left"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="0" jsxzindex="2"></variants>
+                  <strings jsxname="lblPvrBuffer" jsxtext="30:00" jsxcolor="#aaaaaa" jsxtextalign="right" jsxdisplay="none"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxheight="7" jsxtop="0" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="1"></variants>
+                  <strings jsxleft="0%" jsxwidth="10%" jsxname="sliderTrackProgress" jsxdisplay="" jsxcolor="" jsxbg="background-image:url(JSXAPPS/IPVS_Viewer/images/slider/progressBg.png);" jsxbgcolor="" jsxcursor="pointer"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxspy="0"></variants>
+                <strings jsxname="blkSpacer" jsxwidth="100%" jsxheight="100%"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="12" jsxheight="12" jsxoverflow="2" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkBookmarksListContainer" jsxwidth="100%" jsxdisplay="" jsxvisibility="" jsxbg=""></strings>
+            <include src="components/BookmarksList.xml" async="false"></include>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkTimeLengthContainer" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxborder="0px solid ;0px solid ;0px solid ;0px solid #111111" jsxcursor="default" jsxpadding="5 0 0 0"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"></variants>
+          <strings jsxname="lblTimeLength" jsxtext="00:00:00" jsxclassname="liveOff"></strings>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+          <variants jsxwidth="45" jsxheight="18" jsxrelativeposition="0" jsxleft="4" jsxtop="3" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+          <strings jsxname="imagebutton" jsximage="images/buttons/btnLiveUp.png" jsxoverimage="images/buttons/btnLiveOver.png" jsxonimage="images/buttons/btnLiveOver.png" jsxdisabledimage="images/buttons/btnLiveUp.png" jsxdisplay="none"></strings>
+          <events jsxexecute="alert('Execute');"></events>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

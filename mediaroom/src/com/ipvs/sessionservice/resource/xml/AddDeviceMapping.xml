@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviceList>
+	<Device type='V2D-Tx-Device'>
+		<PortList>
+			<Port name='MediaStreamSrcPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='V2D-Rx-Device'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='1' streamType='V2D' updateFeatureList='true' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='V2D-XP200-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='2' streamType='V2D' titlePostFix='_CHANNEL2' updateFeatureList='true' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="XP200DisplayConfig"></Feature>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='V2D-XP200S-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='V2D-XP220-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='2' streamType='V2D' titlePostFix='_CHANNEL2' updateFeatureList='true' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="XP200DisplayConfig"></Feature>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='V2D-XP220S-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='V2D-XP100-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='V2D-XPi-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='MPEGTS-Tx-Device'>
+		<PortList>
+			<Port name='MediaStreamSrcPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='MPEGTS' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='RTP-Tx-Device'>
+		<PortList>
+			<Port name='MediaStreamSrcPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='RTP' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='UDP-Tx-Device'>
+		<PortList>
+			<Port name='MediaStreamSrcPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='UDP' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<Device type='MPEGTS-Rx-Device'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='1' streamType='MPEGTS' updateFeatureListIfUnmanaged='true' remotelyOperatedMode ="true">
+				<UnManangedFeatureList>
+					<Feature Name="TrickPlay">false</Feature>
+				</UnManangedFeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='RTP-Rx-Device'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='1' streamType='RTP' updateFeatureListIfUnmanaged='true' remotelyOperatedMode ="true">
+				<UnManangedFeatureList>
+					<Feature Name="TrickPlay">false</Feature>
+				</UnManangedFeatureList>			
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='UDP-Rx-Device'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='1' deviceElementId='1' streamType='UDP' updateFeatureListIfUnmanaged='true' remotelyOperatedMode ="true">
+				<UnManangedFeatureList>
+					<Feature Name="TrickPlay">false</Feature>
+				</UnManangedFeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	<Device type='IPVSClient-Device' botUser='false' displayConfigNode='IPVSClientDisplayConfig' displayStatusNode='IPVSClientDisplayStatus'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='16' deviceElementId='1' streamType='V2D,MPEGTS,RTP' updateFeatureList='true' updateFeatureListIfUnmanned='true' remotelyOperatedMode ="true">
+				<UnMannedFeatureList>
+					<Feature Name="IPVSClientDisplayConfig"></Feature>
+				</UnMannedFeatureList>
+				<FeatureList>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	
+	
+	<Device type='WebClient-Device' addDevice='false' assetTemplate='true' botUser='false'>
+		<PortList>
+			<Port name='MediaStreamDstPortResource' type='StreamDst' maxInstanceCount='16' deviceElementId='1' streamType='V2D,MPEGTS,RTP' updateFeatureList='true' updateFeatureListIfUnmanned='true' remotelyOperatedMode ="false">
+				<UnMannedFeatureList>
+					<Feature Name="IPVSClientDisplayConfig"></Feature>
+				</UnMannedFeatureList>
+				<FeatureList>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+		</PortList>
+	</Device>
+	
+	<Device type='Proxy-Device' addDevice='false' botUser='false' />
+	<Device type='SG-100-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-100-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-150-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-200-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1000-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1200-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1500-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1550-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1600-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-1700-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='DMS-25-Device'>
+		<PortList>
+			<Port name='MediaStreamRelayPortResource' type='StreamRelay' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+			<Port name='MediaStorePortResource' type='Both' maxInstanceCount='25' deviceElementId='1' streamType='V2D,MPEGTS,RTP,UDP' />
+		</PortList>
+	</Device>
+	<Device type='MS-25-Device' />
+	<Device type='MS-150-Device' />
+	<Device type='MS-Device' />
+	<Device type='ORB-500-Device' enableUnmannedMode='true' displayConfigNode='ORBDecoderDisplayConfig' displayStatusNode='ORBDecoderDisplayStatus'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='1' streamType='V2D' titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamIO' maxInstanceCount='16' deviceElementId='2' streamType='V2D,MPEGTS,RTP' titlePostFix='_CHANNEL2' updateFeatureList='true' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="MRDecoderDisplayConfig"></Feature>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc' maxInstanceCount='1' deviceElementId='3' streamType='RTP' titlePostFix='_CHANNEL3' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+	<!-- New devices task: 45684 -->
+	<Device type='MNA-110-ENCDP-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW' remotelyOperatedMode ="true"/>
+		
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RFB' titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+		</PortList>
+		
+	</Device>
+	<Device type='MNA-110-ENCDVI-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	<Device type='MNA-110-ENCHDSDI-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW' remotelyOperatedMode ="true" />
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	<Device type='MNA-120-DECDVIAudio-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL1' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="MNADisplayConfig"></Feature>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='2' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL2' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="MNADisplayConfig"></Feature>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='3' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true">
+				<FeatureList>
+					<Feature Name="TrickPlay">true</Feature>
+				</FeatureList>
+			</Port>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='4' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='5' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL2' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	
+
+	<Device type='MNA-120-ENCANAAudio-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL2' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='3' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='4' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='5' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL2' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	
+	<Device type='MNA-120-ENCDPAudio-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL2' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='3' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='4' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='5' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL2' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	
+
+	<Device type='MNA-120-ENCDVIAudio-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL2' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='3' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='4' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='5' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL2' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	
+
+	<Device type='MNA-120-ENCHDSDIAudio-Device'>
+		<PortList>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='1' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='2' streamType='RTP-RAW'
+				titlePostFix='_CHANNEL2' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='3' streamType='RFB'
+				titlePostFix='_RFB' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamSrc'
+				maxInstanceCount='1' deviceElementId='4' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL1' remotelyOperatedMode ="true"/>
+			<Port name='MediaStreamIOPortResource' type='StreamDst'
+				maxInstanceCount='1' deviceElementId='5' streamType='RTP-PCM'
+				titlePostFix='_AUDIOCHANNEL2' remotelyOperatedMode ="true"/>
+		</PortList>
+	</Device>
+
+	
+</DeviceList>
+

@@ -1,0 +1,318 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkNewSession" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxcursor="default"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout (--)" jsxrows="30,100,*,26" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="header" jsxborder="border-bottom:solid 1px #333333"></strings>
+        <object type="jsx3.gui.Image">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="3" jsxtop="1"></variants>
+          <strings jsxname="clientWindowHeaderLogo" jsxsrc="../../addins/ipvsCommon/images/panels/clientHeaderLogo.png" jsxdisplay=""></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="150" jsxtop="3" jsxfontsize="14"></variants>
+          <strings jsxname="lblWindowName" jsxtext="New Session" jsxdisplay="" jsxfontweight="bold"></strings>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkIPVSBranding" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="12 6 0 0"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="9"></variants>
+            <strings jsxname="label" jsxtext="powered by Barco" jsxdisplay="" jsxcolor="#799cad"></strings>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkSetupCtrl" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right" jsxborder="border-top:solid 1px #888888"></strings>
+        <dynamics jsxbgcolor="BG3"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="800" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="blkSessionSetup" jsxheight="100%" jsxdisplay=""></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="10" jsxtop="16" jsxfontsize="12"></variants>
+            <strings jsxname="lblCollabName" jsxtext="Session Name:" jsxdisplay="" jsxfontweight="bold"></strings>
+            <dynamics jsxcolor="@Light"></dynamics>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxwidth="400" jsxheight="20" jsxrelativeposition="0" jsxleft="120" jsxtop="13" jsxfontsize="12"></variants>
+            <strings jsxname="txtNewSessionCollaborationName" jsxdisplay="" jsxvalue="Enter Collaboration Name..." jsxbgcolor="#ddd" jsxborder="1px solid #000;1px solid #fff;1px solid #fff;1px solid #000"></strings>
+            <dynamics jsxcolor="@Dark"></dynamics>
+          </object>
+          <object type="jsx3.gui.CheckBox">
+            <variants jsxdefaultchecked="0" jsxheight="18" jsxfontsize="12" jsxrelativeposition="0" jsxleft="10" jsxtop="43" jsxchecked="1"></variants>
+            <strings jsxname="chkNewSessionEnableRecord" jsxtext="Record this Collaboration" jsxmargin="0 4 0 0" jsxdisplay="none"></strings>
+            <dynamics jsxcolor="@Light"></dynamics>
+            <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxheight="20" jsxleft="10" jsxtop="78" jsxfontsize="11"></variants>
+            <strings jsxname="label" jsxtext="PVR:" jsxcolor="#ffffff" jsxmargin="" jsxpadding="4 5 3 3" jsxdisplay=""></strings>
+          </object>
+          <object type="jsx3.gui.CheckBox">
+            <variants jsxheight="18" jsxfontsize="12" jsxrelativeposition="0" jsxleft="45" jsxtop="80" jsxdefaultchecked="0" jsxchecked="0"></variants>
+            <strings jsxname="chkNewSessionEnablePVR" jsxmargin="0 4 0 0" jsxdisplay="" jsxtip="With PVR enabled, you can Pause, Fast forward and Rewind with a slider bar, skip back and forward and play from bookmarks."></strings>
+            <dynamics jsxcolor="@Light"></dynamics>
+            <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"></events>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxwidth="30" jsxheight="18" jsxrelativeposition="0" jsxleft="68" jsxtop="79" jsxfontsize="11"></variants>
+            <strings jsxname="txtHrPVRTrimLength" jsxdisplay="" jsxbgcolor="#ddd" jsxborder="1px solid #000;1px solid #fff;1px solid #fff;1px solid #000" jsxcolor="#555" jsxvalue=""></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="2" jsxleft="98" jsxtop="79" jsxwidth="20" jsxheight="18"></variants>
+            <strings jsxname="lblHrPVRLength" jsxtext="Hr" jsxdisplay="" jsxcolor="#cccccc" jsxpadding="4 5 3 0"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxwidth="30" jsxheight="18" jsxrelativeposition="0" jsxleft="120" jsxtop="79" jsxfontsize="11"></variants>
+            <strings jsxname="txtPVRTrimLength" jsxdisplay="" jsxbgcolor="#ddd" jsxborder="1px solid #000;1px solid #fff;1px solid #fff;1px solid #000" jsxvalue="" jsxcolor="#555"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="2" jsxleft="151" jsxtop="79" jsxwidth="25" jsxheight="18"></variants>
+            <strings jsxname="lblMinPVRLength" jsxtext="Min" jsxdisplay="" jsxpadding="4 5 3 0" jsxcolor="#cccccc"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="315" jsxtop="40" jsxwidth="330" jsxheight="60" jsxoverflow="3" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkPlaybackOptions" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="4" jsxtop="2" jsxfontsize="11"></variants>
+              <strings jsxname="label" jsxtext="Select the default Playback option when using recorded&lt;br&gt; media as the source of a connection stream." jsxdisplay="" jsxtextalign="left"></strings>
+              <dynamics jsxcolor="@Light"></dynamics>
+            </object>
+            <object type="jsx3.gui.Select">
+              <variants jsxwidth="320" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="4" jsxtop="33" jsxtype="0" jsxfontsize="11" _isfocusing="true" jsxenabled="0"></variants>
+              <strings jsxname="selPlaybackOptions" jsxmargin="0 4 0 0" jsxdisplay="" jsxbgcolor="#ddd" jsxvalue="DEFAULT" jsxborder="1px solid #000;1px solid #fff;1px solid #fff;1px solid #000"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="559" jsxtop="12" jsxwidth="80" jsxheight="22" jsxoverflow="2" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkTagsConfig" jsxcursor="hand" jsxclassname="btnGrayGlass" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="BG3" jsxborder="Form Field Border"></dynamics>
+            <events jsxclick="null;" jsxspy="null;"></events>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxwidth="16" jsxheight="16" jsxleft="6" jsxtop="2"></variants>
+              <strings jsxname="imgTags" jsxsrc="images/icons/icon_tags_add.png" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="29" jsxtop="2"></variants>
+              <strings jsxname="lblTags" jsxtext="Tags" jsxclassname="T2" jsxdisplay=""></strings>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxwidth="200"></variants>
+          <strings jsxname="blkNewSessionSaveCancel" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxpadding="@8Pixel"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="100" jsxfontsize="11" jsxrelativeposition="1" jsxleft="165" jsxtop="37"></variants>
+            <strings jsxname="btnNewSessionCancel" jsxtext="Cancel" jsxmargin="8 8 8 8" jsxclassname="btnGrayGlass" jsxtextalign="center" jsxdisplay=""></strings>
+            <events jsxexecute="alert('Collaboration btnNewSessionCancel');"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="100" jsxfontsize="11" jsxrelativeposition="1" jsxleft="165" jsxtop="10"></variants>
+            <strings jsxname="btnNewSessionSave" jsxtext="Save" jsxmargin="2 8 8 8" jsxclassname="btnBlueGlass" jsxtextalign="center" jsxdisplay=""></strings>
+            <events jsxexecute="alert('Collaboration btnNewSessionSave');"></events>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkSessionInfo" jsxwidth="100%" jsxheight="100%" jsxpadding="4 4 4 4"></strings>
+        <dynamics jsxbgcolor="BG3"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="padding" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+          <object type="jsx3.gui.Splitter">
+            <variants jsxleft="0" jsxtop="0" jsxsubcontainer1min="250"></variants>
+            <strings jsxname="splitter ( | )" jsxsubcontainer1pct="27.024647887323944%"></strings>
+            <dynamics jsxbgcolor="BG3"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="blkSessionMedia" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+              <dynamics jsxbgcolor="BG2"></dynamics>
+            </object>
+            <object type="jsx3.gui.Splitter">
+              <variants jsxleft="0" jsxtop="0" jsxsubcontainer2min="0"></variants>
+              <strings jsxname="splitter ( | )" jsxsubcontainer1pct="100%"></strings>
+              <dynamics jsxbgcolor="PANEL4"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1"></variants>
+                <strings jsxname="blkConnections" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+                <dynamics jsxbgcolor="BG2"></dynamics>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"></variants>
+                <strings jsxname="blkParticipants" jsxwidth="100%" jsxheight="100%" jsxclassname="panel3" jsxdisplay="none"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"></variants>
+                  <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+                  <object type="jsx3.gui.LayoutGrid">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+                    <strings jsxname="layout (--)" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"></strings>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"></variants>
+                      <strings jsxname="blkParticipantHeader" jsxwidth="100%" jsxheight="100%" jsxclassname="H1" jsxtextalign="right" jsxpadding="4 8 4 4"></strings>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="4" jsxtop="4"></variants>
+                        <strings jsxname="label" jsxtext="Participants" jsxclassname="T2" jsxdisplay=""></strings>
+                      </object>
+                      <object type="jsx3.gui.ImageButton">
+                        <variants jsxtype="0" jsxprefetch="1" jsxstate="1" jsxheight="17" jsxwidth="16"></variants>
+                        <strings jsxname="btnAddDestination" jsxtext="" jsximage="images/buttons/btnAddOff.png" jsxoverimage="images/buttons/btnAddOn.png" jsxdownimage="images/buttons/btnAddOn.png" jsxonimage="images/buttons/btnAddOn.png" jsxdisabledimage="images/buttons/btnAddOff.png" jsxtip="Add a destination to my list"></strings>
+                        <events jsxexecute="alert('Execute');"></events>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"></variants>
+                      <strings jsxname="blkParticipants" jsxwidth="100%" jsxheight="100%"></strings>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkStatus" jsxwidth="100%" jsxheight="100%" jsxpadding="4 4 4 4"></strings>
+        <dynamics jsxbgcolor="BG3" jsxborder="BRD4-Top"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+          <strings jsxname="lblStatus" jsxtext="Replace me with status text..." jsxclassname="T3"></strings>
+          <events jsxdblclick="null;"></events>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxname="blkCollabGroupTagSettings" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxclassname="dialogMask"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxleft="10" jsxtop="70" jsxwidth="660" jsxheight="200" jsxoverflow="1" jsxrelativeposition="0"></variants>
+        <strings jsxname="blkCollabGroupTagSettingsDlg" jsxdisplay="" jsxborder="solid 1px #e5e5e5" jsxbgcolor="#888"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="8" jsxtop="6"></variants>
+          <strings jsxname="lblCollabTag" jsxtext="Session Tags:" jsxdisplay="" jsxclassname="T2" jsxfontweight="bold"></strings>
+          <dynamics jsxcolor="@Light"></dynamics>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxleft="299" jsxtop="30" jsxwidth="340" jsxheight="110" jsxoverflow="1" jsxrelativeposition="0"></variants>
+          <strings jsxname="blkCollabGroupMtx" jsxbgcolor="#dddddd" jsxborder="solid 1px #666"></strings>
+          <object type="jsx3.gui.Matrix">
+            <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppresshscroll="1"></variants>
+            <strings jsxname="mtxCollabGroupTag" jsxfocusstyle="font-weight:bold;" jsxxmlid="mtxCollabGroupTagDoc" jsxsortpath="jsxGroupTagName" jsxsorttype="text" jsxselectionbg="images/panels/select.gif" jsxsortdirection="descending" jsxbgcolor="#dddddd"></strings>
+            <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+            <xslparameters jsx_rowbg1="" jsx_rowbg2=""></xslparameters>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="jsxGroupTagName" jsxtext="Tag Group" jsxpadding="2 2 2 6" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxGroupTagName" jsxborder="1px solid #d8d8e5;1px solid #555;1px solid #555;1px solid #d8d8e5" jsxcellcolor="#000" jsxbgcolor="#222"></strings>
+              <dynamics jsxcolor="@Dark" jsxbg="@Bevel TopDown"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants></variants>
+              <strings jsxname="jsxGroupTagValue" jsxtext="Tag Value" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxGroupTagValue" jsxborder="1px solid #d8d8e5;0px solid #555;1px solid #555;1px solid #d8d8e5" jsxcellcolor="#000" jsxbgcolor="#222"></strings>
+              <dynamics jsxcolor="@Dark" jsxbg="@Bevel TopDown"></dynamics>
+            </object>
+            <object type="jsx3.gui.Matrix.Column">
+              <variants jsxwidth="20"></variants>
+              <strings jsxname="imageButtonColumn" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty" jsxborder="1px solid #d8d8e5;0px solid #555;1px solid #555;0px solid #d8d8e5" jsxbgcolor="#222" jsxcellcolor="#000"></strings>
+              <dynamics jsxcolor="@Dark" jsxbg="@Bevel TopDown"></dynamics>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                <strings jsxname="imageButtonMask" jsximage="images/buttons/btn_delete_circle_on.png" jsxoverimage="images/buttons/btn_delete_circle_over.png" jsxdownimage="images/buttons/btn_delete_circle_over.png" jsxonimage="images/buttons/btn_delete_circle_on.png"></strings>
+                <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="9" jsxtop="40"></variants>
+          <strings jsxname="lblcmbTagName" jsxtext="Enter/Select a Tag Name:" jsxdisplay=""></strings>
+          <dynamics jsxcolor="@Light"></dynamics>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxwidth="200" jsxheight="18" jsxtype="1" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="9" jsxtop="55"></variants>
+          <strings jsxname="cmbCollabGroupTagName" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxbgcolor="#ddd" jsxborder="solid 1px #666"></strings>
+          <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="9" jsxtop="84"></variants>
+          <strings jsxname="lblcmbTagValue" jsxtext="Enter/Select a Tag Value:" jsxdisplay=""></strings>
+          <dynamics jsxcolor="@Light"></dynamics>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxwidth="200" jsxheight="18" jsxtype="1" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="9" jsxtop="100"></variants>
+          <strings jsxname="cmbCollabGroupTagValue" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxbgcolor="#ddd" jsxborder="solid 1px #666"></strings>
+          <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="227" jsxtop="120" jsxwidth="60"></variants>
+          <strings jsxname="btnCollabGroupTagAdd" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnGrayGlass"></strings>
+          <events jsxexecute="alert('Collaboration btnCollabGroupTagAdd');"></events>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="655" jsxleft="2" jsxtop="155"></variants>
+          <strings jsxname="hr" jsxtext="" jsxborder="1px solid #acacac;0px solid ;0px solid ;0px solid" jsxdisplay=""></strings>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="20" jsxrelativeposition="0" jsxleft="559" jsxtop="168" jsxwidth="80"></variants>
+          <strings jsxname="btnCollabGroupTagDone" jsxtext="Done" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnGrayGlass"></strings>
+          <events jsxexecute="alert('Collaboration btnCollabGroupTagDone');"></events>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="20" jsxrelativeposition="0" jsxleft="450" jsxtop="168" jsxwidth="80"></variants>
+          <strings jsxname="btnCollabGroupTagCancel" jsxtext="Cancel" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnGrayGlass"></strings>
+          <events jsxexecute="alert('Collaboration btnCollabGroupTagCancel');"></events>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxleft="40" jsxtop="98" jsxwidth="430" jsxheight="130" jsxoverflow="1" jsxrelativeposition="0"></variants>
+      <strings jsxname="blkProfileSettings" jsxdisplay="none"></strings>
+      <dynamics jsxbgcolor="BG4" jsxborder="BRD4"></dynamics>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="9" jsxtop="8"></variants>
+        <strings jsxname="label" jsxtext="Profile Settings:" jsxclassname="T2" jsxdisplay="" jsxfontweight="bold"></strings>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="200" jsxheight="20" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="9" jsxtop="40" jsxfontsize="12"></variants>
+        <strings jsxname="selNewSessionCollaborationProfile" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxdefaulttext="Full Public Access"></strings>
+        <dynamics jsxbgcolor="BG3" jsxcolor="Font1" jsxborder="BRD4"></dynamics>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="359" jsxtop="100" jsxwidth="60"></variants>
+        <strings jsxname="button" jsxtext="OK" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnGrayGlass"></strings>
+        <events jsxexecute="alert('Collaboration btnOk');"></events>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="289" jsxtop="100" jsxwidth="60"></variants>
+        <strings jsxname="button" jsxtext="Cancel" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxclassname="btnGrayGlass"></strings>
+        <events jsxexecute="alert('Collaboration btnCancel');"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxrelativeposition="0" jsxzindex="99"></variants>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="blkMsConnectionMask" jsxdisplay="none" jsxclassname="transparentMask"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxrelativeposition="0" jsxoverflow="2" jsxleft="0" jsxtop="0" jsxheight="14" jsxfontsize="10"></variants>
+        <strings jsxname="blkMsError" jsxtext="Unable to access the Server.  &amp;nbsp; Retrying connection..." jsxdisplay="" jsxwidth="100%" jsxcolor="#f5f5f5" jsxbgcolor="#ed1c24" jsxtextalign="center"></strings>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxleft="0" jsxtop="0" jsxheight="14" jsxoverflow="3" jsxrelativeposition="0" jsxfontsize="10"></variants>
+        <strings jsxwidth="100%" jsxname="blkMsOk" jsxbgcolor="#45db59" jsxtext="Successfully connected to the Management Server." jsxcolor="#f5f5f5" jsxtextalign="center" jsxdisplay="none"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxrelativeposition="1" jsxoverflow="3"></variants>
+          <strings jsxname="label" jsxmargin="0 0 0 20"></strings>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

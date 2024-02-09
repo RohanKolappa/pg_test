@@ -1,0 +1,33 @@
+(: ------------------- Begin NATFilterListXQuery.xml -------------------- :)
+(: #include XQueryLib.xml :)
+declare function local:NATFilterToXPath($NATFilter as element()* ) 
+as xs:string
+{
+let $xpath := string-join ( 
+		(
+			for $d in $NATFilter//ProfileFilter/MediaStreamProfileFilterNID
+			return  local:filterNIDToXPath(data($d))
+		),
+		" or "
+	)
+
+
+
+return $xpath
+};
+
+
+declare function local:getNATFilterList()
+as element()*
+{
+	let $NATfilterlist := (
+		for $d in index-scan('IPVSis_colnids_default', 'default.mediastreamfilterlist', 'EQ')/..
+		let $xpath:=local:NATFilterToXPath($d)
+		where $d//ProfileFilter/MediaStreamProfileFilterNID
+		return <filter><filterxpath>{$xpath}</filterxpath><NATObject>{$d}</NATObject></filter> 
+	)
+	return <result>{$NATfilterlist}</result>
+};
+
+let $result := local:getNATFilterList()
+return $result

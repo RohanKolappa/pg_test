@@ -1,0 +1,62 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="839" jsxheight="694" jsxzindex="5003" jsxwindowstate="1" jsxleft="0" jsxtop="0"></variants>
+    <strings jsxname="DialogAVSettings"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="V2D TX A/V Settings" jsxcolor="#fff;"></strings>
+      <dynamics jsxbg="Dialog Titlebar"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="@Max Tip"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfDlgAssetAVSettings" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkAssetPortSettings" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxborder="@Outset Bottom"></dynamics>
+          <include src="components/assets/portV2DEncoder.xml" async="false"></include>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxborder="@Outset Top"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnCancelAddAssetPorts" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/Images/admin/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnAddAssetPorts" jsxtext="Save" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/Images/admin/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

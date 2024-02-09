@@ -1,0 +1,205 @@
+<ipvs>
+	<DBMigrationTaskSequence>
+	
+	
+	
+		<priorityLevels>10</priorityLevels>
+		<!--  define default values  for DBMigrationTasks --> 
+		<!-- repeat the action so many times -->
+		<numberOfLoops>100</numberOfLoops>
+		<!-- start with delay  -->
+		<initialDelay>0</initialDelay>
+		<!-- if corePoolSize > 1. reapeat the loop for each thread -->	
+		<!-- if multi threaded then set corePoolSize > 1 -->	
+		<corePoolSize>1</corePoolSize>
+		<maximumPoolSize>1</maximumPoolSize>
+		<keepAliveTime>60</keepAliveTime>
+		<!-- if loopEndlessly=true. repeat the loop at interval  delay with delayUnit -->
+		<!-- if completBeforeStartNext=true do not set loopEndlessly=true -->
+		<loopEndlessly>false</loopEndlessly>
+		<delay>1</delay>
+		<delayUnit>SECONDS</delayUnit>
+		<!-- document and collection creation and deletion -->
+		<collectionPrefix>ipvsCol</collectionPrefix>
+		<documentPrefix>ipvsDoc</documentPrefix>
+		<bulkuploadPath>bulkupload.xml</bulkuploadPath>
+		<!--  ipvs domain -->	
+		<ipvsDomain>default</ipvsDomain>
+		<ipvsDomain>default</ipvsDomain>
+		<numberOfCollections>1</numberOfCollections>
+		<numberOfDocumentsPerCollection>10</numberOfDocumentsPerCollection>
+							
+		<!-- DBMigrationTasks DeleteAll  -->
+		<DBMigrationTasks name="DeleteAllStart" enable="true" priority="1" completBeforeStartNext="true">
+			<DBMigrationTasks name="DeleteAllStart" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksDeleteAll</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>	
+				<param name='collectionPrefix'>ipvsCol</param>			
+			</DBMigrationTasks>
+		</DBMigrationTasks>					
+		<!-- DBMigrationTasks CreateCollection  -->
+		<DBMigrationTasks name="CreateCollection" enable="false" priority="2" completBeforeStartNext="true">
+			<DBMigrationTasks name="CreateCollection" enable="false" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksCreateCollection</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>
+			</DBMigrationTasks>
+		</DBMigrationTasks>
+	
+
+		
+			<!-- DBMigrationTasks CreateCollection  -->
+		<DBMigrationTasks name="bulkloadData" enable="true" priority="3" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+ 			<DBMigrationTasks name="LoadGroupTemplate" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadGroupTemplate</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+				<param name='bulkuploadPath'>bulkupload.xml</param>	
+				<param name='loadGroupTemplate'>l_location1</param>	
+			</DBMigrationTasks>	
+			<DBMigrationTasks name="LoadTemplate" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadTemplate</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+				<param name='bulkuploadPath'>bulkupload.xml</param>	
+				<param name='loadTemplate'>l_user1</param>	
+			</DBMigrationTasks>	
+		</DBMigrationTasks>
+			
+			
+		<!-- DBMigrationTasks CreateCollection  -->
+		<DBMigrationTasks name="loadData" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBMigrationTasks name="RefreshDBStat" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBMigrationTasks>	
+			<DBMigrationTasks name="LoadDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBMigrationTasks>			
+		</DBMigrationTasks>			
+		
+		
+		<!-- DBMigrationTasks LoadDocument  -->
+		<DBMigrationTasks name="LoadDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBMigrationTasks name="RefreshDBStat" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBMigrationTasks>	
+			<DBMigrationTasks name="LoadDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksLoadDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+				<param name='loadXmlPath'>bulkupload.xml</param>	
+			</DBMigrationTasks>			
+		</DBMigrationTasks>	
+		
+			
+		
+		<!-- DBMigrationTasks UpdateDocument  -->
+		<DBMigrationTasks name="UpdateDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBMigrationTasks name="UpdateDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksUpdateDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+			</DBMigrationTasks>	
+		</DBMigrationTasks>
+						
+		<!-- DBMigrationTasks readData or add update delete Xquery -->
+		<DBMigrationTasks name="testData" enable="true" priority="4" completBeforeStartNext="true">
+			<DBMigrationTasks name="UpdateDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksUpdateDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBMigrationTasks>	
+			<!--   xquery for add/update/delete child nodes or read -->	
+			<DBMigrationTasks name="ActionXquery1" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksXquery</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBMigrationTasks>	
+			<DBMigrationTasks name="ActionXquery2" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksXquery</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>	 
+			</DBMigrationTasks>	
+		</DBMigrationTasks>	
+	
+
+		<!-- DBMigrationTasks DeleteDocument  -->
+		<DBMigrationTasks name="DeleteDocuments" enable="true" priority="4" completBeforeStartNext="true">
+			<!--   create/delete/update document -->	
+			<DBMigrationTasks name="DeleteDocument" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksDeleteDocument</class>
+				<!--  override default values  --> 
+				<param name='loopEndlessly'>false</param>
+			</DBMigrationTasks>	
+		</DBMigrationTasks>
+
+		<!-- DBMigrationTasks DeleteCollection  -->
+		<DBMigrationTasks name="DeleteCollection" enable="true" priority="5" completBeforeStartNext="true">
+			<DBMigrationTasks name="DeleteCollection" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.dbaction.DBMigrationTasksDeleteCollection</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>				
+			</DBMigrationTasks>
+		</DBMigrationTasks>
+		
+		<!-- DBMigrationTasks DeleteAll  -->
+		<DBMigrationTasks name="DeleteAllEnd" enable="true" priority="6" completBeforeStartNext="true">
+			<DBMigrationTasks name="DeleteAll" enable="true" priority="1">
+				<class>com.ipvsserv.nxd.dbtask.test.existxmldb.DBMigrationTasksDeleteAll</class>
+				<!--  override default values  --> 
+				<param name='numberOfLoops'>1</param>
+				<param name='loopEndlessly'>false</param>
+				<param name='corePoolSize'>1</param>
+				<param name='maximumPoolSize'>1</param>				
+				<param name='collectionPrefix'>ipvsCol</param>
+			</DBMigrationTasks>
+		</DBMigrationTasks>
+	</DBMigrationTaskSequence>
+		
+	<!--   DeleteAll start and end-->	
+	<DeleteAll/>
+	<!--   create/delete collection -->	
+	<CreateCollection/>
+	<DeleteCollection/>
+	<!--   create/delete/update document -->	
+	<LoadDocument/>
+	<DeleteDocument/>
+	<UpdateDocument/>		
+	<!--   load template / groupTemplate-->	
+	<LoadGroupTemplate>
+		<loadGroupTemplate type="groupTemplate" loadObjectsId='l_location1' groupTemplateId='g_location1' count='2' enable='true'  />			
+	</LoadGroupTemplate>
+	<GroupTemplate>
+		<loadTemplate type="template" loadObjectsId='l_user1' templateId='t_user1' count='1'  enable='true' />
+	</GroupTemplate>	 
+	<!--   xquery for add/update/delete child nodes or read -->	
+	<ActionXquery1/>
+	<ActionXquery2/>
+	
+	
+</ipvs>

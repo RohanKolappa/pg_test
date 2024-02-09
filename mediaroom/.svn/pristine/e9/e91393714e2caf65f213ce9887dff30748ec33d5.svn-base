@@ -1,0 +1,67 @@
+declare function local:getFileInfo( $b as element()*, $dir_list as element()*, $detail as xs:string)
+as element ()*
+{
+   let $fileInfo :=   <File NID='{ data($b/@NID) }'
+				          title='{ data($b//Info/Title) }'
+				          fileType='{ data($b//MediaStoreFileInfo/Type) }' 
+				          streamType='{ data($b//Info/StreamTypeList/StreamType) }' 
+				          size='{ data($b//Size) }' 
+				          playlength ='{ data($b//PlayLength) }'
+				          state='{ data($b//State/StateFlag) }'
+				          dateCreated='{ data($b/Info/Properties/DateCreated) }'
+				          dateModified='{ data($b/Info/Properties/DateModified) }'
+				          readOnly='{if (data($b/Info/Properties/Permissions/Write) = 'true') then 'false' else 'true'}'
+				          mediaGroupID='{ data($b//MediaStoreFileInfo/MediaGroupID) }' 
+				          clipID='{ data($b//MediaGroupID/@ClipID) }'
+				          sessionConfigNID='{ data($b//RecInfo/@SessionConfigNID) }'
+				      >   
+						 { if ($detail = 'EXTENDED') then
+						          <description>{ data($b//Info/Description) }</description> 
+							else  ''
+						 }
+					
+						 { if ($detail = 'EXTENDED') then
+						          $b//Info/MediaStoreFileInfo/MetaData
+							else  ''
+						  }
+						  { if ($detail = 'EXTENDED') then
+						           <Dir NID='{data($b//ParentMediaDirNID)}' dirTitle = '{$dir_list[@NID=$b//ParentMediaDirNID]//Title}' />
+							else  ''
+						  }
+					     {$b//Info/Groups}
+				     </File> 
+   return $fileInfo
+};
+ 
+declare function local:getList()
+as element()*
+{
+		let $list2 := for $b in    #OBJ_MediaStreamFileResource_OBJ#           
+		    where $b[((//MediaStoreFileInfo/Type = 'PVRMediaClip')	_FILEXPATH_  )]       
+			order by upper-case ($b_SORTBY_) _SORTORDER_    return $b    
+		return $list2
+		
+};
+
+declare function local:formatItem($b as element()*, $detail as xs:string) {
+		 let $item := $b
+		 return $item
+};
+ 
+declare function local:formatList($b as element()*, $detail as xs:string) as element()* {
+
+		 let $dir_list := if ($detail = 'EXTENDED') then 
+							  let $dir_nid_list := if (count($b) = 0 ) then ''
+														  else  distinct-values($b//ParentMediaDirNID)
+							  return 
+							    for $dir in  #OBJ_MediaStreamDirResource_OBJ#    
+								  where $dir/@NID=$dir_nid_list  return $dir 
+		                  else 
+						     <DirList/>		  
+							
+		 let $file_list := for $file in $b 
+		                      let $formated_file := local:getFileInfo($file, $dir_list, $detail)
+						   return $formated_file
+		 return $file_list
+};
+

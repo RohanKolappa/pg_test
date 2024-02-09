@@ -1,0 +1,358 @@
+<Menu>
+   <Type>config</Type>
+   <SubType>immediate</SubType>
+   <Title>SampleDisplay</Title>
+   <Description>Sample Display</Description>
+   <SkipDocs>true</SkipDocs>
+   <Access>sample_display</Access>
+   <ConfigFile>sampledisplayconf</ConfigFile>
+   <BoardAccess>true</BoardAccess>
+   <CliCommandName>undefined</CliCommandName>
+
+   <Items>
+      <Item>
+        <Name>video_source</Name>
+        <Type>string</Type>
+        <Label>Video Source</Label>
+        <Help>Select video source</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>Remote</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Local", "Remote", "Overlay"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>overlay</Name>
+        <Type>string</Type>
+        <Label>Overlay</Label>
+        <Help>Select Auto / Manual for overlay</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Auto</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "Manual"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>keep_aspect</Name>
+        <Type>boolean</Type>
+        <Label>Keep Aspect</Label>
+        <Help>Keep aspect ratio?</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>aspect</Name>
+        <Type>string</Type>
+        <Label>Aspect</Label>
+        <Help>Select aspect ratio mode</Help>
+        <FieldLength>6</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>Auto</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Auto", "Horiz", "Vert"</Values>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>horiz_scheme</Name>
+        <Type>string</Type>
+        <Label>Horiz Scheme</Label>
+        <Help>Select method for determining horiz resolution</Help>
+        <FieldLength>14</FieldLength>
+        <DefaultValue>Scale/Monitor</DefaultValue>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+        </Disable>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Scale/Monitor", "Scale/Source", "Resolution"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>horiz_scale</Name>
+        <Type>integer</Type>
+        <Label>Horiz Scale</Label>
+        <Help>Enter scaling factor as a percent from 0 to 100</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>100</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>horiz_scheme</Name>
+                <Values>"Resolution"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>horiz_res</Name>
+        <Type>integer</Type>
+        <Label>Horiz Res</Label>
+        <Help>Enter horizontal resolution in pixels</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>1024</DefaultValue>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>horiz_scheme</Name>
+                <Values>"Scale/Monitor", "Scale/Source"</Values>
+            </Item>
+        </Disable>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>2560</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>vert_scheme</Name>
+        <Type>string</Type>
+        <Label>Vert Scheme</Label>
+        <Help>Select method for determining vertical resolution</Help>
+        <FieldLength>14</FieldLength>
+        <DefaultValue>Scale/Monitor</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+           <Values>"Scale/Monitor", "Scale/Source", "Resolution"</Values>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>keep_aspect</Name>
+                <Values>"Yes"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>vert_scale</Name>
+        <Type>integer</Type>
+        <Label>Vert Scale</Label>
+        <Help>Enter scaling factor as a percent from 0 to 100</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>100</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>keep_aspect</Name>
+                <Values>"Yes"</Values>
+            </Item>
+            <Item>
+                <Name>vert_scheme</Name>
+                <Values>"Resolution"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>vert_res</Name>
+        <Type>integer</Type>
+        <Label>Vert Res</Label>
+        <Help>Enter vertical resolution in pixels</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>768</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>1</Min>
+           <Max>1600</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>keep_aspect</Name>
+                <Values>"Yes"</Values>
+            </Item>
+            <Item>
+                <Name>vert_scheme</Name>
+                <Values>"Scale/Monitor", "Scale/Source"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>position</Name>
+        <Type>string</Type>
+        <Label>Position</Label>
+        <Help>Select method for determining position</Help>
+        <FieldLength>10</FieldLength>
+        <DefaultValue>Location</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Location", "Offset"</Values>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>horiz_location</Name>
+        <Type>string</Type>
+        <Label>Horiz Location</Label>
+        <Help>Select horizontal location</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Left</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Left", "Center", "Right"</Values>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>position</Name>
+                <Values>"Offset"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>horiz_offset</Name>
+        <Type>integer</Type>
+        <Label>Horiz Offset</Label>
+        <Help>Enter an integer for horizontal offset</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>3840</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>position</Name>
+                <Values>"Location"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>vert_location</Name>
+        <Type>string</Type>
+        <Label>Vert Location</Label>
+        <Help>Select vertical location</Help>
+        <FieldLength>7</FieldLength>
+        <DefaultValue>Top</DefaultValue>
+     	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Top", "Middle", "Bottom"</Values>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>position</Name>
+                <Values>"Offset"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>vert_offset</Name>
+        <Type>integer</Type>
+        <Label>Vert Offset</Label>
+        <Help>Enter an integer for vertical offset</Help>
+        <FieldLength>5</FieldLength>
+        <Align>follow</Align>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>1200</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+            <Item>
+                <Name>position</Name>
+                <Values>"Location"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+      <Item>
+        <Name>transparency</Name>
+        <Type>integer</Type>
+        <Label>Transparency</Label>
+        <Help>Enter percent transparency as an integer from 0 to 100.</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>100</Max>
+        </Validation>
+        <Disable>
+            <Item>
+                <Name>overlay</Name>
+                <Values>"Auto"</Values>
+            </Item>
+        </Disable>
+      </Item>
+
+   </Items>
+</Menu>

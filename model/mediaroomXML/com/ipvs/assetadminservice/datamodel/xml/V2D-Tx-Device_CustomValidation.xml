@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomValidation methodName="validateTagName" defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="false">
+  <validation validationID="VideoandIOParameters" methodName="validateVideoandIOParameters" action="Add" 
+  	validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" 
+  	xpath="//OperationData/V2D-Tx-Device/DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig/V2DEncoderVideoConfig" />
+  <validation validationID="VideoandIOSerialConfig" methodName="validateVideoandIOSerialConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig/V2DEncoderSerialConfig" />
+  <validation validationID="ConnectionAuthorization" methodName="validateConnectionAuthorization" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsEncodeConfig/DefaultInstanceConfig/V2DEncoderInstanceAuthorizationEntryConfig" />
+  <validation validationID="SplashParameters" methodName="validateSplashParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig/V2DEncoderSplashParametersConfig" />
+  <validation validationID="NetworkParameters" methodName="validateNetworkParameters" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/NetworkElementsConfig/PrimaryEthernetPortConfig/IPConfig" />
+  <validation validationID="RouteEntry" methodName="validateRouteEntry" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/NetworkElementsConfig/RouteTableConfig/RouteEntry" />
+  <validation validationID="VideoLookupTable" methodName="validateVideoLookupTable" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig/V2DCodecVideoLookupTable/V2DCodecVideoLookupEntryConfig" />
+  <validation validationID="AutoPhaseAdvancedVideoConfig" methodName="validateAutoPhaseAdvancedVideoConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/AVCodecElementsConfig/V2DEncoderConfig/V2DEncoderElementAdvancedVideoConfig" />
+  <validation validationID="V2DStreamInstanceConfig" methodName="validateV2DStreamInstanceConfig" action="Add"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//OperationData/V2D-Tx-Device/DeviceConfig/ServiceElementsConfig/StreamingServiceConfig/V2DStreamsTxConfig/DefaultInstanceConfig" />  
+    
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//V2D-Tx-Device/ResourcePointers</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/V2D-Tx-Device/AssetResourceNID" action="delete"/>	
+	<foreignKeyNID xpath="//ResponseXML/V2D-Tx-Device/ResourcePointers/MediaStreamSrcPortResourceNID/NIDValue" action="delete"/>	
+  </validation>
+</CustomValidation>

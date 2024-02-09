@@ -1,0 +1,10 @@
+(: #include TargetObjectLibQuery.xml :)
+let $assetPolicyRuleAfterConvertingintoXpath := ( 
+	    for $policyRule in index-scan('IPVSis_colnids_default', 'default.policyadminpolicyrulelist', 'EQ')/..
+	    where $policyRule/valid = "true"
+	    order by $policyRule/order	
+		return <PolicyAdminPolicyRule> {local:getPolicyRule($policyRule,$policyRule/PolicyAdminObjectFilterSet/PolicyAdminObjectFilterNID,$policyRule/PolicyAdminRoleSet)}</PolicyAdminPolicyRule> 
+	)
+return <PolicyAdminPolicyRuleList>{$assetPolicyRuleAfterConvertingintoXpath}</PolicyAdminPolicyRuleList>
+
+	

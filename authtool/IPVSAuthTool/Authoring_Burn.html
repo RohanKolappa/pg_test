@@ -1,0 +1,492 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DVD Authoring Station : Prepare for Burn</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="pc.css" rel="stylesheet" type="text/css">
+<script language="javascript" SRC="xmldom.js"></script>
+<script language="javascript">
+<!--
+var axAuthor = new ActiveXObject("IPVSAxAuthor.ProjectManager");
+var authFolder = "C:\\IP Video Systems\\IPVSAuthTool";  // Assumed for now
+var settingsFile = "config\\settings.xml";
+var projectsFolder = authFolder + "\\Projects";
+var outPutDir = "";
+var logoPathOK = false;
+function init() {
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  folderBool = fso.FolderExists(projectsFolder);
+  if(!folderBool) {
+    alert("Projects folder is not available");
+    return;
+  }
+  if(fso.FileExists(authFolder + "\\" + settingsFile)) {
+    var settings = parseXML(authFolder + "\\" + settingsFile, fso);
+  }
+  else {
+    alert("Please set Default output directory path in settings");
+    document.location.href = "Authoring_Settings.html";
+  }
+  var f = fso.GetFolder(projectsFolder.toString());
+  var e = new Enumerator(f.SubFolders);
+  var i = 0;
+  selValue = "Select";
+  var qs = window.location.search;
+  if(qs.length>7) {
+    var args = qs.split("?");
+    nameValue = args[1].split("=");
+    if((nameValue[0] == "pname") && (nameValue[1] != "")) {
+      selValue = nameValue[1];
+    }
+  }
+  for(;!e.atEnd();e.moveNext()) {
+    document.getElementById("lstProjects").options.add(new Option(e.item().Name, e.item().Name));
+    i++;
+    if(selValue == e.item().Name) {
+      document.getElementById("lstProjects").options.selectedIndex = i;
+    }
+  }
+  outPutDir = settings.getElements("OUTPUTDIR")[0].getText();
+  f = null;
+	e = null;
+  fso = null;
+  selectProject();
+}
+
+function selectProject() {
+  pname = document.getElementById("lstProjects").value
+  if(pname == "Select") {
+    document.getElementById("div1").innerText = "";
+    document.getElementById("div2").innerText = "";
+    document.getElementById("div3").innerText = "";
+    document.getElementById("div4").innerText = "";
+    document.getElementById("div5").innerText = "";
+    document.getElementById("txtOutPutDir").value = "";
+    return;
+  }
+  projectPath = projectsFolder + "\\" + pname + "\\Project.xml";
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  if(!fso.FileExists(projectPath)) {
+    alert("Project is not available");
+    return;
+  }
+  project = parseXML(projectPath, fso);
+  prCount = project.getElements("PROGRAMS")[0].getText();
+  strmCount = project.getElements("STREAMS")[0].getText();
+  plTime = project.getElements("LENGTH")[0].getText();
+  hr = parseInt(plTime/3600);
+  mins = parseInt(plTime/60);
+  mm = mins % 60;
+  ss = plTime % 60;
+  if(hr<10)
+    hr = "0" + hr;
+  if(mm<10)
+    mm = "0" + mm;
+  if(ss<10)
+    ss = "0" + ss;
+  playLength =  hr + ":" + mm + ":" + ss;
+  size = project.getElements("PSIZE")[0].getText();
+  size = Math.round((size/(1024*1024))*100)/100;
+  logoPath = project.getElements("LOGOPATH")[0].getText();
+  if(fso.FileExists(logoPath)) {
+    logoPathOK = true;
+  }
+  else {
+    logoPathOK = false;
+  }
+  logoTitle = project.getElements("LOGOTITLE")[0].getText();
+  document.getElementById("div1").innerText = prCount + " Programs (" + strmCount + " Streams)";
+  document.getElementById("div2").innerText = "Total Play Time: " + playLength;
+  document.getElementById("div3").innerText = "Total Size: " + size + " GB";
+  document.getElementById("div4").innerText = "Logo: " + logoPath;
+  document.getElementById("div5").innerText = "Title Text: " + logoTitle;
+  document.getElementById("div6").innerText = "Path: " + project.getElements("DVDPATH")[0].getText();
+  document.getElementById("div7").innerText = "DateTime: " + project.getElements("DVDDATE")[0].getText();
+  document.getElementById("txtOutPutDir").value = outPutDir + pname;
+}
+
+function parseXML(fPath, objFSO) {
+  if(objFSO == undefined)
+  {
+    objFSO = new ActiveXObject('Scripting.FileSystemObject');
+  }
+  xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  xmlDoc.async=false;
+
+  strContents = objFSO.OpenTextFile(fPath, 1).ReadAll();
+  var xmlDoc = new XMLDoc(strContents, xmlErr);
+  if ( xmlDoc == null ) {
+    alert( "Could not parse xml data");
+    return null;
+  }
+  // root element
+  var root = xmlDoc.docNode;
+  if ( root == null ) {
+    alert( "Could not parse xml data, root is null");
+    xmlDoc = null;
+    return null;
+  }
+  xmlDoc = null;
+  return root;
+}
+
+function xmlErr( e ) {
+  alert(e);
+}
+
+function getLocation(objID, f) {
+  var dialogPr = new Array();
+  dialogPr[0] = f;
+  dialogPr[1] = document.getElementById(objID).value;
+  var fName = showModalDialog("folderdialog.html",dialogPr,"width:400px;height:400px;resizeable:yes;");
+  if((fName == "") || (fName == undefined))
+  {
+    return;
+  }
+  document.getElementById(objID).value = fName;
+}
+
+function createProject() {
+  pname = document.getElementById("lstProjects").value;
+  if(pname == "Select") {
+    alert("Select a project to Burn");
+    return;
+  }
+  if(!logoPathOK) {
+    alert("DVD Logo path is invalid");
+    return;
+  }
+  document.getElementById("divInProcess").style.display = "block";
+  conFlag = window.confirm("Are you sure you want to create the Media since this process will take a long time?\nPlease do not interrupt the process.");
+  if(!conFlag) {
+    document.getElementById("divInProcess").style.display = "none";
+    return;
+  }
+  DVDPath = document.getElementById("txtOutPutDir").value;
+  DVDPath = trimAll(DVDPath);
+  slashExists = DVDPath.charAt(DVDPath.length-1);
+  if((slashExists=="/")||(slashExists=="\\"))
+    DVDPath=DVDPath.substring(0,DVDPath.length-1);
+  var fso = new ActiveXObject('Scripting.FileSystemObject');
+  folderBool = fso.FolderExists(DVDPath);
+  if(!folderBool) {
+    try {
+      DVDPath = fso.CreateFolder(DVDPath);
+    }
+    catch(er) {
+      document.getElementById("divInProcess").style.display = "none";
+      alert("Output directory path is not valid");
+    return;
+    }
+  }
+  else {
+      flag = window.confirm("Project already exists at selected location. If you want overwrite click OK");
+      if(flag) {
+        try {
+        fso.DeleteFolder(DVDPath, true);
+        }
+        catch(er) {
+          document.getElementById("divInProcess").style.display = "none";
+          alert("Check Permissions to overwrite existing project");
+          return;
+        }
+        DVDPath = fso.CreateFolder(DVDPath);
+      }
+      else {
+        document.getElementById("divInProcess").style.display = "none";
+        document.getElementById("txtOutPutDir").focus();
+        document.getElementById("txtOutPutDir").select();
+        return;
+    }
+  }
+  processProject(DVDPath, fso);
+  fso = null;
+  }
+
+function processProject(DVDFolder, fso) {
+//  document.getElementById("divInProcess").style.display = "block";
+  dt = new Date();
+  MM = dt.getMonth() + 1;
+  if(MM < 10)
+    MM = "0" + MM;
+  DD = dt.getDate();
+  if(DD < 10)
+    DD = "0" + DD;
+  HH = dt.getHours();
+  if(HH < 10)
+    HH = "0" + HH;
+  MIN = dt.getMinutes();
+  if(MIN < 10)
+    MIN = "0" + MIN;
+  SEC = dt.getSeconds();
+  if(SEC < 10)
+    SEC = "0" + SEC;
+  DVDDate = MM + "/" + DD + "/" + dt.getFullYear() + " " + HH + ":" + MIN + ":" + SEC;
+  blob = fso.CreateFolder(DVDFolder + "\\blob");
+  fso.CopyFolder(authFolder + "\\Player" , DVDFolder + "\\Player");
+
+  var prFile = authFolder + "\\Projects\\" + pname + "\\Project.xml";
+  var project = parseXML(prFile, fso);
+  var prFile = authFolder + "\\Projects\\" + pname + "\\Project.xml";
+  var project = parseXML(prFile);
+  XMLMedia = "";
+  mediaList = project.getElements("MEDIA");
+  for(i=0; i<mediaList.length; i++) {
+    basepath = mediaList[i].getElements("BASEPATH")[0].getText();
+    XMLMedia += "<MEDIA>\n";
+    XMLMedia += "<TITLE>" + mediaList[i].getElements("TITLE")[0].getText() + "</TITLE>\n";
+    XMLMedia += "<DATETIME>" + mediaList[i].getElements("DATETIME")[0].getText() + "</DATETIME>\n";
+    XMLMedia += "<LENGTH>" + mediaList[i].getElements("LENGTH")[0].getText() + "</LENGTH>\n";
+    XMLMedia += "<SIZE>" + mediaList[i].getElements("SIZE")[0].getText() + "</SIZE>\n";
+    XMLMedia += "<BASEPATH>" + basepath + "</BASEPATH>\n";
+    fileTypeList = mediaList[i].getElements("FILETYPE");
+    if( fileTypeList.length > 0 && fileTypeList[0].getText() == "MKD" ) {
+      var mkdFileName = mediaList[i].getElements("FILENAME")[0].getText();
+      var mkdFName = mkdFileName.replace(/.mkd$/, "");
+      XMLMedia += "<FILENAME>" + mkdFileName + "</FILENAME>\n";      
+      XMLMedia += "<FILETYPE>" + fileTypeList[0].getText() + "</FILETYPE>\n";
+      if( !fso.FolderExists(basepath + "\\blob") ) {
+        var mkdBaseBlobDir = fso.CreateFolder(basepath + "\\blob");
+      }
+      if( !fso.FolderExists(basepath + "\\blob\\" + mkdFName) ) {
+        var mkdBlobDir = fso.CreateFolder(basepath + "\\blob\\" + mkdFName);
+      }
+
+      var convertMediaCMD = "\"" + authFolder + "\\mediaconverter.exe\"" + " -x" + " -f " + "\"" + basepath + "\\" + mkdFName + ".mkd\"" + " -b " + "\"" + mkdBlobDir + "\""; 
+      var wsh = new ActiveXObject('WScript.Shell');
+      if( wsh ) {
+        var proc = wsh.Run(convertMediaCMD,1,true);
+        if(proc == 0) { //0 for success
+          var streamType = 1; //v2d
+          var flg = axAuthor.CopyStream(streamType, mkdBlobDir, blob + "\\" + mkdFName, 0, 0, 1);
+        }
+        else {
+          alert("Error while extracting MKD file");
+          return false;
+        }
+      }
+    }
+    else {
+      XMLMedia += "<FILENAME>" + mediaList[i].getElements("FILENAME")[0].getText() + "</FILENAME>\n";
+      clips = mediaList[i].getElements("CLIP");
+      for(j=0; j<clips.length; j++) {
+        clipFname = clips[j].getElements("FILENAME")[0].getText();
+        dbpath = basepath + "db\\" + clipFname;
+        blobpath = basepath + "blob\\" + clipFname;
+        streamType = parseInt(clips[j].getElements("TYPE")[0].getText());
+        dstFname = clipFname
+        XMLMedia += "<CLIP>\n";
+        XMLMedia += "<TITLE>" + clips[j].getElements("TITLE")[0].getText() + "</TITLE>\n";
+        XMLMedia += "<TYPE>" + clips[j].getElements("TYPE")[0].getText() + "</TYPE>\n";
+        XMLMedia += "<DATETIME>" + clips[j].getElements("DATETIME")[0].getText() + "</DATETIME>\n";
+        XMLMedia += "<CLIPLENGTH>" + clips[j].getElements("CLIPLENGTH")[0].getText() + "</CLIPLENGTH>\n";
+        XMLMedia += "<SIZE>" + clips[j].getElements("SIZE")[0].getText() + "</SIZE>\n";
+        XMLMedia += "<FILENAME>" + clipFname + "</FILENAME>\n";
+        XMLMedia += "</CLIP>\n";
+        if(streamType == 2)
+        {
+          dstFname = clipFname + ".ts";
+        }
+        if(streamType == 3) {
+          //continue;        dstFname = clipFname + ".mp4";
+        }
+        var flg = axAuthor.CopyStream(streamType, blobpath, blob + "\\" + dstFname, 0, 0, 1);
+      }
+    }
+    XMLMedia += "</MEDIA>\n";
+  }
+
+  logoFile = fso.getFileName(project.getElements("LOGOPATH")[0].getText());
+  XMLString = "<PROJECT>\n";
+  XMLString += "<NAME>" + project.getElements("NAME")[0].getText() + "</NAME>\n";
+  XMLString += "<CREATED>" + project.getElements("CREATED")[0].getText() + "</CREATED>\n";
+  XMLString += "<LENGTH>" + project.getElements("LENGTH")[0].getText() + "</LENGTH>\n";
+  XMLString += "<PSIZE>" + project.getElements("PSIZE")[0].getText() + "</PSIZE>\n";
+  XMLString += "<LOGOPATH>" + project.getElements("LOGOPATH")[0].getText() + "</LOGOPATH>\n";
+  XMLString += "<LOGOFILE>" + logoFile + "</LOGOFILE>\n";
+  XMLString += "<LOGOTITLE>" + project.getElements("LOGOTITLE")[0].getText() + "</LOGOTITLE>\n";
+  XMLString += "<PROGRAMS>" + project.getElements("PROGRAMS")[0].getText() + "</PROGRAMS>\n";
+  XMLString += "<STREAMS>" + project.getElements("STREAMS")[0].getText() + "</STREAMS>\n";
+  XMLString += "<DVDPATH>" + DVDFolder + "</DVDPATH>\n";
+  XMLString += "<DVDDATE>" + DVDDate + "</DVDDATE>\n";
+  XMLString += XMLMedia;
+  XMLString += "</PROJECT>\n";
+
+  try
+  {
+	  var file = fso.CreateTextFile(prFile, true); 
+  }
+  catch(er)
+  {
+    alert("Set permissions to create a file");
+    document.getElementById("divInProcess").style.display = "none";
+    return;
+  }
+  file.WriteLine(XMLString);
+  file.close();
+
+  try
+  {
+	  var file = fso.CreateTextFile(DVDFolder + "\\Medialist.xml", true); 
+  }
+  catch(er)
+  {
+    alert("Set permissions to create a file");
+    document.getElementById("divInProcess").style.display = "none";
+    return;
+  }
+  file.WriteLine(XMLString);
+  file.close();
+
+  label = project.getElements("LOGOTITLE")[0].getText();
+  autorunStr = "[Autorun]\nicon=ipvslogo.bmp\nlabel="+label+"\nopen=IPVSAutoRun.bat\n";
+  try
+  {
+	  var file = fso.CreateTextFile(DVDFolder + "\\autorun.inf", true); 
+  }
+  catch(er)
+  {
+    alert("Set permissions to create a file");
+    document.getElementById("divInProcess").style.display = "none";
+    return;
+  }
+  file.WriteLine(autorunStr);
+  file.close();
+  fso.CopyFile(project.getElements("LOGOPATH")[0].getText(), DVDFolder + "\\Player\\images\\" + logoFile, true);
+  fso.CopyFile(authFolder + "\\config\\index.html", DVDFolder + "\\index.html", true);
+  fso.CopyFile(authFolder + "\\config\\IPVSAutoRun.bat", DVDFolder + "\\IPVSAutoRun.bat", true);
+  fso.CopyFile(authFolder + "\\config\\launchie.js", DVDFolder + "\\launchie.js", true);
+  fso.CopyFile(authFolder + "\\config\\RegPlayer.bat", DVDFolder + "\\RegPlayer.bat", true);
+
+  document.getElementById("div6").innerText = "Path: " + DVDFolder;
+  document.getElementById("div7").innerText = "DateTime: " + DVDDate;
+  document.getElementById("divInProcess").style.display = "none";
+  alert("Project " + pname + " Created Successfully");
+}
+
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+}
+
+function trimAll(sString) 
+{
+  while (sString.substring(0,1) == ' ')
+  {
+    sString = sString.substring(1, sString.length);
+  }
+  while (sString.substring(sString.length-1, sString.length) == ' ')
+  {
+  sString = sString.substring(0,sString.length-1);
+  }
+  return sString;
+}
+
+//-->
+</script>
+</head>
+<body class="body" onload="init()">
+<table width="97%" height="97%" border="0" cellspacing="0" cellpadding="0" align="center" class="authDVDBG">
+	<tr>
+		<td class="H1">
+			<div>
+				<div style="float:left; width:80; height:40; text-align:center;padding:4px"><img src="Images/logoClientHeader.gif" align="absmiddle"></div>
+				<div class="T1b" style="float:left;padding-top:10;padding-bottom:10;padding-left:50">IPVS Authoring Station</div>
+				<div style="text-align:right;padding-top:4px"><span class="t5white"><a href="Authoring_Home.html">Home</a> | <a href="Authoring_Settings.html">Settings</a> | <a href="Authoring_Projects.html">Projects</a> | <a href="Authoring_Media.html">Manage
+				      Media</a> | <a href="Authoring_Burn.html">Create Media</a> | <a href="Authoring_about.html">About</a>&nbsp;&nbsp;</span></div>
+  			</div>
+		</td>
+  	<tr>
+    	<td style="padding:20px" align="left" valign="top">
+			<span class="t1bmid">Create Media</span>
+			<hr width="400">
+			<br>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px"> <!-- TOP FORM SECTION -->
+			
+			<table width="600" border="0" cellspacing="5" cellpadding="0">
+			  <tr>
+			    <td width="191" align="right" class="T4bWhite">Source Project:</td>
+				<td width="396"><select name="lstProjects" size="1" onchange="selectProject()">
+				  <option value="Select" selected>Select</option>
+			    </select></td>
+			  </tr>
+			  <tr>
+			    <td align="right" class="T4bWhite">&nbsp;</td>
+			    <td><table width="100%" border="0" cellspacing="5" cellpadding="0">
+			      <tr>
+			        <td width="76" class="T4b">Summary:</td>
+			        <td width="293" class="T4"><div id="div1"></div></td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div2"></div></td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div3"></div></td>
+		          </tr>
+			      <tr>
+			        <td colspan="2" class="t4b">DVD Media Guide Settings:</td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div4"></div></td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div5"></div></td>
+		          </tr>
+              <tr>
+			        <td colspan="2" class="t4b">Last Created:</td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div6"></div></td>
+		          </tr>
+			      <tr>
+			        <td>&nbsp;</td>
+			        <td class="T4"><div id="div7"></div></td>
+		          </tr>
+		        </table></td>
+		      </tr>
+			  <tr>
+			    <td align="right" class="T4bWhite">DVD Directory:</td>
+			    <td><input name="txtOutPutDir" type="text" size="40">&nbsp;<button class="btnSmall" onclick="getLocation('txtOutPutDir', 1)">Browse</button></td>
+		      </tr>
+			  <tr>
+			    <td align="right" class="T4bWhite">&nbsp;</td>
+			    <td>&nbsp;</td>
+		      </tr>
+		</table>
+
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:20px" height="60%">
+    <div id="divInProcess" border=1 style="display:none">
+     <table height="40" width="500" align=center style="border:solid 1px #23417d;">
+     <tr><td align="center">Project creation is in process Please wait...</td></tr>
+     <!-- <tr><td align="center"><img src="images/1.gif"></td>
+     </tr> --></table>
+   </div>
+		</td>
+	</tr> 
+	<tr>
+		<td style="padding-left:20px">
+			<br><br>
+			<hr width="85%" align="left">
+			<div style="width:80%;text-align:right">
+				<input style="width:75px" name="cancel" type="button" value="Cancel" onclick="javascript:location.href='Authoring_Home.html'">&nbsp;&nbsp;&nbsp;<input style="width:100px" name="save" type="button" value="Create" onclick="createProject()">&nbsp;&nbsp;&nbsp;<input name="save" type="button" style="width:100px" onClick="MM_goToURL('parent','Authoring_BurnInfo.html');return document.MM_returnValue" value="Burn DVD">
+			</div>
+			<br>
+	</td>
+  </tr>
+  <tr>
+    <td class="footer">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

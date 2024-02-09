@@ -1,0 +1,249 @@
+<ipvs>
+	<tagMappings>
+		<xml>tagMappings.xml</xml>
+	</tagMappings>
+	<!-- variables are always saved to folder -->
+    <global_system_variables path="/data/dbmigration/workarea/global_system_variables.xml">
+	    <variable name="serviceVersion" description="current migration service version"/>
+	    <variable name="DBMigrationFolder" description="migration folder e.g. /etc/migration/1.0/database"/>
+	    <variable name="DBMigrationWorkareaFolder" description="work folder e.g. /data/dbmigration/workarea/1.0/migration"/>
+	    <variable name="DBMigrationWorkareaTempFolder" description="work temp folder e.g. /data/dbmigration/workarea/1.0/migration/temp"/>
+	    <variable name="DBMigrationWorkareaBackupFolder" description="work backup folder e.g. /data/dbmigration/workarea/1.0/pre_migration_bck_db"/>
+	    <variable name="servicedomain" description="servicedomain - e.g. default"/>
+	    <variable name="ipvs_collection" description="for current servicedomain - collection name e.g. IPVSc_default"/>
+	    <variable name="ipvs_colindex" description="for current servicedomain - col index name e.g. IPVSis_colnids_default"/>
+	    <variable name="ipvs_nodeindex" description="for current servicedomain - node index name e.g. IPVSi_nids_default"/>
+	    <variable name="serviceVersion_db" description="current database service version"/>
+	    <variable name="serviceVersion_software" description="current software service version"/>
+	    <variable name="aftermigration_serviceVersion" description="after migration service version">1.3</variable> 
+	</global_system_variables>    
+ 
+	<DBMigrationTaskSequence>
+		<vendor>sedna</vendor>
+		<priorityLevels>10</priorityLevels>
+		<numberOfLoops>1</numberOfLoops>
+		<initialDelay>0</initialDelay>
+		<delay>1</delay>
+		<delayUnit>SECONDS</delayUnit>
+		<corePoolSize>1</corePoolSize>
+		<maximumPoolSize>1</maximumPoolSize>
+		<keepAliveTime>60</keepAliveTime>
+		<loopEndlessly>false</loopEndlessly>
+		
+		<!-- create a snap shot. may be this task can be removed after testing -->	
+ 		<DBMigrationTasks enable="true" name="tasks_createsnapshot" priority="1" completBeforeStartNext="true">
+			<DBMigrationTask enable="true" name="task_createsnapshot" priority="1">
+				 <ipvstag_CreateDBSnapshot />	
+			</DBMigrationTask>
+		</DBMigrationTasks>
+		
+		<DBMigrationTasks enable="true" name="tasks_preMigrationXQuery" priority="2" completBeforeStartNext="true">
+			<DBMigrationTask enable="true" name="task_Query1" priority="1">
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamFileResource">
+					<doc_delete/>
+				</ipvstag_UpdateDocs>
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamDirResource">
+					<doc_delete/>
+				</ipvstag_UpdateDocs>	
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MPEGTSMediaStreamProfile">
+					<doc_delete/>
+				</ipvstag_UpdateDocs>	
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/RTPMediaStreamProfile">
+					<doc_delete/>
+				</ipvstag_UpdateDocs>
+				<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/UDPMediaStreamProfile">
+					<doc_delete/>
+				</ipvstag_UpdateDocs>
+                <ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamDstPortResource">
+                    <doc_delete/>
+                </ipvstag_UpdateDocs>
+                <ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamIOPortResource">
+                    <doc_delete/>
+                </ipvstag_UpdateDocs>  					
+												
+				<!-- changes values  -->
+				<ipvstag_XQuery file="xquery/del_el_empty_tag.xquery"/>
+				<ipvstag_XQuery file="xquery/update_text_MatchOp_eq.xquery"/>
+				<ipvstag_XQuery file="xquery/update_text_MatchOp_noteq.xquery"/>
+				<!-- delete old unused attributes -->
+				<ipvstag_XQuery file="xquery/del_attr_childnid.xquery"/>
+				<ipvstag_XQuery file="xquery/del_attr_parse.xquery"/>
+				<ipvstag_XQuery file="xquery/del_attr_nidscheme.xquery"/>
+				<ipvstag_XQuery file="xquery/del_attr_keyElementRelativeXPath.xquery"/>
+				<!-- add / rename new attributes -->
+				<ipvstag_XQuery file="xquery/rename_attr_version.xquery"/>
+				<ipvstag_XQuery file="xquery/add_attr_rev.xquery"/>
+				<ipvstag_XQuery file="xquery/add_attr_ver.xquery"/>
+				<ipvstag_XQuery file="xquery/add_attr_servicever.xquery"/>
+			</DBMigrationTask>	
+		</DBMigrationTasks>
+				
+		<DBMigrationTasks enable="true" name="tasks_xsl_transform" priority="3" completBeforeStartNext="true">
+				
+				<DBMigrationTask enable="true" name="task_xsls_transform_task_device" priority="1" saveForDiff="true">
+					<!-- call Shankar's xsl-->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/*[@parentNID='${servicedomain}.devicelist']" >
+						<xsl_transform xsl="../xsl/Device.xsl"/>
+					</ipvstag_UpdateDocs>					
+				</DBMigrationTask>	
+				
+				<DBMigrationTask enable="true" name="task_xsls_transform_task" priority="2" saveForDiff="true">
+					<!-- call auto generated -->
+
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/AssetAdminPolicyRule" >
+							<xsl_transform xsl="xsl/AssetAdminPolicyRule.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/AssetResource" >
+							<xsl_transform xsl="xsl/AssetResource.xsl"/>
+					</ipvstag_UpdateDocs>		
+					
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/GroupTagDef" >
+							<xsl_transform xsl="xsl/GroupTagDef.xsl"/>
+					</ipvstag_UpdateDocs>													
+					
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaRoomPolicyRule" >
+							<xsl_transform xsl="xsl/MediaRoomPolicyRule.xsl"/>
+					</ipvstag_UpdateDocs>
+
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStoreAdminPolicyRule" >
+							<xsl_transform xsl="xsl/MediaStoreAdminPolicyRule.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStorePortResource" >
+							<xsl_transform xsl="xsl/MediaStorePortResource.xsl"/>
+					</ipvstag_UpdateDocs>					
+					
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamDstPortResource" >
+							<xsl_transform xsl="xsl/MediaStreamDstPortResource.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamFilter" >
+							<xsl_transform xsl="xsl/MediaStreamFilter.xsl"/>
+					</ipvstag_UpdateDocs>	
+					
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamRelayPortResource" >
+							<xsl_transform xsl="xsl/MediaStreamRelayPortResource.xsl"/>
+					</ipvstag_UpdateDocs>	
+					
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamSrcPortResource" >
+							<xsl_transform xsl="xsl/MediaStreamSrcPortResource.xsl"/>
+					</ipvstag_UpdateDocs>	
+					
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/ObjectFilter" >
+							<xsl_transform xsl="xsl/ObjectFilter.xsl"/>
+					</ipvstag_UpdateDocs>
+					
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/PolicyAdminPolicyRule" >
+							<xsl_transform xsl="xsl/PolicyAdminPolicyRule.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/TagObjectFilter" >
+							<xsl_transform xsl="xsl/TagObjectFilter.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/User" >
+							<xsl_transform xsl="xsl/User.xsl"/>
+					</ipvstag_UpdateDocs>
+
+					<!-- no changes in these, except the new attributes -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/UserAdminPolicyRule" >
+							<xsl_transform xsl="xsl/UserAdminPolicyRule.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<!-- changes in these -->
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/V2DMediaStreamProfile" >
+							<xsl_transform xsl="xsl/V2DMediaStreamProfile.xsl"/>
+					</ipvstag_UpdateDocs>	
+					
+					<!--  deleted all MediaStreamFileResource -->
+					<!--
+					<ipvstag_UpdateDocs enable="false" readFromType="xpath" readFrom="/MediaStreamFileResource" >
+							<xsl_transform xsl="xsl/MediaStreamFileResource.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStreamDirResource" >
+						<xsl_transform xsl="xsl/MediaStreamDirResource.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaRoom" >
+							<xsl_transform xsl="xsl/MediaRoom.xsl"/>
+					</ipvstag_UpdateDocs>			
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MediaStoreFile" >
+							<xsl_transform xsl="xsl/MediaStoreFile.xsl"/>
+					</ipvstag_UpdateDocs>	
+
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MPEGTSMediaStreamProfile" >
+							<xsl_transform xsl="xsl/MPEGTSMediaStreamProfile.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/RTPMediaStreamProfile" >
+							<xsl_transform xsl="xsl/RTPMediaStreamProfile.xsl"/>
+					</ipvstag_UpdateDocs>	
+					 -->
+					
+					<!-- to be removed from list  -->
+                    <!-- 
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/MS-Device" >
+							<xsl_transform xsl="xsl/MS-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/IPVSClient-Device" >
+							<xsl_transform xsl="xsl/IPVSClient-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/DMS-100-Device" >
+							<xsl_transform xsl="xsl/DMS-100-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/DMS-1000-Device" >
+							<xsl_transform xsl="xsl/DMS-1000-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/DMS-120-Device" >
+							<xsl_transform xsl="xsl/DMS-120-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/DMS-1500-Device" >
+							<xsl_transform xsl="xsl/DMS-1500-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/V2D-Rx-Device" >
+							<xsl_transform xsl="xsl/V2D-Rx-Device.xsl"/>
+					</ipvstag_UpdateDocs>	
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/V2D-Tx-Device" >
+							<xsl_transform xsl="xsl/V2D-Tx-Device.xsl"/>
+					</ipvstag_UpdateDocs>					
+						 -->							 
+				</DBMigrationTask>
+				
+				
+				<DBMigrationTask enable="true" name="task_xsls_transform_task_add" priority="3" saveForDiff="true">
+
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/AssetResource[Info/Type='IPVSClient-Device']" >
+						<xsl_transform xsl="xsl/add_IPVSClient-Device.xsl"/>
+					</ipvstag_UpdateDocs>					
+
+					<ipvstag_UpdateDocs enable="true" readFromType="xpath" readFrom="/AssetResource[Info/Type='IPVSClient-Device']" >
+						<xsl_transform xsl="xsl/add_MediaStreamDstPortResource.xsl"/>
+					</ipvstag_UpdateDocs>					
+
+				</DBMigrationTask>					
+				
+				
+				
+		</DBMigrationTasks> 		 
+
+		<DBMigrationTasks enable="true" name="tasks_postMigrationXquery" priority="5" completBeforeStartNext="true">
+				<DBMigrationTask enable="true" name="task_Xquery1" priority="1">
+					<ipvstag_XQuery file="xquery/update_attr_servicever.xquery"/>
+				</DBMigrationTask>
+		</DBMigrationTasks>
+
+	</DBMigrationTaskSequence>
+</ipvs>

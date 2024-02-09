@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<!-- Auto Generated with Sencha Architect -->
+<!-- Modifications to this file will be overwritten. -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>tabletNoProfile</title>
+    <script src="http://extjs.cachefly.net/touch/sencha-touch-2.1.0/sencha-touch-all.js"></script>
+	<!--<script src="D:/svn-work/R+D/Sencha/touch-2.1.0/sencha-touch-all.js"></script>-->
+
+    <link rel="stylesheet" href="http://extjs.cachefly.net/touch/sencha-touch-2.1.0/resources/css/sencha-touch.css">
+	<!--<link rel="stylesheet" href="D:/svn-work/R+D/Sencha/touch-2.1.0/resources/css/sencha-touch.css">-->
+	
+    <link rel="stylesheet" href="app/resource/css/TabletGui.css">
+    <script type="text/javascript">
+	<!--#echo var="SERVER_ADDR" -->
+	
+Ext.Loader.setConfig({
+    enabled: true
+});
+
+Ext.application({
+	name: 'TabletGui',
+    launch: function() {
+		//Ext.Msg.alert(SERVER_ADDR);
+		document.write(document.URL);
+		Ext.Msg.alert(document.URL);
+        Ext.create('Ext.navigation.View', {fullscreen: true, title:'CORS test page',html:' <br><br><br> Please clicking F12 to check console in Chrome/Safari!'});
+		//var urlStr = 'http://10.51.51.73/data/getPort.xml';
+		var urlStr = 'http://10.51.51.73/controller/resource/Port';
+			Ext.Ajax.request({
+					    url: urlStr,
+						method:'GET',
+						timeout:3000,
+						type:'jsonp',
+						
+					    headers: {
+					        //"Content-Type": "application/json",
+					        //'Content-Type': 'text/html',
+					        'Authorization': 'Basic c3VwZXJ1c2VyLWRlZmF1bHRAdGVzdDpzdXBlcnVzZXItZGVmYXVsdEEx',
+					        'Access-Control-Allow-Origin': '*'
+					    },
+					
+					   success: function(response){ 
+				            console.log('RESTful login success ...');
+				            console.log(response);
+				        },
+			           failure: function(e){
+				            console.log('invocation fails with error', e);
+				       }
+					}); 
+    }
+
+});
+	</script>
+    <script type="text/javascript">
+        if (!Ext.browser.is.WebKit) {
+            alert("The current browser is unsupported.\n\nSupported browsers:\n" +
+                "Google Chrome\n" +
+                "Apple Safari\n" +
+                "Mobile Safari (iOS)\n" +
+                "Android Browser\n" +
+                "BlackBerry Browser"
+            );
+        }
+    </script>
+</head>
+<body></body>
+</html>

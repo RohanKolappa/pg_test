@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="mediaroom.mediaroomservice.datamodel.xsd" />
+	
+	<!--  Put Canvas Request -->
+	
+	<xs:element name='PUTCanvasRequestData' type='PUTCanvasRequestDataType'/>
+	<xs:complexType name='PUTCanvasRequestDataType'>
+		<xs:sequence>
+			<xs:element name='Canvas' type='CanvasType'/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name='CanvasType'>
+		<xs:sequence>
+			<xs:element name='Window'>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name='Properties' type='PropertiesType'/>
+						<xs:element name='Content' type='ContentType'/>
+					</xs:sequence>
+					<xs:attribute name='id' type='xs:string'/>
+					<xs:attribute name='canvasId' type='xs:string'/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name='id' type='xs:string'/>
+		<xs:attribute name='hres' type='xs:string'/>
+		<xs:attribute name='vres' type='xs:string'/>
+		<xs:attribute name='resourceID' type='xs:string'/>
+	</xs:complexType>
+	
+	<xs:complexType name='PropertiesType'>
+		<xs:attribute name='zIndex' type='xs:integer'/>
+		<xs:attribute name='border' type='xs:string'/>
+		<xs:attribute name='vpos' type='xs:integer'/>
+		<xs:attribute name='hpos' type='xs:integer'/>
+		<xs:attribute name='vres' type='xs:string'/>
+		<xs:attribute name='hres' type='xs:string'/>
+		<xs:attribute name='aspect' type='AspectEnumType'/>
+		<xs:attribute name='transparency' type='xs:int'/>
+		<xs:attribute name='visibility' type='xs:boolean'/>
+		<xs:attribute name='maximize' type='xs:boolean'/>
+		<xs:attribute name='fps' type='xs:integer'/>
+		<xs:attribute name='scale' type='xs:string'/>
+		<xs:attribute name='mute' type='xs:boolean'/>
+		<xs:attribute name='volume' type='xs:string'/>
+		<xs:attribute name='remoteKbmCtrl' type='xs:boolean'/>
+		<xs:attribute name='scrollHPos' type='xs:integer'/>
+		<xs:attribute name='scrollVPos' type='xs:integer'/>
+	</xs:complexType>
+	
+	<xs:complexType name='ContentType'>
+		<xs:sequence>
+			<xs:element name='StreamInfo' type='StreamInfoType'/>
+		</xs:sequence>
+		<xs:attribute name='canvasId' type='xs:string'/>
+		<xs:attribute name='windowId' type='xs:string'/>
+		<xs:attribute name='streamURL' type='xs:string'/>
+		<xs:attribute name='streamNID' type='xs:string'/>
+		<xs:attribute name='roomNID' type='xs:string'/>
+	</xs:complexType>
+	
+	<xs:complexType name='StreamInfoType'>
+		<xs:sequence>
+			<xs:element name='streamdatadoc' type='StreamDataType'/>
+			<xs:element name='mediasourcedatadoc' type='MediaSourceDataType'/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!--  Put Canvas Response -->
+	
+	<xs:element name='PUTCanvasResponseData' type='PUTCanvasResponseDataType'/>
+	<xs:complexType name='PUTCanvasResponseDataType'>
+		<xs:sequence>
+			<xs:element name='StreamStatusList'>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name='StreamStatus' type='StreamStatusNewType' minOccurs='0' maxOccurs='unbounded'/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:complexType name='StreamStatusNewType'>
+		<xs:complexContent>
+			<xs:extension base='StreamStatusType'>
+	        	<xs:sequence>
+	          		<xs:element name='URL' type='xs:anyURI'/>
+	        	</xs:sequence>
+	        	<xs:attribute name='streamNID' type='xs:string'/>
+	        	<xs:attribute name='roomNID' type='xs:string'/>
+	      	</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+				
+	
+	<!--  Put Content Request -->
+	
+	<xs:element name='PUTContentRequestData' type='PUTContentRequestDataType'/>
+	<xs:complexType name='PUTContentRequestDataType'>
+		<xs:sequence>
+			<xs:element name='Content' type='ContentType'/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--  Put Content Response -->
+	
+	<xs:element name='PUTContentResponseData' type='PUTContentResponseDataType'/>
+	<xs:complexType name='PUTContentResponseDataType'>
+		<xs:sequence>
+			<xs:element name='StreamStatus' type='StreamStatusNewType'/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Stream Update Event -->
+	
+	<xs:element name='StreamUpdateEventData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='StreamStatus' type='StreamStatusNewType'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Start Stream Request -->
+	
+	<xs:element name='StartStreamRequestData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='streamNID' type='xs:string'/>
+				<xs:element name='streamdatadoc' type='StreamDataType'/>
+				<xs:element name='mediasourcedatadoc' type='MediaSourceDataType'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Start Stream Response -->
+	
+	<xs:element name='StartStreamResponseData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='StreamStatus' type='StreamStatusNewType'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Start Stream Response Error -->
+	
+	<xs:element name='Error'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='Description' type='xs:string'/>
+			</xs:sequence>
+			<xs:attribute name='code' type='xs:string'/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Stop Stream Request -->
+	
+	<xs:element name='StopStreamRequestData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='streamNID' type='xs:string'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Stop Stream Response -->
+	
+	<xs:element name='StopStreamResponseData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='streamNID' type='xs:string'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- Stream Status Event -->
+	
+	<xs:element name='StreamStatusEventData'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='StreamStatus' type='StreamStatusNewType'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- Media Presence Event for Source/Dest Received -->
+	
+	<xs:element name='MediaPresence'>
+		<xs:complexType>
+			<xs:attribute name='type' type='xs:string'/>
+			<xs:attribute name='roomNID' type='xs:string'/>
+			<xs:attribute name='value' type='xs:string'/>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- Media Presence Event for MediaRoom Received -->
+	
+	<!--  Same as above Presence Event but attribute roomNID should be replaced by jid -->
+	
+</xs:schema>

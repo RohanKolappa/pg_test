@@ -1,0 +1,55 @@
+<query>
+   <![CDATA["declare function local:getStatusList( $parent as element()*)
+as element()* 
+{ 
+ let $list :=   
+ for $b in collection('/db/ipvs.default.assetresourcelist')/*[(@parentNID='default.assetresourcelist')] 
+ where $b/Contact/Presence='available' and  starts-with(data($b/Contact/OwnerUserJID), concat( data($parent/Username), '@') )
+ return <Status
+   jsxPresence='{ data($b//Presence) }'  
+   jsxStateFlag='{ data($b//StateFlag) }'
+   jsxUserStatus = 'images/icons/icon_user_ready.png'
+   /> 
+ return <rec>
+ { if ( count($list) > 0 ) then $list 
+  else <Status jsxPresence='' jsxStateFlag='' jsxUserStatus = 'images/icons/icon_user_offline.png'/>
+
+ }
+  </rec>
+};
+let $startFrom := _STARTFROM_
+let $countToFetch := _COUNTTOFETCH_
+let $list2 := for $b in #OBJ_User_OBJ#
+where $b_WHEREXPATH_    
+order by _SORTXPATH_  _SORTORDER_ 
+return $b  
+let $list3 := subsequence($list2, $startFrom, $countToFetch) 
+let $list := for $b in  $list3 
+let $status := local:getStatusList($b)
+return 
+<record  
+jsxid='{ data($b/@NID) }'  
+jsxtext='{ data($b//Username) }'  
+jsxUserFullName='{ data($b//Name)  }'
+jsxtextuserEmail='{ data($b//Email) }'  
+jsxtextuserCreated='{ data($b//CreationDate) }'
+jsxType='{if ( data($b//Tag[@Name='_RESERVED_']/@Value)  = 'DEVICE_BOT_USERS') 
+          then 'BotUser' else 'User'  
+        }'
+> 
+{$status//Status/@*}
+{
+for $tag in distinct-values($b//Tag/@Name)
+return 
+attribute {  concat('jsxTagValue', replace($tag,' ','' ) ,'')  }  {  data($b/Groups/Tag[@Name=$tag]/@Value)  }   
+}
+ </record> 
+let $records := <data jsxid='jsxroot'>{$list}</data>
+let $result :=  insert-before($records,1, 
+<GetListObjectResponseData> 
+<ObjectCount> { count($list2)} </ObjectCount> 
+<ObjectLastWhereEndCount>{$startFrom}</ObjectLastWhereEndCount> 
+<CountToFetch>{$countToFetch}</CountToFetch> 
+</GetListObjectResponseData>  )
+return <result>{$result}</result>"]]>
+</query>

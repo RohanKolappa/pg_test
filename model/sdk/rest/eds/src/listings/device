@@ -1,0 +1,2105 @@
+{
+    "apiVersion": null,
+    "swaggerVersion": "1.2",
+    "basePath": "/controller/Resource",
+    "resourcePath": "/Device",
+    "apis": [
+        {
+            "path": "/Device",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Finds all Device in the system",
+                    "notes": "Get a list of all the device in the system",
+                    "responseClass": "ResourceOfDeviceList",
+                    "nickname": "getDevice",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "sort by port title/type/state",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "title",
+                                    "type",
+                                    "state"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "sort in order ascending/descending",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "ascending",
+                                    "descending"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereTextSubStr",
+                            "description": "Filter based on substring.this search the substring in title,discription,metadata.",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "listBy",
+                            "description": "listBy Device/Template/Both",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Device",
+                                    "Template",
+                                    "Both"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereNID",
+                            "description": "Filter based on nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereTitle",
+                            "description": "Filter based on title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "subscriptionID",
+                            "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+							"name": "subscriptionScope",
+							"description": "Filter based on subscriptionScope (Valid value= ALLNODES)",
+							"required": false,
+							"allowMultiple": false,
+							"dataType": "string",
+							"paramType": "query"
+						},
+                        {
+                            "name": "whereType",
+                            "description": "Filter based on type",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "IPVSClient-Device",
+                                    "Proxy-Device",
+                                    "WebClient-Device",
+                                    "DMS-25-Device",
+                                    "DMS-100-Device",
+                                    "DMS-120-Device",
+									"DMS-150-Device",
+                                    "DMS-1000-Device",
+                                    "DMS-1200-Device",
+                                    "DMS-1500-Device",
+									"DMS-1550-Device",
+                                    "DMS-1600-Device",
+                                    "DMS-1700-Device",
+                                    "MPEGTS-Rx-Device",
+                                    "MPEGTS-Tx-Device",
+                                    "MS-25-Device",
+									"MS-150-Device",
+                                    "MS-Device",
+                                    "RTP-Tx-Device",
+                                    "RTP-Rx-Device",
+                                    "UDP-Rx-Device",
+                                    "UDP-Tx-Device",
+                                    "V2D-Tx-Device",
+                                    "V2D-Rx-Device",
+                                    "RTSP-Tx-Device",
+                                    "WEB-Tx-Device",
+                                    "PRO-Tx-Device",
+                                    "VNC-Tx-Device",
+                                    "V2D-XP200-Device",
+                                    "V2D-XP200S-Device",
+                                    "V2D-XP220-Device",
+                                    "V2D-XP220S-Device",
+                                    "V2D-XPi-Device",
+									 "EMS-Device",
+									 "ECS-Device",
+									"NGS-D220-Device",
+									"NRC-200-Device",
+									"OWS-GENERIC-Device",
+									"OWS-NGP-100-Device",
+									"OWS-NGP-200-Device",
+									"OWS-NGP-210-Device",
+									"OWSSRV-GENERIC-Device",
+									"OWSSRV-DELL-R320-Device",
+									"OWSSRV-NGP-200-Device",
+									"OWSSRV-NGP-210-Device",
+									"OWSVMHOST-Device",
+									"OWSSPARKGATEWAY-Device",
+									"Virtual-Device"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "selectFormat",
+                            "description": "Filter by response formats",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "BASIC",
+                                    "EXTENDED"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "whereTagExpr",
+                            "description": "fomat: Name='Location' and Value='Sunnyvale'",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "startFrom",
+                            "description": "get the list starting form startFrom index",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "countToFetch",
+                            "description": "number of devices to be fetched",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "integer",
+                            "paramType": "query"
+                        },
+						{
+                            "name": "whereRegion",
+                            "description": "Get one device using the region",
+                            "required": false,
+                            "allowMultiple": true,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "GET",
+                    "summary": "Get Device configuration (available in EDP 1.1 r2)",
+                    "notes": "Copy Device specific configuration from GetDeviceConfig response",
+                    "responseClass": "ResourceOfDeviceList",
+                    "nickname": "getDeviceConfig",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device-Config+json",
+                        "application/vnd.barco.nimbus.Device-Config+xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "NID",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "subscriptionID",
+                            "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                 
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "GET",
+                    "summary": "Get the Device Status (available in EDP 1.1 r2)",
+                    "notes": "Get the Device Status",
+                    "responseClass": "ResourceOfDeviceList",
+                    "nickname": "getDeviceStatus",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device-Status+json",
+                        "application/vnd.barco.nimbus.Device-Status+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "subscriptionID",
+                            "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.).",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+				{
+                    "method": "POST",
+                    "summary": "Get the URL for downloading device logs (available in EDP 1.1 r8)",
+                    "notes": "Get the Device log download URL",
+                    "responseClass": "DownloadDeviceLogsResponse",
+                    "nickname": "DownloadDeviceLogs",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "download device logs",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "DownloadDeviceLogs",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Add a device",
+                    "notes": "Add a device",
+                    "responseClass": "ResourceOfDeviceList",
+                    "nickname": "addDevice",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "body",
+                            "description": "add a device",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddDevice",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete a device",
+                    "notes": "Delete a  device",
+                    "responseClass": "void",
+                    "nickname": "deleteDevice",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Set device information like title, Groups, description etc.",
+                    "notes": "Set device information like title, Groups, description, password, DevicePrivateData, deviceMode, applyTagsToPorts etc.",
+                    "responseClass": "ResourceOfDeviceList",
+                    "nickname": "SetDeviceInfo",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Device-Info+json",
+                        "application/vnd.barco.nimbus.Device-Info+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Update device description in database",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "DeviceInfo",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                
+                {
+                    "method": "POST",
+                    "summary": "Set Device Configuration (available in EDP 1.1 r2)",
+                    "notes": "Set Device Configuration",
+                    "nickname": "SetDeviceConfig",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.Device-Config+json",
+                        "application/vnd.barco.nimbus.Device-Config+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "body",
+                            "description": "",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "DeviceConfigReq",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                    }
+                ]
+                },
+                {
+                     "path": "/DeviceGroup",
+                	 "operations": [
+                	  	{
+                    "method": "POST",
+                    "summary": "Add Device Group. (available in EDP 1.1)",
+                    "notes": "Group Resource(s)/Device(s) under Device Group",
+                    "responseClass": "AddDeviceGrp",
+                    "nickname": "AddDeviceGroup",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.DeviceGroup+json",
+                        "application/vnd.barco.nimbus.DeviceGroup+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },                       
+                        {
+                            "name": "body",
+                            "description": "add a resource/device group",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "AddDeviceGrp",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                    },
+                    
+                    {
+                    "method": "POST",
+                    "summary": "Set Device Group information. (available in EDP 1.1)",
+                    "notes": "Set/Update Device Group information",
+                    "responseClass": "SetDeviceGroupInfo",
+                    "nickname": "SetDeviceGroupInfo",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.DeviceGroup-Info+json",
+                        "application/vnd.barco.nimbus.DeviceGroup-Info+xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "resource group nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "resource group title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },                       
+                        {
+                            "name": "body",
+                            "description": "set resource group information",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "SetDeviceGroupInfo",
+                            "paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                    }
+                   ]
+                },
+                 {
+                	"path": "/Device/CloneDevice",
+                	 "operations": [
+                	  	{
+						 "method": "POST",
+                    "summary": "Clone Device(available in EDP 1.1 r2)",
+                    "notes": "Clone device",
+                    "responseClass": "CloneDevice",
+                    "nickname": "CloneDevice",
+                    "produces": [
+                        "application/vnd.barco.nimbus.Device+json",
+                        "application/vnd.barco.nimbus.Device+xml"
+                    ],
+                    "consumes": [
+                        "application/vnd.barco.nimbus.CloneDevice+json",
+                        "application/vnd.barco.nimbus.CloneDevice+xml"
+                    ],
+                     "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },                       
+                        {
+                            "name": "body",
+                            "description": "add a resource group",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "CloneDevice",
+                            "paramType": "body"
+                        }
+                    ],
+              
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+						}
+						
+						]
+						
+						},
+                
+                {
+                	"path": "/Device/Command",
+                	 "operations": [
+                	  	{
+                    "method": "POST",
+                    "summary": "Reboot the device(available in EDP 1.1 r2)",
+                    "notes": "Reboot the device",
+                    "responseClass": "",
+                    "nickname": "RebootDevice",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "Reboot",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Reboot"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Upgrade the device(available in EDP 1.1 r2)",
+                    "notes": "Upgrade the device",
+                    "responseClass": "",
+                    "nickname": "UpgradeDevice",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "Upgrade",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Upgrade"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "URL",
+                            "description": "URL",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Revert the device to default (available in EDP 1.1 r2)",
+                    "notes": "Revert the device to default",
+                    "responseClass": "",
+                    "nickname": "RevertToDefault",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "RevertToDefault",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "RevertToDefault"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "keepMedia",
+                            "description": "keepMedia",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "true",
+                                    "false"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "keepNetworkSettings",
+                            "description": "keepNetworkSettings",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "true",
+                                    "false"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Shutdown the device(available in EDP 1.1 r2)",
+                    "notes": "Shutdown the device",
+                    "responseClass": "",
+                    "nickname": "Shutdown",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "Shutdown",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Shutdown"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Save Configuration of the device(available in EDP 1.1 r2)",
+                    "notes": "Save Configuration of the device",
+                    "responseClass": "",
+                    "nickname": "SaveConfig",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "SaveConfig",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "SaveConfig"
+                                ]
+                            },
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                },
+                {
+                    "method": "POST",
+                    "summary": "Identify the device(available in EDP 1.1)",
+                    "notes": "Identify the device",
+                    "responseClass": "",
+                    "nickname": "Identify",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "consumes": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "MSIP",
+                            "description": "MS IP",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "NID",
+                            "description": "device nid",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "title",
+                            "description": "device title",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "action",
+                            "description": "Identify",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "allowableValues": {
+                                "valueType": "LIST",
+                                "values": [
+                                    "Identify"
+                                ]
+                            },
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "text",
+                            "description": "text",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "color",
+                            "description": "color",
+                            "required": false,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "duration",
+                            "description": "duration",
+                            "required": true,
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error"
+                        }
+                    ],
+                    "deprecated": "false"
+                }
+            ]
+        },
+        {
+            "path": "/Resource/UpgradeURL",
+            "operations": [	
+			{
+					  "method": "POST",
+					  "summary": "Add Upgrade URL(available in EDP 1.1 r2)",
+					  "notes": "AddUpgradeURL",
+					  "responseClass": "AddUpgradeURL",
+					  "nickname": "AddUpgradeURL",
+					  "produces": [
+						"application/json",
+						"application/xml"
+					  ],
+					  "parameters": [
+					  
+						{
+						  "name": "MSIP",
+						  "description": "MS IP",
+						  "required": true,
+						  "allowMultiple": false,
+						  "dataType": "string",
+						  "paramType": "path"
+						},
+						{
+							"name": "body",
+							"description": "AddUpgradeURL",
+							"required": true,
+							"allowMultiple": false,
+							"dataType": "AddUpgradeURL",
+							"paramType": "body"
+						}
+					  ],
+					  "responseMessages": [
+						 {
+						  "code": 200,
+						  "message": "Success"
+						},
+						{
+						  "code": 401,
+						  "message": "Unauthorized"
+						},
+						{
+						  "code": 500,
+						  "message": "Internal Server Error"
+						}
+					  ],
+					  "deprecated": "false"
+				}
+			]
+		}
+    ],
+    "models": {
+        "Tag": {
+            "id": "Tag",
+            "required": [
+                "Tag"
+            ],
+            "properties": {
+                "Tag": {
+                	"type": "array",
+                	"items": {
+	                    "$ref": "TagAttr"
+                    }
+                }
+            }
+        },
+        "TagAttr": {
+            "id": "TagAttr",
+            "properties": {
+                "@Name": {
+                    "type": "string"
+                },
+                "@Value": {
+                    "type": "string"
+                }
+            }
+        },
+        "ResourceOfDeviceList":{
+        	"id": "ResourceOfDeviceList",
+        	"description" : "",
+        	"required" : [ 
+        		"Resource"
+        	],
+        	"properties" : {
+        		"Resource": {
+        			"$ref": "DeviceList"
+        		}
+        	}
+        },
+        "DeviceList": {
+        	"id":"DeviceList",
+        	"description":"",
+        	"required": [ 
+        		"Device"
+        	],
+        	"properties": {
+        		"Device": {
+        			"type":"array",
+        			"items":{
+		        		"$ref":"AddDeviceReq"
+	        		}
+        		},
+        		"@total": {
+        			"type": "integer"
+        		},
+        		"@from": {
+        			"type": "integer"
+        		}
+        	}
+        },
+        "AddDevice": {
+            "id": "AddDevice",
+            "description": "add a device request",
+            "required": [
+                "Device"
+            ],
+            "properties": {
+                "Device": {
+                    "$ref": "AddDeviceReq"
+                }
+            }
+        },
+        "DownloadDeviceLogs": {
+            "id": "DownloadDeviceLogs",
+            "description": "download device logs request",
+            "required": [
+                "DownloadDeviceLogs"
+            ],
+            "properties": {
+                "DownloadDeviceLogs": {
+                    "$ref": "DownloadDeviceLogsReq"
+                }
+            }
+        },
+        "AddDeviceReq": {
+            "id": "AddDeviceReq",
+            "description": "A basic add device request",
+            "required": [
+                "Groups",
+                "@type",
+                "@title",
+                "@password",
+                "@unManned",
+                "@unManaged",
+                "@applyTagsToPorts",
+                "@streamType",
+				"@template",
+				"@byTemplateNID",
+				"@byTemplateTitle",
+				"@deviceMode",
+				"DeviceConfig"
+            ],
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "@title": {
+                    "type": "string",
+                    "description": "[Required [Does not allow XML restricted special characters]]"
+                },
+                "@password": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "@unManned": {
+                    "type": "boolean",
+                    "description": "[Required]"
+                },
+                "@unManaged": {
+                    "type": "boolean",
+                    "description": "[Required]"
+                },
+                "@applyTagsToPorts": {
+                    "type": "boolean",
+                    "description": "[Required]"
+                },
+                "@streamType": {
+                    "type": "string",
+                    "description": "[Required [For ANY-Tx-Device use appropriate streamType]]"
+                },
+				"@template": {
+                    "type": "boolean"
+                },
+                "@byTemplateNID": {
+                    "type": "string"
+                },
+                "@byTemplateTitle": {
+                    "type": "string"
+                },
+                "@deviceMode": {
+                    "type": "string"
+                },                
+                "DeviceConfig": {
+                    "type": "<!- Complete Device Config Element ->"
+                }
+            }
+        },
+         
+         "CloneDevice": {
+      "id": "CloneDevice",
+      "description": "clone  device request",
+      "required": [
+        "Device"
+      ],
+      "properties": {
+        "CloneDevice": {
+          "$ref": "CloneDeviceReq"
+        }
+      }
+    },
+    "CloneDeviceReq": {
+      "id": "CloneDeviceReq",
+      "description": "Clone device request",
+      "required": [
+        "@targetNID",
+        "@byNID",
+        "@isReplace"
+        
+      ],
+      "properties": {
+        "@targetNID": {
+          "type": "string",
+          "description": "[Required]"
+        },
+        "@byNID": {
+          "type": "string",
+          "description": "[Required]"
+        },
+        "@isReplace": {
+          "type": "boolean",
+          "description": "[Required]"
+        }
+      }
+    },
+        
+        "AddDeviceGrp": {
+            "id": "AddDeviceGrp",
+            "description": "add a resource/device group request",
+            "required": [
+                "DeviceGroup"
+            ],
+            "properties": {
+                "DeviceGroup": {
+                    "$ref": "AddDeviceGroupReq"
+                }
+            }
+        },
+        "AddDeviceGroupReq": {
+            "id": "AddDeviceGroupReq",
+            "description": "A basic add resource/device group request",
+            "required": [
+                "Groups",
+                "@type",
+                "@title",
+                "@description",
+                "AssetResourceNIDList",
+				"PrivateData"
+            ],
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "@title": {
+                    "type": "string",
+                    "description": "[Required [Does not allow XML restricted special characters]]"
+                },                
+                "@description": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "AssetResourceNIDList": {
+                    "type": "string",
+                    "description": "[Required [Comma separated device nid's]]"
+                },
+                "PrivateData": {
+                    "type": "string",
+                    "description": "[Required [Asset Group specific data]]"
+                }
+                }
+            },
+            
+          "SetDeviceGroupInfo": {
+            "id": "SetDeviceGroupInfo",
+            "description": "set a device group information request",
+            "required": [
+                "DeviceGroupInfo"
+            ],
+            "properties": {
+                "DeviceGroupInfo": {
+                    "$ref": "SetDeviceGroupInfoReq"
+                }
+            }
+        },
+        "SetDeviceGroupInfoReq": {
+            "id": "SetDeviceGroupInfoReq",
+            "description": "A basic set resource/device group information request",
+            "required": [
+                "Groups",
+                "@type",
+                "@title",
+                "@description",
+                "AssetResourceNIDList",
+				"PrivateData"
+            ],
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "@title": {
+                    "type": "string",
+                    "description": "[Required [Does not allow XML restricted special characters]]"
+                },                
+                "@description": {
+                    "type": "string",
+                    "description": "[Required]"
+                },
+                "AssetResourceNIDList": {
+                    "type": "string",
+                    "description": "[Required [Comma separated device nid's]]"
+                },
+                "PrivateData": {
+                    "type": "string",
+                    "description": "[Required [Asset Group specific data]]"
+                }
+                }
+            },
+        
+        "DeviceInfo": {
+            "id": "DeviceInfo",
+            "description": "set deviceInfo request",
+            "required": [
+                "DeviceInfo"
+            ],
+            "properties": {
+                "DeviceInfo": {
+                    "$ref": "setDeviceInfoReq"
+                }
+            }
+        },
+        "setDeviceInfoReq": {
+            "id": "setDeviceInfoReq",
+            "description": "A basic set device info request",
+            "required": [
+                "Groups",
+                "DevicePrivateData",
+                "@description",
+                "@byTemplateNID",
+                "@byTemplateTitle",
+                "@deviceMode",
+                "@title",
+                "@password",
+                "@applyTagsToPorts",
+                "DeviceConfig"
+            ],
+              
+            
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "DevicePrivateData": {
+                    "type": "string"
+                },
+            	 "DeviceConfig": {
+                    "$ref": "DeviceConfig"
+                },
+            
+                
+                "@description": {
+                    "type": "string"
+                },
+                "@byTemplateNID": {
+                    "type": "string"
+                },
+                "@byTemplateTitle": {
+                    "type": "string"
+                },
+                "@deviceMode": {
+                    "type": "string"
+                },
+                "@title": {
+                    "type": "string"
+                },
+                "@password": {
+                    "type": "string"
+                },
+                "@applyTagsToPorts": {
+                    "type": "boolean"
+                }
+        }},
+        "DeviceConfigReq": {
+            "id": "DeviceConfigReq",
+            "description": "A basic DeviceConfig body request",
+            "required": [
+                "DeviceConfig"
+            ],
+            "properties": {
+                "DeviceConfig": {
+                    "$ref": "DeviceConfig"
+                }
+            }
+        },
+        "DeviceConfig": {
+            "id": "DeviceConfig",
+            "description": "A basic DeviceConfig request",
+            "required": [
+                "NetworkElementsConfig"
+            ],
+            "properties": {
+                "NetworkElementsConfig": {
+                    "$ref": "NetworkElementsConfig"
+                }
+            }
+        },
+        "NetworkElementsConfig": {
+            "id": "NetworkElementsConfig",
+            "description": "A basic NetworkElementsConfig request",
+            "required": [
+                "EthernetPortTableConfig"
+            ],
+            "properties": {
+                "EthernetPortTableConfig": {
+                    "$ref": "EthernetPortTableConfig"
+                }
+            }
+        },
+        "EthernetPortTableConfig": {
+            "id": "EthernetPortTableConfig",
+            "description": "A basic EthernetPortTableConfig request",
+            "required": [
+                "EthernetPortConfig"
+            ],
+            "properties": {
+                "EthernetPortConfig": {
+                    "$ref": "EthernetPortConfig"
+                }
+            }
+        },
+        "EthernetPortConfig": {
+            "id": "EthernetPortConfig",
+            "description": "A basic EthernetPortConfig request",
+            "required": [
+                "EnableInterface",
+                "@ListIndex",
+                "MTU",
+                "@Dirty",
+                "PortID",
+                "EnableMulticast",
+                "IsPrimary",
+                "IPConfig"
+            ],
+            "properties": {
+            	"Name": {
+                    "type": "string"
+            	},
+                "EnableInterface": {
+                    "type": "boolean"
+                },
+                "@ListIndex": {
+                    "type": "string"
+                },
+                "MTU": {
+                    "type": "string"
+                },
+                "@Dirty": {
+                    "type": "MODIFY"
+                },
+                "PortID": {
+                    "type": "string"
+                },
+                "EnableMulticast": {
+                    "type": "boolean"
+                },
+                "IsPrimary": {
+                    "type": "boolean"
+                },
+                "IPConfig": {
+                    "$ref": "IPConfig"
+                }
+            }
+        },
+        "IPConfig": {
+            "id": "IPConfig",
+            "description": "A basic IPConfig request",
+            "required": [
+                "UseDHCP",
+                "IPAddress",
+                "Netmask"
+            ],
+            "properties": {
+                "UseDHCP": {
+                    "type": "boolean"
+                },
+                "IPAddress": {
+                    "type": "path"
+                },
+                "Netmask": {
+                    "type": "path"
+                }
+            }
+        },
+        "DeviceConfigInfo": {
+            "id": "DeviceConfigInfo",
+            "description": "set DeviceConfigInfo request",
+            "required": [
+                "DeviceInfo"
+            ],
+            "properties": {
+                "DeviceInfo": {
+                    "$ref": "setDeviceConfigInfoReq"
+                }
+            }
+        },
+        "setDeviceConfigInfoReq": {
+            "id": "setDeviceConfigInfoReq",
+            "description": "A basic set device info request",
+            "required": [
+                "Groups",
+                "DevicePrivateData",
+                "@description",
+                "@password",
+                "@applyTagsToPorts"
+            ],
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "DevicePrivateData": {
+                    "type": "string"
+                },
+                "@description": {
+                    "type": "string"
+                },
+                "@password": {
+                    "type": "string"
+                },
+                "@applyTagsToPorts": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Device": {
+            "id": "Device",
+            "description": "A Device body",
+            "required": [
+                "AddDevice"
+            ],
+            "properties": {
+                "AddDevice": {
+                    "$ref": "Devicebody"
+                }
+            }
+        },
+        "DownloadDeviceLogsResponse": {
+            "id": "DownloadDeviceLogsResponse",
+            "description": "A DownloadDeviceLogs Response body",
+            "properties": {
+                "DownloadDeviceLogs": {
+                	"type":"string"
+                }
+            }
+        },
+        "DownloadDeviceLogsReq": {
+            "id": "DownloadDeviceLogsReq",
+            "required": [
+                "@serviceName",
+                "@byNID",
+                "@byTitle"
+            ],
+            "properties": {
+                "@serviceName": {
+                    "type": "string"
+                },
+                "@byNID": {
+                    "type": "string"
+                },
+                "@byTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "Devicebody": {
+            "id": "Devicebody",
+            "description": "A basic Device object response",
+            "required": [
+                "Groups",
+                "@type",
+                "@title",
+                "@password",
+                "@unManaged",
+                "@unManned",
+                "@applyTagsToPorts",
+				"@streamType",
+				"@template",
+				"@byTemplateNID",
+				"@byTemplateTitle",
+				"@deviceMode",
+				"@isDefaultTemplate",
+				"DeviceConfig"
+            ],
+            "properties": {
+                "Groups": {
+                    "items": {
+                        "$ref": "Tag"
+                    }
+                },
+                "@type": {
+                    "type": "string"
+                },
+                "@title": {
+                    "type": "string"
+                },
+                "@password": {
+                    "type": "string"
+                },
+                "@unManaged": {
+                    "type": "boolean"
+                },
+                "@unManned": {
+                    "type": "boolean"
+                },
+                "@applyTagsToPorts": {
+                    "type": "boolean"
+                },
+				"@streamType": {
+                    "type": "string"
+                },
+                "@template": {
+                    "type": "boolean"
+                },
+                "@byTemplateNID": {
+                    "type": "string"
+                },
+                "@byTemplateTitle": {
+                    "type": "string"
+                },
+                "@deviceMode": {
+                    "type": "string"
+                },
+                "@isDefaultTemplate": {
+                    "type": "boolean"
+                },
+                "DeviceConfig": {
+                    "type": "<!- Complete Device Config Element ->"
+                }
+            },
+			
+            "PortList": {
+                "id": "PortList",
+                "required": [
+                    "Port"
+                ],
+                "properties": {
+                    "Port": {
+                        "$ref": "Port"
+                    }
+                }
+            },
+            "Port": {
+                "id": "Port",
+                "required": [
+                    "@nid",
+                    "@portType",
+                    "@deviceElementID"
+                ],
+                "properties": {
+                    "@nid": {
+                        "type": "string"
+                    },
+                    "@portType": {
+                        "type": "string"
+                    },
+                    "@deviceElementID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Groups": {
+                "id": "Groups",
+                "description": "add a Groups request",
+                "required": [
+                    "Tag"
+                ],
+                "properties": {
+                    "Tag": {
+                        "$ref": "Tag"
+                    }
+                }
+            },
+            "Status": {
+                "id": "Status",
+                "required": [
+                    "@device",
+                    "@systemElements",
+                    "@serviceElements",
+                    "@hardDisk",
+                    "@NAS",
+                    "@networkElements"
+                ],
+                "properties": {
+                    "@device": {
+                        "type": "string"
+                    },
+                    "@systemElements": {
+                        "type": "string"
+                    },
+                    "@serviceElements": {
+                        "type": "string"
+                    },
+                    "@hardDisk": {
+                        "type": "string"
+                    },
+                    "@NAS": {
+                        "type": "string"
+                    },
+                    "@networkElements": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "AddUpgradeURL": 
+		{
+			"id": "AddUpgradeURL",
+			"description": "Add Upgrade URL",
+			"required": 
+			[
+				"AddUpgradeURL"
+			],
+
+			"properties": 
+			{
+				"AddUpgradeURL": 
+				{
+					"$ref": "AddUpgradeURLRef"
+				}				
+			}
+		},
+    "AddUpgradeURLRef": 
+		{
+			"id": "AddUpgradeURLRef",
+			"description": "Add Upgrade URL",
+			"required": 
+			[
+				"UpgradeList"
+			],
+
+			"properties": 
+			{
+				"UpgradeList": 
+				{
+					"$ref": "UpgradeListRef"
+				}				
+			}
+		},
+"UpgradeListRef": {
+      "id": "UpgradeListRef",
+      "description": "A Upgrade List body",
+      "required": [
+        "UpgradeURL"
+      ],
+      "properties": {
+        "UpgradeURL": {
+            "$ref": "UpgradeURL"
+         }
+      }
+    },	
+	"UpgradeURL": {
+      "id": "UpgradeURL",
+      "properties": {
+	  
+			"@deviceType": {
+			  "type": "string"
+			},
+			 "@url": {
+			  "type": "string"
+			
+		}
+      }
+    }
+    }
+}

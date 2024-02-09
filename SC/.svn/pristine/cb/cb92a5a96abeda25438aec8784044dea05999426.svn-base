@@ -1,0 +1,195 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="licensedata">
+		<xs:annotation>
+			<xs:documentation>Sample input file for Nimbus.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="license">
+					<xs:annotation>
+						<xs:documentation>key is License Key.
+							id is DeviceId/Pincode.
+							type is to which we are generating license Ex: Nimbus etc...
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="product">
+								<xs:annotation>
+									<xs:documentation>Typically these values will come from the
+										templates, that we will
+										define per product based Product
+										details will be hardcoded for
+										current impl. In future, this
+										will
+										come from backend portal.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="name" />
+										<xs:element type="xs:string" name="division" />
+										<xs:element type="xs:float" name="version" />
+										<xs:element type="xs:int" name="revision" />
+									</xs:sequence>
+									<xs:attribute type="xs:string" name="id" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="customer">
+								<xs:annotation>
+									<xs:documentation>Get details from IT</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="name" />
+									</xs:sequence>
+									<xs:attribute type="xs:string" name="id" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="project">
+								<xs:annotation>
+									<xs:documentation>Get details from IT</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="name" />
+									</xs:sequence>
+									<xs:attribute type="xs:string" name="id" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="validity">
+								<xs:annotation>
+									<xs:documentation>If validity details are empty, then both
+										start and expiration date will taken as current date.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="start-date">
+											<xs:annotation>
+												<xs:documentation>Start date is License Generation date
+												</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:choice>
+											<xs:element type="xs:string" name="expiry-date">
+												<xs:annotation>
+													<xs:documentation>Expiry date is Feature expiration
+														date, it
+														can take values of date in the format of
+														12-Jan-2014 or a
+														value of 'never' (License never
+														expiry case), but it can't be empty or null.
+														It can take
+														two verities of inputs, direct date of
+														expiry or
+														this date
+														can be constructed by taking individual
+														parameters of
+														duration (years, months and days).
+													</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="duration">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element type="xs:int" name="years" />
+														<xs:element type="xs:int" name="months" />
+														<xs:element type="xs:int" name="days" />
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="features">
+								<xs:annotation>
+									<xs:documentation>There can be multiple features in the
+										porduct. Here are few examples Features are like services
+										offered by Nimbus. Attributes are capability of the Feature
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="feature" maxOccurs="unbounded"
+											minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="validity">
+														<xs:annotation>
+															<xs:documentation>If validity details are empty, then
+																both start and expiration date will taken as current date.
+															</xs:documentation>
+														</xs:annotation>
+														<xs:complexType mixed="true">
+															<xs:sequence>
+																<xs:element type="xs:string" name="start-date"
+																	minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Start date is License Generation
+																			date
+																		</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:choice>
+																	<xs:element type="xs:string" name="expiry-date"
+																		minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>Expiry date is Feature expiration
+																				date, it can take values of date in the format of
+																				12-Jan-2014 or a value of 'never' (License never
+																				expiry case).
+																				It can take two verities of inputs,
+																				direct date of
+																				expiry or
+																				this date can be constructed
+																				by taking individual
+																				parameters of duration (years,
+																				months and days).
+																			</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="duration" minOccurs="0">
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element type="xs:int" name="years" />
+																				<xs:element type="xs:int" name="months" />
+																				<xs:element type="xs:int" name="days" />
+																			</xs:sequence>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:choice>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="attribute" maxOccurs="unbounded"
+														minOccurs="0">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute type="xs:string" name="name"
+																		use="optional" />
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute type="xs:string" name="id" />
+												<xs:attribute type="xs:string" name="name" use="optional" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:string" name="key" />
+						<xs:attribute type="xs:string" name="id" />
+						<xs:attribute type="xs:string" name="type" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

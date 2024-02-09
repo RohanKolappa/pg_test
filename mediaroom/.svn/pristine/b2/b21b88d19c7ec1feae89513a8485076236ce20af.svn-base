@@ -1,0 +1,54 @@
+(: ------------------- Begin NetworkURLResolveRuleListQuery.xml -------------------- :)
+(: #include XQueryLib.xml :)
+
+declare function local:geturlpublishscheme($networkurlresolverule as element()*) as xs:string {
+	let $UseDNSName := data($networkurlresolverule//URLPublishScheme//UseDNSName)
+	let $UseLANIP := data($networkurlresolverule//URLPublishScheme//UseLANIP)
+	let $UseNATTraversalIP := data($networkurlresolverule//URLPublishScheme//UseNATTraversalIP)
+	let $EthernetPortEntryID := data($networkurlresolverule//URLPublishScheme//EthernetPortEntryID)
+	let $NATTraversalEntryName := data($networkurlresolverule//URLPublishScheme//NATTraversalEntryName)
+	
+	return if ($UseDNSName = 'true') 
+	then "//.[UseDNSName='true']"
+	else if ($UseLANIP='true') 	   
+	then "//.[UseLANIP='true' and EthernetPortEntryID = $EthernetPortEntryID]"
+	else if ($UseNATTraversalIP='true') 	   
+	then concat( "//.[UseNATTraversalIP='true' and NATTraversalEntryName ='" ,  $NATTraversalEntryName, "']")
+	else ""
+};
+declare function local:NetworkURLResolveRuleListToXPath($networkurlresolverule as element()*)
+as xs:string
+{
+	let $fromResourceXPath := local:ruleKeyToXPath("NETWORKURLPUBLISH_RULE_IPPKT_FROM")
+	
+	let $fromXPath := string-join ( 
+		(
+			for $d in $networkurlresolverule//IPPktFromFilter/MediaStreamResourceFilterNID
+			return local:prefixIfNotEmpty($fromResourceXPath, local:filterNIDToXPath(data($d)))
+		),
+		" or "
+	)
+	
+	let $urlSchemeXPath := local:geturlpublishscheme($networkurlresolverule)
+	let $xpath := local:addXPath($fromXPath, $urlSchemeXPath)
+	
+
+	return $xpath
+};
+
+
+
+
+declare function local:NetworkURLResolveRuleList()
+as element()*
+{
+	let $NATfilterlist := (
+		for $d in index-scan('IPVSis_colnids_default', 'default.networkurlresolverulelist', 'EQ')/..
+		let $xpath:=local:NetworkURLResolveRuleListToXPath($d)
+		return <rule><rulexpath>{$xpath}</rulexpath><NetworkURLResolveRule>{$d}</NetworkURLResolveRule></rule> 
+	)
+	return <result>{$NATfilterlist}</result>
+};
+
+let $result := local:NetworkURLResolveRuleList()
+return $result

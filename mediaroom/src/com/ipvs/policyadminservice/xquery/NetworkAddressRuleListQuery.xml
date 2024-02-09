@@ -1,0 +1,55 @@
+(: ------------------- Begin NetworkAddressRuleListQuery.xml -------------------- :)
+(: #include XQueryLib.xml :)
+declare function local:NetworkAddressRuleListToXPath($networkaddressrule as element()*)
+as xs:string
+{
+	let $fromResourceXPath := local:ruleKeyToXPath("NETWORKADDRESS_RULE_LOCAL_NETWORKRESOURCE")
+	let $toResourceXPath := local:ruleKeyToXPath("NETWORKADDRESS_RULE_REMOTE_NETWORKRESOURCE")
+	let $fromXPath := string-join ( 
+		(
+			for $d in $networkaddressrule//LocalNetworkResourceFilter/MediaStreamResourceFilterNID
+			return local:prefixIfNotEmpty($fromResourceXPath, local:filterNIDToXPath(data($d)))
+		),
+		" or "
+	)
+	let $toXPath := string-join ( 
+		(
+			for $d in $networkaddressrule//RemoteNetworkResourceFilter/MediaStreamResourceFilterNID
+			return local:prefixIfNotEmpty($toResourceXPath, local:filterNIDToXPath(data($d)))
+		),
+		" or "
+	)
+	let $ruleKeyXPath := string-join ( 
+		(
+			for $d in $networkaddressrule//RuleKeyTagFilter
+			return local:ruleKeyFilterToXPath($d)
+		),
+		" and "
+	)
+
+
+	let $xpath1 := local:addXPath($fromXPath, $toXPath)
+	let $xpath := local:addXPath($xpath1, $ruleKeyXPath)
+
+	return $xpath
+};
+
+declare function local:NetworkAddressRuleList()
+as element()*
+{
+	let $NATRulelist := (
+		for $d in index-scan('IPVSis_colnids_default', 'default.networkaddressrulelist', 'EQ')/..
+		where $d/valid = "true"
+		order by $d/order
+		return <NetworkAddressRuleList>{$d}</NetworkAddressRuleList>
+	)
+	let $NATfilterlist := (
+		for $d in $NATRulelist/NetworkAddressRule 
+		let $xpath:=local:NetworkAddressRuleListToXPath($d)
+		return <rule><rulexpath>{$xpath}</rulexpath><NetworkAddressRule>{$d}</NetworkAddressRule></rule> 
+	)
+	return <result>{$NATfilterlist}</result>
+};
+
+let $result := local:NetworkAddressRuleList()
+return $result

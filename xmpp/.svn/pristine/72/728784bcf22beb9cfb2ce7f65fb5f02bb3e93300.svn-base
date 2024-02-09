@@ -1,0 +1,81 @@
+<ipvs>
+
+	<tagMapping>
+		<name>ApplyXslFileSystem</name>
+		<class>com.ipvsserv.nxd.migration.xslt.ApplyXslFileSystemTag</class>
+	</tagMapping>	
+
+	<tagMapping>
+		<name>XUpdate</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.XUpdateTag</class>
+	</tagMapping>	
+	<tagMapping>
+		<name>XQuery</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.XQueryTag</class>
+	</tagMapping>		
+	<tagMapping>
+		<name>UpdateDocs</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.UpdateDocsTag</class>
+	</tagMapping>
+
+	<!--  CreateDBSnapshot using sednactl -->
+	<tagMapping>
+		<name>CreateDBSnapshot</name>
+		<class>com.ipvsserv.nxd.migration.tag.scripts.CreateDBSnapshotTag</class>
+	</tagMapping>
+	<!--  BackupDB using sednactl -->
+	<tagMapping>
+		<name>BackupDB</name>
+		<class>com.ipvsserv.nxd.migration.tag.scripts.BackupDBTag</class>
+	</tagMapping>
+
+	<!-- create diff -->
+	<tagMapping>
+		<name>GetObjectDiffs</name>
+		<class>com.ipvsserv.nxd.migration.tag.filesystem.GetObjectDiffsTag</class>
+	</tagMapping>
+
+	<!-- todo:not in use   -->
+	<!-- handle folders  -->
+	<tagMapping>
+		<name>CreateBackupOfDBFolder</name>
+		<class>com.ipvsserv.nxd.migration.tag.filesystem.CreateBackupOfDBFolderTag</class>
+	</tagMapping>	
+	<tagMapping>
+		<name>RemoveDBWorkareaFolder</name>
+		<class>com.ipvsserv.nxd.migration.tag.filesystem.RemoveDBWorkareaFolderTag</class>
+	</tagMapping>	
+	<!-- export import restore using java  -->
+	<tagMapping>
+		<name>ExportDatabase</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.ExportDatabaseTag</class>
+	</tagMapping>	
+	<tagMapping>
+		<name>ApplyXSLToExportedDB</name>
+		<class>com.ipvsserv.nxd.migration.xslt.ApplyXSLToExportedDBTag</class>
+	</tagMapping>
+ 	<tagMapping>
+		<name>RestoreDatabase</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.RestoreDatabaseTag</class>
+	</tagMapping>	
+
+	<!-- todo: test properly, when needed,  -->
+	<tagMapping>
+		<name>ImportXmlsIntoDB</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.ImportXmlsIntoDBTag</class>
+	</tagMapping>			
+	<tagMapping>
+		<name>ExportXmlsFromDB</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.ExportXmlsFromDBTag</class>
+	</tagMapping>		
+	<tagMapping>
+		<name>ExportXmlsFromDB_XQuery</name>
+		<class>com.ipvsserv.nxd.migration.tag.db.ExportXmlsFromDB_XQueryTag</class>
+	</tagMapping>
+
+	<!--  todo: test properly, when needed -->
+	<tagMapping>
+		<name>ApplyXSLToLiveDB</name>
+		<class>com.ipvsserv.nxd.migration.xslt.ApplyXSLToLiveDBTag</class>
+	</tagMapping>
+</ipvs>

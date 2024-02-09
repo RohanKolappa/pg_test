@@ -1,0 +1,639 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="860" jsxheight="600" jsxzindex="5000" jsxwindowstate="1" jsxleft="10" jsxtop="10" jsxminx="750" jsxminy="500"></variants>
+    <strings jsxname="dlgAddEditDevice" jsxdisplay=""></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxbgcolor="#cccccc"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="@Max Tip"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute=""></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1" jsxloadtype="1"></variants>
+      <strings jsxname="blkAddEditDevice" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layoutRows" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkDeviceBody" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #efefef;1px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5" jsxbgcolor="#e0e0e0"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="0" jsxoverflow="1" jsxrelativeposition="0"></variants>
+            <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceType" jsxtextalign="left" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="Dialog BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="35"></variants>
+              <strings jsxname="blkBreadCrumb" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+                <strings jsxname="label" jsxtext="Select Device Type" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="200"></variants>
+              <strings jsxname="blkDeviceCategory" jsxwidth="100%" jsxrelativeposition="1" jsxborder="border-top:solid 1px #efefef" jsxpadding="40 40 20 40" jsxtextalign="center"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="550" jsxheight="350"></variants>
+                <strings jsxname="block" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="102"></variants>
+                  <strings jsxname="blkDiscovery" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="0"></variants>
+                    <strings jsxname="imgDeviceDiscovery" jsximage="../../addins/ipvsCommon/images/buttons/btnDeviceDiscoverUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnDeviceDiscoverDsbl.png" jsxmargin="0 0 8 0"></strings>
+                    <events jsxexecute="alert('Execute');"></events>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="Device Discovery" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="100"></variants>
+                  <strings jsxname="blkMS" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                    <strings jsxname="imgMS" jsximage="../../addins/ipvsCommon/images/buttons/btnAdminServerUp.png" jsxmargin="0 0 8 0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="Management Server" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="100"></variants>
+                  <strings jsxname="blkDMS" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                    <strings jsxname="imgDMS" jsximage="../../addins/ipvsCommon/images/buttons/btnDMSServerUp.png" jsxmargin="0 0 8 0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="Digital Media Server" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="100"></variants>
+                  <strings jsxname="blkV2D" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                    <strings jsxname="imgV2D" jsximage="../../addins/ipvsCommon/images/buttons/btnV2DServerUp.png" jsxmargin="0 0 8 0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="V2D Encoder/Decoder" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="100"></variants>
+                  <strings jsxname="blkClient" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                    <strings jsxname="imgClient" jsximage="../../addins/ipvsCommon/images/buttons/btnMediaClientUp.png" jsxmargin="0 0 8 0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="Media Client" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxwidth="180" jsxheight="100"></variants>
+                  <strings jsxname="blk3rdParty" jsxrelativeposition="1" jsxtextalign="center" jsxmargin="8 0 8 0"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="64" jsxheight="102" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                    <strings jsxname="img3rdParty" jsximage="../../addins/ipvsCommon/images/buttons/btn3rdPartyDevicesUp.png" jsxmargin="0 0 8 0"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxwidth="180" jsxleft="0" jsxtop="78"></variants>
+                    <strings jsxname="label" jsxtext="3rd Party Device" jsxcolor="#555555" jsxfontweight="bold" jsxdisplay=""></strings>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="0" jsxoverflow="1" jsxrelativeposition="0"></variants>
+            <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceInfo" jsxtextalign="left" jsxdisplay=""></strings>
+            <dynamics jsxbgcolor="Dialog BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="35"></variants>
+              <strings jsxname="blkBreadCrumb" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+                <strings jsxname="label" jsxtext="Device Information" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxheight="400"></variants>
+              <strings jsxname="blkDeviceTabPaneInfo" jsxwidth="100%" jsxdisplay="" jsxvisibility="" jsxstyleoverride="overflow-x:hidden;" jsxpadding="25 10 0 30" jsxborder="border-top:solid 1px #efefef"></strings>
+              <dynamics jsxbgcolor="Dialog BG"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="40"></variants>
+                <strings jsxname="blkFormDeviceType" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="5 0 5 0"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="150" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxname="label" jsxtext="Device Type:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="200" jsxheight="18" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="180" jsxtop="0" jsxxmlbind="1"></variants>
+                  <strings jsxname="selSubDeviceType" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="390" jsxtop="0" jsxwidth="100" jsxchecked="0"></variants>
+                  <strings jsxname="chkUnmanaged" jsxtext="Standalone" jsxmargin="0 4 0 0" jsxdisplay="none"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxwidth="500" jsxrelativeposition="0" jsxleft="180" jsxtop="25"></variants>
+                  <strings jsxname="lblTextHelp" jsxtext="The Device Name must be lowercase alphabetic letters and numbers only." jsxclassname="helpText" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="480" jsxtop="0" jsxwidth="116" jsxheight="20" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                  <strings jsxname="blkDeviceReregister" jsxdisplay="none"></strings>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxwidth="116" jsxheight="20" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxenabled="1"></variants>
+                    <strings jsxname="btnDeviceReregister" jsximage="../../addins/ipvsCommon/images/buttons/btnDeviceReregisterUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnDeviceReregisterOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnDeviceReregisterDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnDeviceReregisterUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnDeviceReregisterDsbl.png" jsxdisplay=""></strings>
+                    <events jsxexecute="alert('Execute');"></events>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="40"></variants>
+                <strings jsxname="blkFormDeviceName" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="10 0 5 0"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="150" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxheight="" jsxname="label" jsxtext="Device Name:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="20" jsxrelativeposition="0" jsxwidth="400" jsxleft="180" jsxtop="0"></variants>
+                  <strings jsxname="txtAssetDeviceName" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="500" jsxleft="180" jsxtop="25"></variants>
+                  <strings jsxname="lblHelpText" jsxtext="The Device Name must be lowercase alphabetic letters and numbers only." jsxclassname="helpText" jsxdisplay=""></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="55"></variants>
+                <strings jsxname="blkFormDevicePassword" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="10 0 5 0"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxleft="85" jsxtop="15" jsxwidth="540" jsxheight="40" jsxoverflow="3" jsxrelativeposition="0"></variants>
+                  <strings jsxname="blkPasswordHelpText" jsxdisplay="none"></strings>
+                  <dynamics jsxbgcolor="@Transparent BG" jsxcursor="@Default"></dynamics>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="25" jsxtop="0"></variants>
+                    <strings jsxname="label" jsxtext="&lt;i&gt;(Optional)&lt;/i&gt;" jsxdisplay="" jsxcolor="#888888"></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="500" jsxleft="94" jsxtop="7"></variants>
+                    <strings jsxname="lblPasswordHelpText" jsxtext="If no password is provided, the media client will use Auto-Password authentication." jsxclassname="helpText" jsxdisplay=""></strings>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="150" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxname="label" jsxtext="Device Password:" jsxtextalign="right" jsxclassname="formText" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="2" jsxheight="18" jsxrelativeposition="0" jsxleft="180" jsxtop="0" jsxwidth="130"></variants>
+                  <strings jsxname="txtAssetDevicePassword" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxclassname="formInputDsbl"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="135" jsxheight="18" jsxleft="310" jsxtop="0"></variants>
+                  <strings jsxname="lblAssetDeviceVerifyPassword" jsxtext="Verify Password:" jsxdisplay="" jsxtextalign="right" jsxvisibility="" jsxpadding="2 0 0 8" jsxclassname="formText"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="2" jsxheight="18" jsxrelativeposition="0" jsxleft="450" jsxtop="0" jsxwidth="130"></variants>
+                  <strings jsxname="txtAssetDeviceVerifyPassword" jsxmargin="0 4 0 4" jsxdisplay="" jsxvalue=""></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="50"></variants>
+                <strings jsxname="blkFormDeviceDesc" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="150" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxname="label" jsxtext="Device Description:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="40" jsxtype="1" jsxrelativeposition="0" jsxwidth="400" jsxleft="180" jsxtop="0"></variants>
+                  <strings jsxname="txtAssetDeviceDescription" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+                  <dynamics jsxfontsize="SmallText"></dynamics>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="3" jsxheight="190"></variants>
+                <strings jsxname="blkFormFilterTags" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay="" jsxmargin="5 0 5 0"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="150" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxname="label" jsxtext="Assign Tags:" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxheight="170" jsxwidth="600" jsxrelativeposition="0" jsxleft="179" jsxtop="6"></variants>
+                  <strings jsxname="block" jsxmargin="4 0 4 0" jsxdisplay=""></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="15" jsxfontsize="11"></variants>
+                    <strings jsxname="lblTagName" jsxtext="Enter/Select Tag Names:" jsxdisplay="" jsxtextalign="left" jsxcolor="#444444"></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="170" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="0" jsxtop="35"></variants>
+                    <strings jsxname="cmbDeviceAddTagDefName" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="60" jsxfontsize="11"></variants>
+                    <strings jsxname="lblTagValue" jsxtext="Enter/Select Tag Names:" jsxdisplay="" jsxtextalign="left" jsxcolor="#444444"></strings>
+                  </object>
+                  <object type="jsx3.gui.Select">
+                    <variants jsxwidth="170" jsxheight="18" jsxtype="1" jsxxmlasync="0" jsxrelativeposition="0" jsxleft="0" jsxtop="75"></variants>
+                    <strings jsxname="cmbDeviceAddTagDefValue" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Button">
+                    <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="123" jsxtop="102"></variants>
+                    <strings jsxname="btnAddTags" jsxtext="Add &gt;&gt;" jsxmargin="0 4 0 0" jsxclassname="btnBlueGlass" jsxtip=""></strings>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxleft="188" jsxtop="20" jsxwidth="260" jsxheight="110" jsxoverflow="2" jsxrelativeposition="0"></variants>
+                    <strings jsxname="blkMtxTags" jsxborder="solid 1px #aaaaaa;" jsxbgcolor="#f5f5f5"></strings>
+                    <object type="jsx3.gui.Matrix">
+                      <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                      <strings jsxname="mtxTags" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxfocusstyle="font-weight:bold;"></strings>
+                      <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                      <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                      <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants></variants>
+                        <strings jsxname="jsxTagName" jsxtext="Tag Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagName" jsxdisplay=""></strings>
+                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants></variants>
+                        <strings jsxname="jsxTagValue" jsxtext="Tag Value" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagValue"></strings>
+                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxwidth="20" jsxsort="0"></variants>
+                        <strings jsxname="DeleteButtonColumn" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        <object type="jsx3.gui.ImageButton">
+                          <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                          <strings jsxname="jsxDeleteTag" jsximage="jsx:///images/list/delete.gif"></strings>
+                          <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                        </object>
+                      </object>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="3" jsxheight="20" jsxrelativeposition="0" jsxleft="0" jsxtop="154"></variants>
+                    <strings jsxname="blkApplyTagsToPorts" jsxwidth="100%" jsxdisplay=""></strings>
+                    <object type="jsx3.gui.CheckBox">
+                      <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="1" jsxchecked="0" jsxfontsize="10"></variants>
+                      <strings jsxname="chkApplyTagsToPorts" jsxtext="Apply Tags to Ports" jsxmargin="0 4 0 0" jsxdisplay="" jsxfontweight="bold" jsxcolor="#666666"></strings>
+                      <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"></events>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18" jsxrelativeposition="0" jsxleft="375" jsxtop="18" jsxwidth="150"></variants>
+                <strings jsxname="txtTemplateAssetResourceNID" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalue=""></strings>
+                <dynamics jsxfontsize="SmallText"></dynamics>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="25"></variants>
+                <strings jsxname="blkAdvancedSettings" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="20 0 0 0"></strings>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxwidth="136" jsxheight="19" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="15" jsxtop="0"></variants>
+                  <strings jsxname="imgAdvanceSettings" jsximage="../../addins/ipvsCommon/images/buttons/btnTskAdvSettingsUp.png" jsxdisplay=""></strings>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxrelativeposition="0"></variants>
+            <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceDiscovery" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="Dialog BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="35"></variants>
+              <strings jsxname="blkBreadCrumb" jsxwidth="100%" jsxbgcolor="#d6d6d6" jsxtextalign="left" jsxpadding="6 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+                <strings jsxname="lblDeviceDiscoveryType" jsxtext="Device Discovery" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="35"></variants>
+              <strings jsxname="blkDiscoveryRefresh" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay="" jsxborder="border-top:solid 1px #efefef" jsxtextalign="right"></strings>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="72" jsxheight="18" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxleft="10" jsxtop="10"></variants>
+                <strings jsxname="btnRefreshDiscovery" jsximage="../../addins/ipvsCommon/images/buttons/btnRefreshUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnRefreshUp.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnRefreshUp.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnRefreshUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnRefreshUp.png" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="13" jsxleft="660" jsxtop="11"></variants>
+                <strings jsxname="lblBtnRefreshHelpText" jsxtext="Discovering Devices" jsxdisplay="none"></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="24" jsxheight="24" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="1" jsxenabled="0"></variants>
+                <strings jsxname="imgBtnRefresh" jsximage="../../addins/ipvsCommon/images/icons/spinner24.gif" jsxonimage="../../addins/ipvsCommon/images/icons/spinner24.gif" jsxdisabledimage="../../addins/ipvsCommon/images/icons/spinner24.gif" jsxdisplay="none" jsxmargin="8 20 4 0"></strings>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="18" jsxheight="18" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxrelativeposition="0" jsxenabled="1" jsxleft="400" jsxtop="10" jsxzindex="20"></variants>
+                <strings jsxname="imgBtnClear" jsximage="../../addins/ipvsCommon/images/icons/icon_clear.png" jsxonimage="../../addins/ipvsCommon/images/icons/icon_clear.png" jsxdisabledimage="../../addins/ipvsCommon/images/icons/icon_clear.png" jsxdisplay="" jsxmargin="8 20 4 0" jsxoverimage="../../addins/ipvsCommon/images/icons/icon_clear.png" jsxdownimage="../../addins/ipvsCommon/images/icons/icon_clear.png"></strings>
+              </object>
+              <object type="jsx3.gui.Select">
+                <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="110" jsxtop="10"></variants>
+                <strings jsxname="selDiscoveryFilterBy" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18" jsxrelativeposition="0" jsxleft="220" jsxtop="10" jsxwidth="200"></variants>
+                <strings jsxname="txtDiscoveryFilterBy" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3"></variants>
+              <strings jsxheight="80%" jsxname="blkDiscoveryTable" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay="" jsxpadding="0 8 8 8"></strings>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+                <strings jsxname="mtxDeviceDiscovery" jsxbodyborder="0px solid #999999; 1px solid #999999; 1px solid #999999; 1px solid #999999" jsxheaderborder="1px solid #999999; 1px solid #999999; 0px solid #999999; 1px solid #999999" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxsort="0"></variants>
+                  <strings jsxname="jsxstatus" jsxtext="Status" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxstatus" jsxdisplay="none"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxtext" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants></variants>
+                  <strings jsxname="jsxtype" jsxtext="Type" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtype"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxsort="0"></variants>
+                  <strings jsxname="jsxipaddress" jsxtext="IP Address" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxipaddress"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxsort="0"></variants>
+                  <strings jsxname="jsxmacaddress" jsxtext="MAC Address" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxmacaddress"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxheight="25"></variants>
+              <strings jsxname="blkDiscoverypagination" jsxwidth="100%" jsxrelativeposition="1" jsxdisplay="" jsxtextalign="right"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="635" jsxtop="0" jsxfontsize="12"></variants>
+                <strings jsxname="label" jsxtext="Devices Discovered:" jsxdisplay="" jsxmargin="0 10 0 0"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxleft="765" jsxtop="0" jsxfontsize="12"></variants>
+                <strings jsxname="lblNumDevices" jsxtext="0" jsxdisplay="" jsxmargin="0 40 0 0"></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="0" jsxoverflow="1" jsxrelativeposition="0"></variants>
+            <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceNetwork" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="Dialog BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="35"></variants>
+              <strings jsxname="blkBreadCrumb" jsxwidth="100%" jsxtextalign="left" jsxpadding="8 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5" jsxdisplay=""></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+                <strings jsxname="label" jsxtext="Network Configuration" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="3" jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxheight="400"></variants>
+              <strings jsxname="blkDeviceNetworkConfig" jsxwidth="100%" jsxdisplay="" jsxvisibility="" jsxstyleoverride="overflow-x:hidden;" jsxpadding="25 10 0 30" jsxborder="border-top:solid 1px #efefef"></strings>
+              <dynamics jsxbgcolor="Dialog BG"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="500" jsxleft="180" jsxtop="25"></variants>
+                <strings jsxname="lblHelpText" jsxtext="The Device Name must be lowercase alphabetic letters and numbers only." jsxclassname="helpText" jsxdisplay="none"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="220" jsxleft="6" jsxtop="32"></variants>
+                <strings jsxheight="" jsxname="label" jsxtext="MAC Address:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxwidth="200" jsxleft="240" jsxtop="30" jsxenabled="1" jsxfontsize="11" jsxreadonly="1"></variants>
+                <strings jsxname="txtMACAddress" jsxmargin="0 4 0 0" jsxdisplay="" jsxbgcolor="#f5f5f5" jsxcolor="#555555" jsxvalue=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="220" jsxleft="5" jsxtop="71"></variants>
+                <strings jsxheight="" jsxname="label" jsxtext="DHCP:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.CheckBox">
+                <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="240" jsxtop="70" jsxchecked="0"></variants>
+                <strings jsxname="chkUseDHCP" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="220" jsxleft="5" jsxtop="113"></variants>
+                <strings jsxheight="" jsxname="label" jsxtext="IP Address:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxwidth="200" jsxleft="239" jsxtop="110" jsxenabled="1" jsxfontsize="11" jsxreadonly="0"></variants>
+                <strings jsxname="txtIPAddress" jsxmargin="0 4 0 0" jsxdisplay="" jsxcolor="#555555" jsxvalue=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="220" jsxleft="5" jsxtop="152"></variants>
+                <strings jsxheight="" jsxname="label" jsxtext="Netmask:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxwidth="200" jsxleft="239" jsxtop="150" jsxenabled="1" jsxfontsize="11" jsxreadonly="0"></variants>
+                <strings jsxname="txtNetmask" jsxmargin="0 4 0 0" jsxdisplay="" jsxcolor="#555555" jsxvalue=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="11" jsxwidth="220" jsxleft="5" jsxtop="191"></variants>
+                <strings jsxheight="" jsxname="label" jsxtext="Gateway:" jsxtextalign="right" jsxfontweight="bold" jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="20" jsxrelativeposition="0" jsxwidth="200" jsxleft="239" jsxtop="190" jsxenabled="1" jsxfontsize="11" jsxreadonly="0"></variants>
+                <strings jsxname="txtGateway" jsxmargin="0 4 0 0" jsxdisplay="" jsxcolor="#555555" jsxvalue=""></strings>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="0" jsxtop="0" jsxoverflow="1" jsxrelativeposition="0"></variants>
+            <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceSavingStatus" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="Dialog BG"></dynamics>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxheight="35"></variants>
+              <strings jsxname="blkBreadCrumb" jsxwidth="100%" jsxtextalign="left" jsxpadding="8 8 8 10" jsxborder="1px solid #d8d8e5;0px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5" jsxdisplay=""></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="16"></variants>
+                <strings jsxname="label" jsxtext="Saving Device" jsxfontweight="normal" jsxmargin="0 20 0 0"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxleft="35" jsxtop="96" jsxwidth="570" jsxheight="50" jsxoverflow="3" jsxrelativeposition="0"></variants>
+              <strings jsxname="blkUMS" jsxborder="solid 1px #cccccc" jsxpadding="16 8 8 16" jsxbgcolor="#efefef" jsxcolor="" jsxdisplay=""></strings>
+              <object type="jsx3.gui.Image">
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="10" jsxtop="12"></variants>
+                <strings jsxname="imgUMS" jsxsrc="../../addins/ipvsCommon/images/icons/spinner24.gif" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxfontsize="12" jsxleft="45" jsxtop="18"></variants>
+                <strings jsxname="lblUMS" jsxtext="Updating Management Server..." jsxcolor="#666666" jsxdisplay=""></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="175"></variants>
+              <strings jsxname="imgAddDeviceUpdating" jsxsrc="../../addins/ipvsCommon/images/icons/spinner16.gif" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="175"></variants>
+              <strings jsxname="imgAddDeviceError" jsxsrc="../../addins/ipvsCommon/images/icons/icon_error.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="175"></variants>
+              <strings jsxname="imgAddDeviceSuccess" jsxsrc="../../addins/ipvsCommon/images/icons/icon_check.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="95" jsxtop="178" jsxfontsize="12"></variants>
+              <strings jsxname="lblAddDevice" jsxdisplay="" jsxcolor="#666666"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="215"></variants>
+              <strings jsxname="imgUpdateConfigUpdating" jsxsrc="../../addins/ipvsCommon/images/icons/spinner16.gif" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="215"></variants>
+              <strings jsxname="imgUpdateConfigError" jsxsrc="../../addins/ipvsCommon/images/icons/icon_error.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="215"></variants>
+              <strings jsxname="imgUpdateConfigSuccess" jsxsrc="../../addins/ipvsCommon/images/icons/icon_check.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="95" jsxtop="215" jsxfontsize="12"></variants>
+              <strings jsxname="lblUpdateConfig" jsxdisplay="" jsxcolor="#666666"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="255"></variants>
+              <strings jsxname="imgSuccessUpdating" jsxsrc="../../addins/ipvsCommon/images/icons/spinner16.gif" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="255"></variants>
+              <strings jsxname="imgSuccessError" jsxsrc="../../addins/ipvsCommon/images/icons/icon_error.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Image">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="65" jsxtop="255"></variants>
+              <strings jsxname="imgSuccessSuccess" jsxsrc="../../addins/ipvsCommon/images/icons/icon_check.png" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="95" jsxtop="255" jsxfontsize="12"></variants>
+              <strings jsxname="lblSuccess" jsxdisplay="" jsxcolor="#666666"></strings>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkDeviceFooter" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #efefef;1px solid #9898a5;1px solid #9898a5;1px solid #d8d8e5" jsxtextalign="center"></strings>
+          <dynamics jsxbgcolor="Dialog Footer"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxheight="40" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="blkCancel" jsxwidth="100%" jsxdisplay="" jsxtextalign="right" jsxpadding="8 20 8 0"></strings>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+              <strings jsxname="btnCancel" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnCancelUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnCancelOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnCancelDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnCancelUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnCancelDsbl.png" jsxtip="" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+              <strings jsxname="btnDone" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnDoneUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnDoneOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnDoneDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnDoneUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnDoneDsbl.png" jsxtip="" jsxdisplay="none"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxwidth="200"></variants>
+            <strings jsxname="blkActions" jsxheight="100%" jsxrelativeposition="1"></strings>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="0" jsxrelativeposition="0" jsxleft="20" jsxtop="8"></variants>
+              <strings jsxname="btnPrevious" jsxtext="Previous screen" jsximage="../../addins/ipvsCommon/images/buttons/btnPreviousUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnPreviousOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnPreviousDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnPreviousUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnPreviousDsbl.png" jsxmargin="0 10 0 10" jsxtip="" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="0" jsxrelativeposition="0" jsxleft="120" jsxtop="8" jsxzindex="10"></variants>
+              <strings jsxname="btnNext" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnNextUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnNextOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnNextDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnNextUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnNextDsbl.png" jsxmargin="0 10 0 10" jsxtip="" jsxdisplay="none"></strings>
+            </object>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="0" jsxrelativeposition="0" jsxleft="120" jsxtop="8"></variants>
+              <strings jsxname="btnSaveAssetInfo" jsxtext="" jsximage="../../addins/ipvsCommon/images/buttons/btnSaveUp.png" jsxoverimage="../../addins/ipvsCommon/images/buttons/btnSaveOver.png" jsxdownimage="../../addins/ipvsCommon/images/buttons/btnSaveDown.png" jsxonimage="../../addins/ipvsCommon/images/buttons/btnSaveUp.png" jsxdisabledimage="../../addins/ipvsCommon/images/buttons/btnSaveDsbl.png" jsxmargin="0 10 0 10" jsxtip="" jsxdisplay="none"></strings>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxrelativeposition="0"></variants>
+        <strings jsxwidth="100%" jsxheight="100%" jsxname="blkDeviceAdvancedSettings" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/mask60.png);" jsxtextalign="center" jsxcolor="" jsxdisplay="none"></strings>
+        <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="1" jsxrelativeposition="0" jsxleft="75" jsxtop="50"></variants>
+          <strings jsxname="block" jsxwidth="70%" jsxheight="70%" jsxdisplay=""></strings>
+          <dynamics jsxborder="Basic Border" jsxbgcolor="Dialog BG"></dynamics>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+            <strings jsxname="layoutRows" jsxrows="30,*,35" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane0" jsxwidth="100%" jsxheight="100%" jsxtextalign="left" jsxbgcolor="#cccccc"></strings>
+              <dynamics jsxborder="@Outset Top"></dynamics>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="9" jsxtop="0"></variants>
+                <strings jsxname="h1" jsxtagname="h1" jsxtext="Advanced Settings" jsxdisplay="" jsxpadding="7"></strings>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxborder="0px solid ;0px solid ;1px solid #bbbbbb;0px solid" jsxpadding="20 10 10 10"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxheight="210"></variants>
+                <strings jsxname="blkFormDeviceDesc" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="210" jsxfontsize="11"></variants>
+                  <strings jsxname="label" jsxtext="Device Private Data:" jsxwidth="25%" jsxtextalign="right" jsxpadding="6 0 6 0" jsxfontweight="bold" jsxcolor="#666666"></strings>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxheight="210"></variants>
+                  <strings jsxname="blkField" jsxwidth="74%" jsxrelativeposition="1" jsxpadding="6 2 2 10"></strings>
+                  <object type="jsx3.gui.TextBox">
+                    <variants jsxheight="200" jsxtype="1" jsxrelativeposition="1"></variants>
+                    <strings jsxwidth="90%" jsxname="txtAssetDevicePrivateData" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+                    <dynamics jsxfontsize="SmallText"></dynamics>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="6 20 6 6"></strings>
+              <dynamics jsxborder="@Outset Top"></dynamics>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="80" jsxheight="22" jsxtype="0" jsxprefetch="1" jsxstate="0"></variants>
+                <strings jsxname="imgAdvanceSettingsDone" jsximage="../../addins/ipvsCommon/images/buttons/btnDoneUp.png"></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

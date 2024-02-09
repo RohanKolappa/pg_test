@@ -1,0 +1,547 @@
+Menu CLI 
+========
+
+Introduction
+------------
+
+The "Menu and "Command Line Interface(CLI) is used to configure the systems. 
+It is bascially means of interaction between the user and the computer or two
+computers or between two users(clients). It is used to "command" the computer
+to perform certain actions in textual format. We also have "Menu" options for
+every box (XP100/XP200/XP220/DMS) which displays different menu items defined
+as per the requirement and functionality. The menu window i.e the size of the
+'Menu' sub window and the order of all the menu items is defined in 'custmenu.c'.
+All the menu cli's are defined in the 'vmain.c' file.
+
+Basic Concepts
+--------------
+
+The 'Menu' contains different options/parameters which inturn may have sub
+menu items.
+
+We use the concept of Makefile here which is an utility that automatically
+builds executable and libraries from source code. So, in our case we have 
+"gen.c" and "gen.h" file automatically getting generated from the Makefile,
+we generate this files to avoid "duplicating of the code". We have certain
+functions that are used in similar 'Menu' items. The input files to generate
+these files are 'XML' and 'C' files. The Menu and CLI are created together in
+a consistent manner.
+
+A certain menu option can be displayed on either one board type or all of them.
+
+For example: in 'custmenu.c' file we write something like 
+
+--------------------------------------------------------
+     {"Sample Log Menu",
+     "Sample Log Menu.",
+     MTYPE_FUNCTION, displaySampleLog, NULL, NULL,
+     MFLAG_DEVICES_ALL | MFLAG_PORTTYPE_BOTH}
+
+--------------------------------------------------------
+
+We have an option of "MFLAG_DEVICES_ALL", which says that this menu "Sample Log Menu"
+should be displayed in all the devices/boards.
+
+Another example:
+
+--------------------------------------------------------
+     {"Display Chromakey Status",
+     "Show current chromakey status information",
+     MTYPE_FUNCTION, displayChromakeyStatus, NULL, NULL,
+     MFLAG_DEVICES_XP}
+
+--------------------------------------------------------
+
+As seen this says "MFLAG_DEVICES_XP" so it is displayed only in the XP
+devices and it won't be visible in any other device.
+
+
+How to create Menu and Menu Items
+---------------------------------
+
+The 'menu' is created in the 'custmenu.c' file where all the code needed to
+create a menu window i.e the size, shape etc. is defined using the menu
+curses. When we type 'menu' in our console there are several menu options that
+are displayed, every option which is displayed can have 'sub-menu' or 'sub-
+functions' where every option will have different functionality.
+
+How to create a new Menu Item
+-----------------------------
+
+To add a new menu item to the menu option, the steps that are to be followed
+are:
+
+---------------------------------------------------------------------------
+
+                    	+---------------------+
+                    	|  Create an XML File |
+                    	+---------------------+
+                                 
+                                   |
+                                   v     
+                    +----------------------------------------+
+                    |     Create a C file defining the       |
+                    |   functionality of the parameters      |
+                    |     added in the XML File              |
+                    +----------------------------------------+
+                                   
+                                   |
+                                   v
+                    +----------------------------------------+   
+                    |    Add the XML file in relevant file   | 
+                    |    i.e Makefile to generate the gen.c  |
+                    |    gen.h file.                         |
+                    +----------------------------------------+
+
+                                   |
+                                   v
+                    +----------------------------------------+
+                    |   Add the menu item in the custmenu.c  |  
+                    |      on how and where should it        |
+                    |         be displayed.                  |         
+                    +----------------------------------------+
+
+                                   |
+                                   v
+                     +---------------------------------+
+                     |   Register CLI commands in the  |
+                     |         vmain.c file            |
+                     +---------------------------------+
+ 
+-------------------------------------------------------------------------------
+
+XML File 
+--------
+
+The XML file is used for encoding a set of rules which both the machine and
+user understands. There are certain user defined 'tags' that are used in our
+XML file for example:
+
+------------------------------------------------
+
+<Menu>
+                    
+   <Type>config</Type>    
+   <Title>SampleConfig</Title>
+   <Description>Sample Config</Description>
+   <Access>sample</Access>
+   <ConfigFile>sample_config</ConfigFile>
+                    
+   <Items>
+       <Item>
+        <Name>ipaddress</Name>
+        <Type>string</Type>
+        <Label>Ip Address</Label>
+        <Help>Enter IP Address</Help>
+        <FieldLength>17</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddress</Type>
+        </Validation>
+      </Item> 
+
+------------------------------------------------
+
+The above is an example for a menu called "Sample Menu" with an menu item
+called ipaddress.
+
+<Menu> :
+----------
+
+This is the root element of the XML file, which explains that we
+are writing an XML for the Menu.
+
+<Type>:
+----------
+
+This is used to describe what 'type' of menu it is i.e we have three types of
+menus:
+
+--> Config
+--> List
+--> Status
+
+Config and List Type are used for manual 'configuration' of the menu item,
+wherein it allows the user to change the values of certain menu items by hand
+which are not dependent on system.
+
+Status Type does not allow the user to change any value of the parameter and
+as the name says it shows the status of the 'system configuration'. These
+items are all of 'DisplayOnly' type.
+
+So, all the menu items should be given as any one of these types.
+
+<Title>:
+------------
+
+This tag is for defining the Title of the menu item. This tag is very useful
+and important as all the functions of the menu items are called using this
+Title only.
+
+The code generation makes use of this 'Title' for naming all the functions and
+that is the reason 'no space' is allowed in the Title. 
+
+<Description> :
+-----------------
+
+This is used for describing the use/functionality of the menu item.
+
+<Access> :
+------------
+
+This tag is used for CLI commands i.e we can access the particular menu item
+on command line using this access value.
+
+The code generation also makes use of 'access' just like title but for naming
+structures, so even access cannot have spaces, but, we can make use of 
+underscore(_) and not any other special character symbols like dot(.) or hyphen (-).
+The reason dot(.) is not allowed is '.' is used to access the 'struct'
+parameters.
+
+<ConfigFile> :
+----------------
+
+This tag gives the config file of that particular menu . The user configuration
+is stored in a particular file and the name of the file is determined by this.
+
+<Items> :
+-----------
+
+This is the tag which is given before defining the menu items and its
+parameters.
+
+<Item> :
+----------
+
+This is the root element for defining an individual menu item.
+
+-----------------------------------------------------------------------
+All the Tags explained next are the ones which are used for defining a new
+item inside the <Item> tag
+
+<Name> :
+----------
+
+The name tag gives the name of the item and this tag is very useful and the
+menu item will be referred/called by its this 'name' in all the functions.
+
+<Type> :
+----------
+
+The type gives what 'type' of menu item it is i.e what type of value will it
+take. There are several types of types for a menu item they are
+
+--> integer
+--> boolean
+--> string
+--> float
+--> bandwidth
+--> password  
+
+Integer can take in any positive value ranging from 0 to 65535.
+
+Boolean Type can take in just two values i.e 'Yes' and 'No'.
+
+String Type is used when a menu parameter requires to take in both integer
+values as well as alphabets. String type should be written in double quotes(")
+always.
+
+Float Type is similar to integer but takes in 'decimal' values as well. By
+default it atleast gives output with one decimal point.
+
+When a type is given as password, the user cannot see what he types any
+value in the field . The reason for this is to maintain privacy and security.
+
+Bandwidth is referred to various bit rate measures, and it is basically
+measured in kilobytes or Megabits. So in our case whenever we need to specify
+a value for bandwidth it can either be given as just '4.56' or include a 
+postfix 'M' which sigifies Megabits.
+
+For example:
+
+Audio Bandwith : '4.56M'
+
+So, the type can be given as any one of the above for a menu item depending
+upon the requirement.
+
+<Label> :
+-----------
+
+The string given in this tag is the label of the menu item and this is how it
+is displayed in the menu.
+
+<Help> :
+-----------
+
+This tag gives help on what is the menu item about and what should the value
+of this menu item be.
+
+The user can see help on the CLI by using '--help' option after typing the
+access of a particular menu item 
+     Syntax:
+                cli_access --help
+For example:
+
+     set_sample --help 
+
+This will display all the parameters of Sample Menu and along with the help.
+
+<FieldLength> :
+-----------------
+
+This gives the fieldlength or the maximun number of spaces the user will have
+to write the value of the menu item.
+
+<DefaultValue> :
+------------------
+
+The value given in the tag is the value that will be first displayed on the
+menu before the user makes any changes to the menu item.
+
+<Validation> :
+----------------
+
+This is used for validating the value that the user has entered, there are
+certain sub types in validations 
+
+--> ipaddress
+--> enumeration
+--> netmask
+--> inetname
+--> range
+--> regexp
+--> hexadecimal
+--> onlyhexadecimal
+--> ipaddressorblank
+--> hostnameorblank
+--> multicast
+
+The ipaddress/netmask/multicast validations are basically used to check if there are
+in the correct form i.e "0.0.0.0" and not any alphanumeric value. Also if the
+ip address is in the range which is a 'valid' ip.
+
+Inetname can take in any domainname/ipaddress, so this validation checks if
+the user has provided the correct inetname.
+
+Enumeration validation verifies if the value given is present in the list
+and a valid one.
+
+Range validation takes two input parameters such as MIN and MAX and it validates
+if it is in that range. The MIN and MAX values are inclusive in the range of
+values that can be given for that parameter. 
+
+Regexp validation has several sub types where in it checks/validates whether
+the value entered by user is 
+
+-->  regexp_any
+-->  regexp_anynonempty
+-->  regexp_alphanum
+-->  regexp_num
+
+regexp_any validation passes for any value entered, it can take in any
+alphabets, integers, alphanumeric and also special characters.
+
+regexp_anynonempty is similar to regexp_any except that it should not be
+empty.
+
+regexp_alphanum accepts any alphanumeric values.
+
+regexp_num accepts only numeric values.
+
+Hexadecimal and onlyhexadecimal validation is used to check if a string
+is a hexadecimal which acepts(0x / 0X) or onlyhexadecimal.
+
+Validation is really important to make sure that the value that the user
+enters is correct and which is accepted by the 'type' given.
+
+--------------------------------------------------------------------------
+
+TCL File:
+--------
+
+Tool Command Language(TCL) is a scripting language. It is used for interfacing
+with several programming languages specifically C. We use this TCL file for
+'generating' ".c" and ".h" files of all the menu items. There are three TCL
+files written 
+
+--> config_menu_builder.tcl
+--> list_menu_builder.tcl
+--> status_menu_builder.tcl
+
+The code generation is implemented using these above TCL files.
+
+As discussed in the XML File section we have three different types of menu, so
+for every single type we have an TCL file which generates "gen.c" and "gen.h"
+files.
+
+gen.c and gen.h files:
+---------------------
+
+The "gen.c" file is being generated from the respective TCL file, this file
+has several functions which explains/gives the behaviour of the menu item.
+
+The gen.h file contains all the prototypes of all the functions that are
+generated in the gen.c files.
+
+Example of few functions which are generated from the TCL file are
+
+--> setup_parameter_values
+--> setup_parameter_strings
+--> retrieveSampleConfigValues
+--> configureSampleConfig
+--> get_sample_main
+--> set_sample_main
+
+The above functions are taken from the file sample_menu_gen.c which is of
+type config and it generates from the TCL file 'config_menu_builder.tcl'
+
+-----------------------------------------------------------------------------
+
+Write C file for the new menu item:
+----------------------------------
+
+This C file is written accordingly with the XML file created. This file is
+used to give the functionality of menu item individually. 
+
+The 'apply' function code in the ".c" is written to describe what the menu
+should perform.
+
+-------------------------------------------------------------------------------
+static int validateSampleConfig(struct sample_params *params,
+                                struct sample_params *orig_params,
+                                char *error_string) 
+{
+
+----- Validation Code ----
+
+}
+
+applySampleConfig(struct sample_params *params,
+                      struct sample_params *orig_params) 
+{
+
+---- Apply code----
+
+}
+
+void SampleConfigInit
+{
+    registerSampleConfigValidateFunction(validateSampleConfig);
+}
+
+---------------------------------------------------------------------
+
+The above code is taken from the "sample_menu.c" file which is a menu of type
+'config'.
+
+As seen above we are calling the apply function and then write down the code 
+which describes the functionality of menu.
+
+Next, we also have a custom function called validateSampleConfig, which is called
+again in the SampleConfigInit() which is a 'callback' function.
+
+Validation code is important to know what values can the menu accept and
+also if there are any exceptions i.e it should not take any value other 
+than what the user wants. Most of the validations is automated but the user
+can install custom validations for special cases that cannot be automated.
+
+For example:
+
+--------------------------------------------------------------------------------
+static int validateSampleConfig(struct sample_params *params,
+                                struct sample_params *orig_params,
+                                char *error_string) {
+
+
+    if (params->audio_port_set || params->video_port_set) {
+        if (params->video_port_value > params->audio_port_value) {
+
+            sprintf(error_string, "Audio Port should be greater than Video
+Port");
+            return RC_INVALID_VALUE;
+        }
+    }
+
+---------------------------------------------------------------------------------
+
+The above example is taken from the file 'sample_menu.c', as seen the 'if'
+loop checks if the audio port value is smaller than the video port value 
+then throw an error called "Audio Port should be greater than Video Port".
+
+---------------------------------------------------------------------------------
+
+Next, the registration part is an optional in the C code, because 
+---------------------------------------------------------------------------------
+
+    registerSampleConfigValidateFunction(validateSampleConfig);
+
+---------------------------------------------------------------------------------
+
+It is a callback function where in the functionality of this function is
+defined in the C file and it is called in the TCL(Code generator) file. So if
+this function is needed to be called in the code generator then we need to
+call it in the C file.
+
+---------------------------------------------------------------------------------
+
+Include XML file in Makefile:
+----------------------------
+
+We have a Makefile which is used for generating the gen.c and gen.h file and 
+also for creating the menu. The Makfile is written in such a way that it takes
+in the XML file and generated the gen.c and gen.h file of the respective ".c" 
+file by checking the type of the menu in the XML file.
+
+We need to include our XML file in the Makefile under the target GENERATOR_XML
+
+------------------------------------------------------------------------------
+
+GENERATOR_XML := sample_menu.xml \
+                 sample_immediate_menu.xml \
+                 dhcp_server_menu.xml \
+                 xmpp_agent_menu.xml \
+
+------------------------------------------------------------------------------
+
+Above is an extract from the Makefile and should be written something like
+this.
+
+-------------------------------------------------------------------------------
+
+Changes in the custmenu.c:
+--------------------------
+
+After all the above changes made we should add the menu under the menu item
+that we need to include in the custmenu.c file. It should be added as shown 
+in the Introduction section.
+
+-----------------------------------------------------------------------------
+
+Register CLI command for the menu in vmain.c:
+--------------------------------------------
+
+After the menu item is created by the above process, the user also should have
+the permission to change the values in the command line. So for this we
+define/register the CLI commands in 'vmain.c' file.
+
+------------------------------------------------------------------------------
+
+    {"get_sample", get_sample_main},
+    {"set_sample", set_sample_main},
+
+-------------------------------------------------------------------------------
+
+The above is an abstract from vmain.c and an example for "Sample Menu" menu
+item. So, as seen in the XML file the <Access> is 'sample' so we are giving as
+'set_sample' and 'get_sample'. This two CLI commands are used to set the
+values of menu items and also to retrieve them.
+
+The 'get_sample_main' and 'set_sample_main' functions are defined in the
+sample_menu_gen.c file.
+
+---------------------------------------------------------------------------------
+
+After all the above steps are done and we do a 'make', the new item can be
+created and also be tested by doing a "developer build" and putting it on the
+box.
+

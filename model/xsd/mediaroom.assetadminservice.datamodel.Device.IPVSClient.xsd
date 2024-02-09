@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.DisplayProfile.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.Device.IPVSClient.public.xsd" />
+  <xs:annotation>
+    <xs:documentation>
+      - IPVSClient specific version of generic Device elements
+    </xs:documentation>
+  </xs:annotation>
+  <xs:element name="IPVSClient-Device" type="IPVSClient-DeviceType" />
+  <xs:complexType name="IPVSClient-DeviceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DeviceType">
+        <xs:sequence>
+          <xs:element name="ResourcePointers" type="IPVSClient-ResourcePointersType" />
+          <xs:element name="DeviceConfig" type="IPVSClient-DeviceConfigType" />
+          <xs:element name="DeviceStatus" type="IPVSClient-DeviceStatusType" />
+        </xs:sequence>
+        <xs:attribute name="serviceVer" type="xs:double" use="required" />
+        <xs:attribute fixed="1.13" name="Ver" type="xs:double" use="required" />
+        <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-ResourcePointersType">
+    <xs:sequence>
+      <xs:element name="MediaStreamDstPortResourceNID" type="NIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IPVSClient-DeviceConfig" type="IPVSClient-DeviceConfigType" />
+  <xs:complexType name="IPVSClient-DeviceConfigType">
+    <xs:all>
+      <xs:element name="SystemElementsConfig" type="SystemElementsConfigType" />
+      <xs:element name="ServiceElementsConfig" type="IPVSClient-ServiceElementsConfigType" />
+      <xs:element name="NetworkElementsConfig" type="IPVSClient-NetworkElementsConfigType" />
+      <xs:element name="AVCodecElementsConfig" type="IPVSClient-AVCodecElementsConfigType" />
+    </xs:all>
+    <xs:attributeGroup ref="Device-Revision" />
+  </xs:complexType>
+  <xs:element name="IPVSClient-DeviceStatus" type="IPVSClient-DeviceStatusType" />
+  <xs:complexType name="IPVSClient-DeviceStatusType">
+    <xs:all minOccurs="0">
+      <xs:element name="SystemElementsStatus" type="SystemElementsStatusType" />
+      <xs:element name="ServiceElementsStatus" type="IPVSClient-ServiceElementsStatusType" />
+      <xs:element name="NetworkElementsStatus" type="IPVSClient-NetworkElementsStatusType" />
+      <xs:element name="AVCodecElementsStatus" type="IPVSClient-AVCodecElementsStatusType" />
+    </xs:all>
+    <xs:attributeGroup ref="State" />
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-ServiceElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsConfigType">
+        <xs:sequence>
+          <xs:element name="LinkLocalXMPPAgentServiceConfig" type="IPVSClient-LinkLocalXMPPAgentServiceElementConfigType" />
+          <xs:element name="XMPPAgentServiceConfig" type="IPVSClient-XMPPAgentServiceElementConfigType" />
+          <xs:element name="StreamingServiceConfig" type="IPVSClient-StreamingServiceElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-ServiceElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ServiceElementsStatusType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="LinkLocalXMPPAgentServiceStatus" type="IPVSClient-LinkLocalXMPPAgentServiceElementStatusType" />
+          <xs:element name="XMPPAgentServiceStatus" type="IPVSClient-XMPPAgentServiceElementStatusType" />
+          <xs:element name="StreamingServiceStatus" type="IPVSClient-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-NetworkElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseNetworkElementsConfigType">
+        <xs:sequence>
+          <xs:element name="NATZoneTableConfig" type="NATZoneTableElementConfigType" />
+          <xs:element name="EthernetPortTableConfig" type="EthernetPortTableElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-NetworkElementsStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseNetworkElementsStatusType">
+        <xs:sequence>
+          <xs:element name="NATZoneTableStatus" type="NATZoneTableElementStatusType" />
+          <xs:element name="EthernetPortTableStatus" type="EthernetPortTableElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-AVCodecElementsConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementsConfigType">
+        <xs:sequence>
+          <xs:element name="IPVSClientPortConfig" type="IPVSClientPortElementConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClientPortElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementConfigType">
+        <xs:sequence>
+          <xs:element name="Info">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element fixed="V2D" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element fixed="MPEGTS" name="StreamType" type="StreamTypeEnumType" />
+                <xs:element fixed="RTP" name="StreamType" type="StreamTypeEnumType" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="IPVSClientDisplayConfig" type="IPVSClientDisplayConfigType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-AVCodecElementsStatusType">
+       <xs:sequence>
+           <xs:element name="IPVSClientPortStatus" type="IPVSClientPortStatusType" />
+       </xs:sequence>
+        <xs:attributeGroup ref="State" />
+   </xs:complexType>
+  <xs:complexType name="IPVSClientPortStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="AVCodecElementStatusType">
+        <xs:sequence>
+           <xs:element name="IPVSClientDisplayStatus" type="IPVSClientDisplayStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-LinkLocalXMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-LinkLocalXMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LinkLocalXMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-XMPPAgentServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementConfigType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentConfig" />
+                <xs:element ref="XMPPAgentServiceConfigAgentConfig" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentConfig" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentConfig" />
+                <xs:element ref="XMPPAgentServicePortCtrlAgentConfig" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-XMPPAgentServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="XMPPAgentServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="AgentList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="XMPPAgentServiceAdminAgentStatus" />
+                <xs:element ref="XMPPAgentServiceConfigAgentStatus" />
+                <xs:element ref="XMPPAgentServiceDestinationAgentStatus" />
+                <xs:element ref="XMPPAgentServiceXAuthAgentStatus" />
+                <xs:element ref="XMPPAgentServicePortCtrlAgentStatus" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-StreamingServiceElementType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementType">
+        <xs:sequence>
+          <xs:element name="Config" type="IPVSClient-StreamingServiceElementConfigType" />
+          <xs:element name="Status" type="IPVSClient-StreamingServiceElementStatusType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-StreamingServiceElementConfigType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementConfigType">
+        <xs:sequence>
+          <xs:element ref="V2DStreamsRxConfig" />
+          <xs:element ref="MPEGTSStreamsRxConfig" />
+          <xs:element ref="RTPStreamsRxConfig" />
+          <xs:element ref="V2DStreamsDecodeConfig" />
+          <xs:element ref="MPEGStreamsDecodeConfig" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-StreamingServiceElementStatusType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceElementStatusType">
+        <xs:sequence>
+          <xs:element name="InstanceList" type="IPVSClient-StreamingServiceInstanceListType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IPVSClient-StreamingServiceInstanceListType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="StreamingServiceInstanceListType">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="V2DStreamRxInstance" />
+            <xs:element ref="MPEGTSStreamRxInstance" />
+            <xs:element ref="RTPStreamRxInstance" />
+            <xs:element ref="StreamReaderInstance" />
+            <xs:element ref="V2DDecoderInstance" />
+            <xs:element ref="MPEGDecoderInstance" />
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

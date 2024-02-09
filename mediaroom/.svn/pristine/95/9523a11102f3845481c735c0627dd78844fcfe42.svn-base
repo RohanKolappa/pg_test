@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+<!--
+	targetNamespace="http://www.ipvs.com/test"
+	xmlns:tns="http://www.ipvs.com/test"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+-->
+<xs:element name="person" type="persontype"/>
+<xs:complexType name="persontype">
+  <xs:sequence>
+    <xs:element name="lastname" type="xs:string"/>
+    <xs:element name="company" type="xs:string"/>
+    <xs:element name="childlist" type="childlisttype"/>
+    <xs:element name="state" type="xs:string"/>
+  </xs:sequence>
+  <xs:attribute name="nodeid" type="xs:string" use="required"/>
+  <xs:attribute name="parse" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:complexType name="childlisttype">
+  <xs:sequence>
+    <xs:element name="child" type="childtype" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="nodeid" type="xs:string" use="required"/>
+  <xs:attribute name="parse" type="xs:string" use="required"/>
+</xs:complexType>
+<xs:complexType name="childtype">
+  <xs:sequence>
+    <xs:element name="firstname" type="xs:string"/>
+    <xs:element name="school" type="xs:string"/>
+  </xs:sequence>
+  <xs:attribute name="nodeid" type="xs:string" use="required"/>
+</xs:complexType>
+</xs:schema>

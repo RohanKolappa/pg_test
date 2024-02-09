@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:include schemaLocation="mediaroom.assetadminservice.datamodel.DisplayProfile.public.xsd" />
+  <xs:element name="DisplayProfileList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="DisplayProfile" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DisplayProfile" type="DisplayProfileType" />
+  <xs:complexType name="DisplayProfileType">
+    <xs:sequence>
+      <xs:element name="Groups" type="TagList" />
+      <xs:element name="Title" type="xs:string" />
+      <xs:element name="Description" type="xs:string" />
+      <xs:element minOccurs="0" name="MediaStreamIOPortTypeTitle" type="xs:string" />
+      <xs:element name="Priority" type="xs:int" />
+      <xs:element name="Canvas" type="CanvasType" />
+    </xs:sequence>
+    <xs:attribute name="serviceVer" type="xs:double" use="required" />
+    <xs:attribute fixed="1.3" name="Ver" type="xs:double" use="required" />
+    <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="DisplayInfoType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Canvas" type="CanvasType" />
+      <xs:element minOccurs="0" name="Display" type="DisplayType" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

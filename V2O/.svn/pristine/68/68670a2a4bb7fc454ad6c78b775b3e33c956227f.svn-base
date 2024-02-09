@@ -1,0 +1,128 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>XMPPServer</Title>
+   <Description>XMPP Server</Description>
+   <Access>xmpp_server</Access>
+   <ConfigFile>xmppserverconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable XMPP Server</Label>
+        <Help>Enable XMPP Server</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>port</Name>
+        <Type>integer</Type>
+        <Label>XMPP Server Port</Label>
+        <Help>Port for the XMPP Server</Help>
+        <FieldLength>8</FieldLength>
+        <DefaultValue>5222</DefaultValue>
+        <Validation>
+           <Type>range</Type>
+           <Min>0</Min>
+           <Max>65535</Max>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enablediscovery</Name>
+        <Type>boolean</Type>
+        <Label>Enable Device Discovery</Label>
+        <Help>Enable Device Discovery</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>enableuserregistry</Name>
+        <Type>boolean</Type>
+        <Label>Enable User Registration</Label>
+        <Help>Enable User Self Registration</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>enableldap</Name>
+        <Type>boolean</Type>
+        <Label>LDAP Authentication</Label>
+        <Help>Enable authentication using LDAP</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>ldaphost</Name>
+        <Type>string</Type>
+        <Label>LDAP Server IP/Name</Label>
+        <Help>IP Address/Name of Management Server</Help>
+        <FieldLength>45</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>inetname</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>admindn</Name>
+        <Type>string</Type>
+        <Label>Admin DN</Label>
+        <Help>DN of user that can read list of all users in the LDAP</Help>
+        <FieldLength>64</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>adminpassword</Name>
+        <Type>password</Type>
+        <Label>Admin Password</Label>
+        <Help>Passsword of user with admin access</Help>
+        <FieldLength>20</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>basedn</Name>
+        <Type>string</Type>
+        <Label>Base DN</Label>
+        <Help>Starting DN for all user searches</Help>
+        <FieldLength>256</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>userfield</Name>
+        <Type>string</Type>
+        <Label>User Name Field</Label>
+        <Help>Field name used for user lookup</Help>
+        <FieldLength>20</FieldLength>
+        <DefaultValue>sAMAccountName</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

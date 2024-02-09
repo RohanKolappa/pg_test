@@ -1,0 +1,72 @@
+CC =$(shell if which kgcc >/dev/null 2>&1; then echo kgcc; else echo gcc; fi)
+
+SRCPATH =$(shell if ls /usr/src/linux >/dev/null 2>&1; then echo /usr/src/linux; else echo /usr/src/linux-2.4; fi)
+
+# IPVS mod: we use our source path -- rkale
+SRCPATH = ../../../linux
+
+
+CFLAGS =-c -D__KERNEL__ -DMODULE -Wall -Wno-sign-compare -fno-strict-aliasing -Wstrict-prototypes -O2 -fomit-frame-pointer
+
+# Uncomment the next line if you want to enable VARYIO
+#CFLAGS +=-DENABLE_VARYIO
+
+# Uncomment the next line if building against the 2.4.2-2 kernel
+#CFLAGS += -DEXPORT_SYMTAB
+
+# Define x86_64 flags
+CFLAGS +=$(shell if arch | grep -q 'x86_64' >/dev/null; then echo " -Wno-unused -Wno-trigraphs -fno-common -mno-red-zone -mcmodel=kernel -pipe -fno-reorder-blocks -finline-limit=2000 -fno-strength-reduce -fno-asynchronous-unwind-tables -DMODVERSIONS -DKBUILD_BASENAME=3w_9xxx"; fi)
+
+# Define ia64 flags
+CFLAGS +=$(shell if arch | grep -q 'ia64' >/dev/null; then echo " -Wno-unused -Wno-trigraphs -fno-common -pipe -ffixed-r13 -mfixed-range=f10-f15,f32-f127 -falign-functions=32 -frename-registers --param max-inline-insns=5000 -DMODVERSIONS -nostdinc -iwithprefix include -DKBUILD_BASENAME=3w_9xxx"; fi)
+
+UPOBJS = 3w-9xxx.o
+3w-9xxx.o:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.o 3w-9xxx.c
+
+
+BOOTOBJS = 3w-9xxx.bot
+3w-9xxx.bot:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__module__BOOT"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.bot 3w-9xxx.c
+
+
+SMPOBJS = 3w-9xxx.smp
+3w-9xxx.smp:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -DCONFIG_SMP $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__module__smp"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.smp 3w-9xxx.c
+
+
+ENTOBJS = 3w-9xxx.ent
+3w-9xxx.ent:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -DCONFIG_SMP $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__module__enterprise"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.ent 3w-9xxx.c
+
+
+BIGOBJS = 3w-9xxx.big
+3w-9xxx.big:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -DCONFIG_SMP $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__module__bigmem"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.big 3w-9xxx.c
+
+HUGEOBJS = 3w-9xxx.hug
+3w-9xxx.hug:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -DCONFIG_SMP $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__module__hugemem"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.hug 3w-9xxx.c
+
+IA32EOBJS = 3w-9xxx.i32
+3w-9xxx.i32:3w-9xxx.c 3w-9xxx.h Makefile.rh
+	$(CC) $(CFLAGS) -DCONFIG_SMP $(shell if echo $(CC) | grep -q 'kgcc' >/dev/null 2>&1 || uname -r | grep -q '2.4' >/dev/null 2>&1; then echo "-D__MODULE_KERNEL_ia32e"; fi) -I. -I$(SRCPATH)/drivers/scsi -I$(SRCPATH)/include -include $(SRCPATH)/include/linux/modversions.h -o 3w-9xxx.i32 3w-9xxx.c
+
+up: $(UPOBJS)
+
+all: $(UPOBJS)
+
+bot: $(BOOTOBJS)
+
+smp: $(SMPOBJS)
+
+ent: $(ENTOBJS)
+
+big: $(BIGOBJS)
+
+hug: $(HUGEOBJS)
+
+ia32e: $(IA32EOBJS)
+
+clean:
+	rm -rf 3w-9xxx.bot 3w-9xxx.o 3w-9xxx.smp 3w-9xxx.ent 3w-9xxx.big 3w-9xxx.hug 3w-9xxx.i32 *~

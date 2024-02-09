@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:include schemaLocation= "policyadminservice.xsd" />
+<xs:simpleType name="MRNIDType">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  
+<xs:complexType name="MRResponseHeaderType">
+    <xs:sequence>
+      <xs:element name="servicename" type="xs:string" />
+      <xs:element name="requestname" type="xs:string" />
+      <xs:element name="userJID" type="xs:string" />
+      <xs:element name="requestNID" type="MRNIDType" />
+      <xs:element name="state" type="xs:int" />
+      <xs:element name="clientdata" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+<xs:element name="AddResourceGroupResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="header" type="MRResponseHeaderType"/>
+			<xs:element name="data">
+			<xs:complexType>
+			<xs:sequence>
+			  <xs:element name="resourceGroupNID" type="xs:string"/>
+			  </xs:sequence>
+			</xs:complexType>
+			</xs:element>
+			<xs:element name="log" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="DeleteResourceGroupResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="header" type="MRResponseHeaderType"/>
+			<xs:element name="data">
+			<xs:complexType>
+			<xs:sequence>
+			  <xs:element name="resourceGroupNID" type="xs:string"/>
+			  </xs:sequence>
+			</xs:complexType>
+			</xs:element>
+			<xs:element name="log" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="ListResourceGroupResponse">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="header" type="MRResponseHeaderType"/>
+			<xs:element name="data">
+			<xs:complexType>
+			<xs:sequence>
+			  <xs:element name="resourceGroupList" type="ResourceGroupList"/>
+			  </xs:sequence>
+			</xs:complexType>
+			</xs:element>
+			<xs:element name="log" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+
+</xs:schema>

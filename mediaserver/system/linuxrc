@@ -1,0 +1,13 @@
+#!/bin/sh
+
+/bin/busybox --install -s
+
+/bin/echo "Executing RC"
+/bin/mkdir /sub
+/bin/mount -t tmpfs -o size=128m tmpfs /sub
+/bin/cp -a / /sub
+exec /sbin/switch_root /sub /sbin/init
+
+echo "switch_root failed"
+/bin/sh
+

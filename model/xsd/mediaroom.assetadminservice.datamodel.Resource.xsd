@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:element name="Resource" type="ResourceType" />
+  <xs:complexType name="ResourceType" abstract="true">
+    <xs:sequence>
+      <xs:element name="Contact" type="ResourceContactType" />
+      <xs:element name="State" type="ResourceStateType" />
+    </xs:sequence>
+    <xs:attributeGroup ref="AutoNID" />
+  </xs:complexType>
+  <xs:complexType name="ResourceContactType">
+    <xs:all>
+      <xs:element name="OwnerUserJID" type="XMPPFullJID" />
+      <xs:element name="Presence" type="XMPPPresenceEnumType" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="ResourceStateType">
+    <xs:sequence>
+      <xs:element maxOccurs="1" name="StateFlag">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Offline" />
+            <xs:enumeration value="Ready" />
+            <xs:enumeration value="NotReady" />
+            <xs:enumeration value="Idle" />
+            <xs:enumeration value="Reserved" />
+            <xs:enumeration value="Busy" />
+            <xs:enumeration value="Error" />
+            <xs:enumeration value="AutoRegistered" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element maxOccurs="1" name="StateMsg" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  	<xs:complexType name="ApiKeyTableType">
+		<xs:sequence>
+			<xs:element name='ApiKey' minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+					</xs:sequence>
+					<xs:attribute name='key' type='xs:string' />
+					<xs:attribute name='sharedSecret' type='xs:string' />
+					<xs:attribute name='validInterval' type='xs:long' />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

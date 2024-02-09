@@ -1,0 +1,104 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>HA</Title>
+   <Description>High Availability</Description>
+   <Access>ha</Access>
+   <ConfigFile>linuxhaconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>enable</Name>
+        <Type>boolean</Type>
+        <Label>Enable HA</Label>
+        <Help>Enable High Availability Service</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+
+      <Item>
+        <Name>peerip</Name>
+        <Type>string</Type>
+        <Label>Peer IP Address</Label>
+        <Help>IP Address of the Peer</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddressorblank</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>peername</Name>
+        <Type>string</Type>
+        <Label>Peer Node Name</Label>
+        <Help>Peer Name as returned by uname -n</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>none</DefaultValue>
+        <Validation>
+           <Type>hostnameorblank</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>interface</Name>
+        <Type>string</Type>
+        <Label>LAN</Label>
+        <Help>Interface used by HA Heartbeat</Help>
+        <FieldLength>6</FieldLength>
+        <DefaultValue>1</DefaultValue>
+        <Validation>
+           <Type>enumeration</Type>
+		   <Values>"1","2"</Values>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enable_virtual_ip</Name>
+        <Type>boolean</Type>
+        <Label>Enable Virtual IP</Label>
+        <Help>Enable Virtual IP Hosting</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>virtualip</Name>
+        <Type>string</Type>
+        <Label>Virtual IP Address1</Label>
+        <Help>Virtual IP Address to host</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddressorblank</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>virtualip2</Name>
+        <Type>string</Type>
+        <Label>Virtual IP Address2</Label>
+        <Help>Virtual IP Address to host</Help>
+        <FieldLength>32</FieldLength>
+        <DefaultValue>0.0.0.0</DefaultValue>
+        <Validation>
+           <Type>ipaddressorblank</Type>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enable_as_primary</Name>
+        <Type>boolean</Type>
+        <Label>Set As Primary</Label>
+        <Help>Set as Primary or Secondary</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+
+   </Items>
+</Menu>

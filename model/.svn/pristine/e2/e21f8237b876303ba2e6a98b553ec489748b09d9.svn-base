@@ -1,0 +1,672 @@
+<?xml version="1.0"?>
+<CSM-1-Device serviceVer="" Ver="1.0" Rev="1" NID="" parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+	<ManagementMode>Central</ManagementMode>
+
+	<ResourcePointers>
+		<MediaStreamDstPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamDstPortResourceNID>
+		<MediaStreamSrcPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamSrcPortResourceNID>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<SoftwareImageConfig Dirty="CLEAN">
+				<AllowDowngrade></AllowDowngrade>
+			</SoftwareImageConfig>
+
+			<!-- <LicenseConfig Dirty="CLEAN"> <NewLicenseKey></NewLicenseKey> </LicenseConfig> -->
+
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password>admin</Password>
+			</AdminServiceConfig>
+
+			<!--<LoginBannerConfig Dirty="CLEAN"> <Banner></Banner> </LoginBannerConfig> -->
+
+			<!-- <KeyboardConfig Dirty="CLEAN"> <Layout>us</Layout> <Variant>intl</Variant> </KeyboardConfig> -->
+			<RegionalSettingsConfig Dirty="CLEAN">
+				<Locale>en_US</Locale>
+				<Timezone>America/Los_Angeles</Timezone>
+			</RegionalSettingsConfig>
+
+			<WelcomeMessageConfig Dirty="CLEAN">
+				<Message></Message>
+				<FontSize>Small/Medium/Large</FontSize>
+			</WelcomeMessageConfig>
+
+			<OneRoomConfig Dirty="CLEAN">
+				<EnableOneRoom></EnableOneRoom>
+				<RoomName></RoomName>
+				<PhoneConfig>
+					<Enable></Enable>
+					<Number></Number>
+				</PhoneConfig>
+			</OneRoomConfig>
+
+			<OwnerConfig Dirty="CLEAN">
+				<Name>en_US</Name>
+				<PhoneNumber></PhoneNumber>
+				<Email></Email>
+			</OwnerConfig>
+
+			<WallPaperConfig>
+				<Enable></Enable>
+				<CurrentWallPaper></CurrentWallPaper>
+			</WallPaperConfig>
+
+			<!-- <CPUConfig Dirty="CLEAN"></CPUConfig> <MemoryConfig Dirty="CLEAN"></MemoryConfig> <SystemHWConfig Dirty="CLEAN"></SystemHWConfig> -->
+			<DisplayConfig>
+				<Resolution></Resolution>
+				<EnableHotPlug></EnableHotPlug>
+				<Language></Language>
+				<ShowMeetingRoomInfo></ShowMeetingRoomInfo>
+				<ShowNetworkInfo></ShowNetworkInfo>
+				<OutputConfig>
+					<ShowScreenSaverAfter></ShowScreenSaverAfter>
+				</OutputConfig>
+				<OnScreenTextFormatConfing>
+					<Language></Language>
+					<Color></Color>
+					<Size></Size>
+					<Style></Style>
+					<BackgroudColor></BackgroudColor>
+					<Transparency></Transparency>
+				</OnScreenTextFormatConfing>
+			</DisplayConfig>
+
+			<AudioConfig>
+				<Enable></Enable>
+				<Output></Output>
+			</AudioConfig>
+
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+				<TimeZone />
+			</SystemClockConfig>
+
+			<FirmwareImageConfig Dirty="CLEAN">
+				<NewVersion></NewVersion>
+			</FirmwareImageConfig>
+
+			<APIConfig Dirty="CLEAN">
+				<RemoteControl></RemoteControl>
+				<Password></Password>
+			</APIConfig>
+
+			<ButtonConfig Dirty="CLEAN">
+				<UpgradeOverWiFi></UpgradeOverWiFi>
+				<CompatableWithOldBaseUnit></CompatableWithOldBaseUnit>
+				<CompatableWithOldButton></CompatableWithOldButton>
+			</ButtonConfig>
+
+			<!-- Log Levels TRACE, DEBUG, INFO, WARN, ERROR -->
+			<SystemLogConfig Dirty="CLEAN">
+				<Level>INFO</Level>
+			</SystemLogConfig>
+
+			<RebootConfig Dirty="CLEAN">
+				<Auto>true</Auto>
+			</RebootConfig>
+
+			<UpgradeConfig Dirty="CLEAN">
+				<Source></Source>
+			</UpgradeConfig>
+
+		</SystemElementsConfig>
+
+		<ServiceElementsConfig>
+			<!-- To eanble HTTPS this should be enalbe false. -->
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+			</HTTPServiceConfig>
+
+			<MobileDeviceServiceConfig Dirty="CLEAN">
+				<EnableLocalAppSharing>true</EnableLocalAppSharing>
+				<EnableAirPlay>true</EnableAirPlay>
+				<EableGoogleCast></EableGoogleCast>
+				<PasscodeType></PasscodeType>
+			</MobileDeviceServiceConfig>
+
+			<EDPAgentServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<EDPMessageBusInfo>0.0.0.0</EDPMessageBusInfo>
+				<DeviceName>UserId</DeviceName>
+				<DevicePassword>secret</DevicePassword>
+				<Domain>default</Domain>
+				<ServiceDomain>default</ServiceDomain>
+
+				<AgentList>
+					<AgentServiceConfigAgentConfig Dirty="CLEAN">
+						<Enable>true</Enable>
+						<DeviceServiceInfo></DeviceServiceInfo>
+					</AgentServiceConfigAgentConfig>
+
+					<AgentServiceSourceAgentConfig Dirty="CLEAN">
+						<Enable></Enable>
+						<StreamServiceInfo></StreamServiceInfo>
+					</AgentServiceSourceAgentConfig>
+
+					<AgentServiceDestinationAgentConfig Dirty="CLEAN">
+						<Enable></Enable>
+						<StreamServiceInfo></StreamServiceInfo>
+					</AgentServiceDestinationAgentConfig>
+
+				</AgentList>
+			</EDPAgentServiceConfig>
+
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName>CSE200</HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP>0.0.0.0</DNSServerIP>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway>192.168.1.254</Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+
+					<ProxyConfig>
+						<Enable></Enable>
+						<ServerIP></ServerIP>
+						<ServerPort></ServerPort>
+						<Username></Username>
+						<Password>secret</Password>
+					</ProxyConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+			<WiFiConfig>
+				<Enable>false</Enable>
+				<IPConfig>
+					<IPAddress>169.254.0.1</IPAddress>
+					<Netmask>255.255.0.0</Netmask>
+				</IPConfig>
+				<PassPhrase></PassPhrase>
+				<ModeConfig>
+					<Mode>AccessPoint</Mode> <!-- AccessPoint/Station/Both -->
+					<AccessPointMode>
+						<EnableSSIDBroadCast>true</EnableSSIDBroadCast>
+						<Mode>11n</Mode>
+						<Region>WORLDWIDE</Region>
+						<Encryption></Encryption>
+						<SSID>CSE-200-04E</SSID>
+						<Frequency>2.4 GHz</Frequency>
+						<Channel>6</Channel>
+						<SignalStrength>100</SignalStrength>
+					</AccessPointMode>
+					<AccessWebUI>false</AccessWebUI>
+					<UpdateButtons>false</UpdateButtons>
+				</ModeConfig>
+			</WiFiConfig>
+			<NetworkIntegrationConfig>
+				<SecurityMode>
+					<Enable>false</Enable>
+					<Name></Name>
+				</SecurityMode>
+			</NetworkIntegrationConfig>
+		</NetworkElementsConfig>
+
+		<AVCodecElementsConfig>
+			<CSEPortConfig Dirty="CLEAN">
+				<PortID>1</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+
+				<Info Dirty="CLEAN">
+					<StreamType>MirrorOp</StreamType>
+					<Configurable></Configurable>
+					<PortIOType>StreamDst</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+					<MaxBandwidthAllowed></MaxBandwidthAllowed>
+				</Info>
+
+				<MirrorOpDecoderVideoConfig Dirty="CLEAN" /> <!-- TBD -->
+
+			</CSEPortConfig>
+			<CSEPortConfig Dirty="CLEAN">
+				<PortID>2</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+
+				<Info Dirty="CLEAN">
+					<StreamType>MirrorOp</StreamType>
+					<Configurable></Configurable>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+					<MaxBandwidthAllowed></MaxBandwidthAllowed>
+
+				</Info>
+
+				<MirrorOpEncoderVideoConfig Dirty="CLEAN">
+					<DemandScale>false</DemandScale>
+					<CodecType>auto</CodecType>
+					<AspectRatioType></AspectRatioType>
+					<DeOverscanWidth></DeOverscanWidth>
+					<PreBufTime></PreBufTime>
+					<AudioProjection></AudioProjection>
+					<JpegQuality>85</JpegQuality>
+					<MaxFPS>30</MaxFPS>
+					<ChangeColorDepth>false</ChangeColorDepth>
+					<ImageScaler>soft</ImageScaler>
+					<IgnoreNCC>false</IgnoreNCC>
+					<CapLayer>false</CapLayer>
+					<DisableAccel>false</DisableAccel>
+					<ChangeDisplay>false</ChangeDisplay>
+					<RotationAngle>0</RotationAngle>
+					<DeviceDiscover>false</DeviceDiscover>
+					<LoginCode>1234</LoginCode>
+					<LogLevel>FATAL</LogLevel>
+					<LogAppend>false</LogAppend>
+					<AudioProjectionSampleRate>44100</AudioProjectionSampleRate>
+					<AudioProjectionChannelNum>2</AudioProjectionChannelNum>
+					<AudioProjectionBitsPerSample>2</AudioProjectionBitsPerSample>
+					<ExtendedDesktop>0</ExtendedDesktop>
+				</MirrorOpEncoderVideoConfig>
+
+			</CSEPortConfig>
+		</AVCodecElementsConfig>
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<ServiceElementsStatus State='OK'>
+			<Services>
+				<Job_Scheduler>
+					<Name>
+						<value>/usr/sbin/cron</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Job Scheduler</value>
+					</FriendlyName>
+				</Job_Scheduler>
+				<ClickShare_Server>
+					<Name>
+						<value>/usr/bin/baseunit</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>ClickShare Server</value>
+					</FriendlyName>
+				</ClickShare_Server>
+				<OneRoomStatus State='OK'></OneRoomStatus>
+				<Wifi_Access_Point_Daemon>
+					<Name>
+						<value>/usr/sbin/hostapd</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Wifi Access Point Daemon</value>
+					</FriendlyName>
+				</Wifi_Access_Point_Daemon>
+				<Device_Daemon>
+					<Name>
+						<value>/sbin/udevd</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Device Daemon</value>
+					</FriendlyName>
+				</Device_Daemon>
+				<DHCP_Server>
+					<Name>
+						<value>/usr/sbin/dhcpd</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>DHCP Server</value>
+					</FriendlyName>
+				</DHCP_Server>
+				<WebUI_Server>
+					<Name>
+						<value>/usr/sbin/lighttpd</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>WebUI Server</value>
+					</FriendlyName>
+				</WebUI_Server>
+				<LED_Control>
+					<Name>
+						<value>/usr/sbin/LedControl</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>LED Control</value>
+					</FriendlyName>
+				</LED_Control>
+				<DBus_Daemon>
+					<Name>
+						<value>dbus-daemon</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>DBus Daemon</value>
+					</FriendlyName>
+				</DBus_Daemon>
+				<BusLog State='OK'></BusLog>
+				<Process_Monitor>
+					<Name>
+						<value>/usr/bin/monit</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Process Monitor</value>
+					</FriendlyName>
+				</Process_Monitor>
+				<System_Logging>
+					<Name>
+						<value>/usr/sbin/rsyslogd</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>System Logging</value>
+					</FriendlyName>
+				</System_Logging>
+				<Button_Agent>
+					<Name>
+						<value>/usr/sbin/dongle_pairing</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Button Agent</value>
+					</FriendlyName>
+				</Button_Agent>
+				<Config_Manager>
+					<Name>
+						<value>/usr/sbin/CentralStore</value>
+					</Name>
+					<Status>
+						<value>true</value>
+					</Status>
+					<FriendlyName>
+						<value>Config Manager</value>
+					</FriendlyName>
+				</Config_Manager>
+			</Services>
+		</ServiceElementsStatus>
+		<SystemElementsStatus State='OK'>
+			<MemoryStatus State='OK'></MemoryStatus>
+			<UpgradeStatus>
+				<IsSuccessful>
+					<value>true</value>
+				</IsSuccessful>
+				<ProgressValue>
+					<value />
+					<units>%</units>
+				</ProgressValue>
+				<PostInstall>
+					<value />
+				</PostInstall>
+				<ProgressMessage>
+					<value />
+				</ProgressMessage>
+				<InProgress>
+					<value>false</value>
+				</InProgress>
+			</UpgradeStatus>
+			<SoftwareImageStatus State='OK'>
+				<Parameters>
+					<Parameter name='Version' source='constant' type='String'>99.05.00.cse200_oneRoom-0009</Parameter>
+					<Parameter name='Service Version' source='constant' type='String'>2.32.5</Parameter>
+				</Parameters>
+				<Service_Version>
+					<value>2.34.14</value>
+				</Service_Version>
+				<Version>
+					<value>99.05.00.cse200_oneRoom-0009</value>
+				</Version>
+			</SoftwareImageStatus>
+			<SystemHWStatus State='OK'>
+				<GlobalStatusMessage>
+					<value>
+					</value>
+				</GlobalStatusMessage>
+				<GlobalStatus>
+					<value>0</value>
+				</GlobalStatus>
+			</SystemHWStatus>
+			<SystemClockStatus State='OK'>
+				<DateUTC>
+					<value>2016-08-10 20:45:26</value>
+				</DateUTC>
+				<ClockValid>
+					<value>true</value>
+				</ClockValid>
+				<TimeZone>
+					<value>UTC</value>
+				</TimeZone>
+				<NTPEnabled>
+					<value>false</value>
+				</NTPEnabled>
+				<NTPStatus>
+					<value>Disabled</value>
+				</NTPStatus>
+			</SystemClockStatus>
+			<ButtonStatus State='OK'>
+				<Buttons>
+					<btn_1871000023>
+						<SerialNumber>
+							<value>1871000023</value>
+						</SerialNumber>
+						<Status>
+							<value>OK</value>
+						</Status>
+						<LastPaired>
+							<value>2016-08-10T17:15:34</value>
+						</LastPaired>
+						<MACAddress>
+							<value>00:23:A7:63:D5:8C</value>
+						</MACAddress>
+						<IPAddress>
+							<value />
+						</IPAddress>
+						<FirmwareVersion>
+							<value>00.00.00.trunk-1956</value>
+						</FirmwareVersion>
+						<IsConnected>
+							<value>false</value>
+						</IsConnected>
+						<ConnectionCount>
+							<value>2</value>
+						</ConnectionCount>
+						<ISOVersion>
+							<value>01.00.00.oneroom-0051</value>
+						</ISOVersion>
+						<LastConnected>
+							<value>2016-08-10T17:16:54</value>
+						</LastConnected>
+						<ArticleCode>
+							<value>R9861500D01</value>
+						</ArticleCode>
+					</btn_1871000023>
+				</Buttons>
+			</ButtonStatus>
+			<FirmwareImageStatus State='OK'>
+				<SerialNumber>
+					<value>1871700195</value>
+				</SerialNumber>
+				<ModelName>
+					<value>CSE-200</value>
+				</ModelName>
+				<HardwareVersion>
+					<value />
+				</HardwareVersion>
+				<UDID>
+					<value>a35c35183ba5c553ce68a537f24121a3c51a8e4b62f6f09d6665e8d631ef8f1e</value>
+				</UDID>
+				<ArticleCode>
+					<value>R9861520NA</value>
+				</ArticleCode>
+			</FirmwareImageStatus>
+			<CPUStatus State='OK'>
+				<Uptime>
+					<value>9055</value>
+					<units>seconds</units>
+				</Uptime>
+				<Temperature>
+					<value>47.876</value>
+					<units>degrees Celcius</units>
+				</Temperature>
+			</CPUStatus>
+			<IdentifyStatus State='OK'>
+				<Identifying>
+					<value>false</value>
+				</Identifying>
+			</IdentifyStatus>
+		</SystemElementsStatus>
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+			<WiFiStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</WiFiStatus>
+		</NetworkElementsStatus>
+
+		<AVCodecElementsStatus State="OK">
+			<CSEPortStatus State="OK">
+				<PortID>1</PortID>
+
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+
+				<MirrorOpDecoderrVideoStatus>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</MirrorOpDecoderrVideoStatus>
+
+
+			</CSEPortStatus>
+			<CSEPortStatus State="OK">
+				<PortID>2</PortID>
+
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+
+				<MirrorOpEncoderVideoStatus>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</MirrorOpEncoderVideoStatus>
+
+
+			</CSEPortStatus>
+		</AVCodecElementsStatus>
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<SaveToFlashCommand></SaveToFlashCommand>
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</CSM-1-Device>

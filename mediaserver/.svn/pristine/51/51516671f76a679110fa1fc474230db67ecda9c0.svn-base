@@ -1,0 +1,168 @@
+# -*-Shell-script-*-
+
+# 
+# This file contains all the variables/fucntions to be used by
+# all the /etc/rc shell scripts
+# 
+
+# Setup local and system environment variables
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/home/onair:/V2O/bin:/V2O/sbin
+export PATH
+
+TERM=linux
+export TERM
+
+LD_LIBRARY_PATH=.:/usr/lib
+export LD_LIBRARY_PATH
+
+LOG4C_RCPATH=/home/onair
+export LOG4C_RCPATH
+
+ignoreeof=10
+export ignoreeof
+
+no_exit_on_failed_exec=yes
+
+umask 022
+
+LOGGERTAG=/etc/rc
+
+SCRIPTS=/etc/scripts
+export SCRIPTS
+
+MIGRATIONSCRIPTS=/etc/migration
+export MIGRATIONSCRIPTS
+
+CONFIG_DIR=/etc/config
+STATUS_DIR=/var/status
+# Log of the unsaved configuration actions
+CONFIG_FILE=/tmp/configfile
+REMOTE_CONFIG=/etc/config/remote_config.xml
+
+CF_FS_TYPE=vfat
+if [ -f /etc/config/grub_system ] ; then 
+   CF_FS_TYPE=ext3
+fi
+if [ -f /etc/config/arm_system ] ; then
+    if [ ! -f /etc/config/qemu_arm_system ] ; then
+        CF_FS_TYPE=ext2
+    fi
+fi
+
+
+
+LEDFILE="/tmp/status.led"
+OSOK="1"
+APPIMAGEOK="2"
+APPBOOTFILEOK="3"
+APPBOOTOK="4"
+APPCONFIGOK="5"
+ENCODEROK="6"
+DISKOK="7"
+STREAMOK="8"
+
+logprint() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+
+    local message=$1
+    local tag="/etc/rc"
+    if [ x${LOGGERTAG} != "x" ]; then
+        tag=${LOGGERTAG}
+    fi
+    if [ x${LOGGERMASK} = "x" ]; then
+        /usr/bin/logger -t ${tag} "${message}"
+    fi
+    echo ${message}
+}
+
+logerror() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+    
+    local message="ERROR: $1"
+    echo
+    logprint "${message}"
+    echo
+}
+
+showerror() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+
+    message="ERROR: $1"
+    echo
+    echo "${message}"
+    echo
+}
+
+show() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+    echo $1
+}
+
+quitwitherror() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+
+    showerror "$1"
+    exit 1
+}
+
+quitwitherrorlog() {
+    if [ "$#" = 0 ] ; then
+        return
+    fi
+
+    logerror "$1"
+    exit 1
+}
+
+get_agent_app_name () {
+
+    local agent_app_name="DMSApp"
+
+    if [ -f /etc/config/hw_profile_v2dtx.txt ] ; then
+        agent_app_name=V2DTxApp
+    elif [ -f /etc/config/hw_profile_v2drx.txt ] ; then
+        agent_app_name=V2DRxApp
+    elif [ -f /etc/config/hw_profile_v2dxp200.txt ] ; then
+        agent_app_name=V2DXP200App
+    elif [ -f /etc/config/hw_profile_xpi.txt ] ; then
+        agent_app_name=V2DXP200App
+    elif [ -f /etc/config/hw_profile_ms.txt ] ; then
+        agent_app_name=MSApp
+    elif [ -f /etc/config/hw_profile_orb.txt ] ; then
+        agent_app_name=ORBApp
+    else
+        agent_app_name=DMSApp
+    fi
+    echo $agent_app_name
+}
+get_device_interface_agent_name () {
+
+    local agent_app_name="dms"
+
+    if [ -f /etc/config/hw_profile_v2dtx.txt ] ; then
+        agent_app_name=v2dtx
+    elif [ -f /etc/config/hw_profile_v2drx.txt ] ; then
+        agent_app_name=v2drx
+    elif [ -f /etc/config/hw_profile_v2dxp200.txt ] ; then
+        agent_app_name=v2dxp
+    elif [ -f /etc/config/hw_profile_xpi.txt ] ; then
+        agent_app_name=v2dxpi
+    elif [ -f /etc/config/hw_profile_ms.txt ] ; then
+        agent_app_name=ms
+    elif [ -f /etc/config/hw_profile_orb.txt ] ; then
+        agent_app_name=orb
+    else
+        agent_app_name=dms
+    fi
+    echo $agent_app_name
+}

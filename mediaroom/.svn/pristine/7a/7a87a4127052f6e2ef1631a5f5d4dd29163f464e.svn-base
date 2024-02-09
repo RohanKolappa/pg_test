@@ -1,0 +1,39 @@
+declare function local:formatList() {
+
+let $list := for $b in  collection('/db/ipvs.default.bookmarklist')/*_XPATHAND_    
+     return $b
+let $mediaStreamNID := $list//Bookmark[1]/MediaStreamFileResourceNID
+let $mediaResource := local:getMediaStreamFileInfo($mediaStreamNID)
+ 
+let $item := for $ele in $list 
+    return local:getBookmarkInfo($mediaResource, $ele)
+
+return <Bookmarklist>{$item}</Bookmarklist>
+};
+
+declare function local:getMediaStreamFileInfo($b){
+
+let $fileResource := for $file  in collection('/db/ipvs.default.mediastreamfileresourcelist')/*[.//@NID=$b]
+                               return $file
+                         
+return $fileResource
+};
+
+declare function local:getBookmarkInfo( $ele as element()*, $b as element()*)
+as element ()* {
+let $item := $b
+ return <Bookmark NID='{ data($b/@NID) }' 
+     bookmarkUUID= '{ data($b/UUID) }'
+     title='{ data($b/Title) }' 
+     TC='{ data($b/AtTC) }' 
+     offset='{ data($b/Offset) }' 
+     dateCreated='{ data($b/DateCreated) }' 
+     mediaStreamFileNID='{ data($ele/@NID) }'
+     mediaStreamFileUUID ='{ data($ele//UUID) }'>
+     <Description>{data($b/Comment)}</Description>
+     <MetaData>{$b/MetaData/*}</MetaData>
+     </Bookmark>
+};
+
+let $requestDoc := local:formatList()
+return $requestDoc

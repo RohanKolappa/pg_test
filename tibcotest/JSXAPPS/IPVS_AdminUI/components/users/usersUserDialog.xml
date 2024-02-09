@@ -1,0 +1,243 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="800" jsxheight="600" jsxzindex="5000" jsxwindowstate="1" jsxleft="0" jsxtop="0"></variants>
+    <strings jsxname="DialogUser"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="User Account" jsxcolor="#fff;"></strings>
+      <dynamics jsxfontsize="BaseText" jsxbg="Dialog Titlebar" jsxbgcolor="@Solid Shadow"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute=""></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants></variants>
+      <strings jsxname="cdfDlgEditUser" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot; /&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxbgcolor="P3"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxbgcolor="Dialog BG" jsxborder="@Outset Bottom"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="498" jsxtop="29" jsxwidth="210" jsxheight="110" jsxoverflow="2" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkUserHiddenContent" jsxborder="solid 1px #aaaaaa;" jsxdisplay="none"></strings>
+            <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18"></variants>
+              <strings jsxname="txtUserXMLServiceVersion" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="serviceVer"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18"></variants>
+              <strings jsxname="txtUserXMLVersion" jsxmargin="0 4 0 0" jsxcdfattribute="Ver"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18"></variants>
+              <strings jsxname="txtUserXMLRevision" jsxmargin="0 4 0 0" jsxcdfattribute="Rev"></strings>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="18" jsxtop="19" jsxwidth="120"></variants>
+            <strings jsxname="lblUserFullName" jsxtext="Full Name:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="148" jsxtop="19" jsxwidth="220"></variants>
+            <strings jsxname="txtUserFullName" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Name"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="148" jsxtop="49" jsxwidth="120"></variants>
+            <strings jsxname="txtUserLoginName" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Username"></strings>
+          </object>
+          <object type="jsx3.gui.CheckBox">
+            <variants jsxheight="18" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="282" jsxtop="49" jsxchecked="0"></variants>
+            <strings jsxname="chkExternalAuthentication" jsxtext="External Authentication" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="ExternalAuthentication"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="18" jsxtop="49" jsxwidth="120"></variants>
+            <strings jsxname="lblUserLoginName" jsxtext="Username:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="18" jsxtop="79" jsxwidth="120"></variants>
+            <strings jsxname="lblUserPassword" jsxtext="Password:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxtype="2" jsxheight="18" jsxrelativeposition="0" jsxleft="148" jsxtop="79"></variants>
+            <strings jsxname="txtUserPassword" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="Password"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="275" jsxtop="79" jsxwidth="100"></variants>
+            <strings jsxname="lblUserVerifyPassword" jsxtext="Verify Password:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxtype="2" jsxheight="18" jsxrelativeposition="0" jsxleft="385" jsxtop="79"></variants>
+            <strings jsxname="txtUserVerifyPassword" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VerifyPassword"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="18" jsxtop="109" jsxwidth="100"></variants>
+            <strings jsxname="lblUserEmail" jsxtext="Email Address:" jsxdisplay="none" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="128" jsxtop="109" jsxwidth="220"></variants>
+            <strings jsxname="txtUserEmail" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalidationtype="email" jsxcdfattribute="Email"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="18" jsxtop="117" jsxwidth="120"></variants>
+            <strings jsxname="lblUserAssignTag" jsxtext="Assign Tags:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="148" jsxtop="137" jsxwidth="140" jsxfontsize="10"></variants>
+            <strings jsxname="lblUserTagName" jsxtext="Enter/Select Tag Name:" jsxdisplay="" jsxtextalign="left" jsxfontweight="normal"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="148" jsxtop="173" jsxwidth="140" jsxfontsize="10"></variants>
+            <strings jsxname="lblUserTagValue" jsxtext="Enter/Select Tag Value:" jsxdisplay="" jsxtextalign="left" jsxfontweight="normal"></strings>
+          </object>
+          <object type="jsx3.gui.Select">
+            <variants jsxwidth="170" jsxheight="20" jsxtype="1" jsxxmlasync="0" jsxleft="148" jsxtop="151" jsxrelativeposition="0"></variants>
+            <strings jsxname="cmbUserAddTagDefName" jsxvalue="" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+            <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+          </object>
+          <object type="jsx3.gui.Select">
+            <variants jsxwidth="170" jsxheight="20" jsxtype="1" jsxxmlasync="0" jsxleft="148" jsxtop="186" jsxrelativeposition="0"></variants>
+            <strings jsxname="cmbUserAddTagDefValue" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue=""></strings>
+            <events onmousedown="this.style.backgroundColor='';" onkeyup="jsx3.out('a server call could be made here to perform a lookup on the value, ' + this.childNodes[0].value + '.');"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="18" jsxwidth="45" jsxfontsize="11" jsxrelativeposition="0" jsxleft="274" jsxtop="217"></variants>
+            <strings jsxname="btnUserValueTagAdd" jsxtext="Add &gt;&gt;" jsxtextalign="center" jsxbgcolor="" jsxborder="" jsxdisplay="" jsxclassname="btnBlueGlass"></strings>
+            <events jsxexecute="AddTagObjectTypeToMatrix(&quot;txtUserAddTagDefName&quot;,&quot;txtUserAddTagDefValue&quot;,&quot;mtxUserTagSelected&quot;);"></events>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxleft="334" jsxtop="137" jsxwidth="260" jsxheight="110" jsxoverflow="2" jsxrelativeposition="0"></variants>
+            <strings jsxname="blkCONTAINER" jsxborder="solid 1px #aaaaaa;" jsxbgcolor="#f5f5f5"></strings>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+              <strings jsxname="mtxUserTagSelected" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxfocusstyle="font-weight:bold;"></strings>
+              <dynamics jsxbgcolor="Matrix Background"></dynamics>
+              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxTagName" jsxtext="Tag Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagName" jsxdisplay=""></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants></variants>
+                <strings jsxname="jsxTagValue" jsxtext="Tag Value" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxTagValue"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="20" jsxsort="0"></variants>
+                <strings jsxname="DeleteButtonColumn" jsxtext="" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxstate="0" jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0"></variants>
+                  <strings jsxname="imageButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
+                  <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="268" jsxheight="250" jsxwidth="600"></variants>
+            <strings jsxname="blkUserPrivateDataForm" jsxdisplay=""></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxwidth="380" jsxleft="18" jsxtop="-5"></variants>
+              <strings jsxname="label" jsxtext="TeleCollaboration &amp; Endpoint Controller Options:" jsxtextalign="left" jsxdisplay=""></strings>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxtop="24" jsxwidth="400" jsxheight="220" jsxleft="148"></variants>
+              <strings jsxname="blkField" jsxdisplay=""></strings>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxwidth="0" jsxheight="0" jsxtype="1"></variants>
+                <strings jsxname="txtUserPrivateData" jsxmargin="0 4 0 0" jsxcdfattribute="UserPrivateData"></strings>
+              </object>
+              <object type="jsx3.gui.CheckBox">
+                <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="150" jsxdefaultchecked="0" jsxchecked="0"></variants>
+                <strings jsxname="chkEndPointTableConfigConfigurable" jsxtext="Allow the user to add destinations for control." jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="1" jsxtop="-1"></variants>
+                <strings jsxname="label" jsxtext="Grant users control of the following destinations by default:" jsxtextalign="left" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="260" jsxheight="110" jsxrelativeposition="0" jsxleft="0" jsxtop="14"></variants>
+                <strings jsxname="blkMtxEPDstPort" jsxbgcolor="#f5f5f5" jsxborder="solid 1px #aaaaaa"></strings>
+                <object type="jsx3.gui.Matrix">
+                  <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppressvscroll="0" jsxsuppresshscroll="0"></variants>
+                  <strings jsxname="mtxEPDstPort" jsxselectionbg="images/spc.gif" jsxfocusstyle="normal" jsxbodyborder="solid 1px #cccccc" jsxsortpath="jsxColumnName" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                  <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+                  <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants jsxwidth="20" jsxsort="0"></variants>
+                    <strings jsxname="jsxChkColumn" jsxtext="" jsxpath="jsxChkColumn" jsxcelltextalign="center" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
+                    <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                    <object type="jsx3.gui.CheckBox">
+                      <variants jsxdefaultchecked="0" jsxchecked="0" jsxenabled="1"></variants>
+                      <strings jsxname="chkjsxChkColumn" jsxtext=""></strings>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants jsxsort="1"></variants>
+                    <strings jsxname="jsxColumnName" jsxtext="Destination Port Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxColumnName"></strings>
+                    <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="124" jsxwidth="290"></variants>
+                <strings jsxname="label" jsxtext="&lt;i&gt;Click in table to add/edit destinations&lt;/i&gt;" jsxtextalign="left" jsxdisplay="" jsxclassname="helpText"></strings>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="0" jsxtop="179"></variants>
+                <strings jsxname="label" jsxtext="Filter devices by the following tag:" jsxtextalign="left" jsxdisplay=""></strings>
+              </object>
+              <object type="jsx3.gui.Select">
+                <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="0" jsxtop="194"></variants>
+                <strings jsxname="selDefaultTag" jsxmargin="0 4 0 0" jsxdisplay=""></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxborder="@Outset Top" jsxbgcolor="Dialog Footer"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnUserAccountCancel" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxborder="" jsxclassname="btnOk"></strings>
+            <events jsxexecute="closeDialog(this);"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnUserAccountDone" jsxtext="Done" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxpadding="padding-top: 3px;" jsxborder="" jsxclassname="btnOk"></strings>
+            <events jsxexecute=""></events>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

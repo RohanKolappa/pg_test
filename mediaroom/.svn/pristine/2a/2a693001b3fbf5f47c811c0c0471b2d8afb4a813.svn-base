@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<script>
+  <script_settings name="script_settings1">
+    <templatePrefix loadFrom="JAR" file="/com/ipvs/assetadminservice/testscript/AmExpScript_prefix.txt" />
+    <templateSuffix loadFrom="JAR" file="/com/ipvs/assetadminservice/testscript/AmExpScript_suffix.txt" />
+    <AMTestScriptXML loadFrom="JAR" file="/com/ipvs/test/xml/AMTestScript.xml" />
+  </script_settings>
+  
+  <object name="AssetResource" shortName="AR" settings="AMSettings" script_settings="script_settings1" template="default" fileSuffix="_vals_all">
+    <!-- apply on object xml before creating xmls -->
+    <common_settings>
+      <defaultValuesXml name="defaultValuesXml1" filePath="" />
+      <scriptFile name="scriptFile1" type="xml" fileSuffix="_DefVars" subfolder="" varNameSuffix="_vars_all" />
+      <scriptFile name="scriptFile2" type="exp" fileSuffix="" subfolder="" varNameSuffix="AR.scriptFile" />
+      <scriptFile name="scriptFile3" type="xml" fileSuffix="" subfolder="" varNameSuffix="AR.scriptXmlFile" />
+    </common_settings>
+    <expScript_settings>
+      <!-- TBD: create a line for each var in script exp -->
+      <setScriptVariableList name="setScriptVariableList1" scriptFile="scriptFile1">
+        <var name="AR.filepath_vars">AssetResource_vars_all.xml</var>
+      </setScriptVariableList>
+      <importScriptVariableList name="importScriptVariableList1">
+        <scriptFile path="" />
+      </importScriptVariableList>
+    </expScript_settings>
+    <xmlScript_settings>
+      <!-- create xml with all names like shortName+srnumber+.elementname -->
+      <variableList name="all" scriptFile="scriptFile3" />
+      <readParamValues name="all" scriptFile="scriptFile1" />
+      <setParamValues name="all" loadFromFile="0" scriptFile="scriptFile1" />
+      <setParamValues2 name="setParamValues2">
+        <setParamValuesXPath bCopyFreeChilds="false" iCopyChildsToDepth="1"> 
+					//AssetResource/Info/Groups
+				</setParamValuesXPath>
+      </setParamValues2>
+    </xmlScript_settings>
+    <testScript name="all" OperationDataType="" action_suffix="" defaultValuesXml="defaultValuesXml1" scriptExpFile="scriptFile1" scriptXmlFile="scriptFile2">
+      <exportTag name="exportTag1" />
+      <setvariableList name="setvariableList1" />
+      <variableList name="variableList1" />
+      <setParamValues name="setParamValues1" />
+      <readParamValues name="readParamValues1" />
+    </testScript>
+  </object>
+</script>

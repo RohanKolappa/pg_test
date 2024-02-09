@@ -1,0 +1,398 @@
+<?xml version="1.0"?>
+<MNA-110-ENCDVI-Device serviceVer="" Ver="2.2"
+	Rev="1" NID="" parentNID="">
+	<AssetResourceNID></AssetResourceNID>
+	<ManagementMode>Central</ManagementMode>
+
+	<ResourcePointers>
+		<MediaStreamIOPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamIOPortResourceNID>
+		<MediaStreamIOPortResourceNID>
+			<NIDValue></NIDValue>
+		</MediaStreamIOPortResourceNID>
+	</ResourcePointers>
+
+	<DeviceConfig Rev="1" Synched="false">
+		<SystemElementsConfig>
+			<SoftwareImageConfig Dirty="CLEAN">
+				<RootPassword></RootPassword>
+				<NewImageName></NewImageName>
+				<NewVersion></NewVersion>
+			</SoftwareImageConfig>
+
+			<LicenseConfig Dirty="CLEAN">
+				<NewLicenseKey></NewLicenseKey>
+			</LicenseConfig>
+
+			<AdminServiceConfig Dirty="CLEAN">
+				<Password>admin</Password>
+			</AdminServiceConfig>
+
+			<LoginBannerConfig Dirty="CLEAN">
+				<Banner></Banner>
+			</LoginBannerConfig>
+
+			<SystemClockConfig Dirty="CLEAN">
+				<EnableNTPClient>false</EnableNTPClient>
+				<NTPServerIP></NTPServerIP>
+			</SystemClockConfig>
+
+			<FirmwareImageConfig Dirty="CLEAN">
+				<NewImageName></NewImageName>
+				<NewVersion></NewVersion>
+			</FirmwareImageConfig>
+
+		</SystemElementsConfig>
+		<ServiceElementsConfig>
+			<HTTPServiceConfig Dirty="CLEAN">
+				<EnableHTTP>true</EnableHTTP>
+				<HTTPPort></HTTPPort>
+			</HTTPServiceConfig>
+
+			<SSHServiceConfig Dirty="CLEAN">
+				<EnableSSH>true</EnableSSH>
+			</SSHServiceConfig>
+
+			<XMPPAgentServiceConfig Dirty="CLEAN">
+				<Enable>false</Enable>
+				<XMPPServer>0.0.0.0</XMPPServer>
+				<XMPPServerPort>5222</XMPPServerPort>
+				<DeviceName>UserId</DeviceName>
+				<DevicePassword>secret</DevicePassword>
+				<Domain>default</Domain>
+				<ServiceDomain>default</ServiceDomain>
+				<EnableLinkLocalXMPP>true</EnableLinkLocalXMPP>
+
+				<AgentList>
+					<XMPPAgentServiceConfigAgentConfig
+						Dirty="CLEAN">
+						<Enable>true</Enable>
+					</XMPPAgentServiceConfigAgentConfig>
+					<XMPPAgentServiceSourceAgentConfig
+						Dirty="CLEAN">
+						<Enable>true</Enable>
+					</XMPPAgentServiceSourceAgentConfig>
+				</AgentList>
+			</XMPPAgentServiceConfig>
+
+			<StreamingServiceConfig Dirty="CLEAN">
+				<MaxStreamInstanceCount></MaxStreamInstanceCount>
+
+				<StreamsTxConfig>
+					<MulticastIpAddressRange>
+						<From>226.1.1.1</From>
+						<To>226.1.1.50</To>
+						<MulticastTTL>1</MulticastTTL>
+					</MulticastIpAddressRange>
+				</StreamsTxConfig>
+
+				<RTPRAWtreamsTxConfig>
+					<MaxStreamInstanceCount></MaxStreamInstanceCount>
+
+					<TxCtrlPortRange>
+						<From>6060</From>
+						<To>7000</To>
+					</TxCtrlPortRange>
+				</RTPRAWtreamsTxConfig>
+
+				<RTPRAWStreamsEncodeConfig>
+					<MaxStreamInstanceCount></MaxStreamInstanceCount>
+				</RTPRAWStreamsEncodeConfig>
+			</StreamingServiceConfig>
+		</ServiceElementsConfig>
+
+		<NetworkElementsConfig>
+			<DNSClientConfig Dirty="CLEAN">
+				<HostName>v2dxp100</HostName>
+				<DNSDomain></DNSDomain>
+				<DNSServerIP>0.0.0.0</DNSServerIP>
+			</DNSClientConfig>
+
+			<RouteTableConfig Dirty="CLEAN">
+				<RouteEntry Dirty="CLEAN" ListIndex="1">
+					<Destination>0.0.0.0</Destination>
+					<Netmask>0.0.0.0</Netmask>
+					<Gateway>192.168.1.254</Gateway>
+				</RouteEntry>
+			</RouteTableConfig>
+
+			<HostTableConfig Dirty="CLEAN">
+				<HostEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</HostEntry>
+			</HostTableConfig>
+
+			<NATZoneTableConfig Dirty="CLEAN">
+				<NATZoneEntry Dirty="CLEAN" ListIndex="1">
+					<Name></Name>
+					<IPAddress></IPAddress>
+				</NATZoneEntry>
+			</NATZoneTableConfig>
+
+			<EthernetPortTableConfig>
+				<EthernetPortConfig Dirty="CLEAN" ListIndex="1">
+					<PortID>1</PortID>
+					<EnableInterface>true</EnableInterface>
+					<IsPrimary>true</IsPrimary>
+					<EnableMulticast>true</EnableMulticast>
+					<MTU>1500</MTU>
+
+					<IPConfig>
+						<UseDHCP>true</UseDHCP>
+						<IPAddress>169.254.0.1</IPAddress>
+						<Netmask>255.255.0.0</Netmask>
+					</IPConfig>
+				</EthernetPortConfig>
+			</EthernetPortTableConfig>
+		</NetworkElementsConfig>
+
+		<StorageElementsConfig>
+		</StorageElementsConfig>
+
+		<AVCodecElementsConfig>
+			<MNAVideoPortConfig Dirty="CLEAN">
+				<PortID>1</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+
+				<Info Dirty="CLEAN">
+					<StreamType>RTP-RAW</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>DVI</BasebandType>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<MNAVideoParameterConfig>
+					<SDP-a-Template></SDP-a-Template>
+				</MNAVideoParameterConfig>
+			</MNAVideoPortConfig>
+
+			<MNARFBPortConfig Dirty="CLEAN">
+				<PortID>2</PortID>
+				<MaxElementInstanceCount></MaxElementInstanceCount>
+				<Info Dirty="CLEAN">
+					<StreamType>RFB</StreamType>
+					<Configurable>false</Configurable>
+					<BasebandType>DVI</BasebandType>
+					<PortIOType>StreamSrc</PortIOType>
+					<MaxEncoderInstanceCount>1</MaxEncoderInstanceCount>
+				</Info>
+				<MNARFBParameterConfig>
+					<SDP-a-Template></SDP-a-Template>
+				</MNARFBParameterConfig>
+
+				<MNARFBConfig Dirty="CLEAN">
+					<SubChannel>1</SubChannel>
+					<EnableRFB>true</EnableRFB>
+					<RFBHostName></RFBHostName>
+					<Password></Password>
+					<Port>5900</Port>
+					<XOffset>0</XOffset>
+					<YOffset>0</YOffset>
+				</MNARFBConfig>
+			</MNARFBPortConfig>
+		</AVCodecElementsConfig>
+	</DeviceConfig>
+
+	<DeviceStatus State="OK">
+		<SystemElementsStatus State="OK">
+			<SoftwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SoftwareImageStatus>
+
+			<LicenseStatus>
+				<LicenseInfo>
+					<ProductID></ProductID>
+					<Company></Company>
+					<Key></Key>
+				</LicenseInfo>
+
+				<LicensePack>
+					<Name></Name>
+					<ValidUntil></ValidUntil>
+					<Value></Value>
+					<Key></Key>
+				</LicensePack>
+			</LicenseStatus>
+
+			<CPUStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</CPUStatus>
+
+			<MemoryStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</MemoryStatus>
+
+			<SystemHWStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemHWStatus>
+
+			<SystemClockStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SystemClockStatus>
+
+			<FirmwareImageStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</FirmwareImageStatus>
+		</SystemElementsStatus>
+
+		<ServiceElementsStatus State="OK">
+			<HTTPServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</HTTPServiceStatus>
+
+			<SSHServiceStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</SSHServiceStatus>
+			<XMPPAgentServiceStatus Queryable="true"
+				State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+
+				<AgentList>
+					<XMPPAgentServiceConfigAgentStatus
+						Queryable="true">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</XMPPAgentServiceConfigAgentStatus>
+
+					<XMPPAgentServiceSourceAgentStatus
+						Queryable="true" State="OK">
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</XMPPAgentServiceSourceAgentStatus>
+				</AgentList>
+			</XMPPAgentServiceStatus>
+
+			<StreamingServiceStatus>
+				<CurrentStreamInstanceCount>
+					<Total></Total>
+					<Transmit></Transmit>
+					<Receive></Receive>
+					<Read></Read>
+					<Write></Write>
+					<Encode></Encode>
+					<Decode></Decode>
+				</CurrentStreamInstanceCount>
+
+				<InstanceList>
+					<!-- TBD -->
+				</InstanceList>
+			</StreamingServiceStatus>
+		</ServiceElementsStatus>
+
+		<NetworkElementsStatus State="OK">
+			<DNSClientStatus Queryable="true" State="OK">
+				<Parameters>
+					<Parameter name="" type="Float" units="" source=""></Parameter>
+				</Parameters>
+			</DNSClientStatus>
+
+			<RouteTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</RouteTableStatus>
+
+			<HostTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</HostTableStatus>
+
+			<NATZoneTableStatus Queryable="true" State="OK">
+				<ParametersList>
+					<Parameters>
+						<Parameter name="" type="Float" units="" source=""></Parameter>
+					</Parameters>
+				</ParametersList>
+			</NATZoneTableStatus>
+
+			<EthernetPortTableStatus>
+				<EthernetPortStatus Queryable="true" State="OK">
+					<ParametersList>
+						<Parameters>
+							<Parameter name="" type="Float" units="" source=""></Parameter>
+						</Parameters>
+					</ParametersList>
+				</EthernetPortStatus>
+			</EthernetPortTableStatus>
+		</NetworkElementsStatus>
+
+		<StorageElementsStatus State="OK">
+		</StorageElementsStatus>
+
+		<AVCodecElementsStatus State="OK">
+			<MNAVideoPortStatus State="OK">
+				<PortID>1</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+			</MNAVideoPortStatus>
+			<MNARFBPortStatus State="OK">
+				<PortID>2</PortID>
+				<InstanceInfo>
+					<PortInstance>
+						<ID></ID>
+					</PortInstance>
+				</InstanceInfo>
+
+			</MNARFBPortStatus>
+		</AVCodecElementsStatus>
+	</DeviceStatus>
+
+	<DeviceCommand>
+		<SystemElementsCommand>
+			<RebootCommand></RebootCommand>
+			<ShutdownCommand></ShutdownCommand>
+
+			<SystemClockCommand>
+				<Hour></Hour>
+				<Minute></Minute>
+				<Seconds></Seconds>
+				<Month></Month>
+				<Day></Day>
+				<Year></Year>
+			</SystemClockCommand>
+
+			<SaveToFlashCommand></SaveToFlashCommand>
+
+			<UpgradeSoftwareCommand>
+				<UpgradeURL></UpgradeURL>
+			</UpgradeSoftwareCommand>
+
+			<RevertToDefaultsCommand></RevertToDefaultsCommand>
+		</SystemElementsCommand>
+
+		<ServiceElementsCommand></ServiceElementsCommand>
+		<NetworkElementsCommand></NetworkElementsCommand>
+		<StorageElementsCommand></StorageElementsCommand>
+		<AVCodecElementsCommand></AVCodecElementsCommand>
+	</DeviceCommand>
+</MNA-110-ENCDVI-Device>

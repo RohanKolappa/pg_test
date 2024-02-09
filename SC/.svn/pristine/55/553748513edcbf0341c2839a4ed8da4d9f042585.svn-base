@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="com.barco.nimbus.main" id="com.barco.nimbus.equinox.app.SCApplication" application="com.barco.nimbus.equinox.app.SCApplication" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-consoleLog -console</programArgs>
+      <vmArgs>-Declipse.ignoreApp=true -Dosgi.noShutdown=true -Dorg.osgi.service.http.port=9090 -Dorg.eclipse.equinox.http.jetty.autostart=true -Dbundles.configuration.location=configadmin</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.equinox.core.feature" version="1.1.0.v20130814-1242"/>
+      <feature id="org.eclipse.core.runtime.feature" version="1.1.0.v20130814-1242"/>
+      <feature id="com.barco.nimbus.equinox.product" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.server.jetty" version="1.1.0.v20130429-1600"/>
+      <feature id="com.eclipsesource.jaxrs.connector.feature" version="3.2.0.201312310810"/>
+      <feature id="com.eclipsesource.jaxrs.jersey.runtime.feature" version="1.0.0.201312310810"/>
+      <feature id="com.eclipsesource.jaxrs.provider.security.feature" version="1.0.0.201312310810"/>
+      <feature id="com.eclipsesource.jaxrs.provider.sse.feature" version="1.0.0.201312310810"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.barco.nimbus.equinox.app" autoStart="true" startLevel="0" />
+      <plugin id="com.eclipsesource.jaxrs.consumer" autoStart="true" startLevel="5" />
+      <plugin id="com.eclipsesource.jaxrs.publisher" autoStart="true" startLevel="5" />
+      <plugin id="com.fasterxml.jackson.core.jackson-annotations" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.core.jackson-core" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.core.jackson-databind" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.dataformat.jackson-dataformat-xml" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.jaxrs.jackson-jaxrs-base" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.jaxrs.jackson-jaxrs-xml-provider" autoStart="true" startLevel="0" />
+      <plugin id="com.fasterxml.jackson.module.jackson-module-jaxb-annotations" autoStart="true" startLevel="0" />
+      <plugin id="com.google.guava" autoStart="true" startLevel="0" />
+      <plugin id="javax.annotation-api" autoStart="true" startLevel="0" />
+      <plugin id="javax.servlet" autoStart="true" startLevel="0" />
+      <plugin id="javax.servlet-api" autoStart="true" startLevel="0" />
+      <plugin id="javax.validation.api" autoStart="true" startLevel="0" />
+      <plugin id="javax.ws.rs-api" autoStart="true" startLevel="0" />
+      <plugin id="javax.xml.xquery" autoStart="true" startLevel="0" />
+      <plugin id="net.xqj.exist" autoStart="true" startLevel="0" />
+      <plugin id="net.xqj2" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.felix.gogo.command" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.felix.gogo.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.felix.gogo.shell" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.bundles.commons-lang" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.bundles.dom4j" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.bundles.jaxen" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.bundles.smack" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.bundles.xpp3" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.servicemix.specs.stax-api-1.0" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.contenttype" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.expressions" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.jobs" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.variables" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.app" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.cm" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.console" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servlet" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.preferences" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.registry" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.util" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.continuation" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.http" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.io" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.security" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.server" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.servlet" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.jetty.util" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.osgi.services" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.api" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.external.asm-all-repackaged" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.external.cglib" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.external.javax.inject" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.locator" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.osgi-resource-locator" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.hk2.utils" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.jersey.containers.jersey-container-servlet" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.jersey.containers.jersey-container-servlet-core" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.jersey.core.jersey-client" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.jersey.core.jersey-common" autoStart="true" startLevel="0" />
+      <plugin id="org.glassfish.jersey.core.jersey-server" autoStart="true" startLevel="0" />
+      <plugin id="org.ops4j.pax.confman.pax-confman-propsloader" autoStart="true" startLevel="2" />
+      <plugin id="org.ops4j.pax.logging.pax-logging-api" autoStart="true" startLevel="2" />
+      <plugin id="org.ops4j.pax.logging.pax-logging-service" autoStart="true" startLevel="2" />
+      <plugin id="stax2-api" autoStart="true" startLevel="0" />
+      <plugin id="woodstox-core-lgpl" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>

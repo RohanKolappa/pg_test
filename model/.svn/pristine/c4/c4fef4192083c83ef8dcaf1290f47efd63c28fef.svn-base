@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:include schemaLocation="mediaroom.common.datamodel.public.xsd" />
+  <xs:complexType name="SessionInfoType">
+    <xs:sequence>
+      <xs:element name="GrpFileList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="GrpFile" type="GrpFileType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DirList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Dir" type="DirType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ProfileList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Profile" type="ProfileType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>      
+      <xs:element name="EntityList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Entity" type="EntityType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnSegList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="ConnSeg" type="ConnSegType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectionList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Connection" type="ConnectionType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnGrpList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="ConnGrp" type="ConnGrpType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="type" type="SessionTypeEnumType" />
+  </xs:complexType>  
+  <xs:complexType name="ConnectionType">
+    <xs:sequence>
+       <xs:element minOccurs="0" maxOccurs="unbounded" name="ConnSeg" type="ConnSegType" />
+    </xs:sequence>
+    <xs:attribute name="type" type="ConnectionTypeEnumType" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="gid" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="mode" type="ConnectionModeEnumType" />
+    <xs:attribute name="streamType" type="StreamTypeEnumType" />
+    <xs:attribute name="srcEntityId" type="xs:string" />
+    <xs:attribute name="dstEntityId" type="xs:string" />
+    <xs:attribute name="profileId" type="xs:string" />
+    <xs:attribute name="canvasId" type="xs:string" />
+    <xs:attribute name="windowId" type="xs:string" />
+    <xs:attribute name="authEntityId" type="xs:string" />   
+    <xs:attribute name="streamURL" type="xs:string" />
+    <xs:attribute name="state" type="xs:string" />
+    <xs:attribute name="timelineId" type="xs:string" />
+    <xs:attribute name="errorCode" type="xs:string" />
+    <xs:attribute name="errorData" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="ConnectionTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VIEW" />
+      <xs:enumeration value="PLAYBACK" />
+      <xs:enumeration value="RECORD" />
+      <xs:enumeration value="PVR" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConnectionModeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AUTOSTART" />
+      <xs:enumeration value="ONDEMAND" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConnSegType">
+    <xs:attribute name="state" type="xs:string" />
+    <xs:attribute name="srcResourceTitle" type="xs:string" />
+    <xs:attribute name="dstResourceTitle" type="xs:string" />
+    <xs:attribute name="srcResourceNID" type="StreamTypeEnumType" />
+    <xs:attribute name="dstResourceNID" type="xs:string" />
+    <xs:attribute name="profileTitle" type="xs:string" />
+    <xs:attribute name="profileNID" type="xs:string" />
+    <xs:attribute name="errorCode" type="xs:string" />
+    <xs:attribute name="errorDescription" type="xs:string" />
+     <xs:attribute name="multicastIP" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ConnGrpType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="connId" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="mode" type="xs:string" />
+    <xs:attribute name="streamType" type="StreamTypeEnumType" />
+    <xs:attribute name="timelineId" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="GrpFileType">
+    <xs:sequence>
+      <xs:element name="MetaData" type="MetaDataType"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="GrpFileTypeEnumType" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="resourceNID" type="xs:string" />
+    <xs:attribute name="resourceTitle" type="xs:string" />
+    <xs:attribute name="dateCreated" type="xs:string" />
+    <xs:attribute name="recSessionConfigNID" type="xs:string" />
+    <xs:attribute name="recSessionId" type="xs:string" />
+    <xs:attribute name="syncEntityId" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="GrpFileTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SyncPly" />
+      <xs:enumeration value="SyncRec" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DirType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="resourceNID" type="xs:string" />
+    <xs:attribute name="resourceTitle" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ProfileType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="profileNID" type="xs:string" />
+    <xs:attribute name="ffTracks" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="EntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="User" type="EntityUserType" />
+      <xs:element minOccurs="0" name="Port" type="EntityPortType" />
+      <xs:element minOccurs="0" name="File" type="EntityFileType" />
+      <xs:element minOccurs="0" name="PVR" type="EntityPVRType" />
+      <xs:element minOccurs="0" name="Chat" type="EntityAssetType" />
+      <xs:element minOccurs="0" name="AuthCtrl" type="EntityAssetType" />
+      <xs:element minOccurs="0" name="MediaCtrl" type="EntityAssetType" />
+    </xs:sequence>
+    <xs:attribute name="type" type="EntityTypeEnumType" use="required" />
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="streamType" type="StreamTypeEnumType" />
+    <xs:attribute name="presence" type="xs:string" />
+    <xs:attribute name="gc" type="xs:string" />
+    <xs:attribute name="state" type="xs:string" />
+    <xs:attribute name="errorCode" type="xs:string" />
+    <xs:attribute name="errorData" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="EntityUserType">
+    <xs:attribute name="userNID" type="xs:string" />
+    <xs:attribute name="username" type="xs:string" />
+    <xs:attribute name="userJID" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="EntityPortType">
+    <xs:attribute name="resourceNID" type="xs:string" />
+    <xs:attribute name="resourceTitle" type="xs:string" />
+    <xs:attribute name="netIp" type="xs:string" />
+    <xs:attribute name="netPort" type="xs:string" />
+    <xs:attribute name="trickPlay" type="xs:boolean" />
+  </xs:complexType>
+  <xs:complexType name="EntityPVRType">
+    <xs:attribute name="enable" type="xs:boolean" />
+    <xs:attribute name="trimLength" type="xs:string" />
+    <xs:attribute name="startTC" type="xs:string" />
+    <xs:attribute name="sessionId" type="xs:string" />
+    <xs:attribute name="connId" type="xs:string" />
+    <xs:attribute name="recEntityId" type="xs:string" />
+    <xs:attribute name="plyEntityId" type="xs:string" />
+    <xs:attribute name="ffTracks" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="EntityFileType" abstract="true">
+    <xs:sequence>
+      <xs:element name="MetaData" type="MetaDataType"/>
+    </xs:sequence>
+    <xs:attribute name="resourceNID" type="xs:string" />
+    <xs:attribute name="dirId" type="xs:string" />
+    <xs:attribute name="resourceTitle" type="xs:string" />
+    <xs:attribute name="dateCreated" type="xs:string" />
+    <xs:attribute name="recSessionConfigNID" type="xs:string" />
+    <xs:attribute name="recSessionId" type="xs:string" />
+    <xs:attribute name="grpFileId" type="xs:string" />
+    <xs:attribute name="clipId" type="xs:string" />
+    <xs:attribute name="startOffset" type="xs:string" />
+    <xs:attribute name="playLength" type="xs:string" />
+    <xs:attribute name="key" type="FileKeyEnumType" />
+    <xs:attribute name="action" type="FileActionEnumType" />
+    <xs:attribute name="keyMetaDataKeyName" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="EntityTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SrcPort" />
+      <xs:enumeration value="DstPort" />
+      <xs:enumeration value="RlyPort" />
+      <xs:enumeration value="PlyFile" />
+      <xs:enumeration value="RecFile" />
+      <xs:enumeration value="PVRFile" />
+      <xs:enumeration value="AuthClient" />
+      <xs:enumeration value="Controller" />
+      <xs:enumeration value="Participant" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FileKeyEnumType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Title"/>
+         <xs:enumeration value="MetaData"/>
+      </xs:restriction>
+     </xs:simpleType>
+  <xs:simpleType name='FileActionEnumType'>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Append"/>
+         <xs:enumeration value="Overwrite"/>
+      </xs:restriction>
+     </xs:simpleType>
+  <xs:simpleType name="AuthStateEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REQUEST" />
+      <xs:enumeration value="ALLOW" />
+      <xs:enumeration value="DENY" />
+      <xs:enumeration value="REVOKE" />
+      <xs:enumeration value="CANCEL" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SessionTypeEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LIVE" />
+      <xs:enumeration value="PLAYBACK" />
+      <xs:enumeration value="MIXED" />
+      <xs:enumeration value="SYSTEM" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

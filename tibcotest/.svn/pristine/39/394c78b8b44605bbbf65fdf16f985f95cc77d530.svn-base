@@ -1,0 +1,272 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="890" jsxheight="561" jsxzindex="5000" jsxwindowstate="1" jsxleft="20" jsxtop="20"></variants>
+    <strings jsxname="dlgExportImportStatus"></strings>
+    <dynamics jsxbgcolor="Dialog BG"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Import / Export Queue Status"></strings>
+      <dynamics jsxbg="Dialog Titlebar" jsxcolor="@Light" jsxbgcolor="P2"></dynamics>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnDialogCloseX"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1" jsxloadtype="1"></variants>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+          <dynamics jsxpadding="@8Pixel" jsxbgcolor="Dialog BG" jsxborder="@Outset Bottom"></dynamics>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkPadding" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+            <object type="jsx3.gui.TabbedPane">
+              <variants selectedIndex="2" jsxselectedindex="0"></variants>
+              <strings jsxname="tabbedpane" jsxtextalign="0"></strings>
+              <object type="jsx3.gui.Tab">
+                <variants jsxzindex="3" jsxheight="20"></variants>
+                <strings jsxname="tabQueue" jsxtext="Queue" jsxbgcolor="#e8e8f5"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxname="blkQueue" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible"></strings>
+                  <dynamics jsxbgcolor="Dialog BG"></dynamics>
+                  <object type="jsx3.gui.LayoutGrid">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+                    <strings jsxname="layoutRows" jsxrows="*,32" jsxwidth="100%" jsxheight="100%" jsxdisplay=""></strings>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"></variants>
+                      <strings jsxname="blkQueueList" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#ffffff"></strings>
+                      <object type="jsx3.gui.Matrix">
+                        <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1" _isMouseDown="true"></variants>
+                        <strings jsxname="mtxExportImportlist" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#ffffff" jsxfocusstyle="font-weight:bold;" jsxsortpath="mediaExportFileDate" jsxsorttype="text" jsxsortdirection="ascending" jsxspystyle="textDecoration:none;cursor:hand;"></strings>
+                        <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                        <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="0"></variants>
+                          <strings jsxname="jsxid" jsxtext="ID" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxid" jsxdisplay="none"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="100"></variants>
+                          <strings jsxname="mediaExportFunction" jsxtext="Function" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportFunction"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportFilename" jsxtext="Stream Title" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportFilename"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportClientPath" jsxtext="Client Path" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportClientPath"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportMediaDir" jsxtext="Media Directory" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportMediaDir"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportRequestor" jsxtext="Requestor" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportRequestor"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxname="mediaExportFileStatus" jsxtext="Status" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="mediaExportFileStatus"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxname="mediaExportFileDate" jsxtext="Date Queued" jsxpadding="2" jsxwidth="130" jsxcellpadding="2" jsxpath="mediaExportFileDate"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="0"></variants>
+                          <strings jsxname="mediaExportFileQueueState" jsxtext="QueueState" jsxpath="mediaExportFileQueueState" jsxdisplay="none"></strings>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="70" jsxsort="0"></variants>
+                          <strings jsxname="mediaExportQueuePriority" jsxtext="Priority" jsxpadding="2" jsxcellpadding="3" jsxpath="mediaExportQueuePriority"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                          <object type="jsx3.gui.Select">
+                            <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                            <strings jsxname="selMediaQueuePriority" jsxmargin="0 4 0 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;    &lt;record jsxid=&quot;High&quot; jsximg=&quot;&quot; jsxtext=&quot;High&quot;/&gt;&#xA;  &lt;record jsxid=&quot;Medium&quot; jsximg=&quot;&quot; jsxtext=&quot;Medium&quot;/&gt;&#xA;  &lt;record jsxid=&quot;Low&quot; jsximg=&quot;&quot; jsxtext=&quot;Low&quot;/&gt;&#xA;&lt;/data&gt;" jsxdisplay="none"></strings>
+                          </object>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="44" jsxsort="0"></variants>
+                          <strings jsxname="imgDeleteButtonColumn" jsxtext="Delete" jsxpadding="2" jsxcellpadding="3" jsxvaluetemplate="@empty"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                          <object type="jsx3.gui.ImageButton">
+                            <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+                            <strings jsxname="imgQueueDelete" jsxtext="" jsximage="jsx:///images/list/delete.gif" jsxtip="Delete item from queue / Abort process."></strings>
+                            <events jsxexecute="alert('Execute');"></events>
+                          </object>
+                        </object>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"></variants>
+                      <strings jsxname="blkQueueControls" jsxwidth="100%" jsxheight="100%"></strings>
+                      <dynamics jsxbgcolor="Dialog Footer"></dynamics>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxwidth="350"></variants>
+                        <strings jsxname="blkStatusControls" jsxheight="100%" jsxdisplay="" jsxtextalign="left"></strings>
+                        <object type="jsx3.gui.Button">
+                          <variants jsxindex="0" jsxheight="18" jsxwidth="100" jsxrelativeposition="1"></variants>
+                          <strings jsxname="btnExportMediaClearQueue" jsxtext="Clear Queue" jsxmargin="0 20 0 20" jsxclassname="btnOk" jsxtip="Remove all queued and non-active items."></strings>
+                          <dynamics jsxborder="Basic Border"></dynamics>
+                          <events jsxexecute="alert('hello');"></events>
+                        </object>
+                        <object type="jsx3.gui.Button">
+                          <variants jsxindex="0" jsxheight="18" jsxwidth="80" jsxrelativeposition="1"></variants>
+                          <strings jsxname="btnExportImportSuspend" jsxtext="Suspend" jsxclassname="btnOk" jsxtip="Suspend processing queue after completing current item." jsxdisplay=""></strings>
+                          <dynamics jsxborder="Basic Border"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Button">
+                          <variants jsxindex="0" jsxheight="18" jsxwidth="80" jsxrelativeposition="1"></variants>
+                          <strings jsxname="btnExportImportResume" jsxtext="Resume" jsxclassname="btnOk" jsxdisplay="none" jsxtip="Resume processing queue."></strings>
+                          <dynamics jsxborder="Basic Border"></dynamics>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="26"></variants>
+                        <strings jsxwidth="100%" jsxname="blkPaginationControls" jsxdisplay=""></strings>
+                        <include src="components/pagination.xml" async="false"></include>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Tab">
+                <variants jsxzindex="3" jsxheight="18"></variants>
+                <strings jsxname="tabHistory" jsxtext="History" jsxbgcolor="#d8d8e5"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+                  <strings jsxheight="100%" jsxname="blkHistory" jsxwidth="100%" jsxdisplay="none" jsxvisibility="visible"></strings>
+                  <dynamics jsxbgcolor="Dialog BG"></dynamics>
+                  <object type="jsx3.gui.LayoutGrid">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+                    <strings jsxname="layoutRows" jsxrows="*,32" jsxwidth="100%" jsxheight="100%"></strings>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+                      <strings jsxname="blkHistoryList" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#ffffff" jsxdisplay=""></strings>
+                      <object type="jsx3.gui.Matrix">
+                        <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="0" jsxjsxxmlasync="1" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                        <strings jsxname="mtxMediaQueueHistory" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxsortpath="mediaMediaQueueHistoryDateCompleted" jsxsorttype="text" jsxsortdirection="descending" jsxspystyle="textDecoration:none;cursor:hand;"></strings>
+                        <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                        <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="0"></variants>
+                          <strings jsxname="jsxid" jsxtext="ID" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxid" jsxdisplay="none"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants jsxwidth="100"></variants>
+                          <strings jsxname="mediaExportFunction" jsxtext="Function" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportFunction"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportFilename" jsxtext="Stream Title" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportFilename"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportClientPath" jsxtext="Client Path" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportClientPath"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportMediaDir" jsxtext="Media Directory" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportMediaDir"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxwidth="*" jsxname="mediaExportRequestor" jsxtext="Requestor" jsxpadding="2" jsxcellpadding="2" jsxpath="mediaExportRequestor"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxname="mediaExportFileStatus" jsxtext="Status" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="mediaExportFileStatus"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                        <object type="jsx3.gui.Matrix.Column">
+                          <variants></variants>
+                          <strings jsxname="mediaExportFileDateCompleted" jsxtext="Date Completed" jsxpadding="2" jsxwidth="130" jsxcellpadding="2" jsxpath="mediaExportFileDateCompleted"></strings>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                        </object>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"></variants>
+                      <strings jsxname="blkHistoryControls" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+                      <dynamics jsxbgcolor="Dialog Footer"></dynamics>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="5" jsxwidth="350"></variants>
+                        <strings jsxname="blkStatusControls" jsxheight="100%" jsxdisplay="" jsxtextalign="left"></strings>
+                        <object type="jsx3.gui.Button">
+                          <variants jsxindex="0" jsxheight="18" jsxwidth="100" jsxrelativeposition="1" jsxleft="21" jsxtop="10"></variants>
+                          <strings jsxname="btnExportMediaClearHistory" jsxtext="Clear History" jsxmargin="0 20 0 20" jsxclassname="btnOk" jsxtip="Remove all queued and non-active items."></strings>
+                          <dynamics jsxborder="Basic Border"></dynamics>
+                          <events jsxexecute="alert('hello');"></events>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+                        <strings jsxwidth="100%" jsxname="blkPaginationControls" jsxheight="100%" jsxdisplay=""></strings>
+                        <include src="components/pagination.xml" async="false"></include>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxborder="@Outset Top" jsxpadding="@8Pixel" jsxbgcolor="Dialog Footer"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="18" jsxwidth="80"></variants>
+            <strings jsxname="btnExportStatusClose" jsxtext="Close" jsxmargin="0 20 0 0" jsxclassname="btnOk"></strings>
+            <dynamics jsxborder="Basic Border"></dynamics>
+            <events jsxexecute="alert('hello');"></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="18" jsxwidth="100" jsxrelativeposition="0" jsxleft="21" jsxtop="10"></variants>
+            <strings jsxname="btnExportMediaAbort" jsxtext="Abort Export" jsxmargin="0 20 0 0" jsxclassname="btnRedGlass" jsxdisplay="none"></strings>
+            <dynamics jsxborder="Basic Border"></dynamics>
+            <events jsxexecute="alert('hello');"></events>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

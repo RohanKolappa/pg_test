@@ -1,0 +1,1046 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "http://{MSIP}/controller/Resource",
+  "resourcePath": "/File",
+  "produces": [
+    "application/json",
+    "application/xml",
+    "text/plain",
+    "text/html"
+  ],
+  "apis": [
+  {
+      "path": "/File",
+      "operations": [
+     {
+          "method": "GET",
+          "summary": "Finds all list of Files that the Client has access to",
+          "notes": "Get a list of Files that the Client has access to",
+          "responseClass": "List[File]",
+          "nickname": "getFile",
+          "produces": [
+            "application/vnd.barco.nimbus.File+json",
+            "application/vnd.barco.nimbus.File+xml"
+          ],
+          "parameters": [
+          	
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "Either sortBy/sortByMetaData/sortByTagName",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "title",                  
+"state",
+"size",
+"playlength",
+"dateCreated"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "sortOrder",
+              "description": "sort in order ascending/descending",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "ascending",
+                  "descending"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereTextSubStr",
+              "description": "Filter based on substring. this search the substring in title,description,metadata,bookmark",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "whereNID",
+              "description": "Filter based on file nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "whereParentDirNID",
+              "description": "Filter based on ParentDirNID",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "subscriptionID",
+              "description": "this is used to subscribe the user for notifications . It can have any alphanumeric value(1234, abc123 etc.)",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(Optional. Default=BASIC)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "BASIC",
+                  "EXTENDED",
+				  "BASICURL",
+				  "EXTENDEDURL"
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "wherePermissions",
+              "description": "Filter by  Permissions",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "MODIFY",
+                  "DELETE",
+                   "IMPORT",
+                    "PLAYBACK"
+
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "whereState",
+              "description": "Filter by  state",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Ready",
+                  "Busy",
+                   "NotReady",
+                    "Offline"
+
+                ]
+              },
+              "paramType": "query"
+            },
+			{
+              "name": "whereType",
+              "description": "Filter by  type",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "MediaClip",
+                  "MediaGroup",
+                   "MediaImage",
+                    "ALL"
+
+                ]
+              },
+              "paramType": "query"
+            },
+{
+              "name": "whereMetaDataExpr",
+              "description": "Filter by  MetaDataExpr. format: Name%3D'TestAPI' and Value%3D'RecordTest'",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "paramType": "query"
+            }, 
+{
+              "name": "whereDateRange",
+              "description": "Filter based on DateRange. From:YYYY-MM-DD HH:MM:SS.MMMM,To:YYYY-MM-DD HH:MM:SS.MMMM, Interval:xx(Y/M/D/H/m/S/s)",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            } ,
+			{
+              "name": "dstPortTitle",
+              "description": "Based on dstPortTitle MS retuns mediaURL/thumbnail url which destination cliet is requesting .It should used along with BASICURL,EXTENDEDURL .",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            } ,
+{
+              "name": "expireTime",
+              "description": "expirey time of media url requesting from server.It should be in Seconds format and used along with BASICURL or EXTENDEDURL selectFormat",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+{
+              "name": "startFrom",
+              "description": "get the list starting form startFrom index",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            },
+{
+              "name": "countToFetch",
+              "description": "number of files to be fetched",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "integer",
+              "paramType": "query"
+            }			
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+{  "method": "GET",
+          "summary": "Finds the list of Tags that the Client has access to",
+          "notes": "Get a the list of Tags that the Client has access to",
+          "responseClass": "FileTags",
+          "nickname": "getFileTags",
+          "produces": [
+            "application/vnd.barco.nimbus.File-Tags+json",
+            "application/vnd.barco.nimbus.File-Tags+xml"
+          ],
+          "parameters": [
+          
+			{
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sortBy",
+              "description": "sort by Name/Value",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "Name",
+                  "Value"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "whereNameTextSubString",
+              "description": "Filter based on name substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "whereValueTextSubString",
+              "description": "Filter based on value substring",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "selectFormat",
+              "description": "Filter by response formats.(Default=NameValueList)",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "NameList",
+                  "NameValueList",
+                  "NameValueTree"
+                ]
+              },
+              "paramType": "query"
+            },
+            {
+              "name": "wherePermissions",
+              "description": "Filter by  Permissions",
+              "required": false,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "MODIFY",
+                  "DELETE",
+                   "EXPORT",
+                    "PLAYBACK"
+                ]
+              },
+			  "paramType": "query"
+			  }			
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+ {
+          "method": "POST",
+          "summary": "Replaces file metadata in database",
+          "notes": "Replaces file metadata in database",
+          "responseClass": "FileMetaData",
+          "nickname": "SetFileMetaData",
+          "produces": [
+            "application/vnd.barco.nimbus.File-MetaData+json",
+            "application/vnd.barco.nimbus.File-MetaData+xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+		  {
+              "name": "NID",
+              "description": "file nid",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+           {
+              "name": "title",
+              "description": "file title",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },           	
+            {
+              "name": "body",
+              "description": "Update file info in database",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "FileMetaData",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+{
+          "method": "DELETE",
+          "summary": "Delete the given file from the system",
+          "notes": "Delete the given file from the system",
+          "responseClass": "void",
+          "nickname": "deleteFile",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "NID",
+              "description": "file nid",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+			{
+              "name": "moveToRecycleBin",
+              "description": "if the value is true it will move the file to recycle bin.Otherwise it will delete from the system.Default is True",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "boolean",
+              "paramType": "query"
+            }       	
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }		
+		]
+},{
+"path": "/File/PrepareForDownload",
+      "operations": [ 
+	  {
+          "method": "POST",
+          "summary": "Prepare File For download",
+          "notes": "Prepare file For download to client PC. Please subscribe for file updates using a subscriptionID in GetFile request, to get the file notification with a downloadURL, when media is Ready for download.",
+          "responseClass": "PrepareForDownloadReq",
+          "nickname": "PrepareForDownload",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },   	
+            {
+              "name": "body",
+              "description": "PrepareForDownload request",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PrepareForDownloadReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+},
+{
+"path": "/File/CreateMediaFromCutList",
+      "operations": [ 
+	  {
+          "method": "POST",
+          "summary": "Create Media From Cutlist",
+          "notes": "Creates Media from existing media using start and end offsets within it. Generates a file notification whethe new media creation is complete. Please subscribe for file updates using a subscriptionID in GetFile request for receiving file notifications. <br> <b>Note:</b> Cutlist values are validated against certain rules in the backend and will be rejected as invalid if not in proper order. Cutlist values should be integer values in an ascending order and they should not overlap. for e.g. 0:30000,20000:40000 is an invalid cutlist range",
+          "responseClass": "CreateMediaFromCutListReq",
+          "nickname": "CreateMediaFromCutList",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		    {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },    	
+            {
+              "name": "body",
+              "description": "CreateMediaFromCutList request",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "CreateMediaFromCutListReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+},
+{
+"path": "/File/Trim",
+      "operations": [ 
+	  {
+          "method": "POST",
+          "summary": "Trim File with Cutlist",
+          "notes": "Trim out sections of an existing mediafile using start and end offsets within it. Generates a file notificatiowhen the trimmed media is ready. Please subscribe for file updates using a subscriptionID in GetFilerequest for receiving file notifications. <br> <b>Note:</b> Cutlist values are validated against certain rules in the backend and will be rejected as invalid if not in proper order. Cutlist values should be integer values in an ascending order and they should not overlap. for e.g. 0:30000,20000:40000 is an invalid cutlist range",
+          "responseClass": "TrimFileReq",
+          "nickname": "TrimFile",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		    {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },    	
+            {
+              "name": "body",
+              "description": "TrimFile request",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "TrimFileReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+},
+
+{
+"path": "/File/ClearDownloadCache",
+      "operations": [ 
+	  {
+          "method": "POST",
+          "summary": "Clear Download Cache",
+          "notes": "Free the disk space which is occupied by cached media file, after it is downloaded.",
+          "responseClass": "ClearDownloadCacheReq",
+          "nickname": "ClearDownloadCache",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		    {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },    	
+            {
+              "name": "body",
+              "description": "ClearDownloadCache request",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "ClearDownloadCacheReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+},
+{
+"path": "Inject Media",
+      "operations": [ 
+	  {
+          "method": "POST",
+          "summary": "Inject Media",
+          "notes": "Uploads the provided media file to the media store.<BR/> To get the injectURL, you can use the Get DIR requestwith format as INJECTURL.<BR/> Sample inject URL:http://<DMS_IP>/mediajs/file/upload?dirID=/data1&amp;timestamp=1389123260606&apiKey=-1110313941673189477&signature=fd154a45722592daa9c63ba4ccf8130e&sparam=bc8afb2b6575e6032ddc4eb90c8d0aa2.<BR/> You can upload the file by appending the query parameters to the injectURL and sending HTTP POST with this URL. This should return 200:OK .<BR/> In case server configuration 'Enable HLS Streaming' is true and you do not want to create hls then append the query parameter   'options=donotcreatehls' to the injectURL.<BR/> Sample inject URL if you do not want to create hls <BR/> http://<DMS_IP>/mediajs/file/upload?dirID=/data1&amp;timestamp=1389123260606&apiKey=-1110313941673189477&signature=fd154a45722592daa9c63ba4ccf8130e&sparam=bc8afb2b6575e6032ddc4eb90c8d0aa2&options=donotcreatehls.",
+          "responseClass": "void",
+          "nickname": "InjectMedia",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+        
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+},
+
+{
+"path": "Download Media",
+      "operations": [ 
+	  {
+          "method": "GET",
+          "summary": "Download Media",
+          "notes": "Download a media file from the media store on the system. To get the downloadURL, you can use the Get File request with format as EXTENDEDURL. Send an HTTP GET request using this downloadURL todownload and save media to local machine. This should return 200:OK",
+          "responseClass": "void",
+          "nickname": "DownloadMedia",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+        
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+	  ]
+}														
+  ],
+  "models": {
+  "FileMetaData": {
+      "id": "FileMetaData",
+      "description": "set FileMetaData request",
+      "required": [
+        "FileMetaData"
+      ],
+      "properties": {
+        "FileMetaData" : {
+          "$ref": "setFileMetaData"
+        }
+      }
+    },
+	"setFileMetaData": {
+      "id": "setFileMetaData",
+      "description": "A basic setFileMetaData request",
+      "required": [
+        "MetaData"
+        
+      ],
+      "properties": {
+	       "MetaData" : {
+          "$ref": "Metadatadef"
+        }
+      }
+    },
+	"Metadatadef": {
+      "id": "Metadatadef",
+      "description": "A basic metadats def",
+      "required": [
+        "Tag"
+        
+      ],
+      "properties": {
+	       "Tag" : {
+          "type": "array",
+            "items": {
+              "$ref": "MetadataTag"
+            }
+        }
+      }
+    },
+      
+	"GroupTag": {
+      "id": "GroupTag",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "String"
+        }
+      }
+    },
+	"MetadataTag": {
+      "id": "MetadataTag",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "@Name": {
+          "type": "String"
+        }
+      }
+    },
+	"PrepareForDownload": {
+      "id": "PrepareForDownload",
+      "description": "A basic PrepareForDownload request",
+      "required": [
+        "@byNID",
+		"@format"
+        
+      ],
+      "properties": {
+	     "@byNID": {
+          "type": "string",
+		  "description":"(fileNID required)"
+        },
+		"@format": {
+          "type": "string",
+      "enum": [
+            "Proprietary",
+            "Standard",
+            "Both"
+          ],
+		  "description":"Optinal. Default='Proprietary'"
+        }
+      }
+    },
+	"CreateMediaFromCutList": {
+      "id": "CreateMediaFromCutList",
+      "description": "A basic CreateMediaFromCutList request",
+      "required": [
+        "@byNID",
+		"@cutList",
+		"@title",
+		"MetaData",
+		"Description"
+        
+      ],
+      "properties": {
+	     "@byNID": {
+          "type": "string",
+"required": true,
+		  "description": "fileNID of existing media[Required]"
+        },
+		 "@title": {
+          "type": "string",
+"required": true,
+		  "description": "Title for new media[Required]"
+		  
+        },
+		"@cutList": {
+          "type": "string",
+		  "required":true,
+		  "description": "StartOffset:EndOffset,StartOffset:EndOffset[Required]"
+        },
+		  "MetaData" : {
+          "$ref": "Metadatadef"
+        },
+		 "Description": {
+          "type": "string"
+        }
+		 
+      }
+    },
+	"TrimFile": {
+      "id": "TrimFile",
+      "description": "A basic TrimFile request",
+      "required": [
+        "@byNID",
+		"@cutList"
+        
+      ],
+      "properties": {
+	     "@byNID": {
+          "type": "string",
+		  "description": "fileNID of existing media[Required]",
+		  "required": true
+        },
+		"@cutList": {
+          "type": "string",
+		  "required":true,
+		  "description": "StartOffset:EndOffset,StartOffset:EndOffset[Required]"
+		  
+        }
+      }
+    },
+	"ClearDownloadCache": {
+      "id": "ClearDownloadCache",
+      "description": "A basic ClearDownloadCache request",
+      "required": [
+        "@byNID"
+        
+      ],
+      "properties": {
+	     "@byNID": {
+          "type": "string",
+		  "description": "fileNID of existing media[Required]",
+		  "required": true
+        }
+      }
+    },
+	"ClearDownloadCacheReq": {
+      "id": "ClearDownloadCacheReq",
+      "description": "A ClearDownloadCache body",
+      "required": [
+        "ClearDownloadCache"
+      ],
+      "properties": {
+        "ClearDownloadCache": {
+            "$ref": "ClearDownloadCache"
+         }
+      }
+    },
+	"TrimFileReq": {
+      "id": "TrimFileReq",
+      "description": "A TrimFile body",
+      "required": [
+        "TrimFile"
+      ],
+      "properties": {
+        "TrimFile": {
+            "$ref": "TrimFile"
+         }
+      }
+    },
+	"CreateMediaFromCutListReq": {
+      "id": "CreateMediaFromCutListReq",
+      "description": "A CreateMediaFromCutList body",
+      "required": [
+        "CreateMediaFromCutList"
+      ],
+      "properties": {
+        "CreateMediaFromCutList": {
+            "$ref": "CreateMediaFromCutList"
+         }
+      }
+    },
+	"PrepareForDownloadReq": {
+      "id": "PrepareForDownloadReq",
+      "description": "A PrepareForDownload body",
+      "required": [
+        "PrepareForDownload"
+      ],
+      "properties": {
+        "PrepareForDownload": {
+            "$ref": "PrepareForDownload"
+         }
+      }
+    },
+	"File": {
+      "id": "File",
+      "description": "A file body",
+      "required": [
+        "File"
+      ],
+      "properties": {
+        "File": {
+            "$ref": "Filebody"
+         }
+      }
+    },
+	 "Filebody": {
+      "id": "Filebody",
+      "description": "A basic File object response",
+      "required": [
+        "@NID",
+        "Groups",
+        "@streamType",
+		"@size",
+		"@readOnly",
+		"@dateCreated",
+		"@dateModified",
+		"@playlength",
+        "@fileType",
+        "@ffTracks",
+        "@presence",
+        "@state",
+        "@title",
+        "Permissions"
+      ],
+      "properties": {
+        "Groups": {
+          "type": "array",
+            "items": {
+              "$ref": "GroupTag"
+            }
+         },
+        "@NID": {"type": "string"},
+        "@streamType": {"type": "string",
+          "description": "type of stream",
+          "enum": [
+            "V2D",
+            "MPEGTS",
+            "RTP"
+          ]},
+        "@fileType": {"type": "string", "description": "type of File"},
+        "@size": {"type": "integer"},
+		"@readOnly": {"type": "boolean"},
+		"@bypassAutoStorageRules": {"type": "boolean"},
+		"@dateCreated": {"type": "integer"},
+		"@dateModified": {"type": "integer"},
+		"@playlength": {"type": "integer"},
+		"@ffTracks": {"type": "integer"},
+        "@presence": {"type": "string", "enum": [
+            "available",
+            "unavailable"
+          ]},
+        "@state": {"type": "string", "enum": [
+            "Ready",
+            "Offline",
+            "Busy"
+          ]},
+        "@title": {"type": "string"},
+        "Permissions": {
+            "$ref": "Permissions"
+        }
+      }
+    },
+    "Permissions": {
+      "id": "Permissions",
+      "required": [
+        "@playback",
+        "@export",
+        "@delete",
+        "@modify",
+        "@read"
+      ],
+      "properties": {
+        "@playback": {
+          "type": "boolean"
+        },
+        "@export": {
+          "type": "boolean"
+        },
+        "@delete": {
+          "type": "boolean"
+        },
+        "@modify": {
+          "type": "boolean"
+        },
+        "@read": {
+          "type": "boolean"
+        }
+      }
+    
+  }
+}
+}

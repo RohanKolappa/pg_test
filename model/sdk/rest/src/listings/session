@@ -1,0 +1,2533 @@
+{
+  "apiVersion": null,
+  "swaggerVersion": "1.2",
+  "basePath": "http://{MSIP}/controller",
+  "resourcePath": "/Session",
+  "produces": [
+    "application/json",
+    "application/xml",
+    "text/plain",
+    "text/html"
+  ],
+  "apis": [
+    {
+      "path": "/Session",
+      "operations": [
+	  {
+          "method": "POST",
+          "summary": "Get Session Config Request",
+          "notes": "This is the list of runtime Session Configurations that the Client has access to",
+          "responseClass": "GetSessionConfigReq",
+          "nickname": "GetSessionConfig",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Get Session Config Request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "GetSessionConfigReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Get Session Request",
+          "notes": "This is the list of runtime Sessions that the Client has access to",
+          "responseClass": "GetSessionReq",
+          "nickname": "GetSession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Get Session Request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "GetSessionReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+	  
+	   {
+          "method": "POST",
+          "summary": "View a source stream on the destination",
+          "notes": "View a source stream on the destination",
+          "responseClass": "ViewSessionReq",
+          "nickname": "ViewSession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "view Session request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "ViewSessionReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		   {
+          "method": "POST",
+          "summary": "Playback a source stream on the destination",
+          "notes": "Playback a source stream on the destination <br/> <b>Note:</b> Support for Playback by Title/fileDate NOT implemented",
+          "responseClass": "PlaybackSessionReq",
+          "nickname": "PlaybackSession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Playback Session request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PlaybackSessionReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+				{
+          "method": "POST",
+          "summary": "Start a session",
+          "notes": "Start a session",
+          "responseClass": "StartSessionReq",
+          "nickname": "StartSession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "start Session request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "StartSessionReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		   
+		{
+          "method": "POST",
+          "summary": "Stop an active session",
+          "notes": "Stops an active running session in the system",
+          "responseClass": "StopSession",
+          "nickname": "stopSession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Stop Session request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "StopSession",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		   
+        {
+          "method": "POST",
+          "summary": "Starts a recording session",
+          "notes": "Record a source port to a destination file output",
+          "responseClass": "Record",
+          "nickname": "record",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Record request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "Record",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "PauseRecord request",
+          "notes": "PauseRecord request",
+          "responseClass": "PauseRecordReq",
+          "nickname": "PauseRecord",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "PauseRecord request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PauseRecordReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		 {
+          "method": "POST",
+          "summary": "ResumeRecord request",
+          "notes": "ResumeRecord request",
+          "responseClass": "ResumeRecordReq",
+          "nickname": "ResumeRecord",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "ResumeRecord request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "ResumeRecordReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+        {
+          "method": "POST",
+          "summary": "Used to switch the src for an existing connections",
+          "notes": "Used to switch the src for an existing connections.Use the SrcEntityId to specify the source to switch to.",
+          "responseClass": "SwitchSrcReq",
+          "nickname": "SwitchSrc",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "SwitchSrc request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "SwitchSrcReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		
+		{
+          "method": "POST",
+          "summary": "Pause request",
+          "notes": "Pause request",
+          "responseClass": "PauseReq",
+          "nickname": "Pause",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Pause request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PauseReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Play session",
+          "notes": "Play session: This is the equivalent of issuing Resume with new speed",
+          "responseClass": "PlayReq",
+          "nickname": "PlaySession",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "play Session request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "PlayReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "SkipBack request",
+          "notes": "The skipOffset is always a nowOffset. This is the equivalent of issuing Resume with a negative nowOffset",
+          "responseClass": "SkipBackReq",
+          "nickname": "SkipBack",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "SkipBack request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "SkipBackReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "SkipFwd request",
+          "notes": "The skipOffset is always a nowOffset. This is the equivalent of issuing Resume with a positive nowOffset",
+          "responseClass": "SkipFwdReq",
+          "nickname": "SkipFwd",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "SkipFwd request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "SkipFwdReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Catchup request",
+          "notes": "This is the equivalent of issuing Resume with a liveOffset=0",
+          "responseClass": "CatchupReq",
+          "nickname": "Catchup",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Catchup request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "CatchupReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Invite request",
+          "notes": "Issue an Invite to explicitly invite another user to a session",
+          "responseClass": "InviteReq",
+          "nickname": "Invite",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Invite request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "InviteReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+        
+		{
+          "method": "POST",
+          "summary": "Join request",
+          "notes": "n response to the Join - the system will send back an 'MUC invite' to an MUC room. The client should respond to that by doing a standard 'XMPP MultiUserChat Join' to enter the MUC room. Join is once per session with or without invite.An invite is required to join 'Invitation Only' Sessions (the default).Sessions that have been Published can be joined without an explicit invite",
+          "responseClass": "JoinReq",
+          "nickname": "Join",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Join request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "JoinReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Kick request",
+          "notes": "Issue a Kick to explicitly force a user to leave a session",
+          "responseClass": "KickReq",
+          "nickname": "Kick",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Invite request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "KickReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "get list of bookmarks that the Client has access to",
+          "notes": "Either whereSessionInfo or whereFileNID Required whereSessionInfo is key:value pairs e.g. sessionId:,connGroupId:,connId:,entityId. whereFileNID is the NID of the file which contains bookmarks",
+          "responseClass": "GetBookmarkReq",
+          "nickname": "GetBookmark",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "GetBookmark request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "GetBookmarkReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "AddBookmark Request",
+          "notes": "Either whereSessionInfo or whereFileNID Required whereSessionInfo is key:value pairs e.g. sessionId:,connGroupId:,connId:,entityId. whereFileNID is the NID of the file which contains bookmarks",
+          "responseClass": "AddBookmarkReq",
+          "nickname": "AddBookmark",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "AddBookmark request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "AddBookmarkReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "DeleteBookmark Request",
+          "notes": "Either whereNID or whereSessionInfo or whereFileNID Required. whereSessionInfo is key:value pairs e.g. sessionId:,connGroupId:,connId:,entityId. whereFileNID is the NID of the file which contains bookmarks.whereNID is the NID of the bookmark to delete.",
+          "responseClass": "DeleteBookmarkReq",
+          "nickname": "DeleteBookmark",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "DeleteBookmark request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "DeleteBookmarkReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "NewBookmark Request",
+          "notes": "NewBookmark Request: Either whereSessionInfo or whereFileNID Required .Return new bookmark for given session or file nid by filling the time code and offset values. (this call don't add bookmark in database. To add bookmark in database user has to use AddBookmark along with this).",
+          "responseClass": "NewBookmarkReq",
+          "nickname": "NewBookmark",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "NewBookmark request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "NewBookmarkReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },		
+		{
+          "method": "POST",
+          "summary": "UpdateBookmark Request",
+          "notes": "UpdateBookmark Request: whereNID Required",
+          "responseClass": "UpdateBookmarkReq",
+          "nickname": "UpdateBookmark",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "UpdateBookmark request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "UpdateBookmarkReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        },
+		{
+          "method": "POST",
+          "summary": "Authorize Request: External Authorization",
+          "notes": "Auth user can reply back with his decision allow/deny/revoke using Authorize request ",
+          "responseClass": "AuthorizeReq",
+          "nickname": "Authorize",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+		  "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+		  {
+              "name": "MSIP",
+              "description": "MS IP",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Authorize request body",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "AuthorizeReq",
+              "paramType": "body"
+            }           
+          ],
+          "responseMessages": [
+             {
+              "code": 200,
+              "message": "Success"
+            },
+            {
+              "code": 401,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error"
+            }
+          ],
+          "deprecated": "false"
+        }
+		
+      ]
+    }
+  ],
+  "models": {
+  "Authorize": {
+      "id": "Authorize",
+      "required": [
+         "@action",      
+	    "@sessionId",
+        "@reason",
+		"@connId"
+      ],
+      "properties": {
+       "@action": {"type": "string",
+	   "enum": [
+            "ALLOW",
+            "DENY",
+            "REVOKE"
+          ]},
+       "@sessionId": {"type": "string"},
+	   "@reason": {"type": "string"},
+	   "@connId": {"type": "string"}
+	   
+      }
+    },
+	"AuthorizeReq": {
+      "id": "AuthorizeReq",
+      "description": "A AuthorizeReq body",
+      "required": [
+        "Authorize"
+      ],
+      "properties": {
+        "Authorize": {
+            "$ref": "Authorize"
+         }
+      }
+    },
+    "SrcPort": {
+      "id": "SrcPort",
+      "required": [
+	  "@portNID",      
+	  "@portTitle",
+	  "@pvrEnable",
+	  "@id"
+      ],
+      "properties": {
+	   "@portNID": {"type": "string","description": "[portNID or portTitle Required]"},
+       "@portTitle": {"type": "string","description": "[portNID or portTitle Required]"},
+	   "@pvrEnable": {"type": "boolean"},
+	   "@id": {"type": "string"}
+      }
+    },
+	"DstPort": {
+      "id": "DstPort",
+      "required": [
+         "@portNID",      
+	    "@portTitle",
+        "id"
+      ],
+      "properties": {
+       "@portNID": {"type": "string","description": "[portNID or portTitle Required]"},
+       "@portTitle": {"type": "string","description": "[portNID or portTitle Required]"},
+	   "@id": {"type": "string"}
+      }
+    },
+    "DstFile": {
+      "id": "DstFile",
+      "required": [
+	  "Metadata",
+         "@fileTitle",
+		 "@id",
+		 "@dirNID"
+		 
+      ],
+      "properties": {
+	  "MetaData" : {
+          "$ref": "Metadatadef"
+        },
+        "@fileTitle": {"type": "string","description": "[Required]"},
+		"@id": {"type": "string"},
+		"@dirNID": {"type": "string"}
+		
+      }
+    },
+	"Metadatadef": {
+      "id": "Metadatadef",
+      "description": "A basic metadats def",
+      "required": [
+        "Tag"
+        
+      ],
+      "properties": {
+	       "Tag" : {
+          "type": "array",
+            "items": {
+              "$ref": "MetadataTag"
+            }
+        }
+      }
+    },
+		"MetadataTag": {
+      "id": "MetadataTag",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "@Name": {
+          "type": "String"
+        }
+      }
+    },
+	 "SrcFile": {
+      "id": "SrcFile",
+      "required": [
+         "@fileNID",
+		 "@fileTitle",
+		 "@fileDate",
+		 "@id"
+		 
+      ],
+      "properties": {
+        "@fileNID": {"type": "string"},
+		"@fileTitle": {"type": "string"},
+       "@fileDate": {"type": "string"},
+	   "@id": {"type": "string"}
+      }
+    },
+    "Record": {
+      "id": "Record",
+      "description": "A basic record request",
+      "required": [
+        "Record"
+      ],
+      "properties": {
+        "Record" : {
+          "$ref": "RecordReq"
+        }
+      }
+    },
+    "StopSession": {
+      "id": "StopSession",
+      "description": "Stop Session request",
+      "required": [
+        "StopSession"
+      ],
+      "properties": {
+        "StopSession" : {
+          "$ref": "StopSessionReq"
+        }
+      }
+    },
+    "StopSessionReq": {
+      "id": "StopSessionReq",
+      "required": [
+         "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {"type": "string"}
+      }
+    },
+    "RecordReq": {
+      "id": "RecordReq",
+      "description": "A basic record request",
+      "required": [
+	  "@name",
+	  "@sessionId",
+	  "@id",
+	  "@sessionName",
+        "SrcPort",
+        "DstFile"
+        
+      ],
+      "properties": {
+	  "@name": {"type": "string"},
+	   "DstFile": {
+            "$ref": "DstFile"
+         },
+		 "@sessionId": {"type": "string"},
+		 "@id": {"type": "string"},
+		 "@sessionName": {"type": "string"},
+        "SrcPort": {
+            "$ref": "SrcPort"
+         }
+        
+      }
+    },
+	
+	"View": {
+      "id": "View",
+      "description": "A view session request",
+      "required": [
+	  "@windowId",
+"@dstEntityId",
+"@name",
+"@srcEntityId",
+"@restartSession",
+"@sessionId",
+"@canvasId",
+"@id",
+
+        "SrcPort",
+		"@sessionName",
+        "Dstport"
+      
+      ],
+      "properties": {
+	  "@windowId": {"type": "string"},
+	  "@dstEntityId": {"type": "string","description":"[Either entity id or portTitle Required]"},
+	  "@name": {"type": "string"},
+	  "@srcEntityId": {"type": "string","description":"[Either entity id or portTitle Required]"},
+	  "@restartSession": {"type": "boolean"},
+	  "@sessionId": {"type": "string"},
+	  "@id": {"type": "string"},
+        "SrcPort": {
+            "$ref": "SrcPort"
+         },
+		 "@sessionName": {"type": "string"},
+         "DstPort": {
+            "$ref": "DstPort"
+         }
+      }
+    },
+	"GetSession": {
+	"required": [
+      "@sortBy",
+"@whereNID",
+"@sortOrder",
+"@startFrom",
+"@whereTagExpr",
+"@subscriptionID",
+"@countToFetch",
+"@whereTextSubStr",
+"@selectFormat"
+      ],
+      "properties": {
+	  "@sortBy": {"type": "string"},
+	  "@whereNID": {"type": "string"},
+	  "@sortOrder": {"type": "string"},
+	  "@whereTagExpr": {"type": "string"},
+	  "@subscriptionID": {"type": "string"},
+	  "@countToFetch": {"type": "integer"},
+	  "@whereTextSubStr": {"type": "string"},
+	  "@selectFormat": {"type": "string",
+	  "enum": [
+            "BASIC",
+            "EXTENDED"
+            
+          ]}
+	  
+      }
+    },
+	"Playback": {
+      "id": "Playback",
+      "description": "A playback session request body",
+      "required": [
+	   "@windowId",
+"@connGroupId",
+"@sessionId",
+        "SrcFile",
+		"@canvasId",
+		"@id",
+        "Dstport"
+      
+      ],
+      "properties": {
+	   "@windowId": {"type": "string"},
+	  "@connGroupId": {"type": "string"},  
+	  "@sessionId": {"type": "string"},
+	  
+	 
+        "SrcFile": {
+            "$ref": "SrcFile"
+         },
+		 "@canvasId": {"type": "string"},
+		  "@id": {"type": "string"},
+         "DstPort": {
+            "$ref": "DstPort"
+         }
+      }
+    },
+	"Play": {
+      "id": "Play",
+      "description": "A play session request body",
+      "required": [
+        "@timeScale",
+        "@sessionId"
+      
+      ],
+      "properties": {
+        "@timeScale": {
+            "type": "string",
+			"description": "Playback Speed. Supported Speed 1, 2, 5, 10, 60"
+         },
+         "@sessionId": {
+            "type": "string",
+             "required": true
+         },
+		 "@connGroupId": {
+            "type": "string",
+			"description": "Connetion Group Id"
+         },
+		 "@connId": {
+            "type": "string",
+			"description": "Connection Id"
+         },
+		 "@bookmarkId": {
+            "type": "string",
+			"description": "bookmark NID"
+         },
+		 "@mediaId": {
+            "type": "string",
+			"description": "The ID of the media associated with the mediaOffset/mediaTime. The session/connGrp/conn offset is found using the mediaId + mediaOffset/mediaTime This is used to resolve ambiguity when there is more than one media in the scope"
+         },
+		 "@mediaConnId": {
+            "type": "string",
+			"description": "The connId associated with the mediaOffset/mediaTime. The session/connGrp/conn offset is found using the connId + mediaOffset/mediaTime This is used to resolve ambiguity when the same media is in more than one connection in the scope"
+         },
+		 "@startOffset": {
+            "type": "string",
+			"description": "An Offset relative to the START Time of the current Scope"
+         },
+		 "@liveOffset": {
+            "type": "string",
+			"description": "An Offset relative to the LIVE Time of the current Scope"
+         },
+		 "@nowOffset": {
+            "type": "string",
+			"description": "An Offset relative to NOW"
+         },
+		 "@mediaOffset": {
+            "type": "string",
+			"description": "An Offset relative to the start of the Media File. This provides a sequential index into a Media File irrespective of the TCs of the media in it."
+         },
+		  "@mediaTime": {
+            "type": "string",
+			"description": "A Time reference to the TC attached to the media in the Media File"
+         }
+      }
+    },
+	"SwitchSrc": {
+      "id": "SwitchSrc",
+      "description": "A SwitchSrc request body",
+      "required": [
+        "@sessionId",
+        "@newSrcEntityId",
+		"@connId"
+      
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         },
+         "@newSrcEntityId": {
+            "type": "string"
+         },
+         "@connId": {
+            "type": "string"
+         }
+      }
+    },
+	"ResumeRecord": {
+      "id": "ResumeRecord",
+      "description": "A ResumeRecord request body",
+      "required": [
+        "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         }
+      }
+    },
+	"ResumeRecordReq": {
+      "id": "ResumeRecordReq",
+      "description": "A ResumeRecord request body",
+      "required": [
+        "ResumeRecord"
+      ],
+      "properties": {
+        "ResumeRecord": {
+            "$ref": "ResumeRecord"
+         }
+      }
+    },
+	"SwitchSrcReq": {
+      "id": "SwitchSrcReq",
+      "description": "A SwitchSrc request body",
+      "required": [
+        "SwitchSrc"
+      ],
+      "properties": {
+        "SwitchSrc": {
+            "$ref": "SwitchSrc"
+         }
+      }
+    },
+	"PlayReq": {
+      "id": "PlayReq",
+      "description": "A Play request body",
+      "required": [
+        "Play"
+      ],
+      "properties": {
+        "Play": {
+            "$ref": "Play"
+         }
+      }
+    },
+	"PlaybackSessionReq": {
+      "id": "PlaybackSessionReq",
+      "description": "A Play PlaybackSession body",
+      "required": [
+        "Playback"
+      ],
+      "properties": {
+        "Playback": {
+            "$ref": "Playback"
+         }
+      }
+    },
+	"ViewSessionReq": {
+      "id": "ViewSessionReq",
+      "description": "A Play ViewSession body",
+      "required": [
+        "View"
+      ],
+      "properties": {
+        "View": {
+            "$ref": "View"
+         }
+      }
+    },
+	"GetSessionReq": {
+      "id": "GetSessionReq",
+      "description": "A GetSession body",
+      "required": [
+        "GetSession"
+      ],
+      "properties": {
+        "GetSession": {
+            "$ref": "GetSession"
+         }
+      }
+    },
+	"GetSessionConfigReq": {
+      "id": "GetSessionConfigReq",
+      "description": "A GetSessionConfig body",
+      "required": [
+        "GetSessionConfig"
+      ],
+      "properties": {
+        "GetSessionConfig": {
+            "$ref": "GetSession"
+         }
+      }
+    },
+	"SkipBack": {
+      "id": "SkipBack",
+      "description": "A SkipBack request body",
+      "required": [
+        "@sessionId",
+        "@timeScale",
+		"@skipOffset"
+      
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         },
+         "@timeScale": {
+            "type": "string"
+         },
+         "@skipOffset": {
+            "type": "string"
+         }
+      }
+    },
+    "SkipBackReq": {
+      "id": "SkipBackReq",
+      "description": "A SkipBack request body",
+      "required": [
+        "SkipBack"
+      ],
+      "properties": {
+        "SkipBack": {
+            "$ref": "SkipBack"
+         }
+      }
+    },
+	"SkipFwd": {
+      "id": "SkipFwd",
+      "description": "A SkipFwd request body",
+      "required": [
+        "@sessionId",
+        "@timeScale",
+		"@skipOffset"
+      
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         },
+         "@timeScale": {
+            "type": "string"
+         },
+         "@skipOffset": {
+            "type": "string"
+         }
+      }
+    },
+    "SkipFwdReq": {
+      "id": "SkipFwdReq",
+      "description": "A SkipFwd request body",
+      "required": [
+        "SkipFwd"
+      ],
+      "properties": {
+        "SkipFwd": {
+            "$ref": "SkipFwd"
+         }
+      }
+    },
+	"PauseRecord": {
+      "id": "PauseRecord",
+      "description": "A PauseRecord request body",
+      "required": [
+        "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string",
+             "required": true
+         }
+      }
+    },
+	"PauseRecordReq": {
+      "id": "PauseRecordReq",
+      "description": "A PauseRecord request body",
+      "required": [
+        "PauseRecord"
+      ],
+      "properties": {
+        "PauseRecord": {
+            "$ref": "PauseRecord"
+         }
+      }
+    },
+	"Pause": {
+      "id": "Pause",
+      "description": "A Pause request body",
+      "required": [
+        "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         }
+      }
+    },
+	"PauseReq": {
+      "id": "PauseReq",
+      "description": "A Pause request body",
+      "required": [
+        "Pause"
+      ],
+      "properties": {
+        "Pause": {
+            "$ref": "Pause"
+         }
+      }
+    },
+	"Catchup": {
+      "id": "Catchup",
+      "description": "A Catchup request body",
+      "required": [
+        "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         }
+      }
+    },
+	"CatchupReq": {
+      "id": "CatchupReq",
+      "description": "A Catchup request body",
+      "required": [
+        "Catchup"
+      ],
+      "properties": {
+        "Catchup": {
+            "$ref": "Catchup"
+         }
+      }
+    },
+		"Kick": {
+      "id": "Kick",
+      "description": "A Kick request body",
+      "required": [
+        "@userName",
+"@sessionId",
+"@jid",
+"@id",
+"@userId",
+"@deviceId"
+
+
+      ],
+      "properties": {
+        "@userName": {
+            "type": "string"
+         },
+		  "@sessionId": {
+            "type": "string"
+         },
+		 "@jid": {
+            "type": "string"
+         },
+		  "@id": {
+            "type": "string"
+         },
+		  "@userId": {
+            "type": "string"
+         },
+		 "@deviceId": {
+            "type": "string"
+         }
+      }
+    },
+	"KickReq": {
+      "id": "KickReq",
+      "description": "A Kick request body",
+      "required": [
+        "Kick"
+      ],
+      "properties": {
+        "Kick": {
+            "$ref": "Kick"
+         }
+      }
+    },
+	"Invite": {
+      "id": "Invite",
+      "description": "A Inviterequest body",
+      "required": [
+        "@sessionId",
+		
+"@jid",
+"@id",
+"@userId"
+
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         },
+		  "@jid": {
+            "type": "string"
+         },
+		  "@id": {
+            "type": "string"
+         },
+		  "@userId": {
+            "type": "string"
+         }
+      }
+    },
+	"InviteReq": {
+      "id": "InviteReq",
+      "description": "A invite request body",
+      "required": [
+        "Invite"
+      ],
+      "properties": {
+        "Invite": {
+            "$ref": "Invite"
+         }
+      }
+    },
+	"Join": {
+      "id": "Join",
+      "description": "A Join request body",
+      "required": [
+        "@sessionId"
+      ],
+      "properties": {
+        "@sessionId": {
+            "type": "string"
+         }
+      }
+    },
+	"JoinReq": {
+      "id": "JoinReq",
+      "description": "A Join request body",
+      "required": [
+        "Join"
+      ],
+      "properties": {
+        "Join": {
+            "$ref": "Join"
+         }
+      }
+    },
+	"GetBookmark": {
+      "id": "GetBookmark",
+      "description": "A GetBookmark request body",
+      "required": [
+	  "@whereSessionInfo",
+	  "@whereTCRange",
+        "@sortBy",
+"@whereNID",
+"@sortOrder",
+"@startFrom",
+"@countToFetch",
+"@whereFileNID",
+"@whereTextSubStr",
+"@selectFormat"
+
+      ],
+      "properties": {
+	  "@whereSessionInfo": {
+            "type": "string"
+         },
+		 "@whereTCRange": {
+            "type": "string"
+         },
+        "@sortBy": {
+            "type": "string"
+         },
+         "@whereNID": {
+            "type": "string"
+         },
+         "@sortOrder": {
+            "type": "string",
+			"enum": ["ascending",
+			"descending"]
+         },
+		 "@startFrom": {
+            "type": "string"
+         },
+		 "@whereFileNID": {
+            "type": "string"
+         },
+		 "@countToFetch": {
+            "type": "string"
+         },
+		 "@whereTextSubStr": {
+            "type": "string"
+         },
+		 "@selectFormat": {
+            "type": "string",
+			"enum": ["BASIC",
+			"EXTENDED"]
+			
+         }
+		 
+      }
+    },
+	"GetBookmarkReq": {
+      "id": "GetBookmarkReq",
+      "description": "A GetBookmark request body",
+      "required": [
+        "GetBookmark"
+      ],
+      "properties": {
+        "GetBookmark": {
+            "$ref": "GetBookmark"
+         }
+      }
+    },
+	"AddBookmark": {
+      "id": "AddBookmark",
+      "description": "A AddBookmark request body",
+      "required": [
+        "@whereSessionInfo",
+        "Bookmark",
+		"@whereFileNID"
+      
+      ],
+      "properties": {
+        "@whereSessionInfo": {
+            "type": "string"
+         },
+         "Bookmark": {
+            "type": "Bookmark"
+         },
+         "@whereFileNID": {
+            "type": "string"
+         }
+      }
+    },
+	"AddBookmarkReq": {
+      "id": "AddBookmarkReq",
+      "description": "A AddBookmark request body",
+      "required": [
+        "AddBookmark"
+      ],
+      "properties": {
+        "AddBookmark": {
+            "$ref": "AddBookmark"
+         }
+      }
+    },
+	"Bookmark": {
+      "id": "Bookmark",
+      "description": "A Bookmark body",
+      "required": [
+        "Description",
+        "@offset",
+		"MetaData",
+		"@title",
+		"@TC"
+
+      ],
+      "properties": {
+        "Description": {
+            "type": "string"
+         },
+         "@offset": {
+            "type": "integer"
+         },
+         "MetaData": {
+          "type": "array",
+            "items": {
+              "$ref": "bmTagReq"
+            }
+         },
+		 "@title": {
+            "type": "string"
+         },
+		 "@TC": {
+            "type": "integer"
+         }
+      }
+    },
+	"bmTag": {
+      "id": "Tag",
+      "properties": {
+        "@Name": {
+          "type": "string"
+        }
+      }
+    },
+	"bmTagReq": {
+      "id": "bmTagReq",
+      "description": "A bmTagReq body",
+      "required": [
+        "Tag"
+      ],
+      "properties": {
+        "Tag": {
+            "$ref": "bmTag"
+         }
+      }
+    },
+	"Tag": {
+      "id": "Tag",
+      "properties": {
+        "@Name": {
+          "type": "string"
+        },
+		 "@Value": {
+          "type": "string"
+        }
+      }
+    },
+	"TagReq": {
+      "id": "TagReq",
+      "description": "A TagReq body",
+      "required": [
+        "Tag"
+      ],
+      "properties": {
+        "Tag": {
+            "$ref": "Tag"
+         }
+      }
+    },
+	"recordTag": {
+      "id": "Tag",
+      "properties": {
+	   "content": {
+          "type": "string"
+        },
+        "@Name": {
+          "type": "string"
+        }
+      }
+    },
+	"DeleteBookmark": {
+      "id": "DeleteBookmark",
+      "description": "A DeleteBookmark request body",
+      "required": [
+        "@whereSessionInfo",
+        "@whereTCRange",
+		"@whereNID",
+		"@whereFileNID"
+      ],
+      "properties": {
+        "@whereSessionInfo": {
+            "type": "string"
+         },
+         "@whereTCRange": {
+            "type": "string"
+         },
+		 "@whereNID": {
+            "type": "string"
+         },
+		 "@whereFileNID": {
+            "type": "string"
+         }
+      }
+    },
+	"DeleteBookmarkReq": {
+      "id": "DeleteBookmarkReq",
+      "description": "A DeleteBookmark request body",
+      "required": [
+        "DeleteBookmark"
+      ],
+      "properties": {
+        "DeleteBookmark": {
+            "$ref": "DeleteBookmark"
+         }
+      }
+    },
+	"UpdateBookmark": {
+      "id": "UpdateBookmark",
+      "description": "A UpdateBookmark request body",
+      "required": [
+        "@whereNID",
+        "Bookmark"
+		
+      ],
+      "properties": {
+        "@whereNID": {
+            "type": "string",
+			"required": true
+         },
+         "Bookmark": {
+            "type": "Bookmark"
+         }
+      }
+    },
+	"UpdateBookmarkReq": {
+      "id": "UpdateBookmarkReq",
+      "description": "A UpdateBookmark request body",
+      "required": [
+        "UpdateBookmark"
+      ],
+      "properties": {
+        "UpdateBookmark": {
+            "$ref": "UpdateBookmark"
+         }
+      }
+    },
+	"NewBookmark": {
+      "id": "NewBookmark",
+      "description": "A NewBookmark request body",
+      "required": [
+        "@whereSessionInfo",
+        "@whereFileNID"
+		
+      ],
+      "properties": {
+        "@whereSessionInfo": {
+            "type": "string",
+			"description": "fomat - sessionId:,connGroupId:,connId:,entityId"
+         },
+         "@whereFileNID": {
+            "type": "string"
+         }
+      }
+    },
+	"NewBookmarkReq": {
+      "id": "NewBookmarkReq",
+      "description": "A NewBookmark request body",
+      "required": [
+        "NewBookmark"
+      ],
+      "properties": {
+        "NewBookmark": {
+            "$ref": "NewBookmark"
+         }
+      }
+    },
+	"StartSession": {
+      "id": "StartSession",
+      "description": "A StartSession request body",
+      "required": [       
+"@sessionId",
+"Session"
+      ],
+      "properties": {
+        
+         "@sessionId": {
+            "type": "string"
+         },
+		 "Session": {
+            "type": "Session"
+         }
+		
+      }
+    },
+	"StartSessionReq": {
+      "id": "StartSessionReq",
+      "description": "A StartSession request body",
+      "required": [
+        "StartSession"
+      ],
+      "properties": {
+        "StartSession": {
+            "$ref": "StartSession"
+         }
+      }
+    },
+	"Session": {
+      "id": "Session",
+      "description": "A Session body",
+      "required": [
+	  "@id",
+       "Properties",
+	   "Groups",
+	   "MetaData",
+	   "GrpFileList",
+	   "DirList",
+	   "ProfileList",
+	   "EntityList",
+	   "ConnectionList"
+      ],
+      "properties": {
+	  "@id": {
+            "type": "string"
+         },
+        "Properties": {
+            "$ref": "Properties"
+         },
+		 "Groups": {
+          "type": "array",
+            "items": {
+              "type": "TagReq"
+            }
+         },
+		 "MetaData": {
+          "type": "array",
+            "items": {
+              "type": "bmTagReq"
+            }
+         },
+		 "GrpFileList": {
+          "type": "array",
+            "items": {
+              "$ref": "GrpFileReq"
+            }
+         },
+		 "DirList": {
+          "type": "array",
+            "items": {
+              "$ref": "DirReq"
+            }
+         },
+		 "ProfileList": {
+          "type": "array",
+            "items": {
+              "$ref": "ProfileReq"
+            }
+         },
+		 "EntityList": {
+          "type": "array",
+            "items": {
+              "$ref": "EntityReq"
+            }
+         },
+		 "ConnectionList": {
+          "type": "array",
+            "items": {
+              "$ref": "ConnectionReq"
+            }
+         }
+      }
+    },
+	"Properties": {
+      "id": "Properties",
+      "description": "Properties",
+      "required": [
+        "@sessionConfigNID",
+        "@ownerUserJID",
+        "@dateCreated",
+        "@playlength"		
+      ],
+      "properties": {
+        "@sessionConfigNID": {"type": "string"},
+		"@ownerUserJID": {"type": "string"},
+		"@dateCreated": {"type": "string"},
+		"@playlength": {"type": "string"}
+		
+      }
+    },
+	"GrpFile": {
+      "id": "GrpFile",
+      "description": "GrpFile",
+      "required": [
+        "@type",
+        "@id",
+        "@resourceTitle",
+        "@dateCreated",
+"@recSessionConfigId",
+"@recSessionId",
+"@syncEntityId"		
+      ],
+      "properties": {
+        "@type": {"type": "string",
+		"enum": ["SyncPly", "SyncRec"]},
+		"@id": {"type": "string"},
+		"@resourceTitle": {"type": "string"},
+		"@recSessionConfigId": {"type": "string"},
+		"@recSessionId": {"type": "string"},
+		"@syncEntityId": {"type": "string"}
+		
+      }
+    },
+	"GrpFileReq": {
+      "id": "GrpFileReq",
+      "description": "A GrpFile body",
+      "required": [
+        "GrpFile"
+      ],
+      "properties": {
+        "GrpFile": {
+            "$ref": "GrpFile"
+         }
+      }
+    },
+"Dir": {
+      "id": "Dir",
+      "description": "Dir",
+      "required": [
+        "@id",
+        "@resourceNID",
+        "@resourceTitle"
+       		
+      ],
+      "properties": {
+        "@id": {"type": "string"},
+		"@resourceNID": {"type": "string"},
+		"@resourceTitle": {"type": "string"}
+		
+      }
+    },
+	"DirReq": {
+      "id": "DirReq",
+      "description": "A Dirbody",
+      "required": [
+        "Dir"
+      ],
+      "properties": {
+        "Dir": {
+            "$ref": "Dir"
+         }
+      }
+    },
+"Profile": {
+      "id": "Profile",
+      "description": "Profile",
+      "required": [
+        "@id",
+        "@name",
+        "@profileNID"
+       		
+      ],
+      "properties": {
+        "@id": {"type": "string"},
+		"@name": {"type": "string"},
+		"@profileNID": {"type": "string"}
+		
+      }
+    },
+	"ProfileReq": {
+      "id": "ProfileReq",
+      "description": "A Profile body",
+      "required": [
+        "Profile"
+      ],
+      "properties": {
+        "Profile": {
+            "$ref": "Profile"
+         }
+      }
+    },
+"Entity": {
+      "id": "Entity",
+      "description": "Entity",
+      "required": [
+	  "@type",
+        "@id",
+        "@name",
+		"@streamType",
+       	"@presence",
+		"User",
+		"File",
+		"Port",
+		"PVR"
+      ],
+      "properties": {
+	  "@type": {"type": "string",
+	  "enum": ["SrcPort", "DstPort", "RlyPort", "PlyFile", "RecFile", "PVRFile"]},
+        "@id": {"type": "string"},
+		"@name": {"type": "string"},
+		"@streamType": {"type": "string"},
+		"@presence": {"type": "string"},
+		"User": {"$ref": "User"},
+		"File": {"$ref": "File"},
+		"Port": {"$ref": "port"},
+        "PVR": {"$ref": "PVR"}		
+      }
+    },
+"EntityReq": {
+      "id": "EntityReq",
+      "description": "A Entity body",
+      "required": [
+        "Entity"
+      ],
+      "properties": {
+        "Entity": {
+            "$ref": "Entity"
+         }
+      }
+    },	
+	"User": {
+      "id": "User",
+      "description": "User",
+      "required": [
+        "@userNID",
+        "@username",
+        "@userJID"
+       		
+      ],
+      "properties": {
+        "@userNID": {"type": "string"},
+		"@username": {"type": "string"},
+		"@userJID": {"type": "string"}
+		
+      }
+    },
+		"File": {
+      "id": "File",
+      "description": "File",
+      "required": [
+        "@type",
+        "@resourceNID",
+        "@resourceTitle",
+		"@dirId",
+		"@keyMetaDataKeyName"
+		
+       		
+      ],
+      "properties": {
+        "@type": {"type": "string"},
+		"@resourceNID": {"type": "string"},
+		"@resourceTitle": {"type": "string"},
+		"@dirId": {"type": "string"},
+		"@keyMetaDataKeyName": {"type": "string"}
+      }
+    },
+"port": {
+      "id": "port",
+      "description": "port",
+      "required": [
+        "@type",
+        "@resourceNID",
+        "@resourceTitle",
+		"@trickPlay"
+		
+       		
+      ],
+      "properties": {
+        "@type": {"type": "string"},
+		"@resourceNID": {"type": "string"},
+		"@resourceTitle": {"type": "string"},
+		"@trickPlay": {"type": "boolean"}
+		
+		
+      }
+    },
+	"PVR": {
+      "id": "PVR",
+      "description": "PVR",
+      "required": [
+        "@recEntityId",
+        "@plyEntityId",
+        "@trimLength",
+		"@connID",
+		"@SessionId",
+		"@ffTracks",
+       	"@startTC",
+		"@enable"		
+      ],
+      "properties": {
+        "@recEntityId": {"type": "string"},
+		"@plyEntityId": {"type": "string"},
+		"@trimLength": {"type": "string"},
+		"@connID": {"type": "string"},
+		"@SessionId": {"type": "string"},
+		"@ffTracks": {"type": "string"},
+		"@startTC": {"type": "string"},
+		"@enable": {"type": "boolean"}
+		
+		
+      }
+    },
+	"Connection": {
+      "id": "Connection",
+      "description": "Connection",
+      "required": [
+        "@type",
+        "@id",
+        "@gid",
+		"@name",
+		"@mode",
+		"@srcEntityId",
+		"@dstEntityId",
+		"@profileId",
+"@authEntityId",   
+"@streamURL",   
+"@state",
+"@timelineId"		
+      ],
+      "properties": {
+        "@type": {"type": "string",
+		"enum": ["STREAM", "RECORD", "PVR"]},
+		"@id": {"type": "string"},
+		"@gid": {"type": "string"},
+		"@name": {"type": "string"},
+		"@mode": {"type": "string"},
+		"@srcEntityId": {"type": "string"},
+		"@dstEntityId": {"type": "string"},
+		"@profileId": {"type": "string"},
+		"@authEntityId": {"type": "string"},
+		"@streamURL": {"type": "string"},
+		"@state": {"type": "string"},
+		"@timelineId": {"type": "string"}
+		
+      }
+    },
+	"ConnectionReq": {
+      "id": "ConnectionReq",
+      "description": "A Connection body",
+      "required": [
+        "Connection"
+      ],
+      "properties": {
+        "Connection": {
+            "$ref": "Connection"
+         }
+      }
+    }
+
+    
+  }
+}

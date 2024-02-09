@@ -1,0 +1,126 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2013 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+tgt-jar-tgt-name	:=	$(strip $(target-name))
+tgt-jar-src-dir		:=	$(strip $(target-srcdir))
+tgt-jar-deps		:=	$(strip $(target-deps))
+
+###############################################################################
+
+ifeq "$(tgt-jar-tgt-name)" ""
+$(error Empty target-name!)
+endif
+
+ifneq "$(words $(tgt-jar-src-dir))" "1"
+$(error Invalid target-srcdir! Must contain exactly one dir!)
+endif
+
+###############################################################################
+
+tgt-jar-jarname		:=	$(tgt-jar-tgt-name).jar
+tgt-jar-bin-dir		:=	$(JBS_TMP_DIR)/bin
+tgt-jar-all-srcs	:=	$(sort $(shell find $(tgt-jar-src-dir) -name "*.java"))
+
+ifeq "$(tgt-jar-all-srcs)" ""
+$(error No class to compile!)
+endif
+
+tgt-jar-all-objs	:=	$(patsubst %.java, %.class, $(tgt-jar-all-srcs))
+tgt-jar-all-objs	:=	$(patsubst				\
+					$(tgt-jar-src-dir)/%,		\
+					$(tgt-jar-bin-dir)/%,		\
+					$(tgt-jar-all-objs))
+
+tgt-jar-classpath	:=	$(tgt-jar-src-dir)
+tgt-jar-classpath	+=	$(foreach d,$(tgt-jar-deps),$($(d)-jarpath))
+tgt-jar-classpath	:=	$(strip $(tgt-jar-classpath))
+
+tgt-jar-empty		:=
+tgt-jar-space		:=	$(tgt-jar-empty) $(tgt-jar-empty)
+tgt-jar-classpath	:=	$(subst $(tgt-jar-space),:,$(tgt-jar-classpath))
+
+dumpable		+=	tgt-jar-jarname		\
+				tgt-jar-src-dir		\
+				tgt-jar-bin-dir		\
+				tgt-jar-all-srcs	\
+				tgt-jar-all-objs	\
+				tgt-jar-classpath
+
+tgt-jar-needed-jars	:=	$(foreach \
+					p, \
+					$(tgt-jar-deps), \
+					$($(p)-jarpath))
+
+tgt-jar-needed-jars	:=	$(strip $(tgt-jar-needed-jars))
+
+ifneq "$(tgt-jar-needed-jars)" ""
+
+.PHONY : $(tgt-jar-needed-jars)
+
+$(tgt-jar-needed-jars) :
+	@$(MAKE) -w -C $(dir $@) local-target
+
+endif
+
+###############################################################################
+
+$(tgt-jar-bin-dir)/%.class :	$(tgt-jar-src-dir)/%.java
+	@$(call mod-echo-compiling,$<)
+	@javac $(JAVAFLAGS) -Werror -classpath $(tgt-jar-classpath) -d $(tgt-jar-bin-dir) $<
+
+###############################################################################
+
+CLEAN-FILES		+=	$(tgt-jar-jarname)
+DISTCLEAN-FILES		+=	$(tgt-jar-jarname)
+CLEAN-DIRS		+=	$(tgt-jar-bin-dir)
+DISTCLEAN-DIRS		+=	$(tgt-jar-bin-dir)
+
+###############################################################################
+
+$(tgt-jar-bin-dir) :		$(JBS_TMP_DIR)/$(JBS_NOENTER_FILE)
+	@mkdir -p $(tgt-jar-bin-dir)
+
+$(tgt-jar-jarname) :		$(tgt-jar-bin-dir)	\
+				$(tgt-jar-all-objs)
+	@jar cf $@ -C $(tgt-jar-bin-dir) .
+
+.PHONY : tgt-jar-loc-tgt-defs
+
+tgt-jar-loc-tgt-defs :
+	@cat < /dev/null > ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "##### $(JBS_CUR_DIR)" >> ./$(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> ./$(JBS_DEFS_FILE)
+	@echo "$(tgt-jar-tgt-name)-jarpath       := $(JBS_CUR_DIR)/$(tgt-jar-jarname)" >> ./$(JBS_DEFS_FILE)
+	@echo "" >> ./$(JBS_DEFS_FILE)
+
+###############################################################################
+
+local-target :			$(tgt-jar-needed-jars)				\
+				$(tgt-jar-jarname)
+
+local-defs :			tgt-jar-loc-tgt-defs
+
+###############################################################################
+

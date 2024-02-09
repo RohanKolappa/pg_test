@@ -1,0 +1,107 @@
+<ipvs>
+	<!--  define updateXmlDefinations/updateXmlDefination to be used by template-->    
+	<updateXmlDefinations>
+	      <updateXmlDefination updateXmlDefinationId="u_user1">
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>
+	            	<updateElementXpathDef>//Username</updateElementXpathDef>
+	            </updateElementDef>
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>//Name</updateElementDef>
+	            <updateElementDef type='randomNumber' seed='20' startNumber='1' prefix='' suffix='' keepOriginalText='false'></updateElementDef>
+	            <updateElementDef type='setvalue' value="">//CreationDate</updateElementDef>
+	            <updateElementDef type='fromXpath' fromXpath="//Username">
+	            	<updateElementXpathDef>//Password</updateElementXpathDef>
+	            	<updateElementXpathDef suffix='@localhost.com'>//Email</updateElementXpathDef>
+	            </updateElementDef>
+	      </updateXmlDefination>
+	      <updateXmlDefination updateXmlDefinationId="u_user2">
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>
+	            	<updateElementXpathDef>//Username</updateElementXpathDef>
+	            </updateElementDef>
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>//Name</updateElementDef>
+	            <updateElementDef type='randomNumber' seed='20' startNumber='1' prefix='' suffix='' keepOriginalText='false'></updateElementDef>
+	            <updateElementDef type='setvalue' value="">//CreationDate</updateElementDef>
+	            <updateElementDef type='fromXpath' fromXpath="//Username">
+	            	<updateElementXpathDef>//Password</updateElementXpathDef>
+	            	<updateElementXpathDef suffix='@localhost.com'>//Email</updateElementXpathDef>
+	            </updateElementDef>
+	      </updateXmlDefination>	
+	      
+	      <updateXmlDefination updateXmlDefinationId="u_AssetResource">
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>
+	            	<updateElementXpathDef>//Title</updateElementXpathDef>
+	            </updateElementDef>
+	            <updateElementDef type='fromXpath' fromXpath="Title">
+	            	<updateElementXpathDef>//Password</updateElementXpathDef>
+	            	<updateElementXpathDef suffix='@127.0.0.1/managementserver'>//OwnerUserJID</updateElementXpathDef>
+	            </updateElementDef>
+	      </updateXmlDefination>	 
+	      <updateXmlDefination updateXmlDefinationId="u_MediaStreamFileResource">
+	            <updateElementDef type='incrementNumber' startNumber='1' prefix='userName' suffix='' keepOriginalText='false'>
+	            	<updateElementXpathDef>//Title</updateElementXpathDef>
+	            </updateElementDef>
+	            <updateElementDef type='fromXpath' fromXpath="Title">
+	            	<updateElementXpathDef>//Password</updateElementXpathDef>
+	            	<updateElementXpathDef suffix='@127.0.0.1/managementserver'>//OwnerUserJID</updateElementXpathDef>
+	            </updateElementDef>
+	      </updateXmlDefination>	
+
+
+		 <!--  added for anoop -->
+		 <updateXmlDefination updateXmlDefinationId="location11">
+			 <updateElementDef type="incrementNumber" startNumber="0" prefix="location11_record" suffix="" keepOriginalText="false">
+				<updateElementXpathDef>//Title</updateElementXpathDef>
+			 </updateElementDef>
+			 <updateElementDef type="setvalue" keepOriginalText="false">
+				 <updateElementXpathDef>Info/Properties/ParentMediaDirNID</updateElementXpathDef>default.mediastreamdirresourcelist.msdrl_b9092cab-354e-4cb0-a54f-a753b663941c</updateElementDef>
+		</updateXmlDefination>
+		 <!--  added for anoop -->
+
+
+
+    </updateXmlDefinations>
+    
+    <!--   define templates to be used by bulkload-->    
+	<templates>
+        <template templateId='t_user1' listName='userlist' objectXmlFile='testXmls/user.xml'>
+        	<updateXml updateXmlDefinationId="u_user1"/>
+        	<updateXml updateXmlDefinationId="u_user2"/>
+        </template> 		
+		<template templateId='t_user2' listName='userlist' objectXmlFile='testXmls/user2.xml' updateXmlDefinationId="u_user2"/>  
+		<template templateId='t_user3' listName='userlist' objectXmlResource='/com/ipvs/xsd/objectXml/User.xml' updateXmlDefinationId="u_user1"/>
+		
+		<template templateId='t_MediaStreamFileResource' listName='mediastreamfileresourcelist' objectXmlFile='testXmls/MediaStreamFileResource.xml' updateXmlDefinationId="u_MediaStreamFileResource"/>
+		<template templateId='t_AssetResource' listName='assetresourcelist' objectXmlFile='testXmls/AssetResource.xml' updateXmlDefinationId="u_AssetResource"/>
+		 
+		 <!--  added for anoop -->
+		<template templateId='t_location0_record' listName='mediastreamfileresourcelist' objectXmlFile='testXmls/MediaStreamFileResource_location0_record.xml' updateXmlDefinationId="u_location0_record"/>
+ 		 <!--  added for anoop -->
+
+
+	</templates>
+	
+	<!--   define groupTemplates to be used by bulkload-->    
+	<groupTemplates>
+        <groupTemplate groupTemplateId='g_location1'>
+            <groupTemplateMember groupTemplateMemberId='gt_User' templateId="t_user1"  enable='true'/>
+            <groupTemplateMember groupTemplateMemberId='gt_MediaStreamFileResource' templateId="t_MediaStreamFileResource" enable='true'/>
+            <groupTemplateMember groupTemplateMemberId='gt_AssetResource' templateId="t_AssetResource" enable='true'/>              
+            <groupCreateReferences>
+                    <groupCreateReference>
+                        <fromXpath groupTemplateMemberId='gt_User'>//User/@NID</fromXpath>
+                        <setXpath groupTemplateMemberId='gt_MediaStreamFileResource'>//Email</setXpath>
+                    </groupCreateReference>
+                    <groupCreateReference>
+                        <fromXpath groupTemplateMemberId='gt_AssetResource'>//Email</fromXpath>
+                        <setXpath groupTemplateMemberId='gt_MediaStreamFileResource'>//Username</setXpath>
+                    </groupCreateReference>
+                    <groupCreateReference>
+                        <fromXpath groupTemplateMemberId='gt_User'>//Username</fromXpath>
+                        <setXpath groupTemplateMemberId='gt_AssetResource' prefix='' suffix='' keepOriginalText='false'>//OwnerUserJID</setXpath>
+                    </groupCreateReference>                    
+            </groupCreateReferences>
+        </groupTemplate>
+	</groupTemplates>
+
+	 
+
+</ipvs>

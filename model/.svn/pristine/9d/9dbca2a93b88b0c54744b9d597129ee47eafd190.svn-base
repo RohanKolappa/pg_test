@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid XML Studio 1.0.8.0 (http://www.liquid-technologies.com) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.common.datamodel.xsd" />
+  <xs:element name="UserList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="User" />
+      </xs:sequence>
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="User">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="Groups" type="TagList" />
+        <xs:element name="Username" type="xs:string" />
+        <xs:element name="ExternalAuthentication" type="xs:string" />
+        <xs:element name="Password" type="xs:string" />
+        <xs:element name="Email" type="xs:string" />
+        <xs:element name="Name" type="xs:string" />
+        <xs:element name="CreationDate" type="jive-date" />
+        <xs:element name="ModifiedDate" type="jive-date" />
+        <xs:element name="UserPrivateData" type="xs:anyType" />
+        <xs:element minOccurs="0" ref="Roster" />
+      </xs:all>
+      <xs:attribute name="serviceVer" type="xs:double" use="required" />
+      <xs:attribute fixed="1.4" name="Ver" type="xs:double" use="required" />
+      <xs:attribute fixed="1" name="Rev" type="xs:int" use="required" />
+      <xs:attributeGroup ref="AutoNID" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Roster">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Item" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Group" type="xs:string" />
+      </xs:sequence>
+      <xs:attribute ref="jid" use="required" />
+      <xs:attribute name="askstatus" use="required" />
+      <xs:attribute name="recvstatus" use="required" />
+      <xs:attribute name="substatus" use="required" />
+      <xs:attribute name="name" />
+    </xs:complexType>
+  </xs:element>
+  <xs:attribute name="jid" type="xs:string" />
+  <xs:attribute name="name" type="xs:string" />
+  <xs:attribute name="askstatus">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="-1" />
+        <xs:maxInclusive value="3" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="recvstatus">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="-1" />
+        <xs:maxInclusive value="3" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="substatus">
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="-1" />
+        <xs:maxInclusive value="3" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:simpleType name="jive-date">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <xs:element name="AccountPasswordChange">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="Username" type="xs:string" />
+        <xs:element name="OldPassword" type="xs:string" />
+        <xs:element name="Password" type="xs:string" />
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UserSearch">
+    <xs:complexType>
+      <xs:choice>
+        <xs:sequence xmlns:xdata="jabber:x:data">
+          <xs:element name="instructions" type="xs:string" />
+          <xs:element name="first" type="xs:string" />
+          <xs:element name="last" type="xs:string" />
+          <xs:element name="nick" type="xs:string" />
+          <xs:element name="email" type="xs:string" />
+        </xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="UserSearchItem" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UserSearchItem">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="first" type="xs:string" />
+        <xs:element name="last" type="xs:string" />
+        <xs:element name="nick" type="xs:string" />
+        <xs:element name="email" type="xs:string" />
+      </xs:all>
+      <xs:attribute name="jid" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RosterOp">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="RosterItem" />
+      </xs:sequence>
+      <xs:attribute name="Type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="List" />
+            <xs:enumeration value="Add" />
+            <xs:enumeration value="Modify" />
+            <xs:enumeration value="Delete" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RosterItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="RosterItemInfo" />
+        <xs:element ref="RosterItemState" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RosterItemInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="RosterGroup" type="xs:string" />
+      </xs:sequence>
+      <xs:attribute name="jid" type="XMPPBareJID" />
+      <xs:attribute name="nick" type="XMPPDisplayName" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RosterItemState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="State" type="xs:string" />
+        <xs:element minOccurs="0" name="StateMsg" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

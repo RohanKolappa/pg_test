@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>BCS Client</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 3rd party plugins' css-->
+    <link rel="stylesheet" href="./common/guiComponents/common/jquery/alertify.default.css" />
+    <!--plugins' css-->
+    <link rel="stylesheet" href="./common/guiComponents/common/resource/css/font-awesome.css">
+    <link href="./common/guiComponents/common/resource/css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-general.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-layout.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-icon-font.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-theme-dark.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-sources-grid.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-source-list.css" rel="stylesheet" type="text/css" />
+    <link href="./common/guiComponents/common/resource/css/barco-nd-display-list.css" rel="stylesheet" type="text/css" />
+    <!--<link href="./common/guiComponents/common/resource/css/barco-nd-drag-and-drop.css" rel="stylesheet" type="text/css" />-->
+    <link href="./common/guiComponents/common/resource/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
+	  <link href="./common/guiComponents/common/resource/css/jquery-ui-overrides.css" rel="stylesheet" type="text/css" /> 
+    <link href="./resource/css/barco-nd-image-viewer-bar.css" rel="stylesheet" type="text/css" />
+    <link href="./resource/css/barco-nd-image-viewer-buttons.css" rel="stylesheet" type="text/css" />
+    <link href="./resource/css/barco-nd-image-zoom-panel.css" rel="stylesheet" type="text/css" /> 
+
+    <!--jQuery, jQueryUI and plugins-->
+    <script src="./lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script src="./lib/jquery-ui-1.11.2.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/common/jquery/jquery.hotkeys.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/common/jquery/jquery.formatDateTime.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/common/jquery/alertify.min.js"></script>    
+    <script src="./common/guiComponents/common/jquery/jquery.storageapi.min.js"></script>  
+    <script src="./common/guiComponents/common/jquery/jquery.cookie.js"></script>  
+    <!-- <script src="./common/guiComponents/common/jquery/jquery.validate.min.js"></script>  -->
+    <script src="./common/guiComponents/common/jquery/verify.notify.min.js"></script>
+    <script src="./player/src/jquery/jquery.fullscreen-0.4.1.js" type="text/javascript"></script>
+
+    <!-- BarcoAPI -->
+    <script src="./common/guiAPIAgent/scripts/plugin-inheritance.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/BarcoUtil.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/Request.js" type="text/javascript"></script>	
+    <script src="./common/guiAPIAgent/scripts/ServiceAgent.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/SessionAgent.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/SessionInfo.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/SessionAPI.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/BarcoAPI.js" type="text/javascript"></script>
+    <script src="./common/guiAPIAgent/scripts/BarcoPlayerInterface.js" type="text/javascript"></script>
+    <!-- Plugins -->
+    <script src="./common/guiComponents/login/plugin/UserPermissions.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/login/plugin/Login.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/sourceList/plugin/SourceList.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/recordingsList/plugin/RecordingsList.js" type="text/javascript"></script>
+
+    <!-- 3nd party plugin-->
+    <script src="./common/guiComponents/common/js/defiant-latest.min.js" type="text/javascript"></script>
+    <script src="./lib/date.format.js" type="text/javascript"></script>
+
+    <script src="./src/js/Index.js" type="text/javascript"></script>
+    <script src="./src/js/MainMenu.js" type="text/javascript"></script>
+    <script src="./src/js/SourcePanel.js" type="text/javascript"></script>
+    <script src="./src/js/SearchPanel.js" type="text/javascript"></script>
+    <script src="./src/js/MediaPlayerPanel.js" type="text/javascript"></script>
+    <script src="./src/js/ImageViewer.js" type="text/javascript"></script>
+    <script src="./src/js/ImageViewerButtonPanel.js" type="text/javascript"></script>
+    <script src="./src/js/ImageViewerZoomPanel.js" type="text/javascript"></script>
+    <!-- dispaly part  -->
+    <script src="./src/js/WindowControlPanel.js" type="text/javascript"></script>
+    <script src="./src/js/DestPanel.js" type="text/javascript"></script>
+    <script src="./common/guiComponents/destList/plugin/DestList.js" type="text/javascript"></script>
+    <!-- dispaly part -->
+  </head>
+  <body class="bg">
+<!-- ====================================================================
+    Container for Header Menu / Content 
+    ===================================================================== -->
+    <div class="header row">
+        <div id="div-main-menu-link" title="Main Menu" class="header-menu hidden"><i class="fa fa-home" style="font-size:20px;"></i></div>
+        <div id="divMenuLable" class="header-branding">BCS Client</div>
+        <div id="logout-submit" class="header-logout hidden"><span id="uid">UserName</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a id="logout-submit"  href="#">Logout  <i class="fa fa-times-circle"></i></a></div>
+    </div>
+    <!-- End Header -->
+    <div id="bodyDiv" class="body row scroll-y">
+      <!-- ==================================================================
+      Container Login Panel and Footer
+      =================================================================== -->
+      <div id="login-group" class="row col pull-center">
+				<!-- Download and Admin links -->
+				<div id="divDownloadLinks" class="applinks">
+					<a href="/clients/install/BarcoCollabClientSetup.exe" target="_blank">Download Collaboration Software Suite&nbsp;&nbsp;&nbsp;</a>
+					<a href="/cgi-bin/devconfig.cgi" target="_blank">|&nbsp;&nbsp;&nbsp;&nbsp;Administration</a>
+				</div>
+				<!--  End Download Link Section -->
+        
+        <!-- Footer + Logo only during Login -->
+        <div class="footer row">
+          <span><a class="footer-copy" title="Copyright 2015, Barco" href="http://www.barco.com/en/AboutBarco/DisclaimerCopyright.aspx">Copyright &copy; 2014, Barco</a></span>
+          <div class="footer-logo"></div>
+        </div>
+        <!-- End Footer -->
+                
+      </div>
+      
+      <!-- ==================================================================
+      Container for Main Menu (springboard)
+      =================================================================== -->
+      <div id="divMainMenu" class="hidden" style="text-align:center;width:320px;margin:80px auto;">
+      </div><!--End MainMenu -->
+        
+      <!-- ==================================================================
+		  Container for Media Player
+		  =================================================================== -->
+		  <div id="divMediaPlayerPanel" class="section hidden">
+		  </div> <!--end MediaPlayer-->
+      
+      <!-- ==================================================================
+      Container for Display List
+      =================================================================== -->
+      <div id='divDisplayListPanel' class="row col hidden">
+      
+      </div><!-- End Display List -->
+
+      <!-- ==================================================================
+      Container for Display Controller
+      =================================================================== -->
+		  <section id="divDisplayController" class="display-controller-section hidden">
+			  													
+		  </section> <!--  End Display Controller --> 
+
+     
+    </div>
+    <!-- End Body Panel -->
+  </body>
+</html>

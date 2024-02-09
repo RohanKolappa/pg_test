@@ -1,0 +1,477 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2010 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###
+### This module defines all the possible targets the user can call.
+### The default target is 'all', as inserted in the top-level Makefile.
+### Possible targets:
+### - all
+### - depend
+### - softclean, clean, distclean
+### - packs
+### - defs
+### - tarbz2
+### - doc
+### - dumpvars
+###
+### The first part of this module defines rules to perform all those targets
+### in the subdirectories of the current directory (if no '.jbs.noenter'
+### file is found).
+###
+### The second part implements those targets for the current directory.
+###
+###############################################################################
+
+###############################################################################
+###
+### Part. 1 : Rules to enter subdirs.
+###
+###############################################################################
+
+###	if	directory contains a '$(JBS_NOENTER_FILE)' file
+###	then	never enter it
+###	elseif	directory contains a '$(JBS_NOBUILD_FILE)' file
+###	then	only enter it to perform the cleaning rules
+###	else	always enter it
+
+### [ JFGO 2007-03-15 ]
+### [ Use shell + find instead of wildcard function to filter out symlinks! ]
+### subdirs-all		:=	$(strip $(dir $(wildcard */)))
+subdirs-all		:=	$(foreach d,$(shell find . -mindepth 1 -maxdepth 1 -type d | sort),$(notdir $(d))/)
+subdirs-noenter		:=	$(strip $(dir $(wildcard */$(JBS_NOENTER_FILE)))) \
+				.svn/ $(JBS_TMP_DIR)/
+subdirs-enter		:=	$(filter-out $(subdirs-noenter),$(subdirs-all))
+subdirs-nobuild		:=	$(strip $(dir $(wildcard */$(JBS_NOBUILD_FILE)))) \
+				.svn/ $(JBS_TMP_DIR)/
+subdirs-build		:=	$(filter-out $(subdirs-nobuild) $(subdirs-noenter),$(subdirs-all))
+
+dumpable += subdirs-all subdirs-noenter subdirs-enter subdirs-nobuild subdirs-build
+
+got-subdirs		:=	$(if $(subdirs-enter),true,false)
+
+ifeq "$(call mod-utils-check-on, $(JBS_SILENT_MAKE))" "true"
+make-recurse-opt	:=	-s
+else
+make-recurse-opt	:=	-w	
+endif
+
+ifeq "$(got-subdirs)" "true"
+
+do-in-subdirs-% :	check-subdirs
+	@t=$* ; \
+	if [ "$$t" = "defs-compute-local" -o "$$t" = "softclean" -o "$$t" = "clean" -o "$$t" = "distclean" ] ; \
+	then \
+		for d in $(subdirs-enter) ; \
+		do \
+			$(MAKE) -C $$d $$t || exit 1; \
+		done ; \
+	else \
+		for d in $(subdirs-build) ; \
+		do \
+			$(MAKE) $(make-recurse-opt) -C $$d $$t || exit 1; \
+		done ; \
+	fi
+
+.PHONY : check-subdirs
+
+check-subdirs :
+	@for d in $(subdirs-enter); do \
+		if [ ! -d $$d ]; then \
+			echo "==="; \
+			echo "=== '$$d' is not a valid directory!!!"; \
+			echo "==="; \
+			exit 1; \
+		fi; \
+		if [ ! -f $$d/Makefile ]; then \
+			echo "==="; \
+			echo "=== '$$d' doesn't contain a valid Makefile!"; \
+			echo "=== Creating one!"; \
+			echo "==="; \
+			curdir=`pwd`; \
+			(	cd $$d ; \
+				rm -f Makefile ; \
+				cp $$curdir/Makefile ./); \
+		fi; \
+		diff -q Makefile $$d/Makefile > /dev/null; \
+		if [ $$? -eq 1 ] ; then \
+			echo "==="; \
+			echo "=== Found invalid Makefile in $$d!"; \
+			echo "=== Replacing it!"; \
+			echo "==="; \
+			curdir=`pwd`; \
+			(	cd $$d ; \
+				mv -f Makefile Makefile.old ; \
+				cp $$curdir/Makefile ./); \
+		fi; \
+		if [ ! -f $$d/Make.target ]; then \
+			echo "==="; \
+			echo "=== '$$d' doesn't contain a valid Make.target file!"; \
+			echo "=== Creating one!"; \
+			echo "==="; \
+			(	cd $$d ; \
+				rm -f Make.target ; \
+				sed -e "s,@UUID@,`uuidgen`," \
+					$(JBS_TMPL_DIR)/Make.target.default \
+					 > Make.target \
+			); \
+		fi; \
+	done
+
+else
+
+do-in-subdirs-% :
+	@t=$*
+
+endif
+
+###############################################################################
+###
+### Part. 2 : Rules to perform local actions.
+###
+###############################################################################
+
+###############################################################################
+###
+### ALL
+###
+### To build the default target...
+###
+### Note: local-target is a rule that is defined in the respective target
+###       file (ex: in Make.target.exe).
+
+.PHONY : all local-target
+
+ifeq "$(target-available)" "1"
+
+all :		local-target do-in-subdirs-all
+
+else
+
+all :		do-in-subdirs-all
+ifneq "$(target-type)" "none"
+	@printf "===> $(call mod-echo-priv-colored,green,WARNING! Target) $(call mod-echo-priv-colored,red,$(target-name)) $(call mod-echo-priv-colored,green,will NOT be rebuilt because some availability test failed!)\n"
+	
+#@echo -e "===> $(call mod-echo-priv-colored,green,WARNING! Target) $(call mod-echo-priv-colored,red,$(target-name)) $(call mod-echo-priv-colored,green,will NOT be rebuilt because some availability test failed!)"
+endif
+
+endif
+
+###############################################################################
+###
+### DEPEND
+###
+### To create the dependencies file...
+
+.PHONY : depend local-depend
+.PHONY : deps local-deps
+
+tmp-mkdep-ver	:=	$(mkdep-ver-maj).$(mkdep-ver-med).$(mkdep-ver-min)
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+common-mkdep-bin	:=	$(JBS_UTIL_DIR)/mkdep-win32.exe
+common-mkdep-src	:=	$(JBS_APPS_DIR)/MKDEP/mkdep-$(tmp-mkdep-ver).exe
+else
+common-mkdep-bin	:=	$(JBS_UTIL_DIR)/mkdep-linux
+common-mkdep-src	:=	$(JBS_APPS_DIR)/MKDEP/mkdep-$(tmp-mkdep-ver)
+endif
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+depend :	deps
+else
+depend :	local-depend do-in-subdirs-depend
+endif
+
+#deps :		$(common-mkdep-bin) local-deps do-in-subdirs-deps
+deps :		local-deps do-in-subdirs-deps
+
+$(common-mkdep-bin) :	$(common-mkdep-src)
+	cp $< $@
+
+$(common-mkdep-src) :
+	$(MAKE) -C $(dir $@)
+
+
+ifeq "$(got-sources)" "true"
+
+local-depend :	$(mod-cmp-temp-files)
+	@cat < /dev/null > $(JBS_DEPS_FILE)
+	@$(call mod-echo-gendepends,$(strip $(compile-final-csources) $(compile-final-sources)))
+ifeq "$(JBS_PLATFORM)" "WIN32"
+	@TMP_INCS="$(foreach i,$(compile-incldirs),-I$(i))" ;\
+	TMP_DEFS="-undef $(foreach d,$(compile-defs),-D$(d)) -DWIN32 -D_MSC_VER -D_X86_" ;\
+	for s in $(compile-final-csources) $(compile-final-sources) ; do \
+		$(call mod-echo-gendepends,$$s) ; \
+		cpp -MM -MT "$${s%cpp}$(compile-suffix)" -MG $$TMP_DEFS $$TMP_INCS $$s >> $(JBS_DEPS_FILE); \
+	done
+else
+	@TMP_INCS="$(foreach i,$(compile-incldirs),-I$(i))" ;\
+	TMP_DEFS="$(foreach d,$(compile-defs),-D$(d))" ;\
+	makedepend -f- \
+		-- $$TMP_INCS $$TMP_DEFS -- \
+		$(compile-final-csources) $(compile-final-sources) \
+		> $(JBS_DEPS_FILE) 2> /dev/null
+endif
+
+ifeq "$(JBS_PLATFORM)" "WIN32"
+
+tmp-incl-dirs	:=	$(foreach i,\
+				$(compile-incldirs),\
+				$(shell cygpath -m $(i)))
+
+local-deps :	$(mod-cmp-temp-files)
+	@cat < /dev/null > $(JBS_DEPS_FILE)
+	@$(call mod-echo-gendepends,$(strip $(compile-final-csources) $(compile-final-sources)))
+	@TMP_INCS="$(foreach i,$(tmp-incl-dirs),-I $(i))" ;\
+	TMP_DEFS="$(foreach d,$(compile-defs),-D $(d))" ;\
+	$(common-mkdep-bin) \
+		$$TMP_INCS $$TMP_DEFS \
+		$(compile-final-csources) $(compile-final-sources) \
+		> $(JBS_DEPS_FILE)
+
+else
+
+local-deps :	$(mod-cmp-temp-depends)
+#local-deps :	$(mod-cmp-temp-files)
+#	@cat < /dev/null > $(JBS_DEPS_FILE)
+#	@$(call mod-echo-gendepends,$(strip $(compile-final-csources) $(compile-final-sources)))
+#	@TMP_INCS="$(foreach i,$(compile-incldirs),-I $(i))" ;\
+#	TMP_DEFS="$(foreach d,$(compile-defs),-D $(d))" ;\
+#	$(common-mkdep-bin) \
+#		$$TMP_INCS $$TMP_DEFS \
+#		$(compile-final-csources) $(compile-final-sources) \
+#		> $(JBS_DEPS_FILE)
+
+endif
+
+# JFGO: not used anymore!
+# ifeq "$(wildcard $(JBS_DEPS_FILE))" "$(JBS_DEPS_FILE)"
+# include $(JBS_DEPS_FILE)
+# endif
+
+else
+
+local-depend :
+
+local-deps :
+
+endif
+
+###############################################################################
+###
+### DISTCLEAN, CLEAN, SOFTCLEAN
+###
+### To clean things up...
+
+SOFTCLEAN-FILES		:=	*% *~ *.bak *.back \
+				$(JBS_DEPS_FILE).bak
+
+CLEAN-FILES		:=	$(mod-cmp-temp-files)		\
+				$(compile-final-objects)	\
+				$(mod-cmp-temp-depends)	\
+				$(target-toclean)		\
+				vc60.idb vc60.pdb
+
+CLEAN-DIRS		:=	$(JBS_TMP_DIR)
+
+DISTCLEAN-FILES		:=	$(JBS_DEPS_FILE) \
+				$(JBS_DEFS_FILE)
+
+DISTCLEAN-DIRS	:=
+
+### The rules are actually defined in 'Make.module.clean'!
+
+###############################################################################
+###
+### DEFS
+###
+### To generate the $(JBS_DEFS_FILE)...
+###
+### Rules:
+###	defs :
+###		- recursively regenerate the local $(JBS_DEFS_FILE)
+###		- update the upper-level $(JBS_DEFS_FILE)
+###
+###	defs-compute-local :
+###		- recursively regenerate the local $(JBS_DEFS_FILE)
+###
+###	defs-agglom-local :
+###		- truncates the local $(JBS_DEFS_FILE)
+###		- append the definitions for the local target
+###		- append the definitions of all branches to the local
+###		  $(JBS_DEFS_FILE)
+###
+###	defs-local-cleanup :
+###		- truncates the local $(JBS_DEFS_FILE)
+###
+###	defs-add-branches :
+###		- append the definitions of all branches to the local
+###		  $(JBS_DEFS_FILE)
+###
+###	defs-propagate-upward :
+###		- if not already at the top-level:
+###			- call defs-agglom-local at the upper-level
+###			- call defs-propagate-upward at the upper-level
+
+# Note: local-defs is a rule that is defined in the respective target
+#       file (ex: in Make.target.lib).
+
+.PHONY : defs defs-compute-local defs-agglom-local defs-local-cleanup
+.PHONY : defs-add-branches defs-propagate-upward defs-do-clusters
+.PHONY : local-defs
+
+
+defs :		defs-compute-local	\
+		defs-propagate-upward
+
+defs-compute-local :	do-in-subdirs-defs-compute-local	\
+			defs-agglom-local
+
+defs-agglom-local :	defs-local-cleanup			\
+			local-defs				\
+			defs-do-clusters			\
+			defs-add-branches
+
+defs-local-cleanup :
+	@$(call mod-echo-gendefs,$(JBS_REL_DIR))
+	@cat < /dev/null > $(JBS_DEFS_FILE)
+ifeq "$(JBS_TOP_DIR)" "$(JBS_CUR_DIR)"
+	@echo "###############################################################################" >> $(JBS_DEFS_FILE)
+	@echo "### File automatically generated by Makefile!!!"  >> $(JBS_DEFS_FILE)
+	@echo "### Do not edit! All changes would be lost!" >> $(JBS_DEFS_FILE)
+	@echo "### Created: $(shell date)" >> $(JBS_DEFS_FILE)
+	@echo "###############################################################################" >> $(JBS_DEFS_FILE)
+	@echo "" >> $(JBS_DEFS_FILE)
+	@echo "jbs-clusters	:=" >> $(JBS_DEFS_FILE)
+	@echo "" >> $(JBS_DEFS_FILE)
+endif
+
+ifeq "$(findstring $(target-type),dll lib)" ""
+
+defs-do-clusters :
+
+else
+
+ifneq "$(target-docdir)" ""
+
+target-cluster		:=	$(strip $(target-cluster))
+ifeq "$(target-cluster)" ""
+target-cluster		:=	Global
+endif
+defs-cluster-prefix	:=	jbs-cluster-
+
+defs-do-clusters :
+	@echo "$(target-name)-cluster	:=	$(defs-cluster-prefix)$(target-cluster)" >> $(JBS_DEFS_FILE)
+	@echo "jbs-clusters		+=	$(defs-cluster-prefix)$(target-cluster)" >> $(JBS_DEFS_FILE)
+	@echo "$(defs-cluster-prefix)$(target-cluster)	+=	$(target-name)" >> $(JBS_DEFS_FILE)
+	@echo "jbs-projects		+=	$(target-name)" >> $(JBS_DEFS_FILE)
+	@echo "" >> $(JBS_DEFS_FILE)
+
+else
+
+defs-do-clusters :
+
+endif
+
+endif
+
+defs-add-branches :
+	@for d in $(subdirs-enter); do \
+		if [ -r $$d/$(JBS_DEFS_FILE) ]; then \
+			cat $$d/$(JBS_DEFS_FILE) >> $(JBS_DEFS_FILE); \
+		fi; \
+	done
+
+defs-propagate-upward :
+ifneq "$(JBS_TOP_DIR)" "$(JBS_CUR_DIR)"
+	$(MAKE) -C .. defs-agglom-local
+	$(MAKE) -C .. defs-propagate-upward
+endif
+
+###############################################################################
+###
+### PACKS
+###
+### To generate packages (sdk, rte, bin, src, ...)
+
+packs :		mod-packs-entry-point
+
+###############################################################################
+###
+### DOC
+###
+### To generate the documentation using Doxygen...
+
+#ifneq "$(wildcard $(JBS_NOBUILD_FILE))" "$(JBS_NOBUILD_FILE)"
+
+doc :		local-doc do-in-subdirs-doc
+
+#else
+#
+#doc :
+#
+#endif
+
+###############################################################################
+###
+### TARBZ2
+###
+### To create an archive of the current directory (and all its subdirectories).
+
+tarbz2 :		distclean
+	@(  curdir="$(notdir $(JBS_CUR_DIR))" && \
+	    cd .. && \
+	    tar cv -f "$$curdir"-`date "+%Y.%m.%d-%H.%M.%S"`.tar.bz2 \
+		-j --exclude .svn --exclude Perso --exclude Incoming "$$curdir" \
+	)
+
+###############################################################################
+###
+### Create CTAGS file
+###
+### create CTAGS file for current project and projects in subfolders
+
+tag :		local-tag do-in-subdirs-tag
+
+###############################################################################
+###
+### Everything at once
+###
+### On special request...
+
+.PHONY : blabla blablabla yadayadayada
+
+blabla :
+	@(	cd $(JBS_TOP_DIR) && \
+			$(MAKE) clean defs depend all \
+	)
+
+blablabla :
+	@$(JBS_TMPL_DIR)/blaifier.sh
+
+yadayadayada :
+	@echo "Me too."
+
+###############################################################################
+

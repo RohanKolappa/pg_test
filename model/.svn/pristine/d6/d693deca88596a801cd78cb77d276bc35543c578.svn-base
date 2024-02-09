@@ -1,0 +1,216 @@
+<programlisting>
+  <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+
+  <User id='' name='' jid='' presence=''/>
+
+  <Dir id='' name='' dirType='' presence='' state=''/>
+  
+  <File id='' name='' fileType='' streamType='' presence='' state=''>
+    <Dir id='' name=''/>
+    <description/>
+    <Groups>
+      <Tag name=''>Value</Tag>
+    </Groups>
+    <Properties ownerName='' dateCreated='' dateModified='' size='' playlength=''/>
+    <MediaGroupId/>
+    <MetaData>
+      <Tag Name=''>Value</Tag>
+    </MetaData>
+  </File>
+
+  <Port id='' name='' portType='' streamType='' presence='' state=''>
+    <Device id='' name='' type=''/>
+    <description/>
+    <Groups>
+      <Tag name=''>Value</Tag>
+    </Groups>
+  </Port>
+
+  <Profile id='' name='' streamType=''>
+    <description/>
+    <Groups>
+      <Tag name=''>Value</Tag>
+    </Groups>
+  </Profile>
+  
+  <SessionConfig id='' name=''>
+    <description/>
+    <Groups id=''>
+      <Tag name=''>Value</Tag>
+    </Groups>
+  </SessionConfig>  
+
+  <Invite id='' sessionId='' sessionName=''/>
+
+  <Session id='' name='' state='' timelineId=''>
+    <Info ownerUserJID=''>
+      <SessionConfig/>
+      <Groups>
+        <Tag name='' value=''/>
+      </Groups>
+    </Info>
+
+    <MetaData id='' name=''>
+      <Tag Name=''>Value</Tag>
+    </MetaData>
+
+    <Timeline id=''>
+      <Start WC="2341234" Offset="3456" parentTimelineId=''/>
+      <Last WC="7444674" Offset="9678687" TimeScale="0(Pause)"/>
+    </Timeline>
+
+    <Profile id='' name='' profileNID=''>
+      <ProfileInfo/>
+    </Profile>
+    
+    <Entity id='srcE1' name='' presence='' streamType=''>
+      <SrcPort resourceNID='' resourceTitle=''>
+        <Instance id='I1'>
+          <StreamURL/>
+        </Instance>
+      </SrcPort>
+    </Entity>
+    
+     
+    <Device id='' type='' assetNID='' assetTitle=''>
+    
+    <PVR enable='' trimLength=''/>
+    <Record autoStart=''/>
+    <Dir id='' dirNID='' dirTitle=''/>
+    <GroupFile id='' type='SyncRec' fileNID='' fileTitle='' magicNumber=''/>
+    <GroupFile id='' type='SyncPly' fileNID='' fileTitle='' magicNumber='' sessionConfigId='' date='' syncClipFileId=''/>
+    
+    <Entity id='srcE1' name='' type='' streamType='' presence=''>
+      <User type='' userNID='' userTitle=''/>
+      <File fileNID='' fileTitle='' dirId='' startOffset='' playLength=''/>
+      <ClipFile fileNID='' fileTitle='' dirId='' groupFileId='' startOffset='' playLength=''/>
+      <PVRFile fileNID='' fileTitle='' dirId='' trimLength=''/>
+      <Port type='' portNID='' portTitle='' deviceId='' deviceElementId=''>
+        <InstanceList maxInstanceCount=''>
+          <Instance id='I1'>
+            <StreamURL/>
+          </Instance>
+        </InstanceList>
+      </Port>
+      <PVRRelay connId='' recEntityId='' pbkEntityId=''/>
+    </Entity>
+    
+    <Entity id='pvrE2' name='' presence='' streamType=''>
+      <PVRFile resourceNID='' trimLength=''/>
+      <StorePort resourceNID='' resourceTitle=''>
+        <Instance id='I1'>
+          <StreamURL/>
+        </Instance>
+        <Instance id='I2'>
+          <StreamURL/>
+        </Instance>
+      </StorePort>
+    </Entity>
+    
+    <Entity id='pvrE1' name='' presence='' streamType=''>
+      <PVRFile resourceNID='' trimLength=''/>
+      <StorePort resourceNID='' resourceTitle=''>
+        <Instance id='I1'/>
+      </StorePort>
+    </Entity>
+    
+    <ConnSeg id='cs1' srcEntityId='srcE1::I1' dstEntityId='pvrE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs2' srcEntityId='pvrE2::I1' dstEntityId='dstE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs3' srcEntityId='pvrE2::I2' dstEntityId='dstE2::I1' profileId='pr1' state=''/>
+    
+    <Connection id='cn3' type='PVR' srcEntityId='srcE1' dstEntityId='pvrE1' profileId='pr1' authId='' state='' timelineId=''>
+      <ConnSegId>cs1</ConnSegId>
+    </Connection>
+    
+    <Entity id='dstE1' name='' presence='' streamType=''>
+      <DstPort resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+      </DstPort>
+    </Entity>
+
+    <Entity id='dstE2' name='' presence='' streamType=''>
+      <User userNID='' userTitle=''/>
+      <DstPort resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+      </DstPort>
+    </Entity>
+    
+    <Entity id='' name='' presence='' streamType=''>
+      <User userNID='' userTitle=''/>
+      <AuthClient resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+      </AuthClient>
+    </Entity>
+  
+    <Entity id='' name='' presence='' streamType=''>
+      <RelayPort resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+        <Instance id=''/>
+      </RelayPort>
+    </Entity>
+    
+    <Entity id='' name='' presence='' streamType=''>
+      <File resourceNID='' startOffset='' playLength=''/>
+      <StorePort resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+      </StorePort>
+    </Entity>
+
+    <SyncMedia id='' name=''>
+      <GroupFile resourceNID='' startOffset='' playLength=''/>
+    </SyncMedia>
+
+    <Entity id='' name='' presence='' streamType=''>
+      <ClipFile resourceNID='' mediaGroupId=''/>
+      <StorePort resourceNID='' resourceTitle=''>
+        <Instance id=''/>
+      </StorePort>
+    </Entity>
+
+    <Auth id='' state='REQUEST/ALLOW/DENY/REVOKE/CANCEL' connId='' authEntityId=''/>
+
+    <ConnSeg id='cs1' srcEntityId='srcE1::I1' dstEntityId='rlyE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs3' srcEntityId='rlyE1::I1' dstEntityId='dstE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs5' srcEntityId='rlyE1::I2' dstEntityId='dstE2::I1' profileId='pr2' state=''/>
+    
+    <ConnSeg id='cs2' srcEntityId='srcE1::I1' dstEntityId='pvrE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs4' srcEntityId='pvrE1::I2' dstEntityId='dstE1::I1' profileId='pr1' state=''/>
+    <ConnSeg id='cs6' srcEntityId='pvrE1::I3' dstEntityId='dstE2::I1' profileId='pr2' state=''/>
+    
+    <ConnSeg id='cs7' srcEntityId='srcE1::I1' dstEntityId='recE1::I1' profileId='pr1' state=''/>
+    
+    <ConnSeg id='cs8' srcEntityId='sessionA::rlyE1::I1' dstEntityId='dstE3::I1' profileId='pr1' state=''/>
+
+    <Connection id='cn1' type='View/Playback' srcEntityId='srcE1' dstEntityId='dstE1' profileId='pr1' authId='' state='' timelineId=''>
+      <ConnSegId>cs1</ConnSegId>
+      <ConnSegId>cs2</ConnSegId>
+      <ConnSegId>cs3</ConnSegId>
+      <ConnSegId>cs4</ConnSegId>
+    </Connection>
+
+    <Connection id='cn2' type='View/Playback' srcEntityId='srcE1' dstEntityId='dstE2' profileId='pr2' authId='' state='' timelineId=''>
+      <ConnSegId>cs1</ConnSegId>
+      <ConnSegId>cs2</ConnSegId>
+      <ConnSegId>cs5</ConnSegId>
+      <ConnSegId>cs6</ConnSegId>
+    </Connection>
+    
+    <Connection id='cn3' type='Record' srcEntityId='srcE1' dstEntityId='recE1' profileId='pr1' authId='' state='' timelineId=''>
+      <ConnSegId>cs7</ConnSegId>
+    </Connection>
+
+    <Connection id='cn4' type='Record' srcEntityId='srcE1' dstEntityId='recE1' profileId='pr1' authId='' state='' timelineId=''>
+      <ConnSegId>sessionA::cs1</ConnSegId>
+      <ConnSegId>cs8</ConnSegId>
+    </Connection>
+    
+    <ConnGroup id='' type='' state='' timelineId=''>
+      <ConnId>cn1</ConnId>
+      <ConnId>cn2</ConnId>
+      <ConnId>cn3</ConnId>
+      <ConnId>sessionA::cn4</ConnId>
+    </ConnGroup>
+  </Session>
+]]>
+</programlisting>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Plugin configuration file for the admin console. This file must 
+  live in the root of the plugin's directory.
+-->
+<plugin>
+	<enablePlugin>true</enablePlugin>    
+    <class>com.ipvsserv.plugin.MediaroomPlugin</class>
+    <name>mediaroomplugin</name>
+    <description>IPVS management server.</description>
+    <author>IP Video Systems Inc</author>
+    <version>1.0</version>
+    <date>04/8/2009</date>
+    <url>http://www.ipvideosys.com/</url>
+    <minServerVersion>1</minServerVersion>    
+    <ipvssessionimpl>com.ipvs.xmpp.client.component.IPVSSessionCompImpl</ipvssessionimpl>
+    <!-- to add configuration for management server -->
+	<!-- 
+	login /etc/config/LoginRequest.xml servicedomain /etc/config/SetServiceDomainRequest.xml config /etc/config/Device.xml
+	login C:/pravin3/_test/txlogin.xml servicedomain C:/pravin3/_test/txdomain.xml config C:/pravin3/_test/Device.xml
+	 -->
+    <settings>
+    	<!-- <class>com.ipvs.device.AppServerApp</class> --> 
+    	<class>com.ipvs.device.AppServerApp</class> 
+    	<login>/etc/config/LoginRequest.xml</login> 
+    	<servicedomain>/etc/config/SetServiceDomainRequest.xml</servicedomain>
+    	<config>/etc/config/Device.xml</config>
+    </settings>
+    <library>
+     	<lib>/home/onair/modules/mediaroom/public</lib>
+    </library>
+    <mediaroomplugin>
+		<xmppServer>localhost</xmppServer>
+		<port>5222</port>
+		<componentType>external</componentType>
+		<xmppServerPort>5275</xmppServerPort>
+		<secret>test</secret>
+		<component>
+			<serviceDesc>IPVS Management Server Service</serviceDesc>
+			<serviceId>managementserver</serviceId>
+			<registerComponents>20</registerComponents>
+		</component>
+		<thread>
+			<disable>false</disable>
+			<corePoolSize>40</corePoolSize>
+			<maxPoolSize>100</maxPoolSize>
+			<keepAlivetimeSec>60</keepAlivetimeSec>
+		</thread>
+    </mediaroomplugin>
+</plugin>

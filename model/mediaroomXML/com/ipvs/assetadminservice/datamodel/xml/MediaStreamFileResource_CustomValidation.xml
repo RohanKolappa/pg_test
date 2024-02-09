@@ -1,0 +1,36 @@
+<CustomValidation defaultValidatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" enable="true">
+<!--
+  <validation validationID="NIDValue" methodName="deleteDevice"  action="Delete"  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin" xpath="//DeleteRequest">
+	<readDBXml_foreignKeyNID>	
+		<getXmlFromXpath  bCopyFreeChilds="false" iCopyChildsToDepth="1">//MediaFile</getXmlFromXpath>
+	</readDBXml_foreignKeyNID>	
+	<foreignKeyNID xpath="//ResponseXML/MediaStreamFileResource/MediaStorePortResourceNID" action="delete"/>	
+  </validation> -->
+  
+	  
+<!--   <validation enable="true" validationID="Title" methodName="validateTitleForWhiteSpaces" action="Add"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//Info/Title" />
+	  
+  <validation enable="true" validationID="Title" methodName="validateTitleForWhiteSpaces" action="Replace"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//Info/Title" /> -->
+	  
+  <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharactersForPort" action="Add"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//Info/Title" allowSpaces="true" />
+  
+  <validation enable="true" validationID="Metadata" methodName="validateMetadataForSpecialCharacters" action="Add"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//MetaData" />
+	  
+  <validation enable="true" validationID="Title" methodName="validateTitleForSpecialCharactersForPort" action="Replace"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//Info/Title" allowSpaces="true"/>
+
+  <validation enable="true" validationID="Metadata" methodName="validateMetadataForSpecialCharacters" action="Replace"  
+	  validatorClass="com.ipvs.assetadminservice.datamodel.AMValidatorPlugin"
+	  xpath="//MetaData" />
+	  
+   
+</CustomValidation>

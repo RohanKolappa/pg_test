@@ -1,0 +1,39 @@
+let $title := '_RESOURCETITLE_'    
+
+let $resource := for $resource in collection('ipvs.default.assetresourcelist')/*
+						   						      [.//Info/Title = $title]
+								          	return $resource
+let $resourceNID :=   if(count($resource)!=0) then
+                        data($resource//AssetResource/@NID)
+                      else ''
+ 
+                      
+let $storePortList :=   for $portresource in collection('ipvs.default.mediastoreportresourcelist')/*[.//AssetResourceNID = $resourceNID]
+                        return $portresource             
+
+
+let $getDirList := '_CHECKFORDIR_'
+
+let $dirList := if($getDirList = 'true') then 
+                   let $dirList :=  for $b  in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*[(@parentNID='default.mediastreamdirresourcelist')]   
+			                                    where $b  _UUIDXPATH_ 
+		                                 return $b
+                   let $subDirList :=  for $subDir in  collection('/db/ipvs.default.mediastreamdirresourcelist')/*
+						   			                    	[(@parentNID='default.mediastreamdirresourcelist') and .//ParentMediaDirNID= $dirList/@NID]  
+								                     	return   $subDir
+                   return <DirList>{$dirList}<SubDir>{$subDirList}</SubDir></DirList>
+                else  <DirList/>
+                
+                        
+return 
+      <ResourceInfo>
+          <PortList>
+            <StorePortList>{$storePortList}</StorePortList>
+          </PortList>
+          {$dirList}
+      </ResourceInfo>
+
+
+
+
+

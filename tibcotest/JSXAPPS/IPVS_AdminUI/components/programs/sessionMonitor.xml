@@ -1,0 +1,412 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxname="blkSessionMonitorUI" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxbgcolor="#aaaaaa"></strings>
+    <object type="jsx3.gui.Splitter">
+      <variants jsxorientation="1" jsxleft="0" jsxtop="0" jsxsubcontainer2min="100" jsxsubcontainer1min="26"></variants>
+      <strings jsxname="splitter (--)" jsxsubcontainer1pct="47.84615384615385%" jsxstyleoverride="" jsxbgcolor="#aaaaaa"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxrelativeposition="1"></variants>
+        <strings jsxname="blkSessionList" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxdisplay=""></strings>
+        <dynamics jsxbgcolor="P3"></dynamics>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="layoutRows" jsxrows="26,*,30" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="3 2 2 2" jsxbgcolor="#d4d4d4" jsxborder="1px solid #777777; 1px solid #777777; 0px solid #777777; 1px solid #777777"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12" jsxheight="26"></variants>
+              <strings jsxname="lblSessionRefreshTime" jsxtext="Refresh Time(sec):" jsxpadding="3" jsxtip="Set value to 0 to disable refresh, otherwise enter a value greater than or equal to 5 secs"></strings>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxwidth="30" jsxrequired="1"></variants>
+              <strings jsxname="txtSessionRefreshTime" jsxmargin="0 6 0 0" jsxvalue=""></strings>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="16" jsxwidth="40" jsxrelativeposition="1" jsxfontsize="10"></variants>
+              <strings jsxname="btnSessionRefreshSet" jsxtext="Set" jsxmargin="1 40 0 0" jsxtextalign="center" jsxdisplay="" jsxtip="Set value to 0 to disable refresh, otherwise enter a value greater than or equal to 5 secs" jsxclassname="btnOk"></strings>
+              <dynamics jsxbgcolor="P3" jsxborder="Basic Border"></dynamics>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="60"></variants>
+              <strings jsxname="btnSessionFilter" jsxtext="Filter" jsxmargin="0 4 0 0" jsxclassname="btnOk" jsxdisplay="none"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18"></variants>
+              <strings jsxname="btnSessionCustomize" jsxtext="Customize" jsxmargin="0 4 0 0" jsxclassname="btnOk" jsxdisplay="none"></strings>
+              <dynamics jsxborder="Basic Border"></dynamics>
+              <events jsxexecute="alert('hello');"></events>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1"></variants>
+            <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="Matrix Background"></dynamics>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxrowheight="22" jsxheaderheight="22" jsxsort="0" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+              <strings jsxname="mtxSessionsList" jsxfocusstyle="font-weight:bold;" jsxxml="" jsxsorttype="text" jsxsortdirection="descending" jsxxmlid="mtxProgramListDoc"></strings>
+              <dynamics jsxheaderborder="Matrix Box Header Border" jsxbodyborder="Matrix Box Body Border" jsxbgcolor="Matrix Background"></dynamics>
+              <events jsxexecute="" jsxselect="cmpProgram_OnSelect();"></events>
+              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxwidth="59" jsxfontsize="10" jsxcellfontsize="10"></variants>
+                <strings jsxname="jsxid" jsxtext="ID" jsxvaluetemplate="" jsxpadding="4 4 4 4" jsxcellpadding="3 0 0 0" jsxpath="jsxid" jsxformathandler="" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcellbgcolor="#ccff99" jsxcellfontweight="normal" jsxdisplay="none"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxcellfontsize="10" jsxfontsize="10" jsxwrap="1"></variants>
+                <strings jsxwidth="*" jsxname="jsxSessionName" jsxtext="Session Name" jsxpadding="4 4 4 6" jsxcellpadding="2 0 0 6" jsxpath="jsxSessionName" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcellfontweight="bold"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxfontsize="10" jsxcellfontsize="10" jsxsort="0"></variants>
+                <strings jsxwidth="*" jsxname="jsxSessionOwner" jsxtext="Owner" jsxvaluetemplate="" jsxpadding="4 4 4 4" jsxcellpadding="3 0 0 0" jsxpath="jsxSessionOwner" jsxformathandler="" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcellfontweight="normal" jsxdisplay=""></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxfontsize="10" jsxsort="0"></variants>
+                <strings jsxname="jsxSessionDuration" jsxwidth="*" jsxtext="Duration" jsxpadding="4 4 4 4" jsxcellpadding="3 0 0 0" jsxpath="jsxSessionDuration" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxcelltextalign="left"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxfontsize="10" jsxsort="0"></variants>
+                <strings jsxwidth="*" jsxname="jsxSessionStartTime" jsxtext="Started On" jsxpadding="4 4 4 4" jsxcellpadding="3 0 0 0" jsxpath="jsxSessionStartTime" jsxcellborder="border-bottom: solid 1px #d3d3d3;"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxfontsize="10" jsxsort="0"></variants>
+                <strings jsxwidth="*" jsxname="jsxCreationTime" jsxtext="Created On" jsxpadding="4 4 4 4" jsxcellpadding="3 0 0 0" jsxpath="jsxCreationTime" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxdisplay="none"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="Matrix Header Border"></dynamics>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxsort="0" jsxwidth="30"></variants>
+                <strings jsxname="jsxPersistentPVR" jsxtext="" jsxpadding="3" jsxcellpadding="3 0 0 0" jsxcellborder="border-bottom: solid 1px #d3d3d3;" jsxvaluetemplate="@empty"></strings>
+                <dynamics jsxbgcolor="@Solid Disabled" jsxbg="@Bevel TopDown" jsxborder="@No jsxborder"></dynamics>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0" jsxenabled="1"></variants>
+                  <strings jsxname="imgSessionPersistentPVR" jsximage="images/icons/icon_status_lock.png" jsxtip="Uncheck Enable PVR in PVR Settings page to stop the session"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants jsxsort="0" jsxwidth="30"></variants>
+                <strings jsxname="imgDeleteButtonColumn" jsxpadding="3" jsxcellpadding="2 2 2 2" jsxvaluetemplate="@empty" jsxcellborder="border-bottom: solid 1px #d3d3d3;"></strings>
+                <dynamics jsxborder="@No jsxborder" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                <object type="jsx3.gui.ImageButton">
+                  <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                  <strings jsxname="imgSessionDelete" jsximage="images/buttons/btnMtxdelete.png" jsxtip="Delete session"></strings>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="blkSessionListPaging" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtextalign="right" jsxborder="0px solid #777777; 1px solid #777777; 1px solid #777777; 1px solid #777777" jsxpadding="3 3 3 3"></strings>
+            <dynamics jsxbgcolor="Pagination BG"></dynamics>
+            <include src="components/pagination.xml" async="false"></include>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxrelativeposition="1"></variants>
+        <strings jsxname="blkSessionDetails" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxtextalign="left" jsxbgcolor="#aaaaaa"></strings>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+          <strings jsxname="layoutRows" jsxrows="*,20" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"></strings>
+            <object type="jsx3.gui.TabbedPane">
+              <variants selectedIndex="2" jsxselectedindex="0" jsxtabheight="22" jsxshowtabs="1"></variants>
+              <strings jsxname="blkSessionDetailsTabPane" jsxtextalign="0" jsxdisplay=""></strings>
+              <object type="jsx3.gui.Tab">
+                <variants jsxzindex="3" jsxheight="20" jsxwidth="110"></variants>
+                <strings jsxname="tabSessionConnections" jsxtext="Connections" jsxbgcolor="#a8a8a8" jsxtextalign="center" jsxactivecolor="#c5c5c5" jsxinactivecolor="#a8a8a8" jsxcolor="#444444" jsxfontweight="bold"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                  <strings jsxname="panePadding" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible" jsxbgcolor="#c5c5c5" jsxpadding="8 8 0 8" jsxborder="border-bottom: solid 0px #ffffff; border-left: solid 1px #ffffff"></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="2"></variants>
+                    <strings jsxname="blkSessionConnections" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxborder="solid 1px #aaaaaa; border-bottom: solid 0px #ffffff" jsxdisplay=""></strings>
+                    <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                    <object type="jsx3.gui.Matrix">
+                      <variants jsxpagingmodel="4" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppresshscroll="1" jsxsuppressvscroll="1" jsxheaderheight="20" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                      <strings jsxname="mtxSessionConnections" jsxfocusstyle="font-weight:bold;" jsxsorttype="text" jsxsortdirection="descending" jsxrenderingmodel="hierarchical" jsxiconminus="jsx:/images/tree/minus.gif" jsxiconplus="jsx:/images/tree/plus.gif" jsxspystyle="textDecoration:none;cursor:hand;"></strings>
+                      <dynamics jsxbgcolor="Matrix Background" jsxbodyborder="Matrix Box Body Border" jsxheaderborder="Matrix Box Header Border"></dynamics>
+                      <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                      <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxid" jsxtext="id" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxid" jsxdisplay="none"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxwidth="20" jsxsort="0" jsxresize="0"></variants>
+                        <strings jsxname="jsximg" jsxtext="&amp;#160;" jsxvaluetemplate="@image" jsxpadding="3" jsxcellpadding="1" jsxpath="jsximg"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionSourceType" jsxtext="Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceType"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionSource" jsxtext="Source" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionSource"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionDest" jsxtext="Destination" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionDest"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionStatus" jsxtext="Status" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionStatus"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionStreamType" jsxtext="Stream Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionStreamType" jsxvaluetemplate="@image"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionProfile" jsxtext="Profile" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionProfile"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionAV" jsxtext="A/V" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionAV" jsxdisplay="none"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionMultiCastIP" jsxtext="Multicast IP" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionMultiCastIP"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionMultiCast" jsxtext="Uni/Multi" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionMultiCast" jsxdisplay="none"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                      <object type="jsx3.gui.Matrix.Column">
+                        <variants jsxsort="0"></variants>
+                        <strings jsxwidth="*" jsxname="jsxSessionConnectionBandwidth" jsxtext="Bandwidth Usage" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionConnectionBandwidth" jsxdisplay="none"></strings>
+                        <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <object type="jsx3.gui.Tab">
+                <variants jsxzindex="3" jsxheight="20" jsxwidth="90"></variants>
+                <strings jsxname="tabSessionEntities" jsxtext="Entities" jsxbgcolor="#c5c5c5" jsxtextalign="center" jsxcolor="#444444" jsxactivecolor="#c5c5c5" jsxinactivecolor="#a8a8a8" jsxfontweight="bold" jsxstyleoverride=""></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                  <strings jsxname="panePadding" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible" jsxbgcolor="#c5c5c5" jsxpadding="8 8 0 8" jsxborder="border-bottom: solid 0px #ffffff; border-left: solid 1px #ffffff"></strings>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="2"></variants>
+                    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxbgcolor="#c5c5c5" jsxborder="solid 1px #aaaaaa; border-bottom: solid 0px #ffffff"></strings>
+                    <object type="jsx3.gui.TabbedPane">
+                      <variants selectedIndex="2" jsxselectedindex="0" jsxtabheight="18" jsxshowtabs="1"></variants>
+                      <strings jsxname="blkSessionDetailsTabPane" jsxtextalign="0" jsxbgcolor="#c5c5c5" jsxdisplay=""></strings>
+                      <object type="jsx3.gui.Tab">
+                        <variants jsxzindex="3" jsxheight="20" jsxwidth="110" jsxfontsize="10"></variants>
+                        <strings jsxname="tabSessionSources" jsxtext="Sources" jsxbgcolor="#a0a0a0" jsxtextalign="center" jsxactivecolor="#dddddd" jsxinactivecolor="#a0a0a0" jsxcolor="#444444" jsxfontweight="bold"></strings>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                          <strings jsxname="panePadding" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible" jsxpadding="8 0 0 0" jsxborder="border-bottom: solid 0px #ffffff" jsxbgcolor="#dddddd"></strings>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxoverflow="2"></variants>
+                            <strings jsxname="blkTabSessionSrcDetail" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="0" jsxdisplay=""></strings>
+                            <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                            <object type="jsx3.gui.Matrix">
+                              <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsuppresshscroll="1" jsxheaderheight="20" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                              <strings jsxname="mtxSessionSrcDetail" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxSessionSourceName" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                              <dynamics jsxbgcolor="Matrix Background" jsxbodyborder="Matrix Box Body Border" jsxheaderborder="Matrix Box Header Border"></dynamics>
+                              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="59" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionSourcePresence" jsxtext="Presence" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourcePresence" jsxvaluetemplate="@image"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionSourceName" jsxtext="Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceName"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="100" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionSourceType" jsxtext="Stream Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceType" jsxvaluetemplate="@image"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="100" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionSourcePVR" jsxtext="PVR" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourcePVR"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="100" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionSourceRec" jsxtext="Record" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceRec"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionSourceLUT" jsxtext="LUT" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceLUT" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionSourceFrameRate" jsxtext="Frame Rate" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceFrameRate" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                            </object>
+                          </object>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Tab">
+                        <variants jsxzindex="3" jsxheight="20" jsxwidth="90" jsxfontsize="10"></variants>
+                        <strings jsxname="tabSessionDestinations" jsxtext="Destinations" jsxbgcolor="#a0a0a0" jsxtextalign="center" jsxcolor="#444444" jsxactivecolor="#dddddd" jsxinactivecolor="#a0a0a0" jsxfontweight="bold" jsxstyleoverride=""></strings>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                          <strings jsxname="panePadding" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible" jsxpadding="8 0 0 0" jsxborder="border-bottom: solid 0px #ffffff" jsxbgcolor="#dddddd"></strings>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxoverflow="1"></variants>
+                            <strings jsxname="blkTabSessionDestDetail" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="0"></strings>
+                            <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                            <object type="jsx3.gui.Matrix">
+                              <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxdrag="1" jsxsuppresshscroll="1" jsxheaderheight="20" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                              <strings jsxname="mtxSessionDestDetail" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxSessionDestName" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                              <dynamics jsxbgcolor="P1" jsxbodyborder="Matrix Box Body Border" jsxheaderborder="Matrix Box Header Border"></dynamics>
+                              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="59" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionDestPresence" jsxtext="Presence" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestPresence" jsxvaluetemplate="@image"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionDestName" jsxtext="Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestName"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="100" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionDestType" jsxtext="Stream Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestType" jsxvaluetemplate="@image"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionDestOverlay" jsxtext="Overlay Mode" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestOverlay" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionDestLUT" jsxtext="Display LUT" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestLUT" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionDestFrameRate" jsxtext="Frame Rate" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionDestFrameRate" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                            </object>
+                          </object>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Tab">
+                        <variants jsxzindex="3" jsxheight="20" jsxwidth="90" jsxfontsize="10"></variants>
+                        <strings jsxname="tabSessionRecordingsPVR" jsxtext="PVR / Recording Files" jsxbgcolor="#dddddd" jsxtextalign="center" jsxinactivecolor="#a0a0a0" jsxactivecolor="#dddddd" jsxcolor="#444444" jsxfontweight="bold" jsxstyleoverride=""></strings>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+                          <strings jsxname="panePadding" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible" jsxpadding="8 0 0 0" jsxborder="border-bottom: solid 0px #ffffff" jsxbgcolor="#dddddd"></strings>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxoverflow="1"></variants>
+                            <strings jsxname="blkTabSessionPVRDetail" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="0"></strings>
+                            <dynamics jsxbgcolor="Matrix Background"></dynamics>
+                            <object type="jsx3.gui.Matrix">
+                              <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxjsxxmlasync="1" jsxdrag="1" jsxsuppresshscroll="1" jsxheaderheight="20" jsxreorder="0" jsxfixedcolumnindex="1"></variants>
+                              <strings jsxname="mtxSessionPVRDetail" jsxfocusstyle="font-weight:bold;" jsxsortpath="jsxSessionPVRName" jsxsorttype="text" jsxsortdirection="ascending"></strings>
+                              <dynamics jsxbgcolor="P1" jsxbodyborder="Matrix Box Body Border" jsxheaderborder="Matrix Box Header Border"></dynamics>
+                              <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+                              <xslparameters jsx_rowbg1="#f5f5f5" jsx_rowbg2="#f5f5f5"></xslparameters>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionPVRName" jsxtext="Name" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionPVRName"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="120" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionPVRType" jsxtext="Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionPVRType"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxwidth="100" jsxsort="0"></variants>
+                                <strings jsxname="jsxSessionPVRStreamType" jsxtext="Stream Type" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionPVRStreamType" jsxvaluetemplate="@image" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionPVRPresence" jsxtext="Directory" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionPVRPresence" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionPVRDir" jsxtext="Directory" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionPVRDir" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionSourceLUT" jsxtext="LUT" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceLUT" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                              <object type="jsx3.gui.Matrix.Column">
+                                <variants jsxsort="0"></variants>
+                                <strings jsxwidth="*" jsxname="jsxSessionSourceFrameRate" jsxtext="Frame Rate" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxSessionSourceFrameRate" jsxdisplay="none"></strings>
+                                <dynamics jsxborder="Matrix Header Border" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+                              </object>
+                            </object>
+                          </object>
+                        </object>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="0 8 2 8" jsxbgcolor="#c5c5c5" jsxborder="border-left: solid 1px #ffffff"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxbgcolor="#e5e5e5"></strings>
+              <dynamics jsxborder="Dialog Footer Border"></dynamics>
+              <object type="jsx3.gui.Button">
+                <variants jsxindex="0" jsxheight="18" jsxfontsize="10"></variants>
+                <strings jsxname="btnSessionRefresh" jsxtext="&lt;u&gt;Refresh List&lt;/u&gt;" jsxmargin="0 4 0 0" jsxcolor="#0000ff" jsxborder="none"></strings>
+                <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxrelativeposition="0" jsxzindex="5" jsxleft="0" jsxtop="0"></variants>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="blkSessionCustomize" jsxdisplay="none" jsxclassname="dialogMask"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3" jsxwidth="370" jsxheight="550" jsxrelativeposition="0"></variants>
+        <strings jsxtop="50%" jsxname="block" jsxstyleoverride="margin-top: -275; margin-left: -170;" jsxleft="50%" jsxdisplay=""></strings>
+        <include src="components/customizeDialog.xml" async="false"></include>
+      </object>
+    </object>
+  </object>
+</serialization>

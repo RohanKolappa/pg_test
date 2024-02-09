@@ -1,0 +1,72 @@
+
+
+<Menu>
+
+   <Type>config</Type>
+   <Title>DatabaseManagement</Title>
+   <Description>Database Management</Description>
+   <Access>db_management</Access>
+   <ConfigFile>databasemanagementconf</ConfigFile>
+
+   <Items>
+
+      <Item>
+        <Name>daily_backup</Name>
+        <Type>boolean</Type>
+        <Label>Daily Backup</Label>
+        <Help>Enable daily database backup</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>Yes</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>when</Name>
+        <Type>string</Type>
+        <Label>Backup Time</Label>
+        <Help>Backup time: List of integers. Hours past midnight (0-23)</Help>
+        <FieldLength>64</FieldLength>
+        <DefaultValue>0</DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+      <Item>
+        <Name>enable_export</Name>
+        <Type>boolean</Type>
+        <Label>Enable Export</Label>
+        <Help>Enable export to FTP URL</Help>
+        <FieldLength>4</FieldLength>
+        <DefaultValue>No</DefaultValue>
+      </Item>
+
+      <Item>
+        <Name>export_url</Name>
+        <Type>string</Type>
+        <Label>Export URL</Label>
+        <Help>FTP URL for auto database offload</Help>
+        <FieldLength>128</FieldLength>
+        <DefaultValue></DefaultValue>
+        <Validation>
+           <Type>regexp</Type>
+           <Value>any</Value>
+        </Validation>
+      </Item>
+
+
+      <Item>
+        <Name>recovery_mode</Name>
+        <Type>string</Type>
+        <Label>Recovery Mode</Label>
+        <Help>How to recover from database failures</Help>
+        <FieldLength>12</FieldLength>
+        <DefaultValue>LastBackup</DefaultValue>
+	<Validation>
+           <Type>enumeration</Type>
+           <Values>"Factory", "LastBackup"</Values>
+        </Validation>
+      </Item>
+
+   </Items>
+</Menu>

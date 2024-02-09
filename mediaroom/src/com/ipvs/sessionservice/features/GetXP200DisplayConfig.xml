@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="xml" indent="yes" encoding="UTF-8" />
+	<xsl:template match="/">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="GetPortDisplayConfig">
+		<xsl:apply-templates />
+	</xsl:template>
+	<xsl:template match="XP200DisplayConfig">
+		<Canvas>
+			<Background zIndex='0' content='LOCALVIDEO'>
+				<xsl:attribute name="enable">
+					<xsl:if test="DisplayType='Remote' or  DisplayType='Error'">				
+						<xsl:text>false</xsl:text>
+					</xsl:if>
+					<xsl:if test="DisplayType='Overlay' or  DisplayType='Local'">
+						<xsl:text>true</xsl:text>
+					</xsl:if>
+			    </xsl:attribute>
+			</Background>
+			<Window id='id' zIndex='1' content='REMOTEVIDEO'>
+				<xsl:attribute name="enable">
+					<xsl:if test="DisplayType='Overlay' or  DisplayType='Remote'">				
+						<xsl:text>true</xsl:text>
+						</xsl:if>
+						<xsl:if test="DisplayType='Error' or  DisplayType='Local'">
+				<xsl:text>false</xsl:text>
+				</xsl:if>
+			   </xsl:attribute>
+				<Geometry>
+					<xsl:attribute name="vpos">
+				     	<xsl:if
+						test="VerticalPosition='Location' and  VerticalLocation='Top'">					
+						  <xsl:text>ALIGNTOP</xsl:text>
+						</xsl:if>
+						<xsl:if
+						test="VerticalPosition='Location' and  VerticalLocation='Middle'">					
+						  <xsl:text>ALIGNMIDDLE</xsl:text>
+						</xsl:if>
+						<xsl:if
+						test="VerticalPosition='Location' and  VerticalLocation='Bottom'">					
+						  <xsl:text>ALIGNBOTTOM</xsl:text>
+						</xsl:if>
+						<xsl:if test="VerticalPosition='Offset'">	
+						   <xsl:value-of select="VerticalOffset"/>
+						    <xsl:text>px</xsl:text>
+						</xsl:if>				
+					</xsl:attribute>
+					<xsl:attribute name="hpos">
+				     	<xsl:if
+						test="HorizontalPosition='Location' and  HorizontalLocation='Left'">					
+						  <xsl:text>ALIGNLEFT</xsl:text>
+						</xsl:if>
+						<xsl:if
+						test="HorizontalPosition='Location' and  HorizontalLocation='Center'">					
+						  <xsl:text>ALIGNMIDDLE</xsl:text>
+						</xsl:if>
+						<xsl:if
+						test="HorizontalPosition='Location' and  HorizontalLocation='Right'">					
+						  <xsl:text>ALIGNRIGHT</xsl:text>
+						</xsl:if>
+						<xsl:if test="HorizontalPosition='Offset'">	
+						   <xsl:value-of select="HorizontalOffset"></xsl:value-of>
+						   <xsl:text>px</xsl:text>
+						</xsl:if>				
+					</xsl:attribute>
+					<xsl:attribute name="vres">
+				     	<xsl:if test="VerticalTransformation='Resolution'">					
+						  <xsl:value-of select="VerticalResolution"></xsl:value-of>
+						  <xsl:text>px</xsl:text>
+						</xsl:if>
+						<xsl:if test="VerticalTransformation='Scale/Source'">					
+						  <xsl:value-of select="VerticalScale">%</xsl:value-of>
+						  <xsl:text>%</xsl:text>
+						</xsl:if>									
+					</xsl:attribute>
+					<xsl:attribute name="hres">
+				     	<xsl:if test="HorizontalTransformation='Resolution'">					
+						  <xsl:value-of select="HorizontalResolution"></xsl:value-of>
+						  <xsl:text>px</xsl:text>
+						</xsl:if>
+						<xsl:if test="HorizontalTransformation='Scale/Source'">					
+						  <xsl:value-of select="HorizontalScale"></xsl:value-of>
+						  <xsl:text>%</xsl:text>
+						</xsl:if>									
+					</xsl:attribute>
+					<xsl:attribute name="aspect">
+				     	<xsl:if test="Aspect='Vertical'">					
+						 <xsl:text>SourceHeight</xsl:text>
+						</xsl:if>
+						<xsl:if test="Aspect='Horizontal'">					
+						 <xsl:text>SourceWidth</xsl:text>
+						</xsl:if>	
+						<xsl:if test="Aspect='Auto'">					
+						 <xsl:text>Auto</xsl:text>
+						</xsl:if>	
+						<xsl:if test="Aspect='None'">					
+						 <xsl:text>None</xsl:text>
+						</xsl:if>									
+					</xsl:attribute>
+					<xsl:attribute name="transparency">
+				      <xsl:value-of select="Transparency"></xsl:value-of>
+				      <xsl:text>%</xsl:text>
+					</xsl:attribute>
+				</Geometry>
+			</Window>
+		</Canvas>
+	</xsl:template>
+</xsl:stylesheet>

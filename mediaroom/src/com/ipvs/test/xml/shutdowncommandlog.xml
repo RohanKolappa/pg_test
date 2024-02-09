@@ -1,0 +1,69 @@
+<commandlog>
+<AgentMessage>
+    <agentmessageheader>
+        <agentJID>srcrelayuser-default@localhost</agentJID>
+        <agent>
+			com.ipvs.common.service.DeviceAdminServerAgent
+		</agent>
+        <agentmessagetype>Request</agentmessagetype>
+    </agentmessageheader>
+    <agentmessagedata>
+        <Request>
+            <header>
+                <servicename>systemservice</servicename>
+                <requestname>DeviceCommandRequest</requestname>
+                <loglevel>0</loglevel>
+                <clientdata>RequestToken3</clientdata>
+            </header>
+            <data>
+                <DeviceCommandRequestData>
+                    <DMS-1500-DeviceCommand>
+                      <SystemElementsCommand>
+                        <ShutdownCommand/>
+                      </SystemElementsCommand>
+                    </DMS-1500-DeviceCommand>
+                </DeviceCommandRequestData>
+            </data>
+        </Request>
+    </agentmessagedata>
+</AgentMessage>
+<Notification>
+  <notificationheader>
+    <notificationtype>AgentMessage</notificationtype>
+  </notificationheader>
+  <notificationdata>
+    <message id="a2bam-40" to="adminuser-default@localhost" from="srcrelayuser-default@localhost/lab1relay1">
+      <body>
+        <AgentMessage>
+          <agentmessageheader>
+            <agentJID>adminuser-default@localhost/callcenter</agentJID>
+            <agent>com.ipvs.common.service.DeviceAdminClientAgent</agent>
+            <agentmessagetype>Response</agentmessagetype>
+          </agentmessageheader>
+          <agentmessagedata>
+            <Response>
+              <header>
+                <servicename>none</servicename>
+                <requestname>DeviceCommandRequest</requestname>
+                <userJID>none</userJID>
+                <requestNID>none</requestNID>
+                <state>8</state>
+                <clientdata>RequestToken3</clientdata>
+              </header>
+              <data>
+                <DeviceCommandResponseData>
+                  <Status>
+                    <Code />
+                    <Description />
+                  </Status>
+                </DeviceCommandResponseData>
+              </data>
+              <log />
+            </Response>
+          </agentmessagedata>
+        </AgentMessage>
+      </body>
+    </message>
+  </notificationdata>
+</Notification>
+</commandlog>

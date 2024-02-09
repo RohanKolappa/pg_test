@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <title>Barco Media Player</title>
+	<!-- SDK required files -->
+    <script src="./jquery/jquery-1.11.0.js" type="text/javascript"></script>
+    <script src="./jquery/jquery.fullscreen-0.4.1.js" type="text/javascript"></script>
+	<script src="./guiAPIAgent/scripts/BarcoUtil.js" type="text/javascript"></script>
+    <script src="./js/plugin-inheritance.js" type="text/javascript"></script>	
+    <script src="./js/BarcoPlayerInterface.js" type="text/javascript"></script>
+    <!--sample required .js and .css -->
+	<link rel="stylesheet" href="Player.css" type="text/css">
+	<script src="Player.js" type="text/javascript"></script>	
+</head>
+<body>
+    <div class="header">
+      <h1>Barco Media Player</h1>
+      <div class="leftHeader">
+        <img class="logo" alt="logo" src="./resource/barco60x40.png" />
+        <div class="skinTitle">Player Control Bar Skins</div><br>
+        <div class="skinButtons">
+          <a id="skin0" href="#">Red</a>
+          <a id="skin1" href="#">Green</a>
+          <a id="skin2" href="#">Blue</a>
+        </div>
+      </div>
+    </div>
+    <div class="mainContent">
+      <div id="mainPanel" class="rightPanel">
+        <!-- essential requirement; 'id' is optional -->
+        <div id="p1" class="barcoplayer" style="width:640px; height:360px; margin: 0 auto;"></div>
+      </div>
+    </div>
+    <div id="sample">
+          <div id="mediacontrol" class="controlsdiv" style="display:block">
+            <span id="play">   <BUTTON>Play</BUTTON> </span>
+            <span id="stop">   <BUTTON>Stop</BUTTON> </span>
+            <span id="pause" >   <BUTTON>Pause</BUTTON> </span> 
+            <span id="resume">   <BUTTON>Resume</BUTTON> </span>
+            <span id="skipforward" >   <BUTTON>Skipforward</BUTTON> </span>
+            <span id="skipbackward" >   <BUTTON>Skipbackward</BUTTON> </span>
+            <span id="catchup">   <BUTTON>Catchup</BUTTON> </span>
+            <!--<span id="fullscreen">   <BUTTON>Fullscreen</BUTTON> </span> -->
+            <span id="mute">   <BUTTON>Mute</BUTTON> </span>
+            <span id="unmute">   <BUTTON>Unmute</BUTTON> </span>
+            <span id="toggleScreen">   <BUTTON>FullScreen</BUTTON> </span>
+            <span id="snapShot">   <BUTTON>SnapShot</BUTTON> </span>
+            <br>
+            <span id="zoom25">   <BUTTON>Zoom(25%)</BUTTON> </span>
+            <span id="zoom50">   <BUTTON>Zoom(50%)</BUTTON> </span>
+            <span id="zoom100">   <BUTTON>Zoom(100%)</BUTTON> </span>
+            <span id="zoom200">   <BUTTON>Zoom(200%)</BUTTON> </span>
+            <span id="fitToWin">   <BUTTON>Zoom(FitToWindow)</BUTTON> </span>            
+            <span id="enableKBM">   <BUTTON>EnableKBM</BUTTON> </span>
+            <span id="disableKBM">   <BUTTON>DisableKBM</BUTTON> </span>
+            <br>
+            <input name="zoom" id="txtZoomTo" type="text" size="10" placeholder="Zoom To">-<span id="zoomTo"><BUTTON>ZoomTo</BUTTON></span>
+            &nbsp;&nbsp;<input name="seektoOffset" id="txtseektoOffset" type="text" size="10" placeholder="seek offset">-<span id="seekto"><BUTTON>Seekto</BUTTON></span>
+            &nbsp;&nbsp;<input name="username" id="username" type="text" size="10" placeholder="username">|<input name="password" id="password" type="password" size="10" placeholder="password">|<input name="resource" id="resource" type="text" size="10" placeholder="resource">-<span id="authenticate"><BUTTON>Set Credentials</BUTTON></span>
+          </div>
+          <div id="additionalcontrol" style="display:none">
+            <div  class="controlsdiv">	
+              <!-- <span id="getId">   <BUTTON>GetDivId</BUTTON> </span>-->
+              <span id="getPlayerVersion" >   <BUTTON>GetVersion</BUTTON> </span>
+              <!--<span id="getPlayerId" >   <BUTTON>GetPlayerID</BUTTON> </span>-->
+              <span id="getMediaURL" >   <BUTTON>GetMediaURL</BUTTON> </span>
+              <!--<span id="cliplength">   <BUTTON>ClipLength</BUTTON> </span>-->
+              <span id="isPaused">   <BUTTON>isPaused</BUTTON> </span>
+              <span id="isPlaying">   <BUTTON>isPlaying</BUTTON> </span>
+            </div>
+            <div id="msglabel" class="msglabel"></div>
+          </div>
+          <div id="seturl"> 
+            <div id="rscform"> 
+              <div>URL:
+                <input name="URL" id="controlurl" type="text" size="100" placeholder="mediaURL" value=""> 
+                <span id="set" ><BUTTON>Set</BUTTON> </span>
+              </div> 
+            </div>
+          </div> 
+          <div id="msgboard" class="msgboard"></div>
+        </div>	
+</body>
+</html>

@@ -1,0 +1,32 @@
+Steps to run osgi on MS server
+1) On MS:
+	a) mserverctl manual; mserverctl stop 
+	b) disable mscomponent on MS
+    	vi ~/mscomponent/bin/_disable_mscomponent.rc
+    	disable_mscomponent=true
+    	disableAppServerAgent=false
+	c) mserverctl start
+	d) devappctl stop
+
+2)	copy jre in "/data"
+
+3)	Download the build from Hudson (http://kali.barco.com:8080/job/silsvn01%20nimbus%20OSGi/), then on MS: 
+	a.	mkdir com.barco.nimbus.equinox.product
+	b.	cp downloaded zip in above dir
+	c.	Unzip - *.zip
+	d.	rm –rf *.zip
+	
+4) cd /data1/jre/lib/i386, create the below links
+	ln -s libnio.so libgio-2.0.so.0
+	ln -s libnio.so libgobject-2.0.so.0
+	
+5) create a new collection "nimbus.default.licenselist" in the db
+
+6)	Then, cd /data and create a shell script runOSGi.sh with following content
+	export BLM_DYNAMIC_DIR=/data/license
+	export BLM_LICENSE_FILE=/data/license/nimbus.lic	
+/data/jre/bin/java -Declipse.ignoreApp=true -Dosgi.noShutdown=true -Dorg.osgi.service.http.port=9090 -Dorg.eclipse.equinox.http.jetty.autostart=true -Dbundles.configuration.location=/data/com.barco.nimbus.equinox.product/configuration -jar /data/com.barco.nimbus.equinox.product/plugins/org.eclipse.equinox.launcher_1.3.0.v20130327-1440.jar > /data/mrapp.log
+
+7) sh runOSGi.sh - logs will be printed in /data/mrapp.log
+
+

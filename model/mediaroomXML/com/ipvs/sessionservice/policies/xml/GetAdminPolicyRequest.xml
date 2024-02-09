@@ -1,0 +1,53 @@
+<GetAdminPolicyRequest>
+	<GetAdminPolicyRequestData>
+		<GetAdminPolicy countToFetch="0"  whereType="Device/Profile/User/System/Media/Dir" sortBy="" sortOrder="ascending" startFrom="1"  
+		     whereTextSubStr="" selectFormat="BASIC/EXTENDED" whereName="" whereNID=""/>
+	</GetAdminPolicyRequestData>
+	<GetAdminPolicyResponseData>
+		<GetAdminPolicy>
+		
+		
+		    <!-- BASIC FORMAT RESPONSE -->
+			<AdminPolicy NID='' name="Location" type='Device/Profile/User/System/Media/Dir' 	active='true/false' order=''/>
+			
+		   <!-- EXTENDED FORMAT RESPONSE -->
+			<AdminPolicy NID='' name="Location" type='Device/Profile/User/System/Media/Dir'
+				active='true/false' order=''>
+				<ActionList>
+					<!-- Device,Profile,User and System -->
+					<Action>Add</Action>
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+
+					<!-- Along above action for Media and Dir below actions are valid -->
+					<Action>Modify</Action>
+					<Action>Delete</Action>
+					<Action>Import</Action>
+					<Action>Export</Action>
+				</ActionList>
+
+				<OperatorFilterSet>
+					<OperatorFilter>
+						<User filterNID='' />
+						<Resource filterNID='' />
+					</OperatorFilter>
+				</OperatorFilterSet>
+
+				<TargetFilterSet>
+					<TargetFilter filterNID='' />
+				</TargetFilterSet>
+
+				<AdvanceFilterSet>
+					<AdvanceFilter>
+						<LHRule>Target/OperatorUser/OperatorResource</LHRule>
+						<LHTagName></LHTagName>
+						<Operator></Operator>
+						<RHRule>OperatorUser/OperatorResource</RHRule>
+						<RHTagName></RHTagName>
+					</AdvanceFilter>
+				</AdvanceFilterSet>
+			</AdminPolicy>
+		</GetAdminPolicy>
+	</GetAdminPolicyResponseData>
+	<GetAdminPolicyExceptionCodes />
+</GetAdminPolicyRequest>

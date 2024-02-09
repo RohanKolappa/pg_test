@@ -1,0 +1,296 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Dialog]]></name>
+  <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
+  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="640" jsxheight="400" jsxzindex="5000" jsxwindowstate="1" jsxleft="112" jsxtop="52"></variants>
+    <strings jsxname="DialogLUT" jsxbgcolor="#e5e5e5;"></strings>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="windowBar" jsxtext="Video Lookup" jsxbg="background-image: url(JSXAPPS/IPVS_AdminUI/images/panels/H1BG.png);" jsxcolor="#fff;"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMinimize"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnMaximize"></strings>
+        <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="btnAddVideoLookupClose"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.CDF">
+      <variants jsxoverflow="2"></variants>
+      <strings jsxname="cdfTxVideoLookupTable" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;"></strings>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+        <strings jsxname="layout (--)" jsxrows="*,40" jsxwidth="100%" jsxheight="100%"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkBody" jsxwidth="100%" jsxheight="100%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="17" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupDirtyBit" jsxtext="State:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="17" jsxwidth="80" jsxenabled="0"></variants>
+          <strings jsxname="txtV2dTxVideoLookupDirtyBit" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxdisabledbgcolor="#FDF9F9" jsxcdfattribute="TxVideoLookupDirtyBit"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="17" jsxwidth="80" jsxenabled="0"></variants>
+            <strings jsxname="txtV2dTxVideoLookupListIndex" jsxmargin="0 4 0 0" jsxdisplay="none" jsxdisabledbgcolor="#FDF9F9" jsxcdfattribute="TxVideoLookupListIndex"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="230" jsxtop="17" jsxwidth="40"></variants>
+            <strings jsxname="lblV2dTxVideoLookupID" jsxtext="ID:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="280" jsxtop="17" jsxwidth="40" jsxenabled="1"></variants>
+          <strings jsxname="txtV2dTxVideoLookupID" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxcdfattribute="VLTID"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="325" jsxtop="17" jsxwidth="50"></variants>
+            <strings jsxname="lblV2dTxVideoLookupName" jsxtext="Name:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="385" jsxtop="17" jsxwidth="150"></variants>
+          <strings jsxname="txtV2dTxVideoLookupName" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxcdfattribute="VLTName"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="37" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupHres" jsxtext="Horz Resolution:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="37" jsxwidth="80"></variants>
+          <strings jsxname="txtV2dTxVideoLookupHres" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxcdfattribute="VLTHorzResolution"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="57" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVres" jsxtext="Vert Resolution:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="57" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupVres" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTVertResolution"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="77" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVmargin" jsxtext="Vert Margin:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="77" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupVmargin" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTVertMargin"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="97" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupRefreshRate" jsxtext="Refresh Rate:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="97" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupRefreshRate" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTRefreshRate"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="117" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupPixelClockRate" jsxtext="Pixel Clock Rate:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="117" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupPixelClockRate" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTPixelClock"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="137" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupStereo" jsxtext="Stereo:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="137" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupStereo" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTStereo"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="157" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupHfrontPorch" jsxtext="Horz Front Porch:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="157" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupHfrontPorch" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTHorzFrontPorch"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="177" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVfronPorch" jsxtext="Vert Front Porch:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="177" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupVfrontPorch" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTVertFrontPorch"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="197" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupHbackPorch" jsxtext="Horz Back Porch:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="197" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupHbackPorch" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTHorzBackPorch"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="217" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVbackPorch" jsxtext="Vert Back Porch:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="217" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupVbackPorch" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTVertBackPorch"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="237" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupHsync" jsxtext="Horz Sync:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="237" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupHsync" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTHorzSync"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="257" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVsync" jsxtext="Vert Sync:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="136" jsxtop="257" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupVsync" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTVertSync"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="6" jsxtop="277" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupSyncPol" jsxtext="Sync Polarity:" jsxdisplay="none" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.Select">
+            <variants jsxwidth="80" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="136" jsxtop="277"></variants>
+            <strings jsxname="selV2dTxVideoLookupSyncPol" jsxxmlurl="xml/selections/V2DSyncPolarity.xml" jsxmargin="0 4 0 0" jsxdisplay="none" jsxcdfattribute="VLTSyncPolarity"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="37" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupPhase" jsxtext="Phase:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="37" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupPhase" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTPhase"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="57" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupHpos" jsxtext="Horz Position:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="57" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupHpos" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTHorzPosition"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="77" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupVpos" jsxtext="Vertical Position:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="77" jsxwidth="80"></variants>
+          <strings jsxname="txtV2dTxVideoLookupVpos" jsxmargin="0 4 0 0" jsxdisplay="" jsxvalue="" jsxcdfattribute="VLTVertPosition"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="97" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupCoarsNoise" jsxtext="Coarse Noise:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="97" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupCoarseNoise" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTCoarseNoise"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="117" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupFineNoise" jsxtext="Fine Noise:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="117" jsxwidth="80"></variants>
+            <strings jsxname="txtV2dTxVideoLookupFineNoise" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTFineNoise"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="137" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupColorSpace" jsxtext="Color Space:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.Select">
+            <variants jsxwidth="80" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="386" jsxtop="137"></variants>
+            <strings jsxname="selV2dTxVideoLookupColorSpace" jsxxmlurl="xml/selections/V2DColorSpace.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTColorSpace"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="256" jsxtop="167" jsxwidth="120"></variants>
+            <strings jsxname="lblV2dTxVideoLookupChargePump" jsxtext="Charge Pump Cur:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.Select">
+            <variants jsxwidth="80" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="386" jsxtop="167"></variants>
+            <strings jsxname="selV2dTxVideoLookupChargePump" jsxxmlurl="xml/selections/V2DChargePumpCurr.xml" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTChargePumpCur"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="216" jsxtop="188" jsxfontsize="11" jsxwidth="160"></variants>
+            <strings jsxname="lblV2dTxVideoLookupRedGain" jsxtext="Red Gain:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="187" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupRedGain" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTRedGain"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="216" jsxtop="208" jsxfontsize="11" jsxwidth="160"></variants>
+            <strings jsxname="lblV2dTxVideoLookupGreenGain" jsxtext="Green Gain:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="207" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupGreenGain" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTGreenGain"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="216" jsxtop="228" jsxfontsize="11" jsxwidth="160"></variants>
+            <strings jsxname="lblV2dTxVideoLookupBlueGain" jsxtext="Blue Gain:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="386" jsxtop="227" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupBlueGain" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTBlueGain"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="416" jsxtop="187" jsxfontsize="11" jsxwidth="100"></variants>
+            <strings jsxname="lblV2dTxVideoLookupRedOffset" jsxtext="Red Offset:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="526" jsxtop="187" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupRedOffset" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTRedOffset"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="416" jsxtop="207" jsxfontsize="11" jsxwidth="100"></variants>
+            <strings jsxname="lblV2dTxVideoLookupGreenOffset" jsxtext="Green Offset:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="526" jsxtop="207" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupGreenOffset" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTGreenOffset"></strings>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="416" jsxtop="227" jsxfontsize="11" jsxwidth="100"></variants>
+            <strings jsxname="lblV2dTxVideoLookupBlueOffset" jsxtext="Blue Offset:" jsxdisplay="" jsxtextalign="right"></strings>
+          </object>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18" jsxrelativeposition="0" jsxleft="526" jsxtop="227" jsxwidth="40"></variants>
+            <strings jsxname="txtV2dTxVideoLookupBlueOffset" jsxmargin="0 4 0 0" jsxdisplay="" jsxcdfattribute="VLTBlueOffset"></strings>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="blkFooter" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"></strings>
+          <dynamics jsxborder="@Inset Top"></dynamics>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnAddVideoLookupCancel" jsxtext="Cancel" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/IPVS_AdminUI/images/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+            <events jsxexecute=""></events>
+          </object>
+          <object type="jsx3.gui.Button">
+            <variants jsxindex="0" jsxheight="22" jsxwidth="60" jsxfontsize="11"></variants>
+            <strings jsxname="btnAddVideoLookupAdd" jsxtext="Done" jsxmargin="8 8 0 0" jsxtextalign="center" jsxbgcolor="" jsxstyleoverride="background-image: url(JSXAPPS/IPVS_AdminUI/images/buttons/btnBG.jpg);" jsxpadding="padding-top: 3px;" jsxborder=""></strings>
+            <events jsxexecute=""></events>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

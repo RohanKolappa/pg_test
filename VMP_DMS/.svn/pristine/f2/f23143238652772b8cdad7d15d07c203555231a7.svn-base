@@ -1,0 +1,66 @@
+###############################################################################
+###                                                                         ###
+### Copyright (c) 2003-2014 Barco N.V.                                      ###
+###                                                                         ###
+###############################################################################
+###                                                                         ###
+### This file is part of "JBS".                                             ###
+###                                                                         ###
+### "JBS" is free software; you can redistribute it and/or modify it        ###
+### under the terms of the GNU Lesser General Public License as published   ###
+### by the Free Software Foundation; either version 2.1 of the License, or  ###
+### (at your option) any later version.                                     ###
+###                                                                         ###
+### "JBS" is distributed in the hope that it will be useful, but            ###
+### WITHOUT ANY WARRANTY; without even the implied warranty of              ###
+### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       ###
+### Lesser General Public License for more details.                         ###
+###                                                                         ###
+### You should have received a copy of the GNU Lesser General Public        ###
+### License along with "JBS"; if not, write to the Free Software            ###
+### Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  2111-1307 USA ###
+###                                                                         ###
+###############################################################################
+
+###############################################################################
+###                                                                         ###
+### This is an auto-generated file.                                         ###
+### Please consult the "JBS" docs to understand its content.                ###
+###                                                                         ###
+###############################################################################
+
+# moet zelfde wijzigingen hier doen als in BFC::Light... pfff :-)
+target-test	:=	$(call fn-cfg-test-notplatform,DARWIN)
+
+target-type	:=	dll
+target-debug	:=	no
+ifneq "$(JBS_PLATFORM)" "WIN32"
+target-profile	:=	no
+endif
+target-stripped	:=	yes
+target-name	:=	TBFC_Light
+target-ver-maj	:=	1
+target-ver-med	:=	0
+target-ver-min	:=	1
+target-sources	:=	Src/*
+target-mocs	:=
+target-guis	:=
+target-deps	:=
+target-incldirs	:=
+ifeq "$(JBS_PLATFORM)" "WIN32"
+target-cxxdefs	:=	_CRT_SECURE_NO_DEPRECATE
+target-libs	:=
+else
+target-libs	:=	pthread
+endif
+target-libdirs	:=
+target-docdir	:=	Doc
+target-doxydir	:=	Classes
+target-doxyimg	:=	Images
+target-cluster	:=	TBFC
+
+###############################################################################
+
+target-uuid	:=	ffbf787d-384c-4e2c-9c63-10b96ac38270
+
+###############################################################################

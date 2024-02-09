@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="mediaroom.public.xsd" />
+  <xs:complexType name="TimelineDataType">
+    <xs:sequence>
+      <xs:element name="Start">
+        <xs:complexType>
+          <xs:attribute name="WC" type="xs:string"></xs:attribute>
+          <xs:attribute name="Offset" type="xs:string"></xs:attribute>
+          <xs:attribute name="TC" type="xs:string"></xs:attribute>
+          <xs:attribute name="parentTimelineId"
+						type="xs:string">
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Last">
+        <xs:complexType>
+          <xs:attribute name="WC" type="xs:string"></xs:attribute>
+          <xs:attribute name="Offset" type="xs:string"></xs:attribute>
+          <xs:attribute name="TC" type="xs:string"></xs:attribute>
+          <xs:attribute name="TimeScale" type="xs:string"></xs:attribute>
+          <xs:attribute name="requestedAction"
+						type="xs:string">
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="sessionId" type="xs:string"></xs:attribute>
+    <xs:attribute name="connGroupId" type="xs:string"></xs:attribute>
+    <xs:attribute name="connId" type="xs:string"></xs:attribute>
+    <xs:attribute name="id" type="xs:string"></xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="ConnStateDataType">
+    <xs:sequence>
+      <xs:element name="Timeline" type="TimelineDataType" />
+    </xs:sequence>
+    <xs:attribute name="sessionId" type="xs:string"></xs:attribute>
+    <xs:attribute name="connId" type="xs:string"></xs:attribute>
+    <xs:attribute name="value" type="xs:string"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="EntityPresenceDataType">
+    <xs:attribute name="sessionId" type="xs:string"></xs:attribute>
+    <xs:attribute name="entityId" type="xs:string"></xs:attribute>
+    <xs:attribute name="jid" type="xs:string"></xs:attribute>
+    <xs:attribute name="value" type="xs:string"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="BookmarkRequestInfoType">
+    <xs:sequence>
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="MetaData" type="MetaDataType" />
+    </xs:sequence>
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="TC" type="xs:string" />
+    <xs:attribute name="offset" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="BookmarkResponseInfoType">
+    <xs:sequence>
+      <xs:element name="Description" type="xs:string" />
+      <xs:element name="MetaData" type="MetaDataType" />
+    </xs:sequence>
+    <xs:attribute name="NID" type="xs:string" />
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="TC" type="xs:string" />
+    <xs:attribute name="offset" type="xs:string" />
+    <xs:attribute name="owner" type="xs:string" />
+    <xs:attribute name="dateCreated" type="xs:string" />
+    <xs:attribute name="mediaStreamFileNID" type="xs:string" />
+  </xs:complexType>
+
+  <!-- TBD: Once merged to story 16737 extends the common attribute list
+-->
+  <xs:complexType name="GetBookmarkRequestInfoType" abstract="true">
+    <xs:sequence/>
+    <xs:attribute name="startFrom" type="xs:string" />
+    <xs:attribute name="countToFetch" type="xs:string" />
+    <xs:attribute name="sortOrder" type="xs:string" />
+    <xs:attribute name="sortby" type="xs:string" />
+    <xs:attribute name="whereNID" type="xs:string" />
+    <xs:attribute name="whereTextSubStr" type="xs:string" />
+    <xs:attribute name="whereDateRange" type="xs:string" />
+    <xs:attribute name="whereTCRange" type="xs:string" />
+    <xs:attribute name="whereFileNID" type="xs:string" />
+    <xs:attribute name="whereSessionInfo" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="DeleteBookmarkRequestInfoType" abstract="true">
+    <xs:sequence/>
+    <xs:attribute name="whereNID" type="xs:string" />
+    <xs:attribute name="whereDateRange" type="xs:string" />
+    <xs:attribute name="whereTCRange" type="xs:string" />
+    <xs:attribute name="whereFileNID" type="xs:string" />
+    <xs:attribute name="whereSessionInfo" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="GetObjectBaseType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ObjectBaseType">
+        <xs:attribute name="startFrom" type="xs:long" use="required" />
+        <xs:attribute name="countToFetch" type="xs:long" use="required" />
+        <xs:attribute name="sortOrder" type="SortOrderType" />
+        <xs:attribute name="sortBy" type="xs:string" />
+        <xs:attribute name="subscriptionID" type="xs:string" />
+        <xs:attribute name="subscriptionScope">
+        	<xs:simpleType>
+        		<xs:restriction type="xs:string">
+        			<xs:enumeration value="ALLNODES"/>
+        			<xs:enumeration value="RESULTNODES"/>
+        		</xs:restriction>
+        	</xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+ <xs:simpleType name="FileWherePermissionsType">
+   <xs:restriction base="xs:string">
+	 <xs:enumeration value="MODIFY" />
+	 <xs:enumeration value="DELETE" />
+	 <xs:enumeration value="PLAYBACK" />
+	 <xs:enumeration value="EXPORT" />
+   </xs:restriction>
+ </xs:simpleType>
+ 
+ <xs:simpleType name="DirWherePermissionsType">
+   <xs:restriction base="xs:string">
+	 <xs:enumeration value="MODIFY" />
+	 <xs:enumeration value="DELETE" />
+	 <xs:enumeration value="RECORD" />
+	 <xs:enumeration value="IMPORT" />
+   </xs:restriction>
+ </xs:simpleType>
+ 
+ <xs:simpleType name="PortWherePermissionsType">
+   <xs:restriction base="xs:string">
+	 <xs:enumeration value="ADD" />
+	 <xs:enumeration value="MODIFY" />
+	 <xs:enumeration value="DELETE" />
+	 <xs:enumeration value="VIEWFROM" />
+	 <xs:enumeration value="STREAMTO" />
+   </xs:restriction>
+ </xs:simpleType>
+ 
+
+  <xs:complexType name="ObjectBaseType"
+		abstract="true">
+    <xs:attribute name="type" type="ObjectListType" use="required" />
+    <xs:attribute name="whereNID" type="xs:string" />
+    <xs:attribute name="whereTextSubStr" type="xs:string" />
+    <xs:attribute name="searchTextSubStrIn" type="SearchTextSubStrInEnumType" />
+    <xs:attribute name="whereDateRange" type="xs:string" />
+    <xs:attribute name="whereTagExpr" type="xs:string" />
+  </xs:complexType>
+
+  <xs:simpleType name="SortOrderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ascending" />
+      <xs:enumeration value="descending" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+   <xs:simpleType name="SearchTextSubStrInEnumType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TITLE" />
+      <xs:enumeration value="DESCRITPION" />
+      <xs:enumeration value="METADATA" />
+      <xs:enumeration value="BOOKMARK" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="ObjectListType">
+    <xs:restriction base="xs:string">
+      <!-- Native Objects -->
+      <xs:enumeration value="AssetResource" />
+      <xs:enumeration value="ServiceResource" />
+      <xs:enumeration value="DMS-25-Device" />
+      <xs:enumeration value="DMS-100-Device" />
+      <xs:enumeration value="DMS-1000-Device" />
+      <xs:enumeration value="DMS-1200-Device" />
+      <xs:enumeration value="DMS-120-Device" />
+      <xs:enumeration value="DMS-1500-Device" />
+      <xs:enumeration value="DMS-200-Device" />
+      <xs:enumeration value="V2D-Tx-Device" />
+      <xs:enumeration value="V2D-Rx-Device" />
+      <xs:enumeration value="RTP-Tx-Device" />
+      <xs:enumeration value="RTP-Rx-Device" />
+      <xs:enumeration value="MPEG-Tx-Device" />
+      <xs:enumeration value="MPEG-Rx-Device" />
+      <xs:enumeration value="UDP-Tx-Device" />
+      <xs:enumeration value="UDP-Rx-Device" />
+      <xs:enumeration value="IPVS-Client-Device" />
+      <xs:enumeration value="V2D-XP200-Device" />
+      <xs:enumeration value="V2D-XP200S-Device" />
+      <xs:enumeration value="V2D-XP220-Device" />
+      <xs:enumeration value="V2D-XP220S-Device" />
+      <xs:enumeration value="V2D-XP100-Device" />
+      <xs:enumeration value="V2D-XPi-Device" />
+      <xs:enumeration value="MNA-110-ENCDP-Device" />
+      <xs:enumeration value="MNA-110-ENCDVI-Device" />
+      <xs:enumeration value="MNA-110-ENCHDSDI-Device" />
+      <xs:enumeration value="MNA-120-DECDVIAudio-Device" />
+      <xs:enumeration value="MNA-120-ENCANAAudio-Device" />
+      <xs:enumeration value="MNA-120-ENCDPAudio-Device" />
+      <xs:enumeration value="MNA-120-ENCDVIAudio-Device" />
+      <xs:enumeration value="MNA-120-ENCHDSDIAudio-Device" />
+      <xs:enumeration value="Device" />
+      <xs:enumeration value="MediaStreamSrcPortResource " />
+      <xs:enumeration value="MediaStreamDestPortResource " />
+      <xs:enumeration value="MediaStorePortResource " />
+      <xs:enumeration value="MediaStreamRelayPortResource " />
+      <xs:enumeration value="MediaStreamIOPortResource  " />
+      <xs:enumeration value="MediaStreamProfile" />
+      <xs:enumeration value="V2DMediaStreamProfile" />
+      <xs:enumeration value="RTPMediaStreamProfile" />
+      <xs:enumeration value="UDPMediaStreamProfile" />
+      <xs:enumeration value="MPEGMediaStreamProfile" />
+      <xs:enumeration value="MediaStreamDirResource" />
+      <xs:enumeration value="MediaStreamFileResource" />
+      <xs:enumeration value="Bookmark" />
+      <xs:enumeration value="User" />
+      <xs:enumeration value="GroupTagDef" />
+      <xs:enumeration value="TagObjectFilter" />
+      <xs:enumeration value="AssetAdminPolicyRule" />
+      <xs:enumeration value="MediaStoreAdminPolicyRule" />
+      <xs:enumeration value="UserAdminPolicyRule" />
+      <xs:enumeration value="PolicyAdminPolicyRule" />
+      <xs:enumeration value="MediaStreamFilter" />
+      <xs:enumeration value="MediaRoomPolicyRule" />
+      <xs:enumeration value="NetworkAddressPolicyRule" />
+      <xs:enumeration value="CollabrationConfig" />
+      <xs:enumeration value="SessionConfig" />
+      <xs:enumeration value="ExportImportFileListItem" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NativeObjectSelectFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NATIVE" />
+      <xs:enumeration value="CUSTOM" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CustomObjectSelectFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BASIC" />
+      <xs:enumeration value="EXTENDED" />
+      <xs:enumeration value="RAW" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+    <xs:simpleType name="FileObjectSelectFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BASIC" />
+      <xs:enumeration value="EXTENDED" />
+      <xs:enumeration value="BASICCONNECTIONINFO" />
+	  <xs:enumeration value="EXTENDEDCONNECTIONINFO" />
+      <xs:enumeration value="BASICURL" />
+      <xs:enumeration value="EXTENDEDURL" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DirObjectSelectFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BASIC" />
+      <xs:enumeration value="EXTENDED" />
+      <xs:enumeration value="SNAPSHOTURL" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="GetObjectResponseType" abstract="true">
+    <xs:attribute name="from" type="xs:long" use="required" />
+    <xs:attribute name="total" type="xs:long" use="required" />
+  </xs:complexType>
+
+  <xs:simpleType name="PortTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SrcPort" />
+      <xs:enumeration value="DestPort" />
+      <xs:enumeration value="RelayPort" />
+      <xs:enumeration value="StorePort" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="StreamTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V2D" />
+      <xs:enumeration value="RTP" />
+      <xs:enumeration value="MPEGTS" />
+      <xs:enumeration value="UDP" />
+      <xs:enumeration value="RTP-RAW" />
+      <xs:enumeration value="RTP-PCM" />
+      <xs:enumeration value="RFB" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="OperationModeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Local" />
+      <xs:enumeration value="Remote" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="GetTagsBaseRequestType" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="GetObjectBaseType">
+        <xs:attribute name="whereNameTextSubString" type="xs:string" />
+        <xs:attribute name="whereValueTextSubString" type="xs:string" />
+        <xs:attribute name="selectFormat">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="NameList" />
+              <xs:enumeration value="NameValueList" />
+              <xs:enumeration value="NameValueTree" />
+              <xs:enumeration value="Extended" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GetTagsBaseResponseType" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="GetObjectResponseType">
+        <xs:sequence>
+          <xs:element name="Tag" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Value" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+              </xs:sequence>
+              <xs:attribute name="Name" type="xs:string" />
+              <xs:attribute name="Value" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name='ServiceClientUserDataType'>
+    <xs:sequence>
+      <xs:element name='UserPrivateData' type="xs:string" />
+      <xs:element name='Groups' type="TagList" />
+    </xs:sequence>
+    <xs:attribute name='NID' type='xs:string' />
+    <xs:attribute name='userName' type='xs:string' />
+    <xs:attribute name='externalAuthentication' type='xs:string' />
+  </xs:complexType>
+  <xs:complexType name='ServiceClientAssetDataType'>
+    <xs:sequence>
+      <xs:element name='Groups' type="TagList" />
+    </xs:sequence>
+    <xs:attribute name='title' type='xs:string' />    
+    <xs:attribute name='type' type='xs:string' />
+  </xs:complexType>
+
+
+	<xs:complexType name="FeatureListType">
+		<xs:sequence>
+			<xs:element name="Feature" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string"></xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+  <xs:complexType name='DeviceDataType'>
+  	<xs:complexContent mixed='false'>
+  		<xs:extension base='ServiceClientAssetDataType'>		  
+  			<xs:sequence>
+  				<xs:element name='DevicePrivateData' type='xs:string' />  				
+  			</xs:sequence>
+  			<xs:attribute name='password' type='xs:string' />
+  			<xs:attribute name='description' type='xs:string' />		  				  			  			  			  	
+		  	<xs:attribute name='unManaged' type='xs:boolean' />
+		  	<xs:attribute name='unManned' type='xs:boolean' />
+		  	<xs:attribute name='ownerUserJID' type='xs:string' />
+		  	<xs:attribute name='msStatus' type='StatusType' />
+		  	<xs:attribute name='softwareVersion' type='xs:string' />
+	  	</xs:extension>
+  	</xs:complexContent>
+  </xs:complexType>
+	
+  <xs:complexType name='PortDataType'>
+	<xs:sequence>
+		<xs:element name="Description" minOccurs="0" />
+		<xs:element name="Groups" minOccurs="0" type="TagList" />
+		<xs:element name="Permissions" minOccurs="0" type="PortPermissionsDataType" />
+		<xs:element name="Asset" minOccurs="0">
+			<xs:complexType>
+				<xs:attribute name="NID" type="xs:string" />
+				<xs:attribute name="title" type="xs:string" />
+				<xs:attribute name="deviceType" type="xs:string" />
+				<xs:attribute name="contactJID" type="xs:string" />
+			</xs:complexType>
+		</xs:element>		
+		<xs:element name="MaxInstanceCount" minOccurs="0" />
+		<xs:element name="PVRInfo" type="PVRInfoType" minOccurs="0" />
+		<xs:element name="FeatureList" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Feature" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:attribute name="name" type="xs:string"></xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="ObserverInfo" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Observer" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:attribute name="xAuth" type="xs:boolean"></xs:attribute>
+							<xs:attribute name="monitor" type="xs:boolean"></xs:attribute>
+							<xs:attribute name="userNID" type="xs:string"></xs:attribute>
+							<xs:attribute name="resourceNID" type="xs:string"></xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="InstanceList" minOccurs="0">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Instance" minOccurs="0" maxOccurs="unbounded" type = "InstanceType"/>										
+			 	</xs:sequence> 
+			</xs:complexType>
+		</xs:element>
+			
+					
+		<xs:element name="ConnectionStatus" type="ConnectionStatusType" minOccurs="0"/>
+		
+	</xs:sequence>
+	<xs:attribute name="NID" type="xs:string" />
+	<xs:attribute name="title" type="xs:string" />
+	<xs:attribute name="streamType" type="StreamTypeEnumType" />
+	<xs:attribute name="presence" type="xs:string" />
+	<xs:attribute name="state" type="xs:string" />
+	<xs:attribute name="portType" type="PortTypeEnum" />
+	<xs:attribute name="portId" type="xs:string" />
+  </xs:complexType>
+	<xs:complexType name= "InstanceType">	
+		<xs:sequence>
+			<xs:element name="ProfileXML" />
+		</xs:sequence>											
+		<xs:attribute name="streamURL" type="xs:string" />
+		<xs:attribute name="mode" type="MediaModeEnumType" />
+		<xs:attribute name="sessionId" type="xs:string" />
+	</xs:complexType>
+  <xs:complexType name='ServiceClientPortType'>
+    <xs:sequence>
+      <xs:element name='FeatureList' type="FeatureListType"/>
+      <xs:element name='Groups' type="TagList" />
+      <xs:element name='ObserverInfoList' type='ObserverInfoType' />      	
+      <xs:element name='StreamURL' type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name='NID' type='xs:string' />
+    <xs:attribute name='title' type='xs:string' />
+    <xs:attribute name='state' type='xs:string' />
+    <xs:attribute name='presence' type='xs:string' />
+    <xs:attribute name='portType' type='xs:string' />
+    <xs:attribute name='streamType' type='xs:string' />
+    <xs:attribute name='deviceElementID' type='xs:string' />
+  </xs:complexType>
+  <xs:complexType name='ServiceClientDeviceType'>
+    <xs:sequence>
+      <xs:element name='System' minOccurs="0">
+        <xs:complexType>
+        	<xs:sequence>
+        		<xs:element name='NTPClient' minOccurs="0">
+        			<xs:complexType>
+          				<xs:complexContent mixed="false">
+            				<xs:extension base="ServerType">
+              					<xs:attribute name='serverIP' type='xs:string'/>
+            				</xs:extension>
+          				</xs:complexContent>
+        			</xs:complexType>
+      			</xs:element>
+      			<xs:element name='SoftwareImage' minOccurs="0">
+        			<xs:complexType>		
+              			<xs:attribute name='softwareVersion' type='xs:string'/>
+              			<xs:attribute name='serviceVersion' type='xs:string'/>
+        			</xs:complexType>
+      			</xs:element>
+        	</xs:sequence>          
+        </xs:complexType>
+      </xs:element>
+      <xs:element name='Services'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name='HTTPServer' type="ServerType" minOccurs="0"/>
+            <xs:element name='SSHServer' type="ServerType" minOccurs="0"/>
+            <xs:element name='TelnetServer' type="ServerType" minOccurs="0"/>
+            <xs:element name='TFTPServer' type="ServerType" minOccurs="0"/>
+            <xs:element name='XMPPServer'>
+              <xs:complexType>
+                <xs:complexContent mixed="false">
+                  <xs:extension base="ServerType">
+                    <xs:attribute name='port' type='xs:string'/>
+                    <xs:attribute name='dailyBackup' type='xs:boolean'/>
+                    <xs:attribute name='backupTime' type='xs:string'/>
+                    <xs:attribute name='enableExport' type='xs:boolean'/>
+                    <xs:attribute name='recoveryMode' type='xs:string'/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name='XMPPAgent' minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent mixed="false">
+                  <xs:extension base="ServerType">
+                    <xs:sequence>
+                      <xs:element name='AdminAgent' type="ServerType"/>
+                      <xs:element name='ConfigAgent' type="ServerType"/>
+                      <xs:element name='DestinationAgent' type="ServerType"/>
+                      <xs:element name='SourceAgent' type="ServerType"/>
+                      <xs:element name='XAuthAgent' type="ServerType"/>
+                      <xs:element name='PortCtrlAgent' type="ServerType"/>
+                    </xs:sequence>
+                    <xs:attribute name='xmppServer' type='xs:string'/>
+                    <xs:attribute name='userName' type='xs:string'/>
+                    <xs:attribute name='domain' type='xs:string'/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name='StreamingServer' minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent mixed="false">
+                  <xs:extension base="ServerType">
+                    <xs:sequence>
+                      <xs:element name='TXcntrlPorts' type="PortRangeType"/>
+                      <xs:element name='V2DRxPorts' type="PortRangeType"/>
+                      <xs:element name='MPEGTSRXPorts' type="PortRangeType"/>
+                      <xs:element name='UDPRXPorts' type="PortRangeType"/>
+                      <xs:element name='RTPRXPorts' type="PortRangeType"/>
+                      <xs:element name='MulticastIP' type="PortRangeType"/>
+                    </xs:sequence>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name='DHCPServer' minOccurs="0">
+        <xs:complexType>
+          <xs:complexContent mixed="false">
+            <xs:extension base="ServerType">
+              <xs:attribute name='startIP' type='xs:string'/>
+              <xs:attribute name='endIP' type='xs:string'/>
+              <xs:attribute name='publishedDNSServer' type='xs:string'/>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name='NTPServer' minOccurs="0">
+        <xs:complexType>
+          <xs:complexContent mixed="false">
+            <xs:extension base="ServerType">
+              <xs:attribute name='serverIP' type='xs:string'/>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name='Network'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name='EthernetPortList'>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='EthernetPort' minOccurs="0" maxOccurs="unbounded" type="DeviceNetworkInterfaceType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name='NATTable'>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='NAT' minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:attribute name='name' type='xs:string'/>
+                      <xs:attribute name='listIndex' type='xs:string'/>
+                      <xs:attribute name='ip' type='xs:string'/>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+             <xs:element name='RouteTable'>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='RouteTable' type='DeviceRouteType'/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+         </xs:sequence>          
+          <xs:attribute name='isPrimaryEnabled' type='xs:boolean' />
+          <xs:attribute name='hostName' type='xs:string' />
+          <xs:attribute name='DNSServerIP' type='xs:string' />
+          <xs:attribute name='DNSName' type='xs:string' />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name='Storage'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name='HardDiskList'>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='HardDisk' minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:attribute name='name' type='xs:string'/>
+                      <xs:attribute name='mountPoint' type='xs:string'/>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name='NASList'>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='NAS' minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                    	<xs:complexContent mixed="false">
+            				<xs:extension base="ServerType">
+			                	<xs:attribute name='name' type='xs:string'/>                      
+			                    <xs:attribute name='server' type='xs:string'/>
+			                    <xs:attribute name='readOnly' type='xs:boolean'/>
+			                </xs:extension>
+			            </xs:complexContent>   
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name='hardDriveEnabled' type='xs:boolean' />
+          <xs:attribute name='NASEnabled' type='xs:boolean' />
+        </xs:complexType>
+      </xs:element>      
+       <xs:element name='AVCodec'>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name='Port' minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name='DisplayConfig' minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:choice>
+                       <xs:sequence>
+					        <xs:element name="Display" type="DisplayConfigType" />
+					        <xs:element name="Canvas" type="CanvasType" />
+   					   </xs:sequence>   					   
+					   <xs:sequence>
+					        <xs:element name="DisplayType" type="DisplayTypeEnumType" />
+					        <xs:element name="OverlayType" type="OverlayTypeEnumType" />
+					        <xs:element name="Override" type="OverrideEnumType" />
+					        <xs:element name="KeepAspect" type="xs:boolean" />
+					        <xs:element name="Aspect" type="AspectEnumType" />
+					        <xs:element name="HorizontalTransformation" type="TransformationEnumType" />
+					        <xs:element name="HorizontalScale" type="xs:int" />
+					        <xs:element name="HorizontalResolution" type="xs:int" />
+					        <xs:element name="VerticalTransformation" type="TransformationEnumType" />
+					        <xs:element name="VerticalScale" type="xs:int" />
+					        <xs:element name="VerticalResolution" type="xs:int" />
+					        <xs:element name="HorizontalPosition" type="PositionEnumType" />
+					        <xs:element name="HorizontalLocation" type="HorizontalLocationEnumType" />
+					        <xs:element name="VerticalPosition" type="PositionEnumType" />
+					        <xs:element name="VerticalLocation" type="VerticalLocationEnumType" />
+					        <xs:element name="HorizontalOffset" type="xs:int" />
+					        <xs:element name="VerticalOffset" type="xs:int" />
+					        <xs:element name="Transparency" type="xs:int" />
+     					 </xs:sequence>   					    						 
+                      </xs:choice>
+                      <xs:attribute name='type' type='xs:string'/>                     
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>           
+          </xs:sequence>
+          <xs:attribute name='id' type="xs:string" />          
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name='NID' type='xs:string' />
+  </xs:complexType>  
+  <xs:complexType name='ServerType'>
+    <xs:attribute name='enabled' type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name='PortRangeType'>
+    <xs:attribute name='from' type="xs:string"/>
+    <xs:attribute name='to' type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name='PermissionsDataType'>
+    <xs:sequence>
+      <xs:element name='User' type="ObjectPermissionsDataType" />
+      <xs:element name='Device' type="ObjectPermissionsDataType" />
+      <xs:element name='Profile' type="ObjectPermissionsDataType" />
+      <xs:element name='Port' type="PortPermissionsDataType" />
+      <xs:element name='File' type="FilePermissionsDataType" />
+      <xs:element name='Dir' type="DirPermissionsDataType" />
+      <xs:element name='SessionConfig' type="SessionConfigPermissionsDataType" />
+      <xs:element name='Policy' type="ObjectPermissionsDataType" />
+      <xs:element name='System' type="SystemPermissionsDataType" />
+      <xs:element name='Report' type="ObjectPermissionsDataType" />
+    </xs:sequence>  
+  </xs:complexType>
+  
+  <xs:complexType name='ObjectPermissionsDataType' abstract='true'>
+    <xs:attribute name='add' type='xs:boolean' />
+    <xs:attribute name='delete' type='xs:boolean' />
+    <xs:attribute name='modify' type='xs:boolean' />
+    <xs:attribute name='read' type='xs:boolean' />
+  </xs:complexType>
+  
+  <xs:complexType name='SystemPermissionsDataType'>
+    <xs:attribute name='upgrade' type='xs:boolean' />
+    <xs:attribute name='restore' type='xs:boolean' />
+    <xs:attribute name='backup' type='xs:boolean' />
+    <xs:attribute name='sessionmanagement' type='xs:boolean' />
+  </xs:complexType>
+  
+  <xs:complexType name='PortPermissionsDataType'>
+	<xs:complexContent mixed="false">
+		<xs:extension base="ObjectPermissionsDataType">
+			<xs:attribute name='viewfrom' type='xs:boolean' />
+			<xs:attribute name='streamto' type='xs:boolean' />
+		</xs:extension>
+	</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name='FilePermissionsDataType' abstract='true'>
+	<xs:complexContent mixed="false">
+		<xs:extension base="ObjectPermissionsDataType">
+			<xs:attribute name='playback' type='xs:boolean' />
+			<xs:attribute name='export' type='xs:boolean' />
+		</xs:extension>
+	</xs:complexContent>
+  </xs:complexType>
+  
+  
+  <xs:complexType name='DirPermissionsDataType' abstract='true'>
+	<xs:complexContent mixed="false">
+		<xs:extension base="FilePermissionsDataType">
+			<xs:attribute name='record' type='xs:boolean' />
+		</xs:extension>
+	</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name='StorageConfigType'>
+  	<xs:sequence>
+	  <xs:element name='DirSpanning' type="DirSpanningType" />
+	  <xs:element name="CapacityManagement" type="CapacityManagementType"/>
+	</xs:sequence>
+	<xs:attribute name='mode' type="ModeEnumType" />
+  </xs:complexType>
+  
+  <xs:complexType name='DirSpanningType'>
+  	<xs:sequence>
+  	  <xs:element minOccurs="0" name="PortInfo"> 
+	    <xs:complexType>
+		  <xs:sequence>
+		    <xs:element name="Port">
+			  <xs:complexType>
+			  	<xs:complexContent>
+			  		<xs:extension base="BasePortType">
+			  		  <xs:attribute name="NID" type="xs:string" />
+					  <xs:attribute name="title" type="xs:string" />
+				    </xs:extension>
+			  	</xs:complexContent>	
+			  </xs:complexType> 
+		  	</xs:element>
+	      </xs:sequence>
+	    </xs:complexType>
+       </xs:element>
+     </xs:sequence>
+     <xs:attribute name='diskFullThreshold' type="xs:string" />
+  </xs:complexType>
+ 
+  <xs:complexType name='SessionPermissionsDataType'>
+     <xs:attribute name='read' type='xs:boolean' />
+     <xs:attribute name='delete' type='xs:boolean' />
+  </xs:complexType>
+  
+  <xs:complexType name='SessionConfigPermissionsDataType'>
+	<xs:complexContent mixed="false">
+		<xs:extension base="ObjectPermissionsDataType">
+			<xs:attribute name='start' type='xs:boolean' />
+		</xs:extension>
+	</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="AuthRequestEntityType">
+	  <xs:sequence/>
+	  <xs:attribute name='id' type='xs:string'/> 
+	  <xs:attribute name='resourceTitle' type='xs:string'/>
+	  <xs:attribute name='resourceNID' type='xs:string'/>
+	  <xs:attribute name='userJID' type='xs:string'/>
+	  <xs:attribute name='userFullName' type='xs:string'/>
+	</xs:complexType>
+   <xs:complexType name="AuthRequestProfileType">
+	  <xs:sequence/>
+	  <xs:attribute name='id' type='xs:string'/> 
+	  <xs:attribute name='profileName' type='xs:string'/>
+	  <xs:attribute name='profileNID' type='xs:string'/>
+	  <xs:attribute name='allowKMSwitch' type='xs:boolean'/>
+	  <xs:attribute name='remoteKM' type='xs:boolean'/>
+	  <xs:attribute name='avOption' type='xs:string'/> 
+	  <xs:attribute name='maxBandwidth' type='xs:string'/>
+	  <xs:attribute name='lowCompression' type="xs:integer"/> 
+	  <xs:attribute name='highCompression' type='xs:integer'/>
+	  <xs:attribute name='burstRatio' type="xs:integer"/> 
+	  <xs:attribute name='burstDuration' type='xs:integer'/>
+	  <xs:attribute name='unicast' type="xs:boolean"/> 
+	  <xs:attribute name='multicast' type='xs:boolean'/>	
+	</xs:complexType>
+	
+	<xs:complexType name="ConnectionStatusType">
+		<xs:sequence>
+			<xs:element name="PortSessionInfo" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PortConnectionInfo" type="ConnectionInfoType" />
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:string" />
+					<xs:attribute name="name" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="FileConnectionStatusType">
+		<xs:sequence>
+			<xs:element name="FileSessionInfo" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FileConnectionInfo" type="ConnectionInfoType"/>					
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:string" />
+					<xs:attribute name="name" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ConnectionInfoType">
+		<xs:sequence>
+			<xs:element name="Profile" type="AuthRequestProfileType" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="state" type="xs:string" />
+		<xs:attribute name="type" type="ConnectionTypeEnumType"/>
+		<xs:attribute name="errorCode" type="xs:string"/>
+		<xs:attribute name="errorData" type="xs:string"/>
+		<xs:attribute name="windowId" type="xs:string"/>
+		<xs:attribute name="canvasId" type="xs:string"/>
+		<xs:attribute name="srcUserJID" type="xs:string"/>
+		<xs:attribute name="srcUserName" type="xs:string"/>
+		<xs:attribute name="destUserJID" type="xs:string"/>
+		<xs:attribute name="destUserName" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="AuthConnectionInfoType">
+		<xs:sequence>
+			<xs:element name="SrcEntity" type="AuthRequestEntityType" />
+			<xs:element name="DstEntity" type="AuthRequestEntityType" />
+			<xs:element name="Profile" type="AuthRequestProfileType" />
+		</xs:sequence>
+		<xs:attribute name="sessionId" type="xs:string" use="required" />
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="state" type="xs:string" />
+		<xs:attribute name="type" type="ConnectionTypeEnumType"/>
+		<xs:attribute name="errorCode" type="xs:string"/>
+		<xs:attribute name="errorData" type="xs:string"/>
+		<xs:attribute name="windowId" type="xs:string"/>
+		<xs:attribute name="canvasId" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="AuthInfoType">
+		<xs:sequence>
+			<xs:element name="AuthConnectionInfo" maxOccurs="unbounded" type="AuthConnectionInfoType"/>
+		</xs:sequence>		
+	</xs:complexType>
+
+	<xs:simpleType name="ConfigEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SoftwareVersion"></xs:enumeration>
+			<xs:enumeration value="ScheduleBackup"></xs:enumeration>
+			<xs:enumeration value="ExternalAuthentication"></xs:enumeration>
+			<xs:enumeration value="Preferences"></xs:enumeration>
+			<xs:enumeration value="ALL"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="SoftwareVersionType">
+		<xs:sequence/>
+		<xs:attribute name="version" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="ScheduleBackupType">
+		<xs:sequence/>
+		<xs:attribute name="enable" type="xs:boolean" />
+		<xs:attribute name="backupTime" type="xs:integer" />
+		<xs:attribute name="enableExport" type="xs:boolean" />
+		<xs:attribute name="exportURL" type="xs:string" />
+		<xs:attribute name="recoveryMode" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="ExternalAuthenticationType">
+		<xs:sequence/>
+		<xs:attribute name="enable" type="xs:boolean" />
+		<xs:attribute name="host" type="xs:string" />
+		<xs:attribute name="adminDN" type="xs:string" />
+		<xs:attribute name="adminPassword" type="xs:string" />
+		<xs:attribute name="baseDN" type="xs:string" />
+		<xs:attribute name="usernameField" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="PreferencesType">
+		<xs:sequence>
+		   <xs:element name="Login">
+		     <xs:complexType>
+		     	<xs:attribute name="maxMediaClients" type="xs:integer" />
+		     </xs:complexType>
+		   </xs:element>
+		</xs:sequence>	
+	</xs:complexType>
+	
+	<xs:complexType name="DeviceDiscoveryType">
+		<xs:sequence>
+			<xs:element name='Groups' type='TagList'/>
+		</xs:sequence>
+		<xs:attribute name="enable" type="xs:boolean" />
+		</xs:complexType>
+	
+	<xs:simpleType name="TagExprModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BASIC" />
+    		<xs:enumeration value="ADVANCED" />
+		</xs:restriction>   
+	</xs:simpleType>
+	
+	<xs:simpleType name="StatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Active" />
+			<xs:enumeration value="Primary" />
+			<xs:enumeration value="PrimaryStandby" />
+    		<xs:enumeration value="Secondary" />
+    		<xs:enumeration value="SecondaryStandby" />   		
+		</xs:restriction>   
+	</xs:simpleType>
+		
+	<xs:attributeGroup name="SetAttributeGroupType">
+		<xs:attribute name="byNID" type="xs:string" />
+		<xs:attribute name="byTitle" type="xs:string" />
+	</xs:attributeGroup>
+	
+	<xs:complexType name='DeviceRouteType'>
+	<xs:attribute name='listIndex' type='xs:integer' />
+	<xs:attribute name="destination" type='xs:string' />
+	<xs:attribute name='netmask' type='xs:string' />	  		
+	<xs:attribute name='gateway' type='xs:string' />
+  </xs:complexType>
+  
+   <xs:complexType name='DeviceXMPPAgentType'>
+	<xs:attribute name='enable' type='xs:boolean' />
+	<xs:attribute name="xmppServerIP" type='xs:string' />
+	<xs:attribute name='deviceName' type='xs:string' />	  		
+	<xs:attribute name='password' type='xs:string' />
+	<xs:attribute name='xmppServerPort' type='xs:string' />
+	<xs:attribute name='serviceDomain' type='xs:string' />
+  </xs:complexType>
+  
+   
+  <xs:complexType name='DeviceNetworkInterfaceType'>
+    <xs:attribute name='listIndex' type='xs:integer' />
+	<xs:attribute name='portId' type='xs:integer' />	
+	<xs:attribute name='enable' type='xs:boolean' />
+	<xs:attribute name="primary" type='xs:boolean' />
+	<xs:attribute name='multicast' type='xs:boolean' />	  		
+	<xs:attribute name='useDHCP' type='xs:boolean' />
+	<xs:attribute name='ipAddress' type='xs:string' />
+	<xs:attribute name='netmask' type='xs:string' />
+  </xs:complexType>
+
+  <xs:complexType name="ConnectionStateType">
+		<xs:sequence>
+			<xs:element name="Timeline" type="TimelineDataType" />
+			<xs:element name='msg' type='xs:string' />
+		</xs:sequence>
+		<xs:attribute name='sessionId' type='xs:string' />
+		<xs:attribute name='connId' type='xs:string' />
+		<xs:attribute name='value' type='xs:string' />
+		<xs:attribute name='code' type='xs:string' />
+  </xs:complexType>
+
+	<xs:complexType name="PortDisplayStatusType">
+		<xs:sequence>
+		    <xs:element name="Display" type="DisplayType" minOccurs="0"/>
+			<xs:element name="Canvas" type="CanvasType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="NID" type="xs:string" />
+	</xs:complexType>
+	   <xs:complexType name="DirListType">
+	<xs:sequence>
+		<xs:element minOccurs="0" name="Description" type="xs:string" />
+		<xs:element minOccurs="0" name="Groups" type="TagList" />
+		<xs:element minOccurs="0" name="StorageConfig" type="StorageConfigType" />
+		<xs:element minOccurs="0" name="Permissions" type="DirPermissionsDataType" />
+		<xs:element minOccurs="0" name="SubDirInfo"> 
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="Dir" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence/>
+							<xs:attribute name="NID" type="xs:string"/>
+							<xs:attribute name="title" type="xs:string"/>
+							<xs:attribute name="dirType" type="xs:string"/>							
+						</xs:complexType> 
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="NID" type="xs:string" />
+	<xs:attribute name="title" type="xs:string" />
+	<xs:attribute name="dirType" type="xs:string"/>
+	<xs:attribute name="size" type="xs:long" />
+	<xs:attribute name="sizeUsed" type="xs:long" />
+	<xs:attribute name="state" type="xs:string" />
+	<xs:attribute name="dateCreated" type="xs:long" />
+	<xs:attribute name="dateModified" type="xs:long" />
+	<xs:attribute name="readOnly" type="xs:boolean" />
+	<xs:attribute name="snapshotURL" type="xs:anyURI" />
+	</xs:complexType>
+	
+	<xs:attributeGroup name="DeviceCommandsWhereType">
+	 <xs:attribute name='whereNID' type='xs:string'/>
+	 <xs:attribute name='whereTitle' type='xs:string'/>
+	 <xs:attribute name='whereType' type='xs:string'/>
+	</xs:attributeGroup>
+	
+</xs:schema>	
